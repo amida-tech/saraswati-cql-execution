@@ -4,32 +4,21 @@ codes = require './cql-code-service'
 
 cservice = new codes.CodeService {
     "2.16.840.1.113883.3.464.1004.1810": {
-        "Acute Inpatient": [
-            {
+        "Acute Inpatient": [{
             "code": "2421000175108",
             "system": "http://snomed.info/sct",
             "version": "2020-09"
-            }
-      ]
-    },{
-    "2.16.840.1.113883.3.464.1004.1202":{
-        "Outpatient": [
-            {
-                "code": "2.16.840.1.113883.3.464.1003.101.11.1266",
-                "system": "http://snomed.info/sct",
-                "version": "2020-09"
-            }
-        ]
-        }
-    },{
+        }]
+    },
+    "2.16.840.1.113883.3.464.1004.1202": {
+        "Outpatient": [{
+            "code": "2.16.840.1.113883.3.464.1003.101.11.1266",
+            "system": "http://snomed.info/sct",
+            "version": "2020-09"
+        }]
+    },
     "2.16.840.1.113883.3.464.1004.1086": {
-        "ED": [
-            {
-                "code": 
-            }
-        ]
-    }
-    }
+        "ED": []
     }
 }
 
