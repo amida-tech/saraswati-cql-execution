@@ -3,105 +3,6 @@ module.exports = {
       "annotation" : [ {
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
-      }, {
-         "libraryId" : "CDC_HbA1c_lessthan8",
-         "libraryVersion" : "1",
-         "startLine" : 193,
-         "startChar" : 7,
-         "endLine" : 193,
-         "endChar" : 38,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "CDC_HbA1c_lessthan8",
-         "libraryVersion" : "1",
-         "startLine" : 198,
-         "startChar" : 7,
-         "endLine" : 198,
-         "endChar" : 45,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "CDC_HbA1c_lessthan8",
-         "libraryVersion" : "1",
-         "startLine" : 197,
-         "startChar" : 7,
-         "endLine" : 198,
-         "endChar" : 45,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "CDC_HbA1c_lessthan8",
-         "libraryVersion" : "1",
-         "startLine" : 201,
-         "startChar" : 26,
-         "endLine" : 201,
-         "endChar" : 38,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "CDC_HbA1c_lessthan8",
-         "libraryVersion" : "1",
-         "startLine" : 201,
-         "startChar" : 44,
-         "endLine" : 201,
-         "endChar" : 62,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "CDC_HbA1c_lessthan8",
-         "libraryVersion" : "1",
-         "startLine" : 201,
-         "startChar" : 68,
-         "endLine" : 201,
-         "endChar" : 86,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "CDC_HbA1c_lessthan8",
-         "libraryVersion" : "1",
-         "startLine" : 201,
-         "startChar" : 113,
-         "endLine" : 201,
-         "endChar" : 131,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "CDC_HbA1c_lessthan8",
-         "libraryVersion" : "1",
-         "startLine" : 201,
-         "startChar" : 137,
-         "endLine" : 201,
-         "endChar" : 155,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "CDC_HbA1c_lessthan8",
-         "libraryVersion" : "1",
-         "startLine" : 201,
-         "startChar" : 165,
-         "endLine" : 201,
-         "endChar" : 185,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
       } ],
       "identifier" : {
          "id" : "CDC_HbA1c_lessthan8",
@@ -211,7 +112,7 @@ module.exports = {
       "codeSystems" : {
          "def" : [ {
             "name" : "SNOMED-CT",
-            "id" : "urn:oid:2.16.840.1.113883.6.96",
+            "id" : "2.16.840.1.113883.6.96",
             "version" : "20200301",
             "accessLevel" : "Public"
          } ]
@@ -219,91 +120,91 @@ module.exports = {
       "valueSets" : {
          "def" : [ {
             "name" : "Acute Inpatient",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1810",
+            "id" : "2.16.840.1.113762.1.4.1182.120",
             "accessLevel" : "Public"
          }, {
             "name" : "Outpatient",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1202",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1008",
             "accessLevel" : "Public"
          }, {
             "name" : "ED",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1086",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1085",
             "accessLevel" : "Public"
          }, {
             "name" : "Observation",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1191",
+            "id" : "2.16.840.1.113762.1.4.1181.72",
             "accessLevel" : "Public"
          }, {
             "name" : "Nonacute Inpatient Stay",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1398",
+            "id" : "2.16.840.1.113762.1.4.1182.289",
             "accessLevel" : "Public"
          }, {
             "name" : "Telephone Visits",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1246",
+            "id" : "2.16.840.1.113883.3.1444.5.216",
             "accessLevel" : "Public"
          }, {
             "name" : "Online Assessments",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1446",
+            "id" : "2.16.840.1.113883.3.7587.3.1013",
             "accessLevel" : "Public"
          }, {
             "name" : "Nonacute Inpatient",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1189",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1084",
             "accessLevel" : "Public"
          }, {
             "name" : "HbA1c Level Less Than 7.0",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1115",
+            "id" : "2.16.840.1.113883.3.464.1003.198.11.1024",
             "accessLevel" : "Public"
          }, {
             "name" : "HbA1c Level Greater Than or Equal to 7.0 and Less Than 8.0",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1976",
+            "id" : "2.16.840.1.113883.3.464.1003.198.11.1024",
             "accessLevel" : "Public"
          }, {
             "name" : "Hospice Encounter",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1761",
+            "id" : "2.16.840.1.113762.1.4.1182.2",
             "accessLevel" : "Public"
          }, {
             "name" : "Hospice Intervention",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1762",
+            "id" : "2.16.840.1.113762.1.4.1182.2",
             "accessLevel" : "Public"
          }, {
             "name" : "Diabetes",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1077",
+            "id" : "2.16.840.1.113883.3.464.1003.103.12.1001",
             "accessLevel" : "Public"
          }, {
             "name" : "HbA1c Lab Test",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1755",
+            "id" : "2.16.840.1.113883.3.464.1003.198.11.1024",
             "accessLevel" : "Public"
          }, {
             "name" : "Telehealth Modifier",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1445",
+            "id" : "2.16.840.1.113762.1.4.1138.731",
             "accessLevel" : "Public"
          }, {
             "name" : "Telehealth POS",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1460",
+            "id" : "2.16.840.1.113883.3.464.1003.101.11.1155",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Device",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1530",
+            "id" : "2.16.840.1.113883.3.464.1003.118.12.1300",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Diagnosis",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1531",
+            "id" : "2.16.840.1.113883.3.464.1003.113.11.1309",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Encounter",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1532",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1088",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Symptom",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1533",
+            "id" : "2.16.840.1.113883.3.464.1003.113.12.1075",
             "accessLevel" : "Public"
          }, {
             "name" : "Advanced Illness",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1465",
+            "id" : "2.16.840.1.113883.3.464.1003.110.12.1082",
             "accessLevel" : "Public"
          }, {
             "name" : "Inpatient Stay",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1395",
+            "id" : "2.16.840.1.113762.1.4.1182.285",
             "accessLevel" : "Public"
          } ]
       },
@@ -362,40 +263,6 @@ module.exports = {
                   "dataType" : "{http://hl7.org/fhir/us/qicore}Patient",
                   "templateId" : "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-patient",
                   "type" : "Retrieve"
-               }
-            }
-         }, {
-            "name" : "test med codes",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "A",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir/us/qicore}MedicationDispense",
-                     "templateId" : "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-medicationdispense",
-                     "type" : "Retrieve"
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "In",
-                  "operand" : [ {
-                     "asType" : "{urn:hl7-org:elm-types:r1}Concept",
-                     "type" : "As",
-                     "operand" : {
-                        "path" : "medication",
-                        "scope" : "A",
-                        "type" : "Property"
-                     }
-                  }, {
-                     "type" : "ToList",
-                     "operand" : {
-                        "name" : "diabetes medication",
-                        "type" : "ConceptRef"
-                     }
-                  } ]
                }
             }
          }, {
@@ -1579,30 +1446,7 @@ module.exports = {
                } ]
             }
          }, {
-            "name" : "InDenominator",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "And",
-               "operand" : [ {
-                  "type" : "And",
-                  "operand" : [ {
-                     "name" : "InitialPopulation",
-                     "type" : "ExpressionRef"
-                  }, {
-                     "name" : "DiabetesCondition",
-                     "type" : "ExpressionRef"
-                  } ]
-               }, {
-                  "type" : "Not",
-                  "operand" : {
-                     "name" : "diabetes exclusions",
-                     "type" : "ExpressionRef"
-                  }
-               } ]
-            }
-         }, {
-            "name" : "InNumerator",
+            "name" : "HbA1c < 8",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1646,131 +1490,99 @@ module.exports = {
                }
             }
          }, {
-            "name" : "denom test",
+            "name" : "numerator",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
-               "value" : "true",
-               "type" : "Literal"
-            }
-         }, {
-            "name" : "denominator",
-            "context" : "Unfiltered",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Count",
-               "source" : {
-                  "type" : "Query",
-                  "source" : [ {
-                     "alias" : "IP",
-                     "expression" : {
-                        "name" : "InitialPopulation",
-                        "type" : "ExpressionRef"
-                     }
-                  } ],
-                  "relationship" : [ ],
-                  "where" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "And",
+                  "operand" : [ {
                      "type" : "And",
                      "operand" : [ {
-                        "type" : "IsTrue",
-                        "operand" : {
-                           "name" : "IP",
-                           "type" : "AliasRef"
-                        }
+                        "name" : "HbA1c < 8",
+                        "type" : "ExpressionRef"
                      }, {
-                        "type" : "SingletonFrom",
-                        "operand" : {
-                           "type" : "Query",
-                           "source" : [ {
-                              "alias" : "dt",
-                              "expression" : {
-                                 "name" : "denom test",
-                                 "type" : "ExpressionRef"
-                              }
-                           } ],
-                           "relationship" : [ ],
-                           "where" : {
-                              "type" : "IsTrue",
-                              "operand" : {
-                                 "name" : "dt",
-                                 "type" : "AliasRef"
-                              }
-                           }
-                        }
+                        "name" : "DiabetesCondition",
+                        "type" : "ExpressionRef"
                      } ]
+                  }, {
+                     "name" : "InitialPopulation",
+                     "type" : "ExpressionRef"
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
                   }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
                }
             }
          }, {
-            "name" : "numerator",
+            "name" : "denominator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "name" : "InitialPopulation",
+                     "type" : "ExpressionRef"
+                  }, {
+                     "name" : "DiabetesCondition",
+                     "type" : "ExpressionRef"
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "denominator_count",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Count",
+               "type" : "Sum",
                "source" : {
-                  "type" : "Query",
-                  "source" : [ {
-                     "alias" : "In",
-                     "expression" : {
-                        "name" : "InNumerator",
-                        "type" : "ExpressionRef"
-                     }
-                  } ],
-                  "relationship" : [ ],
-                  "where" : {
-                     "type" : "And",
-                     "operand" : [ {
-                        "type" : "IsTrue",
-                        "operand" : {
-                           "name" : "In",
-                           "type" : "AliasRef"
-                        }
-                     }, {
-                        "type" : "SingletonFrom",
-                        "operand" : {
-                           "type" : "Query",
-                           "source" : [ {
-                              "alias" : "DC",
-                              "expression" : {
-                                 "name" : "DiabetesCondition",
-                                 "type" : "ExpressionRef"
-                              }
-                           } ],
-                           "relationship" : [ ],
-                           "where" : {
-                              "type" : "And",
-                              "operand" : [ {
-                                 "type" : "IsTrue",
-                                 "operand" : {
-                                    "name" : "DC",
-                                    "type" : "AliasRef"
-                                 }
-                              }, {
-                                 "type" : "SingletonFrom",
-                                 "operand" : {
-                                    "type" : "Query",
-                                    "source" : [ {
-                                       "alias" : "IP",
-                                       "expression" : {
-                                          "name" : "InitialPopulation",
-                                          "type" : "ExpressionRef"
-                                       }
-                                    } ],
-                                    "relationship" : [ ],
-                                    "where" : {
-                                       "type" : "IsTrue",
-                                       "operand" : {
-                                          "name" : "IP",
-                                          "type" : "AliasRef"
-                                       }
-                                    }
-                                 }
-                              } ]
-                           }
-                        }
-                     } ]
-                  }
+                  "name" : "denominator",
+                  "type" : "ExpressionRef"
+               }
+            }
+         }, {
+            "name" : "numerator_count",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Sum",
+               "source" : {
+                  "name" : "numerator",
+                  "type" : "ExpressionRef"
                }
             }
          }, {
@@ -1778,101 +1590,24 @@ module.exports = {
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Multiply",
+               "type" : "Divide",
                "operand" : [ {
-                  "type" : "Divide",
-                  "operand" : [ {
-                     "type" : "ToDecimal",
-                     "operand" : {
-                        "type" : "Count",
-                        "source" : {
-                           "type" : "Query",
-                           "source" : [ {
-                              "alias" : "P",
-                              "expression" : {
-                                 "name" : "Patient",
-                                 "type" : "ExpressionRef"
-                              }
-                           } ],
-                           "relationship" : [ ],
-                           "where" : {
-                              "type" : "And",
-                              "operand" : [ {
-                                 "type" : "And",
-                                 "operand" : [ {
-                                    "type" : "SingletonFrom",
-                                    "operand" : {
-                                       "name" : "InNumerator",
-                                       "type" : "ExpressionRef"
-                                    }
-                                 }, {
-                                    "type" : "SingletonFrom",
-                                    "operand" : {
-                                       "name" : "DiabetesCondition",
-                                       "type" : "ExpressionRef"
-                                    }
-                                 } ]
-                              }, {
-                                 "type" : "SingletonFrom",
-                                 "operand" : {
-                                    "name" : "InitialPopulation",
-                                    "type" : "ExpressionRef"
-                                 }
-                              } ]
-                           }
-                        }
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "name" : "numerator",
+                        "type" : "ExpressionRef"
                      }
-                  }, {
-                     "type" : "ToDecimal",
-                     "operand" : {
-                        "type" : "Count",
-                        "source" : {
-                           "type" : "Query",
-                           "source" : [ {
-                              "alias" : "P",
-                              "expression" : {
-                                 "name" : "Patient",
-                                 "type" : "ExpressionRef"
-                              }
-                           } ],
-                           "relationship" : [ ],
-                           "where" : {
-                              "type" : "And",
-                              "operand" : [ {
-                                 "type" : "And",
-                                 "operand" : [ {
-                                    "type" : "SingletonFrom",
-                                    "operand" : {
-                                       "name" : "InitialPopulation",
-                                       "type" : "ExpressionRef"
-                                    }
-                                 }, {
-                                    "type" : "SingletonFrom",
-                                    "operand" : {
-                                       "name" : "DiabetesCondition",
-                                       "type" : "ExpressionRef"
-                                    }
-                                 } ]
-                              }, {
-                                 "type" : "Not",
-                                 "operand" : {
-                                    "type" : "SingletonFrom",
-                                    "operand" : {
-                                       "name" : "diabetes exclusions",
-                                       "type" : "ExpressionRef"
-                                    }
-                                 }
-                              } ]
-                           }
-                        }
-                     }
-                  } ]
+                  }
                }, {
                   "type" : "ToDecimal",
                   "operand" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "100",
-                     "type" : "Literal"
+                     "type" : "Sum",
+                     "source" : {
+                        "name" : "denominator",
+                        "type" : "ExpressionRef"
+                     }
                   }
                } ]
             }

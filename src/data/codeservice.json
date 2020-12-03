@@ -1,0 +1,200 @@
+{
+    "2.16.840.1.113883.3.464.1004.1810": {
+      "Acute Inpatient": [
+        {
+          "code": "2421000175108",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1202": {
+      "Outpatient": [
+        {
+          "code": "7271000175108",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1086": {
+      "ED": [
+        {
+          "code": "4525004",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1191": {
+      "Observation": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1398": {
+      "Nonacute Inpatient Stay": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1246": {
+      "Telephone Visits": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1446": {
+      "Online Assessments": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1189": {
+      "Nonacute Inpatient": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1115": {
+      "HbA1c Level Less Than 7.0": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1976": {
+      "HbA1c Level Greater Than or Equal to 7.0 and Less Than 8.0": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1761": {
+      "Hospice Encounter": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1762": {
+      "Hospice Intervention": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1077": {
+      "Diabetes": [
+        {
+          "code": "73211009",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1755": {
+      "HbA1c Lab Test": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1445": {
+      "Telehealth Modifier": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1460": {
+      "Telehealth POS": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1530": {
+      "Frailty Device": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1531": {
+      "Frailty Diagnosis": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1532": {
+      "Frailty Encounter": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1533": {
+      "Frailty Symptom": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1465": {
+      "Advanced Illness": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    },
+    "2.16.840.1.113883.3.464.1004.1395": {
+      "Inpatient Stay": [
+        {
+          "code": "",
+          "system": "http://snomed.info/sct",
+          "version": "2020-09"
+        }
+      ]
+    }
+  }
