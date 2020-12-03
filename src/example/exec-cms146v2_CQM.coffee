@@ -3,12 +3,9 @@ codes = require '../cql-code-service'
 measure = require './CMS146v2_CQM'
 
 cservice = new codes.CodeService {
-    #valueset
     "1.2.3.4.5": {
-        #version
       "1": [
         {
-        #codes
           "code": "ABC",
           "system": "5.4.3.2.1",
           "version": "1"

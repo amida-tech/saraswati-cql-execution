@@ -4259,7 +4259,6 @@
 
     ValueSetDef.prototype.exec = function(ctx) {
       var ref, valueset;
-      console.log(ctx)
       valueset = (ref = ctx.codeService.findValueSet(this.id, this.version)) != null ? ref : new dt.ValueSet(this.id, this.version);
       ctx.rootContext().set(this.name, valueset);
       return valueset;
