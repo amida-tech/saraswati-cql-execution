@@ -55,15 +55,6 @@
     {
         "type": "node",
         "request": "launch",
-        "name": "Launch Program",
-        "program": "${workspaceRoot}/lib/cql",
-        "outFiles": [
-            "${workspaceRoot}/out/**/*.js"
-        ]
-    },
-    {
-        "type": "node",
-        "request": "launch",
         "name": "Launch Program Claim Exec",
         "program": "${workspaceRoot}/lib/claim-exec.js",
         "outFiles": [
