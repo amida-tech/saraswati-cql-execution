@@ -52,17 +52,25 @@
         ],
         "internalConsoleOptions": "openOnSessionStart"
     },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceRoot}/lib/cql",
-            "outFiles": [
-                "${workspaceRoot}/out/**/*.js"
-            ]
-        }
+    {
+        "type": "node",
+        "request": "launch",
+        "name": "Launch Program",
+        "program": "${workspaceRoot}/lib/cql",
+        "outFiles": [
+            "${workspaceRoot}/out/**/*.js"
+        ]
+    },
+    {
+        "type": "node",
+        "request": "launch",
+        "name": "Launch Program Claim Exec",
+        "program": "${workspaceRoot}/lib/claim-exec.js",
+        "outFiles": [
+            "${workspaceRoot}/out/**/*.js"
+        ]
+    }
     ]
 }
-
 
 // NODE_ENV=test ./node_modules/.bin/mocha --compilers coffee:coffeescript/register --require coffeescript --recursive --colors test/datatypes/datetime.coffee

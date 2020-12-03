@@ -6,9 +6,9 @@ module.exports = {
       }, {
          "libraryId" : "AgeAtMP",
          "libraryVersion" : "1",
-         "startLine" : 28,
+         "startLine" : 25,
          "startChar" : 47,
-         "endLine" : 28,
+         "endLine" : 25,
          "endChar" : 81,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -121,10 +121,6 @@ module.exports = {
       },
       "valueSets" : {
          "def" : [ {
-            "name" : "Acute Pharyngitis",
-            "id" : "2.16.840.1.113883.3.464.1003.102.12.1011",
-            "accessLevel" : "Public"
-         }, {
             "name" : "Acute Tonsillitis",
             "id" : "2.16.840.1.113883.3.464.1003.102.12.1012",
             "accessLevel" : "Public"
@@ -220,12 +216,12 @@ module.exports = {
                   }
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                  "value" : "F",
+                  "value" : "M",
                   "type" : "Literal"
                } ]
             }
          }, {
-            "name" : "Pharyngitis",
+            "name" : "lolz",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -233,17 +229,11 @@ module.exports = {
                "operand" : {
                   "dataType" : "{http://hl7.org/fhir}Condition",
                   "templateId" : "condition-qicore-qicore-condition",
-                  "codeProperty" : "code",
-                  "codeComparator" : "in",
-                  "type" : "Retrieve",
-                  "codes" : {
-                     "name" : "Acute Pharyngitis",
-                     "type" : "ValueSetRef"
-                  }
+                  "type" : "Retrieve"
                }
             }
          }, {
-            "name" : "Tonsillitis",
+            "name" : "for real",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {

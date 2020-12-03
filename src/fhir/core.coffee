@@ -1237,3 +1237,29 @@ class Parameters extends Resource
 
 
 module.exports.Parameters = Parameters
+
+
+###*
+Details for All kinds of technology mediated contact points for a person or organization, including telephone, email, etc.
+@class DiagnosisComponent
+@exports DiagnosisComponent as DiagnosisComponent
+###
+class DiagnosisComponent extends Element
+  constructor: (@json) ->
+    super(@json)
+  ###*
+  Telecommunications form for contact point - what communications system is required to make use of the contact.
+  @returns {Array} an array of {@link String} objects
+  ###
+  sequence:-> @json['sequence']
+  
+  ###*
+  The actual contact point details, in a form that is meaningful to the designated communication system (i.e. phone number or email address).
+  @returns {Array} an array of {@link String} objects
+  ###
+  diagnosis:-> @json['diagnosis']
+  
+
+
+
+module.exports.DiagnosisComponent = DiagnosisComponent

@@ -5,7 +5,7 @@ module.exports = {
          "type" : "CqlToElmInfo"
       } ],
       "identifier" : {
-         "id" : "Claim",
+         "id" : "AgeAtMP",
          "version" : "1"
       },
       "schemaIdentifier" : {
@@ -19,93 +19,6 @@ module.exports = {
          }, {
             "localIdentifier" : "QUICK",
             "uri" : "http://hl7.org/fhir"
-         } ]
-      },
-      "parameters" : {
-         "def" : [ {
-            "name" : "MeasurementPeriod",
-            "accessLevel" : "Public",
-            "default" : {
-               "lowClosed" : true,
-               "highClosed" : false,
-               "type" : "Interval",
-               "low" : {
-                  "type" : "DateTime",
-                  "year" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "1900",
-                     "type" : "Literal"
-                  },
-                  "month" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "1",
-                     "type" : "Literal"
-                  },
-                  "day" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "1",
-                     "type" : "Literal"
-                  },
-                  "hour" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "0",
-                     "type" : "Literal"
-                  },
-                  "minute" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "0",
-                     "type" : "Literal"
-                  },
-                  "second" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "0",
-                     "type" : "Literal"
-                  },
-                  "millisecond" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "0",
-                     "type" : "Literal"
-                  }
-               },
-               "high" : {
-                  "type" : "DateTime",
-                  "year" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "2019",
-                     "type" : "Literal"
-                  },
-                  "month" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "1",
-                     "type" : "Literal"
-                  },
-                  "day" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "1",
-                     "type" : "Literal"
-                  },
-                  "hour" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "0",
-                     "type" : "Literal"
-                  },
-                  "minute" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "0",
-                     "type" : "Literal"
-                  },
-                  "second" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "0",
-                     "type" : "Literal"
-                  },
-                  "millisecond" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "0",
-                     "type" : "Literal"
-                  }
-               }
-            }
          } ]
       },
       "contexts" : {
@@ -126,15 +39,59 @@ module.exports = {
                }
             }
          }, {
-            "name" : "diagnosis",
+            "name" : "DiagnosisIsDiabetes",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Exists",
-               "operand" : {
-                  "dataType" : "{http://hl7.org/fhir}Claim",
-                  "type" : "Retrieve"
-               }
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "C",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Claim",
+                     "templateId" : "claim-qicore-qicore-claim",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "diagnosis",
+                  "type" : "With",
+                  "expression" : {
+                     "path" : "diagnosis",
+                     "scope" : "C",
+                     "type" : "Property"
+                  },
+                  "suchThat" : {
+                     "type" : "Exists",
+                     "operand" : {
+                        "type" : "Query",
+                        "source" : [ {
+                           "alias" : "D",
+                           "expression" : {
+                              "path" : "diagnosis",
+                              "scope" : "C",
+                              "type" : "Property"
+                           }
+                        } ],
+                        "relationship" : [ ],
+                        "where" : {
+                           "type" : "Equal",
+                           "operand" : [ {
+                              "path" : "code",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "diagnosis",
+                                 "scope" : "D",
+                                 "type" : "Property"
+                              }
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : "Diabetes",
+                              "type" : "Literal"
+                           } ]
+                        }
+                     }
+                  }
+               } ]
             }
          } ]
       }

@@ -49,6 +49,7 @@ CodeableConcept = CORE.CodeableConcept
 Identifier = CORE.Identifier
 Narrative = CORE.Narrative
 Element = CORE.Element
+DiagnosisComponent = CORE.DiagnosisComponent
 
 ###* 
 Embedded class
@@ -321,4 +322,4 @@ class Claim extends DomainResource
 
 
 
-module.exports.Patient = Patient
+module.exports.Claim = Claim
