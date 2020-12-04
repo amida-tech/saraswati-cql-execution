@@ -353,16 +353,34 @@ module.exports = {
                   "where" : {
                      "type" : "In",
                      "operand" : [ {
-                        "path" : "period",
-                        "scope" : "E",
-                        "type" : "Property"
-                     }, {
-                        "type" : "ToList",
+                        "type" : "Start",
                         "operand" : {
-                           "name" : "MeasurementPeriod",
-                           "type" : "ParameterRef"
+                           "path" : "period",
+                           "scope" : "E",
+                           "type" : "Property"
                         }
+                     }, {
+                        "name" : "MeasurementPeriod",
+                        "type" : "ParameterRef"
                      } ]
+                  }
+               }
+            }
+         }, {
+            "name" : "test POS",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Exists",
+               "operand" : {
+                  "dataType" : "{http://hl7.org/fhir/us/qicore}Encounter",
+                  "templateId" : "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter",
+                  "codeProperty" : "type",
+                  "codeComparator" : "in",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "name" : "Telehealth POS",
+                     "type" : "ValueSetRef"
                   }
                }
             }
@@ -392,15 +410,15 @@ module.exports = {
                   "where" : {
                      "type" : "In",
                      "operand" : [ {
-                        "path" : "period",
-                        "scope" : "E",
-                        "type" : "Property"
-                     }, {
-                        "type" : "ToList",
+                        "type" : "Start",
                         "operand" : {
-                           "name" : "MeasurementPeriod",
-                           "type" : "ParameterRef"
+                           "path" : "period",
+                           "scope" : "E",
+                           "type" : "Property"
                         }
+                     }, {
+                        "name" : "MeasurementPeriod",
+                        "type" : "ParameterRef"
                      } ]
                   }
                }
@@ -444,15 +462,15 @@ module.exports = {
                      "suchThat" : {
                         "type" : "In",
                         "operand" : [ {
-                           "path" : "period",
-                           "scope" : "E",
-                           "type" : "Property"
-                        }, {
-                           "type" : "ToList",
+                           "type" : "Start",
                            "operand" : {
-                              "name" : "MeasurementPeriod",
-                              "type" : "ParameterRef"
+                              "path" : "period",
+                              "scope" : "E",
+                              "type" : "Property"
                            }
+                        }, {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
                         } ]
                      }
                   } ]
@@ -534,15 +552,15 @@ module.exports = {
                      }, {
                         "type" : "In",
                         "operand" : [ {
-                           "path" : "period",
-                           "scope" : "Enc",
-                           "type" : "Property"
-                        }, {
-                           "type" : "ToList",
+                           "type" : "Start",
                            "operand" : {
-                              "name" : "MeasurementPeriod",
-                              "type" : "ParameterRef"
+                              "path" : "period",
+                              "scope" : "Enc",
+                              "type" : "Property"
                            }
+                        }, {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
                         } ]
                      } ]
                   }
@@ -1128,15 +1146,15 @@ module.exports = {
                            "where" : {
                               "type" : "In",
                               "operand" : [ {
-                                 "path" : "period",
-                                 "scope" : "D",
-                                 "type" : "Property"
-                              }, {
-                                 "type" : "ToList",
+                                 "type" : "Start",
                                  "operand" : {
-                                    "name" : "MeasurementPeriod",
-                                    "type" : "ParameterRef"
+                                    "path" : "period",
+                                    "scope" : "D",
+                                    "type" : "Property"
                                  }
+                              }, {
+                                 "name" : "MeasurementPeriod",
+                                 "type" : "ParameterRef"
                               } ]
                            }
                         }
@@ -1162,15 +1180,15 @@ module.exports = {
                            "where" : {
                               "type" : "In",
                               "operand" : [ {
-                                 "path" : "period",
-                                 "scope" : "Dia",
-                                 "type" : "Property"
-                              }, {
-                                 "type" : "ToList",
+                                 "type" : "Start",
                                  "operand" : {
-                                    "name" : "MeasurementPeriod",
-                                    "type" : "ParameterRef"
+                                    "path" : "period",
+                                    "scope" : "Dia",
+                                    "type" : "Property"
                                  }
+                              }, {
+                                 "name" : "MeasurementPeriod",
+                                 "type" : "ParameterRef"
                               } ]
                            }
                         }
@@ -1197,15 +1215,15 @@ module.exports = {
                         "where" : {
                            "type" : "In",
                            "operand" : [ {
-                              "path" : "period",
-                              "scope" : "E",
-                              "type" : "Property"
-                           }, {
-                              "type" : "ToList",
+                              "type" : "Start",
                               "operand" : {
-                                 "name" : "MeasurementPeriod",
-                                 "type" : "ParameterRef"
+                                 "path" : "period",
+                                 "scope" : "E",
+                                 "type" : "Property"
                               }
+                           }, {
+                              "name" : "MeasurementPeriod",
+                              "type" : "ParameterRef"
                            } ]
                         }
                      }
@@ -1232,15 +1250,15 @@ module.exports = {
                      "where" : {
                         "type" : "In",
                         "operand" : [ {
-                           "path" : "period",
-                           "scope" : "S",
-                           "type" : "Property"
-                        }, {
-                           "type" : "ToList",
+                           "type" : "Start",
                            "operand" : {
-                              "name" : "MeasurementPeriod",
-                              "type" : "ParameterRef"
+                              "path" : "period",
+                              "scope" : "S",
+                              "type" : "Property"
                            }
+                        }, {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
                         } ]
                      }
                   }

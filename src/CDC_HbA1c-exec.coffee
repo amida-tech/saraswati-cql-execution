@@ -1,10 +1,10 @@
 cql = require './cql'
 measure = require './CDC_HbA1c'
 codes = require './cql-code-service'
-codeservice = require '../src/data/codeservice'
-patients = require '../src/data/aggregate_data_wo_claim.json'
+codeservice = require '../src/data/temp_code'
+patients = require '../src/data/patients'
 
-cservice = new codes.CodeService {codeservice}
+cservice = new codes.CodeService codeservice
 
 lib = new cql.Library(measure)
 

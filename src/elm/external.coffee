@@ -28,7 +28,8 @@ module.exports.Retrieve = class Retrieve extends Expression
 
     records
 
-  recordMatchesCodesOrVS: (record, codes) ->
+  recordMatchesCodesOrVS: (record, valueset) ->
+    codes = valueset.codes
     if typeIsArray codes
       codes.some (c) => c.hasMatch(record.getCode(@codeProperty))
     else
