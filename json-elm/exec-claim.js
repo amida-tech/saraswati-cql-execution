@@ -1,10 +1,10 @@
 const cql = require('../src/cql');
-const measure = require('./age.json');
+const measure = require('./claim.json');
 const cqlfhir = require('cql-exec-fhir');
 
 const lib = new cql.Library(measure);
 const executor = new cql.Executor(lib);
-const patientSource = cqlfhir.PatientSource.FHIRv102();
+const patientSource = cqlfhir.PatientSource.FHIRv400();
 
 
 const bundles = [ {
@@ -288,22 +288,31 @@ const bundles = [ {
             }
           }
         ],
-        // "diagnosis": [
-        //   {
-        //     "sequence": 1,
-        //     "diagnosisReference": {
-        //       "reference": "urn:uuid:37d2066e-9037-763e-2bb3-c7e4b20a79d9"
-        //     }
-        //   }
-        // ],
         "diagnosis": [
           {
             "sequence": 1,
-            "diagnosisCodeableConcept": {
-              "coding": [{"code":"Diabetes"}]
+            "diagnosisReference": {
+              "reference": "urn:uuid:37d2066e-9037-763e-2bb3-c7e4b20a79d9"
             }
           }
         ],
+        // "diagnosis": [
+        //   {
+        //     "sequence": 1,
+        //     "diagnosisCodeableConcept": {
+        //       "coding": [{
+        //         "code":"226967001",
+        //         "system": "http://snomed.info/sct",
+        //         "display": "Smoething else"
+        //       }, {
+        //         "code":"386965004",
+        //         "system": "http://snomed.info/sct",
+        //         "display": "Diabetes"
+        //       }],
+        //       "text": "Diabetes"
+        //     }
+        //   }
+        // ],
         "insurance": [
           {
             "sequence": 1,
@@ -505,5 +514,6 @@ patientSource.loadBundles(bundles);
 
 
 const result = executor.exec(patientSource);
-// console.log(JSON.stringify(result, undefined, 2));
-console.log(result);
+//console.log(JSON.stringify(result, undefined, 2));
+//console.log(JSON.stringify(result.patientResults.example, undefined, 2));
+console.log(result)
