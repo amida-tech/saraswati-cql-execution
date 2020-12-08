@@ -22,7 +22,7 @@ define function ToCode(coding FHIR.Coding):
       version: coding.version.value,
       display: coding.display.value
     }
-/*
+
 define "DiabetesCode":
   [Claim] C
     with C.diagnosis diagnosis such that exists (
@@ -44,7 +44,7 @@ define "DiabetesCode":
               // or where ToCode(C).display = 'Diabetes'
           )
     )
-*/
+
 /*
 define "DiagnosisReference":
   [Claim] C

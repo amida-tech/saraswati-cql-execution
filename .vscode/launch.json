@@ -55,8 +55,8 @@
     {
         "type": "node",
         "request": "launch",
-        "name": "Launch Program Claim Exec",
-        "program": "${workspaceRoot}/lib/claim-exec.js",
+        "name": "Launch Program Diabetes Exec",
+        "program": "${workspaceRoot}/lib/exec-diabetes.js",
         "outFiles": [
             "${workspaceRoot}/out/**/*.js"
         ]

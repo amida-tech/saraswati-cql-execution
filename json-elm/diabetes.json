@@ -136,6 +136,94 @@
                   "type" : "NamedTypeSpecifier"
                }
             } ]
+         }, {
+            "name" : "DiabetesCode",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "C",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Claim",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "diagnosis",
+                  "type" : "With",
+                  "expression" : {
+                     "path" : "diagnosis",
+                     "scope" : "C",
+                     "type" : "Property"
+                  },
+                  "suchThat" : {
+                     "type" : "Exists",
+                     "operand" : {
+                        "type" : "Query",
+                        "source" : [ {
+                           "alias" : "D",
+                           "expression" : {
+                              "path" : "diagnosis",
+                              "scope" : "C",
+                              "type" : "Property"
+                           }
+                        } ],
+                        "relationship" : [ {
+                           "alias" : "coding",
+                           "type" : "With",
+                           "expression" : {
+                              "path" : "coding",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "diagnosis",
+                                 "scope" : "D",
+                                 "type" : "Property"
+                              }
+                           },
+                           "suchThat" : {
+                              "type" : "Exists",
+                              "operand" : {
+                                 "type" : "Query",
+                                 "source" : [ {
+                                    "alias" : "C",
+                                    "expression" : {
+                                       "path" : "coding",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "path" : "diagnosis",
+                                          "scope" : "D",
+                                          "type" : "Property"
+                                       }
+                                    }
+                                 } ],
+                                 "relationship" : [ ],
+                                 "where" : {
+                                    "type" : "Equal",
+                                    "operand" : [ {
+                                       "path" : "code",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "ToCode",
+                                          "type" : "FunctionRef",
+                                          "operand" : [ {
+                                             "name" : "C",
+                                             "type" : "AliasRef"
+                                          } ]
+                                       }
+                                    }, {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                       "value" : "386965004",
+                                       "type" : "Literal"
+                                    } ]
+                                 }
+                              }
+                           }
+                        } ]
+                     }
+                  }
+               } ]
+            }
          } ]
       }
    }
