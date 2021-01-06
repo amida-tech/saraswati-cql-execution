@@ -3,8 +3,8 @@ const measure = require('../json-elm/childhood-immunization.json');
 const fhirhelpers = require('../json-elm/FHIRHelpers.json');
 const codes = require('../src/cql-code-service');
 const cqlfhir = require('cql-exec-fhir');
-const patients = require('../data/patients/childhood-immunization-patients');
-const codeservice = require('../data/codes/childhood-immunization-codes');
+const patients = require('../data/patients/cis-patients');
+const codeservice = require('../data/codes/cis-codes');
 
 const includedLibs = {
   FHIRHelpers: fhirhelpers
