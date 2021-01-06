@@ -57,7 +57,7 @@ parameter MeasurementPeriod default Interval[@2018-12-31T00:00:00.0, @2019-12-31
 context Patient
 
 define "InitialPopulation":
-  AgeInYearsAt(start of MeasurementPeriod) >= 18 and AgeInYearsAt(start of MeasurementPeriod) < 75
+  AgeInYearsAt(start of MeasurementPeriod) >= 18 and AgeInYearsAt(start of MeasurementPeriod) <= 75
 
 define "telehealth modifier":
   exists ([Encounter: "Telehealth Modifier"] E
