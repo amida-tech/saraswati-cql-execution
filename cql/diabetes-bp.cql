@@ -183,7 +183,7 @@ define "correct context for bp reading":
 define "Qualifying Diastolic Blood Pressure Reading":	
 	["Observation": "Blood pressure"] BloodPressure	
 	  where BloodPressure.status in {'final', 'amended'}	
-      and BloodPressure.effective.value during "MeasurementPeriod"	
+      and Coalesce(BloodPressure.effective.value, BloodPressure.effective.start) during "MeasurementPeriod"	
       and exists (	
         BloodPressure.component DiastolicBP	
           where FHIRHelpers.ToConcept(DiastolicBP.code) ~ "Diastolic blood pressure"	
@@ -194,7 +194,7 @@ define "Qualifying Diastolic Blood Pressure Reading":
 define "Qualifying Systolic Blood Pressure Reading":	
 	["Observation": "Blood pressure"] BloodPressure	
 	  where BloodPressure.status in {'final', 'amended'}	
-      and BloodPressure.effective.value during "MeasurementPeriod"	
+      and Coalesce(BloodPressure.effective.value, BloodPressure.effective.start) during "MeasurementPeriod"	
       and exists (	
         BloodPressure.component SystolicBP	
           where FHIRHelpers.ToConcept(SystolicBP.code) ~ "Systolic blood pressure"	
