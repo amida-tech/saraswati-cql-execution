@@ -1,4 +1,4 @@
-library CDC_HbA1c_lessthan8 version '1'
+library cdc_hba1c-lessThanEight version '1'
 
 using FHIR version '4.0.0'
 include FHIRHelpers version '4.0.0' called FHIRHelpers

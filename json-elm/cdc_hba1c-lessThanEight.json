@@ -5,7 +5,7 @@
          "type" : "CqlToElmInfo"
       } ],
       "identifier" : {
-         "id" : "CDC_HbA1c_lessthan8",
+         "id" : "cdc_hba1c_lessthan8",
          "version" : "1"
       },
       "schemaIdentifier" : {
