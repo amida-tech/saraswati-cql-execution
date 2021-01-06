@@ -1,4 +1,4 @@
-library CDC_HbA1c_lessthan8 version '1'
+library cdc_hba1c_lessThanEight version '1'
 
 using FHIR version '4.0.0'
 include FHIRHelpers version '4.0.0' called FHIRHelpers
@@ -46,9 +46,7 @@ parameter MeasurementPeriod default Interval[@2018-12-31T00:00:00.0, @2019-12-31
 context Patient
 
 define "InitialPopulation":
-  AgeInYearsAt(start of MeasurementPeriod) >= 18 and AgeInYearsAt(start of MeasurementPeriod) < 75
-
-
+  AgeInYearsAt(start of MeasurementPeriod) >= 18 and AgeInYearsAt(start of MeasurementPeriod) <= 75
 
 define "telehealth modifier":
   exists ([Encounter: "Telehealth Modifier"] E
@@ -79,54 +77,47 @@ define "acute inpatient discharge on discharge claim":
     with [Claim: "Acute Inpatient"] AI
       such that Enc.subject = AI.patient)
 
-define "nonacute diabetes discharges":
-  [Encounter: "Nonacute Inpatient Stay"] E
+	define "nonacute diabetes discharges-list":
+  distinct ([Encounter: "Nonacute Inpatient Stay"] E
     with [Condition: "Diabetes"] Dia
-      such that E.status ~ 'finished'
+      such that E.status ~ 'finished')
+
+define "nonacute diabetes discharges":
+  Count("nonacute diabetes discharges-list")
 
 define "nonacute diabetes discharges on claim":
-  "nonacute diabetes discharges" E
+  Count ("nonacute diabetes discharges-list" E
     with [Claim: "Nonacute Inpatient Stay"] C
-      such that E.subject = C.patient
+      such that E.subject = C.patient)
 
-/* define "outpatient encounter":
-  exists([Encounter: "Outpatient"] E
-    with [Condition: "Diabetes"] dia
-      such that E.status = 'finished')
+define "out":
+  exists ([Encounter: "Telehealth POS"] E
+    with [Condition: "Diabetes"] c
+      such that E.period starts during MeasurementPeriod)
 
-define "observation encounter":
-  exists([Encounter: "Observation"] E
-    with [Condition: "Diabetes"] dia
-      such that E.status = 'finished') */
+define "tele":
+  exists ([Encounter: "Telehealth Modifier"] E
+    with [Condition: "Diabetes"] c
+      such that E.period starts during MeasurementPeriod)
 
-define "all encounters":
-  return flatten {([Encounter: "Outpatient"] E with [Condition: "Diabetes"] dia such that E.status = 'finished'),
-        exists([Encounter: "Observation"] F with [Condition: "Diabetes"] dia such that F.status = 'finished'),
-        exists([Encounter: "Telephone Visits"] G with [Condition: "Diabetes"] dia such that G.status = 'finished'),
-        exists([Encounter: "Online Assessments"] H with [Condition: "Diabetes"] dia such that H.status = 'finished'),
-        exists([Encounter: "ED"] I with [Condition: "Diabetes"] dia such that I.status = 'finished')}
+define "telephone vis":
+  exists ([Encounter: "Telephone Visits"] E
+    with [Condition: "Diabetes"] c
+      such that E.period starts during MeasurementPeriod)
 
-define "duplicate dates":
-  where "all encounters" A
-    with "all encounters" E
-    such that E.identifier != A.identifier
-    // language is unclear regarding how to handle date ranges - need to consult a SME
-    // add date language
-    and date from E.statusHistory.period.start = date from A.statusHistory.period.start
+define "online assess":
+  exists ([Encounter: "Online Assessments"] E
+    with [Condition: "Diabetes"] c
+      such that E.period starts during MeasurementPeriod)
 
-// one approach would be to filter out odd or even values, but what if three encounters share the same date? Then this method fails?
-// write this in python and filter it out that way?
+define "out-tele-online":
+  case ("out" or "tele" or "telephone vis" or "online assess")
+    when true then 1
+    else 0
+  end
 
-// two problems - I don't want to remove both same dates, only one, and preferably one that falls into outpatient, telephone, online visit
-
-define "duplicate date to remove":
-  "duplicate dates" D sort by D.type
-
-define "remove same dates":
-  "all encounters" except "duplicate dates" 
-
-// define "nonacute outpatient encounters with diabetes":
-  // ADD STUFF HERE
+define "atleast 2 remote or nonacute inpatient encounters with diabetes":
+   "nonacute diabetes discharges" + "nonacute diabetes discharges on claim" + "out-tele-online" >= 2
 
 define "diabetes diagnosis by medication":
   //TODO: figure out how to do medication dynamically to avoid version control conflict
@@ -166,15 +157,15 @@ define "diabetes exclusions":
 define "DiabetesCondition":
   "acute inpatient encounter without telehealth"
     or "acute inpatient discharge on discharge claim"
-    or "nonacute outpatient encounters with diabetes"
+    or "atleast 2 remote or nonacute inpatient encounters with diabetes"
     or "diabetes diagnosis by medication"
 
 define "HbA1c < 8":
-  exists ([Observation: "HbA1c Lab Test"] O
-    where O.value < 8)
+  exists(Last([Observation: "HbA1c Lab Test"] O
+    where O.value < 8))
 
 define "numerator":
-  case ("HbA1c < 8" and "DiabetesCondition" and "InitialPopulation")
+  case ("HbA1c < 8" and "DiabetesCondition" and "InitialPopulation" and not "diabetes exclusions")
     when true then 1
     else 0
   end
