@@ -1,9 +1,9 @@
 const cql = require('../src/cql');
-const measure = require('../json-elm/CDC_HbA1c.json');
+const measure = require('../json-elm/cdc_hba1c-lessThanEight.json');
 const codes = require('../src/cql-code-service');
 const cqlfhir = require('cql-exec-fhir');
-const patients = require('../data/patients/cdc-patients');
-const codeservice = require('../data/codes/cdc-codes');
+const patients = require('../data/patients/cdc-hba1c-patients');
+const codeservice = require('../data/codes/cdc-hba1c-codes');
 
 const lib = new cql.Library(measure);
 const cservice = new codes.CodeService(codeservice);

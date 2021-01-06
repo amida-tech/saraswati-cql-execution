@@ -1,13 +1,10 @@
-library BP_less_then_140_over_90 version '1'
+library cdc_hba1c_lessThanEight version '1'
 
 using FHIR version '4.0.0'
-include FHIRHelpers version '4.0.0'
-include MATGlobalCommonFunctions_FHIR4 version '4.0.000' called Global
+include FHIRHelpers version '4.0.0' called FHIRHelpers
 
 
 codesystem "SNOMED-CT": 'urn:oid:2.16.840.1.113883.6.96' version '20200301'
-codesystem "LOINC": 'http://loinc.org'
-
 
 valueset "Acute Inpatient": 'urn:oid:2.16.840.1.113762.1.4.1182.120'
 valueset "Outpatient": 'urn:oid:2.16.840.1.113883.3.464.1003.101.12.1008'
@@ -17,10 +14,13 @@ valueset "Nonacute Inpatient Stay": 'urn:oid:2.16.840.1.113762.1.4.1182.289'
 valueset "Telephone Visits": 'urn:oid:2.16.840.1.113883.3.1444.5.216'
 valueset "Online Assessments": 'urn:oid:2.16.840.1.113883.3.7587.3.1013'
 valueset "Nonacute Inpatient": 'urn:oid:2.16.840.1.113883.3.464.1003.101.12.1084'
-// the hospice encounter doesn't have the OID we'll need IRL (will add later)
+// the HbA1c valuesets and hospice encounter don't have the OID we'll need IRL (will add later)
+valueset "HbA1c Level Less Than 7.0": 'urn:oid:2.16.840.1.113883.3.464.1004.1115'
+valueset "HbA1c Level Greater Than or Equal to 7.0 and Less Than 8.0": 'urn:oid:2.16.840.1.113883.3.464.1004.1976'
 valueset "Hospice Encounter": 'urn:oid:2.16.840.1.113883.3.464.1004.1761'
 valueset "Hospice Intervention": 'urn:oid:2.16.840.1.113762.1.4.1182.2'
 valueset "Diabetes": 'urn:oid:2.16.840.1.113883.3.464.1003.103.12.1001'
+valueset "HbA1c Lab Test": 'urn:oid:2.16.840.1.113883.3.464.1003.198.11.1024'
 valueset "Telehealth Modifier": 'urn:oid:2.16.840.1.113762.1.4.1138.731'
 valueset "Telehealth POS": 'urn:oid:2.16.840.1.113883.3.464.1003.101.11.1155'
 valueset "Frailty Device": 'urn:oid:2.16.840.1.113883.3.464.1003.118.12.1300'
@@ -30,17 +30,6 @@ valueset "Frailty Encounter": 'urn:oid:2.16.840.1.113883.3.464.1003.101.12.1088'
 valueset "Frailty Symptom": 'urn:oid:2.16.840.1.113883.3.464.1003.113.12.1075'
 valueset "Advanced Illness": 'urn:oid:2.16.840.1.113883.3.464.1003.110.12.1082'
 valueset "Inpatient Stay": 'urn:oid:2.16.840.1.113762.1.4.1182.285'
-// ADD valuesets in codes file for these!!!!
-//valueset "Systolic Less Than 140": 'urn:oid:2.16.840.1.113762.1.4.1182.85'
-//valueset "Systolic Greater Than Or Equal To 140": 'urn:oid:2.16.840.1.113762.1.4.1182.84'
-//valueset "Diastolic Less Than 80": 'urn:oid:2.16.840.1.113762.1.4.1182.79'
-//valueset "Diastolic Greater Than Or Equal To 90": 'urn:oid:2.16.840.1.113762.1.4.1182.78'
-// valueset "Diastolic BP": 'urn:oid:2.16.840.1.113762.1.4.1116.409'
-// valueset "Remote Blood Pressure Monitoring": 'urn:oid: '
-
-code "Blood pressure": '85354-9' from "LOINC" display 'blood pressure'
-code "Diastolic blood pressure": '8462-4' from "LOINC" display 'Diastolic blood pressure'
-code "Systolic blood pressure": '8480-6' from "LOINC" display 'Systolic blood pressure'
 
 code "Acarbose_code": '386965004' from "SNOMED-CT"
 code "Miglitol": '109071007' from "SNOMED-CT"
@@ -57,7 +46,7 @@ parameter MeasurementPeriod default Interval[@2018-12-31T00:00:00.0, @2019-12-31
 context Patient
 
 define "InitialPopulation":
-  AgeInYearsAt(start of MeasurementPeriod) >= 18 and AgeInYearsAt(start of MeasurementPeriod) < 75
+  AgeInYearsAt(start of MeasurementPeriod) >= 18 and AgeInYearsAt(start of MeasurementPeriod) <= 75
 
 define "telehealth modifier":
   exists ([Encounter: "Telehealth Modifier"] E
@@ -88,13 +77,13 @@ define "acute inpatient discharge on discharge claim":
     with [Claim: "Acute Inpatient"] AI
       such that Enc.subject = AI.patient)
 
-define "nonacute diabetes discharges-list":
+	define "nonacute diabetes discharges-list":
   distinct ([Encounter: "Nonacute Inpatient Stay"] E
     with [Condition: "Diabetes"] Dia
       such that E.status ~ 'finished')
 
 define "nonacute diabetes discharges":
-  Count ("nonacute diabetes discharges-list")
+  Count("nonacute diabetes discharges-list")
 
 define "nonacute diabetes discharges on claim":
   Count ("nonacute diabetes discharges-list" E
@@ -129,7 +118,6 @@ define "out-tele-online":
 
 define "atleast 2 remote or nonacute inpatient encounters with diabetes":
    "nonacute diabetes discharges" + "nonacute diabetes discharges on claim" + "out-tele-online" >= 2
-
 
 define "diabetes diagnosis by medication":
   //TODO: figure out how to do medication dynamically to avoid version control conflict
@@ -172,43 +160,12 @@ define "DiabetesCondition":
     or "atleast 2 remote or nonacute inpatient encounters with diabetes"
     or "diabetes diagnosis by medication"
 
-define "correct context for bp reading":	
-  exists([Encounter: "Outpatient"] O	
-    where O.period during MeasurementPeriod)	
-    or exists([Encounter: "Nonacute Inpatient Stay"] E	
-      where E.period during MeasurementPeriod)	
-      // or [Encounter: "Remote Blood Pressure Monitoring"] R	
-        // where R.period during MeasurementPeriod	
-        
-define "Qualifying Diastolic Blood Pressure Reading":	
-	["Observation": "Blood pressure"] BloodPressure	
-	  where BloodPressure.status in {'final', 'amended'}	
-      and BloodPressure.effective.value during "MeasurementPeriod"	
-      and exists (	
-        BloodPressure.component DiastolicBP	
-          where FHIRHelpers.ToConcept(DiastolicBP.code) ~ "Diastolic blood pressure"	
-            and DiastolicBP.value.unit in {'mm[Hg]', 'mmHg'}	
-            and DiastolicBP.value.value.value < 90	
-      )	
-      	
-define "Qualifying Systolic Blood Pressure Reading":	
-	["Observation": "Blood pressure"] BloodPressure	
-	  where BloodPressure.status in {'final', 'amended'}	
-      and BloodPressure.effective.value during "MeasurementPeriod"	
-      and exists (	
-        BloodPressure.component SystolicBP	
-          where FHIRHelpers.ToConcept(SystolicBP.code) ~ "Systolic blood pressure"	
-            and SystolicBP.value.unit in {'mm[Hg]', 'mmHg'}	
-            and SystolicBP.value.value.value < 140	
-      )
-
-define "BP < 140/90 mm Hg":	
-  exists("correct context for bp reading") 	
-  and exists("Qualifying Diastolic Blood Pressure Reading")	
-  and exists("Qualifying Systolic Blood Pressure Reading")
+define "HbA1c < 8":
+  exists(Last([Observation: "HbA1c Lab Test"] O
+    where O.value < 8))
 
 define "numerator":
-  case ("BP < 140/90 mm Hg" and "DiabetesCondition" and "InitialPopulation" and not "diabetes exclusions")
+  case ("HbA1c < 8" and "DiabetesCondition" and "InitialPopulation" and not "diabetes exclusions")
     when true then 1
     else 0
   end

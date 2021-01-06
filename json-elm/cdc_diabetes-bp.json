@@ -1657,13 +1657,29 @@
                      }, {
                         "type" : "In",
                         "operand" : [ {
-                           "path" : "value",
-                           "type" : "Property",
-                           "source" : {
-                              "path" : "effective",
-                              "scope" : "BloodPressure",
-                              "type" : "Property"
-                           }
+                           "type" : "Coalesce",
+                           "operand" : [ {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "effective",
+                                 "scope" : "BloodPressure",
+                                 "type" : "Property"
+                              }
+                           }, {
+                              "name" : "ToDateTime",
+                              "libraryName" : "FHIRHelpers",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "path" : "start",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "effective",
+                                    "scope" : "BloodPressure",
+                                    "type" : "Property"
+                                 }
+                              } ]
+                           } ]
                         }, {
                            "name" : "MeasurementPeriod",
                            "type" : "ParameterRef"
