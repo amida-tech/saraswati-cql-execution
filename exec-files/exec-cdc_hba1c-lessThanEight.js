@@ -1,5 +1,5 @@
 const cql = require('../src/cql');
-const measure = require('../json-elm/cdc_hba1c.json');
+const measure = require('../json-elm/cdc_hba1c-lessThanEight.json');
 const codes = require('../src/cql-code-service');
 const cqlfhir = require('cql-exec-fhir');
 const patients = require('../data/patients/cdc-patients');
