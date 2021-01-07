@@ -4,7 +4,7 @@
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
       }, {
-         "libraryId" : "BP_less_then_140_over_90",
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
          "startLine" : 206,
          "startChar" : 10,
@@ -16,7 +16,7 @@
          "type" : "CqlToElmError"
       } ],
       "identifier" : {
-         "id" : "BP_less_then_140_over_90",
+         "id" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "version" : "1"
       },
       "schemaIdentifier" : {
@@ -336,7 +336,7 @@
                      "type" : "Literal"
                   } ]
                }, {
-                  "type" : "Less",
+                  "type" : "LessOrEqual",
                   "operand" : [ {
                      "precision" : "Year",
                      "type" : "CalculateAgeAt",
@@ -1657,20 +1657,20 @@
                      }, {
                         "type" : "In",
                         "operand" : [ {
-                           "type" : "Coalesce",
+                           "name" : "ToDateTime",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
                            "operand" : [ {
-                              "path" : "value",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "effective",
-                                 "scope" : "BloodPressure",
-                                 "type" : "Property"
-                              }
-                           }, {
-                              "name" : "ToDateTime",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
+                              "type" : "Coalesce",
                               "operand" : [ {
+                                 "asType" : "{http://hl7.org/fhir}dateTime",
+                                 "type" : "As",
+                                 "operand" : {
+                                    "path" : "effective",
+                                    "scope" : "BloodPressure",
+                                    "type" : "Property"
+                                 }
+                              }, {
                                  "path" : "start",
                                  "type" : "Property",
                                  "source" : {
@@ -1829,13 +1829,29 @@
                      }, {
                         "type" : "In",
                         "operand" : [ {
-                           "path" : "value",
-                           "type" : "Property",
-                           "source" : {
-                              "path" : "effective",
-                              "scope" : "BloodPressure",
-                              "type" : "Property"
-                           }
+                           "name" : "ToDateTime",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "type" : "Coalesce",
+                              "operand" : [ {
+                                 "asType" : "{http://hl7.org/fhir}dateTime",
+                                 "type" : "As",
+                                 "operand" : {
+                                    "path" : "effective",
+                                    "scope" : "BloodPressure",
+                                    "type" : "Property"
+                                 }
+                              }, {
+                                 "path" : "start",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "effective",
+                                    "scope" : "BloodPressure",
+                                    "type" : "Property"
+                                 }
+                              } ]
+                           } ]
                         }, {
                            "name" : "MeasurementPeriod",
                            "type" : "ParameterRef"
