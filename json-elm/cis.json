@@ -5,7 +5,7 @@
          "type" : "CqlToElmInfo"
       } ],
       "identifier" : {
-         "id" : "childhood_immunization_status",
+         "id" : "cis",
          "version" : "1"
       },
       "schemaIdentifier" : {
@@ -402,6 +402,8 @@
       "contexts" : {
          "def" : [ {
             "name" : "Patient"
+         }, {
+            "name" : "Unfiltered"
          } ]
       },
       "statements" : {
@@ -414,170 +416,6 @@
                   "dataType" : "{http://hl7.org/fhir}Patient",
                   "type" : "Retrieve"
                }
-            }
-         }, {
-            "name" : "Qualifying Encounter",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "QualifyingEncounter",
-                  "expression" : {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "type" : "Union",
-                        "operand" : [ {
-                           "type" : "Union",
-                           "operand" : [ {
-                              "dataType" : "{http://hl7.org/fhir}Encounter",
-                              "codeProperty" : "type",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Office Visit",
-                                 "type" : "ValueSetRef"
-                              }
-                           }, {
-                              "dataType" : "{http://hl7.org/fhir}Encounter",
-                              "codeProperty" : "type",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Face-to-Face Interaction",
-                                 "type" : "ValueSetRef"
-                              }
-                           } ]
-                        }, {
-                           "type" : "Union",
-                           "operand" : [ {
-                              "dataType" : "{http://hl7.org/fhir}Encounter",
-                              "codeProperty" : "type",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Home Healthcare Services",
-                                 "type" : "ValueSetRef"
-                              }
-                           }, {
-                              "dataType" : "{http://hl7.org/fhir}Encounter",
-                              "codeProperty" : "type",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Preventive Care, Established Office Visit, 0 to 17",
-                                 "type" : "ValueSetRef"
-                              }
-                           } ]
-                        } ]
-                     }, {
-                        "dataType" : "{http://hl7.org/fhir}Encounter",
-                        "codeProperty" : "type",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Preventive Care Services, Initial Office Visit, 0 to 17",
-                           "type" : "ValueSetRef"
-                        }
-                     } ]
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "IncludedIn",
-                  "operand" : [ {
-                     "name" : "ToInterval",
-                     "libraryName" : "FHIRHelpers",
-                     "type" : "FunctionRef",
-                     "operand" : [ {
-                        "path" : "period",
-                        "scope" : "QualifyingEncounter",
-                        "type" : "Property"
-                     } ]
-                  }, {
-                     "name" : "Measurement Period",
-                     "type" : "ParameterRef"
-                  } ]
-               }
-            }
-         }, {
-            "name" : "Initial Population",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "And",
-               "operand" : [ {
-                  "type" : "And",
-                  "operand" : [ {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "Qualifying Encounter",
-                        "type" : "ExpressionRef"
-                     }
-                  }, {
-                     "type" : "GreaterOrEqual",
-                     "operand" : [ {
-                        "precision" : "Year",
-                        "type" : "CalculateAgeAt",
-                        "operand" : [ {
-                           "type" : "ToDateTime",
-                           "operand" : {
-                              "path" : "birthDate.value",
-                              "type" : "Property",
-                              "source" : {
-                                 "name" : "Patient",
-                                 "type" : "ExpressionRef"
-                              }
-                           }
-                        }, {
-                           "type" : "Start",
-                           "operand" : {
-                              "name" : "Measurement Period",
-                              "type" : "ParameterRef"
-                           }
-                        } ]
-                     }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "1",
-                        "type" : "Literal"
-                     } ]
-                  } ]
-               }, {
-                  "type" : "Equal",
-                  "operand" : [ {
-                     "precision" : "Year",
-                     "type" : "CalculateAgeAt",
-                     "operand" : [ {
-                        "type" : "ToDateTime",
-                        "operand" : {
-                           "path" : "birthDate.value",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "Patient",
-                              "type" : "ExpressionRef"
-                           }
-                        }
-                     }, {
-                        "type" : "End",
-                        "operand" : {
-                           "name" : "Measurement Period",
-                           "type" : "ParameterRef"
-                        }
-                     } ]
-                  }, {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "2",
-                     "type" : "Literal"
-                  } ]
-               } ]
-            }
-         }, {
-            "name" : "Denominator",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "name" : "Initial Population",
-               "type" : "ExpressionRef"
             }
          }, {
             "name" : "Denominator Exclusions",
@@ -735,6 +573,37 @@
                      }
                   }
                } ]
+            }
+         }, {
+            "name" : "Denominator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "Not",
+                  "operand" : {
+                     "name" : "Denominator Exclusions",
+                     "type" : "ExpressionRef"
+                  }
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
             }
          }, {
             "name" : "DTaP Immunizations or Procedures",
@@ -2221,6 +2090,162 @@
                      "type" : "AliasRef"
                   }
                }
+            }
+         }, {
+            "name" : "Qualifying Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "QualifyingEncounter",
+                  "expression" : {
+                     "type" : "Union",
+                     "operand" : [ {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "dataType" : "{http://hl7.org/fhir}Encounter",
+                              "codeProperty" : "type",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Office Visit",
+                                 "type" : "ValueSetRef"
+                              }
+                           }, {
+                              "dataType" : "{http://hl7.org/fhir}Encounter",
+                              "codeProperty" : "type",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Face-to-Face Interaction",
+                                 "type" : "ValueSetRef"
+                              }
+                           } ]
+                        }, {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "dataType" : "{http://hl7.org/fhir}Encounter",
+                              "codeProperty" : "type",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Home Healthcare Services",
+                                 "type" : "ValueSetRef"
+                              }
+                           }, {
+                              "dataType" : "{http://hl7.org/fhir}Encounter",
+                              "codeProperty" : "type",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Preventive Care, Established Office Visit, 0 to 17",
+                                 "type" : "ValueSetRef"
+                              }
+                           } ]
+                        } ]
+                     }, {
+                        "dataType" : "{http://hl7.org/fhir}Encounter",
+                        "codeProperty" : "type",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Preventive Care Services, Initial Office Visit, 0 to 17",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "IncludedIn",
+                  "operand" : [ {
+                     "name" : "ToInterval",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "period",
+                        "scope" : "QualifyingEncounter",
+                        "type" : "Property"
+                     } ]
+                  }, {
+                     "name" : "Measurement Period",
+                     "type" : "ParameterRef"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Initial Population",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Qualifying Encounter",
+                        "type" : "ExpressionRef"
+                     }
+                  }, {
+                     "type" : "GreaterOrEqual",
+                     "operand" : [ {
+                        "precision" : "Year",
+                        "type" : "CalculateAgeAt",
+                        "operand" : [ {
+                           "type" : "ToDateTime",
+                           "operand" : {
+                              "path" : "birthDate.value",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "Patient",
+                                 "type" : "ExpressionRef"
+                              }
+                           }
+                        }, {
+                           "type" : "Start",
+                           "operand" : {
+                              "name" : "Measurement Period",
+                              "type" : "ParameterRef"
+                           }
+                        } ]
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "1",
+                        "type" : "Literal"
+                     } ]
+                  } ]
+               }, {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "type" : "End",
+                        "operand" : {
+                           "name" : "Measurement Period",
+                           "type" : "ParameterRef"
+                        }
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2",
+                     "type" : "Literal"
+                  } ]
+               } ]
             }
          }, {
             "name" : "IPV Immunizations or Procedures",
@@ -6705,8 +6730,8 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "And",
-               "operand" : [ {
+               "type" : "Case",
+               "comparand" : {
                   "type" : "And",
                   "operand" : [ {
                      "type" : "And",
@@ -6723,77 +6748,95 @@
                                     "operand" : [ {
                                        "type" : "And",
                                        "operand" : [ {
-                                          "type" : "Or",
-                                          "operand" : [ {
-                                             "type" : "Exists",
-                                             "operand" : {
-                                                "name" : "DTaP Vaccinations",
-                                                "type" : "ExpressionRef"
-                                             }
-                                          }, {
-                                             "type" : "Exists",
-                                             "operand" : {
-                                                "name" : "Numerator Compliant DTaP Conditions",
-                                                "type" : "ExpressionRef"
-                                             }
-                                          } ]
-                                       }, {
-                                          "type" : "Or",
-                                          "operand" : [ {
-                                             "type" : "Exists",
-                                             "operand" : {
-                                                "name" : "IPV Vaccinations",
-                                                "type" : "ExpressionRef"
-                                             }
-                                          }, {
-                                             "type" : "Exists",
-                                             "operand" : {
-                                                "name" : "Numerator Compliant IPV Conditions",
-                                                "type" : "ExpressionRef"
-                                             }
-                                          } ]
-                                       } ]
-                                    }, {
-                                       "type" : "Or",
-                                       "operand" : [ {
-                                          "type" : "Or",
-                                          "operand" : [ {
-                                             "type" : "Exists",
-                                             "operand" : {
-                                                "name" : "MMR Vaccinations",
-                                                "type" : "ExpressionRef"
-                                             }
-                                          }, {
-                                             "type" : "Exists",
-                                             "operand" : {
-                                                "name" : "Numerator Compliant MMR Conditions",
-                                                "type" : "ExpressionRef"
-                                             }
-                                          } ]
-                                       }, {
                                           "type" : "And",
                                           "operand" : [ {
-                                             "type" : "And",
+                                             "type" : "Or",
                                              "operand" : [ {
                                                 "type" : "Exists",
                                                 "operand" : {
-                                                   "name" : "Measles Indicators",
+                                                   "name" : "DTaP Vaccinations",
                                                    "type" : "ExpressionRef"
                                                 }
                                              }, {
                                                 "type" : "Exists",
                                                 "operand" : {
-                                                   "name" : "Mumps Indicators",
+                                                   "name" : "Numerator Compliant DTaP Conditions",
                                                    "type" : "ExpressionRef"
                                                 }
                                              } ]
                                           }, {
-                                             "type" : "Exists",
-                                             "operand" : {
-                                                "name" : "Rubella Indicators",
-                                                "type" : "ExpressionRef"
-                                             }
+                                             "type" : "Or",
+                                             "operand" : [ {
+                                                "type" : "Exists",
+                                                "operand" : {
+                                                   "name" : "IPV Vaccinations",
+                                                   "type" : "ExpressionRef"
+                                                }
+                                             }, {
+                                                "type" : "Exists",
+                                                "operand" : {
+                                                   "name" : "Numerator Compliant IPV Conditions",
+                                                   "type" : "ExpressionRef"
+                                                }
+                                             } ]
                                           } ]
+                                       }, {
+                                          "type" : "Or",
+                                          "operand" : [ {
+                                             "type" : "Or",
+                                             "operand" : [ {
+                                                "type" : "Exists",
+                                                "operand" : {
+                                                   "name" : "MMR Vaccinations",
+                                                   "type" : "ExpressionRef"
+                                                }
+                                             }, {
+                                                "type" : "Exists",
+                                                "operand" : {
+                                                   "name" : "Numerator Compliant MMR Conditions",
+                                                   "type" : "ExpressionRef"
+                                                }
+                                             } ]
+                                          }, {
+                                             "type" : "And",
+                                             "operand" : [ {
+                                                "type" : "And",
+                                                "operand" : [ {
+                                                   "type" : "Exists",
+                                                   "operand" : {
+                                                      "name" : "Measles Indicators",
+                                                      "type" : "ExpressionRef"
+                                                   }
+                                                }, {
+                                                   "type" : "Exists",
+                                                   "operand" : {
+                                                      "name" : "Mumps Indicators",
+                                                      "type" : "ExpressionRef"
+                                                   }
+                                                } ]
+                                             }, {
+                                                "type" : "Exists",
+                                                "operand" : {
+                                                   "name" : "Rubella Indicators",
+                                                   "type" : "ExpressionRef"
+                                                }
+                                             } ]
+                                          } ]
+                                       } ]
+                                    }, {
+                                       "type" : "Or",
+                                       "operand" : [ {
+                                          "type" : "Exists",
+                                          "operand" : {
+                                             "name" : "HIB Vaccinations",
+                                             "type" : "ExpressionRef"
+                                          }
+                                       }, {
+                                          "type" : "Exists",
+                                          "operand" : {
+                                             "name" : "Numerator Compliant HIB Conditions",
+                                             "type" : "ExpressionRef"
+                                          }
                                        } ]
                                     } ]
                                  }, {
@@ -6801,13 +6844,13 @@
                                     "operand" : [ {
                                        "type" : "Exists",
                                        "operand" : {
-                                          "name" : "HIB Vaccinations",
+                                          "name" : "Hepatitis B Vaccinations",
                                           "type" : "ExpressionRef"
                                        }
                                     }, {
                                        "type" : "Exists",
                                        "operand" : {
-                                          "name" : "Numerator Compliant HIB Conditions",
+                                          "name" : "Numerator Compliant Hepatitis B Conditions",
                                           "type" : "ExpressionRef"
                                        }
                                     } ]
@@ -6817,13 +6860,13 @@
                                  "operand" : [ {
                                     "type" : "Exists",
                                     "operand" : {
-                                       "name" : "Hepatitis B Vaccinations",
+                                       "name" : "VZV Vaccinations",
                                        "type" : "ExpressionRef"
                                     }
                                  }, {
                                     "type" : "Exists",
                                     "operand" : {
-                                       "name" : "Numerator Compliant Hepatitis B Conditions",
+                                       "name" : "Numerator Compliant Varicella Zoster Conditions",
                                        "type" : "ExpressionRef"
                                     }
                                  } ]
@@ -6833,13 +6876,13 @@
                               "operand" : [ {
                                  "type" : "Exists",
                                  "operand" : {
-                                    "name" : "VZV Vaccinations",
+                                    "name" : "Pneumococcal Conjugate Vaccinations",
                                     "type" : "ExpressionRef"
                                  }
                               }, {
                                  "type" : "Exists",
                                  "operand" : {
-                                    "name" : "Numerator Compliant Varicella Zoster Conditions",
+                                    "name" : "Numerator Compliant Pneumococcal Conjugate Conditions",
                                     "type" : "ExpressionRef"
                                  }
                               } ]
@@ -6849,13 +6892,13 @@
                            "operand" : [ {
                               "type" : "Exists",
                               "operand" : {
-                                 "name" : "Pneumococcal Conjugate Vaccinations",
+                                 "name" : "Hepatitis A Vaccinations",
                                  "type" : "ExpressionRef"
                               }
                            }, {
                               "type" : "Exists",
                               "operand" : {
-                                 "name" : "Numerator Compliant Pneumococcal Conjugate Conditions",
+                                 "name" : "Numerator Compliant Hepatitis A Conditions",
                                  "type" : "ExpressionRef"
                               }
                            } ]
@@ -6863,15 +6906,33 @@
                      }, {
                         "type" : "Or",
                         "operand" : [ {
-                           "type" : "Exists",
-                           "operand" : {
-                              "name" : "Hepatitis A Vaccinations",
-                              "type" : "ExpressionRef"
-                           }
+                           "type" : "Or",
+                           "operand" : [ {
+                              "type" : "Or",
+                              "operand" : [ {
+                                 "type" : "Exists",
+                                 "operand" : {
+                                    "name" : "Rotavirus 2 Dose Vaccinations",
+                                    "type" : "ExpressionRef"
+                                 }
+                              }, {
+                                 "type" : "Exists",
+                                 "operand" : {
+                                    "name" : "Numerator Compliant Rotavirus Conditions",
+                                    "type" : "ExpressionRef"
+                                 }
+                              } ]
+                           }, {
+                              "type" : "Exists",
+                              "operand" : {
+                                 "name" : "Rotavirus 2 or 3 Dose Vaccinations",
+                                 "type" : "ExpressionRef"
+                              }
+                           } ]
                         }, {
                            "type" : "Exists",
                            "operand" : {
-                              "name" : "Numerator Compliant Hepatitis A Conditions",
+                              "name" : "Rotavirus 3 Dose Vaccinations",
                               "type" : "ExpressionRef"
                            }
                         } ]
@@ -6879,52 +6940,84 @@
                   }, {
                      "type" : "Or",
                      "operand" : [ {
-                        "type" : "Or",
-                        "operand" : [ {
-                           "type" : "Or",
-                           "operand" : [ {
-                              "type" : "Exists",
-                              "operand" : {
-                                 "name" : "Rotavirus 2 Dose Vaccinations",
-                                 "type" : "ExpressionRef"
-                              }
-                           }, {
-                              "type" : "Exists",
-                              "operand" : {
-                                 "name" : "Numerator Compliant Rotavirus Conditions",
-                                 "type" : "ExpressionRef"
-                              }
-                           } ]
-                        }, {
-                           "type" : "Exists",
-                           "operand" : {
-                              "name" : "Rotavirus 2 or 3 Dose Vaccinations",
-                              "type" : "ExpressionRef"
-                           }
-                        } ]
+                        "type" : "Exists",
+                        "operand" : {
+                           "name" : "Influenza Vaccinations",
+                           "type" : "ExpressionRef"
+                        }
                      }, {
                         "type" : "Exists",
                         "operand" : {
-                           "name" : "Rotavirus 3 Dose Vaccinations",
+                           "name" : "Numerator Compliant Influenza Conditions",
                            "type" : "ExpressionRef"
                         }
                      } ]
                   } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "denominator_count",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Sum",
+               "source" : {
+                  "name" : "Denominator",
+                  "type" : "ExpressionRef"
+               }
+            }
+         }, {
+            "name" : "numerator_count",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Sum",
+               "source" : {
+                  "name" : "Numerator",
+                  "type" : "ExpressionRef"
+               }
+            }
+         }, {
+            "name" : "CDC_MeasureScore",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Divide",
+               "operand" : [ {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "name" : "Numerator",
+                        "type" : "ExpressionRef"
+                     }
+                  }
                }, {
-                  "type" : "Or",
-                  "operand" : [ {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "Influenza Vaccinations",
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "name" : "Denominator",
                         "type" : "ExpressionRef"
                      }
-                  }, {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "Numerator Compliant Influenza Conditions",
-                        "type" : "ExpressionRef"
-                     }
-                  } ]
+                  }
                } ]
             }
          } ]

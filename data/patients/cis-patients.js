@@ -62,7 +62,7 @@ const patients = [
             }
           ],
           gender: 'female',
-          birthDate: '2018-01-01'
+          birthDate: '2017-11-15'
         },
         request: {
           method: 'PUT',

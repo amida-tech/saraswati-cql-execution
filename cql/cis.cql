@@ -81,7 +81,10 @@ parameter "Measurement Period" default Interval[@2018-12-31T00:00:00.0, @2019-12
 context Patient
 
 define "Denominator":
-	"Initial Population"
+  case ("Initial Population" and not "Denominator Exclusions")
+    when true then 1
+    else 0
+  end
 
 define "Denominator Exclusions":
 	exists ( ["Encounter": "Encounter Inpatient"] DischargeHospice
@@ -225,6 +228,7 @@ define "Mumps Indicators":
 		where AgeInDaysAt(Coalesce(Mumps.onset.start, Mumps.onset, Mumps.effective))<= 730
 
 define "Numerator":
+	case ( "Initial Population" and
 	( exists ( "DTaP Vaccinations" )
 			or exists ( "Numerator Compliant DTaP Conditions" )
 	)
@@ -261,6 +265,10 @@ define "Numerator":
 		and ( exists ( "Influenza Vaccinations" )
 				or exists ( "Numerator Compliant Influenza Conditions" )
 		)
+	)
+		when true then 1
+    else 0
+  end
 
 define "Numerator Compliant DTaP Conditions":
 	( ["Condition": "Anaphylactic Reaction to DTaP Vaccine"]
@@ -463,3 +471,14 @@ define "VZV Vaccinations":
 	union (["Condition": "Varicella Zoster"] VZVCondition
 		where AgeInDaysAt(Coalesce(VZVCondition.onset, VZVCondition.onset.start)) <= 730)) VZV
 	return VZV
+
+context Unfiltered
+
+define "denominator_count":
+  Sum("Denominator")
+
+define "numerator_count":
+  Sum("Numerator")
+
+define "CDC_MeasureScore":
+  Sum("Numerator") / Sum("Denominator")
