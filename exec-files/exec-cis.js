@@ -1,5 +1,5 @@
 const cql = require('../src/cql');
-const measure = require('../json-elm/childhood-immunization.json');
+const measure = require('../json-elm/cis.json');
 const fhirhelpers = require('../json-elm/FHIRHelpers.json');
 const codes = require('../src/cql-code-service');
 const cqlfhir = require('cql-exec-fhir');
