@@ -1,4 +1,4 @@
-library BP_less_then_140_over_90 version '1'
+library cdc_bp_lessThanOneHundredAndFortyOverNinety version '1'
 
 using FHIR version '4.0.0'
 include FHIRHelpers version '4.0.0'
