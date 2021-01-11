@@ -14,18 +14,22 @@ valueset "Nonacute Inpatient Stay": 'urn:oid:2.16.840.1.113762.1.4.1182.289'
 valueset "Telephone Visits": 'urn:oid:2.16.840.1.113883.3.1444.5.216'
 valueset "Online Assessments": 'urn:oid:2.16.840.1.113883.3.7587.3.1013'
 valueset "Nonacute Inpatient": 'urn:oid:2.16.840.1.113883.3.464.1003.101.12.1084'
-// the HbA1c valuesets and hospice encounter don't have the OID we'll need IRL (will add later)
+// The following commented out valuesets are found in the HEDIS specifications,
+// but don't exist in the value set authority or the NIH's database
+// and aren't necessary to calculate the HbA1c value.
+// Just using the HbA1c Lab Value does the same thing
+/*
 valueset "HbA1c Level Less Than 7.0": 'urn:oid:2.16.840.1.113883.3.464.1004.1115'
 valueset "HbA1c Level Greater Than or Equal to 7.0 and Less Than 8.0": 'urn:oid:2.16.840.1.113883.3.464.1004.1976'
 valueset "Hospice Encounter": 'urn:oid:2.16.840.1.113883.3.464.1004.1761'
 valueset "Hospice Intervention": 'urn:oid:2.16.840.1.113762.1.4.1182.2'
+*/
 valueset "Diabetes": 'urn:oid:2.16.840.1.113883.3.464.1003.103.12.1001'
 valueset "HbA1c Lab Test": 'urn:oid:2.16.840.1.113883.3.464.1003.198.11.1024'
 valueset "Telehealth Modifier": 'urn:oid:2.16.840.1.113762.1.4.1138.731'
 valueset "Telehealth POS": 'urn:oid:2.16.840.1.113883.3.464.1003.101.11.1155'
 valueset "Frailty Device": 'urn:oid:2.16.840.1.113883.3.464.1003.118.12.1300'
-// the frailty diagnosis doesn't have the OID we'll need IRL (will add later)
-valueset "Frailty Diagnosis": 'urn:oid:2.16.840.1.113883.3.464.1004.1531'
+valueset "Frailty Diagnosis": 'urn:oid:2.16.840.1.113883.3.464.1003.113.11.1308'
 valueset "Frailty Encounter": 'urn:oid:2.16.840.1.113883.3.464.1003.101.12.1088'
 valueset "Frailty Symptom": 'urn:oid:2.16.840.1.113883.3.464.1003.113.12.1075'
 valueset "Advanced Illness": 'urn:oid:2.16.840.1.113883.3.464.1003.110.12.1082'
@@ -41,6 +45,7 @@ concept "diabetes medication": {
   "insulin aspart"
 } display 'diabetes medication'
 
+parameter MeasurementPeriodExtended default Interval[@2017-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
 parameter MeasurementPeriod default Interval[@2018-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
 
 context Patient
@@ -50,16 +55,16 @@ define "InitialPopulation":
 
 define "telehealth modifier":
   exists ([Encounter: "Telehealth Modifier"] E
-    where E.period starts during MeasurementPeriod)
+    where E.period starts during MeasurementPeriodExtended)
 
 define "telehealth POS":
   exists ([Encounter: "Telehealth POS"] E
-    where E.period starts during MeasurementPeriod)
+    where E.period starts during MeasurementPeriodExtended)
 
 define "acute inpatient encounter":
   exists ([Encounter: "Acute Inpatient"] E
     with [Condition: "Diabetes"] D
-    such that E.period starts during MeasurementPeriod)
+    such that E.period starts during MeasurementPeriodExtended)
 
 define "acute inpatient encounter without telehealth":
   "acute inpatient encounter"
@@ -70,7 +75,7 @@ define "acute inpatient discharge with diabetes":
   [Encounter: "Acute Inpatient"] Enc
     with [Condition: "Diabetes"] Dia
       such that Enc.status = 'finished'
-      and Enc.period starts during MeasurementPeriod
+      and Enc.period starts during MeasurementPeriodExtended
 
 define "acute inpatient discharge on discharge claim":
   exists ("acute inpatient discharge with diabetes" Enc
@@ -93,22 +98,22 @@ define "nonacute diabetes discharges on claim":
 define "out":
   exists ([Encounter: "Telehealth POS"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriod)
+      such that E.period starts during MeasurementPeriodExtended)
 
 define "tele":
   exists ([Encounter: "Telehealth Modifier"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriod)
+      such that E.period starts during MeasurementPeriodExtended)
 
 define "telephone vis":
   exists ([Encounter: "Telephone Visits"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriod)
+      such that E.period starts during MeasurementPeriodExtended)
 
 define "online assess":
   exists ([Encounter: "Online Assessments"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriod)
+      such that E.period starts during MeasurementPeriodExtended)
 
 define "out-tele-online":
   case ("out" or "tele" or "telephone vis" or "online assess")
@@ -116,7 +121,7 @@ define "out-tele-online":
     else 0
   end
 
-define "atleast 2 remote or nonacute inpatient encounters with diabetes":
+define "at least 2 remote or nonacute inpatient encounters with diabetes":
    "nonacute diabetes discharges" + "nonacute diabetes discharges on claim" + "out-tele-online" >= 2
 
 define "diabetes diagnosis by medication":
@@ -154,24 +159,32 @@ define "diabetes exclusions":
     "Frailty" and ("Acute inpatient discharge with Advanced Illness" or "Acute Inpatient with Advanced Illness")
     // TODO: atleast 2 outpatients w/ advanced Illness
 
-define "DiabetesCondition":
+define "DiabetesConditionBase":
   "acute inpatient encounter without telehealth"
     or "acute inpatient discharge on discharge claim"
-    or "atleast 2 remote or nonacute inpatient encounters with diabetes"
+    or "at least 2 remote or nonacute inpatient encounters with diabetes"
     or "diabetes diagnosis by medication"
+
+define "DiabetesCondition Numerator":
+  "DiabetesConditionBase"
+    or "diabetes diagnosis by medication"
+
+define "DiabetesCondition Denominator":
+  "DiabetesConditionBase"
+    and "diabetes diagnosis by medication"
 
 define "HbA1c < 8":
   exists(Last([Observation: "HbA1c Lab Test"] O
-    where O.value < 8))
+    where O.value < 8 and Coalesce(O.effective, O.effective.start) during MeasurementPeriod))
 
 define "numerator":
-  case ("HbA1c < 8" and "DiabetesCondition" and "InitialPopulation" and not "diabetes exclusions")
+  case ("HbA1c < 8" and "DiabetesCondition Numerator" and "InitialPopulation" and not "diabetes exclusions")
     when true then 1
     else 0
   end
 
 define "denominator":
-  case ("InitialPopulation" and "DiabetesCondition")
+  case ("InitialPopulation" and "DiabetesCondition Denominator")
     when true then 1
     else 0
   end
