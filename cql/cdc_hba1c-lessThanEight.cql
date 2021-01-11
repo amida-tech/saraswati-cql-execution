@@ -14,11 +14,16 @@ valueset "Nonacute Inpatient Stay": 'urn:oid:2.16.840.1.113762.1.4.1182.289'
 valueset "Telephone Visits": 'urn:oid:2.16.840.1.113883.3.1444.5.216'
 valueset "Online Assessments": 'urn:oid:2.16.840.1.113883.3.7587.3.1013'
 valueset "Nonacute Inpatient": 'urn:oid:2.16.840.1.113883.3.464.1003.101.12.1084'
-// the HbA1c valuesets and hospice encounter don't have the OID we'll need IRL (will add later)
+// The following codes are found in the HEDIS book,
+// but don't exist in the value set authority or the NIH's database
+// and aren't necessary to calculate the HbA1c value.
+// Just using the HbA1c Lab Value does the same thing
+/*
 valueset "HbA1c Level Less Than 7.0": 'urn:oid:2.16.840.1.113883.3.464.1004.1115'
 valueset "HbA1c Level Greater Than or Equal to 7.0 and Less Than 8.0": 'urn:oid:2.16.840.1.113883.3.464.1004.1976'
 valueset "Hospice Encounter": 'urn:oid:2.16.840.1.113883.3.464.1004.1761'
 valueset "Hospice Intervention": 'urn:oid:2.16.840.1.113762.1.4.1182.2'
+*/
 valueset "Diabetes": 'urn:oid:2.16.840.1.113883.3.464.1003.103.12.1001'
 valueset "HbA1c Lab Test": 'urn:oid:2.16.840.1.113883.3.464.1003.198.11.1024'
 valueset "Telehealth Modifier": 'urn:oid:2.16.840.1.113762.1.4.1138.731'
