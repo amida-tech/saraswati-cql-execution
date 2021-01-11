@@ -41,7 +41,7 @@ concept "diabetes medication": {
   "insulin aspart"
 } display 'diabetes medication'
 
-parameter MeasurementPeriod default Interval[@2018-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
+parameter MeasurementPeriod default Interval[@2017-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
 
 context Patient
 
@@ -116,7 +116,7 @@ define "out-tele-online":
     else 0
   end
 
-define "atleast 2 remote or nonacute inpatient encounters with diabetes":
+define "at least 2 remote or nonacute inpatient encounters with diabetes":
    "nonacute diabetes discharges" + "nonacute diabetes discharges on claim" + "out-tele-online" >= 2
 
 define "diabetes diagnosis by medication":
@@ -154,24 +154,32 @@ define "diabetes exclusions":
     "Frailty" and ("Acute inpatient discharge with Advanced Illness" or "Acute Inpatient with Advanced Illness")
     // TODO: atleast 2 outpatients w/ advanced Illness
 
-define "DiabetesCondition":
+define "DiabetesConditionBase":
   "acute inpatient encounter without telehealth"
     or "acute inpatient discharge on discharge claim"
-    or "atleast 2 remote or nonacute inpatient encounters with diabetes"
+    or "at least 2 remote or nonacute inpatient encounters with diabetes"
     or "diabetes diagnosis by medication"
+
+define "DiabetesCondition Numerator":
+  "DiabetesConditionBase"
+    or "diabetes diagnosis by medication"
+
+define "DiabetesCondition Denominator":
+  "DiabetesConditionBase"
+    and "diabetes diagnosis by medication"
 
 define "HbA1c < 8":
   exists(Last([Observation: "HbA1c Lab Test"] O
     where O.value < 8))
 
 define "numerator":
-  case ("HbA1c < 8" and "DiabetesCondition" and "InitialPopulation" and not "diabetes exclusions")
+  case ("HbA1c < 8" and "DiabetesCondition Numerator" and "InitialPopulation" and not "diabetes exclusions")
     when true then 1
     else 0
   end
 
 define "denominator":
-  case ("InitialPopulation" and "DiabetesCondition")
+  case ("InitialPopulation" and "DiabetesCondition Denominator")
     when true then 1
     else 0
   end
