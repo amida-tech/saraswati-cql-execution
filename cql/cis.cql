@@ -69,12 +69,25 @@ valueset "Encounter Inpatient": '2.16.840.1.113883.3.666.5.307'
 valueset "Hospice care ambulatory": '2.16.840.1.113762.1.4.1108.15'
 valueset "Discharged to Home for Hospice Care": '2.16.840.1.113883.3.117.1.7.1.209'
 valueset "Discharged to Health Care Facility for Hospice Care": '2.16.840.1.113883.3.117.1.7.1.207'
-// NEED TO ADD CODES FOR THIS NOT SHOWING UP
-// valueset "Anaphylactic Reaction to Common Baker's Yeast": '2.16.840.1.113883.3.464.1003.199.12.1032'
 valueset "Intussusception": '2.16.840.1.113883.3.464.1003.199.12.1056'
 valueset "Severe Combined Immunodeficiency": '2.16.840.1.113883.3.464.1003.120.12.1007'
 valueset "Anti Hepatitis B Virus Surface Ab": '2.16.840.1.113883.3.464.1003.198.12.1073'
 valueset "Anti Hepatitis A IgG Antigen Test": '2.16.840.1.113883.3.464.1003.198.12.1033'
+
+// The following codes are referenced in the HEDIS spec,
+// but don't exist in the value set authority or the NIH's database 
+/*
+valueset "Rubella Immunization": '2.16.840.1.113883.3.464.1004.1789'
+valueset "Rubella Vaccine Procedure": '2.16.840.1.113883.3.464.1004.1790'
+valueset "Measles Immunization": '2.16.840.1.113883.3.464.1004.1771'
+valueset "Measles Rubella Immunization": '2.16.840.1.113883.3.464.1004.1775'
+valueset "Measles Rubella Vaccine Procedure": '2.16.840.1.113883.3.464.1004.1776'
+valueset "Measles Vaccine Procedure": '2.16.840.1.113883.3.464.1004.1772'
+valueset "Mumps Immunization":'2.16.840.1.113883.3.464.1004.1779'
+valuset "Mumps Vaccine Procedure":'2.16.840.1.113883.3.464.1004.1780'
+valueset "Newborn Hepatitis B Vaccine Administered":'2.16.840.1.113883.3.464.1004.1397'
+valueset "Anaphylactic Reaction to Common Baker's Yeast": '2.16.840.1.113883.3.464.1003.199.12.1032'
+*/
 
 parameter "Measurement Period" default Interval[@2018-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
 
