@@ -376,8 +376,8 @@
       },
       "concepts" : {
          "def" : [ {
-            "name" : "diabetes medication",
-            "display" : "diabetes medication",
+            "name" : "Diabetes medication",
+            "display" : "Diabetes medication",
             "accessLevel" : "Public",
             "code" : [ {
                "name" : "Acarbose_code"
@@ -407,7 +407,7 @@
                }
             }
          }, {
-            "name" : "InitialPopulation",
+            "name" : "Initial Population",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -469,7 +469,7 @@
                } ]
             }
          }, {
-            "name" : "telehealth modifier",
+            "name" : "Telehealth Modifier Encounter",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -512,7 +512,7 @@
                }
             }
          }, {
-            "name" : "telehealth POS",
+            "name" : "Telehealth POS Encounter",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -555,7 +555,7 @@
                }
             }
          }, {
-            "name" : "acute inpatient encounter",
+            "name" : "Acute Inpatient Encounter",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -611,7 +611,7 @@
                }
             }
          }, {
-            "name" : "acute inpatient encounter without telehealth",
+            "name" : "Acute Inpatient Encounter Without Telehealth",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -619,25 +619,25 @@
                "operand" : [ {
                   "type" : "And",
                   "operand" : [ {
-                     "name" : "acute inpatient encounter",
+                     "name" : "Acute Inpatient Encounter",
                      "type" : "ExpressionRef"
                   }, {
                      "type" : "Not",
                      "operand" : {
-                        "name" : "telehealth POS",
+                        "name" : "Telehealth POS Encounter",
                         "type" : "ExpressionRef"
                      }
                   } ]
                }, {
                   "type" : "Not",
                   "operand" : {
-                     "name" : "telehealth modifier",
+                     "name" : "Telehealth Modifier Encounter",
                      "type" : "ExpressionRef"
                   }
                } ]
             }
          }, {
-            "name" : "acute inpatient discharge with diabetes",
+            "name" : "Acute Inpatient Discharge With Diabetes",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -709,7 +709,7 @@
                } ]
             }
          }, {
-            "name" : "acute inpatient discharge on discharge claim",
+            "name" : "Acute Inpatient Discharge On Discharge Claim",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -719,7 +719,7 @@
                   "source" : [ {
                      "alias" : "Enc",
                      "expression" : {
-                        "name" : "acute inpatient discharge with diabetes",
+                        "name" : "Acute Inpatient Discharge With Diabetes",
                         "type" : "ExpressionRef"
                      }
                   } ],
@@ -752,7 +752,7 @@
                }
             }
          }, {
-            "name" : "nonacute diabetes discharges-list",
+            "name" : "Nonacute Diabetes Discharges-List",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -806,18 +806,18 @@
                }
             }
          }, {
-            "name" : "nonacute diabetes discharges",
+            "name" : "Nonacute Diabetes Discharges",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "Count",
                "source" : {
-                  "name" : "nonacute diabetes discharges-list",
+                  "name" : "Nonacute Diabetes Discharges-List",
                   "type" : "ExpressionRef"
                }
             }
          }, {
-            "name" : "nonacute diabetes discharges on claim",
+            "name" : "Nonacute Diabetes Discharges On Claim",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -827,7 +827,7 @@
                   "source" : [ {
                      "alias" : "E",
                      "expression" : {
-                        "name" : "nonacute diabetes discharges-list",
+                        "name" : "Nonacute Diabetes Discharges-List",
                         "type" : "ExpressionRef"
                      }
                   } ],
@@ -860,7 +860,7 @@
                }
             }
          }, {
-            "name" : "out",
+            "name" : "Out",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -916,7 +916,7 @@
                }
             }
          }, {
-            "name" : "tele",
+            "name" : "Telehealth Modifier With Diabetes",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -972,7 +972,7 @@
                }
             }
          }, {
-            "name" : "telephone vis",
+            "name" : "Telephone Visit",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1028,7 +1028,7 @@
                }
             }
          }, {
-            "name" : "online assess",
+            "name" : "Online Assessment",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1084,7 +1084,7 @@
                }
             }
          }, {
-            "name" : "out-tele-online",
+            "name" : "Out-Tele-Online",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1096,18 +1096,18 @@
                      "operand" : [ {
                         "type" : "Or",
                         "operand" : [ {
-                           "name" : "out",
+                           "name" : "Out",
                            "type" : "ExpressionRef"
                         }, {
-                           "name" : "tele",
+                           "name" : "Telehealth Modifier Encounter",
                            "type" : "ExpressionRef"
                         } ]
                      }, {
-                        "name" : "telephone vis",
+                        "name" : "Telephone Visit",
                         "type" : "ExpressionRef"
                      } ]
                   }, {
-                     "name" : "online assess",
+                     "name" : "Online Assessment",
                      "type" : "ExpressionRef"
                   } ]
                },
@@ -1130,7 +1130,7 @@
                }
             }
          }, {
-            "name" : "at least 2 remote or nonacute inpatient encounters with diabetes",
+            "name" : "At Least 2 Remote Or Nonacute Inpatient Encounters With Diabetes",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1140,14 +1140,14 @@
                   "operand" : [ {
                      "type" : "Add",
                      "operand" : [ {
-                        "name" : "nonacute diabetes discharges",
+                        "name" : "Nonacute Diabetes Discharges",
                         "type" : "ExpressionRef"
                      }, {
-                        "name" : "nonacute diabetes discharges on claim",
+                        "name" : "Nonacute Diabetes Discharges On Claim",
                         "type" : "ExpressionRef"
                      } ]
                   }, {
-                     "name" : "out-tele-online",
+                     "name" : "Out-Tele-Online",
                      "type" : "ExpressionRef"
                   } ]
                }, {
@@ -1157,7 +1157,7 @@
                } ]
             }
          }, {
-            "name" : "diabetes diagnosis by medication",
+            "name" : "Diabetes Diagnosis By Medication",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1499,7 +1499,7 @@
                } ]
             }
          }, {
-            "name" : "Acute Inpatient with Advanced Illness",
+            "name" : "Acute Inpatient With Advanced Illness",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1531,7 +1531,7 @@
                } ]
             }
          }, {
-            "name" : "Acute inpatient discharge with Advanced Illness",
+            "name" : "Acute Inpatient Discharge With Advanced Illness",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1585,7 +1585,7 @@
                }
             }
          }, {
-            "name" : "diabetes exclusions",
+            "name" : "Diabetes exclusions",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1596,16 +1596,16 @@
                }, {
                   "type" : "Or",
                   "operand" : [ {
-                     "name" : "Acute inpatient discharge with Advanced Illness",
+                     "name" : "Acute Inpatient Discharge With Advanced Illness",
                      "type" : "ExpressionRef"
                   }, {
-                     "name" : "Acute Inpatient with Advanced Illness",
+                     "name" : "Acute Inpatient With Advanced Illness",
                      "type" : "ExpressionRef"
                   } ]
                } ]
             }
          }, {
-            "name" : "DiabetesConditionBase",
+            "name" : "Diabetes Condition",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1615,51 +1615,51 @@
                   "operand" : [ {
                      "type" : "Or",
                      "operand" : [ {
-                        "name" : "acute inpatient encounter without telehealth",
+                        "name" : "Acute Inpatient Encounter Without Telehealth",
                         "type" : "ExpressionRef"
                      }, {
-                        "name" : "acute inpatient discharge on discharge claim",
+                        "name" : "Acute Inpatient Discharge On Discharge Claim",
                         "type" : "ExpressionRef"
                      } ]
                   }, {
-                     "name" : "at least 2 remote or nonacute inpatient encounters with diabetes",
+                     "name" : "At Least 2 Remote Or Nonacute Inpatient Encounters With Diabetes",
                      "type" : "ExpressionRef"
                   } ]
                }, {
-                  "name" : "diabetes diagnosis by medication",
+                  "name" : "Diabetes Diagnosis By Medication",
                   "type" : "ExpressionRef"
                } ]
             }
          }, {
-            "name" : "DiabetesCondition Numerator",
+            "name" : "Diabetes Condition Numerator",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "Or",
                "operand" : [ {
-                  "name" : "DiabetesConditionBase",
+                  "name" : "Diabetes Condition",
                   "type" : "ExpressionRef"
                }, {
-                  "name" : "diabetes diagnosis by medication",
+                  "name" : "Diabetes Diagnosis By Medication",
                   "type" : "ExpressionRef"
                } ]
             }
          }, {
-            "name" : "DiabetesCondition Denominator",
+            "name" : "Diabetes Condition Denominator",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "And",
                "operand" : [ {
-                  "name" : "DiabetesConditionBase",
+                  "name" : "Diabetes Condition",
                   "type" : "ExpressionRef"
                }, {
-                  "name" : "diabetes diagnosis by medication",
+                  "name" : "Diabetes Diagnosis By Medication",
                   "type" : "ExpressionRef"
                } ]
             }
          }, {
-            "name" : "correct context for bp reading",
+            "name" : "Correct Context For BP Reading",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -2093,7 +2093,7 @@
                      "operand" : {
                         "type" : "ToList",
                         "operand" : {
-                           "name" : "correct context for bp reading",
+                           "name" : "Correct Context For BP Reading",
                            "type" : "ExpressionRef"
                         }
                      }
@@ -2113,7 +2113,7 @@
                } ]
             }
          }, {
-            "name" : "numerator",
+            "name" : "Numerator",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -2128,17 +2128,17 @@
                            "name" : "BP < 140/90 mm Hg",
                            "type" : "ExpressionRef"
                         }, {
-                           "name" : "DiabetesCondition Numerator",
+                           "name" : "Diabetes Condition Numerator",
                            "type" : "ExpressionRef"
                         } ]
                      }, {
-                        "name" : "InitialPopulation",
+                        "name" : "Initial Population",
                         "type" : "ExpressionRef"
                      } ]
                   }, {
                      "type" : "Not",
                      "operand" : {
-                        "name" : "diabetes exclusions",
+                        "name" : "Diabetes exclusions",
                         "type" : "ExpressionRef"
                      }
                   } ]
@@ -2162,7 +2162,7 @@
                }
             }
          }, {
-            "name" : "denominator",
+            "name" : "Denominator",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -2170,10 +2170,10 @@
                "comparand" : {
                   "type" : "And",
                   "operand" : [ {
-                     "name" : "InitialPopulation",
+                     "name" : "Initial Population",
                      "type" : "ExpressionRef"
                   }, {
-                     "name" : "DiabetesCondition Denominator",
+                     "name" : "Diabetes Condition Denominator",
                      "type" : "ExpressionRef"
                   } ]
                },
@@ -2196,29 +2196,29 @@
                }
             }
          }, {
-            "name" : "denominator_count",
+            "name" : "Denominator Count",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "Sum",
                "source" : {
-                  "name" : "denominator",
+                  "name" : "Denominator",
                   "type" : "ExpressionRef"
                }
             }
          }, {
-            "name" : "numerator_count",
+            "name" : "Numerator Count",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "Sum",
                "source" : {
-                  "name" : "numerator",
+                  "name" : "Numerator",
                   "type" : "ExpressionRef"
                }
             }
          }, {
-            "name" : "CDC_MeasureScore",
+            "name" : "CDC Measure Score",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
@@ -2228,7 +2228,7 @@
                   "operand" : {
                      "type" : "Sum",
                      "source" : {
-                        "name" : "numerator",
+                        "name" : "Numerator",
                         "type" : "ExpressionRef"
                      }
                   }
@@ -2237,7 +2237,7 @@
                   "operand" : {
                      "type" : "Sum",
                      "source" : {
-                        "name" : "denominator",
+                        "name" : "Denominator",
                         "type" : "ExpressionRef"
                      }
                   }
