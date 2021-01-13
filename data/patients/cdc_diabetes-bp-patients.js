@@ -5048,10 +5048,6 @@ const patients = [
               }
             ] 
           },
-          // "medicationReference": {
-          //   "reference": "#med0305",
-          //   "display": "Miglitol"
-          // },
           subject: {
             reference: 'urn:uuid:96dcbd62-e4c6-a555-a663-77d08ad3c3b5',
             display: 'Mr. Young120 Murphy561'

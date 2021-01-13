@@ -124,14 +124,14 @@ define "Online Assessment":
     with [Condition: "Diabetes"] c
       such that E.period starts during MeasurementPeriodExtended)
 
-define "Out-Tele-Online":
+define "Out Tele Online":
   case ("Out" or "Telehealth Modifier Encounter" or "Telephone Visit" or "Online Assessment")
     when true then 1
     else 0
   end
 
 define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
-   "Nonacute Diabetes Discharges" + "Nonacute Diabetes Discharges On Claim" + "Out-Tele-Online" >= 2
+   "Nonacute Diabetes Discharges" + "Nonacute Diabetes Discharges On Claim" + "Out Tele Online" >= 2
 
 define "Diabetes Diagnosis By Medication":
   //TODO: figure out how to do medication dynamically to avoid version control conflict
@@ -164,7 +164,7 @@ define "Acute Inpatient Discharge With Advanced Illness":
     with [Condition: "Advanced Illness"] AI
       such that E.status ~ 'finished')
 
-define "Diabetes exclusions":
+define "Diabetes Exclusions":
     "Frailty" and ("Acute Inpatient Discharge With Advanced Illness" or "Acute Inpatient With Advanced Illness")
     // TODO: at least 2 outpatients w/ advanced Illness
 
@@ -218,7 +218,7 @@ define "BP < 140/90 mm Hg":
   and exists("Qualifying Systolic Blood Pressure Reading")
 
 define "Numerator":
-  case ("BP < 140/90 mm Hg" and "Diabetes Condition Numerator" and "Initial Population" and not "Diabetes exclusions")
+  case ("BP < 140/90 mm Hg" and "Diabetes Condition Numerator" and "Initial Population" and not "Diabetes Exclusions")
     when true then 1
     else 0
   end
