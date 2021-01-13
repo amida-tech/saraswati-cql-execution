@@ -130,7 +130,7 @@ define "Out-Tele-Online":
     else 0
   end
 
-define "At Least 2 Remote Or Nonacute Inpatient Encounters With Diabetes":
+define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
    "Nonacute Diabetes Discharges" + "Nonacute Diabetes Discharges On Claim" + "Out-Tele-Online" >= 2
 
 
@@ -172,7 +172,7 @@ define "Diabetes exclusions":
 define "Diabetes Condition":
   "Acute Inpatient Encounter Without Telehealth"
     or "Acute Inpatient Discharge On Discharge Claim"
-    or "At Least 2 Remote Or Nonacute Inpatient Encounters With Diabetes"
+    or "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes"
     or "Diabetes Diagnosis By Medication"
 
 define "Diabetes Condition Numerator":
