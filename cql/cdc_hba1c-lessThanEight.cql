@@ -35,106 +35,106 @@ valueset "Frailty Symptom": 'urn:oid:2.16.840.1.113883.3.464.1003.113.12.1075'
 valueset "Advanced Illness": 'urn:oid:2.16.840.1.113883.3.464.1003.110.12.1082'
 valueset "Inpatient Stay": 'urn:oid:2.16.840.1.113762.1.4.1182.285'
 
-code "Acarbose_code": '386965004' from "SNOMED-CT"
+code "Acarbose": '386965004' from "SNOMED-CT"
 code "Miglitol": '109071007' from "SNOMED-CT"
-code "insulin aspart": '325072002' from "SNOMED-CT"
+code "Insulin Aspart": '325072002' from "SNOMED-CT"
 
-concept "diabetes medication": {
-  "Acarbose_code",
+concept "Diabetes Medication": {
+  "Acarbose",
   "Miglitol",
-  "insulin aspart"
-} display 'diabetes medication'
+  "Insulin Aspart"
+} display 'Diabetes Medication'
 
 parameter MeasurementPeriodExtended default Interval[@2017-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
 parameter MeasurementPeriod default Interval[@2018-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
 
 context Patient
 
-define "InitialPopulation":
+define "Initial Population":
   AgeInYearsAt(start of MeasurementPeriod) >= 18 and AgeInYearsAt(start of MeasurementPeriod) <= 75
 
-define "telehealth modifier":
+define "Telehealth Modifier Encounter":
   exists ([Encounter: "Telehealth Modifier"] E
     where E.period starts during MeasurementPeriodExtended)
 
-define "telehealth POS":
+define "Telehealth POS Encounter":
   exists ([Encounter: "Telehealth POS"] E
     where E.period starts during MeasurementPeriodExtended)
 
-define "acute inpatient encounter":
+define "Acute Inpatient Encounter":
   exists ([Encounter: "Acute Inpatient"] E
     with [Condition: "Diabetes"] D
     such that E.period starts during MeasurementPeriodExtended)
 
-define "acute inpatient encounter without telehealth":
-  "acute inpatient encounter"
-    and not "telehealth POS"
-    and not "telehealth modifier"
+define "Acute Inpatient Encounter Without Telehealth":
+  "Acute Inpatient Encounter"
+    and not "Telehealth POS Encounter"
+    and not "Telehealth Modifier Encounter"
 
-define "acute inpatient discharge with diabetes":
+define "Acute Inpatient Discharge With Diabetes":
   [Encounter: "Acute Inpatient"] Enc
     with [Condition: "Diabetes"] Dia
       such that Enc.status = 'finished'
       and Enc.period starts during MeasurementPeriodExtended
 
-define "acute inpatient discharge on discharge claim":
-  exists ("acute inpatient discharge with diabetes" Enc
+define "Acute Inpatient Discharge On Discharge Claim":
+  exists ("Acute Inpatient Discharge With Diabetes" Enc
     with [Claim: "Acute Inpatient"] AI
       such that Enc.subject = AI.patient)
 
-	define "nonacute diabetes discharges-list":
+define "Nonacute Diabetes Discharges-List":
   distinct ([Encounter: "Nonacute Inpatient Stay"] E
     with [Condition: "Diabetes"] Dia
       such that E.status ~ 'finished')
 
-define "nonacute diabetes discharges":
-  Count("nonacute diabetes discharges-list")
+define "Nonacute Diabetes Discharges":
+  Count("Nonacute Diabetes Discharges-List")
 
-define "nonacute diabetes discharges on claim":
-  Count ("nonacute diabetes discharges-list" E
+define "Nonacute Diabetes Discharges On Claim":
+  Count ("Nonacute Diabetes Discharges-List" E
     with [Claim: "Nonacute Inpatient Stay"] C
       such that E.subject = C.patient)
 
-define "out":
+define "Out":
   exists ([Encounter: "Telehealth POS"] E
     with [Condition: "Diabetes"] c
       such that E.period starts during MeasurementPeriodExtended)
 
-define "tele":
+define "Telehealth Modifier With Diabetes":
   exists ([Encounter: "Telehealth Modifier"] E
     with [Condition: "Diabetes"] c
       such that E.period starts during MeasurementPeriodExtended)
 
-define "telephone vis":
+define "Telephone Visit":
   exists ([Encounter: "Telephone Visits"] E
     with [Condition: "Diabetes"] c
       such that E.period starts during MeasurementPeriodExtended)
 
-define "online assess":
+define "Online Assessment":
   exists ([Encounter: "Online Assessments"] E
     with [Condition: "Diabetes"] c
       such that E.period starts during MeasurementPeriodExtended)
 
-define "out-tele-online":
-  case ("out" or "tele" or "telephone vis" or "online assess")
+define "Out Tele Online":
+  case ("Out" or "Telehealth Modifier With Diabetes" or "Telephone Visit" or "Online Assessment")
     when true then 1
     else 0
   end
 
-define "at least 2 remote or nonacute inpatient encounters with diabetes":
-   "nonacute diabetes discharges" + "nonacute diabetes discharges on claim" + "out-tele-online" >= 2
+define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
+   "Nonacute Diabetes Discharges" + "Nonacute Diabetes Discharges On Claim" + "Out Tele Online" >= 2
 
-define "diabetes diagnosis by medication":
+define "Diabetes Diagnosis By Medication":
   //TODO: figure out how to do medication dynamically to avoid version control conflict
   exists([MedicationDispense] A
-    where A.medication = "Acarbose_code"
-    and A.status ~ 'completed')
+    where exists(A.medication ~ "Acarbose"
+    and A.status ~ 'completed'))
     or exists([MedicationDispense] B
-      where B.medication = "Miglitol"
-      and B.status ~ 'completed')
+      where exists(B.medication ~ "Miglitol"
+      and B.status ~ 'completed'))
       or exists([MedicationDispense] C
-        where C.medication = "insulin aspart"
-        and C.status ~ 'completed')
+        where exists(C.medication ~ "Insulin Aspart"
+        and C.status ~ 'completed'))
 
 define "Frailty":
   exists([Encounter: "Frailty Device"] D
@@ -155,36 +155,36 @@ define "Acute inpatient discharge with Advanced Illness":
     with [Condition: "Advanced Illness"] AI
       such that E.status ~ 'finished')
 
-define "diabetes exclusions":
+define "Diabetes Exclusions":
     "Frailty" and ("Acute inpatient discharge with Advanced Illness" or "Acute Inpatient with Advanced Illness")
     // TODO: atleast 2 outpatients w/ advanced Illness
 
-define "DiabetesConditionBase":
-  "acute inpatient encounter without telehealth"
-    or "acute inpatient discharge on discharge claim"
-    or "at least 2 remote or nonacute inpatient encounters with diabetes"
-    or "diabetes diagnosis by medication"
+define "Diabetes Condition":
+  "Acute Inpatient Encounter Without Telehealth"
+    or "Acute Inpatient Discharge On Discharge Claim"
+    or "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes"
+    or "Diabetes Diagnosis By Medication"
 
-define "DiabetesCondition Numerator":
-  "DiabetesConditionBase"
-    or "diabetes diagnosis by medication"
+define "Diabetes Condition Numerator":
+  "Diabetes Condition"
+    or "Diabetes Diagnosis By Medication"
 
-define "DiabetesCondition Denominator":
-  "DiabetesConditionBase"
-    and "diabetes diagnosis by medication"
+define "Diabetes Condition Denominator":
+  "Diabetes Condition"
+    and "Diabetes Diagnosis By Medication"
 
 define "HbA1c < 8":
   exists(Last([Observation: "HbA1c Lab Test"] O
     where O.value < 8 and Coalesce(O.effective, O.effective.start) during MeasurementPeriod))
 
-define "numerator":
-  case ("HbA1c < 8" and "DiabetesCondition Numerator" and "InitialPopulation" and not "diabetes exclusions")
+define "Numerator":
+  case ("HbA1c < 8" and "Diabetes Condition Numerator" and "Initial Population" and not "Diabetes Exclusions")
     when true then 1
     else 0
   end
 
-define "denominator":
-  case ("InitialPopulation" and "DiabetesCondition Denominator")
+define "Denominator":
+  case ("Initial Population" and "Diabetes Condition Denominator")
     when true then 1
     else 0
   end
@@ -192,10 +192,10 @@ define "denominator":
 context Unfiltered
 
 define "denominator_count":
-  Sum(denominator)
+  Sum(Denominator)
 
 define "numerator_count":
-  Sum(numerator)
+  Sum(Numerator)
 
 define "CDC_MeasureScore":
-  Sum(numerator) / Sum(denominator)
+  Sum(Numerator) / Sum(Denominator)
