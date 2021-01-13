@@ -6,9 +6,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 206,
+         "startLine" : 217,
          "startChar" : 10,
-         "endLine" : 206,
+         "endLine" : 217,
          "endChar" : 41,
          "message" : "Boolean-valued expression was promoted to a list.",
          "errorType" : "semantic",
@@ -129,12 +129,96 @@
                   }
                }
             }
+         }, {
+            "name" : "MeasurementPeriodExtended",
+            "accessLevel" : "Public",
+            "default" : {
+               "lowClosed" : true,
+               "highClosed" : false,
+               "type" : "Interval",
+               "low" : {
+                  "type" : "DateTime",
+                  "year" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2017",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "12",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "31",
+                     "type" : "Literal"
+                  },
+                  "hour" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "minute" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "second" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "millisecond" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  }
+               },
+               "high" : {
+                  "type" : "DateTime",
+                  "year" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2019",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "12",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "31",
+                     "type" : "Literal"
+                  },
+                  "hour" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "minute" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "second" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "millisecond" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  }
+               }
+            }
          } ]
       },
       "codeSystems" : {
          "def" : [ {
             "name" : "SNOMED-CT",
-            "id" : "urn:oid:2.16.840.1.113883.6.96",
+            "id" : "2.16.840.1.113883.6.96",
             "version" : "20200301",
             "accessLevel" : "Public"
          }, {
@@ -146,79 +230,99 @@
       "valueSets" : {
          "def" : [ {
             "name" : "Acute Inpatient",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1182.120",
+            "id" : "2.16.840.1.113762.1.4.1182.120",
             "accessLevel" : "Public"
          }, {
             "name" : "Outpatient",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1008",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1008",
             "accessLevel" : "Public"
          }, {
             "name" : "ED",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1085",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1085",
             "accessLevel" : "Public"
          }, {
             "name" : "Observation",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1181.72",
+            "id" : "2.16.840.1.113762.1.4.1181.72",
             "accessLevel" : "Public"
          }, {
             "name" : "Nonacute Inpatient Stay",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1182.289",
+            "id" : "2.16.840.1.113762.1.4.1182.289",
             "accessLevel" : "Public"
          }, {
             "name" : "Telephone Visits",
-            "id" : "urn:oid:2.16.840.1.113883.3.1444.5.216",
+            "id" : "2.16.840.1.113883.3.1444.5.216",
             "accessLevel" : "Public"
          }, {
             "name" : "Online Assessments",
-            "id" : "urn:oid:2.16.840.1.113883.3.7587.3.1013",
+            "id" : "2.16.840.1.113883.3.7587.3.1013",
             "accessLevel" : "Public"
          }, {
             "name" : "Nonacute Inpatient",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1084",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1084",
             "accessLevel" : "Public"
          }, {
             "name" : "Hospice Encounter",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1761",
+            "id" : "2.16.840.1.113883.3.464.1004.1761",
             "accessLevel" : "Public"
          }, {
             "name" : "Hospice Intervention",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1182.2",
+            "id" : "2.16.840.1.113762.1.4.1182.2",
             "accessLevel" : "Public"
          }, {
             "name" : "Diabetes",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.103.12.1001",
+            "id" : "2.16.840.1.113883.3.464.1003.103.12.1001",
             "accessLevel" : "Public"
          }, {
             "name" : "Telehealth Modifier",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1138.731",
+            "id" : "2.16.840.1.113762.1.4.1138.731",
             "accessLevel" : "Public"
          }, {
             "name" : "Telehealth POS",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.11.1155",
+            "id" : "2.16.840.1.113883.3.464.1003.101.11.1155",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Device",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.118.12.1300",
+            "id" : "2.16.840.1.113883.3.464.1003.118.12.1300",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Diagnosis",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1531",
+            "id" : "2.16.840.1.113883.3.464.1003.113.11.1308",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Encounter",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1088",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1088",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Symptom",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.113.12.1075",
+            "id" : "2.16.840.1.113883.3.464.1003.113.12.1075",
             "accessLevel" : "Public"
          }, {
             "name" : "Advanced Illness",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.110.12.1082",
+            "id" : "2.16.840.1.113883.3.464.1003.110.12.1082",
             "accessLevel" : "Public"
          }, {
             "name" : "Inpatient Stay",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1182.285",
+            "id" : "2.16.840.1.113762.1.4.1182.285",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Systolic Less Than 140",
+            "id" : "2.16.840.1.113762.1.4.1182.85",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Systolic Greater Than Or Equal To 140",
+            "id" : "2.16.840.1.113762.1.4.1182.84",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Diastolic Less Than 80",
+            "id" : "2.16.840.1.113762.1.4.1182.79",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Diastolic Greater Than Or Equal To 90",
+            "id" : "2.16.840.1.113762.1.4.1182.78",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Diastolic BP",
+            "id" : "2.16.840.1.113762.1.4.1116.409",
             "accessLevel" : "Public"
          } ]
       },
@@ -401,7 +505,7 @@
                            } ]
                         }
                      }, {
-                        "name" : "MeasurementPeriod",
+                        "name" : "MeasurementPeriodExtended",
                         "type" : "ParameterRef"
                      } ]
                   }
@@ -444,7 +548,7 @@
                            } ]
                         }
                      }, {
-                        "name" : "MeasurementPeriod",
+                        "name" : "MeasurementPeriodExtended",
                         "type" : "ParameterRef"
                      } ]
                   }
@@ -499,7 +603,7 @@
                               } ]
                            }
                         }, {
-                           "name" : "MeasurementPeriod",
+                           "name" : "MeasurementPeriodExtended",
                            "type" : "ParameterRef"
                         } ]
                      }
@@ -597,7 +701,7 @@
                               } ]
                            }
                         }, {
-                           "name" : "MeasurementPeriod",
+                           "name" : "MeasurementPeriodExtended",
                            "type" : "ParameterRef"
                         } ]
                      } ]
@@ -804,7 +908,7 @@
                               } ]
                            }
                         }, {
-                           "name" : "MeasurementPeriod",
+                           "name" : "MeasurementPeriodExtended",
                            "type" : "ParameterRef"
                         } ]
                      }
@@ -860,7 +964,7 @@
                               } ]
                            }
                         }, {
-                           "name" : "MeasurementPeriod",
+                           "name" : "MeasurementPeriodExtended",
                            "type" : "ParameterRef"
                         } ]
                      }
@@ -916,7 +1020,7 @@
                               } ]
                            }
                         }, {
-                           "name" : "MeasurementPeriod",
+                           "name" : "MeasurementPeriodExtended",
                            "type" : "ParameterRef"
                         } ]
                      }
@@ -972,7 +1076,7 @@
                               } ]
                            }
                         }, {
-                           "name" : "MeasurementPeriod",
+                           "name" : "MeasurementPeriodExtended",
                            "type" : "ParameterRef"
                         } ]
                      }
@@ -1026,7 +1130,7 @@
                }
             }
          }, {
-            "name" : "atleast 2 remote or nonacute inpatient encounters with diabetes",
+            "name" : "at least 2 remote or nonacute inpatient encounters with diabetes",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1501,7 +1605,7 @@
                } ]
             }
          }, {
-            "name" : "DiabetesCondition",
+            "name" : "DiabetesConditionBase",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1518,9 +1622,37 @@
                         "type" : "ExpressionRef"
                      } ]
                   }, {
-                     "name" : "atleast 2 remote or nonacute inpatient encounters with diabetes",
+                     "name" : "at least 2 remote or nonacute inpatient encounters with diabetes",
                      "type" : "ExpressionRef"
                   } ]
+               }, {
+                  "name" : "diabetes diagnosis by medication",
+                  "type" : "ExpressionRef"
+               } ]
+            }
+         }, {
+            "name" : "DiabetesCondition Numerator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Or",
+               "operand" : [ {
+                  "name" : "DiabetesConditionBase",
+                  "type" : "ExpressionRef"
+               }, {
+                  "name" : "diabetes diagnosis by medication",
+                  "type" : "ExpressionRef"
+               } ]
+            }
+         }, {
+            "name" : "DiabetesCondition Denominator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "name" : "DiabetesConditionBase",
+                  "type" : "ExpressionRef"
                }, {
                   "name" : "diabetes diagnosis by medication",
                   "type" : "ExpressionRef"
@@ -1996,7 +2128,7 @@
                            "name" : "BP < 140/90 mm Hg",
                            "type" : "ExpressionRef"
                         }, {
-                           "name" : "DiabetesCondition",
+                           "name" : "DiabetesCondition Numerator",
                            "type" : "ExpressionRef"
                         } ]
                      }, {
@@ -2041,7 +2173,7 @@
                      "name" : "InitialPopulation",
                      "type" : "ExpressionRef"
                   }, {
-                     "name" : "DiabetesCondition",
+                     "name" : "DiabetesCondition Denominator",
                      "type" : "ExpressionRef"
                   } ]
                },
