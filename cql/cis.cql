@@ -487,11 +487,11 @@ define "VZV Vaccinations":
 
 context Unfiltered
 
-define "denominator_count":
+define "Denominator Count":
   Sum("Denominator")
 
-define "numerator_count":
+define "Numerator Count":
   Sum("Numerator")
 
-define "CDC_MeasureScore":
+define "CDC Measure Score":
   Sum("Numerator") / Sum("Denominator")
