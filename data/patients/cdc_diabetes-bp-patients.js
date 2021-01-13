@@ -5010,26 +5010,26 @@ const patients = [
         }
       },
       {
-        fullUrl:'urn:uuid:gf3a4f19-9f99-6ceb-7dde-4900ae818cqq',
-        resource :{
-          "resourceType": "MedicationDispense",
-          "id": "meddisp0308",
-          "contained": [
+        fullUrl: 'urn:uuid:gf3a4f19-9f99-6ceb-7dde-4900ae818cqq',
+        resource: {
+          resourceType: 'MedicationDispense',
+          id: 'meddisp0308',
+          contained: [
             {
-              "resourceType": "Medication",
-              "id": "med0305",
-              "code": {
-                "coding": [
+              resourceType: 'Medication',
+              id: 'med0305',
+              code: {
+                coding: [
                   {
                     system: 'http://snomed.info/sct',
-                    "code": "386965004",
-                    "display": "Miglitol"
+                    code: '386965004',
+                    display: 'Miglitol'
                   }
                 ]
               }
             }
           ],
-          "status": "completed",
+          status: 'completed',
           locationCodeableConcept: {
             coding: [
               {
@@ -5040,98 +5040,98 @@ const patients = [
             ]
           },
           medicationCodeableConcept: {
-            "coding": [
+            coding: [
               {
                 system: 'http://snomed.info/sct',
-                "code": "386965004",
-                "display": "Miglitol"
+                code: '386965004',
+                display: 'Miglitol'
               }
-            ] 
+            ]
           },
           subject: {
             reference: 'urn:uuid:96dcbd62-e4c6-a555-a663-77d08ad3c3b5',
             display: 'Mr. Young120 Murphy561'
           },
-          "performer": [
+          performer: [
             {
-              "actor": {
-                "reference": "Practitioner/f006"
+              actor: {
+                reference: 'Practitioner/f006'
               }
             }
           ],
-          "authorizingPrescription": [
+          authorizingPrescription: [
             {
-              "reference": "MedicationRequest/medrx0330"
+              reference: 'MedicationRequest/medrx0330'
             }
           ],
-          "type": {
-            "coding": [
+          type: {
+            coding: [
               {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-                "code": "RFP",
-                "display": "Refill - Part Fill"
+                system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
+                code: 'RFP',
+                display: 'Refill - Part Fill'
               }
             ]
           },
-          "quantity": {
-            "value": 10,
-            "unit": "mL",
-            "system": "http://unitsofmeasure.org",
-            "code": "mL"
+          quantity: {
+            value: 10,
+            unit: 'mL',
+            system: 'http://unitsofmeasure.org',
+            code: 'mL'
           },
-          "daysSupply": {
-            "value": 30,
-            "unit": "Day",
-            "system": "http://unitsofmeasure.org",
-            "code": "d"
+          daysSupply: {
+            value: 30,
+            unit: 'Day',
+            system: 'http://unitsofmeasure.org',
+            code: 'd'
           },
-          "whenPrepared": "2015-06-25T07:13:00+05:00",
-          "whenHandedOver": "2015-06-26T07:13:00+05:00",
-          "dosageInstruction": [
+          whenPrepared: '2015-06-25T07:13:00+05:00',
+          whenHandedOver: '2015-06-26T07:13:00+05:00',
+          dosageInstruction: [
             {
-              "sequence": 1,
-              "text": "Instil one drop in each eye twice daily",
-              "timing": {
-                "repeat": {
-                  "frequency": 2,
-                  "period": 1,
-                  "periodUnit": "d"
+              sequence: 1,
+              text: 'Instil one drop in each eye twice daily',
+              timing: {
+                repeat: {
+                  frequency: 2,
+                  period: 1,
+                  periodUnit: 'd'
                 }
               },
-              "route": {
-                "coding": [
+              route: {
+                coding: [
                   {
-                    "system": "http://snomed.info/sct",
-                    "code": "54485002",
-                    "display": "Ophthalmic route (qualifier value)"
+                    system: 'http://snomed.info/sct',
+                    code: '54485002',
+                    display: 'Ophthalmic route (qualifier value)'
                   }
                 ]
               },
-              "method": {
-                "coding": [
+              method: {
+                coding: [
                   {
-                    "system": "http://snomed.info/sct",
-                    "code": "421538008",
-                    "display": "Instill - dosing instruction imperative (qualifier value)"
+                    system: 'http://snomed.info/sct',
+                    code: '421538008',
+                    display: 'Instill - dosing instruction imperative (qualifier value)'
                   }
                 ]
               },
-              "doseAndRate": [
+              doseAndRate: [
                 {
-                  "type": {
-                    "coding": [
+                  type: {
+                    coding: [
                       {
-                        "system": "http://terminology.hl7.org/CodeSystem/dose-rate-type",
-                        "code": "ordered",
-                        "display": "Ordered"
+                        system: 'http://terminology.hl7.org/CodeSystem/dose-rate-type',
+                        code: 'ordered',
+                        display: 'Ordered'
                       }
                     ]
                   },
-                  "doseQuantity": {
-                    "value": 1,
-                    "unit": "OPDROP",
-                    "system": "http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm",
-                    "code": "OPDROP"
+                  doseQuantity: {
+                    value: 1,
+                    unit: 'OPDROP',
+                    system: 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm',
+                    code: 'OPDROP'
                   }
                 }
               ]

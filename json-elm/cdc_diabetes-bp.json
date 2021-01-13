@@ -1117,7 +1117,7 @@
                }
             }
          }, {
-            "name" : "Out-Tele-Online",
+            "name" : "Out Tele Online",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1180,7 +1180,7 @@
                         "type" : "ExpressionRef"
                      } ]
                   }, {
-                     "name" : "Out-Tele-Online",
+                     "name" : "Out Tele Online",
                      "type" : "ExpressionRef"
                   } ]
                }, {
@@ -1636,7 +1636,7 @@
                }
             }
          }, {
-            "name" : "Diabetes exclusions",
+            "name" : "Diabetes Exclusions",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -2189,7 +2189,7 @@
                   }, {
                      "type" : "Not",
                      "operand" : {
-                        "name" : "Diabetes exclusions",
+                        "name" : "Diabetes Exclusions",
                         "type" : "ExpressionRef"
                      }
                   } ]
