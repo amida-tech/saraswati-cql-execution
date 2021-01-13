@@ -6,9 +6,53 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 217,
+         "startLine" : 139,
+         "startChar" : 18,
+         "endLine" : 139,
+         "endChar" : 69,
+         "message" : "Boolean-valued expression was promoted to a list.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 148,
+         "startChar" : 18,
+         "endLine" : 149,
+         "endChar" : 30,
+         "message" : "Boolean-valued expression was promoted to a list.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 151,
+         "startChar" : 20,
+         "endLine" : 152,
+         "endChar" : 32,
+         "message" : "Boolean-valued expression was promoted to a list.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 154,
+         "startChar" : 22,
+         "endLine" : 155,
+         "endChar" : 34,
+         "message" : "Boolean-valued expression was promoted to a list.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 225,
          "startChar" : 10,
-         "endLine" : 217,
+         "endLine" : 225,
          "endChar" : 41,
          "message" : "Boolean-valued expression was promoted to a list.",
          "errorType" : "semantic",
@@ -376,8 +420,8 @@
       },
       "concepts" : {
          "def" : [ {
-            "name" : "Diabetes medication",
-            "display" : "Diabetes medication",
+            "name" : "Diabetes Medication",
+            "display" : "Diabetes Medication",
             "accessLevel" : "Public",
             "code" : [ {
                "name" : "Acarbose_code"
@@ -1130,7 +1174,7 @@
                }
             }
          }, {
-            "name" : "At Least 2 Remote Or Nonacute Inpatient Encounters With Diabetes",
+            "name" : "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1157,84 +1201,29 @@
                } ]
             }
          }, {
-            "name" : "Diabetes Diagnosis By Medication",
+            "name" : "~~~Diabetes Diagnosis By Medication",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Or",
-               "operand" : [ {
-                  "type" : "Or",
-                  "operand" : [ {
-                     "type" : "Exists",
-                     "operand" : {
-                        "type" : "Query",
-                        "source" : [ {
-                           "alias" : "A",
-                           "expression" : {
-                              "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                              "type" : "Retrieve"
-                           }
-                        } ],
-                        "relationship" : [ ],
-                        "where" : {
-                           "type" : "And",
-                           "operand" : [ {
-                              "type" : "Equal",
-                              "operand" : [ {
-                                 "name" : "ToConcept",
-                                 "libraryName" : "FHIRHelpers",
-                                 "type" : "FunctionRef",
-                                 "operand" : [ {
-                                    "asType" : "{http://hl7.org/fhir}CodeableConcept",
-                                    "type" : "As",
-                                    "operand" : {
-                                       "path" : "medication",
-                                       "scope" : "A",
-                                       "type" : "Property"
-                                    }
-                                 } ]
-                              }, {
-                                 "type" : "ToConcept",
-                                 "operand" : {
-                                    "name" : "Acarbose_code",
-                                    "type" : "CodeRef"
-                                 }
-                              } ]
-                           }, {
-                              "type" : "Equivalent",
-                              "operand" : [ {
-                                 "name" : "ToString",
-                                 "libraryName" : "FHIRHelpers",
-                                 "type" : "FunctionRef",
-                                 "operand" : [ {
-                                    "path" : "status",
-                                    "scope" : "A",
-                                    "type" : "Property"
-                                 } ]
-                              }, {
-                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                 "value" : "completed",
-                                 "type" : "Literal"
-                              } ]
-                           } ]
-                        }
+               "type" : "Exists",
+               "operand" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "B",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                        "type" : "Retrieve"
                      }
-                  }, {
+                  } ],
+                  "relationship" : [ ],
+                  "where" : {
                      "type" : "Exists",
                      "operand" : {
-                        "type" : "Query",
-                        "source" : [ {
-                           "alias" : "B",
-                           "expression" : {
-                              "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                              "type" : "Retrieve"
-                           }
-                        } ],
-                        "relationship" : [ ],
-                        "where" : {
+                        "type" : "ToList",
+                        "operand" : {
                            "type" : "And",
                            "operand" : [ {
-                              "type" : "Equal",
+                              "type" : "Equivalent",
                               "operand" : [ {
                                  "name" : "ToConcept",
                                  "libraryName" : "FHIRHelpers",
@@ -1274,6 +1263,139 @@
                            } ]
                         }
                      }
+                  }
+               }
+            }
+         }, {
+            "name" : "Diabetes Diagnosis By Medication",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Or",
+               "operand" : [ {
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "Exists",
+                     "operand" : {
+                        "type" : "Query",
+                        "source" : [ {
+                           "alias" : "A",
+                           "expression" : {
+                              "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                              "type" : "Retrieve"
+                           }
+                        } ],
+                        "relationship" : [ ],
+                        "where" : {
+                           "type" : "Exists",
+                           "operand" : {
+                              "type" : "ToList",
+                              "operand" : {
+                                 "type" : "And",
+                                 "operand" : [ {
+                                    "type" : "Equivalent",
+                                    "operand" : [ {
+                                       "name" : "ToConcept",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "asType" : "{http://hl7.org/fhir}CodeableConcept",
+                                          "type" : "As",
+                                          "operand" : {
+                                             "path" : "medication",
+                                             "scope" : "A",
+                                             "type" : "Property"
+                                          }
+                                       } ]
+                                    }, {
+                                       "type" : "ToConcept",
+                                       "operand" : {
+                                          "name" : "Acarbose_code",
+                                          "type" : "CodeRef"
+                                       }
+                                    } ]
+                                 }, {
+                                    "type" : "Equivalent",
+                                    "operand" : [ {
+                                       "name" : "ToString",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "status",
+                                          "scope" : "A",
+                                          "type" : "Property"
+                                       } ]
+                                    }, {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                       "value" : "completed",
+                                       "type" : "Literal"
+                                    } ]
+                                 } ]
+                              }
+                           }
+                        }
+                     }
+                  }, {
+                     "type" : "Exists",
+                     "operand" : {
+                        "type" : "Query",
+                        "source" : [ {
+                           "alias" : "B",
+                           "expression" : {
+                              "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                              "type" : "Retrieve"
+                           }
+                        } ],
+                        "relationship" : [ ],
+                        "where" : {
+                           "type" : "Exists",
+                           "operand" : {
+                              "type" : "ToList",
+                              "operand" : {
+                                 "type" : "And",
+                                 "operand" : [ {
+                                    "type" : "Equivalent",
+                                    "operand" : [ {
+                                       "name" : "ToConcept",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "asType" : "{http://hl7.org/fhir}CodeableConcept",
+                                          "type" : "As",
+                                          "operand" : {
+                                             "path" : "medication",
+                                             "scope" : "B",
+                                             "type" : "Property"
+                                          }
+                                       } ]
+                                    }, {
+                                       "type" : "ToConcept",
+                                       "operand" : {
+                                          "name" : "Miglitol",
+                                          "type" : "CodeRef"
+                                       }
+                                    } ]
+                                 }, {
+                                    "type" : "Equivalent",
+                                    "operand" : [ {
+                                       "name" : "ToString",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "status",
+                                          "scope" : "B",
+                                          "type" : "Property"
+                                       } ]
+                                    }, {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                       "value" : "completed",
+                                       "type" : "Literal"
+                                    } ]
+                                 } ]
+                              }
+                           }
+                        }
+                     }
                   } ]
                }, {
                   "type" : "Exists",
@@ -1288,46 +1410,52 @@
                      } ],
                      "relationship" : [ ],
                      "where" : {
-                        "type" : "And",
-                        "operand" : [ {
-                           "type" : "Equal",
-                           "operand" : [ {
-                              "name" : "ToConcept",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "ToList",
+                           "operand" : {
+                              "type" : "And",
                               "operand" : [ {
-                                 "asType" : "{http://hl7.org/fhir}CodeableConcept",
-                                 "type" : "As",
-                                 "operand" : {
-                                    "path" : "medication",
-                                    "scope" : "C",
-                                    "type" : "Property"
-                                 }
+                                 "type" : "Equivalent",
+                                 "operand" : [ {
+                                    "name" : "ToConcept",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "asType" : "{http://hl7.org/fhir}CodeableConcept",
+                                       "type" : "As",
+                                       "operand" : {
+                                          "path" : "medication",
+                                          "scope" : "C",
+                                          "type" : "Property"
+                                       }
+                                    } ]
+                                 }, {
+                                    "type" : "ToConcept",
+                                    "operand" : {
+                                       "name" : "insulin aspart",
+                                       "type" : "CodeRef"
+                                    }
+                                 } ]
+                              }, {
+                                 "type" : "Equivalent",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "status",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                    "value" : "completed",
+                                    "type" : "Literal"
+                                 } ]
                               } ]
-                           }, {
-                              "type" : "ToConcept",
-                              "operand" : {
-                                 "name" : "insulin aspart",
-                                 "type" : "CodeRef"
-                              }
-                           } ]
-                        }, {
-                           "type" : "Equivalent",
-                           "operand" : [ {
-                              "name" : "ToString",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
-                              "operand" : [ {
-                                 "path" : "status",
-                                 "scope" : "C",
-                                 "type" : "Property"
-                              } ]
-                           }, {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                              "value" : "completed",
-                              "type" : "Literal"
-                           } ]
-                        } ]
+                           }
+                        }
                      }
                   }
                } ]
@@ -1622,7 +1750,7 @@
                         "type" : "ExpressionRef"
                      } ]
                   }, {
-                     "name" : "At Least 2 Remote Or Nonacute Inpatient Encounters With Diabetes",
+                     "name" : "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes",
                      "type" : "ExpressionRef"
                   } ]
                }, {

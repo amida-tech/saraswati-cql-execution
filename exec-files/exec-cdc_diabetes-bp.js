@@ -25,4 +25,5 @@ const patientSource = cqlfhir.PatientSource.FHIRv400();
 patientSource.loadBundles(patients);
 
 const result = executor.exec(patientSource);
-console.log(result.patientResults); // eslint-disable-line no-console
+console.log(result)
+return result;

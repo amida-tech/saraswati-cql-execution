@@ -133,18 +133,17 @@ define "Out-Tele-Online":
 define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
    "Nonacute Diabetes Discharges" + "Nonacute Diabetes Discharges On Claim" + "Out-Tele-Online" >= 2
 
-
 define "Diabetes Diagnosis By Medication":
   //TODO: figure out how to do medication dynamically to avoid version control conflict
   exists([MedicationDispense] A
-    where A.medication = "Acarbose_code"
-    and A.status ~ 'completed')
+    where exists(A.medication ~ "Acarbose_code"
+    and A.status ~ 'completed'))
     or exists([MedicationDispense] B
-      where B.medication = "Miglitol"
-      and B.status ~ 'completed')
+      where exists(B.medication ~ "Miglitol"
+      and B.status ~ 'completed'))
       or exists([MedicationDispense] C
-        where C.medication = "insulin aspart"
-        and C.status ~ 'completed')
+        where exists(C.medication ~ "insulin aspart"
+        and C.status ~ 'completed'))
 
 define "Frailty":
   exists([Encounter: "Frailty Device"] D
