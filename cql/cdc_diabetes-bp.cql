@@ -44,14 +44,14 @@ code "Blood pressure": '85354-9' from "LOINC" display 'blood pressure'
 code "Diastolic blood pressure": '8462-4' from "LOINC" display 'Diastolic blood pressure'
 code "Systolic blood pressure": '8480-6' from "LOINC" display 'Systolic blood pressure'
 
-code "Acarbose_code": '386965004' from "SNOMED-CT"
+code "Acarbose": '386965004' from "SNOMED-CT"
 code "Miglitol": '109071007' from "SNOMED-CT"
-code "insulin aspart": '325072002' from "SNOMED-CT"
+code "Insulin Aspart": '325072002' from "SNOMED-CT"
 
 concept "Diabetes Medication": {
-  "Acarbose_code",
+  "Acarbose",
   "Miglitol",
-  "insulin aspart"
+  "Insulin Aspart"
 } display 'Diabetes Medication'
 
 parameter MeasurementPeriod default Interval[@2018-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
@@ -136,13 +136,13 @@ define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
 define "Diabetes Diagnosis By Medication":
   //TODO: figure out how to do medication dynamically to avoid version control conflict
   exists([MedicationDispense] A
-    where exists(A.medication ~ "Acarbose_code"
+    where exists(A.medication ~ "Acarbose"
     and A.status ~ 'completed'))
     or exists([MedicationDispense] B
       where exists(B.medication ~ "Miglitol"
       and B.status ~ 'completed'))
       or exists([MedicationDispense] C
-        where exists(C.medication ~ "insulin aspart"
+        where exists(C.medication ~ "Insulin Aspart"
         and C.status ~ 'completed'))
 
 define "Frailty":
