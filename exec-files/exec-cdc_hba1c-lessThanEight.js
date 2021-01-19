@@ -1,11 +1,15 @@
+const fhirhelpers = require('../json-elm/FHIRHelpers.json');
 const cql = require('../src/cql');
-const measure = require('../json-elm/cdc_hba1c-lessThanEight.json');
 const codes = require('../src/cql-code-service');
-const cqlfhir = require('cql-exec-fhir');
-const patients = require('../data/patients/cdc_hba1c-patients');
 const codeservice = require('../data/codes/cdc_hba1c-codes');
+const cqlfhir = require('cql-exec-fhir');
+const measure = require('../json-elm/cdc_hba1c-lessThanEight.json');
+const patients = require('../data/patients/cdc_hba1c-patients');
 
-const lib = new cql.Library(measure);
+const includedLibs = {
+  FHIRHelpers: fhirhelpers
+};
+const lib = new cql.Library(measure, new cql.Repository(includedLibs))
 const cservice = new codes.CodeService(codeservice);
 const parameters = {
   MeasurementPeriod: new cql.Interval(
@@ -21,4 +25,4 @@ const patientSource = cqlfhir.PatientSource.FHIRv400();
 patientSource.loadBundles(patients);
 
 const result = executor.exec(patientSource);
-console.log(JSON.stringify(result, undefined, 2)); // eslint-disable-line no-console
+console.log(result); // eslint-disable-line no-console
