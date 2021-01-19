@@ -1,10 +1,10 @@
 const cql = require('../src/cql');
-const measure = require('../json-elm/cdc_diabetes-bp.json');
-const fhirhelpers = require('../json-elm/FHIRHelpers.json');
 const codes = require('../src/cql-code-service');
-const cqlfhir = require('cql-exec-fhir');
-const patients = require('../data/patients/cdc_diabetes-bp-patients');
 const codeservice = require('../data/codes/cdc_diabetes-bp-codes');
+const cqlfhir = require('cql-exec-fhir');
+const fhirhelpers = require('../json-elm/FHIRHelpers.json');
+const measure = require('../json-elm/cdc_diabetes-bp.json');
+const patients = require('../data/patients/cdc_diabetes-bp-patients');
 
 const includedLibs = {
   FHIRHelpers: fhirhelpers
