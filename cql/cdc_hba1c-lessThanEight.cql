@@ -136,7 +136,7 @@ define "Diabetes Diagnosis By Medication":
         and C.status ~ 'completed'))
 
 define "Frailty":
-  AgeInYearsAt(start of MeasurementPeriod) > 66
+  AgeInYearsAt(start of MeasurementPeriod) >= 66
     and (exists([Encounter: "Frailty Device"] D
       where D.period starts during MeasurementPeriod)
       or exists([Encounter: "Frailty Diagnosis"] Dia
