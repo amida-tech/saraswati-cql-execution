@@ -236,7 +236,7 @@
       "codeSystems" : {
          "def" : [ {
             "name" : "SNOMED-CT",
-            "id" : "urn:oid:2.16.840.1.113883.6.96",
+            "id" : "2.16.840.1.113883.6.96",
             "version" : "20200301",
             "accessLevel" : "Public"
          } ]
@@ -244,75 +244,75 @@
       "valueSets" : {
          "def" : [ {
             "name" : "Acute Inpatient",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1182.120",
+            "id" : "2.16.840.1.113762.1.4.1182.120",
             "accessLevel" : "Public"
          }, {
             "name" : "Outpatient",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1008",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1008",
             "accessLevel" : "Public"
          }, {
             "name" : "ED",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1085",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1085",
             "accessLevel" : "Public"
          }, {
             "name" : "Observation",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1181.72",
+            "id" : "2.16.840.1.113762.1.4.1181.72",
             "accessLevel" : "Public"
          }, {
             "name" : "Nonacute Inpatient Stay",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1182.289",
+            "id" : "2.16.840.1.113762.1.4.1182.289",
             "accessLevel" : "Public"
          }, {
             "name" : "Telephone Visits",
-            "id" : "urn:oid:2.16.840.1.113883.3.1444.5.216",
+            "id" : "2.16.840.1.113883.3.1444.5.216",
             "accessLevel" : "Public"
          }, {
             "name" : "Online Assessments",
-            "id" : "urn:oid:2.16.840.1.113883.3.7587.3.1013",
+            "id" : "2.16.840.1.113883.3.7587.3.1013",
             "accessLevel" : "Public"
          }, {
             "name" : "Nonacute Inpatient",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1084",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1084",
             "accessLevel" : "Public"
          }, {
             "name" : "Diabetes",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.103.12.1001",
+            "id" : "2.16.840.1.113883.3.464.1003.103.12.1001",
             "accessLevel" : "Public"
          }, {
             "name" : "HbA1c Lab Test",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.198.11.1024",
+            "id" : "2.16.840.1.113883.3.464.1003.198.11.1024",
             "accessLevel" : "Public"
          }, {
             "name" : "Telehealth Modifier",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1138.731",
+            "id" : "2.16.840.1.113762.1.4.1138.731",
             "accessLevel" : "Public"
          }, {
             "name" : "Telehealth POS",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.11.1155",
+            "id" : "2.16.840.1.113883.3.464.1003.101.11.1155",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Device",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.118.12.1300",
+            "id" : "2.16.840.1.113883.3.464.1003.118.12.1300",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Diagnosis",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.113.11.1308",
+            "id" : "2.16.840.1.113883.3.464.1003.113.11.1308",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Encounter",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1088",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1088",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Symptom",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.113.12.1075",
+            "id" : "2.16.840.1.113883.3.464.1003.113.12.1075",
             "accessLevel" : "Public"
          }, {
             "name" : "Advanced Illness",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.110.12.1082",
+            "id" : "2.16.840.1.113883.3.464.1003.110.12.1082",
             "accessLevel" : "Public"
          }, {
             "name" : "Inpatient Stay",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1182.285",
+            "id" : "2.16.840.1.113762.1.4.1182.285",
             "accessLevel" : "Public"
          } ]
       },
@@ -1671,24 +1671,26 @@
                         "where" : {
                            "type" : "And",
                            "operand" : [ {
-                              "type" : "Less",
+                              "type" : "Greater",
                               "operand" : [ {
-                                 "name" : "ToInteger",
-                                 "libraryName" : "FHIRHelpers",
-                                 "type" : "FunctionRef",
-                                 "operand" : [ {
-                                    "asType" : "{http://hl7.org/fhir}integer",
-                                    "type" : "As",
-                                    "operand" : {
+                                 "path" : "value",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "value",
+                                    "type" : "Property",
+                                    "source" : {
                                        "path" : "value",
                                        "scope" : "O",
                                        "type" : "Property"
                                     }
-                                 } ]
+                                 }
                               }, {
-                                 "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                 "value" : "8",
-                                 "type" : "Literal"
+                                 "type" : "ToDecimal",
+                                 "operand" : {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "8",
+                                    "type" : "Literal"
+                                 }
                               } ]
                            }, {
                               "type" : "In",
@@ -1810,7 +1812,7 @@
                }
             }
          }, {
-            "name" : "denominator_count",
+            "name" : "Denominator Count",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
@@ -1821,7 +1823,7 @@
                }
             }
          }, {
-            "name" : "numerator_count",
+            "name" : "Numerator Count",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
@@ -1832,7 +1834,7 @@
                }
             }
          }, {
-            "name" : "CDC_MeasureScore",
+            "name" : "CDC Measure Score",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {

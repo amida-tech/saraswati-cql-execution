@@ -3,37 +3,36 @@ library cdc_hba1c_lessThanEight version '1'
 using FHIR version '4.0.0'
 include FHIRHelpers version '4.0.0' called FHIRHelpers
 
+codesystem "SNOMED-CT": '2.16.840.1.113883.6.96' version '20200301'
 
-codesystem "SNOMED-CT": 'urn:oid:2.16.840.1.113883.6.96' version '20200301'
-
-valueset "Acute Inpatient": 'urn:oid:2.16.840.1.113762.1.4.1182.120'
-valueset "Outpatient": 'urn:oid:2.16.840.1.113883.3.464.1003.101.12.1008'
-valueset "ED": 'urn:oid:2.16.840.1.113883.3.464.1003.101.12.1085'
-valueset "Observation": 'urn:oid:2.16.840.1.113762.1.4.1181.72'
-valueset "Nonacute Inpatient Stay": 'urn:oid:2.16.840.1.113762.1.4.1182.289'
-valueset "Telephone Visits": 'urn:oid:2.16.840.1.113883.3.1444.5.216'
-valueset "Online Assessments": 'urn:oid:2.16.840.1.113883.3.7587.3.1013'
-valueset "Nonacute Inpatient": 'urn:oid:2.16.840.1.113883.3.464.1003.101.12.1084'
+valueset "Acute Inpatient": '2.16.840.1.113762.1.4.1182.120'
+valueset "Outpatient": '2.16.840.1.113883.3.464.1003.101.12.1008'
+valueset "ED": '2.16.840.1.113883.3.464.1003.101.12.1085'
+valueset "Observation": '2.16.840.1.113762.1.4.1181.72'
+valueset "Nonacute Inpatient Stay": '2.16.840.1.113762.1.4.1182.289'
+valueset "Telephone Visits": '2.16.840.1.113883.3.1444.5.216'
+valueset "Online Assessments": '2.16.840.1.113883.3.7587.3.1013'
+valueset "Nonacute Inpatient": '2.16.840.1.113883.3.464.1003.101.12.1084'
 // The following commented out valuesets are found in the HEDIS specifications,
 // but don't exist in the value set authority or the NIH's database
 // and aren't necessary to calculate the HbA1c value.
 // Just using the HbA1c Lab Value does the same thing
 /*
-valueset "HbA1c Level Less Than 7.0": 'urn:oid:2.16.840.1.113883.3.464.1004.1115'
-valueset "HbA1c Level Greater Than or Equal to 7.0 and Less Than 8.0": 'urn:oid:2.16.840.1.113883.3.464.1004.1976'
-valueset "Hospice Encounter": 'urn:oid:2.16.840.1.113883.3.464.1004.1761'
-valueset "Hospice Intervention": 'urn:oid:2.16.840.1.113762.1.4.1182.2'
+valueset "HbA1c Level Less Than 7.0": '2.16.840.1.113883.3.464.1004.1115'
+valueset "HbA1c Level Greater Than or Equal to 7.0 and Less Than 8.0": '2.16.840.1.113883.3.464.1004.1976'
+valueset "Hospice Encounter": '2.16.840.1.113883.3.464.1004.1761'
+valueset "Hospice Intervention": '2.16.840.1.113762.1.4.1182.2'
 */
-valueset "Diabetes": 'urn:oid:2.16.840.1.113883.3.464.1003.103.12.1001'
-valueset "HbA1c Lab Test": 'urn:oid:2.16.840.1.113883.3.464.1003.198.11.1024'
-valueset "Telehealth Modifier": 'urn:oid:2.16.840.1.113762.1.4.1138.731'
-valueset "Telehealth POS": 'urn:oid:2.16.840.1.113883.3.464.1003.101.11.1155'
-valueset "Frailty Device": 'urn:oid:2.16.840.1.113883.3.464.1003.118.12.1300'
-valueset "Frailty Diagnosis": 'urn:oid:2.16.840.1.113883.3.464.1003.113.11.1308'
-valueset "Frailty Encounter": 'urn:oid:2.16.840.1.113883.3.464.1003.101.12.1088'
-valueset "Frailty Symptom": 'urn:oid:2.16.840.1.113883.3.464.1003.113.12.1075'
-valueset "Advanced Illness": 'urn:oid:2.16.840.1.113883.3.464.1003.110.12.1082'
-valueset "Inpatient Stay": 'urn:oid:2.16.840.1.113762.1.4.1182.285'
+valueset "Diabetes": '2.16.840.1.113883.3.464.1003.103.12.1001'
+valueset "HbA1c Lab Test": '2.16.840.1.113883.3.464.1003.198.11.1024'
+valueset "Telehealth Modifier": '2.16.840.1.113762.1.4.1138.731'
+valueset "Telehealth POS": '2.16.840.1.113883.3.464.1003.101.11.1155'
+valueset "Frailty Device": '2.16.840.1.113883.3.464.1003.118.12.1300'
+valueset "Frailty Diagnosis": '2.16.840.1.113883.3.464.1003.113.11.1308'
+valueset "Frailty Encounter": '2.16.840.1.113883.3.464.1003.101.12.1088'
+valueset "Frailty Symptom": '2.16.840.1.113883.3.464.1003.113.12.1075'
+valueset "Advanced Illness": '2.16.840.1.113883.3.464.1003.110.12.1082'
+valueset "Inpatient Stay": '2.16.840.1.113762.1.4.1182.285'
 
 code "Acarbose": '386965004' from "SNOMED-CT"
 code "Miglitol": '109071007' from "SNOMED-CT"
@@ -175,7 +174,7 @@ define "Diabetes Condition Denominator":
 
 define "HbA1c < 8":
   exists(Last([Observation: "HbA1c Lab Test"] O
-    where O.value < 8 and Coalesce(O.effective, O.effective.start) during MeasurementPeriod))
+    where O.value.value.value > 8 and Coalesce(O.effective, O.effective.start) during MeasurementPeriod))
 
 define "Numerator":
   case ("HbA1c < 8" and "Diabetes Condition Numerator" and "Initial Population" and not "Diabetes Exclusions")
@@ -191,11 +190,11 @@ define "Denominator":
 
 context Unfiltered
 
-define "denominator_count":
+define "Denominator Count":
   Sum(Denominator)
 
-define "numerator_count":
+define "Numerator Count":
   Sum(Numerator)
 
-define "CDC_MeasureScore":
+define "CDC Measure Score":
   Sum(Numerator) / Sum(Denominator)

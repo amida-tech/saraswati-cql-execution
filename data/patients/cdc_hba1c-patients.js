@@ -7832,8 +7832,8 @@ const patients = [
           encounter: {
             reference: 'urn:uuid:1b79bb05-6b91-348b-f52b-50bb53dc854a'
           },
-          effectiveDateTime: '2020-03-14T02:18:59-04:00',
-          issued: '2020-03-14T02:18:59.128-04:00',
+          effectiveDateTime: '2019-03-14T02:18:59-04:00',
+          issued: '2019-03-14T02:18:59.128-04:00',
           valueQuantity: {
             value: 31.164,
             unit: '%',
@@ -9200,6 +9200,180 @@ const patients = [
         request: {
           method: 'POST',
           url: 'ExplanationOfBenefit'
+        }
+      },
+      {
+        fullUrl: 'urn:uuid:3594b761-d5e1-f669-515f-d4a6f292acgh',
+        resource: {
+          resourceType: 'Encounter',
+          meta: {
+            profile: ['http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter']
+          },
+          id: '3594b761-d5e1-f669-515f-d4a6f292acvb',
+          status: 'finished',
+          class: {
+            system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
+            code: 'AMB'
+          },
+          type: [
+            {
+              coding: [
+                {
+                  system: 'CPT',
+                  code: 'GQ'
+                }
+              ],
+              text: 'Telehealth Modifier'
+            }
+          ],
+          subject: {
+            reference: 'urn:uuid:440487f4-1137-f542-8127-dc98e392d21e'
+          },
+          period: {
+            start: '2019-08-13T19:57:22-04:00',
+            end: '2019-08-13T20:12:22-04:00'
+          },
+          serviceProvider: {
+            reference: 'urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861',
+            display: 'LEXINGTON EYE ASSOCIATES, INC'
+          }
+        },
+        request: {
+          method: 'POST',
+          url: 'Encounter'
+        }
+      },
+      {
+        fullUrl: 'urn:uuid:gf3a4f19-9f99-6ceb-7dde-4900ae818cqm',
+        resource: {
+          resourceType: 'MedicationDispense',
+          id: 'meddisp0308',
+          contained: [
+            {
+              resourceType: 'Medication',
+              id: 'med0305',
+              code: {
+                coding: [
+                  {
+                    system: 'http://snomed.info/sct',
+                    code: '386965004',
+                    display: 'Miglitol'
+                  }
+                ]
+              }
+            }
+          ],
+          status: 'completed',
+          locationCodeableConcept: {
+            coding: [
+              {
+                system: 'http://terminology.hl7.org/CodeSystem/ex-serviceplace',
+                code: '19',
+                display: 'Off Campus-Outpatient Hospital'
+              }
+            ]
+          },
+          medicationCodeableConcept: {
+            coding: [
+              {
+                system: 'http://snomed.info/sct',
+                code: '386965004',
+                display: 'Miglitol'
+              }
+            ]
+          },
+          subject: {
+            reference: 'urn:uuid:440487f4-1137-f542-8127-dc98e392d21e'
+          },
+          performer: [
+            {
+              actor: {
+                reference: 'Practitioner/f006'
+              }
+            }
+          ],
+          authorizingPrescription: [
+            {
+              reference: 'MedicationRequest/medrx0330'
+            }
+          ],
+          type: {
+            coding: [
+              {
+                system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
+                code: 'RFP',
+                display: 'Refill - Part Fill'
+              }
+            ]
+          },
+          quantity: {
+            value: 10,
+            unit: 'mL',
+            system: 'http://unitsofmeasure.org',
+            code: 'mL'
+          },
+          daysSupply: {
+            value: 30,
+            unit: 'Day',
+            system: 'http://unitsofmeasure.org',
+            code: 'd'
+          },
+          whenPrepared: '2015-06-25T07:13:00+05:00',
+          whenHandedOver: '2015-06-26T07:13:00+05:00',
+          dosageInstruction: [
+            {
+              sequence: 1,
+              text: 'Instil one drop in each eye twice daily',
+              timing: {
+                repeat: {
+                  frequency: 2,
+                  period: 1,
+                  periodUnit: 'd'
+                }
+              },
+              route: {
+                coding: [
+                  {
+                    system: 'http://snomed.info/sct',
+                    code: '54485002',
+                    display: 'Ophthalmic route (qualifier value)'
+                  }
+                ]
+              },
+              method: {
+                coding: [
+                  {
+                    system: 'http://snomed.info/sct',
+                    code: '421538008',
+                    display: 'Instill - dosing instruction imperative (qualifier value)'
+                  }
+                ]
+              },
+              doseAndRate: [
+                {
+                  type: {
+                    coding: [
+                      {
+                        system: 'http://terminology.hl7.org/CodeSystem/dose-rate-type',
+                        code: 'ordered',
+                        display: 'Ordered'
+                      }
+                    ]
+                  },
+                  doseQuantity: {
+                    value: 1,
+                    unit: 'OPDROP',
+                    system: 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm',
+                    code: 'OPDROP'
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        request: {
+          method: 'POST',
+          url: 'MedicationDispense'
         }
       }
     ]
