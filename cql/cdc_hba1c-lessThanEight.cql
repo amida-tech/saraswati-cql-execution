@@ -137,14 +137,14 @@ define "Diabetes Diagnosis By Medication":
 
 define "Frailty":
   AgeInYearsAt(start of MeasurementPeriod) > 66
-  and (exists([Encounter: "Frailty Device"] D
-    where D.period starts during MeasurementPeriod)
-    or exists([Encounter: "Frailty Diagnosis"] Dia
-      where Dia.period starts during MeasurementPeriod)
-        or exists([Encounter: "Frailty Encounter"] E
-          where E.period starts during MeasurementPeriod)
-          or exists([Encounter: "Frailty Symptom"] S
-            where S.period starts during MeasurementPeriod))
+    and (exists([Encounter: "Frailty Device"] D
+      where D.period starts during MeasurementPeriod)
+      or exists([Encounter: "Frailty Diagnosis"] Dia
+        where Dia.period starts during MeasurementPeriod)
+          or exists([Encounter: "Frailty Encounter"] E
+            where E.period starts during MeasurementPeriod)
+            or exists([Encounter: "Frailty Symptom"] S
+              where S.period starts during MeasurementPeriod))
 
 define "Acute Inpatient with Advanced Illness":
   exists ([Condition: "Advanced Illness"]) and  exists ([Encounter : "Acute Inpatient"])
