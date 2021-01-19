@@ -6,9 +6,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 130,
+         "startLine" : 129,
          "startChar" : 18,
-         "endLine" : 131,
+         "endLine" : 130,
          "endChar" : 30,
          "message" : "Boolean-valued expression was promoted to a list.",
          "errorType" : "semantic",
@@ -17,9 +17,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 133,
+         "startLine" : 132,
          "startChar" : 20,
-         "endLine" : 134,
+         "endLine" : 133,
          "endChar" : 32,
          "message" : "Boolean-valued expression was promoted to a list.",
          "errorType" : "semantic",
@@ -28,9 +28,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 136,
+         "startLine" : 135,
          "startChar" : 22,
-         "endLine" : 137,
+         "endLine" : 136,
          "endChar" : 34,
          "message" : "Boolean-valued expression was promoted to a list.",
          "errorType" : "semantic",
@@ -1321,62 +1321,130 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Or",
+               "type" : "And",
                "operand" : [ {
+                  "type" : "Greater",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
+                        }
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "66",
+                     "type" : "Literal"
+                  } ]
+               }, {
                   "type" : "Or",
                   "operand" : [ {
                      "type" : "Or",
                      "operand" : [ {
-                        "type" : "Exists",
-                        "operand" : {
-                           "type" : "Query",
-                           "source" : [ {
-                              "alias" : "D",
-                              "expression" : {
-                                 "dataType" : "{http://hl7.org/fhir}Encounter",
-                                 "codeProperty" : "type",
-                                 "codeComparator" : "in",
-                                 "type" : "Retrieve",
-                                 "codes" : {
-                                    "name" : "Frailty Device",
-                                    "type" : "ValueSetRef"
+                        "type" : "Or",
+                        "operand" : [ {
+                           "type" : "Exists",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "D",
+                                 "expression" : {
+                                    "dataType" : "{http://hl7.org/fhir}Encounter",
+                                    "codeProperty" : "type",
+                                    "codeComparator" : "in",
+                                    "type" : "Retrieve",
+                                    "codes" : {
+                                       "name" : "Frailty Device",
+                                       "type" : "ValueSetRef"
+                                    }
                                  }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "type" : "Start",
+                                    "operand" : {
+                                       "name" : "ToInterval",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "period",
+                                          "scope" : "D",
+                                          "type" : "Property"
+                                       } ]
+                                    }
+                                 }, {
+                                    "name" : "MeasurementPeriod",
+                                    "type" : "ParameterRef"
+                                 } ]
                               }
-                           } ],
-                           "relationship" : [ ],
-                           "where" : {
-                              "type" : "In",
-                              "operand" : [ {
-                                 "type" : "Start",
-                                 "operand" : {
-                                    "name" : "ToInterval",
-                                    "libraryName" : "FHIRHelpers",
-                                    "type" : "FunctionRef",
-                                    "operand" : [ {
-                                       "path" : "period",
-                                       "scope" : "D",
-                                       "type" : "Property"
-                                    } ]
-                                 }
-                              }, {
-                                 "name" : "MeasurementPeriod",
-                                 "type" : "ParameterRef"
-                              } ]
                            }
-                        }
+                        }, {
+                           "type" : "Exists",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "Dia",
+                                 "expression" : {
+                                    "dataType" : "{http://hl7.org/fhir}Encounter",
+                                    "codeProperty" : "type",
+                                    "codeComparator" : "in",
+                                    "type" : "Retrieve",
+                                    "codes" : {
+                                       "name" : "Frailty Diagnosis",
+                                       "type" : "ValueSetRef"
+                                    }
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "type" : "Start",
+                                    "operand" : {
+                                       "name" : "ToInterval",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "period",
+                                          "scope" : "Dia",
+                                          "type" : "Property"
+                                       } ]
+                                    }
+                                 }, {
+                                    "name" : "MeasurementPeriod",
+                                    "type" : "ParameterRef"
+                                 } ]
+                              }
+                           }
+                        } ]
                      }, {
                         "type" : "Exists",
                         "operand" : {
                            "type" : "Query",
                            "source" : [ {
-                              "alias" : "Dia",
+                              "alias" : "E",
                               "expression" : {
                                  "dataType" : "{http://hl7.org/fhir}Encounter",
                                  "codeProperty" : "type",
                                  "codeComparator" : "in",
                                  "type" : "Retrieve",
                                  "codes" : {
-                                    "name" : "Frailty Diagnosis",
+                                    "name" : "Frailty Encounter",
                                     "type" : "ValueSetRef"
                                  }
                               }
@@ -1392,7 +1460,7 @@
                                     "type" : "FunctionRef",
                                     "operand" : [ {
                                        "path" : "period",
-                                       "scope" : "Dia",
+                                       "scope" : "E",
                                        "type" : "Property"
                                     } ]
                                  }
@@ -1408,14 +1476,14 @@
                      "operand" : {
                         "type" : "Query",
                         "source" : [ {
-                           "alias" : "E",
+                           "alias" : "S",
                            "expression" : {
                               "dataType" : "{http://hl7.org/fhir}Encounter",
                               "codeProperty" : "type",
                               "codeComparator" : "in",
                               "type" : "Retrieve",
                               "codes" : {
-                                 "name" : "Frailty Encounter",
+                                 "name" : "Frailty Symptom",
                                  "type" : "ValueSetRef"
                               }
                            }
@@ -1431,7 +1499,7 @@
                                  "type" : "FunctionRef",
                                  "operand" : [ {
                                     "path" : "period",
-                                    "scope" : "E",
+                                    "scope" : "S",
                                     "type" : "Property"
                                  } ]
                               }
@@ -1442,44 +1510,6 @@
                         }
                      }
                   } ]
-               }, {
-                  "type" : "Exists",
-                  "operand" : {
-                     "type" : "Query",
-                     "source" : [ {
-                        "alias" : "S",
-                        "expression" : {
-                           "dataType" : "{http://hl7.org/fhir}Encounter",
-                           "codeProperty" : "type",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Frailty Symptom",
-                              "type" : "ValueSetRef"
-                           }
-                        }
-                     } ],
-                     "relationship" : [ ],
-                     "where" : {
-                        "type" : "In",
-                        "operand" : [ {
-                           "type" : "Start",
-                           "operand" : {
-                              "name" : "ToInterval",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
-                              "operand" : [ {
-                                 "path" : "period",
-                                 "scope" : "S",
-                                 "type" : "Property"
-                              } ]
-                           }
-                        }, {
-                           "name" : "MeasurementPeriod",
-                           "type" : "ParameterRef"
-                        } ]
-                     }
-                  }
                } ]
             }
          }, {
