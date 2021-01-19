@@ -3,5 +3,4 @@ const executor = require('./exec-template');
 const measure = require('../json-elm/cis.json');
 const patients = require('../data/patients/cis-patients');
 
-executor('2018-12-31', '2019-12-31', measure, patients, codeservice)
-
+executor('2018-12-31', '2019-12-31', measure, patients, codeservice);
