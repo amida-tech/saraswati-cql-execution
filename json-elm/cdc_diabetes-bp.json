@@ -6,9 +6,42 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 206,
+         "startLine" : 139,
+         "startChar" : 18,
+         "endLine" : 140,
+         "endChar" : 30,
+         "message" : "Boolean-valued expression was promoted to a list.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 142,
+         "startChar" : 20,
+         "endLine" : 143,
+         "endChar" : 32,
+         "message" : "Boolean-valued expression was promoted to a list.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 145,
+         "startChar" : 22,
+         "endLine" : 146,
+         "endChar" : 34,
+         "message" : "Boolean-valued expression was promoted to a list.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 216,
          "startChar" : 10,
-         "endLine" : 206,
+         "endLine" : 216,
          "endChar" : 41,
          "message" : "Boolean-valued expression was promoted to a list.",
          "errorType" : "semantic",
@@ -129,12 +162,96 @@
                   }
                }
             }
+         }, {
+            "name" : "MeasurementPeriodExtended",
+            "accessLevel" : "Public",
+            "default" : {
+               "lowClosed" : true,
+               "highClosed" : false,
+               "type" : "Interval",
+               "low" : {
+                  "type" : "DateTime",
+                  "year" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2017",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "12",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "31",
+                     "type" : "Literal"
+                  },
+                  "hour" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "minute" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "second" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "millisecond" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  }
+               },
+               "high" : {
+                  "type" : "DateTime",
+                  "year" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2019",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "12",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "31",
+                     "type" : "Literal"
+                  },
+                  "hour" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "minute" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "second" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "millisecond" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  }
+               }
+            }
          } ]
       },
       "codeSystems" : {
          "def" : [ {
             "name" : "SNOMED-CT",
-            "id" : "urn:oid:2.16.840.1.113883.6.96",
+            "id" : "2.16.840.1.113883.6.96",
             "version" : "20200301",
             "accessLevel" : "Public"
          }, {
@@ -146,79 +263,99 @@
       "valueSets" : {
          "def" : [ {
             "name" : "Acute Inpatient",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1182.120",
+            "id" : "2.16.840.1.113762.1.4.1182.120",
             "accessLevel" : "Public"
          }, {
             "name" : "Outpatient",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1008",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1008",
             "accessLevel" : "Public"
          }, {
             "name" : "ED",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1085",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1085",
             "accessLevel" : "Public"
          }, {
             "name" : "Observation",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1181.72",
+            "id" : "2.16.840.1.113762.1.4.1181.72",
             "accessLevel" : "Public"
          }, {
             "name" : "Nonacute Inpatient Stay",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1182.289",
+            "id" : "2.16.840.1.113762.1.4.1182.289",
             "accessLevel" : "Public"
          }, {
             "name" : "Telephone Visits",
-            "id" : "urn:oid:2.16.840.1.113883.3.1444.5.216",
+            "id" : "2.16.840.1.113883.3.1444.5.216",
             "accessLevel" : "Public"
          }, {
             "name" : "Online Assessments",
-            "id" : "urn:oid:2.16.840.1.113883.3.7587.3.1013",
+            "id" : "2.16.840.1.113883.3.7587.3.1013",
             "accessLevel" : "Public"
          }, {
             "name" : "Nonacute Inpatient",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1084",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1084",
             "accessLevel" : "Public"
          }, {
             "name" : "Hospice Encounter",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1761",
+            "id" : "2.16.840.1.113883.3.464.1004.1761",
             "accessLevel" : "Public"
          }, {
             "name" : "Hospice Intervention",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1182.2",
+            "id" : "2.16.840.1.113762.1.4.1182.2",
             "accessLevel" : "Public"
          }, {
             "name" : "Diabetes",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.103.12.1001",
+            "id" : "2.16.840.1.113883.3.464.1003.103.12.1001",
             "accessLevel" : "Public"
          }, {
             "name" : "Telehealth Modifier",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1138.731",
+            "id" : "2.16.840.1.113762.1.4.1138.731",
             "accessLevel" : "Public"
          }, {
             "name" : "Telehealth POS",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.11.1155",
+            "id" : "2.16.840.1.113883.3.464.1003.101.11.1155",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Device",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.118.12.1300",
+            "id" : "2.16.840.1.113883.3.464.1003.118.12.1300",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Diagnosis",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1004.1531",
+            "id" : "2.16.840.1.113883.3.464.1003.113.11.1308",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Encounter",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.101.12.1088",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1088",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Symptom",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.113.12.1075",
+            "id" : "2.16.840.1.113883.3.464.1003.113.12.1075",
             "accessLevel" : "Public"
          }, {
             "name" : "Advanced Illness",
-            "id" : "urn:oid:2.16.840.1.113883.3.464.1003.110.12.1082",
+            "id" : "2.16.840.1.113883.3.464.1003.110.12.1082",
             "accessLevel" : "Public"
          }, {
             "name" : "Inpatient Stay",
-            "id" : "urn:oid:2.16.840.1.113762.1.4.1182.285",
+            "id" : "2.16.840.1.113762.1.4.1182.285",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Systolic Less Than 140",
+            "id" : "2.16.840.1.113762.1.4.1182.85",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Systolic Greater Than Or Equal To 140",
+            "id" : "2.16.840.1.113762.1.4.1182.84",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Diastolic Less Than 80",
+            "id" : "2.16.840.1.113762.1.4.1182.79",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Diastolic Greater Than Or Equal To 90",
+            "id" : "2.16.840.1.113762.1.4.1182.78",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Diastolic BP",
+            "id" : "2.16.840.1.113762.1.4.1116.409",
             "accessLevel" : "Public"
          } ]
       },
@@ -248,7 +385,7 @@
                "name" : "LOINC"
             }
          }, {
-            "name" : "Acarbose_code",
+            "name" : "Acarbose",
             "id" : "386965004",
             "accessLevel" : "Public",
             "codeSystem" : {
@@ -262,7 +399,7 @@
                "name" : "SNOMED-CT"
             }
          }, {
-            "name" : "insulin aspart",
+            "name" : "Insulin Aspart",
             "id" : "325072002",
             "accessLevel" : "Public",
             "codeSystem" : {
@@ -272,15 +409,15 @@
       },
       "concepts" : {
          "def" : [ {
-            "name" : "diabetes medication",
-            "display" : "diabetes medication",
+            "name" : "Diabetes Medication",
+            "display" : "Diabetes Medication",
             "accessLevel" : "Public",
             "code" : [ {
-               "name" : "Acarbose_code"
+               "name" : "Acarbose"
             }, {
                "name" : "Miglitol"
             }, {
-               "name" : "insulin aspart"
+               "name" : "Insulin Aspart"
             } ]
          } ]
       },
@@ -303,7 +440,7 @@
                }
             }
          }, {
-            "name" : "InitialPopulation",
+            "name" : "Initial Population",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -365,7 +502,7 @@
                } ]
             }
          }, {
-            "name" : "telehealth modifier",
+            "name" : "Telehealth Modifier Encounter",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -401,14 +538,14 @@
                            } ]
                         }
                      }, {
-                        "name" : "MeasurementPeriod",
+                        "name" : "MeasurementPeriodExtended",
                         "type" : "ParameterRef"
                      } ]
                   }
                }
             }
          }, {
-            "name" : "telehealth POS",
+            "name" : "Telehealth POS Encounter",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -444,14 +581,14 @@
                            } ]
                         }
                      }, {
-                        "name" : "MeasurementPeriod",
+                        "name" : "MeasurementPeriodExtended",
                         "type" : "ParameterRef"
                      } ]
                   }
                }
             }
          }, {
-            "name" : "acute inpatient encounter",
+            "name" : "Acute Inpatient Encounter",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -499,7 +636,7 @@
                               } ]
                            }
                         }, {
-                           "name" : "MeasurementPeriod",
+                           "name" : "MeasurementPeriodExtended",
                            "type" : "ParameterRef"
                         } ]
                      }
@@ -507,7 +644,7 @@
                }
             }
          }, {
-            "name" : "acute inpatient encounter without telehealth",
+            "name" : "Acute Inpatient Encounter Without Telehealth",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -515,25 +652,25 @@
                "operand" : [ {
                   "type" : "And",
                   "operand" : [ {
-                     "name" : "acute inpatient encounter",
+                     "name" : "Acute Inpatient Encounter",
                      "type" : "ExpressionRef"
                   }, {
                      "type" : "Not",
                      "operand" : {
-                        "name" : "telehealth POS",
+                        "name" : "Telehealth POS Encounter",
                         "type" : "ExpressionRef"
                      }
                   } ]
                }, {
                   "type" : "Not",
                   "operand" : {
-                     "name" : "telehealth modifier",
+                     "name" : "Telehealth Modifier Encounter",
                      "type" : "ExpressionRef"
                   }
                } ]
             }
          }, {
-            "name" : "acute inpatient discharge with diabetes",
+            "name" : "Acute Inpatient Discharge With Diabetes",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -597,7 +734,7 @@
                               } ]
                            }
                         }, {
-                           "name" : "MeasurementPeriod",
+                           "name" : "MeasurementPeriodExtended",
                            "type" : "ParameterRef"
                         } ]
                      } ]
@@ -605,7 +742,7 @@
                } ]
             }
          }, {
-            "name" : "acute inpatient discharge on discharge claim",
+            "name" : "Acute Inpatient Discharge On Discharge Claim",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -615,7 +752,7 @@
                   "source" : [ {
                      "alias" : "Enc",
                      "expression" : {
-                        "name" : "acute inpatient discharge with diabetes",
+                        "name" : "Acute Inpatient Discharge With Diabetes",
                         "type" : "ExpressionRef"
                      }
                   } ],
@@ -648,7 +785,7 @@
                }
             }
          }, {
-            "name" : "nonacute diabetes discharges-list",
+            "name" : "Nonacute Diabetes Discharges-List",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -702,18 +839,18 @@
                }
             }
          }, {
-            "name" : "nonacute diabetes discharges",
+            "name" : "Nonacute Diabetes Discharges",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "Count",
                "source" : {
-                  "name" : "nonacute diabetes discharges-list",
+                  "name" : "Nonacute Diabetes Discharges-List",
                   "type" : "ExpressionRef"
                }
             }
          }, {
-            "name" : "nonacute diabetes discharges on claim",
+            "name" : "Nonacute Diabetes Discharges On Claim",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -723,7 +860,7 @@
                   "source" : [ {
                      "alias" : "E",
                      "expression" : {
-                        "name" : "nonacute diabetes discharges-list",
+                        "name" : "Nonacute Diabetes Discharges-List",
                         "type" : "ExpressionRef"
                      }
                   } ],
@@ -756,7 +893,7 @@
                }
             }
          }, {
-            "name" : "out",
+            "name" : "Out",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -804,7 +941,7 @@
                               } ]
                            }
                         }, {
-                           "name" : "MeasurementPeriod",
+                           "name" : "MeasurementPeriodExtended",
                            "type" : "ParameterRef"
                         } ]
                      }
@@ -812,7 +949,7 @@
                }
             }
          }, {
-            "name" : "tele",
+            "name" : "Telehealth Modifier With Diabetes",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -860,7 +997,7 @@
                               } ]
                            }
                         }, {
-                           "name" : "MeasurementPeriod",
+                           "name" : "MeasurementPeriodExtended",
                            "type" : "ParameterRef"
                         } ]
                      }
@@ -868,7 +1005,7 @@
                }
             }
          }, {
-            "name" : "telephone vis",
+            "name" : "Telephone Visit",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -916,7 +1053,7 @@
                               } ]
                            }
                         }, {
-                           "name" : "MeasurementPeriod",
+                           "name" : "MeasurementPeriodExtended",
                            "type" : "ParameterRef"
                         } ]
                      }
@@ -924,7 +1061,7 @@
                }
             }
          }, {
-            "name" : "online assess",
+            "name" : "Online Assessment",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -972,7 +1109,7 @@
                               } ]
                            }
                         }, {
-                           "name" : "MeasurementPeriod",
+                           "name" : "MeasurementPeriodExtended",
                            "type" : "ParameterRef"
                         } ]
                      }
@@ -980,7 +1117,7 @@
                }
             }
          }, {
-            "name" : "out-tele-online",
+            "name" : "Out Tele Online",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -992,18 +1129,18 @@
                      "operand" : [ {
                         "type" : "Or",
                         "operand" : [ {
-                           "name" : "out",
+                           "name" : "Out",
                            "type" : "ExpressionRef"
                         }, {
-                           "name" : "tele",
+                           "name" : "Telehealth Modifier Encounter",
                            "type" : "ExpressionRef"
                         } ]
                      }, {
-                        "name" : "telephone vis",
+                        "name" : "Telephone Visit",
                         "type" : "ExpressionRef"
                      } ]
                   }, {
-                     "name" : "online assess",
+                     "name" : "Online Assessment",
                      "type" : "ExpressionRef"
                   } ]
                },
@@ -1026,7 +1163,7 @@
                }
             }
          }, {
-            "name" : "atleast 2 remote or nonacute inpatient encounters with diabetes",
+            "name" : "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1036,14 +1173,14 @@
                   "operand" : [ {
                      "type" : "Add",
                      "operand" : [ {
-                        "name" : "nonacute diabetes discharges",
+                        "name" : "Nonacute Diabetes Discharges",
                         "type" : "ExpressionRef"
                      }, {
-                        "name" : "nonacute diabetes discharges on claim",
+                        "name" : "Nonacute Diabetes Discharges On Claim",
                         "type" : "ExpressionRef"
                      } ]
                   }, {
-                     "name" : "out-tele-online",
+                     "name" : "Out Tele Online",
                      "type" : "ExpressionRef"
                   } ]
                }, {
@@ -1053,7 +1190,7 @@
                } ]
             }
          }, {
-            "name" : "diabetes diagnosis by medication",
+            "name" : "Diabetes Diagnosis By Medication",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1073,46 +1210,52 @@
                         } ],
                         "relationship" : [ ],
                         "where" : {
-                           "type" : "And",
-                           "operand" : [ {
-                              "type" : "Equal",
-                              "operand" : [ {
-                                 "name" : "ToConcept",
-                                 "libraryName" : "FHIRHelpers",
-                                 "type" : "FunctionRef",
+                           "type" : "Exists",
+                           "operand" : {
+                              "type" : "ToList",
+                              "operand" : {
+                                 "type" : "And",
                                  "operand" : [ {
-                                    "asType" : "{http://hl7.org/fhir}CodeableConcept",
-                                    "type" : "As",
-                                    "operand" : {
-                                       "path" : "medication",
-                                       "scope" : "A",
-                                       "type" : "Property"
-                                    }
+                                    "type" : "Equivalent",
+                                    "operand" : [ {
+                                       "name" : "ToConcept",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "asType" : "{http://hl7.org/fhir}CodeableConcept",
+                                          "type" : "As",
+                                          "operand" : {
+                                             "path" : "medication",
+                                             "scope" : "A",
+                                             "type" : "Property"
+                                          }
+                                       } ]
+                                    }, {
+                                       "type" : "ToConcept",
+                                       "operand" : {
+                                          "name" : "Acarbose",
+                                          "type" : "CodeRef"
+                                       }
+                                    } ]
+                                 }, {
+                                    "type" : "Equivalent",
+                                    "operand" : [ {
+                                       "name" : "ToString",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "status",
+                                          "scope" : "A",
+                                          "type" : "Property"
+                                       } ]
+                                    }, {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                       "value" : "completed",
+                                       "type" : "Literal"
+                                    } ]
                                  } ]
-                              }, {
-                                 "type" : "ToConcept",
-                                 "operand" : {
-                                    "name" : "Acarbose_code",
-                                    "type" : "CodeRef"
-                                 }
-                              } ]
-                           }, {
-                              "type" : "Equivalent",
-                              "operand" : [ {
-                                 "name" : "ToString",
-                                 "libraryName" : "FHIRHelpers",
-                                 "type" : "FunctionRef",
-                                 "operand" : [ {
-                                    "path" : "status",
-                                    "scope" : "A",
-                                    "type" : "Property"
-                                 } ]
-                              }, {
-                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                 "value" : "completed",
-                                 "type" : "Literal"
-                              } ]
-                           } ]
+                              }
+                           }
                         }
                      }
                   }, {
@@ -1128,46 +1271,52 @@
                         } ],
                         "relationship" : [ ],
                         "where" : {
-                           "type" : "And",
-                           "operand" : [ {
-                              "type" : "Equal",
-                              "operand" : [ {
-                                 "name" : "ToConcept",
-                                 "libraryName" : "FHIRHelpers",
-                                 "type" : "FunctionRef",
+                           "type" : "Exists",
+                           "operand" : {
+                              "type" : "ToList",
+                              "operand" : {
+                                 "type" : "And",
                                  "operand" : [ {
-                                    "asType" : "{http://hl7.org/fhir}CodeableConcept",
-                                    "type" : "As",
-                                    "operand" : {
-                                       "path" : "medication",
-                                       "scope" : "B",
-                                       "type" : "Property"
-                                    }
+                                    "type" : "Equivalent",
+                                    "operand" : [ {
+                                       "name" : "ToConcept",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "asType" : "{http://hl7.org/fhir}CodeableConcept",
+                                          "type" : "As",
+                                          "operand" : {
+                                             "path" : "medication",
+                                             "scope" : "B",
+                                             "type" : "Property"
+                                          }
+                                       } ]
+                                    }, {
+                                       "type" : "ToConcept",
+                                       "operand" : {
+                                          "name" : "Miglitol",
+                                          "type" : "CodeRef"
+                                       }
+                                    } ]
+                                 }, {
+                                    "type" : "Equivalent",
+                                    "operand" : [ {
+                                       "name" : "ToString",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "status",
+                                          "scope" : "B",
+                                          "type" : "Property"
+                                       } ]
+                                    }, {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                       "value" : "completed",
+                                       "type" : "Literal"
+                                    } ]
                                  } ]
-                              }, {
-                                 "type" : "ToConcept",
-                                 "operand" : {
-                                    "name" : "Miglitol",
-                                    "type" : "CodeRef"
-                                 }
-                              } ]
-                           }, {
-                              "type" : "Equivalent",
-                              "operand" : [ {
-                                 "name" : "ToString",
-                                 "libraryName" : "FHIRHelpers",
-                                 "type" : "FunctionRef",
-                                 "operand" : [ {
-                                    "path" : "status",
-                                    "scope" : "B",
-                                    "type" : "Property"
-                                 } ]
-                              }, {
-                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                 "value" : "completed",
-                                 "type" : "Literal"
-                              } ]
-                           } ]
+                              }
+                           }
                         }
                      }
                   } ]
@@ -1184,46 +1333,52 @@
                      } ],
                      "relationship" : [ ],
                      "where" : {
-                        "type" : "And",
-                        "operand" : [ {
-                           "type" : "Equal",
-                           "operand" : [ {
-                              "name" : "ToConcept",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "ToList",
+                           "operand" : {
+                              "type" : "And",
                               "operand" : [ {
-                                 "asType" : "{http://hl7.org/fhir}CodeableConcept",
-                                 "type" : "As",
-                                 "operand" : {
-                                    "path" : "medication",
-                                    "scope" : "C",
-                                    "type" : "Property"
-                                 }
+                                 "type" : "Equivalent",
+                                 "operand" : [ {
+                                    "name" : "ToConcept",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "asType" : "{http://hl7.org/fhir}CodeableConcept",
+                                       "type" : "As",
+                                       "operand" : {
+                                          "path" : "medication",
+                                          "scope" : "C",
+                                          "type" : "Property"
+                                       }
+                                    } ]
+                                 }, {
+                                    "type" : "ToConcept",
+                                    "operand" : {
+                                       "name" : "Insulin Aspart",
+                                       "type" : "CodeRef"
+                                    }
+                                 } ]
+                              }, {
+                                 "type" : "Equivalent",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "status",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                    "value" : "completed",
+                                    "type" : "Literal"
+                                 } ]
                               } ]
-                           }, {
-                              "type" : "ToConcept",
-                              "operand" : {
-                                 "name" : "insulin aspart",
-                                 "type" : "CodeRef"
-                              }
-                           } ]
-                        }, {
-                           "type" : "Equivalent",
-                           "operand" : [ {
-                              "name" : "ToString",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
-                              "operand" : [ {
-                                 "path" : "status",
-                                 "scope" : "C",
-                                 "type" : "Property"
-                              } ]
-                           }, {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                              "value" : "completed",
-                              "type" : "Literal"
-                           } ]
-                        } ]
+                           }
+                        }
                      }
                   }
                } ]
@@ -1395,7 +1550,7 @@
                } ]
             }
          }, {
-            "name" : "Acute Inpatient with Advanced Illness",
+            "name" : "Acute Inpatient With Advanced Illness",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1427,7 +1582,7 @@
                } ]
             }
          }, {
-            "name" : "Acute inpatient discharge with Advanced Illness",
+            "name" : "Acute Inpatient Discharge With Advanced Illness",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1481,7 +1636,7 @@
                }
             }
          }, {
-            "name" : "diabetes exclusions",
+            "name" : "Diabetes Exclusions",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1492,16 +1647,16 @@
                }, {
                   "type" : "Or",
                   "operand" : [ {
-                     "name" : "Acute inpatient discharge with Advanced Illness",
+                     "name" : "Acute Inpatient Discharge With Advanced Illness",
                      "type" : "ExpressionRef"
                   }, {
-                     "name" : "Acute Inpatient with Advanced Illness",
+                     "name" : "Acute Inpatient With Advanced Illness",
                      "type" : "ExpressionRef"
                   } ]
                } ]
             }
          }, {
-            "name" : "DiabetesCondition",
+            "name" : "Diabetes Condition",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1511,23 +1666,51 @@
                   "operand" : [ {
                      "type" : "Or",
                      "operand" : [ {
-                        "name" : "acute inpatient encounter without telehealth",
+                        "name" : "Acute Inpatient Encounter Without Telehealth",
                         "type" : "ExpressionRef"
                      }, {
-                        "name" : "acute inpatient discharge on discharge claim",
+                        "name" : "Acute Inpatient Discharge On Discharge Claim",
                         "type" : "ExpressionRef"
                      } ]
                   }, {
-                     "name" : "atleast 2 remote or nonacute inpatient encounters with diabetes",
+                     "name" : "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes",
                      "type" : "ExpressionRef"
                   } ]
                }, {
-                  "name" : "diabetes diagnosis by medication",
+                  "name" : "Diabetes Diagnosis By Medication",
                   "type" : "ExpressionRef"
                } ]
             }
          }, {
-            "name" : "correct context for bp reading",
+            "name" : "Diabetes Condition Numerator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Or",
+               "operand" : [ {
+                  "name" : "Diabetes Condition",
+                  "type" : "ExpressionRef"
+               }, {
+                  "name" : "Diabetes Diagnosis By Medication",
+                  "type" : "ExpressionRef"
+               } ]
+            }
+         }, {
+            "name" : "Diabetes Condition Denominator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "name" : "Diabetes Condition",
+                  "type" : "ExpressionRef"
+               }, {
+                  "name" : "Diabetes Diagnosis By Medication",
+                  "type" : "ExpressionRef"
+               } ]
+            }
+         }, {
+            "name" : "Correct Context For BP Reading",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1961,7 +2144,7 @@
                      "operand" : {
                         "type" : "ToList",
                         "operand" : {
-                           "name" : "correct context for bp reading",
+                           "name" : "Correct Context For BP Reading",
                            "type" : "ExpressionRef"
                         }
                      }
@@ -1981,7 +2164,7 @@
                } ]
             }
          }, {
-            "name" : "numerator",
+            "name" : "Numerator",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1996,17 +2179,17 @@
                            "name" : "BP < 140/90 mm Hg",
                            "type" : "ExpressionRef"
                         }, {
-                           "name" : "DiabetesCondition",
+                           "name" : "Diabetes Condition Numerator",
                            "type" : "ExpressionRef"
                         } ]
                      }, {
-                        "name" : "InitialPopulation",
+                        "name" : "Initial Population",
                         "type" : "ExpressionRef"
                      } ]
                   }, {
                      "type" : "Not",
                      "operand" : {
-                        "name" : "diabetes exclusions",
+                        "name" : "Diabetes Exclusions",
                         "type" : "ExpressionRef"
                      }
                   } ]
@@ -2030,7 +2213,7 @@
                }
             }
          }, {
-            "name" : "denominator",
+            "name" : "Denominator",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -2038,10 +2221,10 @@
                "comparand" : {
                   "type" : "And",
                   "operand" : [ {
-                     "name" : "InitialPopulation",
+                     "name" : "Initial Population",
                      "type" : "ExpressionRef"
                   }, {
-                     "name" : "DiabetesCondition",
+                     "name" : "Diabetes Condition Denominator",
                      "type" : "ExpressionRef"
                   } ]
                },
@@ -2064,29 +2247,29 @@
                }
             }
          }, {
-            "name" : "denominator_count",
+            "name" : "Denominator Count",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "Sum",
                "source" : {
-                  "name" : "denominator",
+                  "name" : "Denominator",
                   "type" : "ExpressionRef"
                }
             }
          }, {
-            "name" : "numerator_count",
+            "name" : "Numerator Count",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "Sum",
                "source" : {
-                  "name" : "numerator",
+                  "name" : "Numerator",
                   "type" : "ExpressionRef"
                }
             }
          }, {
-            "name" : "CDC_MeasureScore",
+            "name" : "CDC Measure Score",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
@@ -2096,7 +2279,7 @@
                   "operand" : {
                      "type" : "Sum",
                      "source" : {
-                        "name" : "numerator",
+                        "name" : "Numerator",
                         "type" : "ExpressionRef"
                      }
                   }
@@ -2105,7 +2288,7 @@
                   "operand" : {
                      "type" : "Sum",
                      "source" : {
-                        "name" : "denominator",
+                        "name" : "Denominator",
                         "type" : "ExpressionRef"
                      }
                   }

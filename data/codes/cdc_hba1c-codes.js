@@ -13964,527 +13964,527 @@ const codes = {
       }
     ]
   },
-  "2.16.840.1.113883.3.464.1003.113.11.1308": {
-    "Frailty Diagnosis": [
+  '2.16.840.1.113883.3.464.1003.113.11.1308': {
+    'Frailty Diagnosis': [
       {
-        "code": "L89.119",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'L89.119',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "L89.139",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'L89.139',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "L89.149",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'L89.149',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "L89.159",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'L89.159',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "L89.209",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'L89.209',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "L89.309",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'L89.309',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "L89.899",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'L89.899',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "L89.90",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'L89.90',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "M62.50",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'M62.50',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "M62.81",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'M62.81',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "M62.84",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'M62.84',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.0XXA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.0XXA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.0XXD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.0XXD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.0XXS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.0XXS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.10XA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.10XA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.10XD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.10XD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.10XS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.10XS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.110A",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.110A',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.110D",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.110D',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.110S",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.110S',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.111A",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.111A',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.111D",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.111D',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.111S",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.111S',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.118A",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.118A',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.118D",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.118D',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.118S",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.118S',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.119A",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.119A',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.119D",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.119D',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.119S",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.119S',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.190A",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.190A',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.190D",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.190D',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.190S",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.190S',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.198A",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.198A',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.198D",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.198D',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W01.198S",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W01.198S',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W06.XXXA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W06.XXXA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W06.XXXD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W06.XXXD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W06.XXXS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W06.XXXS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W07.XXXA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W07.XXXA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W07.XXXD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W07.XXXD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W07.XXXS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W07.XXXS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W08.XXXA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W08.XXXA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W08.XXXD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W08.XXXD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W08.XXXS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W08.XXXS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W10.0XXA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W10.0XXA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W10.0XXD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W10.0XXD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W10.0XXS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W10.0XXS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W10.1XXA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W10.1XXA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W10.1XXD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W10.1XXD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W10.1XXS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W10.1XXS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W10.2XXA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W10.2XXA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W10.2XXD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W10.2XXD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W10.2XXS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W10.2XXS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W10.8XXA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W10.8XXA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W10.8XXD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W10.8XXD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W10.8XXS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W10.8XXS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W10.9XXA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W10.9XXA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W10.9XXD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W10.9XXD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W10.9XXS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W10.9XXS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.00XA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.00XA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.00XD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.00XD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.00XS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.00XS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.02XA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.02XA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.02XD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.02XD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.02XS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.02XS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.09XA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.09XA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.09XD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.09XD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.09XS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.09XS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.11XA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.11XA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.11XD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.11XD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.11XS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.11XS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.12XA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.12XA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.12XD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.12XD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.12XS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.12XS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.2XXA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.2XXA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.2XXD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.2XXD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.2XXS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.2XXS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.30XA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.30XA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.30XD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.30XD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.30XS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.30XS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.31XA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.31XA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.31XD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.31XD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.31XS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.31XS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.39XA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.39XA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.39XD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.39XD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W18.39XS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W18.39XS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W19.XXXA",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W19.XXXA',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W19.XXXD",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W19.XXXD',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "W19.XXXS",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'W19.XXXS',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "Y92.199",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'Y92.199',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "Z59.3",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'Z59.3',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "Z73.6",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'Z73.6',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "Z74.01",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'Z74.01',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "Z74.09",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'Z74.09',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "Z74.1",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'Z74.1',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "Z74.2",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'Z74.2',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "Z74.3",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'Z74.3',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "Z74.8",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'Z74.8',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "Z74.9",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'Z74.9',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "Z91.81",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'Z91.81',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "Z99.11",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'Z99.11',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "Z99.3",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'Z99.3',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "Z99.81",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'Z99.81',
+        system: 'ICD10CM',
+        version: '2021'
       },
       {
-        "code": "Z99.89",
-        "system": "ICD10CM",
-        "version": "2021"
+        code: 'Z99.89',
+        system: 'ICD10CM',
+        version: '2021'
       }
     ]
   }
