@@ -9,7 +9,7 @@ const patients = require('../data/patients/cdc_hba1c-patients');
 const includedLibs = {
   FHIRHelpers: fhirhelpers
 };
-const lib = new cql.Library(measure, new cql.Repository(includedLibs))
+const lib = new cql.Library(measure, new cql.Repository(includedLibs));
 const cservice = new codes.CodeService(codeservice);
 const parameters = {
   MeasurementPeriod: new cql.Interval(
