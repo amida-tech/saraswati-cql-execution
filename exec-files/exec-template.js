@@ -24,6 +24,7 @@ const executor = (startDate, endDate, measure, patients, codeservice) => {
 
   const result = executor.exec(patientSource);
   console.log(result.patientResults); // eslint-disable-line no-console
+  console.log(result.unfilteredResults); // eslint-disable-line no-console
   return result;
 };
 

@@ -418,6 +418,162 @@
                }
             }
          }, {
+            "name" : "Qualifying Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "QualifyingEncounter",
+                  "expression" : {
+                     "type" : "Union",
+                     "operand" : [ {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "dataType" : "{http://hl7.org/fhir}Encounter",
+                              "codeProperty" : "type",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Office Visit",
+                                 "type" : "ValueSetRef"
+                              }
+                           }, {
+                              "dataType" : "{http://hl7.org/fhir}Encounter",
+                              "codeProperty" : "type",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Face-to-Face Interaction",
+                                 "type" : "ValueSetRef"
+                              }
+                           } ]
+                        }, {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "dataType" : "{http://hl7.org/fhir}Encounter",
+                              "codeProperty" : "type",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Home Healthcare Services",
+                                 "type" : "ValueSetRef"
+                              }
+                           }, {
+                              "dataType" : "{http://hl7.org/fhir}Encounter",
+                              "codeProperty" : "type",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Preventive Care, Established Office Visit, 0 to 17",
+                                 "type" : "ValueSetRef"
+                              }
+                           } ]
+                        } ]
+                     }, {
+                        "dataType" : "{http://hl7.org/fhir}Encounter",
+                        "codeProperty" : "type",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Preventive Care Services, Initial Office Visit, 0 to 17",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "IncludedIn",
+                  "operand" : [ {
+                     "name" : "ToInterval",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "period",
+                        "scope" : "QualifyingEncounter",
+                        "type" : "Property"
+                     } ]
+                  }, {
+                     "name" : "Measurement Period",
+                     "type" : "ParameterRef"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Initial Population",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Qualifying Encounter",
+                        "type" : "ExpressionRef"
+                     }
+                  }, {
+                     "type" : "GreaterOrEqual",
+                     "operand" : [ {
+                        "precision" : "Year",
+                        "type" : "CalculateAgeAt",
+                        "operand" : [ {
+                           "type" : "ToDateTime",
+                           "operand" : {
+                              "path" : "birthDate.value",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "Patient",
+                                 "type" : "ExpressionRef"
+                              }
+                           }
+                        }, {
+                           "type" : "Start",
+                           "operand" : {
+                              "name" : "Measurement Period",
+                              "type" : "ParameterRef"
+                           }
+                        } ]
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "1",
+                        "type" : "Literal"
+                     } ]
+                  } ]
+               }, {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "type" : "End",
+                        "operand" : {
+                           "name" : "Measurement Period",
+                           "type" : "ParameterRef"
+                        }
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2",
+                     "type" : "Literal"
+                  } ]
+               } ]
+            }
+         }, {
             "name" : "Denominator Exclusions",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -581,11 +737,17 @@
             "expression" : {
                "type" : "Case",
                "comparand" : {
-                  "type" : "Not",
-                  "operand" : {
-                     "name" : "Denominator Exclusions",
+                  "type" : "And",
+                  "operand" : [ {
+                     "name" : "Initial Population",
                      "type" : "ExpressionRef"
-                  }
+                  }, {
+                     "type" : "Not",
+                     "operand" : {
+                        "name" : "Denominator Exclusions",
+                        "type" : "ExpressionRef"
+                     }
+                  } ]
                },
                "caseItem" : [ {
                   "when" : {
@@ -2090,162 +2252,6 @@
                      "type" : "AliasRef"
                   }
                }
-            }
-         }, {
-            "name" : "Qualifying Encounter",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "QualifyingEncounter",
-                  "expression" : {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "type" : "Union",
-                        "operand" : [ {
-                           "type" : "Union",
-                           "operand" : [ {
-                              "dataType" : "{http://hl7.org/fhir}Encounter",
-                              "codeProperty" : "type",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Office Visit",
-                                 "type" : "ValueSetRef"
-                              }
-                           }, {
-                              "dataType" : "{http://hl7.org/fhir}Encounter",
-                              "codeProperty" : "type",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Face-to-Face Interaction",
-                                 "type" : "ValueSetRef"
-                              }
-                           } ]
-                        }, {
-                           "type" : "Union",
-                           "operand" : [ {
-                              "dataType" : "{http://hl7.org/fhir}Encounter",
-                              "codeProperty" : "type",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Home Healthcare Services",
-                                 "type" : "ValueSetRef"
-                              }
-                           }, {
-                              "dataType" : "{http://hl7.org/fhir}Encounter",
-                              "codeProperty" : "type",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Preventive Care, Established Office Visit, 0 to 17",
-                                 "type" : "ValueSetRef"
-                              }
-                           } ]
-                        } ]
-                     }, {
-                        "dataType" : "{http://hl7.org/fhir}Encounter",
-                        "codeProperty" : "type",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Preventive Care Services, Initial Office Visit, 0 to 17",
-                           "type" : "ValueSetRef"
-                        }
-                     } ]
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "IncludedIn",
-                  "operand" : [ {
-                     "name" : "ToInterval",
-                     "libraryName" : "FHIRHelpers",
-                     "type" : "FunctionRef",
-                     "operand" : [ {
-                        "path" : "period",
-                        "scope" : "QualifyingEncounter",
-                        "type" : "Property"
-                     } ]
-                  }, {
-                     "name" : "Measurement Period",
-                     "type" : "ParameterRef"
-                  } ]
-               }
-            }
-         }, {
-            "name" : "Initial Population",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "And",
-               "operand" : [ {
-                  "type" : "And",
-                  "operand" : [ {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "Qualifying Encounter",
-                        "type" : "ExpressionRef"
-                     }
-                  }, {
-                     "type" : "GreaterOrEqual",
-                     "operand" : [ {
-                        "precision" : "Year",
-                        "type" : "CalculateAgeAt",
-                        "operand" : [ {
-                           "type" : "ToDateTime",
-                           "operand" : {
-                              "path" : "birthDate.value",
-                              "type" : "Property",
-                              "source" : {
-                                 "name" : "Patient",
-                                 "type" : "ExpressionRef"
-                              }
-                           }
-                        }, {
-                           "type" : "Start",
-                           "operand" : {
-                              "name" : "Measurement Period",
-                              "type" : "ParameterRef"
-                           }
-                        } ]
-                     }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "1",
-                        "type" : "Literal"
-                     } ]
-                  } ]
-               }, {
-                  "type" : "Equal",
-                  "operand" : [ {
-                     "precision" : "Year",
-                     "type" : "CalculateAgeAt",
-                     "operand" : [ {
-                        "type" : "ToDateTime",
-                        "operand" : {
-                           "path" : "birthDate.value",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "Patient",
-                              "type" : "ExpressionRef"
-                           }
-                        }
-                     }, {
-                        "type" : "End",
-                        "operand" : {
-                           "name" : "Measurement Period",
-                           "type" : "ParameterRef"
-                        }
-                     } ]
-                  }, {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "2",
-                     "type" : "Literal"
-                  } ]
-               } ]
             }
          }, {
             "name" : "IPV Immunizations or Procedures",
@@ -6750,19 +6756,25 @@
                                        "operand" : [ {
                                           "type" : "And",
                                           "operand" : [ {
-                                             "type" : "Or",
+                                             "type" : "And",
                                              "operand" : [ {
-                                                "type" : "Exists",
-                                                "operand" : {
-                                                   "name" : "DTaP Vaccinations",
-                                                   "type" : "ExpressionRef"
-                                                }
+                                                "name" : "Initial Population",
+                                                "type" : "ExpressionRef"
                                              }, {
-                                                "type" : "Exists",
-                                                "operand" : {
-                                                   "name" : "Numerator Compliant DTaP Conditions",
-                                                   "type" : "ExpressionRef"
-                                                }
+                                                "type" : "Or",
+                                                "operand" : [ {
+                                                   "type" : "Exists",
+                                                   "operand" : {
+                                                      "name" : "DTaP Vaccinations",
+                                                      "type" : "ExpressionRef"
+                                                   }
+                                                }, {
+                                                   "type" : "Exists",
+                                                   "operand" : {
+                                                      "name" : "Numerator Compliant DTaP Conditions",
+                                                      "type" : "ExpressionRef"
+                                                   }
+                                                } ]
                                              } ]
                                           }, {
                                              "type" : "Or",
@@ -6973,7 +6985,7 @@
                }
             }
          }, {
-            "name" : "denominator_count",
+            "name" : "Denominator Count",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
@@ -6984,7 +6996,7 @@
                }
             }
          }, {
-            "name" : "numerator_count",
+            "name" : "Numerator Count",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
@@ -6995,7 +7007,7 @@
                }
             }
          }, {
-            "name" : "CDC_MeasureScore",
+            "name" : "CDC Measure Score",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
