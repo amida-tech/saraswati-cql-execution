@@ -9255,9 +9255,10 @@ const patients = [
               code: {
                 coding: [
                   {
-                    system: 'http://snomed.info/sct',
-                    code: '386965004',
-                    display: 'Miglitol'
+                    system: '2.16.840.1.113883.6.96',
+                    code: '109071007',
+                    display: 'Miglitol',
+                    version: "20200301",
                   }
                 ]
               }
@@ -9276,8 +9277,9 @@ const patients = [
           medicationCodeableConcept: {
             coding: [
               {
-                system: 'http://snomed.info/sct',
-                code: '386965004',
+                system: '2.16.840.1.113883.6.96',
+                code: '109071007',
+                version: "20200301",
                 display: 'Miglitol'
               }
             ]
