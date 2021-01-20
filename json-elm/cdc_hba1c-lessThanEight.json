@@ -2193,10 +2193,16 @@
                }, {
                   "type" : "Or",
                   "operand" : [ {
-                     "name" : "Acute inpatient discharge with Advanced Illness",
-                     "type" : "ExpressionRef"
+                     "type" : "Or",
+                     "operand" : [ {
+                        "name" : "Acute inpatient discharge with Advanced Illness",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "Acute Inpatient with Advanced Illness",
+                        "type" : "ExpressionRef"
+                     } ]
                   }, {
-                     "name" : "Acute Inpatient with Advanced Illness",
+                     "name" : "Two Outpatients With Advanced Illness",
                      "type" : "ExpressionRef"
                   } ]
                } ]

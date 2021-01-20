@@ -191,8 +191,8 @@ define "Diabetes Exclusions":
   AgeInYearsAt(start of MeasurementPeriod) >= 66 
     and "Frailty" 
       and ("Acute inpatient discharge with Advanced Illness" 
-        or "Acute Inpatient with Advanced Illness")
-//        or "Two Outpatients With Advanced Illness")
+        or "Acute Inpatient with Advanced Illness"
+        or "Two Outpatients With Advanced Illness")
 
 define "Diabetes Condition":
   "Acute Inpatient Encounter Without Telehealth"
