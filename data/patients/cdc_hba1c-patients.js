@@ -9258,7 +9258,7 @@ const patients = [
                     system: '2.16.840.1.113883.6.96',
                     code: '109071007',
                     display: 'Miglitol',
-                    version: "20200301",
+                    version: '20200301'
                   }
                 ]
               }
@@ -9279,7 +9279,7 @@ const patients = [
               {
                 system: '2.16.840.1.113883.6.96',
                 code: '109071007',
-                version: "20200301",
+                version: '20200301',
                 display: 'Miglitol'
               }
             ]
