@@ -8,7 +8,7 @@ codesystem "SNOMED-CT": '2.16.840.1.113883.6.96' version '20200301'
 valueset "Acute Inpatient": '2.16.840.1.113762.1.4.1182.120'
 valueset "Outpatient": '2.16.840.1.113883.3.464.1003.101.12.1008'
 valueset "ED": '2.16.840.1.113883.3.464.1003.101.12.1085'
-valueset "Observation": '2.16.840.1.113762.1.4.1181.72'
+valueset "Observation Encounter": '2.16.840.1.113762.1.4.1181.72'
 valueset "Nonacute Inpatient Stay": '2.16.840.1.113762.1.4.1182.289'
 valueset "Telephone Visits": '2.16.840.1.113883.3.1444.5.216'
 valueset "Online Assessments": '2.16.840.1.113883.3.7587.3.1013'
@@ -152,11 +152,47 @@ define "Acute inpatient discharge with Advanced Illness":
     with [Condition: "Advanced Illness"] AI
       such that E.status ~ 'finished')
 
+define "Outpatient Visits":
+  case (exists([Encounter: "Outpatient"] E where E.diagnosis.use in "Advanced Illness"))
+    when true then 1
+    else 0
+  end
+
+define "Observation Set":
+  case ( exists([Encounter: "Observation Encounter"] E where E.diagnosis.use in "Advanced Illness"))
+    when true then 1
+    else 0
+  end
+
+define "ED Visits Count":
+  case (exists([Encounter: "ED"] E where E.diagnosis.use in "Advanced Illness"))
+    when true then 1
+    else 0
+  end
+
+define "Nonacute Inpatient Count":
+  case (exists([Encounter: "Nonacute Inpatient Stay"] E where E.diagnosis.use in "Advanced Illness"))
+    when true then 1
+    else 0
+  end
+
+define "Nonacute Discharge":
+  case (exists([Encounter: "Nonacute Inpatient Stay"] E
+    where E.diagnosis.use in "Advanced Illness"
+    and E.status = 'finished'))
+      when true then 1
+      else 0
+  end
+
+define "Two Outpatients With Advanced Illness":
+    "Outpatient Visits" + "Observation Set" + "ED Visits Count" + "Nonacute Inpatient Count" + "Nonacute Discharge" >= 2
+
 define "Diabetes Exclusions":
   AgeInYearsAt(start of MeasurementPeriod) >= 66 
     and "Frailty" 
-      and ("Acute inpatient discharge with Advanced Illness" or "Acute Inpatient with Advanced Illness")
-    // TODO: atleast 2 outpatients w/ advanced Illness
+      and ("Acute inpatient discharge with Advanced Illness" 
+        or "Acute Inpatient with Advanced Illness")
+//        or "Two Outpatients With Advanced Illness")
 
 define "Diabetes Condition":
   "Acute Inpatient Encounter Without Telehealth"
