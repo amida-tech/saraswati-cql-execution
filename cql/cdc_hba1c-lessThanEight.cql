@@ -124,7 +124,6 @@ define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
    "Nonacute Diabetes Discharges" + "Nonacute Diabetes Discharges On Claim" + "Out Tele Online" >= 2
 
 define "Diabetes Diagnosis By Medication":
-  //TODO: figure out how to do medication dynamically to avoid version control conflict
   exists([MedicationDispense] A
     where exists(A.medication ~ "Acarbose"
     and A.status ~ 'completed'))
@@ -136,15 +135,14 @@ define "Diabetes Diagnosis By Medication":
         and C.status ~ 'completed'))
 
 define "Frailty":
-  AgeInYearsAt(start of MeasurementPeriod) >= 66
-    and (exists([Encounter: "Frailty Device"] D
-      where D.period starts during MeasurementPeriod)
-      or exists([Encounter: "Frailty Diagnosis"] Dia
-        where Dia.period starts during MeasurementPeriod)
-          or exists([Encounter: "Frailty Encounter"] E
-            where E.period starts during MeasurementPeriod)
-            or exists([Encounter: "Frailty Symptom"] S
-              where S.period starts during MeasurementPeriod))
+  exists([Encounter: "Frailty Device"] D
+    where D.period starts during MeasurementPeriod)
+    or exists([Encounter: "Frailty Diagnosis"] Dia
+      where Dia.period starts during MeasurementPeriod)
+        or exists([Encounter: "Frailty Encounter"] E
+          where E.period starts during MeasurementPeriod)
+          or exists([Encounter: "Frailty Symptom"] S
+            where S.period starts during MeasurementPeriod)
 
 define "Acute Inpatient with Advanced Illness":
   exists ([Condition: "Advanced Illness"]) and  exists ([Encounter : "Acute Inpatient"])
@@ -155,7 +153,9 @@ define "Acute inpatient discharge with Advanced Illness":
       such that E.status ~ 'finished')
 
 define "Diabetes Exclusions":
-    "Frailty" and ("Acute inpatient discharge with Advanced Illness" or "Acute Inpatient with Advanced Illness")
+  AgeInYearsAt(start of MeasurementPeriod) >= 66 
+    and "Frailty" 
+      and ("Acute inpatient discharge with Advanced Illness" or "Acute Inpatient with Advanced Illness")
     // TODO: atleast 2 outpatients w/ advanced Illness
 
 define "Diabetes Condition":
