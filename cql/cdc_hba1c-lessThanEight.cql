@@ -44,8 +44,8 @@ concept "Diabetes Medication": {
   "Insulin Aspart"
 } display 'Diabetes Medication'
 
-parameter MeasurementPeriodExtended default Interval[@2017-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
 parameter MeasurementPeriod default Interval[@2018-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
+parameter MeasurementPeriodExtended default Interval[@2017-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
 
 context Patient
 
@@ -141,10 +141,10 @@ define "Frailty":
           or exists([Encounter: "Frailty Symptom"] S
             where S.period starts during MeasurementPeriod)
 
-define "Acute Inpatient with Advanced Illness":
+define "Acute Inpatient With Advanced Illness":
   exists ([Condition: "Advanced Illness"]) and  exists ([Encounter : "Acute Inpatient"])
 
-define "Acute inpatient discharge with Advanced Illness":
+define "Acute Inpatient Discharge With Advanced Illness":
   exists ([Encounter: "Acute Inpatient"] E
     with [Condition: "Advanced Illness"] AI
       such that E.status ~ 'finished')
@@ -187,8 +187,8 @@ define "Two Outpatients With Advanced Illness":
 define "Diabetes Exclusions":
   AgeInYearsAt(start of MeasurementPeriod) >= 66 
     and "Frailty" 
-      and ("Acute inpatient discharge with Advanced Illness" 
-        or "Acute Inpatient with Advanced Illness"
+      and ("Acute Inpatient Discharge With Advanced Illness" 
+        or "Acute Inpatient With Advanced Illness"
         or "Two Outpatients With Advanced Illness")
 
 define "Diabetes Condition":
