@@ -2,17 +2,14 @@ library cdc_bp_lessThanOneHundredAndFortyOverNinety version '1'
 
 using FHIR version '4.0.0'
 include FHIRHelpers version '4.0.0'
-include MATGlobalCommonFunctions_FHIR4 version '4.0.000' called Global
-
 
 codesystem "SNOMED-CT": '2.16.840.1.113883.6.96' version '20200301'
 codesystem "LOINC": 'http://loinc.org'
 
-
 valueset "Acute Inpatient": '2.16.840.1.113762.1.4.1182.120'
 valueset "Outpatient": '2.16.840.1.113883.3.464.1003.101.12.1008'
 valueset "ED": '2.16.840.1.113883.3.464.1003.101.12.1085'
-valueset "Observation": '2.16.840.1.113762.1.4.1181.72'
+valueset "Observation Encounter": '2.16.840.1.113762.1.4.1181.72'
 valueset "Nonacute Inpatient Stay": '2.16.840.1.113762.1.4.1182.289'
 valueset "Telephone Visits": '2.16.840.1.113883.3.1444.5.216'
 valueset "Online Assessments": '2.16.840.1.113883.3.7587.3.1013'
@@ -125,7 +122,7 @@ define "Online Assessment":
       such that E.period starts during MeasurementPeriodExtended)
 
 define "Out Tele Online":
-  case ("Out" or "Telehealth Modifier Encounter" or "Telephone Visit" or "Online Assessment")
+  case ("Out" or "Telehealth Modifier With Diabetes" or "Telephone Visit" or "Online Assessment")
     when true then 1
     else 0
   end
@@ -133,18 +130,14 @@ define "Out Tele Online":
 define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
    "Nonacute Diabetes Discharges" + "Nonacute Diabetes Discharges On Claim" + "Out Tele Online" >= 2
 
-define "Diabetes Diagnosis By Medication":
-  //TODO: figure out how to do medication dynamically to avoid version control conflict
-  exists([MedicationDispense] A
-    where exists(A.medication ~ "Acarbose"
-    and A.status ~ 'completed'))
-    or exists([MedicationDispense] B
-      where exists(B.medication ~ "Miglitol"
-      and B.status ~ 'completed'))
-      or exists([MedicationDispense] C
-        where exists(C.medication ~ "Insulin Aspart"
-        and C.status ~ 'completed'))
-
+define "Diabetes Diagnosis By Medication":	
+  exists([MedicationDispense] B	
+    with B.medication.coding X such that exists(	
+        B.medication.coding coding	
+          where FHIRHelpers.ToCode(coding) ~ "Diabetes Medication"	
+    )	
+    and B.status ~ 'completed')
+    
 define "Frailty":
   exists([Encounter: "Frailty Device"] D
     where D.period starts during MeasurementPeriod)
@@ -164,9 +157,47 @@ define "Acute Inpatient Discharge With Advanced Illness":
     with [Condition: "Advanced Illness"] AI
       such that E.status ~ 'finished')
 
-define "Diabetes Exclusions":
-    "Frailty" and ("Acute Inpatient Discharge With Advanced Illness" or "Acute Inpatient With Advanced Illness")
-    // TODO: at least 2 outpatients w/ advanced Illness
+define "Outpatient Visits":	
+  case (exists([Encounter: "Outpatient"] E where E.diagnosis.use in "Advanced Illness"))	
+    when true then 1	
+    else 0	
+  end	
+
+define "Observation Set":	
+  case ( exists([Encounter: "Observation Encounter"] E where E.diagnosis.use in "Advanced Illness"))	
+    when true then 1	
+    else 0	
+  end	
+
+define "ED Visits Count":	
+  case (exists([Encounter: "ED"] E where E.diagnosis.use in "Advanced Illness"))	
+    when true then 1	
+    else 0	
+  end	
+
+define "Nonacute Inpatient Count":	
+  case (exists([Encounter: "Nonacute Inpatient Stay"] E where E.diagnosis.use in "Advanced Illness"))	
+    when true then 1	
+    else 0	
+  end	
+
+define "Nonacute Discharge":	
+  case (exists([Encounter: "Nonacute Inpatient Stay"] E	
+    where E.diagnosis.use in "Advanced Illness"	
+    and E.status = 'finished'))	
+      when true then 1	
+      else 0	
+  end	
+
+define "Two Outpatients With Advanced Illness":	
+    "Outpatient Visits" + "Observation Set" + "ED Visits Count" + "Nonacute Inpatient Count" + "Nonacute Discharge" >= 2
+
+define "Diabetes Exclusions":	
+  AgeInYearsAt(start of MeasurementPeriod) >= 66 	
+    and "Frailty" 	
+      and ("Acute Inpatient Discharge With Advanced Illness" 	
+        or "Acute Inpatient With Advanced Illness"	
+        or "Two Outpatients With Advanced Illness")
 
 define "Diabetes Condition":
   "Acute Inpatient Encounter Without Telehealth"
