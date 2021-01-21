@@ -147,7 +147,6 @@ define "Frailty":
           where E.period starts during MeasurementPeriod)
           or exists([Encounter: "Frailty Symptom"] S
             where S.period starts during MeasurementPeriod)
-              //TODO: age > 66
 
 define "Acute Inpatient With Advanced Illness":
   exists ([Condition: "Advanced Illness"]) and  exists ([Encounter : "Acute Inpatient"])
