@@ -110,7 +110,6 @@ define "Denominator Exclusions":
 		or exists ( ["ServiceRequest": "Hospice care ambulatory"]
 		)
 		or exists ( ["ServiceRequest": "Hospice care ambulatory"] HospicePerformed
-		// I think changing overlaps to during is okay, not 100% sure
 				where Coalesce(HospicePerformed.occurrence, HospicePerformed.occurrence.start) during "Measurement Period"
 		)
 
@@ -290,7 +289,6 @@ define "Numerator Compliant DTaP Conditions":
 
 define "Numerator Compliant Hepatitis A Conditions":
 	( ( ["Observation": "Anti Hepatitis A IgG Antigen Test"] HepAAntigenTest
-	// TODO: should I checking to see if other value types are included? https://www.hl7.org/fhir/observation.html
 			with HepAAntigenTest.value.coding coding such that exists(
 							HepAAntigenTest.value.coding coding
               	where coding.code in "Positive Finding"
