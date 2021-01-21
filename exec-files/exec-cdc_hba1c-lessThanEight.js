@@ -4,7 +4,7 @@ const codes = require('../src/cql-code-service');
 const codeservice = require('../data/codes/cdc_hba1c-codes');
 const cqlfhir = require('cql-exec-fhir');
 const measure = require('../json-elm/cdc_hba1c-lessThanEight.json');
-const patients = require('../data/patients/cdc_hba1c-patients');
+const patients = require('../data/patients/cdc_hba1c-patients.json');
 
 const includedLibs = {
   FHIRHelpers: fhirhelpers
