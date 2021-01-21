@@ -36,7 +36,6 @@ valueset "Diastolic Greater Than Or Equal To 90": '2.16.840.1.113762.1.4.1182.78
 // valueset "Remote Blood Pressure Monitoring": ''
 // valueset "Hospice Encounter": ''
 
-
 code "Blood pressure": '85354-9' from "LOINC" display 'blood pressure'
 code "Diastolic blood pressure": '8462-4' from "LOINC" display 'Diastolic blood pressure'
 code "Systolic blood pressure": '8480-6' from "LOINC" display 'Systolic blood pressure'
