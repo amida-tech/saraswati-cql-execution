@@ -1,25 +1,18 @@
 const fs = require('fs');
 const cqlfhir = require('cql-exec-fhir');
+const { v4: uuidv4 } = require('uuid');
 const codes = require('../src/cql-code-service');
 const cql = require('../src/cql');
 const fhirhelpers = require('../json-elm/FHIRHelpers.json');
 
-const executor = (startDate, endDate, measure, patients, codeservice) => {
+const executor = (measure, patients, codeservice) => {
   const includedLibs = {
     FHIRHelpers: fhirhelpers
   };
   const lib = new cql.Library(measure, new cql.Repository(includedLibs));
   const cservice = new codes.CodeService(codeservice);
-  const parameters = {
-    MeasurementPeriod: new cql.Interval(
-      cql.DateTime.parse(startDate),
-      cql.DateTime.parse(endDate),
-      true,
-      false
-    )
-  };
 
-  const executor = new cql.Executor(lib, cservice, parameters);
+  const executor = new cql.Executor(lib, cservice);
   const patientSource = cqlfhir.PatientSource.FHIRv400();
   patientSource.loadBundles(patients);
 
@@ -28,7 +21,7 @@ const executor = (startDate, endDate, measure, patients, codeservice) => {
   console.log(result.unfilteredResults); // eslint-disable-line no-console
 
   fs.writeFile(
-    './exec-files/results.json',
+    `./exec-files/results-${uuidv4()}.json`,
     JSON.stringify(result.unfilteredResults),
     err => err && console.error(err)
   );
