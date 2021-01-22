@@ -1,6 +1,7 @@
+const fs = require('fs');
+const cqlfhir = require('cql-exec-fhir');
 const codes = require('../src/cql-code-service');
 const cql = require('../src/cql');
-const cqlfhir = require('cql-exec-fhir');
 const fhirhelpers = require('../json-elm/FHIRHelpers.json');
 
 const executor = (startDate, endDate, measure, patients, codeservice) => {
@@ -25,6 +26,12 @@ const executor = (startDate, endDate, measure, patients, codeservice) => {
   const result = executor.exec(patientSource);
   console.log(result.patientResults); // eslint-disable-line no-console
   console.log(result.unfilteredResults); // eslint-disable-line no-console
+
+  fs.writeFile(
+    './exec-files/results.json',
+    JSON.stringify(result.unfilteredResults),
+    err => err && console.error(err)
+  );
   return result;
 };
 
