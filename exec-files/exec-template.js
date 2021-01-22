@@ -32,7 +32,6 @@ const executor = (startDate, endDate, measure, patients, codeservice) => {
     JSON.stringify(result.unfilteredResults),
     err => err && console.error(err)
   );
-  return result;
 };
 
 module.exports = executor;
