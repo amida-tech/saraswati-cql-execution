@@ -22,7 +22,7 @@ const executor = (measure, patients, codeservice) => {
 
   fs.writeFile(
     `./exec-files/results-${uuidv4()}.json`,
-    JSON.stringify(result.unfilteredResults),
+    JSON.stringify(result),
     err => err && console.error(err)
   );
 };
