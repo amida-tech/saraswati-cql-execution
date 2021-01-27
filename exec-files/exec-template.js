@@ -1,12 +1,37 @@
 var fs = require('fs');
 const cqlfhir = require('cql-exec-fhir');
 var jsonl = require('jsonl');
+var { cloneDeep } = require('lodash');
 const { v4: uuidv4 } = require('uuid');
 const codes = require('../src/cql-code-service');
 const cql = require('../src/cql');
 const fhirhelpers = require('../json-elm/FHIRHelpers.json');
 
-const executor = (measure, patients, codeservice) => {
+const removeArrayValues = patient => {
+  const clonedPatient = cloneDeep(patient);
+  Object.entries(clonedPatient).forEach(([propertyKey, propertyValue]) => {
+    // remove property values that are arrays - the data pipeline doesn't need them
+    if (Array.isArray(propertyValue)) {
+      delete patient[propertyKey];
+    }
+  });
+  return patient;
+};
+
+const cleanData = (patientResults) => {
+  const clonedPatientResults = cloneDeep(patientResults);
+  Object.entries(clonedPatientResults).forEach(([patientKey, patientValue]) => {
+    const patient = patientValue;
+    // remove Patient data - not needed
+    delete patient.Patient;
+    patient.id = patientKey;
+
+    removeArrayValues(patient);
+  });
+  return clonedPatientResults;
+};
+
+const execute = (measure, patients, codeservice) => {
   const includedLibs = {
     FHIRHelpers: fhirhelpers
   };
@@ -21,25 +46,7 @@ const executor = (measure, patients, codeservice) => {
   console.log(result.patientResults); // eslint-disable-line no-console
   console.log(result.unfilteredResults); // eslint-disable-line no-console
 
-  const removeArrayValues = patient => {
-    Object.entries(patient).forEach(([propertyKey, propertyValue]) => {
-      // remove property values that are arrays - the data pipeline doesn't need them
-      if (Array.isArray(propertyValue)) {
-        delete patient[propertyKey];
-      }
-    });
-  };
-
-  const cleanData = patientResults => {
-    Object.entries(patientResults).forEach(([patientKey, patientValue]) => {
-      const patient = patientValue;
-      // remove Patient data - not needed
-      delete patient.Patient;
-      patient.id = patientKey;
-
-      removeArrayValues(patient);
-    });
-  };
+  const cleanedPatientResults = cleanData(result.patientResults);
 
   const convertToJSONL = err => {
     if (err) {
@@ -51,11 +58,11 @@ const executor = (measure, patients, codeservice) => {
     }
   };
 
-  cleanData(result.patientResults);
-
-  fs.writeFile('./exec-files/results.json', JSON.stringify(result.patientResults), err =>
-    convertToJSONL(err)
+  fs.writeFile(
+    './exec-files/results.json', 
+    JSON.stringify(cleanedPatientResults), 
+    err => convertToJSONL(err)
   );
 };
 
-module.exports = executor;
+module.exports = { execute, cleanData };
