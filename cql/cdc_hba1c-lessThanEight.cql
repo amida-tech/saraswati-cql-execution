@@ -95,27 +95,42 @@ define "Nonacute Diabetes Discharges On Claim":
       such that E.subject = C.patient)
 
 define "Out":
-  exists ([Encounter: "Telehealth POS"] E
+  [Encounter: "Telehealth POS"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriodExtended)
+      such that E.period starts during MeasurementPeriodExtended
 
 define "Telehealth Modifier With Diabetes":
-  exists ([Encounter: "Telehealth Modifier"] E
+  [Encounter: "Telehealth Modifier"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriodExtended)
+      such that E.period starts during MeasurementPeriodExtended
 
 define "Telephone Visit":
-  exists ([Encounter: "Telephone Visits"] E
+  [Encounter: "Telephone Visits"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriodExtended)
+      such that E.period starts during MeasurementPeriodExtended
 
 define "Online Assessment":
-  exists ([Encounter: "Online Assessments"] E
+  [Encounter: "Online Assessments"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriodExtended)
+      such that E.period starts during MeasurementPeriodExtended
+
+define "Out Tele Online with Different Dates":
+  from
+    "Out" cond1,
+    "Telehealth Modifier With Diabetes" cond2,
+    "Telephone Visit" cond3,
+    "Online Assessment" cond4
+      where (cond1.period.start != cond2.period.start )
+        and (cond1.period.start != cond3.period.start )
+        and (cond1.period.start != cond4.period.start )
+        and (cond2.period.start != cond3.period.start )
+        and (cond2.period.start != cond4.period.start )
+        and (cond3.period.start != cond4.period.start )
+      return (exists(cond1) or exists(cond2) or exists(cond3) or exists(cond4))
+
 
 define "Out Tele Online":
-  case ("Out" or "Telehealth Modifier With Diabetes" or "Telephone Visit" or "Online Assessment")
+  case ("Out Tele Online with Different Dates")
     when true then 1
     else 0
   end
@@ -154,9 +169,53 @@ define "Acute inpatient discharge with Advanced Illness":
     with [Condition: "Advanced Illness"] AI
       such that E.status ~ 'finished')
 
+define "Outpatient Advanced Illness":
+  [Encounter: "Outpatient"] E
+    with [Condition: "Advanced Illness"] AI
+      such that E.period starts during MeasurementPeriodExtended
+
+define "Observation Advanced Illness":
+  [Encounter: "Observation"] E
+    with [Condition: "Advanced Illness"] AI
+      such that E.period starts during MeasurementPeriodExtended
+
+define "ED Advanced Illness":
+  [Encounter: "ED"] E
+    with [Condition: "Advanced Illness"] AI
+      such that E.period starts during MeasurementPeriodExtended
+
+define "Nonacute AI":
+  [Encounter: "Nonacute Inpatient"] E
+    with [Condition: "Advanced Illness"] AI
+      such that E.period starts during MeasurementPeriodExtended
+
+define "Nonacute AI Discharge":
+  [Encounter: "Nonacute Inpatient"] E
+    with [Condition: "Advanced Illness"] AI
+      such that E.status ~ 'finished'
+      and E.period starts during MeasurementPeriodExtended
+
+define "Atleast Two Out/Obs/ED Advaned Illness":
+  from
+    "Outpatient Advanced Illness" OAI,
+    "Observation Advanced Illness" ObsAI,
+    "ED Advanced Illness" EDAI,
+    "Nonacute AI" NAI,
+    "Nonacute AI Discharge" NAID
+    where (OAI.period.start != ObsAI.period.start)
+      and (OAI.period.start != EDAI.period.start)
+      and (OAI.period.start != NAI.period.start)
+      and (OAI.period.start != NAID.period.start)
+      and (ObsAI.period.start != EDAI.period.start)
+      and (ObsAI.period.start != NAI.period.start)
+      and (ObsAI.period.start != NAID.period.start)
+      and (EDAI.period.start != NAI.period.start)
+      and (EDAI.period.start != NAID.period.start)
+      and (NAI.period.start != NAID.period.start)
+      return (Count(((((OAI union ObsAI) union EDAI) union NAI) union NAID)) >= 2)
+
 define "Diabetes Exclusions":
-    "Frailty" and ("Acute inpatient discharge with Advanced Illness" or "Acute Inpatient with Advanced Illness")
-    // TODO: atleast 2 outpatients w/ advanced Illness
+    "Frailty" and ("Acute inpatient discharge with Advanced Illness" or "Acute Inpatient with Advanced Illness" or "Atleast Two Out/Obs/ED Advaned Illness")
 
 define "Diabetes Condition":
   "Acute Inpatient Encounter Without Telehealth"
