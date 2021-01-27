@@ -8,4 +8,4 @@ coverage
 *.original.coffee
 yarn-error.log
 exec-files/results.json
-*.jsonl
+exec-files/*.jsonl
