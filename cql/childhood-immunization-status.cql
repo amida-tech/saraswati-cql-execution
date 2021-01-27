@@ -93,25 +93,10 @@ parameter "Measurement Period" default Interval[@2018-12-31T00:00:00.0, @2019-12
 
 context Patient
 
-define "Denominator":
-  case ("Initial Population" and not "Denominator Exclusions")
-    when true then 1
-    else 0
-  end
-
-define "Denominator Exclusions":
-	exists ( ["Encounter": "Encounter Inpatient"] DischargeHospice
-			where ( ( DischargeHospice.hospitalization.dischargeDisposition in "Discharged to Home for Hospice Care"
-						or DischargeHospice.hospitalization.dischargeDisposition in "Discharged to Health Care Facility for Hospice Care"
-				)
-					and DischargeHospice.period ends during "Measurement Period"
-			)
-	)
-		or exists ( ["ServiceRequest": "Hospice care ambulatory"]
-		)
-		or exists ( ["ServiceRequest": "Hospice care ambulatory"] HospicePerformed
-				where Coalesce(HospicePerformed.occurrence, HospicePerformed.occurrence.start) during "Measurement Period"
-		)
+define "Initial Population":
+	exists ( "Qualifying Encounter" )
+		and AgeInYearsAt(start of "Measurement Period")>= 1
+		and AgeInYearsAt(end of "Measurement Period")= 2
 
 define "DTaP Immunizations or Procedures":
 	( ["Immunization": "DTaP Vaccine"]
@@ -130,6 +115,14 @@ define "DTaP Vaccinations":
 			and Coalesce(Vaccination4.performed.start, Vaccination4.occurrence) 1 day or more after Coalesce(Vaccination3.performed.start, Vaccination3.occurrence)
 		return Vaccination1
 
+define "Numerator Compliant DTaP Conditions":
+	( ["Condition": "Anaphylactic Reaction to DTaP Vaccine"]
+		union ["Condition": "Encephalopathy due to Childhood Vaccination"] ) DPaTConditions
+		where AgeInDaysAt(Coalesce(DPaTConditions.onset.start, DPaTConditions.onset))<= 73
+
+define "DTaP Criteria Met":
+	exists("DTaP Vaccinations") or exists("Numerator Compliant DTaP Conditions")
+
 define "Hepatitis A Vaccinations":
 	(((["Immunization": "Hepatitis A Vaccine"]
 		union ["Procedure": "Hepatitis A Vaccine Administered"]) HepAVaccination
@@ -140,6 +133,20 @@ define "Hepatitis A Vaccinations":
 		where AgeInDaysAt(Coalesce(HepACondition.onset, HepACondition.onset.start)) <= 730)) HepA
 	return HepA
 
+define "Numerator Compliant Hepatitis A Conditions":
+	( ( ["Observation": "Anti Hepatitis A IgG Antigen Test"] HepAAntigenTest
+			with HepAAntigenTest.value.coding coding such that exists(
+							HepAAntigenTest.value.coding coding
+              	where coding.code in "Positive Finding"
+        )
+	)
+		union ( ["Condition": "Anaphylactic Reaction to Hepatitis A Vaccine"] 
+		)
+		union ( ["Condition": "Hepatitis A"] ) ) HepAConditions
+		where AgeInDaysAt(Coalesce(HepAConditions.onset.start, HepAConditions.onset, HepAConditions.effective))<= 730
+
+define "Hepatitis A Criteria Met":
+	exists("Hepatitis A Vaccinations") or exists("Numerator Compliant Hepatitis A Conditions")
 
 define "Hepatitis B Immunizations or Procedures":
 	( ["Immunization": "Hepatitis B Vaccine"]
@@ -156,6 +163,24 @@ define "Hepatitis B Vaccinations":
 			and Coalesce(Vaccination3.performed.start, Vaccination3.occurrence) 1 day or more after Coalesce(Vaccination2.performed.start, Vaccination2.occurrence) 
 		return Vaccination1
 
+define "Numerator Compliant Hepatitis B Conditions":
+	( ( ["Observation": "Anti Hepatitis B Virus Surface Ab"] HepBAntigenTest
+			with HepBAntigenTest.value.coding coding such that exists(
+							HepBAntigenTest.value.coding coding
+              	where coding.code in "Positive Finding"
+        )
+	)
+		union ( ["Condition": "Anaphylactic Reaction to Hepatitis B Vaccine"]
+		)
+		//union ( ["Condition": "Anaphylactic Reaction to Common Baker's Yeast"] 
+		//)
+		union ( ["Condition": "Hepatitis B"] 
+		) ) HepBConditions
+		where AgeInDaysAt(Coalesce(HepBConditions.onset.start, HepBConditions.onset, HepBConditions.effective))<= 730
+
+define "Hepatitis B Criteria Met":
+	exists("Hepatitis B Vaccinations") or exists("Numerator Compliant Hepatitis B Conditions")
+
 define "HIB Immunizations or Procedures":
 	( ["Immunization": "Haemophilus Influenzae Type B (HiB) Vaccine"] Vaccine
 		union ["Procedure": "Haemophilus Influenzae Type B (HiB) Vaccine Administered"] ) HiBVaccination
@@ -171,6 +196,12 @@ define "HIB Vaccinations":
 			and Vaccination3.performed.start 1 day or more after Vaccination2.performed.start
 		return Vaccination1
 
+define "Numerator Compliant HIB Conditions":
+	["Condition": "Anaphylactic Reaction to Hemophilus Influenza B (HiB) Vaccine"] HIBReaction
+		where AgeInDaysAt(Coalesce(HIBReaction.onset.start, HIBReaction.onset))<= 730
+
+define "HIB Criteria Met":
+	exists("HIB Vaccinations") or exists("Numerator Compliant HIB Conditions")
 
 define "Influenza Immunizations or Procedures":
 	( ["Immunization": "Influenza Vaccine"]
@@ -185,10 +216,16 @@ define "Influenza Vaccinations":
 		where Coalesce(Vaccination2.performed.start, Vaccination2.occurrence) 1 day or more after Coalesce(Vaccination1.performed.start, Vaccination1.occurrence)
 		return Vaccination1
 
-define "Initial Population":
-	exists ( "Qualifying Encounter" )
-		and AgeInYearsAt(start of "Measurement Period")>= 1
-		and AgeInYearsAt(end of "Measurement Period")= 2
+define "Numerator Compliant Influenza Conditions":
+	( ["Condition": "Anaphylactic Reaction to Influenza Vaccine"]
+		union ["Condition": "Malignant Neoplasm of Lymphatic and Hematopoietic Tissue"]
+		union ["Condition": "Anaphylactic Reaction to Neomycin"]
+		union ["Condition": "HIV"]
+		union ["Condition": "Disorders of the Immune System"] ) InfluenzaConditions
+		where AgeInDaysAt(Coalesce(InfluenzaConditions.onset.start, InfluenzaConditions.onset))<= 730
+
+define "Influenza Criteria Met":
+	exists("Influenza Vaccinations") or exists("Numerator Compliant Influenza Conditions")
 
 define "IPV Immunizations or Procedures":
 	( ["Immunization": "Inactivated Polio Vaccine (IPV)"]
@@ -204,6 +241,16 @@ define "IPV Vaccinations":
 		where Coalesce(Vaccination2.performed.start, Vaccination2.occurrence) 1 day or more after Coalesce(Vaccination1.performed.start, Vaccination1.occurrence)
 			and Coalesce(Vaccination3.performed.start, Vaccination3.occurrence) 1 day or more after Coalesce(Vaccination2.performed.start, Vaccination2.occurrence) 
 		return Vaccination1
+
+define "Numerator Compliant IPV Conditions":
+	( ["Condition": "Anaphylactic Reaction to Inactivated Polio Vaccine (IPV)"]
+		union ["Condition": "Anaphylactic Reaction to Streptomycin"]
+		union ["Condition": "Anaphylactic Reaction to Polymyxin"]
+		union ["Condition": "Anaphylactic Reaction to Neomycin"] ) IPVConditions
+		where AgeInDaysAt(Coalesce(IPVConditions.onset.start, IPVConditions.onset))<= 730
+
+define "IPV Criteria Met":
+	exists("IPV Vaccinations") or exists("Numerator Compliant IPV Conditions")
 
 define "Measles Indicators":
 	( ( ["Observation": "Measles Antibody Test (IgG Antibody Titer)"] Titer
@@ -239,100 +286,6 @@ define "Mumps Indicators":
 		union ( ["Condition": "Mumps"] )) Mumps
 		where AgeInDaysAt(Coalesce(Mumps.onset.start, Mumps.onset, Mumps.effective))<= 730
 
-define "Numerator":
-	case ( "Initial Population" and
-	( exists ( "DTaP Vaccinations" )
-			or exists ( "Numerator Compliant DTaP Conditions" )
-	)
-		and ( exists ( "IPV Vaccinations" )
-				or exists ( "Numerator Compliant IPV Conditions" )
-		)
-		and ( exists ( "MMR Vaccinations" )
-				or exists ( "Numerator Compliant MMR Conditions" )
-				or ( exists ( "Measles Indicators" )
-						and exists ( "Mumps Indicators" )
-						and exists ( "Rubella Indicators" )
-				)
-		)
-		and ( exists ( "HIB Vaccinations" )
-				or exists ( "Numerator Compliant HIB Conditions" )
-		)
-		and ( exists ( "Hepatitis B Vaccinations" )
-				or exists ( "Numerator Compliant Hepatitis B Conditions" )
-		)
-		and ( exists ( "VZV Vaccinations" )
-				or exists ( "Numerator Compliant Varicella Zoster Conditions" )
-		)
-		and ( exists ( "Pneumococcal Conjugate Vaccinations" )
-				or exists ( "Numerator Compliant Pneumococcal Conjugate Conditions" )
-		)
-		and ( exists ( "Hepatitis A Vaccinations" )
-				or exists ( "Numerator Compliant Hepatitis A Conditions" )
-		)
-		and ( exists ( "Rotavirus 2 Dose Vaccinations" )
-				or exists ( "Numerator Compliant Rotavirus Conditions" )
-				or exists ( "Rotavirus 2 or 3 Dose Vaccinations" )
-				or exists ( "Rotavirus 3 Dose Vaccinations" )
-		)
-		and ( exists ( "Influenza Vaccinations" )
-				or exists ( "Numerator Compliant Influenza Conditions" )
-		)
-	)
-		when true then 1
-    else 0
-  end
-
-define "Numerator Compliant DTaP Conditions":
-	( ["Condition": "Anaphylactic Reaction to DTaP Vaccine"]
-		union ["Condition": "Encephalopathy due to Childhood Vaccination"] ) DPaTConditions
-		where AgeInDaysAt(Coalesce(DPaTConditions.onset.start, DPaTConditions.onset))<= 730
-
-define "Numerator Compliant Hepatitis A Conditions":
-	( ( ["Observation": "Anti Hepatitis A IgG Antigen Test"] HepAAntigenTest
-			with HepAAntigenTest.value.coding coding such that exists(
-							HepAAntigenTest.value.coding coding
-              	where coding.code in "Positive Finding"
-        )
-	)
-		union ( ["Condition": "Anaphylactic Reaction to Hepatitis A Vaccine"] 
-		)
-		union ( ["Condition": "Hepatitis A"] ) ) HepAConditions
-		where AgeInDaysAt(Coalesce(HepAConditions.onset.start, HepAConditions.onset, HepAConditions.effective))<= 730
-
-define "Numerator Compliant Hepatitis B Conditions":
-	( ( ["Observation": "Anti Hepatitis B Virus Surface Ab"] HepBAntigenTest
-			with HepBAntigenTest.value.coding coding such that exists(
-							HepBAntigenTest.value.coding coding
-              	where coding.code in "Positive Finding"
-        )
-	)
-		union ( ["Condition": "Anaphylactic Reaction to Hepatitis B Vaccine"]
-		)
-		//union ( ["Condition": "Anaphylactic Reaction to Common Baker's Yeast"] 
-		//)
-		union ( ["Condition": "Hepatitis B"] 
-		) ) HepBConditions
-		where AgeInDaysAt(Coalesce(HepBConditions.onset.start, HepBConditions.onset, HepBConditions.effective))<= 730
-
-define "Numerator Compliant HIB Conditions":
-	["Condition": "Anaphylactic Reaction to Hemophilus Influenza B (HiB) Vaccine"] HIBReaction
-		where AgeInDaysAt(Coalesce(HIBReaction.onset.start, HIBReaction.onset))<= 730
-
-define "Numerator Compliant Influenza Conditions":
-	( ["Condition": "Anaphylactic Reaction to Influenza Vaccine"]
-		union ["Condition": "Malignant Neoplasm of Lymphatic and Hematopoietic Tissue"]
-		union ["Condition": "Anaphylactic Reaction to Neomycin"]
-		union ["Condition": "HIV"]
-		union ["Condition": "Disorders of the Immune System"] ) InfluenzaConditions
-		where AgeInDaysAt(Coalesce(InfluenzaConditions.onset.start, InfluenzaConditions.onset))<= 730
-
-define "Numerator Compliant IPV Conditions":
-	( ["Condition": "Anaphylactic Reaction to Inactivated Polio Vaccine (IPV)"]
-		union ["Condition": "Anaphylactic Reaction to Streptomycin"]
-		union ["Condition": "Anaphylactic Reaction to Polymyxin"]
-		union ["Condition": "Anaphylactic Reaction to Neomycin"] ) IPVConditions
-		where AgeInDaysAt(Coalesce(IPVConditions.onset.start, IPVConditions.onset))<= 730
-
 define "Numerator Compliant MMR Conditions":
 	( ["Condition": "Disorders of the Immune System"]
 		union ["Condition": "HIV"]
@@ -340,37 +293,13 @@ define "Numerator Compliant MMR Conditions":
 		union ["Condition": "Anaphylactic Reaction to Neomycin"] ) MMRConditions
 		where AgeInDaysAt(Coalesce(MMRConditions.onset.start, MMRConditions.onset))<= 730
 
-define "Numerator Compliant Pneumococcal Conjugate Conditions":
-	["Condition": "Anaphylactic Reaction to Pneumococcal Conjugate Vaccine"] PCVReaction
-		where AgeInDaysAt(Coalesce(PCVReaction.onset.start, PCVReaction.onset))<= 730
-
-define "Numerator Compliant Rotavirus Conditions":
-	( ["Condition": "Anaphylactic Reaction to Rotavirus Vaccine"]
-		union ["Condition": "Severe Combined Immunodeficiency"]
-		union ["Condition": "Intussusception"] ) RotavirusConditions
-		where AgeInDaysAt(Coalesce(RotavirusConditions.onset.start, RotavirusConditions.onset))<= 730
-
-define "Numerator Compliant Varicella Zoster Conditions":
-	( ( ["Observation": "Varicella Zoster Antibody Test (IgG Antibody Titer)"] Titer
-			where Titer.value.value >= 1.10
-	)
-		union ( ["Observation": "Varicella Zoster Antibody Test (IgG Antibody Presence)"] IgGPresence
-			with IgGPresence.value.coding coding such that exists(
-							IgGPresence.value.coding coding
-              	where coding.code in "Positive Finding"
-        )
+define "MMR Criteria Met":
+	exists ( "MMR Vaccinations" )
+		or exists ( "Numerator Compliant MMR Conditions" )
+		or ( exists ( "Measles Indicators" )
+				and exists ( "Mumps Indicators" )
+				and exists ( "Rubella Indicators" )
 		)
-		union ( ["Condition": "Disorders of the Immune System"] 
-		)
-		union ( ["Condition": "HIV"] 
-		)
-		union ( ["Condition": "Malignant Neoplasm of Lymphatic and Hematopoietic Tissue"] 
-		)
-		union ( ["Condition": "Anaphylactic Reaction to Neomycin"] 
-		)
-		union ( ["Condition": "Varicella Zoster"] 
-		) ) VaricellaZosterConditions
-		where AgeInDaysAt(Coalesce(VaricellaZosterConditions.onset.start, VaricellaZosterConditions.onset, VaricellaZosterConditions.effective))<= 730
 
 define "Pneumococcal Conjugate Immunizations or Procedures":
 	( ["Immunization": "Pneumococcal Conjugate Vaccine"]
@@ -388,6 +317,13 @@ define "Pneumococcal Conjugate Vaccinations":
 			and Coalesce(Vaccination3.performed.start, Vaccination3.occurrence) 1 day or more after Coalesce(Vaccination2.performed.start, Vaccination2.occurrence) 
 			and Coalesce(Vaccination4.performed.start, Vaccination4.occurrence) 1 day or more after Coalesce(Vaccination3.performed.start, Vaccination3.occurrence)
 		return Vaccination1
+
+define "Numerator Compliant Pneumococcal Conjugate Conditions":
+	["Condition": "Anaphylactic Reaction to Pneumococcal Conjugate Vaccine"] PCVReaction
+		where AgeInDaysAt(Coalesce(PCVReaction.onset.start, PCVReaction.onset))<= 730
+
+define "Pneumococcal Conjugate Criteria Met":
+	exists("Pneumococcal Conjugate Vaccinations") or exists("Numerator Compliant Pneumococcal Conjugate Conditions")
 
 define "Qualifying Encounter":
 	( ["Encounter": "Office Visit"]
@@ -459,6 +395,18 @@ define "Rotavirus 3 Dose Vaccinations":
 			and Coalesce(Vaccination3.performed.start, Vaccination3.occurrence) 1 day or more after Coalesce(Vaccination2.performed.start, Vaccination2.occurrence) 
 		return Vaccination1
 
+define "Numerator Compliant Rotavirus Conditions":
+	( ["Condition": "Anaphylactic Reaction to Rotavirus Vaccine"]
+		union ["Condition": "Severe Combined Immunodeficiency"]
+		union ["Condition": "Intussusception"] ) RotavirusConditions
+		where AgeInDaysAt(Coalesce(RotavirusConditions.onset.start, RotavirusConditions.onset))<= 730
+
+define "Rotavirus Criteria Met":
+	exists ( "Rotavirus 2 Dose Vaccinations" )
+		or exists ( "Numerator Compliant Rotavirus Conditions" )
+		or exists ( "Rotavirus 2 or 3 Dose Vaccinations" )
+		or exists ( "Rotavirus 3 Dose Vaccinations" )
+
 define "Rubella Indicators":
 	( ( ["Observation": "Rubella Antibody Test (IgG Antibody Titer)"] Titer
 			where Titer.value.value >= 1.10
@@ -482,6 +430,68 @@ define "VZV Vaccinations":
 	union (["Condition": "Varicella Zoster"] VZVCondition
 		where AgeInDaysAt(Coalesce(VZVCondition.onset, VZVCondition.onset.start)) <= 730)) VZV
 	return VZV
+
+define "Numerator Compliant VZV Conditions":
+	( ( ["Observation": "Varicella Zoster Antibody Test (IgG Antibody Titer)"] Titer
+			where Titer.value.value >= 1.10
+	)
+		union ( ["Observation": "Varicella Zoster Antibody Test (IgG Antibody Presence)"] IgGPresence
+			with IgGPresence.value.coding coding such that exists(
+							IgGPresence.value.coding coding
+              	where coding.code in "Positive Finding"
+        )
+		)
+		union ( ["Condition": "Disorders of the Immune System"] 
+		)
+		union ( ["Condition": "HIV"] 
+		)
+		union ( ["Condition": "Malignant Neoplasm of Lymphatic and Hematopoietic Tissue"] 
+		)
+		union ( ["Condition": "Anaphylactic Reaction to Neomycin"] 
+		)
+		union ( ["Condition": "Varicella Zoster"] 
+		) ) VaricellaZosterConditions
+		where AgeInDaysAt(Coalesce(VaricellaZosterConditions.onset.start, VaricellaZosterConditions.onset, VaricellaZosterConditions.effective))<= 730
+
+define "VZV Criteria Met":
+	exists("VZV Vaccinations") or exists("Numerator Compliant VZV Conditions")
+
+define "Numerator":
+	case ( "Initial Population"
+		and "DTaP Criteria Met"
+		and "IPV Criteria Met"
+		and "MMR Criteria Met"
+		and "HIB Criteria Met"
+		and "Hepatitis B Criteria Met"
+		and "VZV Criteria Met"
+		and "Pneumococcal Conjugate Criteria Met"
+		and "Hepatitis A Criteria Met"
+		and "Rotavirus Criteria Met"
+		and "Influenza Criteria Met"
+	)
+		when true then 1
+    else 0
+  end
+
+define "Denominator":
+  case ("Initial Population" and not "Denominator Exclusions")
+    when true then 1
+    else 0
+  end
+
+define "Denominator Exclusions":
+	exists ( ["Encounter": "Encounter Inpatient"] DischargeHospice
+			where ( ( DischargeHospice.hospitalization.dischargeDisposition in "Discharged to Home for Hospice Care"
+						or DischargeHospice.hospitalization.dischargeDisposition in "Discharged to Health Care Facility for Hospice Care"
+				)
+					and DischargeHospice.period ends during "Measurement Period"
+			)
+	)
+		or exists ( ["ServiceRequest": "Hospice care ambulatory"]
+		)
+		or exists ( ["ServiceRequest": "Hospice care ambulatory"] HospicePerformed
+				where Coalesce(HospicePerformed.occurrence, HospicePerformed.occurrence.start) during "Measurement Period"
+		)
 
 context Unfiltered
 
