@@ -5,7 +5,7 @@
          "type" : "CqlToElmInfo"
       } ],
       "identifier" : {
-         "id" : "childhood-immunization-status",
+         "id" : "childhood_immunization_status",
          "version" : "1"
       },
       "schemaIdentifier" : {
