@@ -258,8 +258,12 @@
             "id" : "2.16.840.1.113883.3.464.1003.110.12.1044",
             "accessLevel" : "Public"
          }, {
-            "name" : "Malignant Neoplasm of Lymphatic and Hematopoietic Tissue",
-            "id" : "2.16.840.1.113883.3.464.1003.108.12.1009",
+            "name" : "Influenza Virus Vaccine and Vaccination",
+            "id" : "2.16.840.1.113762.1.4.1221.108",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Malignant Neoplasm of Lymphatic Tissue",
+            "id" : "2.16.840.1.113883.3.464.1003.108.11.1054",
             "accessLevel" : "Public"
          }, {
             "name" : "Measles",
@@ -388,14 +392,6 @@
          }, {
             "name" : "Severe Combined Immunodeficiency",
             "id" : "2.16.840.1.113883.3.464.1003.120.12.1007",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Anti Hepatitis B Virus Surface Ab",
-            "id" : "2.16.840.1.113883.3.464.1003.198.12.1073",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Anti Hepatitis A IgG Antigen Test",
-            "id" : "2.16.840.1.113883.3.464.1003.198.12.1033",
             "accessLevel" : "Public"
          } ]
       },
@@ -953,13 +949,13 @@
                }
             }
          }, {
-            "name" : "Numerator Compliant DTaP Conditions",
+            "name" : "DTaP Exclusions",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "Query",
                "source" : [ {
-                  "alias" : "DPaTConditions",
+                  "alias" : "DPaTExclusions",
                   "expression" : {
                      "type" : "Union",
                      "operand" : [ {
@@ -1010,7 +1006,7 @@
                               "type" : "Property",
                               "source" : {
                                  "path" : "onset",
-                                 "scope" : "DPaTConditions",
+                                 "scope" : "DPaTExclusions",
                                  "type" : "Property"
                               }
                            }, {
@@ -1018,7 +1014,7 @@
                               "type" : "As",
                               "operand" : {
                                  "path" : "onset",
-                                 "scope" : "DPaTConditions",
+                                 "scope" : "DPaTExclusions",
                                  "type" : "Property"
                               }
                            } ]
@@ -1026,7 +1022,7 @@
                      } ]
                   }, {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "73",
+                     "value" : "730",
                      "type" : "Literal"
                   } ]
                }
@@ -1036,7 +1032,7 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Or",
+               "type" : "And",
                "operand" : [ {
                   "type" : "Exists",
                   "operand" : {
@@ -1044,10 +1040,13 @@
                      "type" : "ExpressionRef"
                   }
                }, {
-                  "type" : "Exists",
+                  "type" : "Not",
                   "operand" : {
-                     "name" : "Numerator Compliant DTaP Conditions",
-                     "type" : "ExpressionRef"
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "DTaP Exclusions",
+                        "type" : "ExpressionRef"
+                     }
                   }
                } ]
             }
@@ -1335,157 +1334,14 @@
                "source" : [ {
                   "alias" : "HepAConditions",
                   "expression" : {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "type" : "As",
-                        "operand" : {
-                           "type" : "Union",
-                           "operand" : [ {
-                              "type" : "As",
-                              "operand" : {
-                                 "type" : "Query",
-                                 "source" : [ {
-                                    "alias" : "HepAAntigenTest",
-                                    "expression" : {
-                                       "dataType" : "{http://hl7.org/fhir}Observation",
-                                       "codeProperty" : "code",
-                                       "codeComparator" : "in",
-                                       "type" : "Retrieve",
-                                       "codes" : {
-                                          "name" : "Anti Hepatitis A IgG Antigen Test",
-                                          "type" : "ValueSetRef"
-                                       }
-                                    }
-                                 } ],
-                                 "relationship" : [ {
-                                    "alias" : "coding",
-                                    "type" : "With",
-                                    "expression" : {
-                                       "path" : "coding",
-                                       "type" : "Property",
-                                       "source" : {
-                                          "path" : "value",
-                                          "scope" : "HepAAntigenTest",
-                                          "type" : "Property"
-                                       }
-                                    },
-                                    "suchThat" : {
-                                       "type" : "Exists",
-                                       "operand" : {
-                                          "type" : "Query",
-                                          "source" : [ {
-                                             "alias" : "coding",
-                                             "expression" : {
-                                                "path" : "coding",
-                                                "type" : "Property",
-                                                "source" : {
-                                                   "path" : "value",
-                                                   "scope" : "HepAAntigenTest",
-                                                   "type" : "Property"
-                                                }
-                                             }
-                                          } ],
-                                          "relationship" : [ ],
-                                          "where" : {
-                                             "type" : "InValueSet",
-                                             "code" : {
-                                                "name" : "ToString",
-                                                "libraryName" : "FHIRHelpers",
-                                                "type" : "FunctionRef",
-                                                "operand" : [ {
-                                                   "path" : "code",
-                                                   "scope" : "coding",
-                                                   "type" : "Property"
-                                                } ]
-                                             },
-                                             "valueset" : {
-                                                "name" : "Positive Finding",
-                                                "type" : "ValueSetRef"
-                                             }
-                                          }
-                                       }
-                                    }
-                                 } ]
-                              },
-                              "asTypeSpecifier" : {
-                                 "type" : "ListTypeSpecifier",
-                                 "elementType" : {
-                                    "type" : "ChoiceTypeSpecifier",
-                                    "choice" : [ {
-                                       "name" : "{http://hl7.org/fhir}Observation",
-                                       "type" : "NamedTypeSpecifier"
-                                    }, {
-                                       "name" : "{http://hl7.org/fhir}Condition",
-                                       "type" : "NamedTypeSpecifier"
-                                    } ]
-                                 }
-                              }
-                           }, {
-                              "type" : "As",
-                              "operand" : {
-                                 "dataType" : "{http://hl7.org/fhir}Condition",
-                                 "codeProperty" : "code",
-                                 "codeComparator" : "in",
-                                 "type" : "Retrieve",
-                                 "codes" : {
-                                    "name" : "Anaphylactic Reaction to Hepatitis A Vaccine",
-                                    "type" : "ValueSetRef"
-                                 }
-                              },
-                              "asTypeSpecifier" : {
-                                 "type" : "ListTypeSpecifier",
-                                 "elementType" : {
-                                    "type" : "ChoiceTypeSpecifier",
-                                    "choice" : [ {
-                                       "name" : "{http://hl7.org/fhir}Observation",
-                                       "type" : "NamedTypeSpecifier"
-                                    }, {
-                                       "name" : "{http://hl7.org/fhir}Condition",
-                                       "type" : "NamedTypeSpecifier"
-                                    } ]
-                                 }
-                              }
-                           } ]
-                        },
-                        "asTypeSpecifier" : {
-                           "type" : "ListTypeSpecifier",
-                           "elementType" : {
-                              "type" : "ChoiceTypeSpecifier",
-                              "choice" : [ {
-                                 "name" : "{http://hl7.org/fhir}Observation",
-                                 "type" : "NamedTypeSpecifier"
-                              }, {
-                                 "name" : "{http://hl7.org/fhir}Condition",
-                                 "type" : "NamedTypeSpecifier"
-                              } ]
-                           }
-                        }
-                     }, {
-                        "type" : "As",
-                        "operand" : {
-                           "dataType" : "{http://hl7.org/fhir}Condition",
-                           "codeProperty" : "code",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Hepatitis A",
-                              "type" : "ValueSetRef"
-                           }
-                        },
-                        "asTypeSpecifier" : {
-                           "type" : "ListTypeSpecifier",
-                           "elementType" : {
-                              "type" : "ChoiceTypeSpecifier",
-                              "choice" : [ {
-                                 "name" : "{http://hl7.org/fhir}Observation",
-                                 "type" : "NamedTypeSpecifier"
-                              }, {
-                                 "name" : "{http://hl7.org/fhir}Condition",
-                                 "type" : "NamedTypeSpecifier"
-                              } ]
-                           }
-                        }
-                     } ]
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Hepatitis A",
+                        "type" : "ValueSetRef"
+                     }
                   }
                } ],
                "relationship" : [ ],
@@ -1526,14 +1382,6 @@
                                  "scope" : "HepAConditions",
                                  "type" : "Property"
                               }
-                           }, {
-                              "asType" : "{http://hl7.org/fhir}dateTime",
-                              "type" : "As",
-                              "operand" : {
-                                 "path" : "effective",
-                                 "scope" : "HepAConditions",
-                                 "type" : "Property"
-                              }
                            } ]
                         } ]
                      } ]
@@ -1545,22 +1393,48 @@
                }
             }
          }, {
+            "name" : "Hepatitis A Exclusions",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "dataType" : "{http://hl7.org/fhir}Condition",
+               "codeProperty" : "code",
+               "codeComparator" : "in",
+               "type" : "Retrieve",
+               "codes" : {
+                  "name" : "Anaphylactic Reaction to Hepatitis A Vaccine",
+                  "type" : "ValueSetRef"
+               }
+            }
+         }, {
             "name" : "Hepatitis A Criteria Met",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Or",
+               "type" : "And",
                "operand" : [ {
-                  "type" : "Exists",
-                  "operand" : {
-                     "name" : "Hepatitis A Vaccinations",
-                     "type" : "ExpressionRef"
-                  }
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Hepatitis A Vaccinations",
+                        "type" : "ExpressionRef"
+                     }
+                  }, {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Numerator Compliant Hepatitis A Conditions",
+                        "type" : "ExpressionRef"
+                     }
+                  } ]
                }, {
-                  "type" : "Exists",
+                  "type" : "Not",
                   "operand" : {
-                     "name" : "Numerator Compliant Hepatitis A Conditions",
-                     "type" : "ExpressionRef"
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Hepatitis A Exclusions",
+                        "type" : "ExpressionRef"
+                     }
                   }
                } ]
             }
@@ -1885,157 +1759,14 @@
                "source" : [ {
                   "alias" : "HepBConditions",
                   "expression" : {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "type" : "As",
-                        "operand" : {
-                           "type" : "Union",
-                           "operand" : [ {
-                              "type" : "As",
-                              "operand" : {
-                                 "type" : "Query",
-                                 "source" : [ {
-                                    "alias" : "HepBAntigenTest",
-                                    "expression" : {
-                                       "dataType" : "{http://hl7.org/fhir}Observation",
-                                       "codeProperty" : "code",
-                                       "codeComparator" : "in",
-                                       "type" : "Retrieve",
-                                       "codes" : {
-                                          "name" : "Anti Hepatitis B Virus Surface Ab",
-                                          "type" : "ValueSetRef"
-                                       }
-                                    }
-                                 } ],
-                                 "relationship" : [ {
-                                    "alias" : "coding",
-                                    "type" : "With",
-                                    "expression" : {
-                                       "path" : "coding",
-                                       "type" : "Property",
-                                       "source" : {
-                                          "path" : "value",
-                                          "scope" : "HepBAntigenTest",
-                                          "type" : "Property"
-                                       }
-                                    },
-                                    "suchThat" : {
-                                       "type" : "Exists",
-                                       "operand" : {
-                                          "type" : "Query",
-                                          "source" : [ {
-                                             "alias" : "coding",
-                                             "expression" : {
-                                                "path" : "coding",
-                                                "type" : "Property",
-                                                "source" : {
-                                                   "path" : "value",
-                                                   "scope" : "HepBAntigenTest",
-                                                   "type" : "Property"
-                                                }
-                                             }
-                                          } ],
-                                          "relationship" : [ ],
-                                          "where" : {
-                                             "type" : "InValueSet",
-                                             "code" : {
-                                                "name" : "ToString",
-                                                "libraryName" : "FHIRHelpers",
-                                                "type" : "FunctionRef",
-                                                "operand" : [ {
-                                                   "path" : "code",
-                                                   "scope" : "coding",
-                                                   "type" : "Property"
-                                                } ]
-                                             },
-                                             "valueset" : {
-                                                "name" : "Positive Finding",
-                                                "type" : "ValueSetRef"
-                                             }
-                                          }
-                                       }
-                                    }
-                                 } ]
-                              },
-                              "asTypeSpecifier" : {
-                                 "type" : "ListTypeSpecifier",
-                                 "elementType" : {
-                                    "type" : "ChoiceTypeSpecifier",
-                                    "choice" : [ {
-                                       "name" : "{http://hl7.org/fhir}Observation",
-                                       "type" : "NamedTypeSpecifier"
-                                    }, {
-                                       "name" : "{http://hl7.org/fhir}Condition",
-                                       "type" : "NamedTypeSpecifier"
-                                    } ]
-                                 }
-                              }
-                           }, {
-                              "type" : "As",
-                              "operand" : {
-                                 "dataType" : "{http://hl7.org/fhir}Condition",
-                                 "codeProperty" : "code",
-                                 "codeComparator" : "in",
-                                 "type" : "Retrieve",
-                                 "codes" : {
-                                    "name" : "Anaphylactic Reaction to Hepatitis B Vaccine",
-                                    "type" : "ValueSetRef"
-                                 }
-                              },
-                              "asTypeSpecifier" : {
-                                 "type" : "ListTypeSpecifier",
-                                 "elementType" : {
-                                    "type" : "ChoiceTypeSpecifier",
-                                    "choice" : [ {
-                                       "name" : "{http://hl7.org/fhir}Observation",
-                                       "type" : "NamedTypeSpecifier"
-                                    }, {
-                                       "name" : "{http://hl7.org/fhir}Condition",
-                                       "type" : "NamedTypeSpecifier"
-                                    } ]
-                                 }
-                              }
-                           } ]
-                        },
-                        "asTypeSpecifier" : {
-                           "type" : "ListTypeSpecifier",
-                           "elementType" : {
-                              "type" : "ChoiceTypeSpecifier",
-                              "choice" : [ {
-                                 "name" : "{http://hl7.org/fhir}Observation",
-                                 "type" : "NamedTypeSpecifier"
-                              }, {
-                                 "name" : "{http://hl7.org/fhir}Condition",
-                                 "type" : "NamedTypeSpecifier"
-                              } ]
-                           }
-                        }
-                     }, {
-                        "type" : "As",
-                        "operand" : {
-                           "dataType" : "{http://hl7.org/fhir}Condition",
-                           "codeProperty" : "code",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Hepatitis B",
-                              "type" : "ValueSetRef"
-                           }
-                        },
-                        "asTypeSpecifier" : {
-                           "type" : "ListTypeSpecifier",
-                           "elementType" : {
-                              "type" : "ChoiceTypeSpecifier",
-                              "choice" : [ {
-                                 "name" : "{http://hl7.org/fhir}Observation",
-                                 "type" : "NamedTypeSpecifier"
-                              }, {
-                                 "name" : "{http://hl7.org/fhir}Condition",
-                                 "type" : "NamedTypeSpecifier"
-                              } ]
-                           }
-                        }
-                     } ]
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Hepatitis B",
+                        "type" : "ValueSetRef"
+                     }
                   }
                } ],
                "relationship" : [ ],
@@ -2076,12 +1807,71 @@
                                  "scope" : "HepBConditions",
                                  "type" : "Property"
                               }
+                           } ]
+                        } ]
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "730",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Hepatitis B Exclusions",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "HepBExclusions",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Anaphylactic Reaction to Hepatitis B Vaccine",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "LessOrEqual",
+                  "operand" : [ {
+                     "precision" : "Day",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "type" : "Coalesce",
+                           "operand" : [ {
+                              "path" : "start",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "onset",
+                                 "scope" : "HepBExclusions",
+                                 "type" : "Property"
+                              }
                            }, {
                               "asType" : "{http://hl7.org/fhir}dateTime",
                               "type" : "As",
                               "operand" : {
-                                 "path" : "effective",
-                                 "scope" : "HepBConditions",
+                                 "path" : "onset",
+                                 "scope" : "HepBExclusions",
                                  "type" : "Property"
                               }
                            } ]
@@ -2099,18 +1889,30 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Or",
+               "type" : "And",
                "operand" : [ {
-                  "type" : "Exists",
-                  "operand" : {
-                     "name" : "Hepatitis B Vaccinations",
-                     "type" : "ExpressionRef"
-                  }
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Hepatitis B Vaccinations",
+                        "type" : "ExpressionRef"
+                     }
+                  }, {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Numerator Compliant Hepatitis B Conditions",
+                        "type" : "ExpressionRef"
+                     }
+                  } ]
                }, {
-                  "type" : "Exists",
+                  "type" : "Not",
                   "operand" : {
-                     "name" : "Numerator Compliant Hepatitis B Conditions",
-                     "type" : "ExpressionRef"
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Hepatitis B Exclusions",
+                        "type" : "ExpressionRef"
+                     }
                   }
                } ]
             }
@@ -2390,7 +2192,7 @@
                }
             }
          }, {
-            "name" : "Numerator Compliant HIB Conditions",
+            "name" : "HIB Exclusions",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -2461,7 +2263,7 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Or",
+               "type" : "And",
                "operand" : [ {
                   "type" : "Exists",
                   "operand" : {
@@ -2469,10 +2271,13 @@
                      "type" : "ExpressionRef"
                   }
                }, {
-                  "type" : "Exists",
+                  "type" : "Not",
                   "operand" : {
-                     "name" : "Numerator Compliant HIB Conditions",
-                     "type" : "ExpressionRef"
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "HIB Exclusions",
+                        "type" : "ExpressionRef"
+                     }
                   }
                } ]
             }
@@ -2489,14 +2294,102 @@
                      "operand" : [ {
                         "type" : "As",
                         "operand" : {
-                           "dataType" : "{http://hl7.org/fhir}Immunization",
-                           "codeProperty" : "vaccineCode",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Influenza Vaccine",
-                              "type" : "ValueSetRef"
-                           }
+                           "type" : "Union",
+                           "operand" : [ {
+                              "type" : "As",
+                              "operand" : {
+                                 "type" : "Union",
+                                 "operand" : [ {
+                                    "type" : "As",
+                                    "operand" : {
+                                       "dataType" : "{http://hl7.org/fhir}Immunization",
+                                       "codeProperty" : "vaccineCode",
+                                       "codeComparator" : "in",
+                                       "type" : "Retrieve",
+                                       "codes" : {
+                                          "name" : "Influenza Vaccine",
+                                          "type" : "ValueSetRef"
+                                       }
+                                    },
+                                    "asTypeSpecifier" : {
+                                       "type" : "ListTypeSpecifier",
+                                       "elementType" : {
+                                          "type" : "ChoiceTypeSpecifier",
+                                          "choice" : [ {
+                                             "name" : "{http://hl7.org/fhir}Immunization",
+                                             "type" : "NamedTypeSpecifier"
+                                          }, {
+                                             "name" : "{http://hl7.org/fhir}Procedure",
+                                             "type" : "NamedTypeSpecifier"
+                                          } ]
+                                       }
+                                    }
+                                 }, {
+                                    "type" : "As",
+                                    "operand" : {
+                                       "dataType" : "{http://hl7.org/fhir}Procedure",
+                                       "codeProperty" : "code",
+                                       "codeComparator" : "in",
+                                       "type" : "Retrieve",
+                                       "codes" : {
+                                          "name" : "Influenza Vaccine Administered",
+                                          "type" : "ValueSetRef"
+                                       }
+                                    },
+                                    "asTypeSpecifier" : {
+                                       "type" : "ListTypeSpecifier",
+                                       "elementType" : {
+                                          "type" : "ChoiceTypeSpecifier",
+                                          "choice" : [ {
+                                             "name" : "{http://hl7.org/fhir}Immunization",
+                                             "type" : "NamedTypeSpecifier"
+                                          }, {
+                                             "name" : "{http://hl7.org/fhir}Procedure",
+                                             "type" : "NamedTypeSpecifier"
+                                          } ]
+                                       }
+                                    }
+                                 } ]
+                              },
+                              "asTypeSpecifier" : {
+                                 "type" : "ListTypeSpecifier",
+                                 "elementType" : {
+                                    "type" : "ChoiceTypeSpecifier",
+                                    "choice" : [ {
+                                       "name" : "{http://hl7.org/fhir}Immunization",
+                                       "type" : "NamedTypeSpecifier"
+                                    }, {
+                                       "name" : "{http://hl7.org/fhir}Procedure",
+                                       "type" : "NamedTypeSpecifier"
+                                    } ]
+                                 }
+                              }
+                           }, {
+                              "type" : "As",
+                              "operand" : {
+                                 "dataType" : "{http://hl7.org/fhir}Procedure",
+                                 "codeProperty" : "code",
+                                 "codeComparator" : "in",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Influenza Virus Vaccine and Vaccination",
+                                    "type" : "ValueSetRef"
+                                 }
+                              },
+                              "asTypeSpecifier" : {
+                                 "type" : "ListTypeSpecifier",
+                                 "elementType" : {
+                                    "type" : "ChoiceTypeSpecifier",
+                                    "choice" : [ {
+                                       "name" : "{http://hl7.org/fhir}Immunization",
+                                       "type" : "NamedTypeSpecifier"
+                                    }, {
+                                       "name" : "{http://hl7.org/fhir}Procedure",
+                                       "type" : "NamedTypeSpecifier"
+                                    } ]
+                                 }
+                              }
+                           } ]
                         },
                         "asTypeSpecifier" : {
                            "type" : "ListTypeSpecifier",
@@ -2514,12 +2407,12 @@
                      }, {
                         "type" : "As",
                         "operand" : {
-                           "dataType" : "{http://hl7.org/fhir}Procedure",
-                           "codeProperty" : "code",
+                           "dataType" : "{http://hl7.org/fhir}Immunization",
+                           "codeProperty" : "vaccineCode",
                            "codeComparator" : "in",
                            "type" : "Retrieve",
                            "codes" : {
-                              "name" : "Influenza Vaccine Administered",
+                              "name" : "Influenza Virus Vaccine and Vaccination",
                               "type" : "ValueSetRef"
                            }
                         },
@@ -2584,7 +2477,7 @@
                         } ]
                      }, {
                         "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "42",
+                        "value" : "180",
                         "type" : "Literal"
                      } ]
                   }, {
@@ -2722,7 +2615,7 @@
                }
             }
          }, {
-            "name" : "Numerator Compliant Influenza Conditions",
+            "name" : "MMR, VZV and Influenza Exclusions",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -2750,7 +2643,7 @@
                               "codeComparator" : "in",
                               "type" : "Retrieve",
                               "codes" : {
-                                 "name" : "Malignant Neoplasm of Lymphatic and Hematopoietic Tissue",
+                                 "name" : "Malignant Neoplasm of Lymphatic Tissue",
                                  "type" : "ValueSetRef"
                               }
                            } ]
@@ -2841,7 +2734,7 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Or",
+               "type" : "And",
                "operand" : [ {
                   "type" : "Exists",
                   "operand" : {
@@ -2849,10 +2742,13 @@
                      "type" : "ExpressionRef"
                   }
                }, {
-                  "type" : "Exists",
+                  "type" : "Not",
                   "operand" : {
-                     "name" : "Numerator Compliant Influenza Conditions",
-                     "type" : "ExpressionRef"
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "MMR, VZV and Influenza Exclusions",
+                        "type" : "ExpressionRef"
+                     }
                   }
                } ]
             }
@@ -3991,109 +3887,6 @@
                }
             }
          }, {
-            "name" : "Numerator Compliant MMR Conditions",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "MMRConditions",
-                  "expression" : {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "type" : "Union",
-                        "operand" : [ {
-                           "dataType" : "{http://hl7.org/fhir}Condition",
-                           "codeProperty" : "code",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Disorders of the Immune System",
-                              "type" : "ValueSetRef"
-                           }
-                        }, {
-                           "dataType" : "{http://hl7.org/fhir}Condition",
-                           "codeProperty" : "code",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "HIV",
-                              "type" : "ValueSetRef"
-                           }
-                        } ]
-                     }, {
-                        "type" : "Union",
-                        "operand" : [ {
-                           "dataType" : "{http://hl7.org/fhir}Condition",
-                           "codeProperty" : "code",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Malignant Neoplasm of Lymphatic and Hematopoietic Tissue",
-                              "type" : "ValueSetRef"
-                           }
-                        }, {
-                           "dataType" : "{http://hl7.org/fhir}Condition",
-                           "codeProperty" : "code",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Anaphylactic Reaction to Neomycin",
-                              "type" : "ValueSetRef"
-                           }
-                        } ]
-                     } ]
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "LessOrEqual",
-                  "operand" : [ {
-                     "precision" : "Day",
-                     "type" : "CalculateAgeAt",
-                     "operand" : [ {
-                        "type" : "ToDateTime",
-                        "operand" : {
-                           "path" : "birthDate.value",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "Patient",
-                              "type" : "ExpressionRef"
-                           }
-                        }
-                     }, {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "type" : "Coalesce",
-                           "operand" : [ {
-                              "path" : "start",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "onset",
-                                 "scope" : "MMRConditions",
-                                 "type" : "Property"
-                              }
-                           }, {
-                              "asType" : "{http://hl7.org/fhir}dateTime",
-                              "type" : "As",
-                              "operand" : {
-                                 "path" : "onset",
-                                 "scope" : "MMRConditions",
-                                 "type" : "Property"
-                              }
-                           } ]
-                        } ]
-                     } ]
-                  }, {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "730",
-                     "type" : "Literal"
-                  } ]
-               }
-            }
-         }, {
             "name" : "Rubella Indicators",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -4370,42 +4163,45 @@
             "expression" : {
                "type" : "Or",
                "operand" : [ {
-                  "type" : "Or",
-                  "operand" : [ {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "MMR Vaccinations",
-                        "type" : "ExpressionRef"
-                     }
-                  }, {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "Numerator Compliant MMR Conditions",
-                        "type" : "ExpressionRef"
-                     }
-                  } ]
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "MMR Vaccinations",
+                     "type" : "ExpressionRef"
+                  }
                }, {
                   "type" : "And",
                   "operand" : [ {
                      "type" : "And",
                      "operand" : [ {
-                        "type" : "Exists",
-                        "operand" : {
-                           "name" : "Measles Indicators",
-                           "type" : "ExpressionRef"
-                        }
+                        "type" : "And",
+                        "operand" : [ {
+                           "type" : "Exists",
+                           "operand" : {
+                              "name" : "Measles Indicators",
+                              "type" : "ExpressionRef"
+                           }
+                        }, {
+                           "type" : "Exists",
+                           "operand" : {
+                              "name" : "Mumps Indicators",
+                              "type" : "ExpressionRef"
+                           }
+                        } ]
                      }, {
                         "type" : "Exists",
                         "operand" : {
-                           "name" : "Mumps Indicators",
+                           "name" : "Rubella Indicators",
                            "type" : "ExpressionRef"
                         }
                      } ]
                   }, {
-                     "type" : "Exists",
+                     "type" : "Not",
                      "operand" : {
-                        "name" : "Rubella Indicators",
-                        "type" : "ExpressionRef"
+                        "type" : "Exists",
+                        "operand" : {
+                           "name" : "MMR, VZV and Influenza Exclusions",
+                           "type" : "ExpressionRef"
+                        }
                      }
                   } ]
                } ]
@@ -6317,457 +6113,11 @@
                }
             }
          }, {
-            "name" : "Numerator Compliant VZV Conditions",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "VaricellaZosterConditions",
-                  "expression" : {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "type" : "As",
-                        "operand" : {
-                           "type" : "Union",
-                           "operand" : [ {
-                              "type" : "As",
-                              "operand" : {
-                                 "type" : "Union",
-                                 "operand" : [ {
-                                    "type" : "As",
-                                    "operand" : {
-                                       "type" : "Union",
-                                       "operand" : [ {
-                                          "type" : "As",
-                                          "operand" : {
-                                             "type" : "Union",
-                                             "operand" : [ {
-                                                "type" : "As",
-                                                "operand" : {
-                                                   "type" : "Union",
-                                                   "operand" : [ {
-                                                      "type" : "Query",
-                                                      "source" : [ {
-                                                         "alias" : "Titer",
-                                                         "expression" : {
-                                                            "dataType" : "{http://hl7.org/fhir}Observation",
-                                                            "codeProperty" : "code",
-                                                            "codeComparator" : "in",
-                                                            "type" : "Retrieve",
-                                                            "codes" : {
-                                                               "name" : "Varicella Zoster Antibody Test (IgG Antibody Titer)",
-                                                               "type" : "ValueSetRef"
-                                                            }
-                                                         }
-                                                      } ],
-                                                      "relationship" : [ ],
-                                                      "where" : {
-                                                         "type" : "GreaterOrEqual",
-                                                         "operand" : [ {
-                                                            "type" : "Case",
-                                                            "caseItem" : [ {
-                                                               "when" : {
-                                                                  "isType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                                                  "type" : "Is",
-                                                                  "operand" : {
-                                                                     "path" : "value",
-                                                                     "type" : "Property",
-                                                                     "source" : {
-                                                                        "path" : "value",
-                                                                        "scope" : "Titer",
-                                                                        "type" : "Property"
-                                                                     }
-                                                                  }
-                                                               },
-                                                               "then" : {
-                                                                  "type" : "ToDecimal",
-                                                                  "operand" : {
-                                                                     "asType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                                                     "type" : "As",
-                                                                     "operand" : {
-                                                                        "path" : "value",
-                                                                        "type" : "Property",
-                                                                        "source" : {
-                                                                           "path" : "value",
-                                                                           "scope" : "Titer",
-                                                                           "type" : "Property"
-                                                                        }
-                                                                     }
-                                                                  }
-                                                               }
-                                                            }, {
-                                                               "when" : {
-                                                                  "isType" : "{http://hl7.org/fhir}decimal",
-                                                                  "type" : "Is",
-                                                                  "operand" : {
-                                                                     "path" : "value",
-                                                                     "type" : "Property",
-                                                                     "source" : {
-                                                                        "path" : "value",
-                                                                        "scope" : "Titer",
-                                                                        "type" : "Property"
-                                                                     }
-                                                                  }
-                                                               },
-                                                               "then" : {
-                                                                  "name" : "ToDecimal",
-                                                                  "libraryName" : "FHIRHelpers",
-                                                                  "type" : "FunctionRef",
-                                                                  "operand" : [ {
-                                                                     "asType" : "{http://hl7.org/fhir}decimal",
-                                                                     "type" : "As",
-                                                                     "operand" : {
-                                                                        "path" : "value",
-                                                                        "type" : "Property",
-                                                                        "source" : {
-                                                                           "path" : "value",
-                                                                           "scope" : "Titer",
-                                                                           "type" : "Property"
-                                                                        }
-                                                                     }
-                                                                  } ]
-                                                               }
-                                                            } ],
-                                                            "else" : {
-                                                               "resultTypeName" : "{urn:hl7-org:elm-types:r1}Decimal",
-                                                               "type" : "Null"
-                                                            }
-                                                         }, {
-                                                            "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
-                                                            "value" : "1.10",
-                                                            "type" : "Literal"
-                                                         } ]
-                                                      }
-                                                   }, {
-                                                      "type" : "Query",
-                                                      "source" : [ {
-                                                         "alias" : "IgGPresence",
-                                                         "expression" : {
-                                                            "dataType" : "{http://hl7.org/fhir}Observation",
-                                                            "codeProperty" : "code",
-                                                            "codeComparator" : "in",
-                                                            "type" : "Retrieve",
-                                                            "codes" : {
-                                                               "name" : "Varicella Zoster Antibody Test (IgG Antibody Presence)",
-                                                               "type" : "ValueSetRef"
-                                                            }
-                                                         }
-                                                      } ],
-                                                      "relationship" : [ {
-                                                         "alias" : "coding",
-                                                         "type" : "With",
-                                                         "expression" : {
-                                                            "path" : "coding",
-                                                            "type" : "Property",
-                                                            "source" : {
-                                                               "path" : "value",
-                                                               "scope" : "IgGPresence",
-                                                               "type" : "Property"
-                                                            }
-                                                         },
-                                                         "suchThat" : {
-                                                            "type" : "Exists",
-                                                            "operand" : {
-                                                               "type" : "Query",
-                                                               "source" : [ {
-                                                                  "alias" : "coding",
-                                                                  "expression" : {
-                                                                     "path" : "coding",
-                                                                     "type" : "Property",
-                                                                     "source" : {
-                                                                        "path" : "value",
-                                                                        "scope" : "IgGPresence",
-                                                                        "type" : "Property"
-                                                                     }
-                                                                  }
-                                                               } ],
-                                                               "relationship" : [ ],
-                                                               "where" : {
-                                                                  "type" : "InValueSet",
-                                                                  "code" : {
-                                                                     "name" : "ToString",
-                                                                     "libraryName" : "FHIRHelpers",
-                                                                     "type" : "FunctionRef",
-                                                                     "operand" : [ {
-                                                                        "path" : "code",
-                                                                        "scope" : "coding",
-                                                                        "type" : "Property"
-                                                                     } ]
-                                                                  },
-                                                                  "valueset" : {
-                                                                     "name" : "Positive Finding",
-                                                                     "type" : "ValueSetRef"
-                                                                  }
-                                                               }
-                                                            }
-                                                         }
-                                                      } ]
-                                                   } ]
-                                                },
-                                                "asTypeSpecifier" : {
-                                                   "type" : "ListTypeSpecifier",
-                                                   "elementType" : {
-                                                      "type" : "ChoiceTypeSpecifier",
-                                                      "choice" : [ {
-                                                         "name" : "{http://hl7.org/fhir}Observation",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }, {
-                                                         "name" : "{http://hl7.org/fhir}Condition",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      } ]
-                                                   }
-                                                }
-                                             }, {
-                                                "type" : "As",
-                                                "operand" : {
-                                                   "dataType" : "{http://hl7.org/fhir}Condition",
-                                                   "codeProperty" : "code",
-                                                   "codeComparator" : "in",
-                                                   "type" : "Retrieve",
-                                                   "codes" : {
-                                                      "name" : "Disorders of the Immune System",
-                                                      "type" : "ValueSetRef"
-                                                   }
-                                                },
-                                                "asTypeSpecifier" : {
-                                                   "type" : "ListTypeSpecifier",
-                                                   "elementType" : {
-                                                      "type" : "ChoiceTypeSpecifier",
-                                                      "choice" : [ {
-                                                         "name" : "{http://hl7.org/fhir}Observation",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      }, {
-                                                         "name" : "{http://hl7.org/fhir}Condition",
-                                                         "type" : "NamedTypeSpecifier"
-                                                      } ]
-                                                   }
-                                                }
-                                             } ]
-                                          },
-                                          "asTypeSpecifier" : {
-                                             "type" : "ListTypeSpecifier",
-                                             "elementType" : {
-                                                "type" : "ChoiceTypeSpecifier",
-                                                "choice" : [ {
-                                                   "name" : "{http://hl7.org/fhir}Observation",
-                                                   "type" : "NamedTypeSpecifier"
-                                                }, {
-                                                   "name" : "{http://hl7.org/fhir}Condition",
-                                                   "type" : "NamedTypeSpecifier"
-                                                } ]
-                                             }
-                                          }
-                                       }, {
-                                          "type" : "As",
-                                          "operand" : {
-                                             "dataType" : "{http://hl7.org/fhir}Condition",
-                                             "codeProperty" : "code",
-                                             "codeComparator" : "in",
-                                             "type" : "Retrieve",
-                                             "codes" : {
-                                                "name" : "HIV",
-                                                "type" : "ValueSetRef"
-                                             }
-                                          },
-                                          "asTypeSpecifier" : {
-                                             "type" : "ListTypeSpecifier",
-                                             "elementType" : {
-                                                "type" : "ChoiceTypeSpecifier",
-                                                "choice" : [ {
-                                                   "name" : "{http://hl7.org/fhir}Observation",
-                                                   "type" : "NamedTypeSpecifier"
-                                                }, {
-                                                   "name" : "{http://hl7.org/fhir}Condition",
-                                                   "type" : "NamedTypeSpecifier"
-                                                } ]
-                                             }
-                                          }
-                                       } ]
-                                    },
-                                    "asTypeSpecifier" : {
-                                       "type" : "ListTypeSpecifier",
-                                       "elementType" : {
-                                          "type" : "ChoiceTypeSpecifier",
-                                          "choice" : [ {
-                                             "name" : "{http://hl7.org/fhir}Observation",
-                                             "type" : "NamedTypeSpecifier"
-                                          }, {
-                                             "name" : "{http://hl7.org/fhir}Condition",
-                                             "type" : "NamedTypeSpecifier"
-                                          } ]
-                                       }
-                                    }
-                                 }, {
-                                    "type" : "As",
-                                    "operand" : {
-                                       "dataType" : "{http://hl7.org/fhir}Condition",
-                                       "codeProperty" : "code",
-                                       "codeComparator" : "in",
-                                       "type" : "Retrieve",
-                                       "codes" : {
-                                          "name" : "Malignant Neoplasm of Lymphatic and Hematopoietic Tissue",
-                                          "type" : "ValueSetRef"
-                                       }
-                                    },
-                                    "asTypeSpecifier" : {
-                                       "type" : "ListTypeSpecifier",
-                                       "elementType" : {
-                                          "type" : "ChoiceTypeSpecifier",
-                                          "choice" : [ {
-                                             "name" : "{http://hl7.org/fhir}Observation",
-                                             "type" : "NamedTypeSpecifier"
-                                          }, {
-                                             "name" : "{http://hl7.org/fhir}Condition",
-                                             "type" : "NamedTypeSpecifier"
-                                          } ]
-                                       }
-                                    }
-                                 } ]
-                              },
-                              "asTypeSpecifier" : {
-                                 "type" : "ListTypeSpecifier",
-                                 "elementType" : {
-                                    "type" : "ChoiceTypeSpecifier",
-                                    "choice" : [ {
-                                       "name" : "{http://hl7.org/fhir}Observation",
-                                       "type" : "NamedTypeSpecifier"
-                                    }, {
-                                       "name" : "{http://hl7.org/fhir}Condition",
-                                       "type" : "NamedTypeSpecifier"
-                                    } ]
-                                 }
-                              }
-                           }, {
-                              "type" : "As",
-                              "operand" : {
-                                 "dataType" : "{http://hl7.org/fhir}Condition",
-                                 "codeProperty" : "code",
-                                 "codeComparator" : "in",
-                                 "type" : "Retrieve",
-                                 "codes" : {
-                                    "name" : "Anaphylactic Reaction to Neomycin",
-                                    "type" : "ValueSetRef"
-                                 }
-                              },
-                              "asTypeSpecifier" : {
-                                 "type" : "ListTypeSpecifier",
-                                 "elementType" : {
-                                    "type" : "ChoiceTypeSpecifier",
-                                    "choice" : [ {
-                                       "name" : "{http://hl7.org/fhir}Observation",
-                                       "type" : "NamedTypeSpecifier"
-                                    }, {
-                                       "name" : "{http://hl7.org/fhir}Condition",
-                                       "type" : "NamedTypeSpecifier"
-                                    } ]
-                                 }
-                              }
-                           } ]
-                        },
-                        "asTypeSpecifier" : {
-                           "type" : "ListTypeSpecifier",
-                           "elementType" : {
-                              "type" : "ChoiceTypeSpecifier",
-                              "choice" : [ {
-                                 "name" : "{http://hl7.org/fhir}Observation",
-                                 "type" : "NamedTypeSpecifier"
-                              }, {
-                                 "name" : "{http://hl7.org/fhir}Condition",
-                                 "type" : "NamedTypeSpecifier"
-                              } ]
-                           }
-                        }
-                     }, {
-                        "type" : "As",
-                        "operand" : {
-                           "dataType" : "{http://hl7.org/fhir}Condition",
-                           "codeProperty" : "code",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Varicella Zoster",
-                              "type" : "ValueSetRef"
-                           }
-                        },
-                        "asTypeSpecifier" : {
-                           "type" : "ListTypeSpecifier",
-                           "elementType" : {
-                              "type" : "ChoiceTypeSpecifier",
-                              "choice" : [ {
-                                 "name" : "{http://hl7.org/fhir}Observation",
-                                 "type" : "NamedTypeSpecifier"
-                              }, {
-                                 "name" : "{http://hl7.org/fhir}Condition",
-                                 "type" : "NamedTypeSpecifier"
-                              } ]
-                           }
-                        }
-                     } ]
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "LessOrEqual",
-                  "operand" : [ {
-                     "precision" : "Day",
-                     "type" : "CalculateAgeAt",
-                     "operand" : [ {
-                        "type" : "ToDateTime",
-                        "operand" : {
-                           "path" : "birthDate.value",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "Patient",
-                              "type" : "ExpressionRef"
-                           }
-                        }
-                     }, {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "type" : "Coalesce",
-                           "operand" : [ {
-                              "path" : "start",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "onset",
-                                 "scope" : "VaricellaZosterConditions",
-                                 "type" : "Property"
-                              }
-                           }, {
-                              "asType" : "{http://hl7.org/fhir}dateTime",
-                              "type" : "As",
-                              "operand" : {
-                                 "path" : "onset",
-                                 "scope" : "VaricellaZosterConditions",
-                                 "type" : "Property"
-                              }
-                           }, {
-                              "asType" : "{http://hl7.org/fhir}dateTime",
-                              "type" : "As",
-                              "operand" : {
-                                 "path" : "effective",
-                                 "scope" : "VaricellaZosterConditions",
-                                 "type" : "Property"
-                              }
-                           } ]
-                        } ]
-                     } ]
-                  }, {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "730",
-                     "type" : "Literal"
-                  } ]
-               }
-            }
-         }, {
             "name" : "VZV Criteria Met",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Or",
+               "type" : "And",
                "operand" : [ {
                   "type" : "Exists",
                   "operand" : {
@@ -6775,10 +6125,13 @@
                      "type" : "ExpressionRef"
                   }
                }, {
-                  "type" : "Exists",
+                  "type" : "Not",
                   "operand" : {
-                     "name" : "Numerator Compliant VZV Conditions",
-                     "type" : "ExpressionRef"
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "MMR, VZV and Influenza Exclusions",
+                        "type" : "ExpressionRef"
+                     }
                   }
                } ]
             }
@@ -6801,54 +6154,30 @@
                               "operand" : [ {
                                  "type" : "And",
                                  "operand" : [ {
-                                    "type" : "And",
-                                    "operand" : [ {
-                                       "type" : "And",
-                                       "operand" : [ {
-                                          "type" : "And",
-                                          "operand" : [ {
-                                             "type" : "And",
-                                             "operand" : [ {
-                                                "name" : "Initial Population",
-                                                "type" : "ExpressionRef"
-                                             }, {
-                                                "name" : "DTaP Criteria Met",
-                                                "type" : "ExpressionRef"
-                                             } ]
-                                          }, {
-                                             "name" : "IPV Criteria Met",
-                                             "type" : "ExpressionRef"
-                                          } ]
-                                       }, {
-                                          "name" : "MMR Criteria Met",
-                                          "type" : "ExpressionRef"
-                                       } ]
-                                    }, {
-                                       "name" : "HIB Criteria Met",
-                                       "type" : "ExpressionRef"
-                                    } ]
+                                    "name" : "Initial Population",
+                                    "type" : "ExpressionRef"
                                  }, {
-                                    "name" : "Hepatitis B Criteria Met",
+                                    "name" : "DTaP Criteria Met",
                                     "type" : "ExpressionRef"
                                  } ]
                               }, {
-                                 "name" : "VZV Criteria Met",
+                                 "name" : "IPV Criteria Met",
                                  "type" : "ExpressionRef"
                               } ]
                            }, {
-                              "name" : "Pneumococcal Conjugate Criteria Met",
+                              "name" : "MMR Criteria Met",
                               "type" : "ExpressionRef"
                            } ]
                         }, {
-                           "name" : "Hepatitis A Criteria Met",
+                           "name" : "HIB Criteria Met",
                            "type" : "ExpressionRef"
                         } ]
                      }, {
-                        "name" : "Rotavirus Criteria Met",
+                        "name" : "Hepatitis B Criteria Met",
                         "type" : "ExpressionRef"
                      } ]
                   }, {
-                     "name" : "Influenza Criteria Met",
+                     "name" : "VZV Criteria Met",
                      "type" : "ExpressionRef"
                   } ]
                },

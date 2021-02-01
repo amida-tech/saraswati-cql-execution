@@ -3980,5670 +3980,6 @@ const codes = {
       }
     ]
   },
-  '2.16.840.1.113883.3.464.1003.108.12.1009': {
-    'Malignant Neoplasm of Lymphatic and Hematopoietic Tissue': [
-      {
-        code: '109962001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109964000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109965004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109966003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109967007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109968002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109969005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109970006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109971005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109972003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109975001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109976000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109977009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109978004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109979007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109980005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109988003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109991003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109994006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109995007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109996008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '109998009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '110000005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '110002002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '110004001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '110005000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '110006004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '110007008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '116711000119103',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '116741000119104',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '116811000119106',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '116821000119104',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '117061000119101',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '117091000119108',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '117111000119100',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118599009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118600007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118601006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118602004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118605002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118606001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118607005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118608000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118609008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118610003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118611004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118612006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118613001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118614007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118615008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118617000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '118618005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '122881000119107',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '122901000119109',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '122951000119108',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '122961000119105',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '122981000119101',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '12301000132103',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '12311000132101',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '123781000119107',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '127070008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '127220001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '127225006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '127961000119108',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '128874001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '128875000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '13048006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '133751000119102',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '187822008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188487008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188489006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188492005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188493000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188498009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188500005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188501009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188502002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188503007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188504001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188505000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188506004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188507008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188511002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188512009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188513004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188514005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188515006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188516007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188517003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188524002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188529007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188531003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188536008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188537004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188538009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188541000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188547001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188548006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188551004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188554007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188558005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188559002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188562004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188565002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188566001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188567005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188568000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188569008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188570009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188572001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188575004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188576003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188577007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188578002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188579005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188580008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188582000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188585003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188586002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188587006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188589009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188590000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188591001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188592008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188593003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188609000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188612002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188613007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188627002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188631008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188632001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188633006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188634000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188635004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188637007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188641006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188642004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188645002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188648000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188649008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188662007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188665009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188666005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188668006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188669003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188672005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188674006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188675007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188676008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188679001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188718006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188725004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188726003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188728002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188729005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188732008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188733003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188734009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188736006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188737002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188741003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188744006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188745007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188746008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188748009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188754005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188768003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '188770007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '189509003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '190030009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '232075002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '236512004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '236513009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '240531002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '254792006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '255101006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '255102004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '269475001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '269476000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '274905008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '276811008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '276815004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '276836002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277473004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277474005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277545003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277549009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277550009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277551008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277567002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277568007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277569004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277570003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277571004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277572006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277573001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277574007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277575008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277587001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277589003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277597005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277601005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277602003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277604002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277609007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277610002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277611003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277612005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277613000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277614006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277615007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277616008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277617004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277618009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277619001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277622004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277623009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277624003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277625002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277626001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277627005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277628000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277629008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277632006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277637000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277642008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277643003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277651000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277653002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277654008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '277664004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '278051002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '278052009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '278189009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '278453007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '285769009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '285776004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '285839005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '302841002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '302842009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '302845006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '302848008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '302855005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '302856006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '303017006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '303055001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '303056000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '303057009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307340003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307341004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307592006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307617006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307622006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307623001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307624007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307625008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307633009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307634003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307635002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307636001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307637005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307646004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307647008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307649006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '307650006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '308121000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '31047003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '359631009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '359640008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '359648001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '371012000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '371134001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '373168002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '397008008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '397009000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '397011009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '397015000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '398623004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '400001003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '400122007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '402880009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '402881008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '402882001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404103007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404104001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404105000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404106004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404107008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404108003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404109006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404110001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404111002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404112009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404113004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404114005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404115006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404116007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404117003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404118008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404119000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404120006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404121005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404122003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404123008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404124002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404126000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404127009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404128004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404129007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404130002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404131003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404133000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404134006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404135007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404136008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404137004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404138009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404139001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404140004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404141000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404142007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404143002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404144008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404145009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404147001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404148006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404149003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404150003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404151004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404152006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404153001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404154007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404155008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404157000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404169008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '404172001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '413389003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '413441006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '413442004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '413537009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '413656006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '413842007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '413843002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '413847001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '414166008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '414780005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '414785000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '415112005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '415283002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '415284008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '415285009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '415286005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '415287001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '420302007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '420519005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '420788006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '421246008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '421283008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '422853008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '425688002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '425749006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '425869007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '425941003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '426071002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '426124006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '426217000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '426248008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '426336007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '426370008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '426642002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '426885008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '427056005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '427141003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '427642009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '427658007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '430338009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '441559006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '441962003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '442537007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '443487006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '444597005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '444910004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '444911000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '445227008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '445269007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '445406001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '445448008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '447100004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '447656001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '447658000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '447766003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '447805007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '447806008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '447989004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448212009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448213004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448217003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448220006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448231003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448254007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448269008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448317000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448319002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448354009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448371005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448372003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448376000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448384001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448386004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448387008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448447004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448465000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448468003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448553002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448555009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448560008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448561007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448607004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448609001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448663003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448666006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448672006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448709005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448738008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448774004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448865007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448867004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '448995000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449053004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449058008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449059000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449063007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449065000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449072004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449074003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449075002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449108003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449173006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449176003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449177007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449216004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449217008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449218003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449219006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449220000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449221001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449222008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449292003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449307001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449318001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449386007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449418000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '449419008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '450521000124109',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '58961005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '61291000119103',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '61301000119102',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '61311000119104',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '61321000119106',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '698646006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '699657009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '699818003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '702446006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '702476004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '702785000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '702786004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '702977001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '703387000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '703626001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '705061009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '709471005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '713325002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '713483007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '713516007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '713718006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '713897006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '714251006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '714463003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '715664005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '715950008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '716788007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '718200007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '721302006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '721303001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '721304007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '721305008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '721306009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '721308005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '721310007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '721313009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '721314003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '721555001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '721762007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '722795004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '722953004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '722954005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '723889003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '724644005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '724645006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '724647003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '724648008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '724649000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '724650000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '725390002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '725437002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '726721002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '733598001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '733627006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '734066005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '84811000119107',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '84831000119102',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '91854005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '91855006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '91856007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '91857003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '91858008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '91860005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '91861009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '92511007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '92512000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '92513005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '92516002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '92811003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '92812005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '92813000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '92814006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '92817004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '92818009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93133006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93134000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93135004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93136003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93137007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93138002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93139005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93140007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93141006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93142004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93143009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93144003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93145002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93146001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93150008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93151007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93152000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93169003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93182006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93183001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93184007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93185008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93186009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93187000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93188005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93189002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93190006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93191005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93192003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93193008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93194002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93195001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93196000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93197009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93198004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93199007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93200005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93201009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93202002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93203007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93204001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93205000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93451002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93487009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93488004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93489007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93492006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93493001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93494007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93495008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93496009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93497000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93498005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93500006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93501005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93505001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93506000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93507009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93509007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93510002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93514006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93515007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93516008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93518009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93519001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93520007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93521006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93522004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93523009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93524003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93525002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93526001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93527005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93528000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93530003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93531004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93532006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93533001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93534007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93536009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93537000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93541001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93542008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93543003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93546006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93547002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93548007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93549004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93550004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93551000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93552007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93554008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '93555009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94071006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94148006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94686001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94687005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94688000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94690004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94707004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94708009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94709001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94710006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94711005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94712003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94714002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94715001',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94716000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94718004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '94719007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95186006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95187002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95188007',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95192000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95193005',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95194004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95209008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95210003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95224004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95225003',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95226002',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95230004',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95231000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95260009',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95261008',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95263006',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: '95264000',
-        system: 'http://snomed.info/sct',
-        version: '2020-09'
-      },
-      {
-        code: 'C81.00',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.01',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.02',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.03',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.04',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.05',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.06',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.07',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.08',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.09',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.10',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.11',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.12',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.13',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.14',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.15',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.16',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.17',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.18',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.19',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.20',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.21',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.22',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.23',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.24',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.25',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.26',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.27',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.28',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.29',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.30',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.31',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.32',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.33',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.34',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.35',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.36',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.37',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.38',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.39',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.40',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.41',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.42',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.43',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.44',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.45',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.46',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.47',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.48',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.49',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.70',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.71',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.72',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.73',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.74',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.75',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.76',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.77',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.78',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.79',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.90',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.91',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.92',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.93',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.94',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.95',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.96',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.97',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.98',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C81.99',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.00',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.01',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.02',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.03',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.04',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.05',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.06',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.07',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.08',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.09',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.10',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.11',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.12',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.13',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.14',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.15',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.16',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.17',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.18',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.19',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.20',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.21',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.22',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.23',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.24',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.25',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.26',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.27',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.28',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.29',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.30',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.31',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.32',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.33',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.34',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.35',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.36',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.37',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.38',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.39',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.40',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.41',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.42',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.43',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.44',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.45',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.46',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.47',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.48',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.49',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.50',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.51',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.52',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.53',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.54',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.55',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.56',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.57',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.58',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.59',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.60',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.61',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.62',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.63',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.64',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.65',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.66',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.67',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.68',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.69',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.80',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.81',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.82',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.83',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.84',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.85',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.86',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.87',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.88',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.89',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.90',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.91',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.92',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.93',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.94',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.95',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.96',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.97',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.98',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C82.99',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.00',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.01',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.02',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.03',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.04',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.05',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.06',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.07',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.08',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.09',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.10',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.11',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.12',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.13',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.14',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.15',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.16',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.17',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.18',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.19',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.30',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.31',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.32',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.33',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.34',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.35',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.36',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.37',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.38',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.39',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.50',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.51',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.52',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.53',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.54',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.55',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.56',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.57',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.58',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.59',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.70',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.71',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.72',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.73',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.74',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.75',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.76',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.77',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.78',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.79',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.80',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.81',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.82',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.83',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.84',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.85',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.86',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.87',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.88',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.89',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.90',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.91',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.92',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.93',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.94',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.95',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.96',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.97',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.98',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C83.99',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.00',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.01',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.02',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.03',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.04',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.05',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.06',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.07',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.08',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.09',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.10',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.11',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.12',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.13',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.14',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.15',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.16',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.17',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.18',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.19',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.40',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.41',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.42',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.43',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.44',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.45',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.46',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.47',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.48',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.49',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.60',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.61',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.62',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.63',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.64',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.65',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.66',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.67',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.68',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.69',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.70',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.71',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.72',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.73',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.74',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.75',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.76',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.77',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.78',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.79',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.90',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.91',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.92',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.93',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.94',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.95',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.96',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.97',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.98',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.99',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.A0',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.A1',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.A2',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.A3',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.A4',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.A5',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.A6',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.A7',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.A8',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.A9',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.Z0',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.Z1',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.Z2',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.Z3',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.Z4',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.Z5',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.Z6',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.Z7',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.Z8',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C84.Z9',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.10',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.11',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.12',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.13',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.14',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.15',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.16',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.17',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.18',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.19',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.20',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.21',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.22',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.23',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.24',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.25',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.26',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.27',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.28',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.29',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.80',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.81',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.82',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.83',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.84',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.85',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.86',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.87',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.88',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.89',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.90',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.91',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.92',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.93',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.94',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.95',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.96',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.97',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.98',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C85.99',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C86.0',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C86.1',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C86.2',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C86.3',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C86.4',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C86.5',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C86.6',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C88.2',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C88.3',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C88.4',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C88.8',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C88.9',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C90.00',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C90.01',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C90.02',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C90.10',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C90.11',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C90.12',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C90.20',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C90.21',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C90.22',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C90.30',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C90.31',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C90.32',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.00',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.01',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.02',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.10',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.11',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.12',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.30',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.31',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.32',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.40',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.41',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.42',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.50',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.51',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.52',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.60',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.61',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.62',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.90',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.91',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.92',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.A0',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.A1',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.A2',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.Z0',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.Z1',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C91.Z2',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.00',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.01',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.02',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.10',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.11',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.12',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.20',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.21',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.22',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.30',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.31',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.32',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.40',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.41',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.42',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.50',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.51',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.52',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.60',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.61',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.62',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.90',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.91',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.92',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.A0',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.A1',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.A2',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.Z0',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.Z1',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C92.Z2',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C93.00',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C93.01',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C93.02',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C93.10',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C93.11',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C93.12',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C93.30',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C93.31',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C93.32',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C93.90',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C93.91',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C93.92',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C93.Z0',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C93.Z1',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C93.Z2',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C94.00',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C94.01',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C94.02',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C94.20',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C94.21',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C94.22',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C94.30',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C94.31',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C94.32',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C94.80',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C94.81',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C94.82',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C95.00',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C95.01',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C95.02',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C95.10',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C95.11',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C95.12',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C95.90',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C95.91',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C95.92',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C96.0',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C96.2',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C96.20',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C96.21',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C96.22',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C96.29',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C96.4',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C96.9',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C96.A',
-        system: 'ICD10CM',
-        version: '2021'
-      },
-      {
-        code: 'C96.Z',
-        system: 'ICD10CM',
-        version: '2021'
-      }
-    ]
-  },
   '2.16.840.1.113883.3.464.1003.110.12.1053': {
     Measles: [
       {
@@ -11477,6 +5813,3384 @@ const codes = {
         code: '51913-2',
         system: 'http://loinc.org',
         version: '2.68'
+      }
+    ]
+  },
+  '2.16.840.1.113883.3.464.1003.108.11.1054': {
+    'Malignant Neoplasm of Lymphatic Tissue': [
+      {
+        'code': '109962001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '109964000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '109965004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '109966003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '109967007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '109968002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '109969005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '109970006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '109971005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '109972003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '109975001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '109976000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '109977009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '109978004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '109979007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '110007008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '118599009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '118600007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '118601006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '118602004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '118605002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '118606001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '118607005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '118608000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '118609008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '118610003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '118612006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '118613001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '118614007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '118615008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '118617000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '118618005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '127220001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '128874001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '128875000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '13048006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188487008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188489006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188492005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188493000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188498009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188500005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188501009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188502002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188503007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188504001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188505000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188506004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188507008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188511002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188512009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188513004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188514005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188515006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188516007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188517003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188524002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188529007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188531003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188536008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188537004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188538009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188541000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188547001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188548006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188551004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188554007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188558005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188559002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188562004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188565002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188566001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188567005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188568000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188569008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188570009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188572001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188575004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188576003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188577007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188578002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188579005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188580008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188582000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188585003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188586002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188587006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188589009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188590000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188591001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188592008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188593003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188609000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188612002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188613007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188627002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188631008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188632001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188633006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188634000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188635004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188637007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188641006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188642004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188645002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188648000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188649008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188672005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188674006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188675007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188676008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188679001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '188718006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '232075002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '236513009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '240531002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '254792006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '255101006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '255102004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '269476000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '274905008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '276811008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '276815004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '276836002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277473004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277474005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277545003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277567002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277568007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277609007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277610002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277611003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277612005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277613000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277614006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277615007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277616008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277617004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277618009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277622004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277623009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277624003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277625002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277626001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277627005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277628000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277629008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277632006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277637000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277642008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277643003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277651000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277653002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277654008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '277664004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '278051002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '278052009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '285776004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '302841002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '302842009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '302845006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '302848008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '303017006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '303055001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '303056000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '303057009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '307341004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '307622006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '307623001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '307624007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '307625008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '307633009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '307634003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '307635002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '307636001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '307637005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '307646004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '307647008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '307649006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '307650006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '308121000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '31047003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '363484005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '371134001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '373168002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '400001003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '400122007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '402880009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '402881008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '402882001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404103007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404104001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404105000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404106004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404107008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404108003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404109006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404110001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404111002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404112009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404113004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404114005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404115006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404116007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404117003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404118008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404119000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404120006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404121005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404122003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404123008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404126000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404127009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404128004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404129007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404130002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404131003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404133000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404134006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404135007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404136008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404137004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404138009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404139001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404140004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404141000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404142007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404143002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404144008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404145009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404147001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404148006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404149003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404150003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404157000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '404169008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '413537009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '414166008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '414780005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '414785000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '415112005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '420302007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '420519005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '420788006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '421246008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '421283008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '422853008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '426071002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '426336007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '426885008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '441559006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '441962003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '442537007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '443487006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '444597005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '444910004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '445269007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '445406001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '447100004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '447656001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '447658000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '447766003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '447805007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '447806008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '447989004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448212009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448213004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448217003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448220006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448231003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448254007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448269008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448317000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448319002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448354009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448371005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448372003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448376000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448384001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448386004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448387008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448447004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448465000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448468003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448553002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448555009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448560008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448561007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448607004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448609001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448663003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448666006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448672006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448709005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448738008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448774004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448865007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448867004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '448995000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449053004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449058008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449059000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449063007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449065000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449072004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449074003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449075002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449173006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449176003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449177007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449216004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449217008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449218003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449219006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449220000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449221001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449222008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449292003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449307001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449318001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449418000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '449419008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '58961005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '92511007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '92512000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '92513005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '92516002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93133006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93134000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93135004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93136003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93137007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93138002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93139005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93140007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93141006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93144003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93145002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93146001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93150008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93151007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93152000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93182006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93183001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93184007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93185008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93186009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93187000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93188005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93189002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93190006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93191005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93192003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93193008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93194002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93195001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93196000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93197009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93198004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93199007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93200005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93201009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93202002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93203007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93204001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93205000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93487009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93488004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93489007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93492006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93493001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93494007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93495008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93496009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93497000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93498005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93500006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93501005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93505001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93506000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93507009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93509007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93510002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93514006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93515007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93516008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93518009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93519001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93520007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93521006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93522004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93523009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93524003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93525002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93526001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93527005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93528000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93530003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93531004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93532006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93533001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93534007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93536009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93537000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93541001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93542008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93543003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93546006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93547002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93548007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93549004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93550004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93551000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93552007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93554008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93555009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '93720005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '94686001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '94687005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '94688000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '94690004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '94707004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '94708009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '94709001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '94710006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '94711005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '94712003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '94714002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '94715001',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '95186006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '95187002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '95188007',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '95192000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '95193005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '95194004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '95224004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '95225003',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '95226002',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '95230004',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '95231000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '95260009',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '95261008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '95263006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '95264000',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      }
+    ]
+  },
+  '2.16.840.1.113762.1.4.1221.108': {
+    'Influenza Virus Vaccine and Vaccination': [
+      {
+        'code': '111',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '125',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '126',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '127',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '128',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '135',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '140',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '141',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '144',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '149',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '150',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '153',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '155',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '158',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '16',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '161',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '1657136',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '1657137',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '1657324',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '1659745',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '166',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '1664471',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '1664472',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '1664473',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '168',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '171',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '185',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '186',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '197',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '205',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '2177390',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177393',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177394',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177395',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177396',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177397',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177398',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177491',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177492',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177493',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177494',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177495',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177498',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177499',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177500',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177503',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177504',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177590',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177591',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177592',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177690',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177692',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177693',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177694',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177695',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177696',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177697',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177790',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177791',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177792',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177793',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177794',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177796',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2177797',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178082',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178084',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178085',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178089',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178091',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178092',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178093',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178357',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178358',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178360',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178361',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178362',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178781',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178782',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178783',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178784',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178785',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178787',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178788',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2178789',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2179839',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2180398',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2180401',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2180402',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2180403',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2180404',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2180405',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2180406',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2180409',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2180410',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2180411',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2198898',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2198900',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2198901',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2198902',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2198903',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2198904',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2198905',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2198906',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2280743',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2280744',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2280745',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2280746',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2280752',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2280755',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2280756',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2281589',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2281668',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2281669',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2281817',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2379630',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2379633',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2379634',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2379635',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2379636',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2379637',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2379638',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2379732',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2379733',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2379734',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2379735',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2379736',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380576',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380577',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380578',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380579',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380580',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380581',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380582',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380583',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380584',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380586',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380587',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380588',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380591',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380592',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380595',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380596',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380597',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380598',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380599',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380600',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380603',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380604',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380605',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380606',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380607',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380840',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380843',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380844',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380845',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380846',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380847',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380848',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380849',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380850',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380851',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380854',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380858',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380859',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380860',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380861',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380862',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2380863',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2381145',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2381146',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2381147',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2381148',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2381149',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2381150',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2382435',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2382436',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2382437',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2382438',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2382439',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2383542',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2383546',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2383547',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2383548',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2388149',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2389312',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2389313',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2389314',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2389315',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2389316',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2389317',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '2389318',
+        'system': 'RXNORM',
+        'version': '2021-01'
+      },
+      {
+        'code': '3E01340',
+        'system': 'ICD10PCS',
+        'version': '2021'
+      },
+      {
+        'code': '3E02340',
+        'system': 'ICD10PCS',
+        'version': '2021'
+      },
+      {
+        'code': '442333005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '786847005',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '787016008',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '86198006',
+        'system': 'http://snomed.info/sct',
+        'version': '2020-09'
+      },
+      {
+        'code': '88',
+        'system': 'CVX',
+        'version': '2020-12-22'
+      },
+      {
+        'code': '90630',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90653',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90654',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90655',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90656',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90657',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90658',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90660',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90661',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90662',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90664',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90666',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90667',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90668',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90672',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90673',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90674',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90682',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90685',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90686',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90687',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90688',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90689',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90694',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': '90756',
+        'system': 'CPT',
+        'version': '2021'
+      },
+      {
+        'code': 'G0008',
+        'system': 'HCPCS Level II',
+        'version': '2021'
+      },
+      {
+        'code': 'Q2034',
+        'system': 'HCPCS Level II',
+        'version': '2021'
+      },
+      {
+        'code': 'Q2035',
+        'system': 'HCPCS Level II',
+        'version': '2021'
+      },
+      {
+        'code': 'Q2036',
+        'system': 'HCPCS Level II',
+        'version': '2021'
+      },
+      {
+        'code': 'Q2037',
+        'system': 'HCPCS Level II',
+        'version': '2021'
+      },
+      {
+        'code': 'Q2038',
+        'system': 'HCPCS Level II',
+        'version': '2021'
+      },
+      {
+        'code': 'Q2039',
+        'system': 'HCPCS Level II',
+        'version': '2021'
       }
     ]
   }
