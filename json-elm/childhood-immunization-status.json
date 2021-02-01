@@ -3065,7 +3065,7 @@
                }
             }
          }, {
-            "name" : "Numerator Compliant IPV Conditions",
+            "name" : "IPV Exclusions",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -3172,7 +3172,7 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Or",
+               "type" : "And",
                "operand" : [ {
                   "type" : "Exists",
                   "operand" : {
@@ -3180,10 +3180,13 @@
                      "type" : "ExpressionRef"
                   }
                }, {
-                  "type" : "Exists",
+                  "type" : "Not",
                   "operand" : {
-                     "name" : "Numerator Compliant IPV Conditions",
-                     "type" : "ExpressionRef"
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "IPV Exclusions",
+                        "type" : "ExpressionRef"
+                     }
                   }
                } ]
             }
@@ -4586,7 +4589,7 @@
                }
             }
          }, {
-            "name" : "Numerator Compliant Pneumococcal Conjugate Conditions",
+            "name" : "Pneumococcal Conjugate Exclusions",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -4657,7 +4660,7 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Or",
+               "type" : "And",
                "operand" : [ {
                   "type" : "Exists",
                   "operand" : {
@@ -4665,10 +4668,13 @@
                      "type" : "ExpressionRef"
                   }
                }, {
-                  "type" : "Exists",
+                  "type" : "Not",
                   "operand" : {
-                     "name" : "Numerator Compliant Pneumococcal Conjugate Conditions",
-                     "type" : "ExpressionRef"
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Pneumococcal Conjugate Exclusions",
+                        "type" : "ExpressionRef"
+                     }
                   }
                } ]
             }
@@ -5709,7 +5715,7 @@
                }
             }
          }, {
-            "name" : "Numerator Compliant Rotavirus Conditions",
+            "name" : "Rotavirus Exclusions",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -5804,7 +5810,7 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Or",
+               "type" : "And",
                "operand" : [ {
                   "type" : "Or",
                   "operand" : [ {
@@ -5818,22 +5824,25 @@
                      }, {
                         "type" : "Exists",
                         "operand" : {
-                           "name" : "Numerator Compliant Rotavirus Conditions",
+                           "name" : "Rotavirus 2 or 3 Dose Vaccinations",
                            "type" : "ExpressionRef"
                         }
                      } ]
                   }, {
                      "type" : "Exists",
                      "operand" : {
-                        "name" : "Rotavirus 2 or 3 Dose Vaccinations",
+                        "name" : "Rotavirus 3 Dose Vaccinations",
                         "type" : "ExpressionRef"
                      }
                   } ]
                }, {
-                  "type" : "Exists",
+                  "type" : "Not",
                   "operand" : {
-                     "name" : "Rotavirus 3 Dose Vaccinations",
-                     "type" : "ExpressionRef"
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Rotavirus Exclusions",
+                        "type" : "ExpressionRef"
+                     }
                   }
                } ]
             }
