@@ -8,7 +8,7 @@ codesystem "SNOMED-CT": '2.16.840.1.113883.6.96' version '20200301'
 valueset "Acute Inpatient": '2.16.840.1.113762.1.4.1182.120'
 valueset "Outpatient": '2.16.840.1.113883.3.464.1003.101.12.1008'
 valueset "ED": '2.16.840.1.113883.3.464.1003.101.12.1085'
-valueset "Observation": '2.16.840.1.113762.1.4.1181.72'
+valueset "Observation Encounter": '2.16.840.1.113762.1.4.1181.72'
 valueset "Nonacute Inpatient Stay": '2.16.840.1.113762.1.4.1182.289'
 valueset "Telephone Visits": '2.16.840.1.113883.3.1444.5.216'
 valueset "Online Assessments": '2.16.840.1.113883.3.7587.3.1013'
@@ -34,9 +34,9 @@ valueset "Frailty Symptom": '2.16.840.1.113883.3.464.1003.113.12.1075'
 valueset "Advanced Illness": '2.16.840.1.113883.3.464.1003.110.12.1082'
 valueset "Inpatient Stay": '2.16.840.1.113762.1.4.1182.285'
 
-code "Acarbose": '386965004' from "SNOMED-CT"
-code "Miglitol": '109071007' from "SNOMED-CT"
-code "Insulin Aspart": '325072002' from "SNOMED-CT"
+code "Acarbose": '386965004' from "SNOMED-CT" display 'Acarbose'
+code "Miglitol": '109071007' from "SNOMED-CT" display 'Miglitol'
+code "Insulin Aspart": '325072002' from "SNOMED-CT" display 'Insulin Aspart'
 
 concept "Diabetes Medication": {
   "Acarbose",
@@ -44,8 +44,8 @@ concept "Diabetes Medication": {
   "Insulin Aspart"
 } display 'Diabetes Medication'
 
-parameter MeasurementPeriodExtended default Interval[@2017-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
 parameter MeasurementPeriod default Interval[@2018-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
+parameter MeasurementPeriodExtended default Interval[@2017-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
 
 context Patient
 
@@ -128,7 +128,6 @@ define "Out Tele Online with Different Dates":
         and (cond3.period.start != cond4.period.start )
       return (exists(cond1) or exists(cond2) or exists(cond3) or exists(cond4))
 
-
 define "Out Tele Online":
   case ("Out Tele Online with Different Dates")
     when true then 1
@@ -139,32 +138,27 @@ define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
    "Nonacute Diabetes Discharges" + "Nonacute Diabetes Discharges On Claim" + "Out Tele Online" >= 2
 
 define "Diabetes Diagnosis By Medication":
-  //TODO: figure out how to do medication dynamically to avoid version control conflict
-  exists([MedicationDispense] A
-    where exists(A.medication ~ "Acarbose"
-    and A.status ~ 'completed'))
-    or exists([MedicationDispense] B
-      where exists(B.medication ~ "Miglitol"
-      and B.status ~ 'completed'))
-      or exists([MedicationDispense] C
-        where exists(C.medication ~ "Insulin Aspart"
-        and C.status ~ 'completed'))
+  exists([MedicationDispense] B
+    with B.medication.coding X such that exists(
+        B.medication.coding coding
+          where FHIRHelpers.ToCode(coding) ~ "Diabetes Medication"
+    )
+    and B.status ~ 'completed')
 
 define "Frailty":
-  AgeInYearsAt(start of MeasurementPeriod) >= 66
-    and (exists([Encounter: "Frailty Device"] D
-      where D.period starts during MeasurementPeriod)
-      or exists([Encounter: "Frailty Diagnosis"] Dia
-        where Dia.period starts during MeasurementPeriod)
-          or exists([Encounter: "Frailty Encounter"] E
-            where E.period starts during MeasurementPeriod)
-            or exists([Encounter: "Frailty Symptom"] S
-              where S.period starts during MeasurementPeriod))
+  exists([Encounter: "Frailty Device"] D
+    where D.period starts during MeasurementPeriod)
+    or exists([Encounter: "Frailty Diagnosis"] Dia
+      where Dia.period starts during MeasurementPeriod)
+        or exists([Encounter: "Frailty Encounter"] E
+          where E.period starts during MeasurementPeriod)
+          or exists([Encounter: "Frailty Symptom"] S
+            where S.period starts during MeasurementPeriod)
 
-define "Acute Inpatient with Advanced Illness":
+define "Acute Inpatient With Advanced Illness":
   exists ([Condition: "Advanced Illness"]) and  exists ([Encounter : "Acute Inpatient"])
 
-define "Acute inpatient discharge with Advanced Illness":
+define "Acute Inpatient Discharge With Advanced Illness":
   exists ([Encounter: "Acute Inpatient"] E
     with [Condition: "Advanced Illness"] AI
       such that E.status ~ 'finished')
@@ -215,7 +209,11 @@ define "Atleast Two Out/Obs/ED Advaned Illness":
       return (Count(((((OAI union ObsAI) union EDAI) union NAI) union NAID)) >= 2)
 
 define "Diabetes Exclusions":
-    "Frailty" and ("Acute inpatient discharge with Advanced Illness" or "Acute Inpatient with Advanced Illness" or "Atleast Two Out/Obs/ED Advaned Illness")
+    AgeInYearsAt(start of MeasurementPeriod) >= 66
+     and "Frailty" 
+     and ("Acute inpatient discharge with Advanced Illness" 
+      or "Acute Inpatient with Advanced Illness" 
+      or "Atleast Two Out/Obs/ED Advaned Illness")
 
 define "Diabetes Condition":
   "Acute Inpatient Encounter Without Telehealth"

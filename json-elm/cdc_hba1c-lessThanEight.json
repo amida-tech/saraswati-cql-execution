@@ -3,39 +3,6 @@
       "annotation" : [ {
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
-      }, {
-         "libraryId" : "cdc_hba1c_lessThanEight",
-         "libraryVersion" : "1",
-         "startLine" : 129,
-         "startChar" : 18,
-         "endLine" : 130,
-         "endChar" : 30,
-         "message" : "Boolean-valued expression was promoted to a list.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "cdc_hba1c_lessThanEight",
-         "libraryVersion" : "1",
-         "startLine" : 132,
-         "startChar" : 20,
-         "endLine" : 133,
-         "endChar" : 32,
-         "message" : "Boolean-valued expression was promoted to a list.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "cdc_hba1c_lessThanEight",
-         "libraryVersion" : "1",
-         "startLine" : 135,
-         "startChar" : 22,
-         "endLine" : 136,
-         "endChar" : 34,
-         "message" : "Boolean-valued expression was promoted to a list.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
       } ],
       "identifier" : {
          "id" : "cdc_hba1c_lessThanEight",
@@ -255,7 +222,7 @@
             "id" : "2.16.840.1.113883.3.464.1003.101.12.1085",
             "accessLevel" : "Public"
          }, {
-            "name" : "Observation",
+            "name" : "Observation Encounter",
             "id" : "2.16.840.1.113762.1.4.1181.72",
             "accessLevel" : "Public"
          }, {
@@ -320,6 +287,7 @@
          "def" : [ {
             "name" : "Acarbose",
             "id" : "386965004",
+            "display" : "Acarbose",
             "accessLevel" : "Public",
             "codeSystem" : {
                "name" : "SNOMED-CT"
@@ -327,6 +295,7 @@
          }, {
             "name" : "Miglitol",
             "id" : "109071007",
+            "display" : "Miglitol",
             "accessLevel" : "Public",
             "codeSystem" : {
                "name" : "SNOMED-CT"
@@ -334,6 +303,7 @@
          }, {
             "name" : "Insulin Aspart",
             "id" : "325072002",
+            "display" : "Insulin Aspart",
             "accessLevel" : "Public",
             "codeSystem" : {
                "name" : "SNOMED-CT"
@@ -1127,324 +1097,110 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Or",
-               "operand" : [ {
-                  "type" : "Or",
-                  "operand" : [ {
-                     "type" : "Exists",
-                     "operand" : {
-                        "type" : "Query",
-                        "source" : [ {
-                           "alias" : "A",
-                           "expression" : {
-                              "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                              "type" : "Retrieve"
-                           }
-                        } ],
-                        "relationship" : [ ],
-                        "where" : {
+               "type" : "Exists",
+               "operand" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "B",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                        "type" : "Retrieve"
+                     }
+                  } ],
+                  "relationship" : [ {
+                     "alias" : "X",
+                     "type" : "With",
+                     "expression" : {
+                        "path" : "coding",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "medication",
+                           "scope" : "B",
+                           "type" : "Property"
+                        }
+                     },
+                     "suchThat" : {
+                        "type" : "And",
+                        "operand" : [ {
                            "type" : "Exists",
                            "operand" : {
-                              "type" : "ToList",
-                              "operand" : {
-                                 "type" : "And",
-                                 "operand" : [ {
-                                    "type" : "Equivalent",
-                                    "operand" : [ {
-                                       "name" : "ToConcept",
-                                       "libraryName" : "FHIRHelpers",
-                                       "type" : "FunctionRef",
-                                       "operand" : [ {
-                                          "asType" : "{http://hl7.org/fhir}CodeableConcept",
-                                          "type" : "As",
-                                          "operand" : {
-                                             "path" : "medication",
-                                             "scope" : "A",
-                                             "type" : "Property"
-                                          }
-                                       } ]
-                                    }, {
-                                       "type" : "ToConcept",
-                                       "operand" : {
-                                          "name" : "Acarbose",
-                                          "type" : "CodeRef"
-                                       }
-                                    } ]
-                                 }, {
-                                    "type" : "Equivalent",
-                                    "operand" : [ {
-                                       "name" : "ToString",
-                                       "libraryName" : "FHIRHelpers",
-                                       "type" : "FunctionRef",
-                                       "operand" : [ {
-                                          "path" : "status",
-                                          "scope" : "A",
-                                          "type" : "Property"
-                                       } ]
-                                    }, {
-                                       "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                       "value" : "completed",
-                                       "type" : "Literal"
-                                    } ]
-                                 } ]
-                              }
-                           }
-                        }
-                     }
-                  }, {
-                     "type" : "Exists",
-                     "operand" : {
-                        "type" : "Query",
-                        "source" : [ {
-                           "alias" : "B",
-                           "expression" : {
-                              "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                              "type" : "Retrieve"
-                           }
-                        } ],
-                        "relationship" : [ ],
-                        "where" : {
-                           "type" : "Exists",
-                           "operand" : {
-                              "type" : "ToList",
-                              "operand" : {
-                                 "type" : "And",
-                                 "operand" : [ {
-                                    "type" : "Equivalent",
-                                    "operand" : [ {
-                                       "name" : "ToConcept",
-                                       "libraryName" : "FHIRHelpers",
-                                       "type" : "FunctionRef",
-                                       "operand" : [ {
-                                          "asType" : "{http://hl7.org/fhir}CodeableConcept",
-                                          "type" : "As",
-                                          "operand" : {
-                                             "path" : "medication",
-                                             "scope" : "B",
-                                             "type" : "Property"
-                                          }
-                                       } ]
-                                    }, {
-                                       "type" : "ToConcept",
-                                       "operand" : {
-                                          "name" : "Miglitol",
-                                          "type" : "CodeRef"
-                                       }
-                                    } ]
-                                 }, {
-                                    "type" : "Equivalent",
-                                    "operand" : [ {
-                                       "name" : "ToString",
-                                       "libraryName" : "FHIRHelpers",
-                                       "type" : "FunctionRef",
-                                       "operand" : [ {
-                                          "path" : "status",
-                                          "scope" : "B",
-                                          "type" : "Property"
-                                       } ]
-                                    }, {
-                                       "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                       "value" : "completed",
-                                       "type" : "Literal"
-                                    } ]
-                                 } ]
-                              }
-                           }
-                        }
-                     }
-                  } ]
-               }, {
-                  "type" : "Exists",
-                  "operand" : {
-                     "type" : "Query",
-                     "source" : [ {
-                        "alias" : "C",
-                        "expression" : {
-                           "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                           "type" : "Retrieve"
-                        }
-                     } ],
-                     "relationship" : [ ],
-                     "where" : {
-                        "type" : "Exists",
-                        "operand" : {
-                           "type" : "ToList",
-                           "operand" : {
-                              "type" : "And",
-                              "operand" : [ {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "coding",
+                                 "expression" : {
+                                    "path" : "coding",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "medication",
+                                       "scope" : "B",
+                                       "type" : "Property"
+                                    }
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
                                  "type" : "Equivalent",
                                  "operand" : [ {
-                                    "name" : "ToConcept",
-                                    "libraryName" : "FHIRHelpers",
-                                    "type" : "FunctionRef",
-                                    "operand" : [ {
-                                       "asType" : "{http://hl7.org/fhir}CodeableConcept",
-                                       "type" : "As",
-                                       "operand" : {
-                                          "path" : "medication",
-                                          "scope" : "C",
-                                          "type" : "Property"
-                                       }
-                                    } ]
-                                 }, {
                                     "type" : "ToConcept",
                                     "operand" : {
-                                       "name" : "Insulin Aspart",
-                                       "type" : "CodeRef"
+                                       "name" : "ToCode",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "name" : "coding",
+                                          "type" : "AliasRef"
+                                       } ]
                                     }
-                                 } ]
-                              }, {
-                                 "type" : "Equivalent",
-                                 "operand" : [ {
-                                    "name" : "ToString",
-                                    "libraryName" : "FHIRHelpers",
-                                    "type" : "FunctionRef",
-                                    "operand" : [ {
-                                       "path" : "status",
-                                       "scope" : "C",
-                                       "type" : "Property"
-                                    } ]
                                  }, {
-                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                    "value" : "completed",
-                                    "type" : "Literal"
+                                    "name" : "Diabetes Medication",
+                                    "type" : "ConceptRef"
                                  } ]
-                              } ]
+                              }
                            }
-                        }
+                        }, {
+                           "type" : "Equivalent",
+                           "operand" : [ {
+                              "name" : "ToString",
+                              "libraryName" : "FHIRHelpers",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "path" : "status",
+                                 "scope" : "B",
+                                 "type" : "Property"
+                              } ]
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : "completed",
+                              "type" : "Literal"
+                           } ]
+                        } ]
                      }
-                  }
-               } ]
+                  } ]
+               }
             }
          }, {
             "name" : "Frailty",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "And",
+               "type" : "Or",
                "operand" : [ {
-                  "type" : "Greater",
-                  "operand" : [ {
-                     "precision" : "Year",
-                     "type" : "CalculateAgeAt",
-                     "operand" : [ {
-                        "type" : "ToDateTime",
-                        "operand" : {
-                           "path" : "birthDate.value",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "Patient",
-                              "type" : "ExpressionRef"
-                           }
-                        }
-                     }, {
-                        "type" : "Start",
-                        "operand" : {
-                           "name" : "MeasurementPeriod",
-                           "type" : "ParameterRef"
-                        }
-                     } ]
-                  }, {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "66",
-                     "type" : "Literal"
-                  } ]
-               }, {
                   "type" : "Or",
                   "operand" : [ {
                      "type" : "Or",
                      "operand" : [ {
-                        "type" : "Or",
-                        "operand" : [ {
-                           "type" : "Exists",
-                           "operand" : {
-                              "type" : "Query",
-                              "source" : [ {
-                                 "alias" : "D",
-                                 "expression" : {
-                                    "dataType" : "{http://hl7.org/fhir}Encounter",
-                                    "codeProperty" : "type",
-                                    "codeComparator" : "in",
-                                    "type" : "Retrieve",
-                                    "codes" : {
-                                       "name" : "Frailty Device",
-                                       "type" : "ValueSetRef"
-                                    }
-                                 }
-                              } ],
-                              "relationship" : [ ],
-                              "where" : {
-                                 "type" : "In",
-                                 "operand" : [ {
-                                    "type" : "Start",
-                                    "operand" : {
-                                       "name" : "ToInterval",
-                                       "libraryName" : "FHIRHelpers",
-                                       "type" : "FunctionRef",
-                                       "operand" : [ {
-                                          "path" : "period",
-                                          "scope" : "D",
-                                          "type" : "Property"
-                                       } ]
-                                    }
-                                 }, {
-                                    "name" : "MeasurementPeriod",
-                                    "type" : "ParameterRef"
-                                 } ]
-                              }
-                           }
-                        }, {
-                           "type" : "Exists",
-                           "operand" : {
-                              "type" : "Query",
-                              "source" : [ {
-                                 "alias" : "Dia",
-                                 "expression" : {
-                                    "dataType" : "{http://hl7.org/fhir}Encounter",
-                                    "codeProperty" : "type",
-                                    "codeComparator" : "in",
-                                    "type" : "Retrieve",
-                                    "codes" : {
-                                       "name" : "Frailty Diagnosis",
-                                       "type" : "ValueSetRef"
-                                    }
-                                 }
-                              } ],
-                              "relationship" : [ ],
-                              "where" : {
-                                 "type" : "In",
-                                 "operand" : [ {
-                                    "type" : "Start",
-                                    "operand" : {
-                                       "name" : "ToInterval",
-                                       "libraryName" : "FHIRHelpers",
-                                       "type" : "FunctionRef",
-                                       "operand" : [ {
-                                          "path" : "period",
-                                          "scope" : "Dia",
-                                          "type" : "Property"
-                                       } ]
-                                    }
-                                 }, {
-                                    "name" : "MeasurementPeriod",
-                                    "type" : "ParameterRef"
-                                 } ]
-                              }
-                           }
-                        } ]
-                     }, {
                         "type" : "Exists",
                         "operand" : {
                            "type" : "Query",
                            "source" : [ {
-                              "alias" : "E",
+                              "alias" : "D",
                               "expression" : {
                                  "dataType" : "{http://hl7.org/fhir}Encounter",
                                  "codeProperty" : "type",
                                  "codeComparator" : "in",
                                  "type" : "Retrieve",
                                  "codes" : {
-                                    "name" : "Frailty Encounter",
+                                    "name" : "Frailty Device",
                                     "type" : "ValueSetRef"
                                  }
                               }
@@ -1460,7 +1216,45 @@
                                     "type" : "FunctionRef",
                                     "operand" : [ {
                                        "path" : "period",
-                                       "scope" : "E",
+                                       "scope" : "D",
+                                       "type" : "Property"
+                                    } ]
+                                 }
+                              }, {
+                                 "name" : "MeasurementPeriod",
+                                 "type" : "ParameterRef"
+                              } ]
+                           }
+                        }
+                     }, {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "Dia",
+                              "expression" : {
+                                 "dataType" : "{http://hl7.org/fhir}Encounter",
+                                 "codeProperty" : "type",
+                                 "codeComparator" : "in",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Frailty Diagnosis",
+                                    "type" : "ValueSetRef"
+                                 }
+                              }
+                           } ],
+                           "relationship" : [ ],
+                           "where" : {
+                              "type" : "In",
+                              "operand" : [ {
+                                 "type" : "Start",
+                                 "operand" : {
+                                    "name" : "ToInterval",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "period",
+                                       "scope" : "Dia",
                                        "type" : "Property"
                                     } ]
                                  }
@@ -1476,14 +1270,14 @@
                      "operand" : {
                         "type" : "Query",
                         "source" : [ {
-                           "alias" : "S",
+                           "alias" : "E",
                            "expression" : {
                               "dataType" : "{http://hl7.org/fhir}Encounter",
                               "codeProperty" : "type",
                               "codeComparator" : "in",
                               "type" : "Retrieve",
                               "codes" : {
-                                 "name" : "Frailty Symptom",
+                                 "name" : "Frailty Encounter",
                                  "type" : "ValueSetRef"
                               }
                            }
@@ -1499,7 +1293,7 @@
                                  "type" : "FunctionRef",
                                  "operand" : [ {
                                     "path" : "period",
-                                    "scope" : "S",
+                                    "scope" : "E",
                                     "type" : "Property"
                                  } ]
                               }
@@ -1510,6 +1304,44 @@
                         }
                      }
                   } ]
+               }, {
+                  "type" : "Exists",
+                  "operand" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "S",
+                        "expression" : {
+                           "dataType" : "{http://hl7.org/fhir}Encounter",
+                           "codeProperty" : "type",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Frailty Symptom",
+                              "type" : "ValueSetRef"
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "In",
+                        "operand" : [ {
+                           "type" : "Start",
+                           "operand" : {
+                              "name" : "ToInterval",
+                              "libraryName" : "FHIRHelpers",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "path" : "period",
+                                 "scope" : "S",
+                                 "type" : "Property"
+                              } ]
+                           }
+                        }, {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
+                        } ]
+                     }
+                  }
                } ]
             }
          }, {
@@ -1599,21 +1431,640 @@
                }
             }
          }, {
+            "name" : "Outpatient Visits",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "Exists",
+                  "operand" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "E",
+                        "expression" : {
+                           "dataType" : "{http://hl7.org/fhir}Encounter",
+                           "codeProperty" : "type",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Outpatient",
+                              "type" : "ValueSetRef"
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "AnyInValueSet",
+                        "codes" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "X",
+                              "expression" : {
+                                 "type" : "Query",
+                                 "source" : [ {
+                                    "alias" : "$this",
+                                    "expression" : {
+                                       "path" : "diagnosis",
+                                       "scope" : "E",
+                                       "type" : "Property"
+                                    }
+                                 } ],
+                                 "where" : {
+                                    "type" : "Not",
+                                    "operand" : {
+                                       "type" : "IsNull",
+                                       "operand" : {
+                                          "path" : "use",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "name" : "$this",
+                                             "type" : "AliasRef"
+                                          }
+                                       }
+                                    }
+                                 },
+                                 "return" : {
+                                    "distinct" : false,
+                                    "expression" : {
+                                       "path" : "use",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "$this",
+                                          "type" : "AliasRef"
+                                       }
+                                    }
+                                 }
+                              }
+                           } ],
+                           "return" : {
+                              "distinct" : false,
+                              "expression" : {
+                                 "name" : "ToConcept",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "name" : "X",
+                                    "type" : "AliasRef"
+                                 } ]
+                              }
+                           }
+                        },
+                        "valueset" : {
+                           "name" : "Advanced Illness",
+                           "type" : "ValueSetRef"
+                        }
+                     }
+                  }
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Observation Set",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "Exists",
+                  "operand" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "E",
+                        "expression" : {
+                           "dataType" : "{http://hl7.org/fhir}Encounter",
+                           "codeProperty" : "type",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Observation Encounter",
+                              "type" : "ValueSetRef"
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "AnyInValueSet",
+                        "codes" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "X",
+                              "expression" : {
+                                 "type" : "Query",
+                                 "source" : [ {
+                                    "alias" : "$this",
+                                    "expression" : {
+                                       "path" : "diagnosis",
+                                       "scope" : "E",
+                                       "type" : "Property"
+                                    }
+                                 } ],
+                                 "where" : {
+                                    "type" : "Not",
+                                    "operand" : {
+                                       "type" : "IsNull",
+                                       "operand" : {
+                                          "path" : "use",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "name" : "$this",
+                                             "type" : "AliasRef"
+                                          }
+                                       }
+                                    }
+                                 },
+                                 "return" : {
+                                    "distinct" : false,
+                                    "expression" : {
+                                       "path" : "use",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "$this",
+                                          "type" : "AliasRef"
+                                       }
+                                    }
+                                 }
+                              }
+                           } ],
+                           "return" : {
+                              "distinct" : false,
+                              "expression" : {
+                                 "name" : "ToConcept",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "name" : "X",
+                                    "type" : "AliasRef"
+                                 } ]
+                              }
+                           }
+                        },
+                        "valueset" : {
+                           "name" : "Advanced Illness",
+                           "type" : "ValueSetRef"
+                        }
+                     }
+                  }
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "ED Visits Count",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "Exists",
+                  "operand" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "E",
+                        "expression" : {
+                           "dataType" : "{http://hl7.org/fhir}Encounter",
+                           "codeProperty" : "type",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "ED",
+                              "type" : "ValueSetRef"
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "AnyInValueSet",
+                        "codes" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "X",
+                              "expression" : {
+                                 "type" : "Query",
+                                 "source" : [ {
+                                    "alias" : "$this",
+                                    "expression" : {
+                                       "path" : "diagnosis",
+                                       "scope" : "E",
+                                       "type" : "Property"
+                                    }
+                                 } ],
+                                 "where" : {
+                                    "type" : "Not",
+                                    "operand" : {
+                                       "type" : "IsNull",
+                                       "operand" : {
+                                          "path" : "use",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "name" : "$this",
+                                             "type" : "AliasRef"
+                                          }
+                                       }
+                                    }
+                                 },
+                                 "return" : {
+                                    "distinct" : false,
+                                    "expression" : {
+                                       "path" : "use",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "$this",
+                                          "type" : "AliasRef"
+                                       }
+                                    }
+                                 }
+                              }
+                           } ],
+                           "return" : {
+                              "distinct" : false,
+                              "expression" : {
+                                 "name" : "ToConcept",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "name" : "X",
+                                    "type" : "AliasRef"
+                                 } ]
+                              }
+                           }
+                        },
+                        "valueset" : {
+                           "name" : "Advanced Illness",
+                           "type" : "ValueSetRef"
+                        }
+                     }
+                  }
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Nonacute Inpatient Count",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "Exists",
+                  "operand" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "E",
+                        "expression" : {
+                           "dataType" : "{http://hl7.org/fhir}Encounter",
+                           "codeProperty" : "type",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Nonacute Inpatient Stay",
+                              "type" : "ValueSetRef"
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "AnyInValueSet",
+                        "codes" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "X",
+                              "expression" : {
+                                 "type" : "Query",
+                                 "source" : [ {
+                                    "alias" : "$this",
+                                    "expression" : {
+                                       "path" : "diagnosis",
+                                       "scope" : "E",
+                                       "type" : "Property"
+                                    }
+                                 } ],
+                                 "where" : {
+                                    "type" : "Not",
+                                    "operand" : {
+                                       "type" : "IsNull",
+                                       "operand" : {
+                                          "path" : "use",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "name" : "$this",
+                                             "type" : "AliasRef"
+                                          }
+                                       }
+                                    }
+                                 },
+                                 "return" : {
+                                    "distinct" : false,
+                                    "expression" : {
+                                       "path" : "use",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "$this",
+                                          "type" : "AliasRef"
+                                       }
+                                    }
+                                 }
+                              }
+                           } ],
+                           "return" : {
+                              "distinct" : false,
+                              "expression" : {
+                                 "name" : "ToConcept",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "name" : "X",
+                                    "type" : "AliasRef"
+                                 } ]
+                              }
+                           }
+                        },
+                        "valueset" : {
+                           "name" : "Advanced Illness",
+                           "type" : "ValueSetRef"
+                        }
+                     }
+                  }
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Nonacute Discharge",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "Exists",
+                  "operand" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "E",
+                        "expression" : {
+                           "dataType" : "{http://hl7.org/fhir}Encounter",
+                           "codeProperty" : "type",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Nonacute Inpatient Stay",
+                              "type" : "ValueSetRef"
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "And",
+                        "operand" : [ {
+                           "type" : "AnyInValueSet",
+                           "codes" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "X",
+                                 "expression" : {
+                                    "type" : "Query",
+                                    "source" : [ {
+                                       "alias" : "$this",
+                                       "expression" : {
+                                          "path" : "diagnosis",
+                                          "scope" : "E",
+                                          "type" : "Property"
+                                       }
+                                    } ],
+                                    "where" : {
+                                       "type" : "Not",
+                                       "operand" : {
+                                          "type" : "IsNull",
+                                          "operand" : {
+                                             "path" : "use",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "name" : "$this",
+                                                "type" : "AliasRef"
+                                             }
+                                          }
+                                       }
+                                    },
+                                    "return" : {
+                                       "distinct" : false,
+                                       "expression" : {
+                                          "path" : "use",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "name" : "$this",
+                                             "type" : "AliasRef"
+                                          }
+                                       }
+                                    }
+                                 }
+                              } ],
+                              "return" : {
+                                 "distinct" : false,
+                                 "expression" : {
+                                    "name" : "ToConcept",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "name" : "X",
+                                       "type" : "AliasRef"
+                                    } ]
+                                 }
+                              }
+                           },
+                           "valueset" : {
+                              "name" : "Advanced Illness",
+                              "type" : "ValueSetRef"
+                           }
+                        }, {
+                           "type" : "Equal",
+                           "operand" : [ {
+                              "name" : "ToString",
+                              "libraryName" : "FHIRHelpers",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "path" : "status",
+                                 "scope" : "E",
+                                 "type" : "Property"
+                              } ]
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : "finished",
+                              "type" : "Literal"
+                           } ]
+                        } ]
+                     }
+                  }
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Two Outpatients With Advanced Illness",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "GreaterOrEqual",
+               "operand" : [ {
+                  "type" : "Add",
+                  "operand" : [ {
+                     "type" : "Add",
+                     "operand" : [ {
+                        "type" : "Add",
+                        "operand" : [ {
+                           "type" : "Add",
+                           "operand" : [ {
+                              "name" : "Outpatient Visits",
+                              "type" : "ExpressionRef"
+                           }, {
+                              "name" : "Observation Set",
+                              "type" : "ExpressionRef"
+                           } ]
+                        }, {
+                           "name" : "ED Visits Count",
+                           "type" : "ExpressionRef"
+                        } ]
+                     }, {
+                        "name" : "Nonacute Inpatient Count",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }, {
+                     "name" : "Nonacute Discharge",
+                     "type" : "ExpressionRef"
+                  } ]
+               }, {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "2",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
             "name" : "Diabetes Exclusions",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "And",
                "operand" : [ {
-                  "name" : "Frailty",
-                  "type" : "ExpressionRef"
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "GreaterOrEqual",
+                     "operand" : [ {
+                        "precision" : "Year",
+                        "type" : "CalculateAgeAt",
+                        "operand" : [ {
+                           "type" : "ToDateTime",
+                           "operand" : {
+                              "path" : "birthDate.value",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "Patient",
+                                 "type" : "ExpressionRef"
+                              }
+                           }
+                        }, {
+                           "type" : "Start",
+                           "operand" : {
+                              "name" : "MeasurementPeriod",
+                              "type" : "ParameterRef"
+                           }
+                        } ]
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "66",
+                        "type" : "Literal"
+                     } ]
+                  }, {
+                     "name" : "Frailty",
+                     "type" : "ExpressionRef"
+                  } ]
                }, {
                   "type" : "Or",
                   "operand" : [ {
-                     "name" : "Acute inpatient discharge with Advanced Illness",
-                     "type" : "ExpressionRef"
+                     "type" : "Or",
+                     "operand" : [ {
+                        "name" : "Acute inpatient discharge with Advanced Illness",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "Acute Inpatient with Advanced Illness",
+                        "type" : "ExpressionRef"
+                     } ]
                   }, {
-                     "name" : "Acute Inpatient with Advanced Illness",
+                     "name" : "Two Outpatients With Advanced Illness",
                      "type" : "ExpressionRef"
                   } ]
                } ]
