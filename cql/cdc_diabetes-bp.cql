@@ -217,10 +217,10 @@ define "Correct Context For BP Reading":
     or exists([Encounter: "Nonacute Inpatient Stay"] E	
       where E.period during MeasurementPeriod)	
       // or [Encounter: "Remote Blood Pressure Monitoring"] R	
-        // where R.period during MeasurementPeriod	
-        
+        // where R.period during MeasurementPeriod
+
 define "Qualifying Diastolic Blood Pressure Reading":	
-	["Observation": "Blood pressure"] BloodPressure	
+	Last(["Observation": "Blood pressure"] BloodPressure	
 	  where BloodPressure.status in {'final', 'amended'}	
       and Coalesce(BloodPressure.effective, BloodPressure.effective.start) during "MeasurementPeriod"	
       and exists (	
@@ -228,10 +228,10 @@ define "Qualifying Diastolic Blood Pressure Reading":
           where FHIRHelpers.ToConcept(DiastolicBP.code) ~ "Diastolic blood pressure"	
             and DiastolicBP.value.unit in {'mm[Hg]', 'mmHg'}	
             and DiastolicBP.value.value.value < 90	
-      )	
+      ))
       	
 define "Qualifying Systolic Blood Pressure Reading":	
-	["Observation": "Blood pressure"] BloodPressure	
+	Last(["Observation": "Blood pressure"] BloodPressure	
 	  where BloodPressure.status in {'final', 'amended'}	
       and Coalesce(BloodPressure.effective, BloodPressure.effective.start) during "MeasurementPeriod"	
       and exists (	
@@ -239,10 +239,10 @@ define "Qualifying Systolic Blood Pressure Reading":
           where FHIRHelpers.ToConcept(SystolicBP.code) ~ "Systolic blood pressure"	
             and SystolicBP.value.unit in {'mm[Hg]', 'mmHg'}	
             and SystolicBP.value.value.value < 140	
-      )
+      ))
 
 define "BP < 140/90 mm Hg":	
-  exists("Correct Context For BP Reading") 	
+  "Correct Context For BP Reading"
   and exists("Qualifying Diastolic Blood Pressure Reading")	
   and exists("Qualifying Systolic Blood Pressure Reading")
 
