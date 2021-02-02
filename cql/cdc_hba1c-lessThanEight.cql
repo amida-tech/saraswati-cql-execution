@@ -33,17 +33,14 @@ valueset "Frailty Encounter": '2.16.840.1.113883.3.464.1003.101.12.1088'
 valueset "Frailty Symptom": '2.16.840.1.113883.3.464.1003.113.12.1075'
 valueset "Advanced Illness": '2.16.840.1.113883.3.464.1003.110.12.1082'
 valueset "Inpatient Stay": '2.16.840.1.113762.1.4.1182.285'
-
 code "Acarbose": '386965004' from "SNOMED-CT" display 'Acarbose'
 code "Miglitol": '109071007' from "SNOMED-CT" display 'Miglitol'
 code "Insulin Aspart": '325072002' from "SNOMED-CT" display 'Insulin Aspart'
-
 concept "Diabetes Medication": {
   "Acarbose",
   "Miglitol",
   "Insulin Aspart"
 } display 'Diabetes Medication'
-
 parameter MeasurementPeriod default Interval[@2018-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
 parameter MeasurementPeriodExtended default Interval[@2017-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
 
@@ -136,7 +133,7 @@ define "Out Tele Online":
 
 define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
    "Nonacute Diabetes Discharges" + "Nonacute Diabetes Discharges On Claim" + "Out Tele Online" >= 2
-
+   
 define "Diabetes Diagnosis By Medication":
   exists([MedicationDispense] B
     with B.medication.coding X such that exists(
@@ -169,7 +166,7 @@ define "Outpatient Advanced Illness":
       such that E.period starts during MeasurementPeriodExtended
 
 define "Observation Advanced Illness":
-  [Encounter: "Observation"] E
+  [Encounter: "Observation Encounter"] E
     with [Condition: "Advanced Illness"] AI
       such that E.period starts during MeasurementPeriodExtended
 
@@ -207,12 +204,11 @@ define "Atleast Two Out/Obs/ED Advaned Illness":
       and (EDAI.period.start != NAID.period.start)
       and (NAI.period.start != NAID.period.start)
       return (Count(((((OAI union ObsAI) union EDAI) union NAI) union NAID)) >= 2)
-
 define "Diabetes Exclusions":
     AgeInYearsAt(start of MeasurementPeriod) >= 66
-     and "Frailty" 
-     and ("Acute inpatient discharge with Advanced Illness" 
-      or "Acute Inpatient with Advanced Illness" 
+     and "Frailty"
+     and ("Acute Inpatient Discharge With Advanced Illness"
+      or "Acute Inpatient With Advanced Illness"
       or "Atleast Two Out/Obs/ED Advaned Illness")
 
 define "Diabetes Condition":
