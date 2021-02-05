@@ -25,5 +25,4 @@ const patientSource = cqlfhir.PatientSource.FHIRv400();
 patientSource.loadBundles(patients);
 
 const result = executor.exec(patientSource);
-console.log(result)
-//console.log(JSON.stringify(result['patientResults']['96dcbd62-e4c6-a555-a663-77d08ad3c3b5']['~~Correct Context For BP Reading'], undefined, 2)); // eslint-disable-line no-console
+console.log(result);
