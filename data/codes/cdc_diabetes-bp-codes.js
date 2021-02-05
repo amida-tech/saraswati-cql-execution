@@ -14607,6 +14607,303 @@ const codes = {
         version: '2020-09'
       }
     ]
+  },'2.16.840.1.113883.3.464.1003.196.11.1517': {
+    'Dementia Medications 1': [
+      {
+        code: '1100184',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '1308569',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '1858970',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '310436',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '310437',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '312835',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '312836',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '314214',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '314215',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '579148',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '725021',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '725023',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '860695',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '860707',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '860715',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '860901',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996561',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996571',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996572',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996594',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996603',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996609',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996615',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996624',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996740',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '997220',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '997223',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '997226',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '997229',
+        system: 'RXNORM',
+        version: '2021-01'
+      }
+    ]
+  },
+  '2.16.840.1.113883.3.464.1003.196.12.1510': {
+    'Dementia Medications 2': [
+      {
+        code: '1100184',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '1308569',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '1858970',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '310436',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '310437',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '312835',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '312836',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '314214',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '314215',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '579148',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '725021',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '725023',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '860695',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '860707',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '860715',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '860901',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996561',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996571',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996572',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996594',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996603',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996609',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996615',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996624',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996740',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '997220',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '997223',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '997226',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '997229',
+        system: 'RXNORM',
+        version: '2021-01'
+      }
+    ]
   }
 };
 module.exports = codes;

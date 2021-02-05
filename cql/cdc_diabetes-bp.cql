@@ -1,7 +1,7 @@
 library cdc_bp_lessThanOneHundredAndFortyOverNinety version '1'
 
 using FHIR version '4.0.0'
-include FHIRHelpers version '4.0.0'
+include FHIRHelpers version '4.0.0' called FHIRHelpers
 
 codesystem "SNOMED-CT": '2.16.840.1.113883.6.96' version '20200301'
 codesystem "LOINC": 'http://loinc.org'
@@ -29,7 +29,9 @@ valueset "Systolic Less Than 140": '2.16.840.1.113762.1.4.1182.85'
 valueset "Systolic Greater Than Or Equal To 140": '2.16.840.1.113762.1.4.1182.84'
 valueset "Diastolic Less Than 80": '2.16.840.1.113762.1.4.1182.79'
 valueset "Diastolic Greater Than Or Equal To 90": '2.16.840.1.113762.1.4.1182.78'
- valueset "Diastolic BP": '2.16.840.1.113762.1.4.1116.409'
+valueset "Diastolic BP": '2.16.840.1.113762.1.4.1116.409'
+valueset "Dementia Medications 1": '2.16.840.1.113883.3.464.1003.196.11.1517'
+valueset "Dementia Medications 2": '2.16.840.1.113883.3.464.1003.196.12.1510'
 
 // The following commented out valuesets are found in the HEDIS specifications,
 // but don't exist in the value set authority or the NIH's database
@@ -82,9 +84,13 @@ define "Acute Inpatient Discharge With Diabetes":
       such that Enc.status = 'finished'
       and Enc.period starts during MeasurementPeriodExtended
 
+define "Claim with Acute Inpatient":
+  [Claim] C
+    with C.diagnosis D such that D.diagnosis in "Acute Inpatient"
+
 define "Acute Inpatient Discharge On Discharge Claim":
   exists ("Acute Inpatient Discharge With Diabetes" Enc
-    with [Claim: "Acute Inpatient"] AI
+    with "Claim with Acute Inpatient" AI
       such that Enc.subject = AI.patient)
 
 define "Nonacute Diabetes Discharges-List":
@@ -95,33 +101,72 @@ define "Nonacute Diabetes Discharges-List":
 define "Nonacute Diabetes Discharges":
   Count ("Nonacute Diabetes Discharges-List")
 
+define "Claim with Nonacute Inpatient Stay":
+  [Claim] C
+    with C.diagnosis D such that D.diagnosis in "Nonacute Inpatient Stay"
+
 define "Nonacute Diabetes Discharges On Claim":
   Count ("Nonacute Diabetes Discharges-List" E
-    with [Claim: "Nonacute Inpatient Stay"] C
+    with "Claim with Nonacute Inpatient Stay" C
       such that E.subject = C.patient)
 
-define "Out":
-  exists ([Encounter: "Telehealth POS"] E
+define "Outpatient Visit":
+  [Encounter: "Outpatient"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriodExtended)
+      such that E.period starts during MeasurementPeriodExtended
+
+define "Observation Visit":
+  [Encounter: "Observation Encounter"] E
+    with [Condition: "Diabetes"] c
+      such that E.period starts during MeasurementPeriodExtended
+
+define "Out":
+  [Encounter: "Telehealth POS"] E
+    with [Condition: "Diabetes"] c
+      such that E.period starts during MeasurementPeriodExtended
 
 define "Telehealth Modifier With Diabetes":
-  exists ([Encounter: "Telehealth Modifier"] E
+  [Encounter: "Telehealth Modifier"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriodExtended)
+      such that E.period starts during MeasurementPeriodExtended
 
 define "Telephone Visit":
-  exists ([Encounter: "Telephone Visits"] E
+  [Encounter: "Telephone Visits"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriodExtended)
+      such that E.period starts during MeasurementPeriodExtended
 
 define "Online Assessment":
-  exists ([Encounter: "Online Assessments"] E
+  [Encounter: "Online Assessments"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriodExtended)
+      such that E.period starts during MeasurementPeriodExtended
+
+define "Out Tele Online with Different Dates":
+  from
+    "Out" cond1,
+    "Telehealth Modifier With Diabetes" cond2,
+    "Telephone Visit" cond3,
+    "Online Assessment" cond4,
+    "Outpatient Visit" cond5,
+    "Observation Visit" cond6
+      where (cond1.period.start != cond2.period.start )
+        and (cond1.period.start != cond3.period.start )
+        and (cond1.period.start != cond4.period.start )
+        and (cond1.period.start != cond5.period.start )
+        and (cond1.period.start != cond6.period.start )
+        and (cond2.period.start != cond3.period.start )
+        and (cond2.period.start != cond4.period.start )
+        and (cond2.period.start != cond5.period.start )
+        and (cond2.period.start != cond6.period.start )
+        and (cond3.period.start != cond4.period.start )
+        and (cond3.period.start != cond5.period.start )
+        and (cond3.period.start != cond6.period.start )
+        and (cond4.period.start != cond5.period.start )
+        and (cond4.period.start != cond6.period.start )
+        and (cond5.period.start != cond6.period.start )
+      return (exists(cond1) or exists(cond2) or exists(cond3) or exists(cond4))
 
 define "Out Tele Online":
-  case ("Out" or "Telehealth Modifier With Diabetes" or "Telephone Visit" or "Online Assessment")
+  case ("Out Tele Online with Different Dates")
     when true then 1
     else 0
   end
@@ -155,47 +200,66 @@ define "Acute Inpatient Discharge With Advanced Illness":
     with [Condition: "Advanced Illness"] AI
       such that E.status ~ 'finished')
 
-define "Outpatient Visits":	
-  case (exists([Encounter: "Outpatient"] E where E.diagnosis.use in "Advanced Illness"))	
-    when true then 1	
-    else 0	
-  end	
+define "Outpatient Advanced Illness":
+  [Encounter: "Outpatient"] E
+    with [Condition: "Advanced Illness"] AI
+      such that E.period starts during MeasurementPeriodExtended
 
-define "Observation Set":	
-  case ( exists([Encounter: "Observation Encounter"] E where E.diagnosis.use in "Advanced Illness"))	
-    when true then 1	
-    else 0	
-  end	
+define "Observation Advanced Illness":
+  [Encounter: "Observation Encounter"] E
+    with [Condition: "Advanced Illness"] AI
+      such that E.period starts during MeasurementPeriodExtended
 
-define "ED Visits Count":	
-  case (exists([Encounter: "ED"] E where E.diagnosis.use in "Advanced Illness"))	
-    when true then 1	
-    else 0	
-  end	
+define "ED Advanced Illness":
+  [Encounter: "ED"] E
+    with [Condition: "Advanced Illness"] AI
+      such that E.period starts during MeasurementPeriodExtended
 
-define "Nonacute Inpatient Count":	
-  case (exists([Encounter: "Nonacute Inpatient Stay"] E where E.diagnosis.use in "Advanced Illness"))	
-    when true then 1	
-    else 0	
-  end	
+define "Nonacute AI":
+  [Encounter: "Nonacute Inpatient"] E
+    with [Condition: "Advanced Illness"] AI
+      such that E.period starts during MeasurementPeriodExtended
 
-define "Nonacute Discharge":	
-  case (exists([Encounter: "Nonacute Inpatient Stay"] E	
-    where E.diagnosis.use in "Advanced Illness"	
-    and E.status = 'finished'))	
-      when true then 1	
-      else 0	
-  end	
+define "Nonacute AI Discharge":
+  [Encounter: "Nonacute Inpatient"] E
+    with [Condition: "Advanced Illness"] AI
+      such that E.status ~ 'finished'
+      and E.period starts during MeasurementPeriodExtended
 
-define "Two Outpatients With Advanced Illness":	
-    "Outpatient Visits" + "Observation Set" + "ED Visits Count" + "Nonacute Inpatient Count" + "Nonacute Discharge" >= 2
+define "At Least Two Out/Obs/ED Advaned Illness":
+  from
+    "Outpatient Advanced Illness" OAI,
+    "Observation Advanced Illness" ObsAI,
+    "ED Advanced Illness" EDAI,
+    "Nonacute AI" NAI,
+    "Nonacute AI Discharge" NAID
+    where (OAI.period.start != ObsAI.period.start)
+      and (OAI.period.start != EDAI.period.start)
+      and (OAI.period.start != NAI.period.start)
+      and (OAI.period.start != NAID.period.start)
+      and (ObsAI.period.start != EDAI.period.start)
+      and (ObsAI.period.start != NAI.period.start)
+      and (ObsAI.period.start != NAID.period.start)
+      and (EDAI.period.start != NAI.period.start)
+      and (EDAI.period.start != NAID.period.start)
+      and (NAI.period.start != NAID.period.start)
+      return (Count(((((OAI union ObsAI) union EDAI) union NAI) union NAID)) >= 2)
 
-define "Diabetes Exclusions":	
-  AgeInYearsAt(start of MeasurementPeriod) >= 66 	
-    and "Frailty" 	
-      and ("Acute Inpatient Discharge With Advanced Illness" 	
-        or "Acute Inpatient With Advanced Illness"	
-        or "Two Outpatients With Advanced Illness")
+define "Taking Dementia Medication":
+  exists([MedicationDispense] B	
+    with B.medication.coding X such that exists(	
+        B.medication.coding coding	
+          where (FHIRHelpers.ToCode(coding) in "Dementia Medications 1"
+            or FHIRHelpers.ToCode(coding) in "Dementia Medications 2")
+    ))
+
+define "Diabetes Exclusions":
+    AgeInYearsAt(start of MeasurementPeriod) >= 66
+     and "Frailty"
+     and ("Acute Inpatient Discharge With Advanced Illness"
+      or "Acute Inpatient With Advanced Illness"
+      or "At Least Two Out/Obs/ED Advaned Illness"
+      or "Taking Dementia Medication")
 
 define "Diabetes Condition":
   "Acute Inpatient Encounter Without Telehealth"
