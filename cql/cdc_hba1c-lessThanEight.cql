@@ -73,9 +73,13 @@ define "Acute Inpatient Discharge With Diabetes":
       such that Enc.status = 'finished'
       and Enc.period starts during MeasurementPeriodExtended
 
+define "Claim with Acute Inpatient":
+  [Claim] C
+    with C.diagnosis D such that D.diagnosis in "Acute Inpatient"
+
 define "Acute Inpatient Discharge On Discharge Claim":
   exists ("Acute Inpatient Discharge With Diabetes" Enc
-    with [Claim: "Acute Inpatient"] AI
+    with "Claim with Acute Inpatient" AI
       such that Enc.subject = AI.patient)
 
 define "Nonacute Diabetes Discharges-List":
@@ -86,9 +90,13 @@ define "Nonacute Diabetes Discharges-List":
 define "Nonacute Diabetes Discharges":
   Count("Nonacute Diabetes Discharges-List")
 
+define "Claim with Nonacute Inpatient Stay":
+  [Claim] C
+    with C.diagnosis D such that D.diagnosis in "Nonacute Inpatient Stay"
+
 define "Nonacute Diabetes Discharges On Claim":
   Count ("Nonacute Diabetes Discharges-List" E
-    with [Claim: "Nonacute Inpatient Stay"] C
+    with "Claim with Nonacute Inpatient Stay" C
       such that E.subject = C.patient)
 
 define "Out":
