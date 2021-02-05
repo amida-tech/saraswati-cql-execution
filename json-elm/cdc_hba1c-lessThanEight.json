@@ -17,10 +17,10 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 241,
+         "startLine" : 242,
          "startChar" : 10,
-         "endLine" : 241,
-         "endChar" : 49,
+         "endLine" : 242,
+         "endChar" : 50,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
          "errorSeverity" : "warning",
@@ -2358,7 +2358,7 @@
                } ]
             }
          }, {
-            "name" : "Atleast Two Out/Obs/ED Advaned Illness",
+            "name" : "At Least Two Out/Obs/ED Advaned Illness",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -2752,7 +2752,7 @@
                   }, {
                      "type" : "SingletonFrom",
                      "operand" : {
-                        "name" : "Atleast Two Out/Obs/ED Advaned Illness",
+                        "name" : "At Least Two Out/Obs/ED Advaned Illness",
                         "type" : "ExpressionRef"
                      }
                   } ]

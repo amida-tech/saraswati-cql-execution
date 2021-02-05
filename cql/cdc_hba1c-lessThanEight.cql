@@ -215,7 +215,7 @@ define "Nonacute AI Discharge":
       such that E.status ~ 'finished'
       and E.period starts during MeasurementPeriodExtended
 
-define "Atleast Two Out/Obs/ED Advaned Illness":
+define "At Least Two Out/Obs/ED Advaned Illness":
   from
     "Outpatient Advanced Illness" OAI,
     "Observation Advanced Illness" ObsAI,
@@ -233,12 +233,13 @@ define "Atleast Two Out/Obs/ED Advaned Illness":
       and (EDAI.period.start != NAID.period.start)
       and (NAI.period.start != NAID.period.start)
       return (Count(((((OAI union ObsAI) union EDAI) union NAI) union NAID)) >= 2)
+
 define "Diabetes Exclusions":
     AgeInYearsAt(start of MeasurementPeriod) >= 66
      and "Frailty"
      and ("Acute Inpatient Discharge With Advanced Illness"
       or "Acute Inpatient With Advanced Illness"
-      or "Atleast Two Out/Obs/ED Advaned Illness")
+      or "At Least Two Out/Obs/ED Advaned Illness")
 
 define "Diabetes Condition":
   "Acute Inpatient Encounter Without Telehealth"
