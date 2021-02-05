@@ -6,9 +6,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 159,
+         "startLine" : 162,
          "startChar" : 10,
-         "endLine" : 159,
+         "endLine" : 162,
          "endChar" : 13,
          "message" : "Boolean-valued expression was promoted to a list.",
          "errorType" : "semantic",
@@ -17,9 +17,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 242,
+         "startLine" : 256,
          "startChar" : 10,
-         "endLine" : 242,
+         "endLine" : 256,
          "endChar" : 50,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -302,6 +302,14 @@
          }, {
             "name" : "Inpatient Stay",
             "id" : "2.16.840.1.113762.1.4.1182.285",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Dementia Medications 1",
+            "id" : "2.16.840.1.113883.3.464.1003.196.11.1517",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Dementia Medications 2",
+            "id" : "2.16.840.1.113883.3.464.1003.196.12.1510",
             "accessLevel" : "Public"
          } ]
       },
@@ -2700,6 +2708,89 @@
                }
             }
          }, {
+            "name" : "Taking Dementia Medication",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Exists",
+               "operand" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "B",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                        "type" : "Retrieve"
+                     }
+                  } ],
+                  "relationship" : [ {
+                     "alias" : "X",
+                     "type" : "With",
+                     "expression" : {
+                        "path" : "coding",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "medication",
+                           "scope" : "B",
+                           "type" : "Property"
+                        }
+                     },
+                     "suchThat" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "coding",
+                              "expression" : {
+                                 "path" : "coding",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "medication",
+                                    "scope" : "B",
+                                    "type" : "Property"
+                                 }
+                              }
+                           } ],
+                           "relationship" : [ ],
+                           "where" : {
+                              "type" : "Or",
+                              "operand" : [ {
+                                 "type" : "InValueSet",
+                                 "code" : {
+                                    "name" : "ToCode",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "name" : "coding",
+                                       "type" : "AliasRef"
+                                    } ]
+                                 },
+                                 "valueset" : {
+                                    "name" : "Dementia Medications 1",
+                                    "type" : "ValueSetRef"
+                                 }
+                              }, {
+                                 "type" : "InValueSet",
+                                 "code" : {
+                                    "name" : "ToCode",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "name" : "coding",
+                                       "type" : "AliasRef"
+                                    } ]
+                                 },
+                                 "valueset" : {
+                                    "name" : "Dementia Medications 2",
+                                    "type" : "ValueSetRef"
+                                 }
+                              } ]
+                           }
+                        }
+                     }
+                  } ]
+               }
+            }
+         }, {
             "name" : "Diabetes Exclusions",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -2743,18 +2834,24 @@
                   "operand" : [ {
                      "type" : "Or",
                      "operand" : [ {
-                        "name" : "Acute Inpatient Discharge With Advanced Illness",
-                        "type" : "ExpressionRef"
+                        "type" : "Or",
+                        "operand" : [ {
+                           "name" : "Acute Inpatient Discharge With Advanced Illness",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "name" : "Acute Inpatient With Advanced Illness",
+                           "type" : "ExpressionRef"
+                        } ]
                      }, {
-                        "name" : "Acute Inpatient With Advanced Illness",
-                        "type" : "ExpressionRef"
+                        "type" : "SingletonFrom",
+                        "operand" : {
+                           "name" : "At Least Two Out/Obs/ED Advaned Illness",
+                           "type" : "ExpressionRef"
+                        }
                      } ]
                   }, {
-                     "type" : "SingletonFrom",
-                     "operand" : {
-                        "name" : "At Least Two Out/Obs/ED Advaned Illness",
-                        "type" : "ExpressionRef"
-                     }
+                     "name" : "Taking Dementia Medication",
+                     "type" : "ExpressionRef"
                   } ]
                } ]
             }

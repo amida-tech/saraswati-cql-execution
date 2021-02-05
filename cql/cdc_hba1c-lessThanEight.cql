@@ -33,6 +33,8 @@ valueset "Frailty Encounter": '2.16.840.1.113883.3.464.1003.101.12.1088'
 valueset "Frailty Symptom": '2.16.840.1.113883.3.464.1003.113.12.1075'
 valueset "Advanced Illness": '2.16.840.1.113883.3.464.1003.110.12.1082'
 valueset "Inpatient Stay": '2.16.840.1.113762.1.4.1182.285'
+valueset "Dementia Medications 1": '2.16.840.1.113883.3.464.1003.196.11.1517'
+valueset "Dementia Medications 2": '2.16.840.1.113883.3.464.1003.196.12.1510'
 code "Acarbose": '386965004' from "SNOMED-CT" display 'Acarbose'
 code "Miglitol": '109071007' from "SNOMED-CT" display 'Miglitol'
 code "Insulin Aspart": '325072002' from "SNOMED-CT" display 'Insulin Aspart'
@@ -41,6 +43,7 @@ concept "Diabetes Medication": {
   "Miglitol",
   "Insulin Aspart"
 } display 'Diabetes Medication'
+
 parameter MeasurementPeriod default Interval[@2018-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
 parameter MeasurementPeriodExtended default Interval[@2017-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
 
@@ -234,12 +237,21 @@ define "At Least Two Out/Obs/ED Advaned Illness":
       and (NAI.period.start != NAID.period.start)
       return (Count(((((OAI union ObsAI) union EDAI) union NAI) union NAID)) >= 2)
 
+define "Taking Dementia Medication":
+  exists([MedicationDispense] B	
+    with B.medication.coding X such that exists(	
+        B.medication.coding coding	
+          where (FHIRHelpers.ToCode(coding) in "Dementia Medications 1"
+            or FHIRHelpers.ToCode(coding) in "Dementia Medications 2")
+    ))
+
 define "Diabetes Exclusions":
     AgeInYearsAt(start of MeasurementPeriod) >= 66
      and "Frailty"
      and ("Acute Inpatient Discharge With Advanced Illness"
       or "Acute Inpatient With Advanced Illness"
-      or "At Least Two Out/Obs/ED Advaned Illness")
+      or "At Least Two Out/Obs/ED Advaned Illness"
+      or "Taking Dementia Medication")
 
 define "Diabetes Condition":
   "Acute Inpatient Encounter Without Telehealth"
