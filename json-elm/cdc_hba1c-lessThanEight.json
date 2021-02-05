@@ -6,9 +6,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 138,
+         "startLine" : 159,
          "startChar" : 10,
-         "endLine" : 138,
+         "endLine" : 159,
          "endChar" : 13,
          "message" : "Boolean-valued expression was promoted to a list.",
          "errorType" : "semantic",
@@ -17,9 +17,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 220,
+         "startLine" : 241,
          "startChar" : 10,
-         "endLine" : 220,
+         "endLine" : 241,
          "endChar" : 49,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -894,6 +894,112 @@
                }
             }
          }, {
+            "name" : "Outpatient Visit",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "codeProperty" : "type",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Outpatient",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "c",
+                  "type" : "With",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Diabetes",
+                        "type" : "ValueSetRef"
+                     }
+                  },
+                  "suchThat" : {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "ToInterval",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "period",
+                              "scope" : "E",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "MeasurementPeriodExtended",
+                        "type" : "ParameterRef"
+                     } ]
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Observation Visit",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "codeProperty" : "type",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Observation Encounter",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "c",
+                  "type" : "With",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Diabetes",
+                        "type" : "ValueSetRef"
+                     }
+                  },
+                  "suchThat" : {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "ToInterval",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "period",
+                              "scope" : "E",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "MeasurementPeriodExtended",
+                        "type" : "ParameterRef"
+                     } ]
+                  }
+               } ]
+            }
+         }, {
             "name" : "Out",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -1135,6 +1241,18 @@
                      "name" : "Online Assessment",
                      "type" : "ExpressionRef"
                   }
+               }, {
+                  "alias" : "cond5",
+                  "expression" : {
+                     "name" : "Outpatient Visit",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "alias" : "cond6",
+                  "expression" : {
+                     "name" : "Observation Visit",
+                     "type" : "ExpressionRef"
+                  }
                } ],
                "relationship" : [ ],
                "where" : {
@@ -1148,27 +1266,252 @@
                            "operand" : [ {
                               "type" : "And",
                               "operand" : [ {
-                                 "type" : "Not",
-                                 "operand" : {
-                                    "type" : "Equal",
+                                 "type" : "And",
+                                 "operand" : [ {
+                                    "type" : "And",
                                     "operand" : [ {
-                                       "path" : "start",
-                                       "type" : "Property",
-                                       "source" : {
-                                          "path" : "period",
-                                          "scope" : "cond1",
-                                          "type" : "Property"
-                                       }
+                                       "type" : "And",
+                                       "operand" : [ {
+                                          "type" : "And",
+                                          "operand" : [ {
+                                             "type" : "And",
+                                             "operand" : [ {
+                                                "type" : "And",
+                                                "operand" : [ {
+                                                   "type" : "And",
+                                                   "operand" : [ {
+                                                      "type" : "And",
+                                                      "operand" : [ {
+                                                         "type" : "And",
+                                                         "operand" : [ {
+                                                            "type" : "Not",
+                                                            "operand" : {
+                                                               "type" : "Equal",
+                                                               "operand" : [ {
+                                                                  "path" : "start",
+                                                                  "type" : "Property",
+                                                                  "source" : {
+                                                                     "path" : "period",
+                                                                     "scope" : "cond1",
+                                                                     "type" : "Property"
+                                                                  }
+                                                               }, {
+                                                                  "path" : "start",
+                                                                  "type" : "Property",
+                                                                  "source" : {
+                                                                     "path" : "period",
+                                                                     "scope" : "cond2",
+                                                                     "type" : "Property"
+                                                                  }
+                                                               } ]
+                                                            }
+                                                         }, {
+                                                            "type" : "Not",
+                                                            "operand" : {
+                                                               "type" : "Equal",
+                                                               "operand" : [ {
+                                                                  "path" : "start",
+                                                                  "type" : "Property",
+                                                                  "source" : {
+                                                                     "path" : "period",
+                                                                     "scope" : "cond1",
+                                                                     "type" : "Property"
+                                                                  }
+                                                               }, {
+                                                                  "path" : "start",
+                                                                  "type" : "Property",
+                                                                  "source" : {
+                                                                     "path" : "period",
+                                                                     "scope" : "cond3",
+                                                                     "type" : "Property"
+                                                                  }
+                                                               } ]
+                                                            }
+                                                         } ]
+                                                      }, {
+                                                         "type" : "Not",
+                                                         "operand" : {
+                                                            "type" : "Equal",
+                                                            "operand" : [ {
+                                                               "path" : "start",
+                                                               "type" : "Property",
+                                                               "source" : {
+                                                                  "path" : "period",
+                                                                  "scope" : "cond1",
+                                                                  "type" : "Property"
+                                                               }
+                                                            }, {
+                                                               "path" : "start",
+                                                               "type" : "Property",
+                                                               "source" : {
+                                                                  "path" : "period",
+                                                                  "scope" : "cond4",
+                                                                  "type" : "Property"
+                                                               }
+                                                            } ]
+                                                         }
+                                                      } ]
+                                                   }, {
+                                                      "type" : "Not",
+                                                      "operand" : {
+                                                         "type" : "Equal",
+                                                         "operand" : [ {
+                                                            "path" : "start",
+                                                            "type" : "Property",
+                                                            "source" : {
+                                                               "path" : "period",
+                                                               "scope" : "cond1",
+                                                               "type" : "Property"
+                                                            }
+                                                         }, {
+                                                            "path" : "start",
+                                                            "type" : "Property",
+                                                            "source" : {
+                                                               "path" : "period",
+                                                               "scope" : "cond5",
+                                                               "type" : "Property"
+                                                            }
+                                                         } ]
+                                                      }
+                                                   } ]
+                                                }, {
+                                                   "type" : "Not",
+                                                   "operand" : {
+                                                      "type" : "Equal",
+                                                      "operand" : [ {
+                                                         "path" : "start",
+                                                         "type" : "Property",
+                                                         "source" : {
+                                                            "path" : "period",
+                                                            "scope" : "cond1",
+                                                            "type" : "Property"
+                                                         }
+                                                      }, {
+                                                         "path" : "start",
+                                                         "type" : "Property",
+                                                         "source" : {
+                                                            "path" : "period",
+                                                            "scope" : "cond6",
+                                                            "type" : "Property"
+                                                         }
+                                                      } ]
+                                                   }
+                                                } ]
+                                             }, {
+                                                "type" : "Not",
+                                                "operand" : {
+                                                   "type" : "Equal",
+                                                   "operand" : [ {
+                                                      "path" : "start",
+                                                      "type" : "Property",
+                                                      "source" : {
+                                                         "path" : "period",
+                                                         "scope" : "cond2",
+                                                         "type" : "Property"
+                                                      }
+                                                   }, {
+                                                      "path" : "start",
+                                                      "type" : "Property",
+                                                      "source" : {
+                                                         "path" : "period",
+                                                         "scope" : "cond3",
+                                                         "type" : "Property"
+                                                      }
+                                                   } ]
+                                                }
+                                             } ]
+                                          }, {
+                                             "type" : "Not",
+                                             "operand" : {
+                                                "type" : "Equal",
+                                                "operand" : [ {
+                                                   "path" : "start",
+                                                   "type" : "Property",
+                                                   "source" : {
+                                                      "path" : "period",
+                                                      "scope" : "cond2",
+                                                      "type" : "Property"
+                                                   }
+                                                }, {
+                                                   "path" : "start",
+                                                   "type" : "Property",
+                                                   "source" : {
+                                                      "path" : "period",
+                                                      "scope" : "cond4",
+                                                      "type" : "Property"
+                                                   }
+                                                } ]
+                                             }
+                                          } ]
+                                       }, {
+                                          "type" : "Not",
+                                          "operand" : {
+                                             "type" : "Equal",
+                                             "operand" : [ {
+                                                "path" : "start",
+                                                "type" : "Property",
+                                                "source" : {
+                                                   "path" : "period",
+                                                   "scope" : "cond2",
+                                                   "type" : "Property"
+                                                }
+                                             }, {
+                                                "path" : "start",
+                                                "type" : "Property",
+                                                "source" : {
+                                                   "path" : "period",
+                                                   "scope" : "cond5",
+                                                   "type" : "Property"
+                                                }
+                                             } ]
+                                          }
+                                       } ]
                                     }, {
-                                       "path" : "start",
-                                       "type" : "Property",
-                                       "source" : {
-                                          "path" : "period",
-                                          "scope" : "cond2",
-                                          "type" : "Property"
+                                       "type" : "Not",
+                                       "operand" : {
+                                          "type" : "Equal",
+                                          "operand" : [ {
+                                             "path" : "start",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "period",
+                                                "scope" : "cond2",
+                                                "type" : "Property"
+                                             }
+                                          }, {
+                                             "path" : "start",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "period",
+                                                "scope" : "cond6",
+                                                "type" : "Property"
+                                             }
+                                          } ]
                                        }
                                     } ]
-                                 }
+                                 }, {
+                                    "type" : "Not",
+                                    "operand" : {
+                                       "type" : "Equal",
+                                       "operand" : [ {
+                                          "path" : "start",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "path" : "period",
+                                             "scope" : "cond3",
+                                             "type" : "Property"
+                                          }
+                                       }, {
+                                          "path" : "start",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "path" : "period",
+                                             "scope" : "cond4",
+                                             "type" : "Property"
+                                          }
+                                       } ]
+                                    }
+                                 } ]
                               }, {
                                  "type" : "Not",
                                  "operand" : {
@@ -1178,7 +1521,7 @@
                                        "type" : "Property",
                                        "source" : {
                                           "path" : "period",
-                                          "scope" : "cond1",
+                                          "scope" : "cond3",
                                           "type" : "Property"
                                        }
                                     }, {
@@ -1186,7 +1529,7 @@
                                        "type" : "Property",
                                        "source" : {
                                           "path" : "period",
-                                          "scope" : "cond3",
+                                          "scope" : "cond5",
                                           "type" : "Property"
                                        }
                                     } ]
@@ -1201,7 +1544,7 @@
                                     "type" : "Property",
                                     "source" : {
                                        "path" : "period",
-                                       "scope" : "cond1",
+                                       "scope" : "cond3",
                                        "type" : "Property"
                                     }
                                  }, {
@@ -1209,7 +1552,7 @@
                                     "type" : "Property",
                                     "source" : {
                                        "path" : "period",
-                                       "scope" : "cond4",
+                                       "scope" : "cond6",
                                        "type" : "Property"
                                     }
                                  } ]
@@ -1224,7 +1567,7 @@
                                  "type" : "Property",
                                  "source" : {
                                     "path" : "period",
-                                    "scope" : "cond2",
+                                    "scope" : "cond4",
                                     "type" : "Property"
                                  }
                               }, {
@@ -1232,7 +1575,7 @@
                                  "type" : "Property",
                                  "source" : {
                                     "path" : "period",
-                                    "scope" : "cond3",
+                                    "scope" : "cond5",
                                     "type" : "Property"
                                  }
                               } ]
@@ -1247,7 +1590,7 @@
                               "type" : "Property",
                               "source" : {
                                  "path" : "period",
-                                 "scope" : "cond2",
+                                 "scope" : "cond4",
                                  "type" : "Property"
                               }
                            }, {
@@ -1255,7 +1598,7 @@
                               "type" : "Property",
                               "source" : {
                                  "path" : "period",
-                                 "scope" : "cond4",
+                                 "scope" : "cond6",
                                  "type" : "Property"
                               }
                            } ]
@@ -1270,7 +1613,7 @@
                            "type" : "Property",
                            "source" : {
                               "path" : "period",
-                              "scope" : "cond3",
+                              "scope" : "cond5",
                               "type" : "Property"
                            }
                         }, {
@@ -1278,7 +1621,7 @@
                            "type" : "Property",
                            "source" : {
                               "path" : "period",
-                              "scope" : "cond4",
+                              "scope" : "cond6",
                               "type" : "Property"
                            }
                         } ]

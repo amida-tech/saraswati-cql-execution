@@ -99,6 +99,16 @@ define "Nonacute Diabetes Discharges On Claim":
     with "Claim with Nonacute Inpatient Stay" C
       such that E.subject = C.patient)
 
+define "Outpatient Visit":
+  [Encounter: "Outpatient"] E
+    with [Condition: "Diabetes"] c
+      such that E.period starts during MeasurementPeriodExtended
+
+define "Observation Visit":
+  [Encounter: "Observation Encounter"] E
+    with [Condition: "Diabetes"] c
+      such that E.period starts during MeasurementPeriodExtended
+
 define "Out":
   [Encounter: "Telehealth POS"] E
     with [Condition: "Diabetes"] c
@@ -124,13 +134,24 @@ define "Out Tele Online with Different Dates":
     "Out" cond1,
     "Telehealth Modifier With Diabetes" cond2,
     "Telephone Visit" cond3,
-    "Online Assessment" cond4
+    "Online Assessment" cond4,
+    "Outpatient Visit" cond5,
+    "Observation Visit" cond6
       where (cond1.period.start != cond2.period.start )
         and (cond1.period.start != cond3.period.start )
         and (cond1.period.start != cond4.period.start )
+        and (cond1.period.start != cond5.period.start )
+        and (cond1.period.start != cond6.period.start )
         and (cond2.period.start != cond3.period.start )
         and (cond2.period.start != cond4.period.start )
+        and (cond2.period.start != cond5.period.start )
+        and (cond2.period.start != cond6.period.start )
         and (cond3.period.start != cond4.period.start )
+        and (cond3.period.start != cond5.period.start )
+        and (cond3.period.start != cond6.period.start )
+        and (cond4.period.start != cond5.period.start )
+        and (cond4.period.start != cond6.period.start )
+        and (cond5.period.start != cond6.period.start )
       return (exists(cond1) or exists(cond2) or exists(cond3) or exists(cond4))
 
 define "Out Tele Online":
