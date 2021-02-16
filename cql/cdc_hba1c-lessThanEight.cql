@@ -89,16 +89,15 @@ define "Nonacute Diabetes Discharges-List":
   distinct ([Encounter: "Nonacute Inpatient Stay"] E
     with [Condition: "Diabetes"] Dia
       such that E.status ~ 'finished')
-
-define "Nonacute Diabetes Discharges":
-  Count("Nonacute Diabetes Discharges-List")
+      and not "Telehealth POS Encounter"
+      and not "Telehealth Modifier Encounter"
 
 define "Claim with Nonacute Inpatient Stay":
   [Claim] C
     with C.diagnosis D such that D.diagnosis in "Nonacute Inpatient Stay"
 
 define "Nonacute Diabetes Discharges On Claim":
-  Count ("Nonacute Diabetes Discharges-List" E
+  "Nonacute Diabetes Discharges-List" E
     with "Claim with Nonacute Inpatient Stay" C
       such that E.subject = C.patient)
 
@@ -112,7 +111,7 @@ define "Observation Visit":
     with [Condition: "Diabetes"] c
       such that E.period starts during MeasurementPeriodExtended
 
-define "Out":
+define "Telehealth POS":
   [Encounter: "Telehealth POS"] E
     with [Condition: "Diabetes"] c
       such that E.period starts during MeasurementPeriodExtended
@@ -132,39 +131,39 @@ define "Online Assessment":
     with [Condition: "Diabetes"] c
       such that E.period starts during MeasurementPeriodExtended
 
-define "Out Tele Online with Different Dates":
-  from
-    "Out" cond1,
-    "Telehealth Modifier With Diabetes" cond2,
-    "Telephone Visit" cond3,
-    "Online Assessment" cond4,
-    "Outpatient Visit" cond5,
-    "Observation Visit" cond6
-      where (cond1.period.start != cond2.period.start )
-        and (cond1.period.start != cond3.period.start )
-        and (cond1.period.start != cond4.period.start )
-        and (cond1.period.start != cond5.period.start )
-        and (cond1.period.start != cond6.period.start )
-        and (cond2.period.start != cond3.period.start )
-        and (cond2.period.start != cond4.period.start )
-        and (cond2.period.start != cond5.period.start )
-        and (cond2.period.start != cond6.period.start )
-        and (cond3.period.start != cond4.period.start )
-        and (cond3.period.start != cond5.period.start )
-        and (cond3.period.start != cond6.period.start )
-        and (cond4.period.start != cond5.period.start )
-        and (cond4.period.start != cond6.period.start )
-        and (cond5.period.start != cond6.period.start )
-      return (exists(cond1) or exists(cond2) or exists(cond3) or exists(cond4))
+define "Emergency Department Visit":
+  [Encounter: "ED"] E
+    with [Condition: "Diabetes"] c
+      such that E.period starts during MeasurementPeriodExtended
 
-define "Out Tele Online":
-  case ("Out Tele Online with Different Dates")
+define "Out Tele Online Union":
+  case exists("Telehealth Modifier With Diabetes" union "Telephone Visit" union "Online Assessment" union "Telehealth POS")
     when true then 1
-    else 0
-  end
+    else 0 
+  end 
 
+define "Out visits on Different Dates":
+  from 
+    "Outpatient Visit" cond1,
+    "Observation Visit" cond2,
+    "Emergency Department Visits" cond3,
+    "Nonacute Diabetes Discharges-List" cond4,
+    "Nonacute Diabetes Discharges On Claim" cond5
+      where (cond1.period.start != cond2.period.start)
+        and (cond1.period.start != cond3.period.start)
+        and (cond1.period.start != cond4.period.start)
+        and (cond1.period.start != cond5.period.start)
+        and (cond2.period.start != cond3.period.start)
+        and (cond2.period.start != cond4.period.start)
+        and (cond2.period.start != cond5.period.start)
+        and (cond3.period.start != cond4.period.start)
+        and (cond3.period.start != cond5.period.start)
+        and (cond4.period.start != cond5.period.start)
+
+    return count(distinct(cond1 union cond2 union cond3 union cond4 union cond5))
+  
 define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
-   "Nonacute Diabetes Discharges" + "Nonacute Diabetes Discharges On Claim" + "Out Tele Online" >= 2
+  "Out Tele Online Union" + "Out visits on Different Dates" >= 2
    
 define "Diabetes Diagnosis By Medication":
   exists([MedicationDispense] B
