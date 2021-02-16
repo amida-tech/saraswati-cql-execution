@@ -18,7 +18,7 @@ const removeArrayValues = patient => {
   return patient;
 };
 
-const cleanData = (patientResults) => {
+const cleanData = patientResults => {
   const clonedPatientResults = cloneDeep(patientResults);
   Object.entries(clonedPatientResults).forEach(([patientKey, patientValue]) => {
     const patient = patientValue;
@@ -58,10 +58,8 @@ const execute = (measure, patients, codeservice) => {
     }
   };
 
-  fs.writeFile(
-    './exec-files/results.json', 
-    JSON.stringify(cleanedPatientResults), 
-    err => convertToJSONL(err)
+  fs.writeFile('./exec-files/results.json', JSON.stringify(cleanedPatientResults), err =>
+    convertToJSONL(err)
   );
 };
 
