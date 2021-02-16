@@ -127,24 +127,6 @@ class PositionOf extends Expression {
   }
 }
 
-class LastPositionOf extends Expression {
-  constructor(json) {
-    super(json);
-    this.pattern = build(json.pattern);
-    this.string = build(json.string);
-  }
-
-  exec(ctx) {
-    const pattern = this.pattern.execute(ctx);
-    const string = this.string.execute(ctx);
-    if (pattern == null || string == null) {
-      return null;
-    } else {
-      return string.lastIndexOf(pattern);
-    }
-  }
-}
-
 class Matches extends Expression {
   constructor(json) {
     super(json);
@@ -225,7 +207,6 @@ module.exports = {
   Combine,
   Concatenate,
   EndsWith,
-  LastPositionOf,
   Lower,
   Matches,
   PositionOf,
