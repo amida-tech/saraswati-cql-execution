@@ -1,0 +1,11 @@
+lib
+lib-test
+node_modules
+.DS_Store
+.nyc_output
+.vscode
+coverage
+*.original.coffee
+yarn-error.log
+exec-files/results.json
+exec-files/*.jsonl
