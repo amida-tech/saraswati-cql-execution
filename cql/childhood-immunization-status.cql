@@ -93,7 +93,7 @@ parameter "Measurement Period" default Interval[@2018-12-31T00:00:00.0, @2019-12
 context Patient
 
 define "Initial Population":
-	and AgeInYearsAt(start of "Measurement Period")>= 1
+	AgeInYearsAt(start of "Measurement Period")>= 1
 	and AgeInYearsAt(end of "Measurement Period")= 2
 
 define "DTaP Immunizations or Procedures":
