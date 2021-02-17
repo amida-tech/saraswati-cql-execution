@@ -89,8 +89,8 @@ define "Nonacute Diabetes Discharges-List":
   distinct ([Encounter: "Nonacute Inpatient Stay"] E
     with [Condition: "Diabetes"] Dia
       such that E.status ~ 'finished')
-      and not "Telehealth POS Encounter"
-      and not "Telehealth Modifier Encounter"
+      /* and not "Telehealth POS Encounter"
+      and not "Telehealth Modifier Encounter" */
 
 define "Claim with Nonacute Inpatient Stay":
   [Claim] C
@@ -99,7 +99,7 @@ define "Claim with Nonacute Inpatient Stay":
 define "Nonacute Diabetes Discharges On Claim":
   "Nonacute Diabetes Discharges-List" E
     with "Claim with Nonacute Inpatient Stay" C
-      such that E.subject = C.patient)
+      such that E.subject = C.patient
 
 define "Outpatient Visit":
   [Encounter: "Outpatient"] E
@@ -111,7 +111,7 @@ define "Observation Visit":
     with [Condition: "Diabetes"] c
       such that E.period starts during MeasurementPeriodExtended
 
-define "Telehealth POS":
+define "Telehealth POS With Diabetes":
   [Encounter: "Telehealth POS"] E
     with [Condition: "Diabetes"] c
       such that E.period starts during MeasurementPeriodExtended
@@ -131,19 +131,19 @@ define "Online Assessment":
     with [Condition: "Diabetes"] c
       such that E.period starts during MeasurementPeriodExtended
 
-define "Emergency Department Visit":
+define "Emergency Department Visits":
   [Encounter: "ED"] E
     with [Condition: "Diabetes"] c
       such that E.period starts during MeasurementPeriodExtended
 
 define "Out Tele Online Union":
-  case exists("Telehealth Modifier With Diabetes" union "Telephone Visit" union "Online Assessment" union "Telehealth POS")
+  case exists("Telehealth Modifier With Diabetes" union "Telephone Visit" union "Online Assessment" union "Telehealth POS With Diabetes")
     when true then 1
-    else 0 
-  end 
+    else 0
+  end
 
 define "Out visits on Different Dates":
-  from 
+  from
     "Outpatient Visit" cond1,
     "Observation Visit" cond2,
     "Emergency Department Visits" cond3,
@@ -160,11 +160,11 @@ define "Out visits on Different Dates":
         and (cond3.period.start != cond5.period.start)
         and (cond4.period.start != cond5.period.start)
 
-    return count(distinct(cond1 union cond2 union cond3 union cond4 union cond5))
-  
+    return Count(((((cond1 union cond2) union cond3) union cond4) union cond5))
+
 define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
   "Out Tele Online Union" + "Out visits on Different Dates" >= 2
-   
+
 define "Diabetes Diagnosis By Medication":
   exists([MedicationDispense] B
     with B.medication.coding X such that exists(
@@ -237,9 +237,9 @@ define "At Least Two Out/Obs/ED Advaned Illness":
       return (Count(((((OAI union ObsAI) union EDAI) union NAI) union NAID)) >= 2)
 
 define "Taking Dementia Medication":
-  exists([MedicationDispense] B	
-    with B.medication.coding X such that exists(	
-        B.medication.coding coding	
+  exists([MedicationDispense] B
+    with B.medication.coding X such that exists(
+        B.medication.coding coding
           where (FHIRHelpers.ToCode(coding) in "Dementia Medications 1"
             or FHIRHelpers.ToCode(coding) in "Dementia Medications 2")
     ))
