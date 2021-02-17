@@ -25,6 +25,116 @@
          "errorType" : "semantic",
          "errorSeverity" : "warning",
          "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 288,
+         "startChar" : 91,
+         "endLine" : 288,
+         "endChar" : 95,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 288,
+         "startChar" : 91,
+         "endLine" : 288,
+         "endChar" : 95,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 294,
+         "startChar" : 123,
+         "endLine" : 294,
+         "endChar" : 127,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 294,
+         "startChar" : 123,
+         "endLine" : 294,
+         "endChar" : 127,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 295,
+         "startChar" : 100,
+         "endLine" : 295,
+         "endChar" : 104,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 295,
+         "startChar" : 100,
+         "endLine" : 295,
+         "endChar" : 104,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 306,
+         "startChar" : 123,
+         "endLine" : 306,
+         "endChar" : 127,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 306,
+         "startChar" : 123,
+         "endLine" : 306,
+         "endChar" : 127,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 307,
+         "startChar" : 100,
+         "endLine" : 307,
+         "endChar" : 104,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 307,
+         "startChar" : 100,
+         "endLine" : 307,
+         "endChar" : 104,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
       } ],
       "identifier" : {
          "id" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
@@ -3037,7 +3147,7 @@
                } ]
             }
          }, {
-            "name" : "Qualifying Diastolic Blood Pressure Reading",
+            "name" : "Most Recent BP Reading Date",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -3045,7 +3155,7 @@
                "source" : {
                   "type" : "Query",
                   "source" : [ {
-                     "alias" : "BloodPressure",
+                     "alias" : "BP",
                      "expression" : {
                         "dataType" : "{http://hl7.org/fhir}Observation",
                         "codeProperty" : "code",
@@ -3061,7 +3171,72 @@
                      }
                   } ],
                   "relationship" : [ ],
-                  "where" : {
+                  "return" : {
+                     "expression" : {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "type" : "Coalesce",
+                           "operand" : [ {
+                              "asType" : "{http://hl7.org/fhir}dateTime",
+                              "type" : "As",
+                              "operand" : {
+                                 "path" : "effective",
+                                 "scope" : "BP",
+                                 "type" : "Property"
+                              }
+                           }, {
+                              "path" : "start",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "effective",
+                                 "scope" : "BP",
+                                 "type" : "Property"
+                              }
+                           }, {
+                              "type" : "SingletonFrom",
+                              "operand" : {
+                                 "path" : "event",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "effective",
+                                    "scope" : "BP",
+                                    "type" : "Property"
+                                 }
+                              }
+                           } ]
+                        } ]
+                     }
+                  }
+               }
+            }
+         }, {
+            "name" : "Qualifying Diastolic Blood Pressure Reading",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "BloodPressure",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Observation",
+                     "codeProperty" : "code",
+                     "codeComparator" : "~",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "Blood pressure",
+                           "type" : "CodeRef"
+                        }
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "And",
+                  "operand" : [ {
                      "type" : "And",
                      "operand" : [ {
                         "type" : "And",
@@ -3089,7 +3264,8 @@
                               } ]
                            } ]
                         }, {
-                           "type" : "In",
+                           "precision" : "Day",
+                           "type" : "SameAs",
                            "operand" : [ {
                               "name" : "ToDateTime",
                               "libraryName" : "FHIRHelpers",
@@ -3112,103 +3288,155 @@
                                        "scope" : "BloodPressure",
                                        "type" : "Property"
                                     }
+                                 }, {
+                                    "type" : "SingletonFrom",
+                                    "operand" : {
+                                       "path" : "event",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "path" : "effective",
+                                          "scope" : "BloodPressure",
+                                          "type" : "Property"
+                                       }
+                                    }
                                  } ]
                               } ]
                            }, {
-                              "name" : "MeasurementPeriod",
-                              "type" : "ParameterRef"
+                              "name" : "Most Recent BP Reading Date",
+                              "type" : "ExpressionRef"
                            } ]
                         } ]
                      }, {
-                        "type" : "Exists",
-                        "operand" : {
-                           "type" : "Query",
-                           "source" : [ {
-                              "alias" : "DiastolicBP",
-                              "expression" : {
-                                 "path" : "component",
-                                 "scope" : "BloodPressure",
-                                 "type" : "Property"
-                              }
-                           } ],
-                           "relationship" : [ ],
-                           "where" : {
-                              "type" : "And",
+                        "type" : "In",
+                        "operand" : [ {
+                           "name" : "ToDateTime",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "type" : "Coalesce",
                               "operand" : [ {
-                                 "type" : "And",
-                                 "operand" : [ {
-                                    "type" : "Equivalent",
-                                    "operand" : [ {
-                                       "name" : "ToConcept",
-                                       "libraryName" : "FHIRHelpers",
-                                       "type" : "FunctionRef",
-                                       "operand" : [ {
-                                          "path" : "code",
-                                          "scope" : "DiastolicBP",
-                                          "type" : "Property"
-                                       } ]
-                                    }, {
-                                       "type" : "ToConcept",
-                                       "operand" : {
-                                          "name" : "Diastolic blood pressure",
-                                          "type" : "CodeRef"
-                                       }
-                                    } ]
-                                 }, {
-                                    "type" : "In",
-                                    "operand" : [ {
-                                       "name" : "ToString",
-                                       "libraryName" : "FHIRHelpers",
-                                       "type" : "FunctionRef",
-                                       "operand" : [ {
-                                          "path" : "unit",
-                                          "type" : "Property",
-                                          "source" : {
-                                             "path" : "value",
-                                             "scope" : "DiastolicBP",
-                                             "type" : "Property"
-                                          }
-                                       } ]
-                                    }, {
-                                       "type" : "List",
-                                       "element" : [ {
-                                          "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                          "value" : "mm[Hg]",
-                                          "type" : "Literal"
-                                       }, {
-                                          "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                          "value" : "mmHg",
-                                          "type" : "Literal"
-                                       } ]
-                                    } ]
-                                 } ]
+                                 "asType" : "{http://hl7.org/fhir}dateTime",
+                                 "type" : "As",
+                                 "operand" : {
+                                    "path" : "effective",
+                                    "scope" : "BloodPressure",
+                                    "type" : "Property"
+                                 }
                               }, {
-                                 "type" : "Less",
-                                 "operand" : [ {
-                                    "path" : "value",
+                                 "path" : "start",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "effective",
+                                    "scope" : "BloodPressure",
+                                    "type" : "Property"
+                                 }
+                              }, {
+                                 "type" : "SingletonFrom",
+                                 "operand" : {
+                                    "path" : "event",
                                     "type" : "Property",
                                     "source" : {
-                                       "path" : "value",
+                                       "path" : "effective",
+                                       "scope" : "BloodPressure",
+                                       "type" : "Property"
+                                    }
+                                 }
+                              } ]
+                           } ]
+                        }, {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
+                        } ]
+                     } ]
+                  }, {
+                     "type" : "Exists",
+                     "operand" : {
+                        "type" : "Query",
+                        "source" : [ {
+                           "alias" : "DiastolicBP",
+                           "expression" : {
+                              "path" : "component",
+                              "scope" : "BloodPressure",
+                              "type" : "Property"
+                           }
+                        } ],
+                        "relationship" : [ ],
+                        "where" : {
+                           "type" : "And",
+                           "operand" : [ {
+                              "type" : "And",
+                              "operand" : [ {
+                                 "type" : "Equivalent",
+                                 "operand" : [ {
+                                    "name" : "ToConcept",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "code",
+                                       "scope" : "DiastolicBP",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "type" : "ToConcept",
+                                    "operand" : {
+                                       "name" : "Diastolic blood pressure",
+                                       "type" : "CodeRef"
+                                    }
+                                 } ]
+                              }, {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "unit",
                                        "type" : "Property",
                                        "source" : {
                                           "path" : "value",
                                           "scope" : "DiastolicBP",
                                           "type" : "Property"
                                        }
-                                    }
+                                    } ]
                                  }, {
-                                    "type" : "ToDecimal",
-                                    "operand" : {
-                                       "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                       "value" : "90",
+                                    "type" : "List",
+                                    "element" : [ {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                       "value" : "mm[Hg]",
                                        "type" : "Literal"
-                                    }
+                                    }, {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                       "value" : "mmHg",
+                                       "type" : "Literal"
+                                    } ]
                                  } ]
                               } ]
-                           }
+                           }, {
+                              "type" : "Less",
+                              "operand" : [ {
+                                 "path" : "value",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "value",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "value",
+                                       "scope" : "DiastolicBP",
+                                       "type" : "Property"
+                                    }
+                                 }
+                              }, {
+                                 "type" : "ToDecimal",
+                                 "operand" : {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "90",
+                                    "type" : "Literal"
+                                 }
+                              } ]
+                           } ]
                         }
-                     } ]
-                  }
+                     }
+                  } ]
                }
             }
          }, {
@@ -3216,27 +3444,27 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Last",
-               "source" : {
-                  "type" : "Query",
-                  "source" : [ {
-                     "alias" : "BloodPressure",
-                     "expression" : {
-                        "dataType" : "{http://hl7.org/fhir}Observation",
-                        "codeProperty" : "code",
-                        "codeComparator" : "~",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "type" : "ToList",
-                           "operand" : {
-                              "name" : "Blood pressure",
-                              "type" : "CodeRef"
-                           }
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "BloodPressure",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Observation",
+                     "codeProperty" : "code",
+                     "codeComparator" : "~",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "Blood pressure",
+                           "type" : "CodeRef"
                         }
                      }
-                  } ],
-                  "relationship" : [ ],
-                  "where" : {
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "And",
+                  "operand" : [ {
                      "type" : "And",
                      "operand" : [ {
                         "type" : "And",
@@ -3264,7 +3492,8 @@
                               } ]
                            } ]
                         }, {
-                           "type" : "In",
+                           "precision" : "Day",
+                           "type" : "SameAs",
                            "operand" : [ {
                               "name" : "ToDateTime",
                               "libraryName" : "FHIRHelpers",
@@ -3287,103 +3516,155 @@
                                        "scope" : "BloodPressure",
                                        "type" : "Property"
                                     }
+                                 }, {
+                                    "type" : "SingletonFrom",
+                                    "operand" : {
+                                       "path" : "event",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "path" : "effective",
+                                          "scope" : "BloodPressure",
+                                          "type" : "Property"
+                                       }
+                                    }
                                  } ]
                               } ]
                            }, {
-                              "name" : "MeasurementPeriod",
-                              "type" : "ParameterRef"
+                              "name" : "Most Recent BP Reading Date",
+                              "type" : "ExpressionRef"
                            } ]
                         } ]
                      }, {
-                        "type" : "Exists",
-                        "operand" : {
-                           "type" : "Query",
-                           "source" : [ {
-                              "alias" : "SystolicBP",
-                              "expression" : {
-                                 "path" : "component",
-                                 "scope" : "BloodPressure",
-                                 "type" : "Property"
-                              }
-                           } ],
-                           "relationship" : [ ],
-                           "where" : {
-                              "type" : "And",
+                        "type" : "In",
+                        "operand" : [ {
+                           "name" : "ToDateTime",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "type" : "Coalesce",
                               "operand" : [ {
-                                 "type" : "And",
-                                 "operand" : [ {
-                                    "type" : "Equivalent",
-                                    "operand" : [ {
-                                       "name" : "ToConcept",
-                                       "libraryName" : "FHIRHelpers",
-                                       "type" : "FunctionRef",
-                                       "operand" : [ {
-                                          "path" : "code",
-                                          "scope" : "SystolicBP",
-                                          "type" : "Property"
-                                       } ]
-                                    }, {
-                                       "type" : "ToConcept",
-                                       "operand" : {
-                                          "name" : "Systolic blood pressure",
-                                          "type" : "CodeRef"
-                                       }
-                                    } ]
-                                 }, {
-                                    "type" : "In",
-                                    "operand" : [ {
-                                       "name" : "ToString",
-                                       "libraryName" : "FHIRHelpers",
-                                       "type" : "FunctionRef",
-                                       "operand" : [ {
-                                          "path" : "unit",
-                                          "type" : "Property",
-                                          "source" : {
-                                             "path" : "value",
-                                             "scope" : "SystolicBP",
-                                             "type" : "Property"
-                                          }
-                                       } ]
-                                    }, {
-                                       "type" : "List",
-                                       "element" : [ {
-                                          "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                          "value" : "mm[Hg]",
-                                          "type" : "Literal"
-                                       }, {
-                                          "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                          "value" : "mmHg",
-                                          "type" : "Literal"
-                                       } ]
-                                    } ]
-                                 } ]
+                                 "asType" : "{http://hl7.org/fhir}dateTime",
+                                 "type" : "As",
+                                 "operand" : {
+                                    "path" : "effective",
+                                    "scope" : "BloodPressure",
+                                    "type" : "Property"
+                                 }
                               }, {
-                                 "type" : "Less",
-                                 "operand" : [ {
-                                    "path" : "value",
+                                 "path" : "start",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "effective",
+                                    "scope" : "BloodPressure",
+                                    "type" : "Property"
+                                 }
+                              }, {
+                                 "type" : "SingletonFrom",
+                                 "operand" : {
+                                    "path" : "event",
                                     "type" : "Property",
                                     "source" : {
-                                       "path" : "value",
+                                       "path" : "effective",
+                                       "scope" : "BloodPressure",
+                                       "type" : "Property"
+                                    }
+                                 }
+                              } ]
+                           } ]
+                        }, {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
+                        } ]
+                     } ]
+                  }, {
+                     "type" : "Exists",
+                     "operand" : {
+                        "type" : "Query",
+                        "source" : [ {
+                           "alias" : "SystolicBP",
+                           "expression" : {
+                              "path" : "component",
+                              "scope" : "BloodPressure",
+                              "type" : "Property"
+                           }
+                        } ],
+                        "relationship" : [ ],
+                        "where" : {
+                           "type" : "And",
+                           "operand" : [ {
+                              "type" : "And",
+                              "operand" : [ {
+                                 "type" : "Equivalent",
+                                 "operand" : [ {
+                                    "name" : "ToConcept",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "code",
+                                       "scope" : "SystolicBP",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "type" : "ToConcept",
+                                    "operand" : {
+                                       "name" : "Systolic blood pressure",
+                                       "type" : "CodeRef"
+                                    }
+                                 } ]
+                              }, {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "unit",
                                        "type" : "Property",
                                        "source" : {
                                           "path" : "value",
                                           "scope" : "SystolicBP",
                                           "type" : "Property"
                                        }
-                                    }
+                                    } ]
                                  }, {
-                                    "type" : "ToDecimal",
-                                    "operand" : {
-                                       "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                       "value" : "140",
+                                    "type" : "List",
+                                    "element" : [ {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                       "value" : "mm[Hg]",
                                        "type" : "Literal"
-                                    }
+                                    }, {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                       "value" : "mmHg",
+                                       "type" : "Literal"
+                                    } ]
                                  } ]
                               } ]
-                           }
+                           }, {
+                              "type" : "Less",
+                              "operand" : [ {
+                                 "path" : "value",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "value",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "value",
+                                       "scope" : "SystolicBP",
+                                       "type" : "Property"
+                                    }
+                                 }
+                              }, {
+                                 "type" : "ToDecimal",
+                                 "operand" : {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "140",
+                                    "type" : "Literal"
+                                 }
+                              } ]
+                           } ]
                         }
-                     } ]
-                  }
+                     }
+                  } ]
                }
             }
          }, {
@@ -3400,21 +3681,15 @@
                   }, {
                      "type" : "Exists",
                      "operand" : {
-                        "type" : "ToList",
-                        "operand" : {
-                           "name" : "Qualifying Diastolic Blood Pressure Reading",
-                           "type" : "ExpressionRef"
-                        }
+                        "name" : "Qualifying Diastolic Blood Pressure Reading",
+                        "type" : "ExpressionRef"
                      }
                   } ]
                }, {
                   "type" : "Exists",
                   "operand" : {
-                     "type" : "ToList",
-                     "operand" : {
-                        "name" : "Qualifying Systolic Blood Pressure Reading",
-                        "type" : "ExpressionRef"
-                     }
+                     "name" : "Qualifying Systolic Blood Pressure Reading",
+                     "type" : "ExpressionRef"
                   }
                } ]
             }

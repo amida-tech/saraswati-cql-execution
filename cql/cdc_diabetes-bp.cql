@@ -174,14 +174,14 @@ define "Out Tele Online":
 define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
    "Nonacute Diabetes Discharges" + "Nonacute Diabetes Discharges On Claim" + "Out Tele Online" >= 2
 
-define "Diabetes Diagnosis By Medication":	
-  exists([MedicationDispense] B	
-    with B.medication.coding X such that exists(	
-        B.medication.coding coding	
-          where FHIRHelpers.ToCode(coding) ~ "Diabetes Medication"	
-    )	
+define "Diabetes Diagnosis By Medication":
+  exists([MedicationDispense] B
+    with B.medication.coding X such that exists(
+        B.medication.coding coding
+          where FHIRHelpers.ToCode(coding) ~ "Diabetes Medication"
+    )
     and B.status ~ 'completed')
-    
+
 define "Frailty":
   exists([Encounter: "Frailty Device"] D
     where D.period starts during MeasurementPeriod)
@@ -246,9 +246,9 @@ define "At Least Two Out/Obs/ED Advaned Illness":
       return (Count(((((OAI union ObsAI) union EDAI) union NAI) union NAID)) >= 2)
 
 define "Taking Dementia Medication":
-  exists([MedicationDispense] B	
-    with B.medication.coding X such that exists(	
-        B.medication.coding coding	
+  exists([MedicationDispense] B
+    with B.medication.coding X such that exists(
+        B.medication.coding coding
           where (FHIRHelpers.ToCode(coding) in "Dementia Medications 1"
             or FHIRHelpers.ToCode(coding) in "Dementia Medications 2")
     ))
@@ -275,39 +275,46 @@ define "Diabetes Condition Denominator":
   "Diabetes Condition"
     and "Diabetes Diagnosis By Medication"
 
-define "Correct Context For BP Reading":	
-  exists([Encounter: "Outpatient"] O	
-    where O.period during MeasurementPeriod)	
-    or exists([Encounter: "Nonacute Inpatient Stay"] E	
-      where E.period during MeasurementPeriod)	
-      // or [Encounter: "Remote Blood Pressure Monitoring"] R	
+define "Correct Context For BP Reading":
+  exists([Encounter: "Outpatient"] O
+    where O.period during MeasurementPeriod)
+    or exists([Encounter: "Nonacute Inpatient Stay"] E
+      where E.period during MeasurementPeriod)
+      // or [Encounter: "Remote Blood Pressure Monitoring"] R
         // where R.period during MeasurementPeriod
 
-define "Qualifying Diastolic Blood Pressure Reading":	
-	Last(["Observation": "Blood pressure"] BloodPressure	
-	  where BloodPressure.status in {'final', 'amended'}	
-      and Coalesce(BloodPressure.effective, BloodPressure.effective.start) during "MeasurementPeriod"	
-      and exists (	
-        BloodPressure.component DiastolicBP	
-          where FHIRHelpers.ToConcept(DiastolicBP.code) ~ "Diastolic blood pressure"	
-            and DiastolicBP.value.unit in {'mm[Hg]', 'mmHg'}	
-            and DiastolicBP.value.value.value < 90	
-      ))
-      	
-define "Qualifying Systolic Blood Pressure Reading":	
-	Last(["Observation": "Blood pressure"] BloodPressure	
-	  where BloodPressure.status in {'final', 'amended'}	
-      and Coalesce(BloodPressure.effective, BloodPressure.effective.start) during "MeasurementPeriod"	
-      and exists (	
-        BloodPressure.component SystolicBP	
-          where FHIRHelpers.ToConcept(SystolicBP.code) ~ "Systolic blood pressure"	
-            and SystolicBP.value.unit in {'mm[Hg]', 'mmHg'}	
-            and SystolicBP.value.value.value < 140	
-      ))
+define "Most Recent BP Reading Date":
+  Last(["Observation": "Blood pressure"] BP 
+    return FHIRHelpers.ToDateTime(Coalesce(BP.effective, BP.effective.start, BP.effective.event))
+  )
 
-define "BP < 140/90 mm Hg":	
+define "Qualifying Diastolic Blood Pressure Reading":
+	["Observation": "Blood pressure"] BloodPressure
+	  where BloodPressure.status in {'final', 'amended'}
+      and FHIRHelpers.ToDateTime(Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event)) same day as "Most Recent BP Reading Date"
+      and Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event) during "MeasurementPeriod"
+      and exists (
+        BloodPressure.component DiastolicBP
+          where FHIRHelpers.ToConcept(DiastolicBP.code) ~ "Diastolic blood pressure"
+            and DiastolicBP.value.unit in {'mm[Hg]', 'mmHg'}
+            and DiastolicBP.value.value.value < 90
+      )
+
+define "Qualifying Systolic Blood Pressure Reading":
+	["Observation": "Blood pressure"] BloodPressure
+	  where BloodPressure.status in {'final', 'amended'}
+      and FHIRHelpers.ToDateTime(Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event)) same day as "Most Recent BP Reading Date"
+      and Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event) during "MeasurementPeriod"
+      and exists (
+        BloodPressure.component SystolicBP
+          where FHIRHelpers.ToConcept(SystolicBP.code) ~ "Systolic blood pressure"
+            and SystolicBP.value.unit in {'mm[Hg]', 'mmHg'}
+            and SystolicBP.value.value.value < 140
+      )
+
+define "BP < 140/90 mm Hg":
   "Correct Context For BP Reading"
-  and exists("Qualifying Diastolic Blood Pressure Reading")	
+  and exists("Qualifying Diastolic Blood Pressure Reading")
   and exists("Qualifying Systolic Blood Pressure Reading")
 
 define "Numerator":
