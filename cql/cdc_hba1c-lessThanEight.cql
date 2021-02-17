@@ -277,7 +277,7 @@ define "Numerator":
   end
 
 define "Denominator":
-  case ("Initial Population" and "Diabetes Condition Denominator")
+  case ("Initial Population" and "Diabetes Condition Denominator" and not "Diabetes Exclusions")
     when true then 1
     else 0
   end
