@@ -284,12 +284,12 @@ define "Correct Context For BP Reading":
         // where R.period during MeasurementPeriod
 
 define "Most Recent BP Reading Date":
-  Last(["Observation": "Blood pressure"] BP 
+  Last([Observation: "Blood pressure"] BP 
     return FHIRHelpers.ToDateTime(Coalesce(BP.effective, BP.effective.start, BP.effective.event))
   )
 
 define "Qualifying Diastolic Blood Pressure Reading":
-	["Observation": "Blood pressure"] BloodPressure
+	[Observation: "Blood pressure"] BloodPressure
 	  where BloodPressure.status in {'final', 'amended'}
       and FHIRHelpers.ToDateTime(Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event)) same day as "Most Recent BP Reading Date"
       and Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event) during "MeasurementPeriod"
@@ -301,7 +301,7 @@ define "Qualifying Diastolic Blood Pressure Reading":
       )
 
 define "Qualifying Systolic Blood Pressure Reading":
-	["Observation": "Blood pressure"] BloodPressure
+	[Observation: "Blood pressure"] BloodPressure
 	  where BloodPressure.status in {'final', 'amended'}
       and FHIRHelpers.ToDateTime(Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event)) same day as "Most Recent BP Reading Date"
       and Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event) during "MeasurementPeriod"
