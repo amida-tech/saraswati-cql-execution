@@ -166,12 +166,8 @@ define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
   "Out Tele Online Union" + "Out visits on Different Dates" >= 2
 
 define "Diabetes Diagnosis By Medication":
-  exists([MedicationDispense] B
-    with B.medication.coding X such that exists(
-        B.medication.coding coding
-          where FHIRHelpers.ToCode(coding) ~ "Diabetes Medication"
-    )
-    and B.status ~ 'completed')
+  exists([MedicationDispense] MedicationDispense
+    where FHIRHelpers.ToCode(MedicationDispense.medication.coding) ~ "Diabetes Medication")
 
 define "Frailty":
   exists([Encounter: "Frailty Device"] D
@@ -237,12 +233,9 @@ define "At Least Two Out/Obs/ED Advaned Illness":
       return (Count(((((OAI union ObsAI) union EDAI) union NAI) union NAID)) >= 2)
 
 define "Taking Dementia Medication":
-  exists([MedicationDispense] B
-    with B.medication.coding X such that exists(
-        B.medication.coding coding
-          where (FHIRHelpers.ToCode(coding) in "Dementia Medications 1"
-            or FHIRHelpers.ToCode(coding) in "Dementia Medications 2")
-    ))
+  exists([MedicationDispense] MedicationDispense
+    where FHIRHelpers.ToCode(MedicationDispense.medication.coding) in "Dementia Medications 1"
+      or FHIRHelpers.ToCode(MedicationDispense.medication.coding) in "Dementia Medications 2")
 
 define "Diabetes Exclusions":
     AgeInYearsAt(start of MeasurementPeriod) >= 66

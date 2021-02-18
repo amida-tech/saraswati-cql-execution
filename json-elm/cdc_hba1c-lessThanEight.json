@@ -6,20 +6,53 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 162,
-         "startChar" : 10,
-         "endLine" : 162,
-         "endChar" : 13,
-         "message" : "Boolean-valued expression was promoted to a list.",
+         "startLine" : 166,
+         "startChar" : 29,
+         "endLine" : 166,
+         "endChar" : 59,
+         "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
          "errorSeverity" : "warning",
          "type" : "CqlToElmError"
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 256,
+         "startLine" : 170,
+         "startChar" : 60,
+         "endLine" : 170,
+         "endChar" : 65,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_hba1c_lessThanEight",
+         "libraryVersion" : "1",
+         "startLine" : 237,
+         "startChar" : 60,
+         "endLine" : 237,
+         "endChar" : 65,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_hba1c_lessThanEight",
+         "libraryVersion" : "1",
+         "startLine" : 238,
+         "startChar" : 59,
+         "endLine" : 238,
+         "endChar" : 64,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_hba1c_lessThanEight",
+         "libraryVersion" : "1",
+         "startLine" : 245,
          "startChar" : 10,
-         "endLine" : 256,
+         "endLine" : 245,
          "endChar" : 50,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -810,17 +843,6 @@
                }
             }
          }, {
-            "name" : "Nonacute Diabetes Discharges",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Count",
-               "source" : {
-                  "name" : "Nonacute Diabetes Discharges-List",
-                  "type" : "ExpressionRef"
-               }
-            }
-         }, {
             "name" : "Claim with Nonacute Inpatient Stay",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -869,37 +891,34 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Count",
-               "source" : {
-                  "type" : "Query",
-                  "source" : [ {
-                     "alias" : "E",
-                     "expression" : {
-                        "name" : "Nonacute Diabetes Discharges-List",
-                        "type" : "ExpressionRef"
-                     }
-                  } ],
-                  "relationship" : [ {
-                     "alias" : "C",
-                     "type" : "With",
-                     "expression" : {
-                        "name" : "Claim with Nonacute Inpatient Stay",
-                        "type" : "ExpressionRef"
-                     },
-                     "suchThat" : {
-                        "type" : "Equal",
-                        "operand" : [ {
-                           "path" : "subject",
-                           "scope" : "E",
-                           "type" : "Property"
-                        }, {
-                           "path" : "patient",
-                           "scope" : "C",
-                           "type" : "Property"
-                        } ]
-                     }
-                  } ]
-               }
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "name" : "Nonacute Diabetes Discharges-List",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "C",
+                  "type" : "With",
+                  "expression" : {
+                     "name" : "Claim with Nonacute Inpatient Stay",
+                     "type" : "ExpressionRef"
+                  },
+                  "suchThat" : {
+                     "type" : "Equal",
+                     "operand" : [ {
+                        "path" : "subject",
+                        "scope" : "E",
+                        "type" : "Property"
+                     }, {
+                        "path" : "patient",
+                        "scope" : "C",
+                        "type" : "Property"
+                     } ]
+                  }
+               } ]
             }
          }, {
             "name" : "Outpatient Visit",
@@ -1008,7 +1027,7 @@
                } ]
             }
          }, {
-            "name" : "Out",
+            "name" : "Telehealth POS With Diabetes",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1220,7 +1239,109 @@
                } ]
             }
          }, {
-            "name" : "Out Tele Online with Different Dates",
+            "name" : "Emergency Department Visits",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "codeProperty" : "type",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "ED",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "c",
+                  "type" : "With",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Diabetes",
+                        "type" : "ValueSetRef"
+                     }
+                  },
+                  "suchThat" : {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "ToInterval",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "period",
+                              "scope" : "E",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "MeasurementPeriodExtended",
+                        "type" : "ParameterRef"
+                     } ]
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Out Tele Online Union",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "Exists",
+                  "operand" : {
+                     "type" : "Union",
+                     "operand" : [ {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "name" : "Telehealth Modifier With Diabetes",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "name" : "Telephone Visit",
+                           "type" : "ExpressionRef"
+                        } ]
+                     }, {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "name" : "Online Assessment",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "name" : "Telehealth POS With Diabetes",
+                           "type" : "ExpressionRef"
+                        } ]
+                     } ]
+                  }
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Out visits on Different Dates",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1228,37 +1349,31 @@
                "source" : [ {
                   "alias" : "cond1",
                   "expression" : {
-                     "name" : "Out",
+                     "name" : "Outpatient Visit",
                      "type" : "ExpressionRef"
                   }
                }, {
                   "alias" : "cond2",
                   "expression" : {
-                     "name" : "Telehealth Modifier With Diabetes",
+                     "name" : "Observation Visit",
                      "type" : "ExpressionRef"
                   }
                }, {
                   "alias" : "cond3",
                   "expression" : {
-                     "name" : "Telephone Visit",
+                     "name" : "Emergency Department Visits",
                      "type" : "ExpressionRef"
                   }
                }, {
                   "alias" : "cond4",
                   "expression" : {
-                     "name" : "Online Assessment",
+                     "name" : "Nonacute Diabetes Discharges-List",
                      "type" : "ExpressionRef"
                   }
                }, {
                   "alias" : "cond5",
                   "expression" : {
-                     "name" : "Outpatient Visit",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "alias" : "cond6",
-                  "expression" : {
-                     "name" : "Observation Visit",
+                     "name" : "Nonacute Diabetes Discharges On Claim",
                      "type" : "ExpressionRef"
                   }
                } ],
@@ -1282,152 +1397,27 @@
                                        "operand" : [ {
                                           "type" : "And",
                                           "operand" : [ {
-                                             "type" : "And",
-                                             "operand" : [ {
-                                                "type" : "And",
+                                             "type" : "Not",
+                                             "operand" : {
+                                                "type" : "Equal",
                                                 "operand" : [ {
-                                                   "type" : "And",
-                                                   "operand" : [ {
-                                                      "type" : "And",
-                                                      "operand" : [ {
-                                                         "type" : "And",
-                                                         "operand" : [ {
-                                                            "type" : "Not",
-                                                            "operand" : {
-                                                               "type" : "Equal",
-                                                               "operand" : [ {
-                                                                  "path" : "start",
-                                                                  "type" : "Property",
-                                                                  "source" : {
-                                                                     "path" : "period",
-                                                                     "scope" : "cond1",
-                                                                     "type" : "Property"
-                                                                  }
-                                                               }, {
-                                                                  "path" : "start",
-                                                                  "type" : "Property",
-                                                                  "source" : {
-                                                                     "path" : "period",
-                                                                     "scope" : "cond2",
-                                                                     "type" : "Property"
-                                                                  }
-                                                               } ]
-                                                            }
-                                                         }, {
-                                                            "type" : "Not",
-                                                            "operand" : {
-                                                               "type" : "Equal",
-                                                               "operand" : [ {
-                                                                  "path" : "start",
-                                                                  "type" : "Property",
-                                                                  "source" : {
-                                                                     "path" : "period",
-                                                                     "scope" : "cond1",
-                                                                     "type" : "Property"
-                                                                  }
-                                                               }, {
-                                                                  "path" : "start",
-                                                                  "type" : "Property",
-                                                                  "source" : {
-                                                                     "path" : "period",
-                                                                     "scope" : "cond3",
-                                                                     "type" : "Property"
-                                                                  }
-                                                               } ]
-                                                            }
-                                                         } ]
-                                                      }, {
-                                                         "type" : "Not",
-                                                         "operand" : {
-                                                            "type" : "Equal",
-                                                            "operand" : [ {
-                                                               "path" : "start",
-                                                               "type" : "Property",
-                                                               "source" : {
-                                                                  "path" : "period",
-                                                                  "scope" : "cond1",
-                                                                  "type" : "Property"
-                                                               }
-                                                            }, {
-                                                               "path" : "start",
-                                                               "type" : "Property",
-                                                               "source" : {
-                                                                  "path" : "period",
-                                                                  "scope" : "cond4",
-                                                                  "type" : "Property"
-                                                               }
-                                                            } ]
-                                                         }
-                                                      } ]
-                                                   }, {
-                                                      "type" : "Not",
-                                                      "operand" : {
-                                                         "type" : "Equal",
-                                                         "operand" : [ {
-                                                            "path" : "start",
-                                                            "type" : "Property",
-                                                            "source" : {
-                                                               "path" : "period",
-                                                               "scope" : "cond1",
-                                                               "type" : "Property"
-                                                            }
-                                                         }, {
-                                                            "path" : "start",
-                                                            "type" : "Property",
-                                                            "source" : {
-                                                               "path" : "period",
-                                                               "scope" : "cond5",
-                                                               "type" : "Property"
-                                                            }
-                                                         } ]
-                                                      }
-                                                   } ]
+                                                   "path" : "start",
+                                                   "type" : "Property",
+                                                   "source" : {
+                                                      "path" : "period",
+                                                      "scope" : "cond1",
+                                                      "type" : "Property"
+                                                   }
                                                 }, {
-                                                   "type" : "Not",
-                                                   "operand" : {
-                                                      "type" : "Equal",
-                                                      "operand" : [ {
-                                                         "path" : "start",
-                                                         "type" : "Property",
-                                                         "source" : {
-                                                            "path" : "period",
-                                                            "scope" : "cond1",
-                                                            "type" : "Property"
-                                                         }
-                                                      }, {
-                                                         "path" : "start",
-                                                         "type" : "Property",
-                                                         "source" : {
-                                                            "path" : "period",
-                                                            "scope" : "cond6",
-                                                            "type" : "Property"
-                                                         }
-                                                      } ]
+                                                   "path" : "start",
+                                                   "type" : "Property",
+                                                   "source" : {
+                                                      "path" : "period",
+                                                      "scope" : "cond2",
+                                                      "type" : "Property"
                                                    }
                                                 } ]
-                                             }, {
-                                                "type" : "Not",
-                                                "operand" : {
-                                                   "type" : "Equal",
-                                                   "operand" : [ {
-                                                      "path" : "start",
-                                                      "type" : "Property",
-                                                      "source" : {
-                                                         "path" : "period",
-                                                         "scope" : "cond2",
-                                                         "type" : "Property"
-                                                      }
-                                                   }, {
-                                                      "path" : "start",
-                                                      "type" : "Property",
-                                                      "source" : {
-                                                         "path" : "period",
-                                                         "scope" : "cond3",
-                                                         "type" : "Property"
-                                                      }
-                                                   } ]
-                                                }
-                                             } ]
+                                             }
                                           }, {
                                              "type" : "Not",
                                              "operand" : {
@@ -1437,7 +1427,7 @@
                                                    "type" : "Property",
                                                    "source" : {
                                                       "path" : "period",
-                                                      "scope" : "cond2",
+                                                      "scope" : "cond1",
                                                       "type" : "Property"
                                                    }
                                                 }, {
@@ -1445,7 +1435,7 @@
                                                    "type" : "Property",
                                                    "source" : {
                                                       "path" : "period",
-                                                      "scope" : "cond4",
+                                                      "scope" : "cond3",
                                                       "type" : "Property"
                                                    }
                                                 } ]
@@ -1460,7 +1450,7 @@
                                                 "type" : "Property",
                                                 "source" : {
                                                    "path" : "period",
-                                                   "scope" : "cond2",
+                                                   "scope" : "cond1",
                                                    "type" : "Property"
                                                 }
                                              }, {
@@ -1468,7 +1458,7 @@
                                                 "type" : "Property",
                                                 "source" : {
                                                    "path" : "period",
-                                                   "scope" : "cond5",
+                                                   "scope" : "cond4",
                                                    "type" : "Property"
                                                 }
                                              } ]
@@ -1483,7 +1473,7 @@
                                              "type" : "Property",
                                              "source" : {
                                                 "path" : "period",
-                                                "scope" : "cond2",
+                                                "scope" : "cond1",
                                                 "type" : "Property"
                                              }
                                           }, {
@@ -1491,7 +1481,7 @@
                                              "type" : "Property",
                                              "source" : {
                                                 "path" : "period",
-                                                "scope" : "cond6",
+                                                "scope" : "cond5",
                                                 "type" : "Property"
                                              }
                                           } ]
@@ -1506,7 +1496,7 @@
                                           "type" : "Property",
                                           "source" : {
                                              "path" : "period",
-                                             "scope" : "cond3",
+                                             "scope" : "cond2",
                                              "type" : "Property"
                                           }
                                        }, {
@@ -1514,7 +1504,7 @@
                                           "type" : "Property",
                                           "source" : {
                                              "path" : "period",
-                                             "scope" : "cond4",
+                                             "scope" : "cond3",
                                              "type" : "Property"
                                           }
                                        } ]
@@ -1529,7 +1519,7 @@
                                        "type" : "Property",
                                        "source" : {
                                           "path" : "period",
-                                          "scope" : "cond3",
+                                          "scope" : "cond2",
                                           "type" : "Property"
                                        }
                                     }, {
@@ -1537,7 +1527,7 @@
                                        "type" : "Property",
                                        "source" : {
                                           "path" : "period",
-                                          "scope" : "cond5",
+                                          "scope" : "cond4",
                                           "type" : "Property"
                                        }
                                     } ]
@@ -1552,7 +1542,7 @@
                                     "type" : "Property",
                                     "source" : {
                                        "path" : "period",
-                                       "scope" : "cond3",
+                                       "scope" : "cond2",
                                        "type" : "Property"
                                     }
                                  }, {
@@ -1560,7 +1550,7 @@
                                     "type" : "Property",
                                     "source" : {
                                        "path" : "period",
-                                       "scope" : "cond6",
+                                       "scope" : "cond5",
                                        "type" : "Property"
                                     }
                                  } ]
@@ -1575,7 +1565,7 @@
                                  "type" : "Property",
                                  "source" : {
                                     "path" : "period",
-                                    "scope" : "cond4",
+                                    "scope" : "cond3",
                                     "type" : "Property"
                                  }
                               }, {
@@ -1583,7 +1573,7 @@
                                  "type" : "Property",
                                  "source" : {
                                     "path" : "period",
-                                    "scope" : "cond5",
+                                    "scope" : "cond4",
                                     "type" : "Property"
                                  }
                               } ]
@@ -1598,7 +1588,7 @@
                               "type" : "Property",
                               "source" : {
                                  "path" : "period",
-                                 "scope" : "cond4",
+                                 "scope" : "cond3",
                                  "type" : "Property"
                               }
                            }, {
@@ -1606,7 +1596,7 @@
                               "type" : "Property",
                               "source" : {
                                  "path" : "period",
-                                 "scope" : "cond6",
+                                 "scope" : "cond5",
                                  "type" : "Property"
                               }
                            } ]
@@ -1621,7 +1611,7 @@
                            "type" : "Property",
                            "source" : {
                               "path" : "period",
-                              "scope" : "cond5",
+                              "scope" : "cond4",
                               "type" : "Property"
                            }
                         }, {
@@ -1629,7 +1619,7 @@
                            "type" : "Property",
                            "source" : {
                               "path" : "period",
-                              "scope" : "cond6",
+                              "scope" : "cond5",
                               "type" : "Property"
                            }
                         } ]
@@ -1638,82 +1628,51 @@
                },
                "return" : {
                   "expression" : {
-                     "type" : "Or",
-                     "operand" : [ {
-                        "type" : "Or",
+                     "type" : "Count",
+                     "source" : {
+                        "type" : "Union",
                         "operand" : [ {
-                           "type" : "Or",
+                           "type" : "Union",
                            "operand" : [ {
-                              "type" : "Exists",
-                              "operand" : {
+                              "type" : "Union",
+                              "operand" : [ {
                                  "type" : "ToList",
                                  "operand" : {
                                     "name" : "cond1",
                                     "type" : "AliasRef"
                                  }
-                              }
-                           }, {
-                              "type" : "Exists",
-                              "operand" : {
+                              }, {
                                  "type" : "ToList",
                                  "operand" : {
                                     "name" : "cond2",
                                     "type" : "AliasRef"
                                  }
-                              }
+                              } ]
+                           }, {
+                              "type" : "Union",
+                              "operand" : [ {
+                                 "type" : "ToList",
+                                 "operand" : {
+                                    "name" : "cond3",
+                                    "type" : "AliasRef"
+                                 }
+                              }, {
+                                 "type" : "ToList",
+                                 "operand" : {
+                                    "name" : "cond4",
+                                    "type" : "AliasRef"
+                                 }
+                              } ]
                            } ]
                         }, {
-                           "type" : "Exists",
-                           "operand" : {
-                              "type" : "ToList",
-                              "operand" : {
-                                 "name" : "cond3",
-                                 "type" : "AliasRef"
-                              }
-                           }
-                        } ]
-                     }, {
-                        "type" : "Exists",
-                        "operand" : {
                            "type" : "ToList",
                            "operand" : {
-                              "name" : "cond4",
+                              "name" : "cond5",
                               "type" : "AliasRef"
                            }
-                        }
-                     } ]
-                  }
-               }
-            }
-         }, {
-            "name" : "Out Tele Online",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Case",
-               "comparand" : {
-                  "name" : "Out Tele Online with Different Dates",
-                  "type" : "ExpressionRef"
-               },
-               "caseItem" : [ {
-                  "when" : {
-                     "type" : "ToList",
-                     "operand" : {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                        "value" : "true",
-                        "type" : "Literal"
+                        } ]
                      }
-                  },
-                  "then" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "1",
-                     "type" : "Literal"
                   }
-               } ],
-               "else" : {
-                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                  "value" : "0",
-                  "type" : "Literal"
                }
             }
          }, {
@@ -1725,17 +1684,14 @@
                "operand" : [ {
                   "type" : "Add",
                   "operand" : [ {
-                     "type" : "Add",
-                     "operand" : [ {
-                        "name" : "Nonacute Diabetes Discharges",
-                        "type" : "ExpressionRef"
-                     }, {
-                        "name" : "Nonacute Diabetes Discharges On Claim",
-                        "type" : "ExpressionRef"
-                     } ]
-                  }, {
-                     "name" : "Out Tele Online",
+                     "name" : "Out Tele Online Union",
                      "type" : "ExpressionRef"
+                  }, {
+                     "type" : "SingletonFrom",
+                     "operand" : {
+                        "name" : "Out visits on Different Dates",
+                        "type" : "ExpressionRef"
+                     }
                   } ]
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
@@ -1752,81 +1708,39 @@
                "operand" : {
                   "type" : "Query",
                   "source" : [ {
-                     "alias" : "B",
+                     "alias" : "MedicationDispense",
                      "expression" : {
                         "dataType" : "{http://hl7.org/fhir}MedicationDispense",
                         "type" : "Retrieve"
                      }
                   } ],
-                  "relationship" : [ {
-                     "alias" : "X",
-                     "type" : "With",
-                     "expression" : {
-                        "path" : "coding",
-                        "type" : "Property",
-                        "source" : {
-                           "path" : "medication",
-                           "scope" : "B",
-                           "type" : "Property"
-                        }
-                     },
-                     "suchThat" : {
-                        "type" : "And",
-                        "operand" : [ {
-                           "type" : "Exists",
-                           "operand" : {
-                              "type" : "Query",
-                              "source" : [ {
-                                 "alias" : "coding",
-                                 "expression" : {
-                                    "path" : "coding",
-                                    "type" : "Property",
-                                    "source" : {
-                                       "path" : "medication",
-                                       "scope" : "B",
-                                       "type" : "Property"
-                                    }
-                                 }
-                              } ],
-                              "relationship" : [ ],
-                              "where" : {
-                                 "type" : "Equivalent",
-                                 "operand" : [ {
-                                    "type" : "ToConcept",
-                                    "operand" : {
-                                       "name" : "ToCode",
-                                       "libraryName" : "FHIRHelpers",
-                                       "type" : "FunctionRef",
-                                       "operand" : [ {
-                                          "name" : "coding",
-                                          "type" : "AliasRef"
-                                       } ]
-                                    }
-                                 }, {
-                                    "name" : "Diabetes Medication",
-                                    "type" : "ConceptRef"
-                                 } ]
-                              }
-                           }
-                        }, {
-                           "type" : "Equivalent",
+                  "relationship" : [ ],
+                  "where" : {
+                     "type" : "Equivalent",
+                     "operand" : [ {
+                        "type" : "ToConcept",
+                        "operand" : {
+                           "name" : "ToCode",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
                            "operand" : [ {
-                              "name" : "ToString",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
-                              "operand" : [ {
-                                 "path" : "status",
-                                 "scope" : "B",
-                                 "type" : "Property"
-                              } ]
-                           }, {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                              "value" : "completed",
-                              "type" : "Literal"
+                              "type" : "SingletonFrom",
+                              "operand" : {
+                                 "path" : "coding",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "medication",
+                                    "scope" : "MedicationDispense",
+                                    "type" : "Property"
+                                 }
+                              }
                            } ]
-                        } ]
-                     }
-                  } ]
+                        }
+                     }, {
+                        "name" : "Diabetes Medication",
+                        "type" : "ConceptRef"
+                     } ]
+                  }
                }
             }
          }, {
@@ -2716,78 +2630,63 @@
                "operand" : {
                   "type" : "Query",
                   "source" : [ {
-                     "alias" : "B",
+                     "alias" : "MedicationDispense",
                      "expression" : {
                         "dataType" : "{http://hl7.org/fhir}MedicationDispense",
                         "type" : "Retrieve"
                      }
                   } ],
-                  "relationship" : [ {
-                     "alias" : "X",
-                     "type" : "With",
-                     "expression" : {
-                        "path" : "coding",
-                        "type" : "Property",
-                        "source" : {
-                           "path" : "medication",
-                           "scope" : "B",
-                           "type" : "Property"
-                        }
-                     },
-                     "suchThat" : {
-                        "type" : "Exists",
-                        "operand" : {
-                           "type" : "Query",
-                           "source" : [ {
-                              "alias" : "coding",
-                              "expression" : {
+                  "relationship" : [ ],
+                  "where" : {
+                     "type" : "Or",
+                     "operand" : [ {
+                        "type" : "InValueSet",
+                        "code" : {
+                           "name" : "ToCode",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "type" : "SingletonFrom",
+                              "operand" : {
                                  "path" : "coding",
                                  "type" : "Property",
                                  "source" : {
                                     "path" : "medication",
-                                    "scope" : "B",
+                                    "scope" : "MedicationDispense",
                                     "type" : "Property"
                                  }
                               }
-                           } ],
-                           "relationship" : [ ],
-                           "where" : {
-                              "type" : "Or",
-                              "operand" : [ {
-                                 "type" : "InValueSet",
-                                 "code" : {
-                                    "name" : "ToCode",
-                                    "libraryName" : "FHIRHelpers",
-                                    "type" : "FunctionRef",
-                                    "operand" : [ {
-                                       "name" : "coding",
-                                       "type" : "AliasRef"
-                                    } ]
-                                 },
-                                 "valueset" : {
-                                    "name" : "Dementia Medications 1",
-                                    "type" : "ValueSetRef"
-                                 }
-                              }, {
-                                 "type" : "InValueSet",
-                                 "code" : {
-                                    "name" : "ToCode",
-                                    "libraryName" : "FHIRHelpers",
-                                    "type" : "FunctionRef",
-                                    "operand" : [ {
-                                       "name" : "coding",
-                                       "type" : "AliasRef"
-                                    } ]
-                                 },
-                                 "valueset" : {
-                                    "name" : "Dementia Medications 2",
-                                    "type" : "ValueSetRef"
-                                 }
-                              } ]
-                           }
+                           } ]
+                        },
+                        "valueset" : {
+                           "name" : "Dementia Medications 1",
+                           "type" : "ValueSetRef"
                         }
-                     }
-                  } ]
+                     }, {
+                        "type" : "InValueSet",
+                        "code" : {
+                           "name" : "ToCode",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "type" : "SingletonFrom",
+                              "operand" : {
+                                 "path" : "coding",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "medication",
+                                    "scope" : "MedicationDispense",
+                                    "type" : "Property"
+                                 }
+                              }
+                           } ]
+                        },
+                        "valueset" : {
+                           "name" : "Dementia Medications 2",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  }
                }
             }
          }, {
@@ -3053,11 +2952,20 @@
                "comparand" : {
                   "type" : "And",
                   "operand" : [ {
-                     "name" : "Initial Population",
-                     "type" : "ExpressionRef"
+                     "type" : "And",
+                     "operand" : [ {
+                        "name" : "Initial Population",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "Diabetes Condition Denominator",
+                        "type" : "ExpressionRef"
+                     } ]
                   }, {
-                     "name" : "Diabetes Condition Denominator",
-                     "type" : "ExpressionRef"
+                     "type" : "Not",
+                     "operand" : {
+                        "name" : "Diabetes Exclusions",
+                        "type" : "ExpressionRef"
+                     }
                   } ]
                },
                "caseItem" : [ {
