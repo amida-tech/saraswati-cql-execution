@@ -97,8 +97,8 @@ define "Initial Population":
 	and AgeInYearsAt(end of "Measurement Period")= 2
 
 define "DTaP Immunizations or Procedures":
-	( ["Immunization": "DTaP Vaccine"]
-		union ["Procedure": "DTaP Vaccine Administered"]) DTaPVaccination
+	( [Immunization: "DTaP Vaccine"]
+		union [Procedure: "DTaP Vaccine Administered"]) DTaPVaccination
 			where AgeInDaysAt(Coalesce(DTaPVaccination.performed.start, DTaPVaccination.occurrence))>= 42
 			and AgeInDaysAt(Coalesce(DTaPVaccination.performed.start, DTaPVaccination.occurrence))<= 730
 
@@ -114,36 +114,36 @@ define "DTaP Vaccinations":
 		return Vaccination1
 
 define "DTaP Exclusions":
-	( ["Condition": "Anaphylactic Reaction to DTaP Vaccine"]
-		union ["Condition": "Encephalopathy due to Childhood Vaccination"] ) DPaTExclusions
+	( [Condition: "Anaphylactic Reaction to DTaP Vaccine"]
+		union [Condition: "Encephalopathy due to Childhood Vaccination"] ) DPaTExclusions
 		where AgeInDaysAt(Coalesce(DPaTExclusions.onset.start, DPaTExclusions.onset))<= 730
 
 define "DTaP Criteria Met":
 	exists("DTaP Vaccinations") and not exists("DTaP Exclusions")
 
 define "Hepatitis A Vaccinations":
-	(((["Immunization": "Hepatitis A Vaccine"]
-		union ["Procedure": "Hepatitis A Vaccine Administered"]) HepAVaccination
+	((([Immunization: "Hepatitis A Vaccine"]
+		union [Procedure: "Hepatitis A Vaccine Administered"]) HepAVaccination
 		where AgeInDaysAt(Coalesce(HepAVaccination.performed.start, HepAVaccination.occurrence)) >= 365
 			and AgeInDaysAt(Coalesce(HepAVaccination.performed.start, HepAVaccination.occurrence)) <= 730
 	)
-	union (["Condition": "Hepatitis A"] HepACondition
+	union ([Condition: "Hepatitis A"] HepACondition
 		where AgeInDaysAt(Coalesce(HepACondition.onset, HepACondition.onset.start)) <= 730)) HepA
 	return HepA
 
 define "Numerator Compliant Hepatitis A Conditions":
-	["Condition": "Hepatitis A"] HepAConditions
+	[Condition: "Hepatitis A"] HepAConditions
 		where AgeInDaysAt(Coalesce(HepAConditions.onset.start, HepAConditions.onset))<= 730
 
 define "Hepatitis A Exclusions":
-	["Condition": "Anaphylactic Reaction to Hepatitis A Vaccine"]
+	[Condition: "Anaphylactic Reaction to Hepatitis A Vaccine"]
 
 define "Hepatitis A Criteria Met":
 	(exists("Hepatitis A Vaccinations") or exists("Numerator Compliant Hepatitis A Conditions")) and not exists("Hepatitis A Exclusions")
 
 define "Hepatitis B Immunizations or Procedures":
-	( ["Immunization": "Hepatitis B Vaccine"]
-		union ["Procedure": "Hepatitis B Vaccine Administered"]) HepBVaccination
+	( [Immunization: "Hepatitis B Vaccine"]
+		union [Procedure: "Hepatitis B Vaccine Administered"]) HepBVaccination
 		where (AgeInDaysAt(Coalesce(HepBVaccination.performed.start, HepBVaccination.occurrence))<= 730
 		or AgeInDaysAt(Coalesce(HepBVaccination.performed.start, HepBVaccination.occurrence)) < 8)
 
@@ -157,15 +157,15 @@ define "Hepatitis B Vaccinations":
 		return Vaccination1
 
 define "Numerator Compliant Hepatitis B Conditions":
-	["Condition": "Hepatitis B"] HepBConditions
+	[Condition: "Hepatitis B"] HepBConditions
 		where AgeInDaysAt(Coalesce(HepBConditions.onset.start, HepBConditions.onset))<= 730
 
 define "Hepatitis B Exclusions":
 	( 
-		["Condition": "Anaphylactic Reaction to Hepatitis B Vaccine"]
-		//union ( ["Condition": "Anaphylactic Reaction to Hepatitis B Vaccine"]
+		[Condition: "Anaphylactic Reaction to Hepatitis B Vaccine"]
+		//union ( [Condition: "Anaphylactic Reaction to Hepatitis B Vaccine"]
 		//)
-		//union ( ["Condition": "Anaphylactic Reaction to Common Baker's Yeast"] 
+		//union ( [Condition: "Anaphylactic Reaction to Common Baker's Yeast"] 
 		//)
 	) HepBExclusions
 		where AgeInDaysAt(Coalesce(HepBExclusions.onset.start, HepBExclusions.onset))<= 730
@@ -174,8 +174,8 @@ define "Hepatitis B Criteria Met":
 	(exists("Hepatitis B Vaccinations") or exists("Numerator Compliant Hepatitis B Conditions")) and not exists("Hepatitis B Exclusions")  
 
 define "HIB Immunizations or Procedures":
-	( ["Immunization": "Haemophilus Influenzae Type B (HiB) Vaccine"] Vaccine
-		union ["Procedure": "Haemophilus Influenzae Type B (HiB) Vaccine Administered"] ) HiBVaccination
+	( [Immunization: "Haemophilus Influenzae Type B (HiB) Vaccine"] Vaccine
+		union [Procedure: "Haemophilus Influenzae Type B (HiB) Vaccine Administered"] ) HiBVaccination
 		where AgeInDaysAt(Coalesce(HiBVaccination.performed.start, HiBVaccination.occurrence))>= 42
 			and AgeInDaysAt(Coalesce(HiBVaccination.performed.start, HiBVaccination.occurrence))<= 730
 
@@ -189,17 +189,17 @@ define "HIB Vaccinations":
 		return Vaccination1
 
 define "HIB Exclusions":
-	["Condition": "Anaphylactic Reaction to Hemophilus Influenza B (HiB) Vaccine"] HIBReaction
+	[Condition: "Anaphylactic Reaction to Hemophilus Influenza B (HiB) Vaccine"] HIBReaction
 		where AgeInDaysAt(Coalesce(HIBReaction.onset.start, HIBReaction.onset))<= 730
 
 define "HIB Criteria Met":
 	exists("HIB Vaccinations") and not exists("HIB Exclusions")
 
 define "Influenza Immunizations or Procedures":
-	( ["Immunization": "Influenza Vaccine"]
-		union ["Procedure": "Influenza Vaccine Administered"]
-			union ["Procedure": "Influenza Virus Vaccine and Vaccination"]
-				union ["Immunization": "Influenza Virus Vaccine and Vaccination"]) FluVaccination
+	( [Immunization: "Influenza Vaccine"]
+		union [Procedure: "Influenza Vaccine Administered"]
+			union [Procedure: "Influenza Virus Vaccine and Vaccination"]
+				union [Immunization: "Influenza Virus Vaccine and Vaccination"]) FluVaccination
 		where AgeInDaysAt(Coalesce(FluVaccination.performed.start, FluVaccination.occurrence))>= 180
 			and AgeInDaysAt(Coalesce(FluVaccination.performed.start, FluVaccination.occurrence))<= 730
 
@@ -211,19 +211,19 @@ define "Influenza Vaccinations":
 		return Vaccination1
 
 define "MMR, VZV and Influenza Exclusions":
-	( ["Condition": "Anaphylactic Reaction to Influenza Vaccine"]
-		union ["Condition": "Malignant Neoplasm of Lymphatic Tissue"]
-		union ["Condition": "Anaphylactic Reaction to Neomycin"]
-		union ["Condition": "HIV"]
-		union ["Condition": "Disorders of the Immune System"] ) InfluenzaConditions
+	( [Condition: "Anaphylactic Reaction to Influenza Vaccine"]
+		union [Condition: "Malignant Neoplasm of Lymphatic Tissue"]
+		union [Condition: "Anaphylactic Reaction to Neomycin"]
+		union [Condition: "HIV"]
+		union [Condition: "Disorders of the Immune System"] ) InfluenzaConditions
 		where AgeInDaysAt(Coalesce(InfluenzaConditions.onset.start, InfluenzaConditions.onset))<= 730
 
 define "Influenza Criteria Met":
 	exists("Influenza Vaccinations") and not exists("MMR, VZV and Influenza Exclusions")
 
 define "IPV Immunizations or Procedures":
-	( ["Immunization": "Inactivated Polio Vaccine (IPV)"]
-		union ["Procedure": "Inactivated Polio Vaccine (IPV) Administered"] ) IPVVaccination
+	( [Immunization: "Inactivated Polio Vaccine (IPV)"]
+		union [Procedure: "Inactivated Polio Vaccine (IPV) Administered"] ) IPVVaccination
 		where AgeInDaysAt(Coalesce(IPVVaccination.performed.start, IPVVaccination.occurrence))>= 42
 			and AgeInDaysAt(Coalesce(IPVVaccination.performed.start, IPVVaccination.occurrence))<= 730
 
@@ -237,47 +237,47 @@ define "IPV Vaccinations":
 		return Vaccination1
 
 define "IPV Exclusions":
-	( ["Condition": "Anaphylactic Reaction to Inactivated Polio Vaccine (IPV)"]
-		union ["Condition": "Anaphylactic Reaction to Streptomycin"]
-		union ["Condition": "Anaphylactic Reaction to Polymyxin"]
-		union ["Condition": "Anaphylactic Reaction to Neomycin"] ) IPVConditions
+	( [Condition: "Anaphylactic Reaction to Inactivated Polio Vaccine (IPV)"]
+		union [Condition: "Anaphylactic Reaction to Streptomycin"]
+		union [Condition: "Anaphylactic Reaction to Polymyxin"]
+		union [Condition: "Anaphylactic Reaction to Neomycin"] ) IPVConditions
 		where AgeInDaysAt(Coalesce(IPVConditions.onset.start, IPVConditions.onset))<= 730
 
 define "IPV Criteria Met":
 	exists("IPV Vaccinations") and not exists("IPV Exclusions")
 
 define "Measles Indicators":
-	( ( ["Observation": "Measles Antibody Test (IgG Antibody Titer)"] Titer
+	( ( [Observation: "Measles Antibody Test (IgG Antibody Titer)"] Titer
 			where Titer.value.value >= 1.10
 	)
-		union ( ["Observation": "Measles Antibody Test (IgG Antibody presence)"] IgGPresence
+		union ( [Observation: "Measles Antibody Test (IgG Antibody presence)"] IgGPresence
 				with IgGPresence.value.coding coding such that exists(
 							IgGPresence.value.coding coding
               	where coding.code in "Positive Finding"
         )
 		)
-		union ( ["Condition": "Measles"]
+		union ( [Condition: "Measles"]
 		) ) Measles
 		where AgeInDaysAt(Coalesce(Measles.onset.start, Measles.onset, Measles.effective))<= 730
 
 
 define "MMR Vaccinations":
-	( ["Immunization": "Measles, Mumps and Rubella (MMR) Vaccine"]
-		union ["Procedure": "Measles, Mumps and Rubella (MMR) Vaccine Administered"] ) MMRVaccination
+	( [Immunization: "Measles, Mumps and Rubella (MMR) Vaccine"]
+		union [Procedure: "Measles, Mumps and Rubella (MMR) Vaccine Administered"] ) MMRVaccination
 		where AgeInDaysAt(Coalesce(MMRVaccination.performed.start, MMRVaccination.occurrence))<= 730
 			and AgeInDaysAt(Coalesce(MMRVaccination.performed.start, MMRVaccination.occurrence))>= 365
 
 define "Mumps Indicators":
-	( ( ["Observation": "Mumps Antibody Test (IgG Antibody Titer)"] Titer
+	( ( [Observation: "Mumps Antibody Test (IgG Antibody Titer)"] Titer
 			where Titer.value.value >= 1.10
 	)
-		union ( ["Observation": "Mumps Antibody Test (IgG Antibody presence)"] IgGPresence
+		union ( [Observation: "Mumps Antibody Test (IgG Antibody presence)"] IgGPresence
 				with IgGPresence.value.coding coding such that exists(
 							IgGPresence.value.coding coding
               	where coding.code in "Positive Finding"
         )
 		)
-		union ( ["Condition": "Mumps"] )) Mumps
+		union ( [Condition: "Mumps"] )) Mumps
 		where AgeInDaysAt(Coalesce(Mumps.onset.start, Mumps.onset, Mumps.effective))<= 730
 
 define "MMR Criteria Met":
@@ -288,8 +288,8 @@ define "MMR Criteria Met":
 		) and not exists("MMR, VZV and Influenza Exclusions")
 
 define "Pneumococcal Conjugate Immunizations or Procedures":
-	( ["Immunization": "Pneumococcal Conjugate Vaccine"]
-		union ["Procedure": "Pneumococcal Conjugate Vaccine Administered"] ) PneumococcalVaccination
+	( [Immunization: "Pneumococcal Conjugate Vaccine"]
+		union [Procedure: "Pneumococcal Conjugate Vaccine Administered"] ) PneumococcalVaccination
 		where AgeInDaysAt(Coalesce(PneumococcalVaccination.performed.start, PneumococcalVaccination.occurrence))>= 42
 			and AgeInDaysAt(Coalesce(PneumococcalVaccination.performed.start, PneumococcalVaccination.occurrence))<= 730
 
@@ -305,23 +305,23 @@ define "Pneumococcal Conjugate Vaccinations":
 		return Vaccination1
 
 define "Pneumococcal Conjugate Exclusions":
-	["Condition": "Anaphylactic Reaction to Pneumococcal Conjugate Vaccine"] PCVReaction
+	[Condition: "Anaphylactic Reaction to Pneumococcal Conjugate Vaccine"] PCVReaction
 		where AgeInDaysAt(Coalesce(PCVReaction.onset.start, PCVReaction.onset))<= 730
 
 define "Pneumococcal Conjugate Criteria Met":
 	exists("Pneumococcal Conjugate Vaccinations") and not exists("Pneumococcal Conjugate Exclusions")
 
 define "Qualifying Encounter":
-	( ["Encounter": "Office Visit"]
-		union ["Encounter": "Face-to-Face Interaction"]
-		union ["Encounter": "Home Healthcare Services"]
-		union ["Encounter": "Preventive Care, Established Office Visit, 0 to 17"]
-		union ["Encounter": "Preventive Care Services, Initial Office Visit, 0 to 17"] ) QualifyingEncounter
+	( [Encounter: "Office Visit"]
+		union [Encounter: "Face-to-Face Interaction"]
+		union [Encounter: "Home Healthcare Services"]
+		union [Encounter: "Preventive Care, Established Office Visit, 0 to 17"]
+		union [Encounter: "Preventive Care Services, Initial Office Visit, 0 to 17"] ) QualifyingEncounter
 		where QualifyingEncounter.period during "Measurement Period"
 
 define "Rotavirus 2 Dose Immunizations or Procedures":
-	( ["Immunization": "Rotavirus Vaccine (2 dose schedule)"]
-		union ["Procedure": "Rotavirus Vaccine (2 dose schedule) Administered"] ) TwoDoseRotavirus
+	( [Immunization: "Rotavirus Vaccine (2 dose schedule)"]
+		union [Procedure: "Rotavirus Vaccine (2 dose schedule) Administered"] ) TwoDoseRotavirus
 			where AgeInDaysAt(Coalesce(TwoDoseRotavirus.performed.start, TwoDoseRotavirus.occurrence))>= 42
 			and AgeInDaysAt(Coalesce(TwoDoseRotavirus.performed.start, TwoDoseRotavirus.occurrence))<= 730
 
@@ -366,8 +366,8 @@ define "Rotavirus 2 or 3 Dose Vaccinations C":
 		return Vaccination1
 
 define "Rotavirus 3 Dose Immunizations or Procedures":
-	( ["Immunization": "Rotavirus Vaccine (3 dose schedule)"]
-		union ["Procedure": "Rotavirus Vaccine (3 dose schedule) Administered"] ) ThreeDoseRotavirus
+	( [Immunization: "Rotavirus Vaccine (3 dose schedule)"]
+		union [Procedure: "Rotavirus Vaccine (3 dose schedule) Administered"] ) ThreeDoseRotavirus
 		where AgeInDaysAt(Coalesce(ThreeDoseRotavirus.performed.start, ThreeDoseRotavirus.occurrence))>= 42
 			and AgeInDaysAt(Coalesce(ThreeDoseRotavirus.performed.start, ThreeDoseRotavirus.occurrence))<= 730
 
@@ -382,9 +382,9 @@ define "Rotavirus 3 Dose Vaccinations":
 		return Vaccination1
 
 define "Rotavirus Exclusions":
-	( ["Condition": "Anaphylactic Reaction to Rotavirus Vaccine"]
-		union ["Condition": "Severe Combined Immunodeficiency"]
-		union ["Condition": "Intussusception"] ) RotavirusConditions
+	( [Condition: "Anaphylactic Reaction to Rotavirus Vaccine"]
+		union [Condition: "Severe Combined Immunodeficiency"]
+		union [Condition: "Intussusception"] ) RotavirusConditions
 		where AgeInDaysAt(Coalesce(RotavirusConditions.onset.start, RotavirusConditions.onset))<= 730
 
 define "Rotavirus Criteria Met":
@@ -395,26 +395,26 @@ define "Rotavirus Criteria Met":
 
 
 define "Rubella Indicators":
-	( ( ["Observation": "Rubella Antibody Test (IgG Antibody Titer)"] Titer
+	( ( [Observation: "Rubella Antibody Test (IgG Antibody Titer)"] Titer
 			where Titer.value.value >= 1.10
 	)
-		union ( ["Observation": "Rubella Antibody Test (IgG Antibody presence)"] IgGPresence
+		union ( [Observation: "Rubella Antibody Test (IgG Antibody presence)"] IgGPresence
 			with IgGPresence.value.coding coding such that exists(
 							IgGPresence.value.coding coding
               	where coding.code in "Positive Finding"
         )
 		)
-		union ( ["Condition": "Rubella"]
+		union ( [Condition: "Rubella"]
 		) ) Rubella
 		where AgeInDaysAt(Coalesce(Rubella.onset.start, Rubella.onset, Rubella.effective))<= 730
 
 define "VZV Vaccinations":
-	(((["Immunization": "Varicella Zoster Vaccine (VZV)"]
-		union ["Procedure": "Varicella Zoster Vaccine (VZV) Administered"]) VZVVaccination
+	((([Immunization: "Varicella Zoster Vaccine (VZV)"]
+		union [Procedure: "Varicella Zoster Vaccine (VZV) Administered"]) VZVVaccination
 		where AgeInDaysAt(Coalesce(VZVVaccination.performed.start, VZVVaccination.occurrence)) >= 365
 			and AgeInDaysAt(Coalesce(VZVVaccination.performed.start, VZVVaccination.occurrence)) <= 730
 	)
-	union (["Condition": "Varicella Zoster"] VZVCondition
+	union ([Condition: "Varicella Zoster"] VZVCondition
 		where AgeInDaysAt(Coalesce(VZVCondition.onset, VZVCondition.onset.start)) <= 730)) VZV
 	return VZV
 
@@ -445,16 +445,16 @@ define "Denominator":
   end
 
 define "Denominator Exclusions":
-	exists ( ["Encounter": "Encounter Inpatient"] DischargeHospice
+	exists ( [Encounter: "Encounter Inpatient"] DischargeHospice
 			where ( ( DischargeHospice.hospitalization.dischargeDisposition in "Discharged to Home for Hospice Care"
 						or DischargeHospice.hospitalization.dischargeDisposition in "Discharged to Health Care Facility for Hospice Care"
 				)
 					and DischargeHospice.period ends during "Measurement Period"
 			)
 	)
-		or exists ( ["ServiceRequest": "Hospice care ambulatory"]
+		or exists ( [ServiceRequest: "Hospice care ambulatory"]
 		)
-		or exists ( ["ServiceRequest": "Hospice care ambulatory"] HospicePerformed
+		or exists ( [ServiceRequest: "Hospice care ambulatory"] HospicePerformed
 				where Coalesce(HospicePerformed.occurrence, HospicePerformed.occurrence.start) during "Measurement Period"
 		)
 
