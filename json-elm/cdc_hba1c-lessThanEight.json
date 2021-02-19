@@ -269,48 +269,24 @@
             "id" : "2.16.840.1.113762.1.4.1182.120",
             "accessLevel" : "Public"
          }, {
-            "name" : "Outpatient",
-            "id" : "2.16.840.1.113883.3.464.1003.101.12.1008",
+            "name" : "Advanced Illness",
+            "id" : "2.16.840.1.113883.3.464.1003.110.12.1082",
             "accessLevel" : "Public"
          }, {
-            "name" : "ED",
-            "id" : "2.16.840.1.113883.3.464.1003.101.12.1085",
+            "name" : "Dementia Medications 1",
+            "id" : "2.16.840.1.113883.3.464.1003.196.11.1517",
             "accessLevel" : "Public"
          }, {
-            "name" : "Observation Encounter",
-            "id" : "2.16.840.1.113762.1.4.1181.72",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Nonacute Inpatient Stay",
-            "id" : "2.16.840.1.113762.1.4.1182.289",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Telephone Visits",
-            "id" : "2.16.840.1.113883.3.1444.5.216",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Online Assessments",
-            "id" : "2.16.840.1.113883.3.7587.3.1013",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Nonacute Inpatient",
-            "id" : "2.16.840.1.113883.3.464.1003.101.12.1084",
+            "name" : "Dementia Medications 2",
+            "id" : "2.16.840.1.113883.3.464.1003.196.12.1510",
             "accessLevel" : "Public"
          }, {
             "name" : "Diabetes",
             "id" : "2.16.840.1.113883.3.464.1003.103.12.1001",
             "accessLevel" : "Public"
          }, {
-            "name" : "HbA1c Lab Test",
-            "id" : "2.16.840.1.113883.3.464.1003.198.11.1024",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Telehealth Modifier",
-            "id" : "2.16.840.1.113762.1.4.1138.731",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Telehealth POS",
-            "id" : "2.16.840.1.113883.3.464.1003.101.11.1155",
+            "name" : "ED",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1085",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Device",
@@ -329,20 +305,44 @@
             "id" : "2.16.840.1.113883.3.464.1003.113.12.1075",
             "accessLevel" : "Public"
          }, {
-            "name" : "Advanced Illness",
-            "id" : "2.16.840.1.113883.3.464.1003.110.12.1082",
+            "name" : "HbA1c Lab Test",
+            "id" : "2.16.840.1.113883.3.464.1003.198.11.1024",
             "accessLevel" : "Public"
          }, {
             "name" : "Inpatient Stay",
             "id" : "2.16.840.1.113762.1.4.1182.285",
             "accessLevel" : "Public"
          }, {
-            "name" : "Dementia Medications 1",
-            "id" : "2.16.840.1.113883.3.464.1003.196.11.1517",
+            "name" : "Nonacute Inpatient",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1084",
             "accessLevel" : "Public"
          }, {
-            "name" : "Dementia Medications 2",
-            "id" : "2.16.840.1.113883.3.464.1003.196.12.1510",
+            "name" : "Nonacute Inpatient Stay",
+            "id" : "2.16.840.1.113762.1.4.1182.289",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Observation Encounter",
+            "id" : "2.16.840.1.113762.1.4.1181.72",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Online Assessments",
+            "id" : "2.16.840.1.113883.3.7587.3.1013",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Outpatient",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1008",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Telehealth Modifier",
+            "id" : "2.16.840.1.113762.1.4.1138.731",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Telehealth POS",
+            "id" : "2.16.840.1.113883.3.464.1003.101.11.1155",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Telephone Visits",
+            "id" : "2.16.840.1.113883.3.1444.5.216",
             "accessLevel" : "Public"
          } ]
       },
