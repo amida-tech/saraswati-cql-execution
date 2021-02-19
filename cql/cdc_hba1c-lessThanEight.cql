@@ -3,7 +3,7 @@ library cdc_hba1c_lessThanEight version '1'
 using FHIR version '4.0.0'
 include FHIRHelpers version '4.0.0' called FHIRHelpers
 
-codesystem "SNOMED-CT": '2.16.840.1.113883.6.96' version '20200301'
+codesystem "SNOMED-CT": 'http://snomed.info/sct' version '20200301'
 
 valueset "Acute Inpatient": '2.16.840.1.113762.1.4.1182.120'
 valueset "Advanced Illness": '2.16.840.1.113883.3.464.1003.110.12.1082'
@@ -25,6 +25,9 @@ valueset "Outpatient": '2.16.840.1.113883.3.464.1003.101.12.1008'
 valueset "Telehealth Modifier": '2.16.840.1.113762.1.4.1138.731'
 valueset "Telehealth POS": '2.16.840.1.113883.3.464.1003.101.11.1155'
 valueset "Telephone Visits": '2.16.840.1.113883.3.1444.5.216'
+valueset "Patients Age 65 or Older in SNP or Long Term Care": '2.16.840.1.113762.1.4.1182.66'
+valueset "Encounter Inpatient": '2.16.840.1.113883.3.666.5.307'
+valueset "Care Services in Long-Term Residential Facility": '2.16.840.1.113883.3.464.1003.101.12.1014'
 // The following commented out valuesets are found in the HEDIS specifications,
 // but don't exist in the value set authority or the NIH's database
 // and aren't necessary to calculate the HbA1c value.
@@ -43,6 +46,13 @@ concept "Diabetes Medication": {
   "Miglitol",
   "Insulin Aspart"
 } display 'Diabetes Medication'
+
+code "Patient transfer, to another health care facility (procedure)": '19712007' from "SNOMED-CT" display 'Patient transfer, to another health care facility (procedure)'
+code "Referral to long term care service (procedure)": '417708006' from "SNOMED-CT" display 'Referral to long term care service (procedure)'
+concept "Long Term Stay": {
+  "Patient transfer, to another health care facility (procedure)",
+  "Referral to long term care service (procedure)"
+} display 'Long Term Stay'
 
 parameter MeasurementPeriod default Interval[@2018-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
 parameter MeasurementPeriodExtended default Interval[@2017-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
@@ -240,16 +250,38 @@ define "Taking Dementia Medication":
     where FHIRHelpers.ToCode(MedicationDispense.medication.coding) in "Dementia Medications 1"
       or FHIRHelpers.ToCode(MedicationDispense.medication.coding) in "Dementia Medications 2")
 
-// Exclusions
+// Event/diagnosis
+define "Is Living Long Term in Institution":
+  exists([Encounter: "Encounter Inpatient"] DischargeLongTerm
+    where FHIRHelpers.ToCode(DischargeLongTerm.hospitalization.dischargeDisposition.coding) ~ "Referral to long term care service (procedure)" 
+      and DischargeLongTerm.status in { 'in-progress', 'finished' }
+      and DischargeLongTerm.period ends during "MeasurementPeriod"
+  )
+    or exists(["Task": "Care Services in Long-Term Residential Facility"] LongTermOrder
+        where LongTermOrder.intent = 'order'
+          and (LongTermOrder.authoredOn during "MeasurementPeriod"
+            or LongTermOrder.executionPeriod overlaps "MeasurementPeriod"
+          )
+    )
+    or exists(["Procedure": "Care Services in Long-Term Residential Facility"] LongTermOrder
+        where (LongTermOrder.performed during "MeasurementPeriod"
+          or LongTermOrder.performed overlaps "MeasurementPeriod"
+        )
+    )
+    or exists(["Encounter": "Care Services in Long-Term Residential Facility"] LongTermOrder
+        where LongTermOrder.period overlaps "MeasurementPeriod"
+    )
+
+// Exclusion
 define "Diabetes Exclusions":
-    AgeInYearsAt(start of MeasurementPeriod) >= 66 // Deals with first bullet point
-     and "Frailty" // Deals with second bullet number 1.
-     and ("Acute Inpatient Discharge With Advanced Illness" // Deals with second bullet number 2 under number 2
+  AgeInYearsAt(start of MeasurementPeriod) >= 66 // Deals with first bullet point
+    and ("Is Living Long Term in Institution"
+    or ("Frailty" // Deals with second bullet number 1.
+      and ("Acute Inpatient Discharge With Advanced Illness" // Deals with second bullet number 2 under number 2
       or "Acute Inpatient With Advanced Illness" // Deals with second bullet number 2 third bullet
       or "At Least Two Out/Obs/ED Advaned Illness" // Deals with first dash under second bullet under number 2
-      or "Taking Dementia Medication") // Deals with dispensed dementia medication dash under second bullet under number 
+      or "Taking Dementia Medication"))) // Deals with dispensed dementia medication dash under second bullet under number 
 
-// Event/diagnosis
 define "Diabetes Condition":
   "Acute Inpatient Encounter Without Telehealth" // Deals with first bullet point
     or "Acute Inpatient Discharge On Discharge Claim" // Deals with second bullet point

@@ -6,9 +6,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 166,
+         "startLine" : 178,
          "startChar" : 29,
-         "endLine" : 166,
+         "endLine" : 178,
          "endChar" : 59,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -17,9 +17,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 170,
+         "startLine" : 182,
          "startChar" : 60,
-         "endLine" : 170,
+         "endLine" : 182,
          "endChar" : 65,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -28,9 +28,20 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 237,
+         "startLine" : 186,
+         "startChar" : 75,
+         "endLine" : 186,
+         "endChar" : 80,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_hba1c_lessThanEight",
+         "libraryVersion" : "1",
+         "startLine" : 254,
          "startChar" : 60,
-         "endLine" : 237,
+         "endLine" : 254,
          "endChar" : 65,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -39,9 +50,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 238,
+         "startLine" : 255,
          "startChar" : 59,
-         "endLine" : 238,
+         "endLine" : 255,
          "endChar" : 64,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -50,9 +61,20 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 245,
+         "startLine" : 260,
+         "startChar" : 85,
+         "endLine" : 260,
+         "endChar" : 90,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_hba1c_lessThanEight",
+         "libraryVersion" : "1",
+         "startLine" : 286,
          "startChar" : 10,
-         "endLine" : 245,
+         "endLine" : 286,
          "endChar" : 50,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -258,7 +280,7 @@
       "codeSystems" : {
          "def" : [ {
             "name" : "SNOMED-CT",
-            "id" : "2.16.840.1.113883.6.96",
+            "id" : "http://snomed.info/sct",
             "version" : "20200301",
             "accessLevel" : "Public"
          } ]
@@ -344,6 +366,18 @@
             "name" : "Telephone Visits",
             "id" : "2.16.840.1.113883.3.1444.5.216",
             "accessLevel" : "Public"
+         }, {
+            "name" : "Patients Age 65 or Older in SNP or Long Term Care",
+            "id" : "2.16.840.1.113762.1.4.1182.66",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Encounter Inpatient",
+            "id" : "2.16.840.1.113883.3.666.5.307",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Care Services in Long-Term Residential Facility",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1014",
+            "accessLevel" : "Public"
          } ]
       },
       "codes" : {
@@ -371,6 +405,22 @@
             "codeSystem" : {
                "name" : "SNOMED-CT"
             }
+         }, {
+            "name" : "Patient transfer, to another health care facility (procedure)",
+            "id" : "19712007",
+            "display" : "Patient transfer, to another health care facility (procedure)",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "SNOMED-CT"
+            }
+         }, {
+            "name" : "Referral to long term care service (procedure)",
+            "id" : "417708006",
+            "display" : "Referral to long term care service (procedure)",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "SNOMED-CT"
+            }
          } ]
       },
       "concepts" : {
@@ -384,6 +434,15 @@
                "name" : "Miglitol"
             }, {
                "name" : "Insulin Aspart"
+            } ]
+         }, {
+            "name" : "Long Term Stay",
+            "display" : "Long Term Stay",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Patient transfer, to another health care facility (procedure)"
+            }, {
+               "name" : "Referral to long term care service (procedure)"
             } ]
          } ]
       },
@@ -1744,6 +1803,52 @@
                }
             }
          }, {
+            "name" : "~~~TEST",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "MedicationDispense",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "asdf",
+                        "value" : {
+                           "name" : "ToCode",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "type" : "SingletonFrom",
+                              "operand" : {
+                                 "path" : "coding",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "medication",
+                                    "scope" : "MedicationDispense",
+                                    "type" : "Property"
+                                 }
+                              }
+                           } ]
+                        }
+                     }, {
+                        "name" : "qwer",
+                        "value" : {
+                           "name" : "Diabetes Medication",
+                           "type" : "ConceptRef"
+                        }
+                     } ]
+                  }
+               }
+            }
+         }, {
             "name" : "Frailty",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -2690,67 +2795,348 @@
                }
             }
          }, {
+            "name" : "Is Living Long Term in Institution",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Or",
+               "operand" : [ {
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "Or",
+                     "operand" : [ {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "DischargeLongTerm",
+                              "expression" : {
+                                 "dataType" : "{http://hl7.org/fhir}Encounter",
+                                 "codeProperty" : "type",
+                                 "codeComparator" : "in",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Encounter Inpatient",
+                                    "type" : "ValueSetRef"
+                                 }
+                              }
+                           } ],
+                           "relationship" : [ ],
+                           "where" : {
+                              "type" : "And",
+                              "operand" : [ {
+                                 "type" : "And",
+                                 "operand" : [ {
+                                    "type" : "Equivalent",
+                                    "operand" : [ {
+                                       "name" : "ToCode",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "type" : "SingletonFrom",
+                                          "operand" : {
+                                             "path" : "coding",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "dischargeDisposition",
+                                                "type" : "Property",
+                                                "source" : {
+                                                   "path" : "hospitalization",
+                                                   "scope" : "DischargeLongTerm",
+                                                   "type" : "Property"
+                                                }
+                                             }
+                                          }
+                                       } ]
+                                    }, {
+                                       "name" : "Referral to long term care service (procedure)",
+                                       "type" : "CodeRef"
+                                    } ]
+                                 }, {
+                                    "type" : "In",
+                                    "operand" : [ {
+                                       "name" : "ToString",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "status",
+                                          "scope" : "DischargeLongTerm",
+                                          "type" : "Property"
+                                       } ]
+                                    }, {
+                                       "type" : "List",
+                                       "element" : [ {
+                                          "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                          "value" : "in-progress",
+                                          "type" : "Literal"
+                                       }, {
+                                          "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                          "value" : "finished",
+                                          "type" : "Literal"
+                                       } ]
+                                    } ]
+                                 } ]
+                              }, {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "type" : "End",
+                                    "operand" : {
+                                       "name" : "ToInterval",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "period",
+                                          "scope" : "DischargeLongTerm",
+                                          "type" : "Property"
+                                       } ]
+                                    }
+                                 }, {
+                                    "name" : "MeasurementPeriod",
+                                    "type" : "ParameterRef"
+                                 } ]
+                              } ]
+                           }
+                        }
+                     }, {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "LongTermOrder",
+                              "expression" : {
+                                 "dataType" : "{http://hl7.org/fhir}Task",
+                                 "codeProperty" : "code",
+                                 "codeComparator" : "in",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Care Services in Long-Term Residential Facility",
+                                    "type" : "ValueSetRef"
+                                 }
+                              }
+                           } ],
+                           "relationship" : [ ],
+                           "where" : {
+                              "type" : "And",
+                              "operand" : [ {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "intent",
+                                       "scope" : "LongTermOrder",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                    "value" : "order",
+                                    "type" : "Literal"
+                                 } ]
+                              }, {
+                                 "type" : "Or",
+                                 "operand" : [ {
+                                    "type" : "In",
+                                    "operand" : [ {
+                                       "name" : "ToDateTime",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "authoredOn",
+                                          "scope" : "LongTermOrder",
+                                          "type" : "Property"
+                                       } ]
+                                    }, {
+                                       "name" : "MeasurementPeriod",
+                                       "type" : "ParameterRef"
+                                    } ]
+                                 }, {
+                                    "type" : "Overlaps",
+                                    "operand" : [ {
+                                       "name" : "ToInterval",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "executionPeriod",
+                                          "scope" : "LongTermOrder",
+                                          "type" : "Property"
+                                       } ]
+                                    }, {
+                                       "name" : "MeasurementPeriod",
+                                       "type" : "ParameterRef"
+                                    } ]
+                                 } ]
+                              } ]
+                           }
+                        }
+                     } ]
+                  }, {
+                     "type" : "Exists",
+                     "operand" : {
+                        "type" : "Query",
+                        "source" : [ {
+                           "alias" : "LongTermOrder",
+                           "expression" : {
+                              "dataType" : "{http://hl7.org/fhir}Procedure",
+                              "codeProperty" : "code",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Care Services in Long-Term Residential Facility",
+                                 "type" : "ValueSetRef"
+                              }
+                           }
+                        } ],
+                        "relationship" : [ ],
+                        "where" : {
+                           "type" : "Or",
+                           "operand" : [ {
+                              "type" : "IncludedIn",
+                              "operand" : [ {
+                                 "name" : "ToInterval",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "asType" : "{http://hl7.org/fhir}Period",
+                                    "type" : "As",
+                                    "operand" : {
+                                       "path" : "performed",
+                                       "scope" : "LongTermOrder",
+                                       "type" : "Property"
+                                    }
+                                 } ]
+                              }, {
+                                 "name" : "MeasurementPeriod",
+                                 "type" : "ParameterRef"
+                              } ]
+                           }, {
+                              "type" : "Overlaps",
+                              "operand" : [ {
+                                 "name" : "ToInterval",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "asType" : "{http://hl7.org/fhir}Period",
+                                    "type" : "As",
+                                    "operand" : {
+                                       "path" : "performed",
+                                       "scope" : "LongTermOrder",
+                                       "type" : "Property"
+                                    }
+                                 } ]
+                              }, {
+                                 "name" : "MeasurementPeriod",
+                                 "type" : "ParameterRef"
+                              } ]
+                           } ]
+                        }
+                     }
+                  } ]
+               }, {
+                  "type" : "Exists",
+                  "operand" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "LongTermOrder",
+                        "expression" : {
+                           "dataType" : "{http://hl7.org/fhir}Encounter",
+                           "codeProperty" : "type",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Care Services in Long-Term Residential Facility",
+                              "type" : "ValueSetRef"
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "Overlaps",
+                        "operand" : [ {
+                           "name" : "ToInterval",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "period",
+                              "scope" : "LongTermOrder",
+                              "type" : "Property"
+                           } ]
+                        }, {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
+                        } ]
+                     }
+                  }
+               } ]
+            }
+         }, {
             "name" : "Diabetes Exclusions",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "And",
                "operand" : [ {
-                  "type" : "And",
+                  "type" : "GreaterOrEqual",
                   "operand" : [ {
-                     "type" : "GreaterOrEqual",
+                     "precision" : "Year",
+                     "type" : "CalculateAgeAt",
                      "operand" : [ {
-                        "precision" : "Year",
-                        "type" : "CalculateAgeAt",
-                        "operand" : [ {
-                           "type" : "ToDateTime",
-                           "operand" : {
-                              "path" : "birthDate.value",
-                              "type" : "Property",
-                              "source" : {
-                                 "name" : "Patient",
-                                 "type" : "ExpressionRef"
-                              }
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
                            }
-                        }, {
-                           "type" : "Start",
-                           "operand" : {
-                              "name" : "MeasurementPeriod",
-                              "type" : "ParameterRef"
-                           }
-                        } ]
+                        }
                      }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "66",
-                        "type" : "Literal"
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
+                        }
                      } ]
                   }, {
-                     "name" : "Frailty",
-                     "type" : "ExpressionRef"
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "66",
+                     "type" : "Literal"
                   } ]
                }, {
                   "type" : "Or",
                   "operand" : [ {
-                     "type" : "Or",
+                     "name" : "Is Living Long Term in Institution",
+                     "type" : "ExpressionRef"
+                  }, {
+                     "type" : "And",
                      "operand" : [ {
+                        "name" : "Frailty",
+                        "type" : "ExpressionRef"
+                     }, {
                         "type" : "Or",
                         "operand" : [ {
-                           "name" : "Acute Inpatient Discharge With Advanced Illness",
-                           "type" : "ExpressionRef"
+                           "type" : "Or",
+                           "operand" : [ {
+                              "type" : "Or",
+                              "operand" : [ {
+                                 "name" : "Acute Inpatient Discharge With Advanced Illness",
+                                 "type" : "ExpressionRef"
+                              }, {
+                                 "name" : "Acute Inpatient With Advanced Illness",
+                                 "type" : "ExpressionRef"
+                              } ]
+                           }, {
+                              "type" : "SingletonFrom",
+                              "operand" : {
+                                 "name" : "At Least Two Out/Obs/ED Advaned Illness",
+                                 "type" : "ExpressionRef"
+                              }
+                           } ]
                         }, {
-                           "name" : "Acute Inpatient With Advanced Illness",
+                           "name" : "Taking Dementia Medication",
                            "type" : "ExpressionRef"
                         } ]
-                     }, {
-                        "type" : "SingletonFrom",
-                        "operand" : {
-                           "name" : "At Least Two Out/Obs/ED Advaned Illness",
-                           "type" : "ExpressionRef"
-                        }
                      } ]
-                  }, {
-                     "name" : "Taking Dementia Medication",
-                     "type" : "ExpressionRef"
                   } ]
                } ]
             }
