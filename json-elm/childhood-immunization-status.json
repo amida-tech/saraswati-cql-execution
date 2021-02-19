@@ -118,26 +118,6 @@
       },
       "valueSets" : {
          "def" : [ {
-            "name" : "Acute Inpatient",
-            "id" : "2.16.840.1.113762.1.4.1182.120",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "ONC Administrative Sex",
-            "id" : "2.16.840.1.113762.1.4.1",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Race",
-            "id" : "2.16.840.1.114222.4.11.836",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Ethnicity",
-            "id" : "2.16.840.1.114222.4.11.837",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Payer",
-            "id" : "2.16.840.1.114222.4.11.3591",
-            "accessLevel" : "Public"
-         }, {
             "name" : "Anaphylactic Reaction to DTaP Vaccine",
             "id" : "2.16.840.1.113883.3.464.1003.199.12.1031",
             "accessLevel" : "Public"
@@ -182,6 +162,14 @@
             "id" : "2.16.840.1.113883.3.464.1003.199.12.1028",
             "accessLevel" : "Public"
          }, {
+            "name" : "Discharged to Home for Hospice Care",
+            "id" : "2.16.840.1.113883.3.117.1.7.1.209",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Discharged to Health Care Facility for Hospice Care",
+            "id" : "2.16.840.1.113883.3.117.1.7.1.207",
+            "accessLevel" : "Public"
+         }, {
             "name" : "Disorders of the Immune System",
             "id" : "2.16.840.1.113883.3.464.1003.120.12.1001",
             "accessLevel" : "Public"
@@ -196,6 +184,10 @@
          }, {
             "name" : "Encephalopathy due to Childhood Vaccination",
             "id" : "2.16.840.1.113883.3.464.1003.114.12.1007",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Encounter Inpatient",
+            "id" : "2.16.840.1.113883.3.666.5.307",
             "accessLevel" : "Public"
          }, {
             "name" : "Face-to-Face Interaction",
@@ -242,6 +234,10 @@
             "id" : "2.16.840.1.113883.3.464.1003.101.12.1016",
             "accessLevel" : "Public"
          }, {
+            "name" : "Hospice care ambulatory",
+            "id" : "2.16.840.1.113762.1.4.1108.15",
+            "accessLevel" : "Public"
+         }, {
             "name" : "Inactivated Polio Vaccine (IPV)",
             "id" : "2.16.840.1.113883.3.464.1003.196.12.1219",
             "accessLevel" : "Public"
@@ -260,6 +256,10 @@
          }, {
             "name" : "Influenza Virus Vaccine and Vaccination",
             "id" : "2.16.840.1.113762.1.4.1221.108",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Intussusception",
+            "id" : "2.16.840.1.113883.3.464.1003.199.12.1056",
             "accessLevel" : "Public"
          }, {
             "name" : "Malignant Neoplasm of Lymphatic Tissue",
@@ -354,6 +354,10 @@
             "id" : "2.16.840.1.113883.3.464.1003.110.12.1039",
             "accessLevel" : "Public"
          }, {
+            "name" : "Severe Combined Immunodeficiency",
+            "id" : "2.16.840.1.113883.3.464.1003.120.12.1007",
+            "accessLevel" : "Public"
+         }, {
             "name" : "Varicella Zoster Antibody Test (IgG Antibody Presence)",
             "id" : "2.16.840.1.113883.3.464.1003.198.12.1067",
             "accessLevel" : "Public"
@@ -368,30 +372,6 @@
          }, {
             "name" : "Varicella Zoster Vaccine (VZV) Administered",
             "id" : "2.16.840.1.113883.3.464.1003.110.12.1040",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Encounter Inpatient",
-            "id" : "2.16.840.1.113883.3.666.5.307",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Hospice care ambulatory",
-            "id" : "2.16.840.1.113762.1.4.1108.15",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Discharged to Home for Hospice Care",
-            "id" : "2.16.840.1.113883.3.117.1.7.1.209",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Discharged to Health Care Facility for Hospice Care",
-            "id" : "2.16.840.1.113883.3.117.1.7.1.207",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Intussusception",
-            "id" : "2.16.840.1.113883.3.464.1003.199.12.1056",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Severe Combined Immunodeficiency",
-            "id" : "2.16.840.1.113883.3.464.1003.120.12.1007",
             "accessLevel" : "Public"
          } ]
       },
