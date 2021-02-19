@@ -80,6 +80,7 @@ define "Claim with Acute Inpatient":
   [Claim] C
     with C.diagnosis D such that D.diagnosis in "Acute Inpatient"
 
+// because we have a "Acute Inpatient" value set, we do not need to do 1, 2 or 3 for this bullet point
 define "Acute Inpatient Discharge On Discharge Claim":
   exists ("Acute Inpatient Discharge With Diabetes" Enc
     with "Claim with Acute Inpatient" AI
@@ -162,6 +163,7 @@ define "Out visits on Different Dates":
 
     return Count(((((cond1 union cond2) union cond3) union cond4) union cond5))
 
+// because we have a "Nonacute Inpatient Stay"  valueset, we can skip identifying a nonacute inpatient discharge (1,2,3)
 define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
   "Out Tele Online Union" + "Out visits on Different Dates" >= 2
 
@@ -213,6 +215,7 @@ define "Nonacute AI Discharge":
       such that E.status ~ 'finished'
       and E.period starts during MeasurementPeriodExtended
 
+// Because we have a "nonacute inpatient" valueset, we can skip 1,2, and 3
 define "At Least Two Out/Obs/ED Advaned Illness":
   from
     "Outpatient Advanced Illness" OAI,
@@ -237,19 +240,21 @@ define "Taking Dementia Medication":
     where FHIRHelpers.ToCode(MedicationDispense.medication.coding) in "Dementia Medications 1"
       or FHIRHelpers.ToCode(MedicationDispense.medication.coding) in "Dementia Medications 2")
 
+// Exclusions
 define "Diabetes Exclusions":
-    AgeInYearsAt(start of MeasurementPeriod) >= 66
-     and "Frailty"
-     and ("Acute Inpatient Discharge With Advanced Illness"
-      or "Acute Inpatient With Advanced Illness"
-      or "At Least Two Out/Obs/ED Advaned Illness"
-      or "Taking Dementia Medication")
+    AgeInYearsAt(start of MeasurementPeriod) >= 66 // Deals with first bullet point
+     and "Frailty" // Deals with second bullet number 1.
+     and ("Acute Inpatient Discharge With Advanced Illness" // Deals with second bullet number 2 under number 2
+      or "Acute Inpatient With Advanced Illness" // Deals with second bullet number 2 third bullet
+      or "At Least Two Out/Obs/ED Advaned Illness" // Deals with first dash under second bullet under number 2
+      or "Taking Dementia Medication") // Deals with dispensed dementia medication dash under second bullet under number 
 
+// Event/diagnosis
 define "Diabetes Condition":
-  "Acute Inpatient Encounter Without Telehealth"
-    or "Acute Inpatient Discharge On Discharge Claim"
-    or "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes"
-    or "Diabetes Diagnosis By Medication"
+  "Acute Inpatient Encounter Without Telehealth" // Deals with first bullet point
+    or "Acute Inpatient Discharge On Discharge Claim" // Deals with second bullet point
+    or "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes" // Deals with third bullet point
+    or "Diabetes Diagnosis By Medication" // Deals with pharmacy data / Diabetes Medications
 
 define "Diabetes Condition Numerator":
   "Diabetes Condition"
