@@ -28,20 +28,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 186,
-         "startChar" : 75,
-         "endLine" : 186,
-         "endChar" : 80,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "cdc_hba1c_lessThanEight",
-         "libraryVersion" : "1",
-         "startLine" : 254,
+         "startLine" : 250,
          "startChar" : 60,
-         "endLine" : 254,
+         "endLine" : 250,
          "endChar" : 65,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -50,9 +39,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 255,
+         "startLine" : 251,
          "startChar" : 59,
-         "endLine" : 255,
+         "endLine" : 251,
          "endChar" : 64,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -61,9 +50,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 260,
+         "startLine" : 256,
          "startChar" : 85,
-         "endLine" : 260,
+         "endLine" : 256,
          "endChar" : 90,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -72,9 +61,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 286,
+         "startLine" : 282,
          "startChar" : 10,
-         "endLine" : 286,
+         "endLine" : 282,
          "endChar" : 50,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -1798,52 +1787,6 @@
                      }, {
                         "name" : "Diabetes Medication",
                         "type" : "ConceptRef"
-                     } ]
-                  }
-               }
-            }
-         }, {
-            "name" : "~~~TEST",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "MedicationDispense",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                     "type" : "Retrieve"
-                  }
-               } ],
-               "relationship" : [ ],
-               "return" : {
-                  "expression" : {
-                     "type" : "Tuple",
-                     "element" : [ {
-                        "name" : "asdf",
-                        "value" : {
-                           "name" : "ToCode",
-                           "libraryName" : "FHIRHelpers",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "type" : "SingletonFrom",
-                              "operand" : {
-                                 "path" : "coding",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "path" : "medication",
-                                    "scope" : "MedicationDispense",
-                                    "type" : "Property"
-                                 }
-                              }
-                           } ]
-                        }
-                     }, {
-                        "name" : "qwer",
-                        "value" : {
-                           "name" : "Diabetes Medication",
-                           "type" : "ConceptRef"
-                        }
                      } ]
                   }
                }
