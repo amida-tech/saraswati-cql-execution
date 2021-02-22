@@ -7,37 +7,44 @@ codesystem "SNOMED-CT": '2.16.840.1.113883.6.96' version '20200301'
 codesystem "LOINC": 'http://loinc.org'
 
 valueset "Acute Inpatient": '2.16.840.1.113762.1.4.1182.120'
-valueset "Outpatient": '2.16.840.1.113883.3.464.1003.101.12.1008'
-valueset "ED": '2.16.840.1.113883.3.464.1003.101.12.1085'
-valueset "Observation Encounter": '2.16.840.1.113762.1.4.1181.72'
-valueset "Nonacute Inpatient Stay": '2.16.840.1.113762.1.4.1182.289'
-valueset "Telephone Visits": '2.16.840.1.113883.3.1444.5.216'
-valueset "Online Assessments": '2.16.840.1.113883.3.7587.3.1013'
-valueset "Nonacute Inpatient": '2.16.840.1.113883.3.464.1003.101.12.1084'
-valueset "Hospice Encounter": '2.16.840.1.113883.3.464.1004.1761'
-valueset "Hospice Intervention": '2.16.840.1.113762.1.4.1182.2'
+valueset "Advanced Illness": '2.16.840.1.113883.3.464.1003.110.12.1082'
+valueset "Care Services in Long-Term Residential Facility": '2.16.840.1.113883.3.464.1003.101.12.1014'
+valueset "Dementia Medications 1": '2.16.840.1.113883.3.464.1003.196.11.1517'
+valueset "Dementia Medications 2": '2.16.840.1.113883.3.464.1003.196.12.1510'
 valueset "Diabetes": '2.16.840.1.113883.3.464.1003.103.12.1001'
-valueset "Telehealth Modifier": '2.16.840.1.113762.1.4.1138.731'
-valueset "Telehealth POS": '2.16.840.1.113883.3.464.1003.101.11.1155'
+valueset "Diastolic BP": '2.16.840.1.113762.1.4.1116.409'
+valueset "Diastolic Greater Than Or Equal To 90": '2.16.840.1.113762.1.4.1182.78'
+valueset "Diastolic Less Than 80": '2.16.840.1.113762.1.4.1182.79'
+valueset "ED": '2.16.840.1.113883.3.464.1003.101.12.1085'
+valueset "Encounter Inpatient": '2.16.840.1.113883.3.666.5.307'
 valueset "Frailty Device": '2.16.840.1.113883.3.464.1003.118.12.1300'
 valueset "Frailty Diagnosis": '2.16.840.1.113883.3.464.1003.113.11.1308'
 valueset "Frailty Encounter": '2.16.840.1.113883.3.464.1003.101.12.1088'
 valueset "Frailty Symptom": '2.16.840.1.113883.3.464.1003.113.12.1075'
-valueset "Advanced Illness": '2.16.840.1.113883.3.464.1003.110.12.1082'
+valueset "HbA1c Lab Test": '2.16.840.1.113883.3.464.1003.198.11.1024'
 valueset "Inpatient Stay": '2.16.840.1.113762.1.4.1182.285'
-valueset "Systolic Less Than 140": '2.16.840.1.113762.1.4.1182.85'
+valueset "Nonacute Inpatient": '2.16.840.1.113883.3.464.1003.101.12.1084'
+valueset "Nonacute Inpatient Stay": '2.16.840.1.113762.1.4.1182.289'
+valueset "Observation Encounter": '2.16.840.1.113762.1.4.1181.72'
+valueset "Online Assessments": '2.16.840.1.113883.3.7587.3.1013'
+valueset "Outpatient": '2.16.840.1.113883.3.464.1003.101.12.1008'
+valueset "Patients Age 65 or Older in SNP or Long Term Care": '2.16.840.1.113762.1.4.1182.66'
 valueset "Systolic Greater Than Or Equal To 140": '2.16.840.1.113762.1.4.1182.84'
-valueset "Diastolic Less Than 80": '2.16.840.1.113762.1.4.1182.79'
-valueset "Diastolic Greater Than Or Equal To 90": '2.16.840.1.113762.1.4.1182.78'
-valueset "Diastolic BP": '2.16.840.1.113762.1.4.1116.409'
-valueset "Dementia Medications 1": '2.16.840.1.113883.3.464.1003.196.11.1517'
-valueset "Dementia Medications 2": '2.16.840.1.113883.3.464.1003.196.12.1510'
+valueset "Systolic Less Than 140": '2.16.840.1.113762.1.4.1182.85'
+valueset "Telehealth Modifier": '2.16.840.1.113762.1.4.1138.731'
+valueset "Telehealth POS": '2.16.840.1.113883.3.464.1003.101.11.1155'
+valueset "Telephone Visits": '2.16.840.1.113883.3.1444.5.216'
 
 // The following commented out valuesets are found in the HEDIS specifications,
 // but don't exist in the value set authority or the NIH's database
-// valueset "Remote Blood Pressure Monitoring": ''
-// valueset "Hospice Encounter": ''
-
+// and aren't necessary to calculate the HbA1c value.
+// Just using the HbA1c Lab Value does the same thing
+/*
+valueset "Remote Blood Pressure Monitoring": ''
+valueset "Hospice Encounter": ''
+valueset "Hospice Encounter": '2.16.840.1.113883.3.464.1004.1761'
+valueset "Hospice Intervention": '2.16.840.1.113762.1.4.1182.2'
+*/
 code "Blood pressure": '85354-9' from "LOINC" display 'blood pressure'
 code "Diastolic blood pressure": '8462-4' from "LOINC" display 'Diastolic blood pressure'
 code "Systolic blood pressure": '8480-6' from "LOINC" display 'Systolic blood pressure'
@@ -51,6 +58,13 @@ concept "Diabetes Medication": {
   "Miglitol",
   "Insulin Aspart"
 } display 'Diabetes Medication'
+
+code "Patient transfer, to another health care facility (procedure)": '19712007' from "SNOMED-CT" display 'Patient transfer, to another health care facility (procedure)'
+code "Referral to long term care service (procedure)": '417708006' from "SNOMED-CT" display 'Referral to long term care service (procedure)'
+concept "Long Term Stay": {
+  "Patient transfer, to another health care facility (procedure)",
+  "Referral to long term care service (procedure)"
+} display 'Long Term Stay'
 
 parameter MeasurementPeriod default Interval[@2018-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
 parameter MeasurementPeriodExtended default Interval[@2017-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
@@ -88,6 +102,7 @@ define "Claim with Acute Inpatient":
   [Claim] C
     with C.diagnosis D such that D.diagnosis in "Acute Inpatient"
 
+// because we have a "Acute Inpatient" value set, we do not need to do 1, 2 or 3 for this bullet point
 define "Acute Inpatient Discharge On Discharge Claim":
   exists ("Acute Inpatient Discharge With Diabetes" Enc
     with "Claim with Acute Inpatient" AI
@@ -97,18 +112,17 @@ define "Nonacute Diabetes Discharges-List":
   distinct ([Encounter: "Nonacute Inpatient Stay"] E
     with [Condition: "Diabetes"] Dia
       such that E.status ~ 'finished')
-
-define "Nonacute Diabetes Discharges":
-  Count ("Nonacute Diabetes Discharges-List")
+      /* and not "Telehealth POS Encounter"
+      and not "Telehealth Modifier Encounter" */
 
 define "Claim with Nonacute Inpatient Stay":
   [Claim] C
     with C.diagnosis D such that D.diagnosis in "Nonacute Inpatient Stay"
 
 define "Nonacute Diabetes Discharges On Claim":
-  Count ("Nonacute Diabetes Discharges-List" E
+  "Nonacute Diabetes Discharges-List" E
     with "Claim with Nonacute Inpatient Stay" C
-      such that E.subject = C.patient)
+      such that E.subject = C.patient
 
 define "Outpatient Visit":
   [Encounter: "Outpatient"] E
@@ -120,7 +134,7 @@ define "Observation Visit":
     with [Condition: "Diabetes"] c
       such that E.period starts during MeasurementPeriodExtended
 
-define "Out":
+define "Telehealth POS With Diabetes":
   [Encounter: "Telehealth POS"] E
     with [Condition: "Diabetes"] c
       such that E.period starts during MeasurementPeriodExtended
@@ -140,47 +154,44 @@ define "Online Assessment":
     with [Condition: "Diabetes"] c
       such that E.period starts during MeasurementPeriodExtended
 
-define "Out Tele Online with Different Dates":
-  from
-    "Out" cond1,
-    "Telehealth Modifier With Diabetes" cond2,
-    "Telephone Visit" cond3,
-    "Online Assessment" cond4,
-    "Outpatient Visit" cond5,
-    "Observation Visit" cond6
-      where (cond1.period.start != cond2.period.start )
-        and (cond1.period.start != cond3.period.start )
-        and (cond1.period.start != cond4.period.start )
-        and (cond1.period.start != cond5.period.start )
-        and (cond1.period.start != cond6.period.start )
-        and (cond2.period.start != cond3.period.start )
-        and (cond2.period.start != cond4.period.start )
-        and (cond2.period.start != cond5.period.start )
-        and (cond2.period.start != cond6.period.start )
-        and (cond3.period.start != cond4.period.start )
-        and (cond3.period.start != cond5.period.start )
-        and (cond3.period.start != cond6.period.start )
-        and (cond4.period.start != cond5.period.start )
-        and (cond4.period.start != cond6.period.start )
-        and (cond5.period.start != cond6.period.start )
-      return (exists(cond1) or exists(cond2) or exists(cond3) or exists(cond4))
+define "Emergency Department Visits":
+  [Encounter: "ED"] E
+    with [Condition: "Diabetes"] c
+      such that E.period starts during MeasurementPeriodExtended
 
-define "Out Tele Online":
-  case ("Out Tele Online with Different Dates")
+define "Out Tele Online Union":
+  case exists("Telehealth Modifier With Diabetes" union "Telephone Visit" union "Online Assessment" union "Telehealth POS With Diabetes")
     when true then 1
     else 0
   end
 
+define "Out visits on Different Dates":
+  from
+    "Outpatient Visit" cond1,
+    "Observation Visit" cond2,
+    "Emergency Department Visits" cond3,
+    "Nonacute Diabetes Discharges-List" cond4,
+    "Nonacute Diabetes Discharges On Claim" cond5
+      where (cond1.period.start != cond2.period.start)
+        and (cond1.period.start != cond3.period.start)
+        and (cond1.period.start != cond4.period.start)
+        and (cond1.period.start != cond5.period.start)
+        and (cond2.period.start != cond3.period.start)
+        and (cond2.period.start != cond4.period.start)
+        and (cond2.period.start != cond5.period.start)
+        and (cond3.period.start != cond4.period.start)
+        and (cond3.period.start != cond5.period.start)
+        and (cond4.period.start != cond5.period.start)
+
+    return Count(((((cond1 union cond2) union cond3) union cond4) union cond5))
+
+// because we have a "Nonacute Inpatient Stay"  valueset, we can skip identifying a nonacute inpatient discharge (1,2,3)
 define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
-   "Nonacute Diabetes Discharges" + "Nonacute Diabetes Discharges On Claim" + "Out Tele Online" >= 2
+  "Out Tele Online Union" + "Out visits on Different Dates" >= 2
 
 define "Diabetes Diagnosis By Medication":
-  exists([MedicationDispense] B
-    with B.medication.coding X such that exists(
-        B.medication.coding coding
-          where FHIRHelpers.ToCode(coding) ~ "Diabetes Medication"
-    )
-    and B.status ~ 'completed')
+  exists([MedicationDispense] MedicationDispense
+    where FHIRHelpers.ToCode(MedicationDispense.medication.coding) ~ "Diabetes Medication")
 
 define "Frailty":
   exists([Encounter: "Frailty Device"] D
@@ -226,6 +237,7 @@ define "Nonacute AI Discharge":
       such that E.status ~ 'finished'
       and E.period starts during MeasurementPeriodExtended
 
+// Because we have a "nonacute inpatient" valueset, we can skip 1,2, and 3
 define "At Least Two Out/Obs/ED Advaned Illness":
   from
     "Outpatient Advanced Illness" OAI,
@@ -246,26 +258,47 @@ define "At Least Two Out/Obs/ED Advaned Illness":
       return (Count(((((OAI union ObsAI) union EDAI) union NAI) union NAID)) >= 2)
 
 define "Taking Dementia Medication":
-  exists([MedicationDispense] B
-    with B.medication.coding X such that exists(
-        B.medication.coding coding
-          where (FHIRHelpers.ToCode(coding) in "Dementia Medications 1"
-            or FHIRHelpers.ToCode(coding) in "Dementia Medications 2")
-    ))
+  exists([MedicationDispense] MedicationDispense
+    where FHIRHelpers.ToCode(MedicationDispense.medication.coding) in "Dementia Medications 1"
+      or FHIRHelpers.ToCode(MedicationDispense.medication.coding) in "Dementia Medications 2")
 
+// Event/diagnosis
+define "Is Living Long Term in Institution":
+  exists([Encounter: "Encounter Inpatient"] DischargeLongTerm
+    where FHIRHelpers.ToCode(DischargeLongTerm.hospitalization.dischargeDisposition.coding) ~ "Referral to long term care service (procedure)" 
+      and DischargeLongTerm.status in { 'in-progress', 'finished' }
+      and DischargeLongTerm.period ends during "MeasurementPeriod"
+  )
+    or exists(["Task": "Care Services in Long-Term Residential Facility"] LongTermOrder
+        where LongTermOrder.intent = 'order'
+          and (LongTermOrder.authoredOn during "MeasurementPeriod"
+            or LongTermOrder.executionPeriod overlaps "MeasurementPeriod"
+          )
+    )
+    or exists(["Procedure": "Care Services in Long-Term Residential Facility"] LongTermOrder
+        where (LongTermOrder.performed during "MeasurementPeriod"
+          or LongTermOrder.performed overlaps "MeasurementPeriod"
+        )
+    )
+    or exists(["Encounter": "Care Services in Long-Term Residential Facility"] LongTermOrder
+        where LongTermOrder.period overlaps "MeasurementPeriod"
+    )
+
+// Exclusion
 define "Diabetes Exclusions":
-    AgeInYearsAt(start of MeasurementPeriod) >= 66
-     and "Frailty"
-     and ("Acute Inpatient Discharge With Advanced Illness"
-      or "Acute Inpatient With Advanced Illness"
-      or "At Least Two Out/Obs/ED Advaned Illness"
-      or "Taking Dementia Medication")
+  AgeInYearsAt(start of MeasurementPeriod) >= 66 // Deals with first bullet point
+    and ("Is Living Long Term in Institution"
+    or ("Frailty" // Deals with second bullet number 1.
+      and ("Acute Inpatient Discharge With Advanced Illness" // Deals with second bullet number 2 under number 2
+      or "Acute Inpatient With Advanced Illness" // Deals with second bullet number 2 third bullet
+      or "At Least Two Out/Obs/ED Advaned Illness" // Deals with first dash under second bullet under number 2
+      or "Taking Dementia Medication"))) // Deals with dispensed dementia medication dash under second bullet under number 
 
 define "Diabetes Condition":
-  "Acute Inpatient Encounter Without Telehealth"
-    or "Acute Inpatient Discharge On Discharge Claim"
-    or "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes"
-    or "Diabetes Diagnosis By Medication"
+  "Acute Inpatient Encounter Without Telehealth" // Deals with first bullet point
+    or "Acute Inpatient Discharge On Discharge Claim" // Deals with second bullet point
+    or "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes" // Deals with third bullet point
+    or "Diabetes Diagnosis By Medication" // Deals with pharmacy data / Diabetes Medications
 
 define "Diabetes Condition Numerator":
   "Diabetes Condition"
@@ -324,7 +357,7 @@ define "Numerator":
   end
 
 define "Denominator":
-  case ("Initial Population" and "Diabetes Condition Denominator")
+  case ("Initial Population" and "Diabetes Condition Denominator" and not "Diabetes Exclusions")
     when true then 1
     else 0
   end

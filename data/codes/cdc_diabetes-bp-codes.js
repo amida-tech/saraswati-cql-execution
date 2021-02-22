@@ -14905,6 +14905,123 @@ const codes = {
         version: '2021-01'
       }
     ]
+  },
+  '2.16.840.1.113762.1.4.1182.66': {
+    'Patients Age 65 or Older in SNP or Long Term Care': [
+      {
+        code: 'G2081',
+        system: 'HCPCS Level II',
+        version: '2021'
+      },
+      {
+        code: 'G2105',
+        system: 'HCPCS Level II',
+        version: '2021'
+      },
+      {
+        code: 'G2108',
+        system: 'HCPCS Level II',
+        version: '2021'
+      },
+      {
+        code: 'G9898',
+        system: 'HCPCS Level II',
+        version: '2021'
+      },
+      {
+        code: 'G9901',
+        system: 'HCPCS Level II',
+        version: '2021'
+      },
+      {
+        code: 'G9910',
+        system: 'HCPCS Level II',
+        version: '2021'
+      },
+      {
+        code: 'G9938',
+        system: 'HCPCS Level II',
+        version: '2021'
+      }
+    ]
+  },
+  '2.16.840.1.113883.3.666.5.307': {
+    'Encounter Inpatient': [
+      {
+        code: '183452005',
+        system: 'http://snomed.info/sct',
+        version: '2020-09'
+      },
+      {
+        code: '32485007',
+        system: 'http://snomed.info/sct',
+        version: '2020-09'
+      },
+      {
+        code: '8715000',
+        system: 'http://snomed.info/sct',
+        version: '2020-09'
+      }
+    ]
+  },
+  '2.16.840.1.113883.3.464.1003.101.12.1014': {
+    'Care Services in Long-Term Residential Facility': [
+      {
+        code: '209099002',
+        system: 'http://snomed.info/sct',
+        version: '2020-09'
+      },
+      {
+        code: '210098006',
+        system: 'http://snomed.info/sct',
+        version: '2020-09'
+      },
+      {
+        code: '99324',
+        system: 'CPT',
+        version: '2021'
+      },
+      {
+        code: '99325',
+        system: 'CPT',
+        version: '2021'
+      },
+      {
+        code: '99326',
+        system: 'CPT',
+        version: '2021'
+      },
+      {
+        code: '99327',
+        system: 'CPT',
+        version: '2021'
+      },
+      {
+        code: '99328',
+        system: 'CPT',
+        version: '2021'
+      },
+      {
+        code: '99334',
+        system: 'CPT',
+        version: '2021'
+      },
+      {
+        code: '99335',
+        system: 'CPT',
+        version: '2021'
+      },
+      {
+        code: '99336',
+        system: 'CPT',
+        version: '2021'
+      },
+      {
+        code: '99337',
+        system: 'CPT',
+        version: '2021'
+      }
+    ]
   }
 };
 module.exports = codes;

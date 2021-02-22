@@ -7,10 +7,12 @@ codesystem "SNOMED-CT": 'http://snomed.info/sct' version '20200301'
 
 valueset "Acute Inpatient": '2.16.840.1.113762.1.4.1182.120'
 valueset "Advanced Illness": '2.16.840.1.113883.3.464.1003.110.12.1082'
+valueset "Care Services in Long-Term Residential Facility": '2.16.840.1.113883.3.464.1003.101.12.1014'
 valueset "Dementia Medications 1": '2.16.840.1.113883.3.464.1003.196.11.1517'
 valueset "Dementia Medications 2": '2.16.840.1.113883.3.464.1003.196.12.1510'
 valueset "Diabetes": '2.16.840.1.113883.3.464.1003.103.12.1001'
 valueset "ED": '2.16.840.1.113883.3.464.1003.101.12.1085'
+valueset "Encounter Inpatient": '2.16.840.1.113883.3.666.5.307'
 valueset "Frailty Device": '2.16.840.1.113883.3.464.1003.118.12.1300'
 valueset "Frailty Diagnosis": '2.16.840.1.113883.3.464.1003.113.11.1308'
 valueset "Frailty Encounter": '2.16.840.1.113883.3.464.1003.101.12.1088'
@@ -22,12 +24,11 @@ valueset "Nonacute Inpatient Stay": '2.16.840.1.113762.1.4.1182.289'
 valueset "Observation Encounter": '2.16.840.1.113762.1.4.1181.72'
 valueset "Online Assessments": '2.16.840.1.113883.3.7587.3.1013'
 valueset "Outpatient": '2.16.840.1.113883.3.464.1003.101.12.1008'
+valueset "Patients Age 65 or Older in SNP or Long Term Care": '2.16.840.1.113762.1.4.1182.66'
 valueset "Telehealth Modifier": '2.16.840.1.113762.1.4.1138.731'
 valueset "Telehealth POS": '2.16.840.1.113883.3.464.1003.101.11.1155'
 valueset "Telephone Visits": '2.16.840.1.113883.3.1444.5.216'
-valueset "Patients Age 65 or Older in SNP or Long Term Care": '2.16.840.1.113762.1.4.1182.66'
-valueset "Encounter Inpatient": '2.16.840.1.113883.3.666.5.307'
-valueset "Care Services in Long-Term Residential Facility": '2.16.840.1.113883.3.464.1003.101.12.1014'
+
 // The following commented out valuesets are found in the HEDIS specifications,
 // but don't exist in the value set authority or the NIH's database
 // and aren't necessary to calculate the HbA1c value.
