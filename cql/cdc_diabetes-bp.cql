@@ -320,7 +320,7 @@ define "Most Recent BP Reading Date":
   Last([Observation: "Blood pressure"] BP 
     return FHIRHelpers.ToDateTime(Coalesce(BP.effective, BP.effective.start, BP.effective.event))
   )
-
+// Considering only compliant value sets for Diastolic
 define "Qualifying Diastolic Blood Pressure Reading":
 	[Observation: "Blood pressure"] BloodPressure
 	  where BloodPressure.status in {'final', 'amended'}
@@ -332,7 +332,7 @@ define "Qualifying Diastolic Blood Pressure Reading":
             and DiastolicBP.value.unit in {'mm[Hg]', 'mmHg'}
             and DiastolicBP.value.value.value < 90
       )
-
+// Considering only compliant value sets for Systolic
 define "Qualifying Systolic Blood Pressure Reading":
 	[Observation: "Blood pressure"] BloodPressure
 	  where BloodPressure.status in {'final', 'amended'}
