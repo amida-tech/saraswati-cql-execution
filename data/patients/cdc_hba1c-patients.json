@@ -275,6 +275,140 @@
         }
       },
       {
+        "fullUrl": "urn:uuid:hf3a4f19-9f99-6ceb-7dde-4900ae818cop",
+        "resource": {
+          "resourceType": "MedicationDispense",
+          "id": "hf3a4f19-9f99-6ceb-7dde-4900ae818cop",
+          "contained": [
+            {
+              "resourceType": "Medication",
+              "id": "med0305",
+              "code": {
+                "coding": [
+                  {
+                    "code": "1100184",
+                    "system": "RXNORM",
+                    "version": "2021-01"
+                  }
+                ]
+              }
+            }
+          ],
+          "status": "completed",
+          "locationCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "19",
+                "display": "Off Campus-Outpatient Hospital"
+              }
+            ]
+          },
+          "medicationCodeableConcept": {
+            "coding": [
+              {
+                "code": "1100184",
+                "system": "RXNORM",
+                "version": "2021-01"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "urn:uuid:96dcbd62-e4c6-a555-a663-77d08ad3c3b5",
+            "display": "Mr. Young120 Murphy561"
+          },
+          "performer": [
+            {
+              "actor": {
+                "reference": "Practitioner/f006"
+              }
+            }
+          ],
+          "authorizingPrescription": [
+            {
+              "reference": "MedicationRequest/medrx0330"
+            }
+          ],
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "RFP",
+                "display": "Refill - Part Fill"
+              }
+            ]
+          },
+          "quantity": {
+            "value": 10,
+            "unit": "mL",
+            "system": "http://unitsofmeasure.org",
+            "code": "mL"
+          },
+          "daysSupply": {
+            "value": 30,
+            "unit": "Day",
+            "system": "http://unitsofmeasure.org",
+            "code": "d"
+          },
+          "whenPrepared": "2015-06-25T07:13:00+05:00",
+          "whenHandedOver": "2015-06-26T07:13:00+05:00",
+          "dosageInstruction": [
+            {
+              "sequence": 1,
+              "text": "Instil one drop in each eye twice daily",
+              "timing": {
+                "repeat": {
+                  "frequency": 2,
+                  "period": 1,
+                  "periodUnit": "d"
+                }
+              },
+              "route": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "54485002",
+                    "display": "Ophthalmic route (qualifier value)"
+                  }
+                ]
+              },
+              "method": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "421538008",
+                    "display": "Instill - dosing instruction imperative (qualifier value)"
+                  }
+                ]
+              },
+              "doseAndRate": [
+                {
+                  "type": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/dose-rate-type",
+                        "code": "ordered",
+                        "display": "Ordered"
+                      }
+                    ]
+                  },
+                  "doseQuantity": {
+                    "value": 1,
+                    "unit": "OPDROP",
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm",
+                    "code": "OPDROP"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "request": {
+          "method": "POST",
+          "url": "MedicationDispense"
+        }
+      },
+      {
         "fullUrl": "urn:uuid:3594b761-d5e1-f669-515f-d4a6f292acdb",
         "resource": {
           "resourceType": "Encounter",
@@ -2855,6 +2989,120 @@
         }
       },
       {
+        "fullUrl": "urn:uuid:981b42b3-eb5b-7b9c-7bda-97999d594d712",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "981b42b3-eb5b-7b9c-7bda-97999d594d712",
+          "identifier": [
+            {
+              "system": "http://happyvalley.com/claim",
+              "value": "12345"
+            }
+          ],
+          "status": "active",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "oral"
+              }
+            ]
+          },
+          "use": "claim",
+          "patient": {
+            "reference": "urn:uuid:96dcbd62-e4c6-a555-a663-77d08ad3c3b5"
+          },
+          "created": "2014-08-16",
+          "insurer": {
+            "reference": "Organization/2"
+          },
+          "provider": {
+            "reference": "Organization/1"
+          },
+          "priority": {
+            "coding": [
+              {
+                "code": "normal"
+              }
+            ]
+          },
+          "payee": {
+            "type": {
+              "coding": [
+                {
+                  "code": "provider"
+                }
+              ]
+            }
+          },
+          "careTeam": [
+            {
+              "sequence": 1,
+              "provider": {
+                "reference": "Practitioner/example"
+              }
+            }
+          ],
+          "diagnosis": [
+            {
+              "sequence": 1,
+              "diagnosisCodeableConcept": {
+                "text" : "Nonacute Inpatient Stay",
+                "coding": [
+                  {
+                    "code": "112690009",
+                    "system": "http://snomed.info/sct",
+                    "version": "2020-09",
+                    "display": "Nonacute Inpatient Stay"
+                  }
+                ]
+              }
+            }
+          ],
+          "insurance": [
+            {
+              "sequence": 1,
+              "focal": true,
+              "identifier": {
+                "system": "http://happyvalley.com/claim",
+                "value": "12345"
+              },
+              "coverage": {
+                "reference": "Coverage/9876B1"
+              }
+            }
+          ],
+          "item": [
+            {
+              "sequence": 1,
+              "careTeamSequence": [
+                1
+              ],
+              "productOrService": {
+                "coding": [
+                  {
+                    "code": "1200"
+                  }
+                ]
+              },
+              "servicedDate": "2014-08-16",
+              "unitPrice": {
+                "value": 135.57,
+                "currency": "USD"
+              },
+              "net": {
+                "value": 135.57,
+                "currency": "USD"
+              }
+            }
+          ]
+        },
+        "request": {
+          "method": "POST",
+          "url": "Immunization"
+        }
+      },
+      {
         "fullUrl": "urn:uuid:452bcdfa-a6f9-e98d-01b3-0ad1079cb23b",
         "resource": {
           "resourceType": "ExplanationOfBenefit",
@@ -4127,6 +4375,81 @@
         "request": {
           "method": "POST",
           "url": "ExplanationOfBenefit"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:zbc853b3-3488-8f95-34f3-028b9ff82da2",
+        "resource": {
+          "resourceType": "Encounter",
+          "id": ":zbc853b3-3488-8f95-34f3-028b9ff82da2",
+          "status": "finished",
+          "class": {
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            "code": "AMB"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "code": "32485007",
+                  "system": "http://snomed.info/sct",
+                  "version": "2020-09"
+                }
+              ],
+              "text": "Encounter Inpatient"
+            }
+          ],
+          "subject": {
+            "reference": "urn:uuid:96dcbd62-e4c6-a555-a663-77d08ad3c3b5",
+            "display": "Mr. Young120 Murphy561"
+          },
+          "participant": [
+            {
+              "type": [
+                {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                      "code": "PPRF",
+                      "display": "primary performer"
+                    }
+                  ],
+                  "text": "primary performer"
+                }
+              ],
+              "period": {
+                "start": "2019-09-22T19:57:22-04:00",
+                "end": "2019-09-22T20:12:22-04:00"
+              },
+              "individual": {
+                "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe",
+                "display": "Dr. Vanesa40 Cummings51"
+              }
+            }
+          ],
+          "period": {
+            "start": "2019-09-22T19:57:22-04:00",
+            "end": "2019-09-22T20:12:22-04:00"
+          },
+          "hospitalization": {
+            "dischargeDisposition":{
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "417708006",
+                  "display": "Referral to long term care service (procedure)"
+                }
+              ]
+            }
+          },
+          "serviceProvider": {
+            "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
+            "display": "LEXINGTON EYE ASSOCIATES, INC"
+          }
+        },
+        "request": {
+          "method": "POST",
+          "url": "Encounter"
         }
       },
       {
@@ -6893,6 +7216,157 @@
         }
       },
       {
+        "fullUrl": "urn:uuid:1ff13252-9299-44f4-773a-19db01af48v",
+        "resource": {
+          "resourceType": "Task",
+          "id": "1ff13252-9299-44f4-773a-19db01af48v",
+          "contained": [
+            {
+              "resourceType": "Provenance",
+              "id": "signature",
+              "target": [
+                {
+                  "reference": "ServiceRequest/physiotherapy/_history/1"
+                }
+              ],
+              "recorded": "2019-10-31T08:25:05+10:00",
+              "agent": [
+                {
+                  "role": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                          "code": "AUT"
+                        }
+                      ]
+                    }
+                  ],
+                  "who": {
+                    "reference": "Practitioner/f202",
+                    "display": "Luigi Maas"
+                  }
+                }
+              ],
+              "signature": [
+                {
+                  "type": [
+                    {
+                      "system": "urn:iso-astm:E1762-95:2013",
+                      "code": "1.2.840.10065.1.12.1.1",
+                      "display": "Author's Signature"
+                    }
+                  ],
+                  "when": "2019-10-31T08:25:05+10:00",
+                  "who": {
+                    "reference": "Practitioner/example",
+                    "display": "Dr Adam Careful"
+                  },
+                  "targetFormat": "application/fhir+xml",
+                  "sigFormat": "application/signature+xml",
+                  "data": "dGhpcyBibG9iIGlzIHNuaXBwZWQ="
+                }
+              ]
+            }
+          ],
+          "identifier": [
+            {
+              "use": "official",
+              "system": "http:/goodhealth.org/identifiers",
+              "value": "20170201-001"
+            }
+          ],
+          "basedOn": [
+            {
+              "display": "General Wellness Careplan"
+            }
+          ],
+          "groupIdentifier": {
+            "use": "official",
+            "system": "http:/goodhealth.org/accession/identifiers",
+            "value": "G20170201-001"
+          },
+          "status": "in-progress",
+          "businessStatus": {
+            "text": "waiting for specimen"
+          },
+          "intent": "order",
+          "priority": "routine",
+          "code": {
+            "coding": [
+              {
+                "code": "209099002",
+                "system": "http://snomed.info/sct",
+                "version": "2020-09"
+              }
+            ],
+            "text": "Care Services in Long-Term Residential Facility"
+          },
+          "description": "Create order for getting specimen, Set up inhouse testing,  generate order for any sendouts and submit with specimen",
+          "focus": {
+            "reference": "ServiceRequest/lipid",
+            "display": "Lipid Panel Request"
+          },
+          "for": {
+            "reference": "urn:uuid:440487f4-1137-f542-8127-dc98e392d21e",
+            "display": "Mr. Danial835 Brown30"
+          },
+          "encounter": {
+            "reference": "Encounter/example",
+            "display": "Example In-Patient Encounter"
+          },
+          "executionPeriod": {
+            "start": "2019-10-31T08:25:05+10:00"
+          },
+          "authoredOn": "2019-10-31T08:25:05+10:00",
+          "lastModified": "2019-10-31T09:45:05+10:00",
+          "requester": {
+            "reference": "Practitioner/example",
+            "display": "Dr Adam Careful"
+          },
+          "performerType": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/task-performer-type",
+                  "code": "performer",
+                  "display": "Performer"
+                }
+              ],
+              "text": "Performer"
+            }
+          ],
+          "owner": {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Clinical Laboratory @ Acme Hospital"
+          },
+          "reasonCode": {
+            "text": "The Task.reason should only be included if there is no Task.focus or if it differs from the reason indicated on the focus"
+          },
+          "note": [
+            {
+              "text": "This is an example to demonstrate using task for actioning a servicerequest and to illustrate how to populate many of the task elements - this is the parent task that will be broken into subtask to grab the specimen and a sendout lab test "
+            }
+          ],
+          "relevantHistory": [
+            {
+              "reference": "#signature",
+              "display": "Author's Signature"
+            }
+          ],
+          "restriction": {
+            "repetitions": 1,
+            "period": {
+              "end": "2019-11-02T09:45:05+10:00"
+            }
+          }
+        },
+        "request": {
+          "method": "POST",
+          "url": "ExplanationOfBenefit"
+        }
+      },
+      {
         "fullUrl": "urn:uuid:63ec899a-1c00-dfcc-af6c-12f6f2205b31",
         "resource": {
           "resourceType": "CarePlan",
@@ -9362,7 +9836,7 @@
               "code": {
                 "coding": [
                   {
-                    "system": "2.16.840.1.113883.6.96",
+                    "system": "http://snomed.info/sct",
                     "code": "109071007",
                     "display": "Miglitol",
                     "version": "20200301"
@@ -9384,7 +9858,7 @@
           "medicationCodeableConcept": {
             "coding": [
               {
-                "system": "2.16.840.1.113883.6.96",
+                "system": "http://snomed.info/sct",
                 "code": "109071007",
                 "version": "20200301",
                 "display": "Miglitol"

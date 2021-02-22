@@ -14607,6 +14607,421 @@ const codes = {
         version: '2020-09'
       }
     ]
+  },
+  '2.16.840.1.113883.3.464.1003.196.11.1517': {
+    'Dementia Medications 1': [
+      {
+        code: '1100184',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '1308569',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '1858970',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '310436',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '310437',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '312835',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '312836',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '314214',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '314215',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '579148',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '725021',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '725023',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '860695',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '860707',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '860715',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '860901',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996561',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996571',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996572',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996594',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996603',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996609',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996615',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996624',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996740',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '997220',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '997223',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '997226',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '997229',
+        system: 'RXNORM',
+        version: '2021-01'
+      }
+    ]
+  },
+  '2.16.840.1.113883.3.464.1003.196.12.1510': {
+    'Dementia Medications 2': [
+      {
+        code: '1100184',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '1308569',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '1858970',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '310436',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '310437',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '312835',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '312836',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '314214',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '314215',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '579148',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '725021',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '725023',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '860695',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '860707',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '860715',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '860901',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996561',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996571',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996572',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996594',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996603',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996609',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996615',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996624',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '996740',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '997220',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '997223',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '997226',
+        system: 'RXNORM',
+        version: '2021-01'
+      },
+      {
+        code: '997229',
+        system: 'RXNORM',
+        version: '2021-01'
+      }
+    ]
+  },
+  '2.16.840.1.113762.1.4.1182.66': {
+    'Patients Age 65 or Older in SNP or Long Term Care': [
+      {
+        code: 'G2081',
+        system: 'HCPCS Level II',
+        version: '2021'
+      },
+      {
+        code: 'G2105',
+        system: 'HCPCS Level II',
+        version: '2021'
+      },
+      {
+        code: 'G2108',
+        system: 'HCPCS Level II',
+        version: '2021'
+      },
+      {
+        code: 'G9898',
+        system: 'HCPCS Level II',
+        version: '2021'
+      },
+      {
+        code: 'G9901',
+        system: 'HCPCS Level II',
+        version: '2021'
+      },
+      {
+        code: 'G9910',
+        system: 'HCPCS Level II',
+        version: '2021'
+      },
+      {
+        code: 'G9938',
+        system: 'HCPCS Level II',
+        version: '2021'
+      }
+    ]
+  },
+  '2.16.840.1.113883.3.666.5.307': {
+    'Encounter Inpatient': [
+      {
+        code: '183452005',
+        system: 'http://snomed.info/sct',
+        version: '2020-09'
+      },
+      {
+        code: '32485007',
+        system: 'http://snomed.info/sct',
+        version: '2020-09'
+      },
+      {
+        code: '8715000',
+        system: 'http://snomed.info/sct',
+        version: '2020-09'
+      }
+    ]
+  },
+  '2.16.840.1.113883.3.464.1003.101.12.1014': {
+    'Care Services in Long-Term Residential Facility': [
+      {
+        code: '209099002',
+        system: 'http://snomed.info/sct',
+        version: '2020-09'
+      },
+      {
+        code: '210098006',
+        system: 'http://snomed.info/sct',
+        version: '2020-09'
+      },
+      {
+        code: '99324',
+        system: 'CPT',
+        version: '2021'
+      },
+      {
+        code: '99325',
+        system: 'CPT',
+        version: '2021'
+      },
+      {
+        code: '99326',
+        system: 'CPT',
+        version: '2021'
+      },
+      {
+        code: '99327',
+        system: 'CPT',
+        version: '2021'
+      },
+      {
+        code: '99328',
+        system: 'CPT',
+        version: '2021'
+      },
+      {
+        code: '99334',
+        system: 'CPT',
+        version: '2021'
+      },
+      {
+        code: '99335',
+        system: 'CPT',
+        version: '2021'
+      },
+      {
+        code: '99336',
+        system: 'CPT',
+        version: '2021'
+      },
+      {
+        code: '99337',
+        system: 'CPT',
+        version: '2021'
+      }
+    ]
   }
 };
 module.exports = codes;
