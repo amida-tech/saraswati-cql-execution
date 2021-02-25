@@ -7,3 +7,5 @@ node_modules
 coverage
 *.original.coffee
 yarn-error.log
+exec-files/results.json
+exec-files/*.jsonl
