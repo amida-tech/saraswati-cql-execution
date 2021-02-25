@@ -835,106 +835,15 @@
                }
             }
          }, {
-            "name" : "DTaP Exclusions",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "DPaTExclusions",
-                  "expression" : {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "dataType" : "{http://hl7.org/fhir}Condition",
-                        "codeProperty" : "code",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Anaphylactic Reaction to DTaP Vaccine",
-                           "type" : "ValueSetRef"
-                        }
-                     }, {
-                        "dataType" : "{http://hl7.org/fhir}Condition",
-                        "codeProperty" : "code",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Encephalopathy due to Childhood Vaccination",
-                           "type" : "ValueSetRef"
-                        }
-                     } ]
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "LessOrEqual",
-                  "operand" : [ {
-                     "precision" : "Day",
-                     "type" : "CalculateAgeAt",
-                     "operand" : [ {
-                        "type" : "ToDateTime",
-                        "operand" : {
-                           "path" : "birthDate.value",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "Patient",
-                              "type" : "ExpressionRef"
-                           }
-                        }
-                     }, {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "type" : "Coalesce",
-                           "operand" : [ {
-                              "path" : "start",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "onset",
-                                 "scope" : "DPaTExclusions",
-                                 "type" : "Property"
-                              }
-                           }, {
-                              "asType" : "{http://hl7.org/fhir}dateTime",
-                              "type" : "As",
-                              "operand" : {
-                                 "path" : "onset",
-                                 "scope" : "DPaTExclusions",
-                                 "type" : "Property"
-                              }
-                           } ]
-                        } ]
-                     } ]
-                  }, {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "730",
-                     "type" : "Literal"
-                  } ]
-               }
-            }
-         }, {
             "name" : "DTaP Criteria Met",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "And",
-               "operand" : [ {
-                  "type" : "Exists",
-                  "operand" : {
-                     "name" : "DTaP Vaccinations",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "type" : "Not",
-                  "operand" : {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "DTaP Exclusions",
-                        "type" : "ExpressionRef"
-                     }
-                  }
-               } ]
+               "type" : "Exists",
+               "operand" : {
+                  "name" : "DTaP Vaccinations",
+                  "type" : "ExpressionRef"
+               }
             }
          }, {
             "name" : "Hepatitis A Vaccinations",
@@ -1279,48 +1188,22 @@
                }
             }
          }, {
-            "name" : "Hepatitis A Exclusions",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "dataType" : "{http://hl7.org/fhir}Condition",
-               "codeProperty" : "code",
-               "codeComparator" : "in",
-               "type" : "Retrieve",
-               "codes" : {
-                  "name" : "Anaphylactic Reaction to Hepatitis A Vaccine",
-                  "type" : "ValueSetRef"
-               }
-            }
-         }, {
             "name" : "Hepatitis A Criteria Met",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "And",
+               "type" : "Or",
                "operand" : [ {
-                  "type" : "Or",
-                  "operand" : [ {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "Hepatitis A Vaccinations",
-                        "type" : "ExpressionRef"
-                     }
-                  }, {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "Numerator Compliant Hepatitis A Conditions",
-                        "type" : "ExpressionRef"
-                     }
-                  } ]
-               }, {
-                  "type" : "Not",
+                  "type" : "Exists",
                   "operand" : {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "Hepatitis A Exclusions",
-                        "type" : "ExpressionRef"
-                     }
+                     "name" : "Hepatitis A Vaccinations",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "Numerator Compliant Hepatitis A Conditions",
+                     "type" : "ExpressionRef"
                   }
                } ]
             }
@@ -1704,101 +1587,22 @@
                }
             }
          }, {
-            "name" : "Hepatitis B Exclusions",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "HepBExclusions",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Condition",
-                     "codeProperty" : "code",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Anaphylactic Reaction to Hepatitis B Vaccine",
-                        "type" : "ValueSetRef"
-                     }
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "LessOrEqual",
-                  "operand" : [ {
-                     "precision" : "Day",
-                     "type" : "CalculateAgeAt",
-                     "operand" : [ {
-                        "type" : "ToDateTime",
-                        "operand" : {
-                           "path" : "birthDate.value",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "Patient",
-                              "type" : "ExpressionRef"
-                           }
-                        }
-                     }, {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "type" : "Coalesce",
-                           "operand" : [ {
-                              "path" : "start",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "onset",
-                                 "scope" : "HepBExclusions",
-                                 "type" : "Property"
-                              }
-                           }, {
-                              "asType" : "{http://hl7.org/fhir}dateTime",
-                              "type" : "As",
-                              "operand" : {
-                                 "path" : "onset",
-                                 "scope" : "HepBExclusions",
-                                 "type" : "Property"
-                              }
-                           } ]
-                        } ]
-                     } ]
-                  }, {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "730",
-                     "type" : "Literal"
-                  } ]
-               }
-            }
-         }, {
             "name" : "Hepatitis B Criteria Met",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "And",
+               "type" : "Or",
                "operand" : [ {
-                  "type" : "Or",
-                  "operand" : [ {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "Hepatitis B Vaccinations",
-                        "type" : "ExpressionRef"
-                     }
-                  }, {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "Numerator Compliant Hepatitis B Conditions",
-                        "type" : "ExpressionRef"
-                     }
-                  } ]
-               }, {
-                  "type" : "Not",
+                  "type" : "Exists",
                   "operand" : {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "Hepatitis B Exclusions",
-                        "type" : "ExpressionRef"
-                     }
+                     "name" : "Hepatitis B Vaccinations",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "Numerator Compliant Hepatitis B Conditions",
+                     "type" : "ExpressionRef"
                   }
                } ]
             }
@@ -2078,94 +1882,15 @@
                }
             }
          }, {
-            "name" : "HIB Exclusions",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "HIBReaction",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Condition",
-                     "codeProperty" : "code",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Anaphylactic Reaction to Hemophilus Influenza B (HiB) Vaccine",
-                        "type" : "ValueSetRef"
-                     }
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "LessOrEqual",
-                  "operand" : [ {
-                     "precision" : "Day",
-                     "type" : "CalculateAgeAt",
-                     "operand" : [ {
-                        "type" : "ToDateTime",
-                        "operand" : {
-                           "path" : "birthDate.value",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "Patient",
-                              "type" : "ExpressionRef"
-                           }
-                        }
-                     }, {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "type" : "Coalesce",
-                           "operand" : [ {
-                              "path" : "start",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "onset",
-                                 "scope" : "HIBReaction",
-                                 "type" : "Property"
-                              }
-                           }, {
-                              "asType" : "{http://hl7.org/fhir}dateTime",
-                              "type" : "As",
-                              "operand" : {
-                                 "path" : "onset",
-                                 "scope" : "HIBReaction",
-                                 "type" : "Property"
-                              }
-                           } ]
-                        } ]
-                     } ]
-                  }, {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "730",
-                     "type" : "Literal"
-                  } ]
-               }
-            }
-         }, {
             "name" : "HIB Criteria Met",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "And",
-               "operand" : [ {
-                  "type" : "Exists",
-                  "operand" : {
-                     "name" : "HIB Vaccinations",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "type" : "Not",
-                  "operand" : {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "HIB Exclusions",
-                        "type" : "ExpressionRef"
-                     }
-                  }
-               } ]
+               "type" : "Exists",
+               "operand" : {
+                  "name" : "HIB Vaccinations",
+                  "type" : "ExpressionRef"
+               }
             }
          }, {
             "name" : "Influenza Immunizations or Procedures",
@@ -2501,142 +2226,15 @@
                }
             }
          }, {
-            "name" : "MMR, VZV and Influenza Exclusions",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "InfluenzaConditions",
-                  "expression" : {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "type" : "Union",
-                        "operand" : [ {
-                           "type" : "Union",
-                           "operand" : [ {
-                              "dataType" : "{http://hl7.org/fhir}Condition",
-                              "codeProperty" : "code",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Anaphylactic Reaction to Influenza Vaccine",
-                                 "type" : "ValueSetRef"
-                              }
-                           }, {
-                              "dataType" : "{http://hl7.org/fhir}Condition",
-                              "codeProperty" : "code",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Malignant Neoplasm of Lymphatic Tissue",
-                                 "type" : "ValueSetRef"
-                              }
-                           } ]
-                        }, {
-                           "type" : "Union",
-                           "operand" : [ {
-                              "dataType" : "{http://hl7.org/fhir}Condition",
-                              "codeProperty" : "code",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Anaphylactic Reaction to Neomycin",
-                                 "type" : "ValueSetRef"
-                              }
-                           }, {
-                              "dataType" : "{http://hl7.org/fhir}Condition",
-                              "codeProperty" : "code",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "HIV",
-                                 "type" : "ValueSetRef"
-                              }
-                           } ]
-                        } ]
-                     }, {
-                        "dataType" : "{http://hl7.org/fhir}Condition",
-                        "codeProperty" : "code",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Disorders of the Immune System",
-                           "type" : "ValueSetRef"
-                        }
-                     } ]
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "LessOrEqual",
-                  "operand" : [ {
-                     "precision" : "Day",
-                     "type" : "CalculateAgeAt",
-                     "operand" : [ {
-                        "type" : "ToDateTime",
-                        "operand" : {
-                           "path" : "birthDate.value",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "Patient",
-                              "type" : "ExpressionRef"
-                           }
-                        }
-                     }, {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "type" : "Coalesce",
-                           "operand" : [ {
-                              "path" : "start",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "onset",
-                                 "scope" : "InfluenzaConditions",
-                                 "type" : "Property"
-                              }
-                           }, {
-                              "asType" : "{http://hl7.org/fhir}dateTime",
-                              "type" : "As",
-                              "operand" : {
-                                 "path" : "onset",
-                                 "scope" : "InfluenzaConditions",
-                                 "type" : "Property"
-                              }
-                           } ]
-                        } ]
-                     } ]
-                  }, {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "730",
-                     "type" : "Literal"
-                  } ]
-               }
-            }
-         }, {
             "name" : "Influenza Criteria Met",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "And",
-               "operand" : [ {
-                  "type" : "Exists",
-                  "operand" : {
-                     "name" : "Influenza Vaccinations",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "type" : "Not",
-                  "operand" : {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "MMR, VZV and Influenza Exclusions",
-                        "type" : "ExpressionRef"
-                     }
-                  }
-               } ]
+               "type" : "Exists",
+               "operand" : {
+                  "name" : "Influenza Vaccinations",
+                  "type" : "ExpressionRef"
+               }
             }
          }, {
             "name" : "IPV Immunizations or Procedures",
@@ -2951,130 +2549,15 @@
                }
             }
          }, {
-            "name" : "IPV Exclusions",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "IPVConditions",
-                  "expression" : {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "type" : "Union",
-                        "operand" : [ {
-                           "dataType" : "{http://hl7.org/fhir}Condition",
-                           "codeProperty" : "code",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Anaphylactic Reaction to Inactivated Polio Vaccine (IPV)",
-                              "type" : "ValueSetRef"
-                           }
-                        }, {
-                           "dataType" : "{http://hl7.org/fhir}Condition",
-                           "codeProperty" : "code",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Anaphylactic Reaction to Streptomycin",
-                              "type" : "ValueSetRef"
-                           }
-                        } ]
-                     }, {
-                        "type" : "Union",
-                        "operand" : [ {
-                           "dataType" : "{http://hl7.org/fhir}Condition",
-                           "codeProperty" : "code",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Anaphylactic Reaction to Polymyxin",
-                              "type" : "ValueSetRef"
-                           }
-                        }, {
-                           "dataType" : "{http://hl7.org/fhir}Condition",
-                           "codeProperty" : "code",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Anaphylactic Reaction to Neomycin",
-                              "type" : "ValueSetRef"
-                           }
-                        } ]
-                     } ]
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "LessOrEqual",
-                  "operand" : [ {
-                     "precision" : "Day",
-                     "type" : "CalculateAgeAt",
-                     "operand" : [ {
-                        "type" : "ToDateTime",
-                        "operand" : {
-                           "path" : "birthDate.value",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "Patient",
-                              "type" : "ExpressionRef"
-                           }
-                        }
-                     }, {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "type" : "Coalesce",
-                           "operand" : [ {
-                              "path" : "start",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "onset",
-                                 "scope" : "IPVConditions",
-                                 "type" : "Property"
-                              }
-                           }, {
-                              "asType" : "{http://hl7.org/fhir}dateTime",
-                              "type" : "As",
-                              "operand" : {
-                                 "path" : "onset",
-                                 "scope" : "IPVConditions",
-                                 "type" : "Property"
-                              }
-                           } ]
-                        } ]
-                     } ]
-                  }, {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "730",
-                     "type" : "Literal"
-                  } ]
-               }
-            }
-         }, {
             "name" : "IPV Criteria Met",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "And",
-               "operand" : [ {
-                  "type" : "Exists",
-                  "operand" : {
-                     "name" : "IPV Vaccinations",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "type" : "Not",
-                  "operand" : {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "IPV Exclusions",
-                        "type" : "ExpressionRef"
-                     }
-                  }
-               } ]
+               "type" : "Exists",
+               "operand" : {
+                  "name" : "IPV Vaccinations",
+                  "type" : "ExpressionRef"
+               }
             }
          }, {
             "name" : "Measles Indicators",
@@ -4062,35 +3545,23 @@
                   "operand" : [ {
                      "type" : "And",
                      "operand" : [ {
-                        "type" : "And",
-                        "operand" : [ {
-                           "type" : "Exists",
-                           "operand" : {
-                              "name" : "Measles Indicators",
-                              "type" : "ExpressionRef"
-                           }
-                        }, {
-                           "type" : "Exists",
-                           "operand" : {
-                              "name" : "Mumps Indicators",
-                              "type" : "ExpressionRef"
-                           }
-                        } ]
+                        "type" : "Exists",
+                        "operand" : {
+                           "name" : "Measles Indicators",
+                           "type" : "ExpressionRef"
+                        }
                      }, {
                         "type" : "Exists",
                         "operand" : {
-                           "name" : "Rubella Indicators",
+                           "name" : "Mumps Indicators",
                            "type" : "ExpressionRef"
                         }
                      } ]
                   }, {
-                     "type" : "Not",
+                     "type" : "Exists",
                      "operand" : {
-                        "type" : "Exists",
-                        "operand" : {
-                           "name" : "MMR, VZV and Influenza Exclusions",
-                           "type" : "ExpressionRef"
-                        }
+                        "name" : "Rubella Indicators",
+                        "type" : "ExpressionRef"
                      }
                   } ]
                } ]
@@ -4475,94 +3946,15 @@
                }
             }
          }, {
-            "name" : "Pneumococcal Conjugate Exclusions",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "PCVReaction",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Condition",
-                     "codeProperty" : "code",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Anaphylactic Reaction to Pneumococcal Conjugate Vaccine",
-                        "type" : "ValueSetRef"
-                     }
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "LessOrEqual",
-                  "operand" : [ {
-                     "precision" : "Day",
-                     "type" : "CalculateAgeAt",
-                     "operand" : [ {
-                        "type" : "ToDateTime",
-                        "operand" : {
-                           "path" : "birthDate.value",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "Patient",
-                              "type" : "ExpressionRef"
-                           }
-                        }
-                     }, {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "type" : "Coalesce",
-                           "operand" : [ {
-                              "path" : "start",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "onset",
-                                 "scope" : "PCVReaction",
-                                 "type" : "Property"
-                              }
-                           }, {
-                              "asType" : "{http://hl7.org/fhir}dateTime",
-                              "type" : "As",
-                              "operand" : {
-                                 "path" : "onset",
-                                 "scope" : "PCVReaction",
-                                 "type" : "Property"
-                              }
-                           } ]
-                        } ]
-                     } ]
-                  }, {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "730",
-                     "type" : "Literal"
-                  } ]
-               }
-            }
-         }, {
             "name" : "Pneumococcal Conjugate Criteria Met",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "And",
-               "operand" : [ {
-                  "type" : "Exists",
-                  "operand" : {
-                     "name" : "Pneumococcal Conjugate Vaccinations",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "type" : "Not",
-                  "operand" : {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "Pneumococcal Conjugate Exclusions",
-                        "type" : "ExpressionRef"
-                     }
-                  }
-               } ]
+               "type" : "Exists",
+               "operand" : {
+                  "name" : "Pneumococcal Conjugate Vaccinations",
+                  "type" : "ExpressionRef"
+               }
             }
          }, {
             "name" : "Qualifying Encounter",
@@ -5686,134 +5078,31 @@
                }
             }
          }, {
-            "name" : "Rotavirus Exclusions",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "RotavirusConditions",
-                  "expression" : {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "type" : "Union",
-                        "operand" : [ {
-                           "dataType" : "{http://hl7.org/fhir}Condition",
-                           "codeProperty" : "code",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Anaphylactic Reaction to Rotavirus Vaccine",
-                              "type" : "ValueSetRef"
-                           }
-                        }, {
-                           "dataType" : "{http://hl7.org/fhir}Condition",
-                           "codeProperty" : "code",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Severe Combined Immunodeficiency",
-                              "type" : "ValueSetRef"
-                           }
-                        } ]
-                     }, {
-                        "dataType" : "{http://hl7.org/fhir}Condition",
-                        "codeProperty" : "code",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Intussusception",
-                           "type" : "ValueSetRef"
-                        }
-                     } ]
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "LessOrEqual",
-                  "operand" : [ {
-                     "precision" : "Day",
-                     "type" : "CalculateAgeAt",
-                     "operand" : [ {
-                        "type" : "ToDateTime",
-                        "operand" : {
-                           "path" : "birthDate.value",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "Patient",
-                              "type" : "ExpressionRef"
-                           }
-                        }
-                     }, {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "type" : "Coalesce",
-                           "operand" : [ {
-                              "path" : "start",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "onset",
-                                 "scope" : "RotavirusConditions",
-                                 "type" : "Property"
-                              }
-                           }, {
-                              "asType" : "{http://hl7.org/fhir}dateTime",
-                              "type" : "As",
-                              "operand" : {
-                                 "path" : "onset",
-                                 "scope" : "RotavirusConditions",
-                                 "type" : "Property"
-                              }
-                           } ]
-                        } ]
-                     } ]
-                  }, {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "730",
-                     "type" : "Literal"
-                  } ]
-               }
-            }
-         }, {
             "name" : "Rotavirus Criteria Met",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "And",
+               "type" : "Or",
                "operand" : [ {
                   "type" : "Or",
                   "operand" : [ {
-                     "type" : "Or",
-                     "operand" : [ {
-                        "type" : "Exists",
-                        "operand" : {
-                           "name" : "Rotavirus 2 Dose Vaccinations",
-                           "type" : "ExpressionRef"
-                        }
-                     }, {
-                        "type" : "Exists",
-                        "operand" : {
-                           "name" : "Rotavirus 2 or 3 Dose Vaccinations",
-                           "type" : "ExpressionRef"
-                        }
-                     } ]
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Rotavirus 2 Dose Vaccinations",
+                        "type" : "ExpressionRef"
+                     }
                   }, {
                      "type" : "Exists",
                      "operand" : {
-                        "name" : "Rotavirus 3 Dose Vaccinations",
+                        "name" : "Rotavirus 2 or 3 Dose Vaccinations",
                         "type" : "ExpressionRef"
                      }
                   } ]
                }, {
-                  "type" : "Not",
+                  "type" : "Exists",
                   "operand" : {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "Rotavirus Exclusions",
-                        "type" : "ExpressionRef"
-                     }
+                     "name" : "Rotavirus 3 Dose Vaccinations",
+                     "type" : "ExpressionRef"
                   }
                } ]
             }
@@ -6097,23 +5386,11 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "And",
-               "operand" : [ {
-                  "type" : "Exists",
-                  "operand" : {
-                     "name" : "VZV Vaccinations",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "type" : "Not",
-                  "operand" : {
-                     "type" : "Exists",
-                     "operand" : {
-                        "name" : "MMR, VZV and Influenza Exclusions",
-                        "type" : "ExpressionRef"
-                     }
-                  }
-               } ]
+               "type" : "Exists",
+               "operand" : {
+                  "name" : "VZV Vaccinations",
+                  "type" : "ExpressionRef"
+               }
             }
          }, {
             "name" : "Numerator",
