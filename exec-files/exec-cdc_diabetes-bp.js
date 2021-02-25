@@ -1,10 +1,10 @@
 const cql = require('../src/cql');
 const codes = require('../src/cql-code-service');
-const codeservice = require('../data/codes/cdc_hba1c-codes');
+const codeservice = require('../data/codes/cdc_diabetes-bp-codes');
 const cqlfhir = require('cql-exec-fhir');
 const fhirhelpers = require('../json-elm/FHIRHelpers.json');
-const measure = require('../json-elm/cdc_hba1c-lessThanEight.json');
-const patients = require('../data/patients/cdc_hba1c-patients.json');
+const measure = require('../json-elm/cdc_diabetes-bp.json');
+const patients = require('../data/patients/cdc_diabetes-bp-patients.json');
 
 const includedLibs = {
   FHIRHelpers: fhirhelpers
@@ -25,4 +25,4 @@ const patientSource = cqlfhir.PatientSource.FHIRv400();
 patientSource.loadBundles(patients);
 
 const result = executor.exec(patientSource);
-console.log(result); // eslint-disable-line no-console
+console.log(result);

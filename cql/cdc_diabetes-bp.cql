@@ -1,9 +1,10 @@
-library cdc_hba1c_lessThanEight version '1'
+library cdc_bp_lessThanOneHundredAndFortyOverNinety version '1'
 
 using FHIR version '4.0.0'
 include FHIRHelpers version '4.0.0' called FHIRHelpers
 
-codesystem "SNOMED-CT": 'http://snomed.info/sct' version '20200301'
+codesystem "SNOMED-CT": '2.16.840.1.113883.6.96' version '20200301'
+codesystem "LOINC": 'http://loinc.org'
 
 valueset "Acute Inpatient": '2.16.840.1.113762.1.4.1182.120'
 valueset "Advanced Illness": '2.16.840.1.113883.3.464.1003.110.12.1082'
@@ -11,6 +12,9 @@ valueset "Care Services in Long-Term Residential Facility": '2.16.840.1.113883.3
 valueset "Dementia Medications 1": '2.16.840.1.113883.3.464.1003.196.11.1517'
 valueset "Dementia Medications 2": '2.16.840.1.113883.3.464.1003.196.12.1510'
 valueset "Diabetes": '2.16.840.1.113883.3.464.1003.103.12.1001'
+valueset "Diastolic BP": '2.16.840.1.113762.1.4.1116.409'
+valueset "Diastolic Greater Than Or Equal To 90": '2.16.840.1.113762.1.4.1182.78'
+valueset "Diastolic Less Than 80": '2.16.840.1.113762.1.4.1182.79'
 valueset "ED": '2.16.840.1.113883.3.464.1003.101.12.1085'
 valueset "Encounter Inpatient": '2.16.840.1.113883.3.666.5.307'
 valueset "Frailty Device": '2.16.840.1.113883.3.464.1003.118.12.1300'
@@ -25,6 +29,8 @@ valueset "Observation Encounter": '2.16.840.1.113762.1.4.1181.72'
 valueset "Online Assessments": '2.16.840.1.113883.3.7587.3.1013'
 valueset "Outpatient": '2.16.840.1.113883.3.464.1003.101.12.1008'
 valueset "Patients Age 65 or Older in SNP or Long Term Care": '2.16.840.1.113762.1.4.1182.66'
+valueset "Systolic Greater Than Or Equal To 140": '2.16.840.1.113762.1.4.1182.84'
+valueset "Systolic Less Than 140": '2.16.840.1.113762.1.4.1182.85'
 valueset "Telehealth Modifier": '2.16.840.1.113762.1.4.1138.731'
 valueset "Telehealth POS": '2.16.840.1.113883.3.464.1003.101.11.1155'
 valueset "Telephone Visits": '2.16.840.1.113883.3.1444.5.216'
@@ -34,14 +40,19 @@ valueset "Telephone Visits": '2.16.840.1.113883.3.1444.5.216'
 // and aren't necessary to calculate the HbA1c value.
 // Just using the HbA1c Lab Value does the same thing
 /*
-valueset "HbA1c Level Less Than 7.0": '2.16.840.1.113883.3.464.1004.1115'
-valueset "HbA1c Level Greater Than or Equal to 7.0 and Less Than 8.0": '2.16.840.1.113883.3.464.1004.1976'
+valueset "Remote Blood Pressure Monitoring": ''
+valueset "Hospice Encounter": ''
 valueset "Hospice Encounter": '2.16.840.1.113883.3.464.1004.1761'
 valueset "Hospice Intervention": '2.16.840.1.113762.1.4.1182.2'
 */
-code "Acarbose": '386965004' from "SNOMED-CT" display 'Acarbose'
-code "Miglitol": '109071007' from "SNOMED-CT" display 'Miglitol'
-code "Insulin Aspart": '325072002' from "SNOMED-CT" display 'Insulin Aspart'
+code "Blood pressure": '85354-9' from "LOINC" display 'blood pressure'
+code "Diastolic blood pressure": '8462-4' from "LOINC" display 'Diastolic blood pressure'
+code "Systolic blood pressure": '8480-6' from "LOINC" display 'Systolic blood pressure'
+
+code "Acarbose": '386965004' from "SNOMED-CT"
+code "Miglitol": '109071007' from "SNOMED-CT"
+code "Insulin Aspart": '325072002' from "SNOMED-CT"
+
 concept "Diabetes Medication": {
   "Acarbose",
   "Miglitol",
@@ -297,12 +308,50 @@ define "Diabetes Condition Denominator":
   "Diabetes Condition"
     and "Diabetes Diagnosis By Medication"
 
-define "HbA1c < 8":
-  exists(Last([Observation: "HbA1c Lab Test"] O
-    where O.value.value.value > 8 and Coalesce(O.effective, O.effective.start) during MeasurementPeriod))
+define "Correct Context For BP Reading":
+  exists([Encounter: "Outpatient"] O
+    where O.period during MeasurementPeriod)
+    or exists([Encounter: "Nonacute Inpatient Stay"] E
+      where E.period during MeasurementPeriod)
+      // or [Encounter: "Remote Blood Pressure Monitoring"] R
+        // where R.period during MeasurementPeriod
+
+define "Most Recent BP Reading Date":
+  Last([Observation: "Blood pressure"] BP 
+    return FHIRHelpers.ToDateTime(Coalesce(BP.effective, BP.effective.start, BP.effective.event))
+  )
+// Considering only compliant value sets for Diastolic
+define "Qualifying Diastolic Blood Pressure Reading":
+	[Observation: "Blood pressure"] BloodPressure
+	  where BloodPressure.status in {'final', 'amended'}
+      and FHIRHelpers.ToDateTime(Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event)) same day as "Most Recent BP Reading Date"
+      and Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event) during "MeasurementPeriod"
+      and exists (
+        BloodPressure.component DiastolicBP
+          where FHIRHelpers.ToConcept(DiastolicBP.code) ~ "Diastolic blood pressure"
+            and DiastolicBP.value.unit in {'mm[Hg]', 'mmHg'}
+            and DiastolicBP.value.value.value < 90
+      )
+// Considering only compliant value sets for Systolic
+define "Qualifying Systolic Blood Pressure Reading":
+	[Observation: "Blood pressure"] BloodPressure
+	  where BloodPressure.status in {'final', 'amended'}
+      and FHIRHelpers.ToDateTime(Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event)) same day as "Most Recent BP Reading Date"
+      and Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event) during "MeasurementPeriod"
+      and exists (
+        BloodPressure.component SystolicBP
+          where FHIRHelpers.ToConcept(SystolicBP.code) ~ "Systolic blood pressure"
+            and SystolicBP.value.unit in {'mm[Hg]', 'mmHg'}
+            and SystolicBP.value.value.value < 140
+      )
+
+define "BP < 140/90 mm Hg":
+  "Correct Context For BP Reading"
+  and exists("Qualifying Diastolic Blood Pressure Reading")
+  and exists("Qualifying Systolic Blood Pressure Reading")
 
 define "Numerator":
-  case ("HbA1c < 8" and "Diabetes Condition Numerator" and "Initial Population" and not "Diabetes Exclusions")
+  case ("BP < 140/90 mm Hg" and "Diabetes Condition Numerator" and "Initial Population" and not "Diabetes Exclusions")
     when true then 1
     else 0
   end
