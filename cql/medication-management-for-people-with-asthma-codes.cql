@@ -1,4 +1,4 @@
-library EXM126_QDM version '4'
+library medication_management_for_people_with_asthma version '1'
 
 /*
 This example is a work in progress and should not be considered a final specification
@@ -7,7 +7,8 @@ of finding conventions and usage patterns that meet the needs of the various sta
 in the measure development community.
 */
 
-using QDM
+using FHIR version '4.0.0'
+include FHIRHelpers version '4.0.0' called FHIRHelpers
 
 valueset "Acute Respiratory Failure": '2.16.840.1.113883.3.464.1003.102.12.1018'
 valueset "Chronic Obstructive Pulmonary Disease": '2.16.840.1.113883.3.464.1003.102.12.1007'
@@ -27,38 +28,28 @@ parameter MeasurementPeriod Interval<DateTime>
 
 context Patient
 
-define AcuteRespiratoryFailureDiagnoses: ["Diagnosis, Active": "Acute Respiratory Failure"]
-define ChronicObstructivePulmonaryDiseaseDiagnoses: ["Diagnosis, Active": "Chronic Obstructive Pulmonary Disease"]
-define CysticFibrosisDiagnoses: ["Diagnosis, Active": "Cystic Fibrosis"]
-define EmphysemaDiagnoses: ["Diagnosis, Active": "Emphysema"]
-define PersistentAsthmaDiagnoses: ["Diagnosis, Active": "Persistent Asthma"]
-define FaceToFaceEncounter: ["Encounter, Performed": "Face-to-Face Interaction"]
-define HomeHealthcareEncounter: ["Encounter, Performed": "Home Healthcare Services"]
-define OfficeVisitEncounter: ["Encounter, Performed": "Office Visit"]
-define EstablishedPreventiveCareForMinorEncounter: ["Encounter, Performed": "Preventive Care - Established Office Visit, 0 to 17"]
-define EstablishedPreventiveCareForAdultEncounter: ["Encounter, Performed": "Preventive Care Services - Established Office Visit, 18 and Up"]
-define InitialPreventiveCareForAdultEncounter: ["Encounter, Performed": "Preventive Care Services-Initial Office Visit, 18 and Up"]
-define InitialPreventiveCareForMinorEncounter: ["Encounter, Performed": "Preventive Care- Initial Office Visit, 0 to 17"]
-define PreferredAsthmaTherapy: ["Medication, Dispensed": "Preferred Asthma Therapy"]
 
 define InDemographic:
 	AgeInYearsAt(start of MeasurementPeriod) >= 5
     and AgeInYearsAt(start of MeasurementPeriod) < 64
 
 define ActivePersistentAsthmaDiagnosis:
-  PersistentAsthmaDiagnoses A where Interval[A."start datetime", A."stop datetime"] overlaps MeasurementPeriod
+  [Condition: "Persistent Asthma"] A 
+    where Interval[A.onset, A.abatement] overlaps MeasurementPeriod
 
 define ValidEncounters:
-  OfficeVisitEncounter
-		union HomeHealthcareEncounter
-		union FaceToFaceEncounter
-		union EstablishedPreventiveCareForMinorEncounter
-		union EstablishedPreventiveCareForAdultEncounter
-		union InitialPreventiveCareForAdultEncounter
-    union InitialPreventiveCareForMinorEncounter
+  ([Encounter: "Office Visit"]
+		union [Encounter: "Home Healthcare Services"]
+		union [Encounter: "Face-to-Face Interaction"]
+		union [Encounter: "Preventive Care - Established Office Visit, 0 to 17"]
+		union [Encounter: "Preventive Care Services - Established Office Visit, 18 and Up"]
+		union [Encounter: "Preventive Care Services-Initial Office Visit, 18 and Up"]
+    union [Encounter: "Preventive Care- Initial Office Visit, 0 to 17"]) QualifyingEncounter
+    where QualifyingEncounter.period during MeasurementPeriod
+
 
 define EncountersDuringMeasurementPeriod:
-	ValidEncounters E where Interval[E."start datetime", E."stop datetime"] during MeasurementPeriod
+	ValidEncounters E where Interval[E.period.start, E.period.end] during MeasurementPeriod
 
 define InitialPopulation:
   InDemographic
@@ -69,19 +60,19 @@ define Denominator:
   InitialPopulation
 
 define ActiveDiagnoses:
-  ChronicObstructivePulmonaryDiseaseDiagnoses
-    union EmphysemaDiagnoses
-    union CysticFibrosisDiagnoses
-    union AcuteRespiratoryFailureDiagnoses
+  [Condition: "Chronic Obstructive Pulmonary Disease"]
+    union [Condition: "Emphysema"]
+    union [Condition: "Cystic Fibrosis"]
+    union [Condition: "Acute Respiratory Failure"]
 
 define ActiveDiagnosesDuringMeasurementPeriod:
-  ActiveDiagnoses D where Interval[D."start datetime", D."stop datetime"] overlaps MeasurementPeriod
+  ActiveDiagnoses D where Interval[D.onset, D.abatement] overlaps MeasurementPeriod
 
 define DenominatorExclusions:
   exists (ActiveDiagnosesDuringMeasurementPeriod)
 
 define Numerator:
-  PreferredAsthmaTherapy P where Interval[P."start datetime", P."stop datetime"] during MeasurementPeriod
+  [MedicationDispense: "Preferred Asthma Therapy"] P where Interval[P.whenPrepared, P.whenHandedOver] during MeasurementPeriod
 
 define Stratification1:
   AgeInYearsAt(start of MeasurementPeriod) >= 5

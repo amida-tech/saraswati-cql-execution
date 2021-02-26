@@ -1,0 +1,1134 @@
+{
+   "library" : {
+      "annotation" : [ {
+         "translatorOptions" : "",
+         "type" : "CqlToElmInfo"
+      } ],
+      "identifier" : {
+         "id" : "medication_management_for_people_with_asthma",
+         "version" : "1"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localIdentifier" : "FHIR",
+            "uri" : "http://hl7.org/fhir",
+            "version" : "4.0.0"
+         } ]
+      },
+      "includes" : {
+         "def" : [ {
+            "localIdentifier" : "FHIRHelpers",
+            "path" : "FHIRHelpers",
+            "version" : "4.0.0"
+         } ]
+      },
+      "parameters" : {
+         "def" : [ {
+            "name" : "MeasurementPeriod",
+            "accessLevel" : "Public",
+            "parameterTypeSpecifier" : {
+               "type" : "IntervalTypeSpecifier",
+               "pointType" : {
+                  "name" : "{urn:hl7-org:elm-types:r1}DateTime",
+                  "type" : "NamedTypeSpecifier"
+               }
+            }
+         } ]
+      },
+      "valueSets" : {
+         "def" : [ {
+            "name" : "Acute Respiratory Failure",
+            "id" : "2.16.840.1.113883.3.464.1003.102.12.1018",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Chronic Obstructive Pulmonary Disease",
+            "id" : "2.16.840.1.113883.3.464.1003.102.12.1007",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Cystic Fibrosis",
+            "id" : "2.16.840.1.113883.3.464.1003.102.12.1002",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Emphysema",
+            "id" : "2.16.840.1.113883.3.464.1003.102.12.1004",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Persistent Asthma",
+            "id" : "2.16.840.1.113883.3.464.1003.102.12.1023",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Face-to-Face Interaction",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1048",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Home Healthcare Services",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1016",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Office Visit",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1001",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Preventive Care - Established Office Visit, 0 to 17",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1024",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Preventive Care Services - Established Office Visit, 18 and Up",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1025",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Preventive Care Services-Initial Office Visit, 18 and Up",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1023",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Preventive Care- Initial Office Visit, 0 to 17",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1022",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Preferred Asthma Therapy",
+            "id" : "2.16.840.1.113883.3.464.1003.196.12.1212",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Patient",
+            "context" : "Patient",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "dataType" : "{http://hl7.org/fhir}Patient",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "name" : "InDemographic",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "type" : "GreaterOrEqual",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
+                        }
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  } ]
+               }, {
+                  "type" : "Less",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
+                        }
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "64",
+                     "type" : "Literal"
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "ActivePersistentAsthmaDiagnosis",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "A",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Persistent Asthma",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Overlaps",
+                  "operand" : [ {
+                     "type" : "Interval",
+                     "low" : {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "asType" : "{http://hl7.org/fhir}dateTime",
+                           "type" : "As",
+                           "operand" : {
+                              "path" : "low",
+                              "type" : "Property",
+                              "source" : {
+                                 "lowClosed" : true,
+                                 "highClosed" : true,
+                                 "type" : "Interval",
+                                 "low" : {
+                                    "path" : "onset",
+                                    "scope" : "A",
+                                    "type" : "Property"
+                                 },
+                                 "high" : {
+                                    "path" : "abatement",
+                                    "scope" : "A",
+                                    "type" : "Property"
+                                 }
+                              }
+                           }
+                        } ]
+                     },
+                     "lowClosedExpression" : {
+                        "path" : "lowClosed",
+                        "type" : "Property",
+                        "source" : {
+                           "lowClosed" : true,
+                           "highClosed" : true,
+                           "type" : "Interval",
+                           "low" : {
+                              "path" : "onset",
+                              "scope" : "A",
+                              "type" : "Property"
+                           },
+                           "high" : {
+                              "path" : "abatement",
+                              "scope" : "A",
+                              "type" : "Property"
+                           }
+                        }
+                     },
+                     "high" : {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "asType" : "{http://hl7.org/fhir}dateTime",
+                           "type" : "As",
+                           "operand" : {
+                              "path" : "high",
+                              "type" : "Property",
+                              "source" : {
+                                 "lowClosed" : true,
+                                 "highClosed" : true,
+                                 "type" : "Interval",
+                                 "low" : {
+                                    "path" : "onset",
+                                    "scope" : "A",
+                                    "type" : "Property"
+                                 },
+                                 "high" : {
+                                    "path" : "abatement",
+                                    "scope" : "A",
+                                    "type" : "Property"
+                                 }
+                              }
+                           }
+                        } ]
+                     },
+                     "highClosedExpression" : {
+                        "path" : "highClosed",
+                        "type" : "Property",
+                        "source" : {
+                           "lowClosed" : true,
+                           "highClosed" : true,
+                           "type" : "Interval",
+                           "low" : {
+                              "path" : "onset",
+                              "scope" : "A",
+                              "type" : "Property"
+                           },
+                           "high" : {
+                              "path" : "abatement",
+                              "scope" : "A",
+                              "type" : "Property"
+                           }
+                        }
+                     }
+                  }, {
+                     "name" : "MeasurementPeriod",
+                     "type" : "ParameterRef"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "ValidEncounters",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "QualifyingEncounter",
+                  "expression" : {
+                     "type" : "Union",
+                     "operand" : [ {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "type" : "Union",
+                              "operand" : [ {
+                                 "dataType" : "{http://hl7.org/fhir}Encounter",
+                                 "codeProperty" : "type",
+                                 "codeComparator" : "in",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Office Visit",
+                                    "type" : "ValueSetRef"
+                                 }
+                              }, {
+                                 "dataType" : "{http://hl7.org/fhir}Encounter",
+                                 "codeProperty" : "type",
+                                 "codeComparator" : "in",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Home Healthcare Services",
+                                    "type" : "ValueSetRef"
+                                 }
+                              } ]
+                           }, {
+                              "type" : "Union",
+                              "operand" : [ {
+                                 "dataType" : "{http://hl7.org/fhir}Encounter",
+                                 "codeProperty" : "type",
+                                 "codeComparator" : "in",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Face-to-Face Interaction",
+                                    "type" : "ValueSetRef"
+                                 }
+                              }, {
+                                 "dataType" : "{http://hl7.org/fhir}Encounter",
+                                 "codeProperty" : "type",
+                                 "codeComparator" : "in",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Preventive Care - Established Office Visit, 0 to 17",
+                                    "type" : "ValueSetRef"
+                                 }
+                              } ]
+                           } ]
+                        }, {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "dataType" : "{http://hl7.org/fhir}Encounter",
+                              "codeProperty" : "type",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Preventive Care Services - Established Office Visit, 18 and Up",
+                                 "type" : "ValueSetRef"
+                              }
+                           }, {
+                              "dataType" : "{http://hl7.org/fhir}Encounter",
+                              "codeProperty" : "type",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Preventive Care Services-Initial Office Visit, 18 and Up",
+                                 "type" : "ValueSetRef"
+                              }
+                           } ]
+                        } ]
+                     }, {
+                        "dataType" : "{http://hl7.org/fhir}Encounter",
+                        "codeProperty" : "type",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Preventive Care- Initial Office Visit, 0 to 17",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "IncludedIn",
+                  "operand" : [ {
+                     "name" : "ToInterval",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "period",
+                        "scope" : "QualifyingEncounter",
+                        "type" : "Property"
+                     } ]
+                  }, {
+                     "name" : "MeasurementPeriod",
+                     "type" : "ParameterRef"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "EncountersDuringMeasurementPeriod",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "name" : "ValidEncounters",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "IncludedIn",
+                  "operand" : [ {
+                     "type" : "Interval",
+                     "low" : {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "low",
+                           "type" : "Property",
+                           "source" : {
+                              "lowClosed" : true,
+                              "highClosed" : true,
+                              "type" : "Interval",
+                              "low" : {
+                                 "path" : "start",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "period",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              },
+                              "high" : {
+                                 "path" : "end",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "period",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              }
+                           }
+                        } ]
+                     },
+                     "lowClosedExpression" : {
+                        "path" : "lowClosed",
+                        "type" : "Property",
+                        "source" : {
+                           "lowClosed" : true,
+                           "highClosed" : true,
+                           "type" : "Interval",
+                           "low" : {
+                              "path" : "start",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "period",
+                                 "scope" : "E",
+                                 "type" : "Property"
+                              }
+                           },
+                           "high" : {
+                              "path" : "end",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "period",
+                                 "scope" : "E",
+                                 "type" : "Property"
+                              }
+                           }
+                        }
+                     },
+                     "high" : {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "high",
+                           "type" : "Property",
+                           "source" : {
+                              "lowClosed" : true,
+                              "highClosed" : true,
+                              "type" : "Interval",
+                              "low" : {
+                                 "path" : "start",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "period",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              },
+                              "high" : {
+                                 "path" : "end",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "period",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              }
+                           }
+                        } ]
+                     },
+                     "highClosedExpression" : {
+                        "path" : "highClosed",
+                        "type" : "Property",
+                        "source" : {
+                           "lowClosed" : true,
+                           "highClosed" : true,
+                           "type" : "Interval",
+                           "low" : {
+                              "path" : "start",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "period",
+                                 "scope" : "E",
+                                 "type" : "Property"
+                              }
+                           },
+                           "high" : {
+                              "path" : "end",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "period",
+                                 "scope" : "E",
+                                 "type" : "Property"
+                              }
+                           }
+                        }
+                     }
+                  }, {
+                     "name" : "MeasurementPeriod",
+                     "type" : "ParameterRef"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "InitialPopulation",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "type" : "And",
+                  "operand" : [ {
+                     "name" : "InDemographic",
+                     "type" : "ExpressionRef"
+                  }, {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "ActivePersistentAsthmaDiagnosis",
+                        "type" : "ExpressionRef"
+                     }
+                  } ]
+               }, {
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "EncountersDuringMeasurementPeriod",
+                     "type" : "ExpressionRef"
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Denominator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "InitialPopulation",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "ActiveDiagnoses",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Union",
+               "operand" : [ {
+                  "type" : "Union",
+                  "operand" : [ {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Chronic Obstructive Pulmonary Disease",
+                        "type" : "ValueSetRef"
+                     }
+                  }, {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Emphysema",
+                        "type" : "ValueSetRef"
+                     }
+                  } ]
+               }, {
+                  "type" : "Union",
+                  "operand" : [ {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Cystic Fibrosis",
+                        "type" : "ValueSetRef"
+                     }
+                  }, {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Acute Respiratory Failure",
+                        "type" : "ValueSetRef"
+                     }
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "ActiveDiagnosesDuringMeasurementPeriod",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "D",
+                  "expression" : {
+                     "name" : "ActiveDiagnoses",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Overlaps",
+                  "operand" : [ {
+                     "type" : "Interval",
+                     "low" : {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "asType" : "{http://hl7.org/fhir}dateTime",
+                           "type" : "As",
+                           "operand" : {
+                              "path" : "low",
+                              "type" : "Property",
+                              "source" : {
+                                 "lowClosed" : true,
+                                 "highClosed" : true,
+                                 "type" : "Interval",
+                                 "low" : {
+                                    "path" : "onset",
+                                    "scope" : "D",
+                                    "type" : "Property"
+                                 },
+                                 "high" : {
+                                    "path" : "abatement",
+                                    "scope" : "D",
+                                    "type" : "Property"
+                                 }
+                              }
+                           }
+                        } ]
+                     },
+                     "lowClosedExpression" : {
+                        "path" : "lowClosed",
+                        "type" : "Property",
+                        "source" : {
+                           "lowClosed" : true,
+                           "highClosed" : true,
+                           "type" : "Interval",
+                           "low" : {
+                              "path" : "onset",
+                              "scope" : "D",
+                              "type" : "Property"
+                           },
+                           "high" : {
+                              "path" : "abatement",
+                              "scope" : "D",
+                              "type" : "Property"
+                           }
+                        }
+                     },
+                     "high" : {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "asType" : "{http://hl7.org/fhir}dateTime",
+                           "type" : "As",
+                           "operand" : {
+                              "path" : "high",
+                              "type" : "Property",
+                              "source" : {
+                                 "lowClosed" : true,
+                                 "highClosed" : true,
+                                 "type" : "Interval",
+                                 "low" : {
+                                    "path" : "onset",
+                                    "scope" : "D",
+                                    "type" : "Property"
+                                 },
+                                 "high" : {
+                                    "path" : "abatement",
+                                    "scope" : "D",
+                                    "type" : "Property"
+                                 }
+                              }
+                           }
+                        } ]
+                     },
+                     "highClosedExpression" : {
+                        "path" : "highClosed",
+                        "type" : "Property",
+                        "source" : {
+                           "lowClosed" : true,
+                           "highClosed" : true,
+                           "type" : "Interval",
+                           "low" : {
+                              "path" : "onset",
+                              "scope" : "D",
+                              "type" : "Property"
+                           },
+                           "high" : {
+                              "path" : "abatement",
+                              "scope" : "D",
+                              "type" : "Property"
+                           }
+                        }
+                     }
+                  }, {
+                     "name" : "MeasurementPeriod",
+                     "type" : "ParameterRef"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "DenominatorExclusions",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Exists",
+               "operand" : {
+                  "name" : "ActiveDiagnosesDuringMeasurementPeriod",
+                  "type" : "ExpressionRef"
+               }
+            }
+         }, {
+            "name" : "Numerator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "P",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                     "codeProperty" : "medication",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Preferred Asthma Therapy",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "IncludedIn",
+                  "operand" : [ {
+                     "type" : "Interval",
+                     "low" : {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "low",
+                           "type" : "Property",
+                           "source" : {
+                              "lowClosed" : true,
+                              "highClosed" : true,
+                              "type" : "Interval",
+                              "low" : {
+                                 "path" : "whenPrepared",
+                                 "scope" : "P",
+                                 "type" : "Property"
+                              },
+                              "high" : {
+                                 "path" : "whenHandedOver",
+                                 "scope" : "P",
+                                 "type" : "Property"
+                              }
+                           }
+                        } ]
+                     },
+                     "lowClosedExpression" : {
+                        "path" : "lowClosed",
+                        "type" : "Property",
+                        "source" : {
+                           "lowClosed" : true,
+                           "highClosed" : true,
+                           "type" : "Interval",
+                           "low" : {
+                              "path" : "whenPrepared",
+                              "scope" : "P",
+                              "type" : "Property"
+                           },
+                           "high" : {
+                              "path" : "whenHandedOver",
+                              "scope" : "P",
+                              "type" : "Property"
+                           }
+                        }
+                     },
+                     "high" : {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "high",
+                           "type" : "Property",
+                           "source" : {
+                              "lowClosed" : true,
+                              "highClosed" : true,
+                              "type" : "Interval",
+                              "low" : {
+                                 "path" : "whenPrepared",
+                                 "scope" : "P",
+                                 "type" : "Property"
+                              },
+                              "high" : {
+                                 "path" : "whenHandedOver",
+                                 "scope" : "P",
+                                 "type" : "Property"
+                              }
+                           }
+                        } ]
+                     },
+                     "highClosedExpression" : {
+                        "path" : "highClosed",
+                        "type" : "Property",
+                        "source" : {
+                           "lowClosed" : true,
+                           "highClosed" : true,
+                           "type" : "Interval",
+                           "low" : {
+                              "path" : "whenPrepared",
+                              "scope" : "P",
+                              "type" : "Property"
+                           },
+                           "high" : {
+                              "path" : "whenHandedOver",
+                              "scope" : "P",
+                              "type" : "Property"
+                           }
+                        }
+                     }
+                  }, {
+                     "name" : "MeasurementPeriod",
+                     "type" : "ParameterRef"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Stratification1",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "type" : "GreaterOrEqual",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
+                        }
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  } ]
+               }, {
+                  "type" : "Less",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
+                        }
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "11",
+                     "type" : "Literal"
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "Stratification2",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "type" : "GreaterOrEqual",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
+                        }
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "11",
+                     "type" : "Literal"
+                  } ]
+               }, {
+                  "type" : "Less",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
+                        }
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "18",
+                     "type" : "Literal"
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "Stratification3",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "type" : "GreaterOrEqual",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
+                        }
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "18",
+                     "type" : "Literal"
+                  } ]
+               }, {
+                  "type" : "Less",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
+                        }
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "50",
+                     "type" : "Literal"
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "Stratification4",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "type" : "GreaterOrEqual",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
+                        }
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "50",
+                     "type" : "Literal"
+                  } ]
+               }, {
+                  "type" : "Less",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "MeasurementPeriod",
+                           "type" : "ParameterRef"
+                        }
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "64",
+                     "type" : "Literal"
+                  } ]
+               } ]
+            }
+         } ]
+      }
+   }
+}
+
