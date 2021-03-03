@@ -26,9 +26,9 @@
       }, {
          "libraryId" : "medication_management_for_people_with_asthma",
          "libraryVersion" : "1",
-         "startLine" : 149,
+         "startLine" : 148,
          "startChar" : 43,
-         "endLine" : 149,
+         "endLine" : 148,
          "endChar" : 48,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -2227,17 +2227,6 @@
                }
             }
          }, {
-            "name" : "Denominator Exclusions",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Exists",
-               "operand" : {
-                  "name" : "Active Diagnoses During Measurement Period",
-                  "type" : "ExpressionRef"
-               }
-            }
-         }, {
             "name" : "Index Prescription Start Date",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -2605,232 +2594,36 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "P",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                     "codeProperty" : "medication",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Preferred Asthma Therapy",
-                        "type" : "ValueSetRef"
-                     }
+               "type" : "GreaterOrEqual",
+               "operand" : [ {
+                  "name" : "Proportion of Days Covered",
+                  "type" : "ExpressionRef"
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "50",
+                     "type" : "Literal"
                   }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "IncludedIn",
-                  "operand" : [ {
-                     "type" : "Interval",
-                     "low" : {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "path" : "low",
-                           "type" : "Property",
-                           "source" : {
-                              "lowClosed" : true,
-                              "highClosed" : true,
-                              "type" : "Interval",
-                              "low" : {
-                                 "path" : "whenPrepared",
-                                 "scope" : "P",
-                                 "type" : "Property"
-                              },
-                              "high" : {
-                                 "path" : "whenHandedOver",
-                                 "scope" : "P",
-                                 "type" : "Property"
-                              }
-                           }
-                        } ]
-                     },
-                     "lowClosedExpression" : {
-                        "path" : "lowClosed",
-                        "type" : "Property",
-                        "source" : {
-                           "lowClosed" : true,
-                           "highClosed" : true,
-                           "type" : "Interval",
-                           "low" : {
-                              "path" : "whenPrepared",
-                              "scope" : "P",
-                              "type" : "Property"
-                           },
-                           "high" : {
-                              "path" : "whenHandedOver",
-                              "scope" : "P",
-                              "type" : "Property"
-                           }
-                        }
-                     },
-                     "high" : {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "path" : "high",
-                           "type" : "Property",
-                           "source" : {
-                              "lowClosed" : true,
-                              "highClosed" : true,
-                              "type" : "Interval",
-                              "low" : {
-                                 "path" : "whenPrepared",
-                                 "scope" : "P",
-                                 "type" : "Property"
-                              },
-                              "high" : {
-                                 "path" : "whenHandedOver",
-                                 "scope" : "P",
-                                 "type" : "Property"
-                              }
-                           }
-                        } ]
-                     },
-                     "highClosedExpression" : {
-                        "path" : "highClosed",
-                        "type" : "Property",
-                        "source" : {
-                           "lowClosed" : true,
-                           "highClosed" : true,
-                           "type" : "Interval",
-                           "low" : {
-                              "path" : "whenPrepared",
-                              "scope" : "P",
-                              "type" : "Property"
-                           },
-                           "high" : {
-                              "path" : "whenHandedOver",
-                              "scope" : "P",
-                              "type" : "Property"
-                           }
-                        }
-                     }
-                  }, {
-                     "name" : "Measurement Period",
-                     "type" : "ParameterRef"
-                  } ]
-               }
+               } ]
             }
          }, {
             "name" : "Numerator Medication Compliance 75%",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "P",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                     "codeProperty" : "medication",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Preferred Asthma Therapy",
-                        "type" : "ValueSetRef"
-                     }
+               "type" : "GreaterOrEqual",
+               "operand" : [ {
+                  "name" : "Proportion of Days Covered",
+                  "type" : "ExpressionRef"
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "75",
+                     "type" : "Literal"
                   }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "IncludedIn",
-                  "operand" : [ {
-                     "type" : "Interval",
-                     "low" : {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "path" : "low",
-                           "type" : "Property",
-                           "source" : {
-                              "lowClosed" : true,
-                              "highClosed" : true,
-                              "type" : "Interval",
-                              "low" : {
-                                 "path" : "whenPrepared",
-                                 "scope" : "P",
-                                 "type" : "Property"
-                              },
-                              "high" : {
-                                 "path" : "whenHandedOver",
-                                 "scope" : "P",
-                                 "type" : "Property"
-                              }
-                           }
-                        } ]
-                     },
-                     "lowClosedExpression" : {
-                        "path" : "lowClosed",
-                        "type" : "Property",
-                        "source" : {
-                           "lowClosed" : true,
-                           "highClosed" : true,
-                           "type" : "Interval",
-                           "low" : {
-                              "path" : "whenPrepared",
-                              "scope" : "P",
-                              "type" : "Property"
-                           },
-                           "high" : {
-                              "path" : "whenHandedOver",
-                              "scope" : "P",
-                              "type" : "Property"
-                           }
-                        }
-                     },
-                     "high" : {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "path" : "high",
-                           "type" : "Property",
-                           "source" : {
-                              "lowClosed" : true,
-                              "highClosed" : true,
-                              "type" : "Interval",
-                              "low" : {
-                                 "path" : "whenPrepared",
-                                 "scope" : "P",
-                                 "type" : "Property"
-                              },
-                              "high" : {
-                                 "path" : "whenHandedOver",
-                                 "scope" : "P",
-                                 "type" : "Property"
-                              }
-                           }
-                        } ]
-                     },
-                     "highClosedExpression" : {
-                        "path" : "highClosed",
-                        "type" : "Property",
-                        "source" : {
-                           "lowClosed" : true,
-                           "highClosed" : true,
-                           "type" : "Interval",
-                           "low" : {
-                              "path" : "whenPrepared",
-                              "scope" : "P",
-                              "type" : "Property"
-                           },
-                           "high" : {
-                              "path" : "whenHandedOver",
-                              "scope" : "P",
-                              "type" : "Property"
-                           }
-                        }
-                     }
-                  }, {
-                     "name" : "Measurement Period",
-                     "type" : "ParameterRef"
-                  } ]
-               }
+               } ]
             }
          }, {
             "name" : "Stratification 1",

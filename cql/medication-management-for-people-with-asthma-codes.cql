@@ -44,7 +44,6 @@ concept "Leukotriene Based Medication": {
   "Zileuton"
 } display 'Leukotriene Based Medication'
 
-//parameter MeasurementPeriod default Interval[@2019-12-31T00:00:00.0, @2020-12-31T00:00:00.0)
 parameter "Measurement Period" default Interval[@2020-01-01T00:00:00.0, @2020-12-31T23:59:59.9)
 parameter "Prior Period" default Interval[@2019-01-01T00:00:00.0, @2019-12-31T23:59:59.9)
 
@@ -227,9 +226,6 @@ define Denominator:
 define "Active Diagnoses During Measurement Period":
   "Exclusion Diagnoses" D where Interval[D.onset, D.abatement] overlaps "Measurement Period"
 
-define "Denominator Exclusions":
-  exists ("Active Diagnoses During Measurement Period")
-
 define "Index Prescription Start Date":
   First([MedicationDispense] C sort by whenHandedOver desc).whenHandedOver
 
@@ -251,10 +247,10 @@ define "Proportion of Days Covered":
   Round(("Days Covered" / "Treatment Period") * 100)
 
 define "Numerator Medication Compliance 50%":
-  [MedicationDispense: "Preferred Asthma Therapy"] P where Interval[P.whenPrepared, P.whenHandedOver] during "Measurement Period"
+  "Proportion of Days Covered" >= 50
 
 define "Numerator Medication Compliance 75%":
-  [MedicationDispense: "Preferred Asthma Therapy"] P where Interval[P.whenPrepared, P.whenHandedOver] during "Measurement Period"
+  "Proportion of Days Covered" >= 75
 
 define "Stratification 1":
   AgeInYearsAt(start of "Measurement Period") >= 5
