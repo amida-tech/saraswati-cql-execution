@@ -3,6 +3,61 @@
       "annotation" : [ {
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
+      }, {
+         "libraryId" : "medication_management_for_people_with_asthma",
+         "libraryVersion" : "1",
+         "startLine" : 127,
+         "startChar" : 8,
+         "endLine" : 127,
+         "endChar" : 39,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "medication_management_for_people_with_asthma",
+         "libraryVersion" : "1",
+         "startLine" : 129,
+         "startChar" : 10,
+         "endLine" : 129,
+         "endChar" : 41,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "medication_management_for_people_with_asthma",
+         "libraryVersion" : "1",
+         "startLine" : 140,
+         "startChar" : 34,
+         "endLine" : 140,
+         "endChar" : 66,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "medication_management_for_people_with_asthma",
+         "libraryVersion" : "1",
+         "startLine" : 144,
+         "startChar" : 60,
+         "endLine" : 144,
+         "endChar" : 65,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "medication_management_for_people_with_asthma",
+         "libraryVersion" : "1",
+         "startLine" : 148,
+         "startChar" : 60,
+         "endLine" : 148,
+         "endChar" : 65,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
       } ],
       "identifier" : {
          "id" : "medication_management_for_people_with_asthma",
@@ -31,7 +86,17 @@
       },
       "parameters" : {
          "def" : [ {
-            "name" : "MeasurementPeriod",
+            "name" : "Measurement Period",
+            "accessLevel" : "Public",
+            "parameterTypeSpecifier" : {
+               "type" : "IntervalTypeSpecifier",
+               "pointType" : {
+                  "name" : "{urn:hl7-org:elm-types:r1}DateTime",
+                  "type" : "NamedTypeSpecifier"
+               }
+            }
+         }, {
+            "name" : "Period Year",
             "accessLevel" : "Public",
             "parameterTypeSpecifier" : {
                "type" : "IntervalTypeSpecifier",
@@ -42,64 +107,170 @@
             }
          } ]
       },
+      "codeSystems" : {
+         "def" : [ {
+            "name" : "SNOMED-CT",
+            "id" : "http://snomed.info/sct",
+            "version" : "20200301",
+            "accessLevel" : "Public"
+         } ]
+      },
       "valueSets" : {
          "def" : [ {
-            "name" : "Acute Respiratory Failure",
-            "id" : "2.16.840.1.113883.3.464.1003.102.12.1018",
+            "name" : "Asthma",
+            "id" : "2.16.840.1.113883.3.526.3.362",
             "accessLevel" : "Public"
          }, {
-            "name" : "Chronic Obstructive Pulmonary Disease",
-            "id" : "2.16.840.1.113883.3.464.1003.102.12.1007",
+            "name" : "Acute Inpatient",
+            "id" : "2.16.840.1.113762.1.4.1182.120",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Acute Respiratory Failure",
+            "id" : "2.16.840.1.113883.3.464.1003.102.12.1018",
             "accessLevel" : "Public"
          }, {
             "name" : "Cystic Fibrosis",
             "id" : "2.16.840.1.113883.3.464.1003.102.12.1002",
             "accessLevel" : "Public"
          }, {
+            "name" : "COPD",
+            "id" : "2.16.840.1.113883.3.666.5.776",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "ED",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1085",
+            "accessLevel" : "Public"
+         }, {
             "name" : "Emphysema",
             "id" : "2.16.840.1.113883.3.464.1003.102.12.1004",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Inpatient Stay",
+            "id" : "2.16.840.1.113762.1.4.1182.285",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Nonacute Inpatient Stay",
+            "id" : "2.16.840.1.113762.1.4.1182.289",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Observation Encounter",
+            "id" : "2.16.840.1.113762.1.4.1181.72",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Obstructive Chronic Bronchitus",
+            "id" : "2.16.840.1.113883.3.464.1003.102.12.1024",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Online Assessments",
+            "id" : "2.16.840.1.113883.3.7587.3.1013",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Outpatient",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1008",
             "accessLevel" : "Public"
          }, {
             "name" : "Persistent Asthma",
             "id" : "2.16.840.1.113883.3.464.1003.102.12.1023",
             "accessLevel" : "Public"
          }, {
-            "name" : "Face-to-Face Interaction",
-            "id" : "2.16.840.1.113883.3.464.1003.101.12.1048",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Home Healthcare Services",
-            "id" : "2.16.840.1.113883.3.464.1003.101.12.1016",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Office Visit",
-            "id" : "2.16.840.1.113883.3.464.1003.101.12.1001",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Preventive Care - Established Office Visit, 0 to 17",
-            "id" : "2.16.840.1.113883.3.464.1003.101.12.1024",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Preventive Care Services - Established Office Visit, 18 and Up",
-            "id" : "2.16.840.1.113883.3.464.1003.101.12.1025",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Preventive Care Services-Initial Office Visit, 18 and Up",
-            "id" : "2.16.840.1.113883.3.464.1003.101.12.1023",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Preventive Care- Initial Office Visit, 0 to 17",
-            "id" : "2.16.840.1.113883.3.464.1003.101.12.1022",
-            "accessLevel" : "Public"
-         }, {
             "name" : "Preferred Asthma Therapy",
             "id" : "2.16.840.1.113883.3.464.1003.196.12.1212",
             "accessLevel" : "Public"
+         }, {
+            "name" : "Telehealth Modifier",
+            "id" : "2.16.840.1.113762.1.4.1138.731",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Telehealth POS",
+            "id" : "2.16.840.1.113883.3.464.1003.101.11.1155",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Telephone Visits",
+            "id" : "2.16.840.1.113883.3.1444.5.216",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "codes" : {
+         "def" : [ {
+            "name" : "Albuterol",
+            "id" : "372897005",
+            "display" : "Albuterol",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "SNOMED-CT"
+            }
+         }, {
+            "name" : "Levalbuterol",
+            "id" : "116090007",
+            "display" : "Levalbuterol",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "SNOMED-CT"
+            }
+         }, {
+            "name" : "Dyphylline-guaifenesin",
+            "id" : "398742006",
+            "display" : "Dyphylline-guaifenesin",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "SNOMED-CT"
+            }
+         }, {
+            "name" : "Montelukast",
+            "id" : "372897005",
+            "display" : "Albuterol",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "SNOMED-CT"
+            }
+         }, {
+            "name" : "Zafirlukast",
+            "id" : "116090007",
+            "display" : "Levalbuterol",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "SNOMED-CT"
+            }
+         }, {
+            "name" : "Zileuton",
+            "id" : "108617005",
+            "display" : "Dyphylline-guaifenesin",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "SNOMED-CT"
+            }
+         } ]
+      },
+      "concepts" : {
+         "def" : [ {
+            "name" : "Asthma Medication",
+            "display" : "Asthma Medication",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Albuterol"
+            }, {
+               "name" : "Levalbuterol"
+            }, {
+               "name" : "Dyphylline-guaifenesin"
+            } ]
+         }, {
+            "name" : "Leukotriene Based Medication",
+            "display" : "Leukotriene Based Medication",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Montelukast"
+            }, {
+               "name" : "Zafirlukast"
+            }, {
+               "name" : "Zileuton"
+            } ]
          } ]
       },
       "contexts" : {
          "def" : [ {
             "name" : "Patient"
+         }, {
+            "name" : "Unfiltered"
          } ]
       },
       "statements" : {
@@ -114,7 +285,7 @@
                }
             }
          }, {
-            "name" : "InDemographic",
+            "name" : "In Demographic",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -137,7 +308,7 @@
                      }, {
                         "type" : "Start",
                         "operand" : {
-                           "name" : "MeasurementPeriod",
+                           "name" : "Measurement Period",
                            "type" : "ParameterRef"
                         }
                      } ]
@@ -164,7 +335,7 @@
                      }, {
                         "type" : "Start",
                         "operand" : {
-                           "name" : "MeasurementPeriod",
+                           "name" : "Measurement Period",
                            "type" : "ParameterRef"
                         }
                      } ]
@@ -176,13 +347,1171 @@
                } ]
             }
          }, {
-            "name" : "ActivePersistentAsthmaDiagnosis",
+            "name" : "Emergency Department Visits",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Exists",
+               "operand" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "E",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}Encounter",
+                        "codeProperty" : "type",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "ED",
+                           "type" : "ValueSetRef"
+                        }
+                     }
+                  } ],
+                  "relationship" : [ {
+                     "alias" : "E1",
+                     "type" : "Without",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}Encounter",
+                        "codeProperty" : "type",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Telehealth Modifier",
+                           "type" : "ValueSetRef"
+                        }
+                     },
+                     "suchThat" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "ToList",
+                           "operand" : {
+                              "name" : "E1",
+                              "type" : "AliasRef"
+                           }
+                        }
+                     }
+                  }, {
+                     "alias" : "E2",
+                     "type" : "Without",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}Encounter",
+                        "codeProperty" : "type",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Telehealth POS",
+                           "type" : "ValueSetRef"
+                        }
+                     },
+                     "suchThat" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "ToList",
+                           "operand" : {
+                              "name" : "E2",
+                              "type" : "AliasRef"
+                           }
+                        }
+                     }
+                  }, {
+                     "alias" : "C",
+                     "type" : "With",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "codeProperty" : "code",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Asthma",
+                           "type" : "ValueSetRef"
+                        }
+                     },
+                     "suchThat" : {
+                        "type" : "In",
+                        "operand" : [ {
+                           "type" : "Start",
+                           "operand" : {
+                              "name" : "ToInterval",
+                              "libraryName" : "FHIRHelpers",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "path" : "period",
+                                 "scope" : "E",
+                                 "type" : "Property"
+                              } ]
+                           }
+                        }, {
+                           "name" : "Measurement Period",
+                           "type" : "ParameterRef"
+                        } ]
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Acute Inpatient Encounter Without Telehealth",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Exists",
+               "operand" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "E",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}Encounter",
+                        "codeProperty" : "type",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Acute Inpatient",
+                           "type" : "ValueSetRef"
+                        }
+                     }
+                  } ],
+                  "relationship" : [ {
+                     "alias" : "E2",
+                     "type" : "Without",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}Encounter",
+                        "codeProperty" : "type",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Telehealth Modifier",
+                           "type" : "ValueSetRef"
+                        }
+                     },
+                     "suchThat" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "ToList",
+                           "operand" : {
+                              "name" : "E2",
+                              "type" : "AliasRef"
+                           }
+                        }
+                     }
+                  }, {
+                     "alias" : "E3",
+                     "type" : "Without",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}Encounter",
+                        "codeProperty" : "type",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Telehealth POS",
+                           "type" : "ValueSetRef"
+                        }
+                     },
+                     "suchThat" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "ToList",
+                           "operand" : {
+                              "name" : "E3",
+                              "type" : "AliasRef"
+                           }
+                        }
+                     }
+                  }, {
+                     "alias" : "C",
+                     "type" : "With",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "codeProperty" : "code",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Asthma",
+                           "type" : "ValueSetRef"
+                        }
+                     },
+                     "suchThat" : {
+                        "type" : "And",
+                        "operand" : [ {
+                           "type" : "Equal",
+                           "operand" : [ {
+                              "name" : "ToString",
+                              "libraryName" : "FHIRHelpers",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "path" : "status",
+                                 "scope" : "E",
+                                 "type" : "Property"
+                              } ]
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : "finished",
+                              "type" : "Literal"
+                           } ]
+                        }, {
+                           "type" : "In",
+                           "operand" : [ {
+                              "type" : "Start",
+                              "operand" : {
+                                 "name" : "ToInterval",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "path" : "period",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 } ]
+                              }
+                           }, {
+                              "name" : "Measurement Period",
+                              "type" : "ParameterRef"
+                           } ]
+                        } ]
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Acute Inpatient Discharge",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Exists",
+               "operand" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "E",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}Encounter",
+                        "codeProperty" : "type",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Acute Inpatient",
+                           "type" : "ValueSetRef"
+                        }
+                     }
+                  } ],
+                  "relationship" : [ {
+                     "alias" : "Asthma",
+                     "type" : "With",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "codeProperty" : "code",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Asthma",
+                           "type" : "ValueSetRef"
+                        }
+                     },
+                     "suchThat" : {
+                        "type" : "And",
+                        "operand" : [ {
+                           "type" : "Equal",
+                           "operand" : [ {
+                              "name" : "ToString",
+                              "libraryName" : "FHIRHelpers",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "path" : "status",
+                                 "scope" : "E",
+                                 "type" : "Property"
+                              } ]
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : "finished",
+                              "type" : "Literal"
+                           } ]
+                        }, {
+                           "type" : "In",
+                           "operand" : [ {
+                              "type" : "Start",
+                              "operand" : {
+                                 "name" : "ToInterval",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "path" : "period",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 } ]
+                              }
+                           }, {
+                              "name" : "Measurement Period",
+                              "type" : "ParameterRef"
+                           } ]
+                        } ]
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Outpatient Visit",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "Query",
                "source" : [ {
-                  "alias" : "A",
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "codeProperty" : "type",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Outpatient",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "C",
+                  "type" : "With",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Asthma",
+                        "type" : "ValueSetRef"
+                     }
+                  },
+                  "suchThat" : {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "ToInterval",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "period",
+                              "scope" : "E",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Measurement Period",
+                        "type" : "ParameterRef"
+                     } ]
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Observation Visit",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "codeProperty" : "type",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Observation Encounter",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "C",
+                  "type" : "With",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Asthma",
+                        "type" : "ValueSetRef"
+                     }
+                  },
+                  "suchThat" : {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "ToInterval",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "period",
+                              "scope" : "E",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Measurement Period",
+                        "type" : "ParameterRef"
+                     } ]
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Telehealth POS Visit",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "codeProperty" : "type",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Telehealth POS",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "C",
+                  "type" : "With",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Asthma",
+                        "type" : "ValueSetRef"
+                     }
+                  },
+                  "suchThat" : {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "ToInterval",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "period",
+                              "scope" : "E",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Measurement Period",
+                        "type" : "ParameterRef"
+                     } ]
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Telehealth Modifier Visit",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "codeProperty" : "type",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Telehealth Modifier",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "C",
+                  "type" : "With",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Asthma",
+                        "type" : "ValueSetRef"
+                     }
+                  },
+                  "suchThat" : {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "ToInterval",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "period",
+                              "scope" : "E",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Measurement Period",
+                        "type" : "ParameterRef"
+                     } ]
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Telephone Visit",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "codeProperty" : "type",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Telephone Visits",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "C",
+                  "type" : "With",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Asthma",
+                        "type" : "ValueSetRef"
+                     }
+                  },
+                  "suchThat" : {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "ToInterval",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "period",
+                              "scope" : "E",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Measurement Period",
+                        "type" : "ParameterRef"
+                     } ]
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Online Assessment",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "codeProperty" : "type",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Online Assessments",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "C",
+                  "type" : "With",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Asthma",
+                        "type" : "ValueSetRef"
+                     }
+                  },
+                  "suchThat" : {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "ToInterval",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "period",
+                              "scope" : "E",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Measurement Period",
+                        "type" : "ParameterRef"
+                     } ]
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Tele Visits on Different Dates",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "cond1",
+                  "expression" : {
+                     "name" : "Telehealth Modifier Visit",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "alias" : "cond2",
+                  "expression" : {
+                     "name" : "Telephone Visit",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "alias" : "cond3",
+                  "expression" : {
+                     "name" : "Online Assessment",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "alias" : "cond4",
+                  "expression" : {
+                     "name" : "Telehealth POS Visit",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "And",
+                        "operand" : [ {
+                           "type" : "And",
+                           "operand" : [ {
+                              "type" : "And",
+                              "operand" : [ {
+                                 "type" : "Not",
+                                 "operand" : {
+                                    "type" : "Equal",
+                                    "operand" : [ {
+                                       "path" : "start",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "path" : "period",
+                                          "scope" : "cond1",
+                                          "type" : "Property"
+                                       }
+                                    }, {
+                                       "path" : "start",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "path" : "period",
+                                          "scope" : "cond2",
+                                          "type" : "Property"
+                                       }
+                                    } ]
+                                 }
+                              }, {
+                                 "type" : "Not",
+                                 "operand" : {
+                                    "type" : "Equal",
+                                    "operand" : [ {
+                                       "path" : "start",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "path" : "period",
+                                          "scope" : "cond1",
+                                          "type" : "Property"
+                                       }
+                                    }, {
+                                       "path" : "start",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "path" : "period",
+                                          "scope" : "cond3",
+                                          "type" : "Property"
+                                       }
+                                    } ]
+                                 }
+                              } ]
+                           }, {
+                              "type" : "Not",
+                              "operand" : {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "path" : "start",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "period",
+                                       "scope" : "cond1",
+                                       "type" : "Property"
+                                    }
+                                 }, {
+                                    "path" : "start",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "period",
+                                       "scope" : "cond4",
+                                       "type" : "Property"
+                                    }
+                                 } ]
+                              }
+                           } ]
+                        }, {
+                           "type" : "Not",
+                           "operand" : {
+                              "type" : "Equal",
+                              "operand" : [ {
+                                 "path" : "start",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "period",
+                                    "scope" : "cond2",
+                                    "type" : "Property"
+                                 }
+                              }, {
+                                 "path" : "start",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "period",
+                                    "scope" : "cond3",
+                                    "type" : "Property"
+                                 }
+                              } ]
+                           }
+                        } ]
+                     }, {
+                        "type" : "Not",
+                        "operand" : {
+                           "type" : "Equal",
+                           "operand" : [ {
+                              "path" : "start",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "period",
+                                 "scope" : "cond2",
+                                 "type" : "Property"
+                              }
+                           }, {
+                              "path" : "start",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "period",
+                                 "scope" : "cond4",
+                                 "type" : "Property"
+                              }
+                           } ]
+                        }
+                     } ]
+                  }, {
+                     "type" : "Not",
+                     "operand" : {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "path" : "start",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "period",
+                              "scope" : "cond3",
+                              "type" : "Property"
+                           }
+                        }, {
+                           "path" : "start",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "period",
+                              "scope" : "cond4",
+                              "type" : "Property"
+                           }
+                        } ]
+                     }
+                  } ]
+               },
+               "return" : {
+                  "expression" : {
+                     "type" : "Count",
+                     "source" : {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "type" : "ToList",
+                              "operand" : {
+                                 "name" : "cond1",
+                                 "type" : "AliasRef"
+                              }
+                           }, {
+                              "type" : "ToList",
+                              "operand" : {
+                                 "name" : "cond2",
+                                 "type" : "AliasRef"
+                              }
+                           } ]
+                        }, {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "type" : "ToList",
+                              "operand" : {
+                                 "name" : "cond3",
+                                 "type" : "AliasRef"
+                              }
+                           }, {
+                              "type" : "ToList",
+                              "operand" : {
+                                 "name" : "cond4",
+                                 "type" : "AliasRef"
+                              }
+                           } ]
+                        } ]
+                     }
+                  }
+               }
+            }
+         }, {
+            "name" : "Tele Visits - Max of Three",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "GreaterOrEqual",
+                  "operand" : [ {
+                     "type" : "SingletonFrom",
+                     "operand" : {
+                        "name" : "Tele Visits on Different Dates",
+                        "type" : "ExpressionRef"
+                     }
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "3",
+                     "type" : "Literal"
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "3",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "type" : "SingletonFrom",
+                  "operand" : {
+                     "name" : "Tele Visits on Different Dates",
+                     "type" : "ExpressionRef"
+                  }
+               }
+            }
+         }, {
+            "name" : "Other Visits on Different Dates",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "cond1",
+                  "expression" : {
+                     "name" : "Outpatient Visit",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "alias" : "cond2",
+                  "expression" : {
+                     "name" : "Observation Visit",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Not",
+                  "operand" : {
+                     "type" : "Equal",
+                     "operand" : [ {
+                        "path" : "start",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "period",
+                           "scope" : "cond1",
+                           "type" : "Property"
+                        }
+                     }, {
+                        "path" : "start",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "period",
+                           "scope" : "cond2",
+                           "type" : "Property"
+                        }
+                     } ]
+                  }
+               },
+               "return" : {
+                  "expression" : {
+                     "type" : "Count",
+                     "source" : {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "type" : "ToList",
+                           "operand" : {
+                              "name" : "cond1",
+                              "type" : "AliasRef"
+                           }
+                        }, {
+                           "type" : "ToList",
+                           "operand" : {
+                              "name" : "cond2",
+                              "type" : "AliasRef"
+                           }
+                        } ]
+                     }
+                  }
+               }
+            }
+         }, {
+            "name" : "At Least 4 Visits",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "GreaterOrEqual",
+               "operand" : [ {
+                  "type" : "Add",
+                  "operand" : [ {
+                     "name" : "Tele Visits - Max of Three",
+                     "type" : "ExpressionRef"
+                  }, {
+                     "type" : "SingletonFrom",
+                     "operand" : {
+                        "name" : "Other Visits on Different Dates",
+                        "type" : "ExpressionRef"
+                     }
+                  } ]
+               }, {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "4",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "name" : "Non-Leukotriene Medication",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Count",
+               "source" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "MedicationDispense",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                        "type" : "Retrieve"
+                     }
+                  } ],
+                  "relationship" : [ ],
+                  "where" : {
+                     "type" : "Equivalent",
+                     "operand" : [ {
+                        "type" : "ToConcept",
+                        "operand" : {
+                           "name" : "ToCode",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "type" : "SingletonFrom",
+                              "operand" : {
+                                 "path" : "coding",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "medication",
+                                    "scope" : "MedicationDispense",
+                                    "type" : "Property"
+                                 }
+                              }
+                           } ]
+                        }
+                     }, {
+                        "name" : "Asthma Medication",
+                        "type" : "ConceptRef"
+                     } ]
+                  }
+               }
+            }
+         }, {
+            "name" : "Leukotriene Medication",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Count",
+               "source" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "MedicationDispense",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                        "type" : "Retrieve"
+                     }
+                  } ],
+                  "relationship" : [ ],
+                  "where" : {
+                     "type" : "Equivalent",
+                     "operand" : [ {
+                        "type" : "ToConcept",
+                        "operand" : {
+                           "name" : "ToCode",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "type" : "SingletonFrom",
+                              "operand" : {
+                                 "path" : "coding",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "medication",
+                                    "scope" : "MedicationDispense",
+                                    "type" : "Property"
+                                 }
+                              }
+                           } ]
+                        }
+                     }, {
+                        "name" : "Leukotriene Based Medication",
+                        "type" : "ConceptRef"
+                     } ]
+                  }
+               }
+            }
+         }, {
+            "name" : "Asthma Condition",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Exists",
+               "operand" : {
+                  "dataType" : "{http://hl7.org/fhir}Condition",
+                  "codeProperty" : "code",
+                  "codeComparator" : "in",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "name" : "Asthma",
+                     "type" : "ValueSetRef"
+                  }
+               }
+            }
+         }, {
+            "name" : "Asthma Diagnosis",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "caseItem" : [ {
+                  "when" : {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "And",
+                        "operand" : [ {
+                           "type" : "Equal",
+                           "operand" : [ {
+                              "name" : "Non-Leukotriene Medication",
+                              "type" : "ExpressionRef"
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                              "value" : "0",
+                              "type" : "Literal"
+                           } ]
+                        }, {
+                           "type" : "GreaterOrEqual",
+                           "operand" : [ {
+                              "name" : "Leukotriene Medication",
+                              "type" : "ExpressionRef"
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                              "value" : "4",
+                              "type" : "Literal"
+                           } ]
+                        } ]
+                     }, {
+                        "name" : "Asthma Condition",
+                        "type" : "ExpressionRef"
+                     } ]
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "Not",
+                        "operand" : {
+                           "type" : "Equal",
+                           "operand" : [ {
+                              "name" : "Non-Leukotriene Medication",
+                              "type" : "ExpressionRef"
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                              "value" : "0",
+                              "type" : "Literal"
+                           } ]
+                        }
+                     }, {
+                        "type" : "GreaterOrEqual",
+                        "operand" : [ {
+                           "type" : "Add",
+                           "operand" : [ {
+                              "name" : "Non-Leukotriene Medication",
+                              "type" : "ExpressionRef"
+                           }, {
+                              "name" : "Leukotriene Medication",
+                              "type" : "ExpressionRef"
+                           } ]
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                           "value" : "4",
+                           "type" : "Literal"
+                        } ]
+                     } ]
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "value" : "false",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Active Persistent Asthma Diagnosis",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "C",
                   "expression" : {
                      "dataType" : "{http://hl7.org/fhir}Condition",
                      "codeProperty" : "code",
@@ -215,12 +1544,12 @@
                                  "type" : "Interval",
                                  "low" : {
                                     "path" : "onset",
-                                    "scope" : "A",
+                                    "scope" : "C",
                                     "type" : "Property"
                                  },
                                  "high" : {
                                     "path" : "abatement",
-                                    "scope" : "A",
+                                    "scope" : "C",
                                     "type" : "Property"
                                  }
                               }
@@ -236,12 +1565,12 @@
                            "type" : "Interval",
                            "low" : {
                               "path" : "onset",
-                              "scope" : "A",
+                              "scope" : "C",
                               "type" : "Property"
                            },
                            "high" : {
                               "path" : "abatement",
-                              "scope" : "A",
+                              "scope" : "C",
                               "type" : "Property"
                            }
                         }
@@ -262,12 +1591,12 @@
                                  "type" : "Interval",
                                  "low" : {
                                     "path" : "onset",
-                                    "scope" : "A",
+                                    "scope" : "C",
                                     "type" : "Property"
                                  },
                                  "high" : {
                                     "path" : "abatement",
-                                    "scope" : "A",
+                                    "scope" : "C",
                                     "type" : "Property"
                                  }
                               }
@@ -283,133 +1612,32 @@
                            "type" : "Interval",
                            "low" : {
                               "path" : "onset",
-                              "scope" : "A",
+                              "scope" : "C",
                               "type" : "Property"
                            },
                            "high" : {
                               "path" : "abatement",
-                              "scope" : "A",
+                              "scope" : "C",
                               "type" : "Property"
                            }
                         }
                      }
                   }, {
-                     "name" : "MeasurementPeriod",
+                     "name" : "Measurement Period",
                      "type" : "ParameterRef"
                   } ]
                }
             }
          }, {
-            "name" : "ValidEncounters",
+            "name" : "Valid Encounters",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "QualifyingEncounter",
-                  "expression" : {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "type" : "Union",
-                        "operand" : [ {
-                           "type" : "Union",
-                           "operand" : [ {
-                              "type" : "Union",
-                              "operand" : [ {
-                                 "dataType" : "{http://hl7.org/fhir}Encounter",
-                                 "codeProperty" : "type",
-                                 "codeComparator" : "in",
-                                 "type" : "Retrieve",
-                                 "codes" : {
-                                    "name" : "Office Visit",
-                                    "type" : "ValueSetRef"
-                                 }
-                              }, {
-                                 "dataType" : "{http://hl7.org/fhir}Encounter",
-                                 "codeProperty" : "type",
-                                 "codeComparator" : "in",
-                                 "type" : "Retrieve",
-                                 "codes" : {
-                                    "name" : "Home Healthcare Services",
-                                    "type" : "ValueSetRef"
-                                 }
-                              } ]
-                           }, {
-                              "type" : "Union",
-                              "operand" : [ {
-                                 "dataType" : "{http://hl7.org/fhir}Encounter",
-                                 "codeProperty" : "type",
-                                 "codeComparator" : "in",
-                                 "type" : "Retrieve",
-                                 "codes" : {
-                                    "name" : "Face-to-Face Interaction",
-                                    "type" : "ValueSetRef"
-                                 }
-                              }, {
-                                 "dataType" : "{http://hl7.org/fhir}Encounter",
-                                 "codeProperty" : "type",
-                                 "codeComparator" : "in",
-                                 "type" : "Retrieve",
-                                 "codes" : {
-                                    "name" : "Preventive Care - Established Office Visit, 0 to 17",
-                                    "type" : "ValueSetRef"
-                                 }
-                              } ]
-                           } ]
-                        }, {
-                           "type" : "Union",
-                           "operand" : [ {
-                              "dataType" : "{http://hl7.org/fhir}Encounter",
-                              "codeProperty" : "type",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Preventive Care Services - Established Office Visit, 18 and Up",
-                                 "type" : "ValueSetRef"
-                              }
-                           }, {
-                              "dataType" : "{http://hl7.org/fhir}Encounter",
-                              "codeProperty" : "type",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Preventive Care Services-Initial Office Visit, 18 and Up",
-                                 "type" : "ValueSetRef"
-                              }
-                           } ]
-                        } ]
-                     }, {
-                        "dataType" : "{http://hl7.org/fhir}Encounter",
-                        "codeProperty" : "type",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Preventive Care- Initial Office Visit, 0 to 17",
-                           "type" : "ValueSetRef"
-                        }
-                     } ]
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "IncludedIn",
-                  "operand" : [ {
-                     "name" : "ToInterval",
-                     "libraryName" : "FHIRHelpers",
-                     "type" : "FunctionRef",
-                     "operand" : [ {
-                        "path" : "period",
-                        "scope" : "QualifyingEncounter",
-                        "type" : "Property"
-                     } ]
-                  }, {
-                     "name" : "MeasurementPeriod",
-                     "type" : "ParameterRef"
-                  } ]
-               }
+               "dataType" : "{http://hl7.org/fhir}Encounter",
+               "type" : "Retrieve"
             }
          }, {
-            "name" : "EncountersDuringMeasurementPeriod",
+            "name" : "Encounters During Measurement Period",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -417,7 +1645,7 @@
                "source" : [ {
                   "alias" : "E",
                   "expression" : {
-                     "name" : "ValidEncounters",
+                     "name" : "Valid Encounters",
                      "type" : "ExpressionRef"
                   }
                } ],
@@ -545,13 +1773,13 @@
                         }
                      }
                   }, {
-                     "name" : "MeasurementPeriod",
+                     "name" : "Measurement Period",
                      "type" : "ParameterRef"
                   } ]
                }
             }
          }, {
-            "name" : "InitialPopulation",
+            "name" : "Initial Population",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -559,19 +1787,19 @@
                "operand" : [ {
                   "type" : "And",
                   "operand" : [ {
-                     "name" : "InDemographic",
+                     "name" : "In Demographic",
                      "type" : "ExpressionRef"
                   }, {
                      "type" : "Exists",
                      "operand" : {
-                        "name" : "ActivePersistentAsthmaDiagnosis",
+                        "name" : "Active Persistent Asthma Diagnosis",
                         "type" : "ExpressionRef"
                      }
                   } ]
                }, {
                   "type" : "Exists",
                   "operand" : {
-                     "name" : "EncountersDuringMeasurementPeriod",
+                     "name" : "Encounters During Measurement Period",
                      "type" : "ExpressionRef"
                   }
                } ]
@@ -581,11 +1809,11 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "name" : "InitialPopulation",
+               "name" : "Initial Population",
                "type" : "ExpressionRef"
             }
          }, {
-            "name" : "ActiveDiagnoses",
+            "name" : "Exclusion Diagnoses",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -593,49 +1821,61 @@
                "operand" : [ {
                   "type" : "Union",
                   "operand" : [ {
-                     "dataType" : "{http://hl7.org/fhir}Condition",
-                     "codeProperty" : "code",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Chronic Obstructive Pulmonary Disease",
-                        "type" : "ValueSetRef"
-                     }
+                     "type" : "Union",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "codeProperty" : "code",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Emphysema",
+                           "type" : "ValueSetRef"
+                        }
+                     }, {
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "codeProperty" : "code",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "COPD",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
                   }, {
-                     "dataType" : "{http://hl7.org/fhir}Condition",
-                     "codeProperty" : "code",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Emphysema",
-                        "type" : "ValueSetRef"
-                     }
+                     "type" : "Union",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "codeProperty" : "code",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Obstructive Chronic Bronchitus",
+                           "type" : "ValueSetRef"
+                        }
+                     }, {
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "codeProperty" : "code",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Cystic Fibrosis",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
                   } ]
                }, {
-                  "type" : "Union",
-                  "operand" : [ {
-                     "dataType" : "{http://hl7.org/fhir}Condition",
-                     "codeProperty" : "code",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Cystic Fibrosis",
-                        "type" : "ValueSetRef"
-                     }
-                  }, {
-                     "dataType" : "{http://hl7.org/fhir}Condition",
-                     "codeProperty" : "code",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Acute Respiratory Failure",
-                        "type" : "ValueSetRef"
-                     }
-                  } ]
+                  "dataType" : "{http://hl7.org/fhir}Condition",
+                  "codeProperty" : "code",
+                  "codeComparator" : "in",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "name" : "Acute Respiratory Failure",
+                     "type" : "ValueSetRef"
+                  }
                } ]
             }
          }, {
-            "name" : "ActiveDiagnosesDuringMeasurementPeriod",
+            "name" : "Active Diagnoses During Measurement Period",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -643,7 +1883,7 @@
                "source" : [ {
                   "alias" : "D",
                   "expression" : {
-                     "name" : "ActiveDiagnoses",
+                     "name" : "Exclusion Diagnoses",
                      "type" : "ExpressionRef"
                   }
                } ],
@@ -747,19 +1987,19 @@
                         }
                      }
                   }, {
-                     "name" : "MeasurementPeriod",
+                     "name" : "Measurement Period",
                      "type" : "ParameterRef"
                   } ]
                }
             }
          }, {
-            "name" : "DenominatorExclusions",
+            "name" : "Denominator Exclusions",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "Exists",
                "operand" : {
-                  "name" : "ActiveDiagnosesDuringMeasurementPeriod",
+                  "name" : "Active Diagnoses During Measurement Period",
                   "type" : "ExpressionRef"
                }
             }
@@ -874,13 +2114,13 @@
                         }
                      }
                   }, {
-                     "name" : "MeasurementPeriod",
+                     "name" : "Measurement Period",
                      "type" : "ParameterRef"
                   } ]
                }
             }
          }, {
-            "name" : "Stratification1",
+            "name" : "Stratification 1",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -903,7 +2143,7 @@
                      }, {
                         "type" : "Start",
                         "operand" : {
-                           "name" : "MeasurementPeriod",
+                           "name" : "Measurement Period",
                            "type" : "ParameterRef"
                         }
                      } ]
@@ -930,7 +2170,7 @@
                      }, {
                         "type" : "Start",
                         "operand" : {
-                           "name" : "MeasurementPeriod",
+                           "name" : "Measurement Period",
                            "type" : "ParameterRef"
                         }
                      } ]
@@ -942,7 +2182,7 @@
                } ]
             }
          }, {
-            "name" : "Stratification2",
+            "name" : "Stratification 2",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -965,7 +2205,7 @@
                      }, {
                         "type" : "Start",
                         "operand" : {
-                           "name" : "MeasurementPeriod",
+                           "name" : "Measurement Period",
                            "type" : "ParameterRef"
                         }
                      } ]
@@ -992,7 +2232,7 @@
                      }, {
                         "type" : "Start",
                         "operand" : {
-                           "name" : "MeasurementPeriod",
+                           "name" : "Measurement Period",
                            "type" : "ParameterRef"
                         }
                      } ]
@@ -1004,7 +2244,7 @@
                } ]
             }
          }, {
-            "name" : "Stratification3",
+            "name" : "Stratification 3",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1027,7 +2267,7 @@
                      }, {
                         "type" : "Start",
                         "operand" : {
-                           "name" : "MeasurementPeriod",
+                           "name" : "Measurement Period",
                            "type" : "ParameterRef"
                         }
                      } ]
@@ -1054,7 +2294,7 @@
                      }, {
                         "type" : "Start",
                         "operand" : {
-                           "name" : "MeasurementPeriod",
+                           "name" : "Measurement Period",
                            "type" : "ParameterRef"
                         }
                      } ]
@@ -1066,7 +2306,7 @@
                } ]
             }
          }, {
-            "name" : "Stratification4",
+            "name" : "Stratification 4",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1089,7 +2329,7 @@
                      }, {
                         "type" : "Start",
                         "operand" : {
-                           "name" : "MeasurementPeriod",
+                           "name" : "Measurement Period",
                            "type" : "ParameterRef"
                         }
                      } ]
@@ -1099,7 +2339,7 @@
                      "type" : "Literal"
                   } ]
                }, {
-                  "type" : "Less",
+                  "type" : "LessOrEqual",
                   "operand" : [ {
                      "precision" : "Year",
                      "type" : "CalculateAgeAt",
@@ -1116,7 +2356,7 @@
                      }, {
                         "type" : "Start",
                         "operand" : {
-                           "name" : "MeasurementPeriod",
+                           "name" : "Measurement Period",
                            "type" : "ParameterRef"
                         }
                      } ]
