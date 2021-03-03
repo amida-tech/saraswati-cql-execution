@@ -44,9 +44,9 @@ concept "Leukotriene Based Medication": {
   "Zileuton"
 } display 'Leukotriene Based Medication'
 
-//parameter MeasurementPeriod default Interval[@2018-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
-parameter "Measurement Period" default Interval[@2019-01-01T00:00:00.0, @2019-12-31T23:59:59.9)
-parameter "Year Before Measurement Period" default Interval[@2018-01-01T00:00:00.0, @2018-12-31T23:59:59.9)
+//parameter MeasurementPeriod default Interval[@2019-12-31T00:00:00.0, @2020-12-31T00:00:00.0)
+parameter "Measurement Period" default Interval[@2020-01-01T00:00:00.0, @2020-12-31T23:59:59.9)
+parameter "Prior Period" default Interval[@2019-01-01T00:00:00.0, @2019-12-31T23:59:59.9)
 
 context Patient
 
@@ -56,22 +56,22 @@ define "In Demographic":
     and AgeInYearsAt(start of "Measurement Period") < 64
 
 define "Emergency Department Visit":
-  [Encounter: "ED"] E
+  [Encounter: "ED"] E0
     without [Encounter: "Telehealth Modifier"] E1
       such that exists(E1)
     without [Encounter: "Telehealth POS"] E2
       such that exists(E2)
     with [Condition: "Asthma"] C
-      such that E.period starts during "Measurement Period"
+      such that exists(C) 
 
 define "Acute Inpatient Encounter Without Telehealth":
-  [Encounter: "Acute Inpatient"] E
-    without [Encounter: "Telehealth Modifier"] E2
+  [Encounter: "Acute Inpatient"] E0
+    without [Encounter: "Telehealth Modifier"] E1
+      such that exists(E1)
+    without [Encounter: "Telehealth POS"] E2
       such that exists(E2)
-    without [Encounter: "Telehealth POS"] E3
-      such that exists(E3)
     with [Condition: "Asthma"] C
-      such that E.status = 'finished' and E.period starts during "Measurement Period"
+      such that E0.status = 'finished' 
   
 define "Acute Inpatient Discharge":
   [Encounter: "Acute Inpatient"] E
@@ -79,35 +79,28 @@ define "Acute Inpatient Discharge":
       such that E.status = 'finished'
       and E.period starts during "Measurement Period"
 
-define "Outpatient Visit":
-  [Encounter: "Outpatient"] E
+define function EncounterWithAsthma(Enc List<Encounter>):
+  Enc E
     with [Condition: "Asthma"] C
-      such that E.period starts during "Measurement Period"
+      such that exists(E)
+
+define "Outpatient Visit":
+  EncounterWithAsthma([Encounter: "Outpatient"])
 
 define "Observation Visit":
-  [Encounter: "Observation Encounter"] E
-    with [Condition: "Asthma"] C
-      such that E.period starts during "Measurement Period"
+  EncounterWithAsthma([Encounter: "Observation Encounter"])
 
 define "Telehealth POS Visit":
-  [Encounter: "Telehealth POS"] E
-    with [Condition: "Asthma"] C
-      such that E.period starts during "Measurement Period"
+  EncounterWithAsthma([Encounter: "Telehealth POS"])
 
 define "Telehealth Modifier Visit":
-  [Encounter: "Telehealth Modifier"] E
-    with [Condition: "Asthma"] C
-      such that E.period starts during "Measurement Period"
+  EncounterWithAsthma([Encounter: "Telehealth Modifier"])
 
 define "Telephone Visit":
-  [Encounter: "Telephone Visits"] E
-    with [Condition: "Asthma"] C
-      such that E.period starts during "Measurement Period"
+  EncounterWithAsthma([Encounter: "Telephone Visits"])
 
 define "Online Assessment":
-  [Encounter: "Online Assessments"] E
-    with [Condition: "Asthma"] C
-      such that E.period starts during "Measurement Period"
+  EncounterWithAsthma([Encounter: "Online Assessments"])
 
 define "Tele Visits on Different Dates":
   from
@@ -121,53 +114,79 @@ define "Tele Visits on Different Dates":
         and (cond2.period.start != cond3.period.start)
         and (cond2.period.start != cond4.period.start)
         and (cond3.period.start != cond4.period.start)
-    return Count((((cond1 union cond2) union cond3) union cond4))
-
-define "Tele Visits - Max of Three":
-  case "Tele Visits on Different Dates" >= 3
-    when true then 3
-    else "Tele Visits on Different Dates"
-  end
+    return ((cond1 union cond2) union cond3) union cond4
 
 define "Other Visits on Different Dates":
   from
     "Outpatient Visit" cond1,
     "Observation Visit" cond2
       where (cond1.period.start != cond2.period.start)
-    return Count(cond1 union cond2) 
+    return cond1 union cond2
 
-define "At Least 4 Visits":
-  "Tele Visits - Max of Three" + "Other Visits on Different Dates" >= 4
+define function EncountersInInterval(Enc List<Encounter>, Int Interval<DateTime>):
+  Enc E where E.period starts during Int
 
-define "Non-Leukotriene Medication":
-  Count([MedicationDispense] MedicationDispense
-    where FHIRHelpers.ToCode(MedicationDispense.medication.coding) ~ "Asthma Medication")
+define "Tele Visit Count Measurement Period":
+  Count(EncountersInInterval("Tele Visits on Different Dates", "Measurement Period"))
 
-define "Leukotriene Medication":
-  Count([MedicationDispense] MedicationDispense
-    where FHIRHelpers.ToCode(MedicationDispense.medication.coding) ~ "Leukotriene Based Medication")
+define "Other Visits Count Measurement Period":
+  Count(EncountersInInterval("Other Visits on Different Dates", "Measurement Period"))
 
-define "Asthma Condition":
+define "Tele Visit Count Prior Period":
+  Count(EncountersInInterval("Tele Visits on Different Dates", "Prior Period"))
+
+define "Other Visit Count Prior Period":
+  Count(EncountersInInterval("Other Visits on Different Dates", "Prior Period"))
+
+define function AtLeastFourVisitsInPeriod(TeleVisits Integer, OtherVisits Integer): 
+  case TeleVisits >= 3
+    when true then 3 + OtherVisits >= 4
+    else TeleVisits + OtherVisits >= 4
+  end
+
+define function MedicationInPeriod(MedType Concept, Int Interval<DateTime>):
+  [MedicationDispense] M
+    where FHIRHelpers.ToCode(M.medication.coding) ~ MedType
+    and M.whenHandedOver during Int
+
+define "Non-Leukotriene Medication Measurement Period":
+  Count(MedicationInPeriod("Asthma Medication", "Measurement Period"))
+
+define "Leukotriene Medication Measurement Period":
+  Count(MedicationInPeriod("Leukotriene Based Medication", "Measurement Period"))
+
+define "Non-Leukotriene Medication Prior Period":
+  Count(MedicationInPeriod("Asthma Medication", "Prior Period"))
+
+define "Leukotriene Medication Prior Period":
+  Count(MedicationInPeriod("Leukotriene Based Medication", "Prior Period"))
+
+define "Asthma Condition Measurement Period":
   exists([Condition: "Asthma"] C
     where C.onset during "Measurement Period")
 
-define "Persistent Asthma":
+define "Asthma Condition Prior Period":
+  exists([Condition: "Asthma"] C
+    where C.onset during "Prior Period")
+
+define "Asthma By Medication Measurement Period":
   case 
-    when "Non-Leukotriene Medication" = 0 and "Leukotriene Medication" >= 4 and "Asthma Condition" then true
-    when "Non-Leukotriene Medication" != 0 and "Non-Leukotriene Medication" + "Leukotriene Medication" >= 4 then true
+    when "Non-Leukotriene Medication Measurement Period" = 0 and "Leukotriene Medication Measurement Period" >= 4 and "Asthma Condition Measurement Period" then true
+    when "Non-Leukotriene Medication Measurement Period" != 0 and "Non-Leukotriene Medication Measurement Period" + "Leukotriene Medication Measurement Period" >= 4 then true
     else false
   end
 
+define "Asthma By Medication Prior Period":
+  case 
+    when "Non-Leukotriene Medication Prior Period" = 0 and "Leukotriene Medication Prior Period" >= 4 and "Asthma Condition Prior Period" then true
+    when "Non-Leukotriene Medication Prior Period" != 0 and "Non-Leukotriene Medication Prior Period" + "Leukotriene Medication Prior Period" >= 4 then true
+    else false
+  end
 
 define "Valid Encounters":
   "Emergency Department Visit"
   union "Acute Inpatient Encounter Without Telehealth"
   union "Acute Inpatient Discharge"
-  
-  //union "At Least 4 Visits"
-
-  // union "Persistent Asthma"
-
 
 define "Exclusion Diagnoses":
   [Condition: "Emphysema"]
@@ -178,12 +197,26 @@ define "Exclusion Diagnoses":
   union [Condition: "Cystic Fibrosis"]
   union [Condition: "Acute Respiratory Failure"]
 
-//union "Non-Leukotriene Medication" + "Leukotriene Medication" = 0
+
+define "Measurement Period Qualifiers":
+  exists(EncountersInInterval("Valid Encounters", "Measurement Period"))
+  or AtLeastFourVisitsInPeriod("Tele Visit Count Measurement Period", "Other Visits Count Measurement Period")
+  or "Asthma By Medication Measurement Period"
+
+define "Prior Period Qualifiers":
+  exists(EncountersInInterval("Valid Encounters", "Prior Period"))
+  or AtLeastFourVisitsInPeriod("Tele Visit Count Prior Period", "Other Visit Count Prior Period")
+  or "Asthma By Medication Prior Period"
+
+define "Exclusions":
+  exists("Exclusion Diagnoses" C where C.onset before DateTime(2020, 12, 31, 59, 59, 9))
+  or "Non-Leukotriene Medication Measurement Period" + "Leukotriene Medication Measurement Period" = 0
 
 define Denominator:
   "In Demographic"
-    and (exists("Valid Encounters" during "Measurement Period") and not exists("Exclusion Diagnoses" during "Measurement Period"))
-    and (exists("Valid Encounters" during "Year Before Measurement Period") and not exists("Exclusion Diagnoses" during "Year Before Measurement Period"))
+    and "Measurement Period Qualifiers"
+    and "Prior Period Qualifiers"
+    and not "Exclusions"
 
 // define "Denominator":
   // case ("Initial Population" and "Diabetes Condition Denominator" and not "Diabetes Exclusions")
@@ -201,27 +234,21 @@ define "Index Prescription Start Date":
   First([MedicationDispense] C sort by whenHandedOver desc).whenHandedOver
 
 define "Treatment Period": 
-  days between @2019-12-31 and "Index Prescription Start Date" 
+  days between @2020-12-31 and "Index Prescription Start Date" 
 
-// define "Earliest Medication Start Date":
-  // [MedicationDispense] C  
-    // sort by daysSupply.whenHandedOver desc
-
-// define function CumulativeDuration(Intervals List<Tuple{start: FHIR.dateTime, end: FHIR.dateTime}>):
 define function CumulativeDuration(Intervals List<Interval<DateTime>>):
   Sum((collapse Intervals) X return all duration in days of X)
 
 define "Medication in Date Range":
   [MedicationDispense] E 
     where Interval[E.whenHandedOver, E.whenHandedOver + E.daysSupply] overlaps "Measurement Period" 
-    return Interval[E.whenHandedOver, E.whenHandedOver + E.daysSupply]
+    return Interval[E.whenHandedOver, if E.whenHandedOver + E.daysSupply > DateTime(2020, 12, 31, 59, 59, 9) then DateTime(2020, 12, 31, 59, 59, 9) else E.whenHandedOver + E.daysSupply ]
 
 define "Days Covered":
   CumulativeDuration("Medication in Date Range")
 
 define "Proportion of Days Covered":
-  Round("Days Covered" / "Treatment Period" * 100)
-
+  Round(("Days Covered" / "Treatment Period") * 100)
 
 define "Numerator Medication Compliance 50%":
   [MedicationDispense: "Preferred Asthma Therapy"] P where Interval[P.whenPrepared, P.whenHandedOver] during "Measurement Period"
