@@ -28,9 +28,9 @@ valueset "Telephone Visits": '2.16.840.1.113883.3.1444.5.216'
 code "Albuterol": '372897005' from "SNOMED-CT" display 'Albuterol'
 code "Levalbuterol": '116090007' from "SNOMED-CT" display 'Levalbuterol'
 code "Dyphylline-guaifenesin": '398742006' from "SNOMED-CT" display 'Dyphylline-guaifenesin'
-code "Montelukast": '372897005' from "SNOMED-CT" display 'Albuterol'
-code "Zafirlukast": '116090007' from "SNOMED-CT" display 'Levalbuterol'
-code "Zileuton": '108617005' from "SNOMED-CT" display 'Dyphylline-guaifenesin'
+code "Montelukast": '372897005' from "SNOMED-CT" display 'Montelukast'
+code "Zafirlukast": '116090007' from "SNOMED-CT" display 'Zafirlukast'
+code "Zileuton": '108617005' from "SNOMED-CT" display 'Zileuton'
 
 concept "Asthma Medication": {
   "Albuterol",
@@ -70,13 +70,13 @@ define "Acute Inpatient Encounter Without Telehealth":
     without [Encounter: "Telehealth POS"] E2
       such that exists(E2)
     with [Condition: "Asthma"] C
-      such that E0.status = 'finished' 
+      such that exists(C)
   
 define "Acute Inpatient Discharge":
   [Encounter: "Acute Inpatient"] E
-    with [Condition: "Asthma"] Asthma
-      such that E.status = 'finished'
-      and E.period starts during "Measurement Period"
+    with [Condition: "Asthma"] C
+      such that exists(C)
+    where E.status = 'finished' 
 
 define function EncounterWithAsthma(Enc List<Encounter>):
   Enc E
@@ -244,7 +244,8 @@ define "Days Covered":
   CumulativeDuration("Medication in Date Range")
 
 define "Proportion of Days Covered":
-  Round(("Days Covered" / "Treatment Period") * 100)
+// add multiply in later- was getting error
+  Round(("Days Covered" / "Treatment Period") )//* 100)
 
 define "Numerator Medication Compliance 50%":
   "Proportion of Days Covered" >= 50
