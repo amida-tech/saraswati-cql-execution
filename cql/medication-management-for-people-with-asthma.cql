@@ -102,25 +102,24 @@ define "Online Assessment":
   EncounterWithAsthma([Encounter: "Online Assessments"])
 
 define "Tele Visits on Different Dates":
-  from
-    "Telehealth Modifier Visit" cond1,
-    "Telephone Visit" cond2,
-    "Online Assessment" cond3,
-    "Telehealth POS Visit" cond4
-      where (cond1.period.start != cond2.period.start)
-        and (cond1.period.start != cond3.period.start)
-        and (cond1.period.start != cond4.period.start)
-        and (cond2.period.start != cond3.period.start)
-        and (cond2.period.start != cond4.period.start)
-        and (cond3.period.start != cond4.period.start)
-    return ((cond1 union cond2) union cond3) union cond4
+  [Encounter]
+  //from
+    //"Telehealth Modifier Visit" cond1,
+    //"Telephone Visit" cond2,
+    //"Online Assessment" cond3,
+    //"Telehealth POS Visit" cond4
+      //where (cond1.period.start != cond2.period.start)
+        //and (cond1.period.start != cond3.period.start)
+        //and (cond1.period.start != cond4.period.start)
+        //and (cond2.period.start != cond3.period.start)
+        //and (cond2.period.start != cond4.period.start)
+        //and (cond3.period.start != cond4.period.start)
+    //return ((cond1 union cond2) union cond3) union cond4
 
 define "Other Visits on Different Dates":
-  from
-    "Outpatient Visit" cond1,
-    "Observation Visit" cond2
+  "Outpatient Visit" cond1
+    union "Observation Visit" cond2
       where (cond1.period.start != cond2.period.start)
-    return cond1 union cond2
 
 define function EncountersInInterval(Enc List<Encounter>, Int Interval<DateTime>):
   Enc E where E.period starts during Int
@@ -230,15 +229,28 @@ define "Index Prescription Start Date":
   First([MedicationDispense] C sort by whenHandedOver desc).whenHandedOver
 
 define "Treatment Period": 
-  days between @2020-12-31 and "Index Prescription Start Date" 
+  days between "Index Prescription Start Date" and @2020-12-31
 
 define function CumulativeDuration(Intervals List<Interval<DateTime>>):
   Sum((collapse Intervals) X return all duration in days of X)
 
+//define function decimalToInt(Dec Decimal):
+  //return ToInteger(Dec)
+
+//define "~~MED": 
+  //[MedicationDispense] E
+    //return Tuple { 
+      //"asdf": E.whenHandedOver//, 
+      //"qwer": E.whenHandedOver +  decimalToInt(E.daysSupply.value.value) days //+ ToQuantity(90 days)//+ ToQuantity(ToString(E.daysSupply.value.value) days)
+      ////"fghj": ToInteger(1 year)
+     //}
+
 define "Medication in Date Range":
   [MedicationDispense] E 
-    where Interval[E.whenHandedOver, E.whenHandedOver + E.daysSupply] overlaps "Measurement Period" 
-    return Interval[E.whenHandedOver, if E.whenHandedOver + E.daysSupply > DateTime(2020, 12, 31, 59, 59, 9) then DateTime(2020, 12, 31, 59, 59, 9) else E.whenHandedOver + E.daysSupply ]
+    // SHOULD THIS SAY MEASUREMENT PERIOD OR NO?
+    where Interval[E.whenHandedOver, E.whenHandedOver + E.daysSupply.value.value] overlaps "Measurement Period" 
+    return Interval[E.whenHandedOver, E.whenHandedOver + E.daysSupply.value.value] 
+    //return Interval[E.whenHandedOver, if E.whenHandedOver + E.daysSupply > DateTime(2020, 12, 31, 59, 59, 9) then DateTime(2020, 12, 31, 59, 59, 9) else E.whenHandedOver + E.daysSupply ]
 
 define "Days Covered":
   CumulativeDuration("Medication in Date Range")

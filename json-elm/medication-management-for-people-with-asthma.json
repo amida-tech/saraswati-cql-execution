@@ -14,21 +14,11 @@
          "errorSeverity" : "warning",
          "type" : "CqlToElmError"
       }, {
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
          "libraryId" : "medication_management_for_people_with_asthma",
          "libraryVersion" : "1",
-         "startLine" : 148,
+         "startLine" : 150,
          "startChar" : 43,
-         "endLine" : 148,
+         "endLine" : 150,
          "endChar" : 48,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -869,217 +859,8 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "cond1",
-                  "expression" : {
-                     "name" : "Telehealth Modifier Visit",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "alias" : "cond2",
-                  "expression" : {
-                     "name" : "Telephone Visit",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "alias" : "cond3",
-                  "expression" : {
-                     "name" : "Online Assessment",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "alias" : "cond4",
-                  "expression" : {
-                     "name" : "Telehealth POS Visit",
-                     "type" : "ExpressionRef"
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "And",
-                  "operand" : [ {
-                     "type" : "And",
-                     "operand" : [ {
-                        "type" : "And",
-                        "operand" : [ {
-                           "type" : "And",
-                           "operand" : [ {
-                              "type" : "And",
-                              "operand" : [ {
-                                 "type" : "Not",
-                                 "operand" : {
-                                    "type" : "Equal",
-                                    "operand" : [ {
-                                       "path" : "start",
-                                       "type" : "Property",
-                                       "source" : {
-                                          "path" : "period",
-                                          "scope" : "cond1",
-                                          "type" : "Property"
-                                       }
-                                    }, {
-                                       "path" : "start",
-                                       "type" : "Property",
-                                       "source" : {
-                                          "path" : "period",
-                                          "scope" : "cond2",
-                                          "type" : "Property"
-                                       }
-                                    } ]
-                                 }
-                              }, {
-                                 "type" : "Not",
-                                 "operand" : {
-                                    "type" : "Equal",
-                                    "operand" : [ {
-                                       "path" : "start",
-                                       "type" : "Property",
-                                       "source" : {
-                                          "path" : "period",
-                                          "scope" : "cond1",
-                                          "type" : "Property"
-                                       }
-                                    }, {
-                                       "path" : "start",
-                                       "type" : "Property",
-                                       "source" : {
-                                          "path" : "period",
-                                          "scope" : "cond3",
-                                          "type" : "Property"
-                                       }
-                                    } ]
-                                 }
-                              } ]
-                           }, {
-                              "type" : "Not",
-                              "operand" : {
-                                 "type" : "Equal",
-                                 "operand" : [ {
-                                    "path" : "start",
-                                    "type" : "Property",
-                                    "source" : {
-                                       "path" : "period",
-                                       "scope" : "cond1",
-                                       "type" : "Property"
-                                    }
-                                 }, {
-                                    "path" : "start",
-                                    "type" : "Property",
-                                    "source" : {
-                                       "path" : "period",
-                                       "scope" : "cond4",
-                                       "type" : "Property"
-                                    }
-                                 } ]
-                              }
-                           } ]
-                        }, {
-                           "type" : "Not",
-                           "operand" : {
-                              "type" : "Equal",
-                              "operand" : [ {
-                                 "path" : "start",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "path" : "period",
-                                    "scope" : "cond2",
-                                    "type" : "Property"
-                                 }
-                              }, {
-                                 "path" : "start",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "path" : "period",
-                                    "scope" : "cond3",
-                                    "type" : "Property"
-                                 }
-                              } ]
-                           }
-                        } ]
-                     }, {
-                        "type" : "Not",
-                        "operand" : {
-                           "type" : "Equal",
-                           "operand" : [ {
-                              "path" : "start",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "period",
-                                 "scope" : "cond2",
-                                 "type" : "Property"
-                              }
-                           }, {
-                              "path" : "start",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "period",
-                                 "scope" : "cond4",
-                                 "type" : "Property"
-                              }
-                           } ]
-                        }
-                     } ]
-                  }, {
-                     "type" : "Not",
-                     "operand" : {
-                        "type" : "Equal",
-                        "operand" : [ {
-                           "path" : "start",
-                           "type" : "Property",
-                           "source" : {
-                              "path" : "period",
-                              "scope" : "cond3",
-                              "type" : "Property"
-                           }
-                        }, {
-                           "path" : "start",
-                           "type" : "Property",
-                           "source" : {
-                              "path" : "period",
-                              "scope" : "cond4",
-                              "type" : "Property"
-                           }
-                        } ]
-                     }
-                  } ]
-               },
-               "return" : {
-                  "expression" : {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "type" : "Union",
-                        "operand" : [ {
-                           "type" : "ToList",
-                           "operand" : {
-                              "name" : "cond1",
-                              "type" : "AliasRef"
-                           }
-                        }, {
-                           "type" : "ToList",
-                           "operand" : {
-                              "name" : "cond2",
-                              "type" : "AliasRef"
-                           }
-                        } ]
-                     }, {
-                        "type" : "Union",
-                        "operand" : [ {
-                           "type" : "ToList",
-                           "operand" : {
-                              "name" : "cond3",
-                              "type" : "AliasRef"
-                           }
-                        }, {
-                           "type" : "ToList",
-                           "operand" : {
-                              "name" : "cond4",
-                              "type" : "AliasRef"
-                           }
-                        } ]
-                     } ]
-                  }
-               }
+               "dataType" : "{http://hl7.org/fhir}Encounter",
+               "type" : "Retrieve"
             }
          }, {
             "name" : "Other Visits on Different Dates",
@@ -1126,20 +907,8 @@
                },
                "return" : {
                   "expression" : {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "type" : "ToList",
-                        "operand" : {
-                           "name" : "cond1",
-                           "type" : "AliasRef"
-                        }
-                     }, {
-                        "type" : "ToList",
-                        "operand" : {
-                           "name" : "cond2",
-                           "type" : "AliasRef"
-                        }
-                     } ]
+                     "name" : "Outpatient Visit",
+                     "type" : "ExpressionRef"
                   }
                }
             }
@@ -1207,24 +976,8 @@
                   "name" : "EncountersInInterval",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "type" : "Query",
-                     "source" : [ {
-                        "alias" : "X",
-                        "expression" : {
-                           "name" : "Tele Visits on Different Dates",
-                           "type" : "ExpressionRef"
-                        }
-                     } ],
-                     "return" : {
-                        "distinct" : false,
-                        "expression" : {
-                           "type" : "SingletonFrom",
-                           "operand" : {
-                              "name" : "X",
-                              "type" : "AliasRef"
-                           }
-                        }
-                     }
+                     "name" : "Tele Visits on Different Dates",
+                     "type" : "ExpressionRef"
                   }, {
                      "name" : "Measurement Period",
                      "type" : "ParameterRef"
@@ -1275,24 +1028,8 @@
                   "name" : "EncountersInInterval",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "type" : "Query",
-                     "source" : [ {
-                        "alias" : "X",
-                        "expression" : {
-                           "name" : "Tele Visits on Different Dates",
-                           "type" : "ExpressionRef"
-                        }
-                     } ],
-                     "return" : {
-                        "distinct" : false,
-                        "expression" : {
-                           "type" : "SingletonFrom",
-                           "operand" : {
-                              "name" : "X",
-                              "type" : "AliasRef"
-                           }
-                        }
-                     }
+                     "name" : "Tele Visits on Different Dates",
+                     "type" : "ExpressionRef"
                   }, {
                      "name" : "Prior Period",
                      "type" : "ParameterRef"
@@ -2245,6 +1982,14 @@
                "precision" : "Day",
                "type" : "DurationBetween",
                "operand" : [ {
+                  "name" : "ToDateTime",
+                  "libraryName" : "FHIRHelpers",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "Index Prescription Start Date",
+                     "type" : "ExpressionRef"
+                  } ]
+               }, {
                   "type" : "ToDateTime",
                   "operand" : {
                      "type" : "Date",
@@ -2264,14 +2009,6 @@
                         "type" : "Literal"
                      }
                   }
-               }, {
-                  "name" : "ToDateTime",
-                  "libraryName" : "FHIRHelpers",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "name" : "Index Prescription Start Date",
-                     "type" : "ExpressionRef"
-                  } ]
                } ]
             }
          }, {
@@ -2374,14 +2111,20 @@
                               "type" : "Property"
                            } ]
                         }, {
-                           "name" : "ToQuantity",
-                           "libraryName" : "FHIRHelpers",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "path" : "daysSupply",
-                              "scope" : "E",
-                              "type" : "Property"
-                           } ]
+                           "type" : "ToQuantity",
+                           "operand" : {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "value",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "daysSupply",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              }
+                           }
                         } ]
                      }
                   }, {
@@ -2405,123 +2148,32 @@
                         } ]
                      },
                      "high" : {
-                        "type" : "If",
-                        "condition" : {
-                           "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type" : "As",
-                           "operand" : {
-                              "type" : "Greater",
-                              "operand" : [ {
-                                 "type" : "Add",
-                                 "operand" : [ {
-                                    "name" : "ToDateTime",
-                                    "libraryName" : "FHIRHelpers",
-                                    "type" : "FunctionRef",
-                                    "operand" : [ {
-                                       "path" : "whenHandedOver",
-                                       "scope" : "E",
-                                       "type" : "Property"
-                                    } ]
-                                 }, {
-                                    "name" : "ToQuantity",
-                                    "libraryName" : "FHIRHelpers",
-                                    "type" : "FunctionRef",
-                                    "operand" : [ {
-                                       "path" : "daysSupply",
-                                       "scope" : "E",
-                                       "type" : "Property"
-                                    } ]
-                                 } ]
-                              }, {
-                                 "type" : "DateTime",
-                                 "year" : {
-                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                    "value" : "2020",
-                                    "type" : "Literal"
-                                 },
-                                 "month" : {
-                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                    "value" : "12",
-                                    "type" : "Literal"
-                                 },
-                                 "day" : {
-                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                    "value" : "31",
-                                    "type" : "Literal"
-                                 },
-                                 "hour" : {
-                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                    "value" : "59",
-                                    "type" : "Literal"
-                                 },
-                                 "minute" : {
-                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                    "value" : "59",
-                                    "type" : "Literal"
-                                 },
-                                 "second" : {
-                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                    "value" : "9",
-                                    "type" : "Literal"
-                                 }
-                              } ]
-                           }
-                        },
-                        "then" : {
-                           "type" : "DateTime",
-                           "year" : {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                              "value" : "2020",
-                              "type" : "Literal"
-                           },
-                           "month" : {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                              "value" : "12",
-                              "type" : "Literal"
-                           },
-                           "day" : {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                              "value" : "31",
-                              "type" : "Literal"
-                           },
-                           "hour" : {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                              "value" : "59",
-                              "type" : "Literal"
-                           },
-                           "minute" : {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                              "value" : "59",
-                              "type" : "Literal"
-                           },
-                           "second" : {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                              "value" : "9",
-                              "type" : "Literal"
-                           }
-                        },
-                        "else" : {
-                           "type" : "Add",
+                        "type" : "Add",
+                        "operand" : [ {
+                           "name" : "ToDateTime",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
                            "operand" : [ {
-                              "name" : "ToDateTime",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
-                              "operand" : [ {
-                                 "path" : "whenHandedOver",
-                                 "scope" : "E",
-                                 "type" : "Property"
-                              } ]
-                           }, {
-                              "name" : "ToQuantity",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
-                              "operand" : [ {
-                                 "path" : "daysSupply",
-                                 "scope" : "E",
-                                 "type" : "Property"
-                              } ]
+                              "path" : "whenHandedOver",
+                              "scope" : "E",
+                              "type" : "Property"
                            } ]
-                        }
+                        }, {
+                           "type" : "ToQuantity",
+                           "operand" : {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "value",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "daysSupply",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              }
+                           }
+                        } ]
                      }
                   }
                }
