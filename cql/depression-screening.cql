@@ -24,7 +24,7 @@ codesystem "CQFramework": 'http://cqframework.info/codesystem/placeholder'
 
 
 /* The following Valuesets come from VSAC*/
-valueset "Behavioral Health Follow-up Visit": '2.16.840.1.113883.3.464.1003.101.12.1054'
+valueset "Behavioral Health Encounter": '2.16.840.1.113883.3.464.1003.101.12.1054'
 valueset "Bipolar Disorder": '2.16.840.1.113883.3.67.1.101.1.128'
 valueset "Depression Diagnosis": '2.16.840.1.113883.3.600.145'
 valueset "Depression Screening Encounter": '2.16.840.1.113762.1.4.1138.536'
@@ -163,7 +163,7 @@ define "First Positive Depression Screening During Follow-Up Period":
 
 define "Follow-Up Care Encounters":
 	distinct (
-		[Encounter: "Behavioral Health Follow-up Visit"]
+		[Encounter: "Behavioral Health Encounter"]
 		union
 		(
 			[Encounter: "Ambulatory/ED Visit"] E
@@ -178,7 +178,7 @@ define "Follow-Up Care Encounters":
 		where Enc.status.value in { 'planned', 'arrived', 'triaged', 'in-progress', 'onleave', 'finished' }
 
 define "Same Day Behavioral Encounter":
-	[Encounter: "Behavioral Health Follow-up Visit"] BehavioralEncounter
+	[Encounter: "Behavioral Health Encounter"] BehavioralEncounter
 		with "First Positive Depression Screening During Follow-Up Period" PositiveScreen
 			such that BehavioralEncounter.status.value in { 'planned', 'arrived', 'triaged', 'in-progress', 'onleave', 'finished' }
 				and start of PeriodToIntervalOfDT(BehavioralEncounter.period) same day as PositiveScreen.effective.value
@@ -255,14 +255,23 @@ define "Stratifier 11":
 
 context Unfiltered
 
-define "Denominator Count":
-  Sum("Denominator 1") + Sum("Denominator 2")
+define "Denominator Count 1":
+  Sum("Denominator 1")
 
-define "Numerator Count":
-  Sum("Numerator 1") + Sum("Numerator 2")
+define "Numerator Count 1":
+  Sum("Numerator 1")
 
-define "CDC Measure Score":
-  Sum("Numerator Count") / Sum("Denominator Count")
+define "CDC Measure Score 1":
+  Sum("Numerator 1") / Sum("Denominator 1")
+
+define "Denominator Count 2":
+  Sum("Denominator 2")
+
+define "Numerator Count 2":
+  Sum("Numerator 2")
+
+define "CDC Measure Score 2":
+  Sum("Numerator 2") / Sum("Denominator 2")
 
 /*
 Utility Functions

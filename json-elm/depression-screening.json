@@ -97,7 +97,7 @@
       },
       "valueSets" : {
          "def" : [ {
-            "name" : "Behavioral Health Follow-up Visit",
+            "name" : "Behavioral Health Encounter",
             "id" : "2.16.840.1.113883.3.464.1003.101.12.1054",
             "accessLevel" : "Public"
          }, {
@@ -1045,7 +1045,7 @@
                               "codeComparator" : "in",
                               "type" : "Retrieve",
                               "codes" : {
-                                 "name" : "Behavioral Health Follow-up Visit",
+                                 "name" : "Behavioral Health Encounter",
                                  "type" : "ValueSetRef"
                               }
                            }, {
@@ -1340,7 +1340,7 @@
                      "codeComparator" : "in",
                      "type" : "Retrieve",
                      "codes" : {
-                        "name" : "Behavioral Health Follow-up Visit",
+                        "name" : "Behavioral Health Encounter",
                         "type" : "ValueSetRef"
                      }
                   }
@@ -1723,47 +1723,29 @@
                } ]
             }
          }, {
-            "name" : "Denominator Count",
+            "name" : "Denominator Count 1",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Add",
-               "operand" : [ {
-                  "type" : "Sum",
-                  "source" : {
-                     "name" : "Denominator 1",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "type" : "Sum",
-                  "source" : {
-                     "name" : "Denominator 2",
-                     "type" : "ExpressionRef"
-                  }
-               } ]
+               "type" : "Sum",
+               "source" : {
+                  "name" : "Denominator 1",
+                  "type" : "ExpressionRef"
+               }
             }
          }, {
-            "name" : "Numerator Count",
+            "name" : "Numerator Count 1",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Add",
-               "operand" : [ {
-                  "type" : "Sum",
-                  "source" : {
-                     "name" : "Numerator 1",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "type" : "Sum",
-                  "source" : {
-                     "name" : "Numerator 2",
-                     "type" : "ExpressionRef"
-                  }
-               } ]
+               "type" : "Sum",
+               "source" : {
+                  "name" : "Numerator 1",
+                  "type" : "ExpressionRef"
+               }
             }
          }, {
-            "name" : "CDC Measure Score",
+            "name" : "CDC Measure Score 1",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
@@ -1773,11 +1755,8 @@
                   "operand" : {
                      "type" : "Sum",
                      "source" : {
-                        "type" : "ToList",
-                        "operand" : {
-                           "name" : "Numerator Count",
-                           "type" : "ExpressionRef"
-                        }
+                        "name" : "Numerator 1",
+                        "type" : "ExpressionRef"
                      }
                   }
                }, {
@@ -1785,11 +1764,56 @@
                   "operand" : {
                      "type" : "Sum",
                      "source" : {
-                        "type" : "ToList",
-                        "operand" : {
-                           "name" : "Denominator Count",
-                           "type" : "ExpressionRef"
-                        }
+                        "name" : "Denominator 1",
+                        "type" : "ExpressionRef"
+                     }
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Denominator Count 2",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Sum",
+               "source" : {
+                  "name" : "Denominator 2",
+                  "type" : "ExpressionRef"
+               }
+            }
+         }, {
+            "name" : "Numerator Count 2",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Sum",
+               "source" : {
+                  "name" : "Numerator 2",
+                  "type" : "ExpressionRef"
+               }
+            }
+         }, {
+            "name" : "CDC Measure Score 2",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Divide",
+               "operand" : [ {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "name" : "Numerator 2",
+                        "type" : "ExpressionRef"
+                     }
+                  }
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "name" : "Denominator 2",
+                        "type" : "ExpressionRef"
                      }
                   }
                } ]
