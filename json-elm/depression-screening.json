@@ -41,7 +41,7 @@
                   "type" : "Date",
                   "year" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "2019",
+                     "value" : "2020",
                      "type" : "Literal"
                   },
                   "month" : {
@@ -64,12 +64,12 @@
                   },
                   "month" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "1",
+                     "value" : "12",
                      "type" : "Literal"
                   },
                   "day" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "1",
+                     "value" : "31",
                      "type" : "Literal"
                   }
                }
@@ -195,36 +195,6 @@
                },
                "high" : {
                   "type" : "Start",
-                  "operand" : {
-                     "name" : "Measurement Period",
-                     "type" : "ParameterRef"
-                  }
-               }
-            }
-         }, {
-            "name" : "Lookback Interval One More Year",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "lowClosed" : true,
-               "highClosed" : false,
-               "type" : "Interval",
-               "low" : {
-                  "type" : "Subtract",
-                  "operand" : [ {
-                     "type" : "Start",
-                     "operand" : {
-                        "name" : "Measurement Period",
-                        "type" : "ParameterRef"
-                     }
-                  }, {
-                     "value" : 1,
-                     "unit" : "year",
-                     "type" : "Quantity"
-                  } ]
-               },
-               "high" : {
-                  "type" : "End",
                   "operand" : {
                      "name" : "Measurement Period",
                      "type" : "ParameterRef"
@@ -415,7 +385,7 @@
                                        "path" : "low",
                                        "type" : "Property",
                                        "source" : {
-                                          "name" : "Lookback Interval One More Year",
+                                          "name" : "First Predecessor Year",
                                           "type" : "ExpressionRef"
                                        }
                                     }
@@ -424,7 +394,7 @@
                                     "path" : "lowClosed",
                                     "type" : "Property",
                                     "source" : {
-                                       "name" : "Lookback Interval One More Year",
+                                       "name" : "First Predecessor Year",
                                        "type" : "ExpressionRef"
                                     }
                                  },
@@ -434,7 +404,7 @@
                                        "path" : "high",
                                        "type" : "Property",
                                        "source" : {
-                                          "name" : "Lookback Interval One More Year",
+                                          "name" : "First Predecessor Year",
                                           "type" : "ExpressionRef"
                                        }
                                     }
@@ -443,7 +413,7 @@
                                     "path" : "highClosed",
                                     "type" : "Property",
                                     "source" : {
-                                       "name" : "Lookback Interval One More Year",
+                                       "name" : "First Predecessor Year",
                                        "type" : "ExpressionRef"
                                     }
                                  }
@@ -653,8 +623,11 @@
                      "name" : "Initial Population",
                      "type" : "ExpressionRef"
                   }, {
-                     "name" : "Denominator Exclusion",
-                     "type" : "ExpressionRef"
+                     "type" : "Not",
+                     "operand" : {
+                        "name" : "Denominator Exclusion",
+                        "type" : "ExpressionRef"
+                     }
                   } ]
                },
                "caseItem" : [ {

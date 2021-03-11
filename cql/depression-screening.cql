@@ -4,7 +4,6 @@ Depression Screening and Follow-Up for Adolescents and Adults (DSF)
 
 library depression_screening_and_followup version '1.0.0'
 
-//using FHIR version '3.0.1'
 using FHIR version '4.0.0'
 include FHIRHelpers version '4.0.0' called FHIRHelpers
 
@@ -59,14 +58,11 @@ code "PHQ-9 Modified Score": '00009' from "CQFramework"
 code "PHQ-9 Tool": '44249-1' from "LOINC"
 
 
-parameter "Measurement Period" default Interval[@2019-01-01, @2020-01-01]
+parameter "Measurement Period" default Interval[@2020-01-01, @2020-12-31]
 
 
 define "First Predecessor Year":
 	Interval[start of "Measurement Period" - 1 year, start of "Measurement Period")
-
-define "Lookback Interval One More Year":
-	Interval[start of "Measurement Period" - 1 year, end of "Measurement Period")
 
 /*
 This library evaluates with respect to exactly 1 candidate patient at a time,
@@ -86,12 +82,11 @@ define "Initial Population":
 /*
 Exclusions
 */
-
 define "Denominator Exclusion":
 	exists (
 		"Bipolar Disorder Reports" BD
 			where BD.status.value in { 'preliminary', 'final', 'amended', 'corrected', 'appended' }
-				and PeriodToIntervalOfDT(BD.effective) overlaps "Lookback Interval One More Year"
+				and PeriodToIntervalOfDT(BD.effective) overlaps "First Predecessor Year"
 	)
 	or
 	exists (
@@ -116,7 +111,7 @@ Denominators and Numerators
 
 // Depression Screening
 define "Denominator 1":
-	case ("Initial Population" and "Denominator Exclusion")
+	case ("Initial Population" and not "Denominator Exclusion")
 		when true then 1
 		else 0
 	end
