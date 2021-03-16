@@ -45,9 +45,6 @@ const execute = (measure, patients, codeservice) => {
   patientSource.loadBundles(patients);
 
   const result = executor.exec(patientSource);
-  console.log(JSON.stringify(result.patientResults['numer-EXM165-FHIR3']["Other Visits on Different Dates"], undefined, 2))
-  // console.log(JSON.stringify(result.patientResults['numer-EXM165-FHIR3']['~~~Other Visits on Different Dates'], undefined, 2))
-  //console.log("~~~", result.patientResults['numer-EXM165-FHIR3']['Medication in Date Range'])
   console.log(result.patientResults); // eslint-disable-line no-console
   console.log(result.unfilteredResults); // eslint-disable-line no-console
 
