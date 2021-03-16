@@ -1,6 +1,13 @@
 [![Build Status](https://travis-ci.org/cqframework/cql-execution.svg?branch=master)](https://travis-ci.org/cqframework/cql-execution)
 [![codecov](https://codecov.io/gh/cqframework/cql-execution/branch/master/graph/badge.svg)](https://codecov.io/gh/cqframework/cql-execution)
 
+# Notes about Amida Created CQL Libraries
+## Missing Medication Codes (Updated: 3/16/2021)
+CQL files that require medication codes are don't include all of the necessary codes that are required by the HEDIS spec. This is because we are planning on creating a medication service that programmatically pulls all of the medication associated with a HEDIS measure at some point in the future (James Z/Mike have talked about this).
+
+## Using VSAC URNs instead of the HEDIS specified URNs (Updated: 3/16/2021)
+Any valuesets that are listed in CQL files and are NOT commented out are using a valueset URN (and therefore a list of codes in the `data/codes` directory) from VSAC; Long term, we want to be using the valueset URNs (and therefore codes associated with those URNs) from the valuesets listed in the HEDIS excel sheet that a few of us have licesnses to; however, we can't currently grab data from that excel sheet (programmatically or otherwise) due to some licensing issues. However,  Mike is a part of a HEDIS user group and thinks he may have access to the excel sheet, but hasn't looked into it yet.
+
 # CQL Execution Framework
 
 The CQL Execution Framework provides a JavaScript library for executing CQL artifacts expressed as
