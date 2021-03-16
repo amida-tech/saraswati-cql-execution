@@ -109,7 +109,7 @@
             "id" : "2.16.840.1.113883.3.600.145",
             "accessLevel" : "Public"
          }, {
-            "name" : "Depression Screening Encounter",
+            "name" : "Depression Case Management Encounter",
             "id" : "2.16.840.1.113762.1.4.1138.536",
             "accessLevel" : "Public"
          }, {
@@ -117,7 +117,7 @@
             "id" : "2.16.840.1.113762.1.4.1182.97",
             "accessLevel" : "Public"
          }, {
-            "name" : "Ambulatory/ED Visit",
+            "name" : "Follow Up Visit",
             "id" : "2.16.840.1.113883.3.464.1003.101.12.1061",
             "accessLevel" : "Public"
          }, {
@@ -195,6 +195,36 @@
                },
                "high" : {
                   "type" : "Start",
+                  "operand" : {
+                     "name" : "Measurement Period",
+                     "type" : "ParameterRef"
+                  }
+               }
+            }
+         }, {
+            "name" : "Lookback Interval One More Year",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "lowClosed" : true,
+               "highClosed" : false,
+               "type" : "Interval",
+               "low" : {
+                  "type" : "Subtract",
+                  "operand" : [ {
+                     "type" : "Start",
+                     "operand" : {
+                        "name" : "Measurement Period",
+                        "type" : "ParameterRef"
+                     }
+                  }, {
+                     "value" : 1,
+                     "unit" : "year",
+                     "type" : "Quantity"
+                  } ]
+               },
+               "high" : {
+                  "type" : "End",
                   "operand" : {
                      "name" : "Measurement Period",
                      "type" : "ParameterRef"
@@ -364,7 +394,7 @@
                                  } ]
                               } ]
                            }, {
-                              "type" : "Overlaps",
+                              "type" : "IncludedIn",
                               "operand" : [ {
                                  "name" : "PeriodToIntervalOfDT",
                                  "type" : "FunctionRef",
@@ -433,7 +463,7 @@
                               "codeComparator" : "in",
                               "type" : "Retrieve",
                               "codes" : {
-                                 "name" : "Dysthymia",
+                                 "name" : "Depression Diagnosis",
                                  "type" : "ValueSetRef"
                               }
                            }
@@ -476,7 +506,7 @@
                                  } ]
                               } ]
                            }, {
-                              "type" : "Overlaps",
+                              "type" : "IncludedIn",
                               "operand" : [ {
                                  "name" : "PeriodToIntervalOfDT",
                                  "type" : "FunctionRef",
@@ -1030,209 +1060,97 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Distinct",
-               "operand" : {
-                  "type" : "Query",
-                  "source" : [ {
-                     "alias" : "Enc",
-                     "expression" : {
-                        "type" : "Union",
-                        "operand" : [ {
-                           "type" : "Union",
-                           "operand" : [ {
-                              "dataType" : "{http://hl7.org/fhir}Encounter",
-                              "codeProperty" : "type",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Behavioral Health Encounter",
-                                 "type" : "ValueSetRef"
-                              }
-                           }, {
-                              "type" : "Query",
-                              "source" : [ {
-                                 "alias" : "E",
-                                 "expression" : {
-                                    "dataType" : "{http://hl7.org/fhir}Encounter",
-                                    "codeProperty" : "type",
-                                    "codeComparator" : "in",
-                                    "type" : "Retrieve",
-                                    "codes" : {
-                                       "name" : "Ambulatory/ED Visit",
-                                       "type" : "ValueSetRef"
-                                    }
-                                 }
-                              } ],
-                              "relationship" : [ {
-                                 "alias" : "D",
-                                 "type" : "With",
-                                 "expression" : {
-                                    "dataType" : "{http://hl7.org/fhir}DiagnosticReport",
-                                    "codeProperty" : "code",
-                                    "codeComparator" : "in",
-                                    "type" : "Retrieve",
-                                    "codes" : {
-                                       "name" : "Dysthymia",
-                                       "type" : "ValueSetRef"
-                                    }
-                                 },
-                                 "suchThat" : {
-                                    "type" : "And",
-                                    "operand" : [ {
-                                       "type" : "And",
-                                       "operand" : [ {
-                                          "type" : "In",
-                                          "operand" : [ {
-                                             "path" : "value",
-                                             "type" : "Property",
-                                             "source" : {
-                                                "path" : "status",
-                                                "scope" : "E",
-                                                "type" : "Property"
-                                             }
-                                          }, {
-                                             "type" : "List",
-                                             "element" : [ {
-                                                "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                                "value" : "planned",
-                                                "type" : "Literal"
-                                             }, {
-                                                "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                                "value" : "arrived",
-                                                "type" : "Literal"
-                                             }, {
-                                                "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                                "value" : "triaged",
-                                                "type" : "Literal"
-                                             }, {
-                                                "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                                "value" : "in-progress",
-                                                "type" : "Literal"
-                                             }, {
-                                                "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                                "value" : "onleave",
-                                                "type" : "Literal"
-                                             }, {
-                                                "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                                "value" : "finished",
-                                                "type" : "Literal"
-                                             } ]
-                                          } ]
-                                       }, {
-                                          "type" : "In",
-                                          "operand" : [ {
-                                             "path" : "value",
-                                             "type" : "Property",
-                                             "source" : {
-                                                "path" : "status",
-                                                "scope" : "D",
-                                                "type" : "Property"
-                                             }
-                                          }, {
-                                             "type" : "List",
-                                             "element" : [ {
-                                                "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                                "value" : "preliminary",
-                                                "type" : "Literal"
-                                             }, {
-                                                "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                                "value" : "final",
-                                                "type" : "Literal"
-                                             }, {
-                                                "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                                "value" : "amended",
-                                                "type" : "Literal"
-                                             }, {
-                                                "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                                "value" : "corrected",
-                                                "type" : "Literal"
-                                             }, {
-                                                "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                                                "value" : "appended",
-                                                "type" : "Literal"
-                                             } ]
-                                          } ]
-                                       } ]
-                                    }, {
-                                       "type" : "Overlaps",
-                                       "operand" : [ {
-                                          "name" : "PeriodToIntervalOfDT",
-                                          "type" : "FunctionRef",
-                                          "operand" : [ {
-                                             "asType" : "{http://hl7.org/fhir}Period",
-                                             "type" : "As",
-                                             "operand" : {
-                                                "path" : "effective",
-                                                "scope" : "D",
-                                                "type" : "Property"
-                                             }
-                                          } ]
-                                       }, {
-                                          "name" : "PeriodToIntervalOfDT",
-                                          "type" : "FunctionRef",
-                                          "operand" : [ {
-                                             "path" : "period",
-                                             "scope" : "E",
-                                             "type" : "Property"
-                                          } ]
-                                       } ]
-                                    } ]
-                                 }
-                              } ]
-                           } ]
-                        }, {
+               "type" : "Union",
+               "operand" : [ {
+                  "type" : "Union",
+                  "operand" : [ {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "codeProperty" : "type",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Behavioral Health Encounter",
+                        "type" : "ValueSetRef"
+                     }
+                  }, {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "E",
+                        "expression" : {
                            "dataType" : "{http://hl7.org/fhir}Encounter",
                            "codeProperty" : "type",
                            "codeComparator" : "in",
                            "type" : "Retrieve",
                            "codes" : {
-                              "name" : "Depression Screening Encounter",
+                              "name" : "Follow Up Visit",
                               "type" : "ValueSetRef"
                            }
-                        } ]
-                     }
-                  } ],
-                  "relationship" : [ ],
-                  "where" : {
-                     "type" : "In",
-                     "operand" : [ {
-                        "path" : "value",
-                        "type" : "Property",
-                        "source" : {
-                           "path" : "status",
-                           "scope" : "Enc",
-                           "type" : "Property"
                         }
-                     }, {
-                        "type" : "List",
-                        "element" : [ {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "planned",
-                           "type" : "Literal"
-                        }, {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "arrived",
-                           "type" : "Literal"
-                        }, {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "triaged",
-                           "type" : "Literal"
-                        }, {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "in-progress",
-                           "type" : "Literal"
-                        }, {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "onleave",
-                           "type" : "Literal"
-                        }, {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "finished",
-                           "type" : "Literal"
-                        } ]
+                     } ],
+                     "relationship" : [ {
+                        "alias" : "D",
+                        "type" : "With",
+                        "expression" : {
+                           "dataType" : "{http://hl7.org/fhir}Condition",
+                           "codeProperty" : "code",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Depression Diagnosis",
+                              "type" : "ValueSetRef"
+                           }
+                        },
+                        "suchThat" : {
+                           "type" : "In",
+                           "operand" : [ {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "status",
+                                 "scope" : "E",
+                                 "type" : "Property"
+                              }
+                           }, {
+                              "type" : "List",
+                              "element" : [ {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : "planned",
+                                 "type" : "Literal"
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : "arrived",
+                                 "type" : "Literal"
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : "triaged",
+                                 "type" : "Literal"
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : "in-progress",
+                                 "type" : "Literal"
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : "onleave",
+                                 "type" : "Literal"
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : "finished",
+                                 "type" : "Literal"
+                              } ]
+                           } ]
+                        }
                      } ]
+                  } ]
+               }, {
+                  "dataType" : "{http://hl7.org/fhir}Encounter",
+                  "codeProperty" : "type",
+                  "codeComparator" : "in",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "name" : "Depression Case Management Encounter",
+                     "type" : "ValueSetRef"
                   }
-               }
+               } ]
             }
          }, {
             "name" : "Follow-Up Encounter Within 31 Days",

@@ -27,9 +27,9 @@ codesystem "CQFramework": 'http://cqframework.info/codesystem/placeholder'
 valueset "Behavioral Health Encounter": '2.16.840.1.113883.3.464.1003.101.12.1054'
 valueset "Bipolar Disorder": '2.16.840.1.113883.3.67.1.101.1.128'
 valueset "Depression Diagnosis": '2.16.840.1.113883.3.600.145'
-valueset "Depression Screening Encounter": '2.16.840.1.113762.1.4.1138.536'
+valueset "Depression Case Management Encounter": '2.16.840.1.113762.1.4.1138.536'
 valueset "Depression Screen": '2.16.840.1.113762.1.4.1182.97'
-valueset "Ambulatory/ED Visit": '2.16.840.1.113883.3.464.1003.101.12.1061'
+valueset "Follow Up Visit": '2.16.840.1.113883.3.464.1003.101.12.1061'
 valueset "Negative Depression Screening": '2.16.840.1.113883.3.7587.3.1020'
 valueset "Other Bipolar Disorder": '2.16.840.1.113883.3.464.1003.105.12.1204'
 valueset "Positive Depression Screening": '2.16.840.1.113883.3.7587.3.1019'
@@ -64,6 +64,9 @@ parameter "Measurement Period" default Interval[@2020-01-01, @2020-12-31]
 define "First Predecessor Year":
 	Interval[start of "Measurement Period" - 1 year, start of "Measurement Period")
 
+define "Lookback Interval One More Year":
+	Interval[start of "Measurement Period" - 1 year, end of "Measurement Period")
+
 /*
 This library evaluates with respect to exactly 1 candidate patient at a time,
 that patient being given by the special context parameter Patient.
@@ -86,13 +89,13 @@ define "Denominator Exclusion":
 	exists (
 		"Bipolar Disorder Reports" BD
 			where BD.status.value in { 'preliminary', 'final', 'amended', 'corrected', 'appended' }
-				and PeriodToIntervalOfDT(BD.effective) overlaps "First Predecessor Year"
+				and PeriodToIntervalOfDT(BD.effective) during "First Predecessor Year"
 	)
 	or
 	exists (
-		[DiagnosticReport: "Dysthymia"] MDD
+		[DiagnosticReport: "Depression Diagnosis"] MDD
 			where MDD.status.value in { 'preliminary', 'final', 'amended', 'corrected', 'appended' }
-				and PeriodToIntervalOfDT(MDD.effective) overlaps "First Predecessor Year"
+				and PeriodToIntervalOfDT(MDD.effective) during "First Predecessor Year"
 	)
 	or
 	exists (
@@ -162,20 +165,13 @@ define "First Positive Depression Screening During Follow-Up Period":
 	)}
 
 define "Follow-Up Care Encounters":
-	distinct (
 		[Encounter: "Behavioral Health Encounter"]
-		union
-		(
-			[Encounter: "Ambulatory/ED Visit"] E
-				with [DiagnosticReport: "Dysthymia"] D
+		union(
+			[Encounter: "Follow Up Visit"] E
+				with [Condition: "Depression Diagnosis"] D
 					such that E.status.value in { 'planned', 'arrived', 'triaged', 'in-progress', 'onleave', 'finished' }
-						and D.status.value in { 'preliminary', 'final', 'amended', 'corrected', 'appended' }
-						and PeriodToIntervalOfDT(D.effective) overlaps PeriodToIntervalOfDT(E.period)
-		)
-		union
-		[Encounter: "Depression Screening Encounter"]
-	) Enc
-		where Enc.status.value in { 'planned', 'arrived', 'triaged', 'in-progress', 'onleave', 'finished' }
+		) union (
+		[Encounter: "Depression Case Management Encounter"])
 
 define "Same Day Behavioral Encounter":
 	[Encounter: "Behavioral Health Encounter"] BehavioralEncounter
