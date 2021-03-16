@@ -107,11 +107,12 @@ define "Online Assessment":
 
 // diff dates of service - should that start day or end day or both?
 define function DeduplicateBasedOnStartDate(Enc List<Encounter>):
-  "Enc" N1
-    with "Enc" N2
-      such that ( ( IndexOf("Enc", N2) + 1 = IndexOf("Enc", N1) )
-        and not ( N1.period.start = N2.period.start ) )
-          or IndexOf("Enc", N1) = 1
+  if Count(Enc) > 1 then 
+    "Enc" N1
+      with "Enc" N2
+        such that (IndexOf("Enc", N2) + 1 = IndexOf("Enc", N1))
+          and not (N1.period.start = N2.period.start)
+  else Enc[0]
 
 define "Tele Visits":
     "Telehealth Modifier Visit" union

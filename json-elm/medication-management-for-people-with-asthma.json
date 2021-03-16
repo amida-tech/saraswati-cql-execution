@@ -6,9 +6,9 @@
       }, {
          "libraryId" : "medication_management_for_people_with_asthma",
          "libraryVersion" : "1",
-         "startLine" : 153,
+         "startLine" : 158,
          "startChar" : 43,
-         "endLine" : 153,
+         "endLine" : 158,
          "endChar" : 48,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -850,24 +850,42 @@
             "accessLevel" : "Public",
             "type" : "FunctionDef",
             "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "N1",
-                  "expression" : {
-                     "name" : "Enc",
-                     "type" : "OperandRef"
-                  }
-               } ],
-               "relationship" : [ {
-                  "alias" : "N2",
-                  "type" : "With",
-                  "expression" : {
-                     "name" : "Enc",
-                     "type" : "OperandRef"
-                  },
-                  "suchThat" : {
-                     "type" : "Or",
+               "type" : "If",
+               "condition" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Greater",
                      "operand" : [ {
+                        "type" : "Count",
+                        "source" : {
+                           "name" : "Enc",
+                           "type" : "OperandRef"
+                        }
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "1",
+                        "type" : "Literal"
+                     } ]
+                  }
+               },
+               "then" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "N1",
+                     "expression" : {
+                        "name" : "Enc",
+                        "type" : "OperandRef"
+                     }
+                  } ],
+                  "relationship" : [ {
+                     "alias" : "N2",
+                     "type" : "With",
+                     "expression" : {
+                        "name" : "Enc",
+                        "type" : "OperandRef"
+                     },
+                     "suchThat" : {
                         "type" : "And",
                         "operand" : [ {
                            "type" : "Equal",
@@ -922,26 +940,23 @@
                               } ]
                            }
                         } ]
+                     }
+                  } ]
+               },
+               "else" : {
+                  "type" : "ToList",
+                  "operand" : {
+                     "type" : "Indexer",
+                     "operand" : [ {
+                        "name" : "Enc",
+                        "type" : "OperandRef"
                      }, {
-                        "type" : "Equal",
-                        "operand" : [ {
-                           "type" : "IndexOf",
-                           "source" : {
-                              "name" : "Enc",
-                              "type" : "OperandRef"
-                           },
-                           "element" : {
-                              "name" : "N1",
-                              "type" : "AliasRef"
-                           }
-                        }, {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                           "value" : "1",
-                           "type" : "Literal"
-                        } ]
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "0",
+                        "type" : "Literal"
                      } ]
                   }
-               } ]
+               }
             },
             "operand" : [ {
                "name" : "Enc",
