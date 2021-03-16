@@ -4,21 +4,11 @@
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
       }, {
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
          "libraryId" : "medication_management_for_people_with_asthma",
          "libraryVersion" : "1",
-         "startLine" : 150,
+         "startLine" : 153,
          "startChar" : 43,
-         "endLine" : 150,
+         "endLine" : 153,
          "endChar" : 48,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -130,7 +120,7 @@
                   },
                   "millisecond" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "9",
+                     "value" : "999",
                      "type" : "Literal"
                   }
                }
@@ -214,7 +204,7 @@
                   },
                   "millisecond" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "9",
+                     "value" : "999",
                      "type" : "Literal"
                   }
                }
@@ -855,62 +845,177 @@
                } ]
             }
          }, {
+            "name" : "DeduplicateBasedOnStartDate",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "N1",
+                  "expression" : {
+                     "name" : "Enc",
+                     "type" : "OperandRef"
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "N2",
+                  "type" : "With",
+                  "expression" : {
+                     "name" : "Enc",
+                     "type" : "OperandRef"
+                  },
+                  "suchThat" : {
+                     "type" : "Or",
+                     "operand" : [ {
+                        "type" : "And",
+                        "operand" : [ {
+                           "type" : "Equal",
+                           "operand" : [ {
+                              "type" : "Add",
+                              "operand" : [ {
+                                 "type" : "IndexOf",
+                                 "source" : {
+                                    "name" : "Enc",
+                                    "type" : "OperandRef"
+                                 },
+                                 "element" : {
+                                    "name" : "N2",
+                                    "type" : "AliasRef"
+                                 }
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                 "value" : "1",
+                                 "type" : "Literal"
+                              } ]
+                           }, {
+                              "type" : "IndexOf",
+                              "source" : {
+                                 "name" : "Enc",
+                                 "type" : "OperandRef"
+                              },
+                              "element" : {
+                                 "name" : "N1",
+                                 "type" : "AliasRef"
+                              }
+                           } ]
+                        }, {
+                           "type" : "Not",
+                           "operand" : {
+                              "type" : "Equal",
+                              "operand" : [ {
+                                 "path" : "start",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "period",
+                                    "scope" : "N1",
+                                    "type" : "Property"
+                                 }
+                              }, {
+                                 "path" : "start",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "period",
+                                    "scope" : "N2",
+                                    "type" : "Property"
+                                 }
+                              } ]
+                           }
+                        } ]
+                     }, {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "type" : "IndexOf",
+                           "source" : {
+                              "name" : "Enc",
+                              "type" : "OperandRef"
+                           },
+                           "element" : {
+                              "name" : "N1",
+                              "type" : "AliasRef"
+                           }
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                           "value" : "1",
+                           "type" : "Literal"
+                        } ]
+                     } ]
+                  }
+               } ]
+            },
+            "operand" : [ {
+               "name" : "Enc",
+               "operandTypeSpecifier" : {
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "name" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               }
+            } ]
+         }, {
+            "name" : "Tele Visits",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Union",
+               "operand" : [ {
+                  "type" : "Union",
+                  "operand" : [ {
+                     "name" : "Telehealth Modifier Visit",
+                     "type" : "ExpressionRef"
+                  }, {
+                     "name" : "Telephone Visit",
+                     "type" : "ExpressionRef"
+                  } ]
+               }, {
+                  "type" : "Union",
+                  "operand" : [ {
+                     "name" : "Online Assessment",
+                     "type" : "ExpressionRef"
+                  }, {
+                     "name" : "Telehealth POS Visit",
+                     "type" : "ExpressionRef"
+                  } ]
+               } ]
+            }
+         }, {
             "name" : "Tele Visits on Different Dates",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "dataType" : "{http://hl7.org/fhir}Encounter",
-               "type" : "Retrieve"
+               "name" : "DeduplicateBasedOnStartDate",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "Tele Visits",
+                  "type" : "ExpressionRef"
+               } ]
+            }
+         }, {
+            "name" : "Other Visits",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Union",
+               "operand" : [ {
+                  "name" : "Outpatient Visit",
+                  "type" : "ExpressionRef"
+               }, {
+                  "name" : "Observation Visit",
+                  "type" : "ExpressionRef"
+               } ]
             }
          }, {
             "name" : "Other Visits on Different Dates",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "cond1",
-                  "expression" : {
-                     "name" : "Outpatient Visit",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "alias" : "cond2",
-                  "expression" : {
-                     "name" : "Observation Visit",
-                     "type" : "ExpressionRef"
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "Not",
-                  "operand" : {
-                     "type" : "Equal",
-                     "operand" : [ {
-                        "path" : "start",
-                        "type" : "Property",
-                        "source" : {
-                           "path" : "period",
-                           "scope" : "cond1",
-                           "type" : "Property"
-                        }
-                     }, {
-                        "path" : "start",
-                        "type" : "Property",
-                        "source" : {
-                           "path" : "period",
-                           "scope" : "cond2",
-                           "type" : "Property"
-                        }
-                     } ]
-                  }
-               },
-               "return" : {
-                  "expression" : {
-                     "name" : "Outpatient Visit",
-                     "type" : "ExpressionRef"
-                  }
-               }
+               "name" : "DeduplicateBasedOnStartDate",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "Other Visits",
+                  "type" : "ExpressionRef"
+               } ]
             }
          }, {
             "name" : "EncountersInInterval",
@@ -994,24 +1099,8 @@
                   "name" : "EncountersInInterval",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "type" : "Query",
-                     "source" : [ {
-                        "alias" : "X",
-                        "expression" : {
-                           "name" : "Other Visits on Different Dates",
-                           "type" : "ExpressionRef"
-                        }
-                     } ],
-                     "return" : {
-                        "distinct" : false,
-                        "expression" : {
-                           "type" : "SingletonFrom",
-                           "operand" : {
-                              "name" : "X",
-                              "type" : "AliasRef"
-                           }
-                        }
-                     }
+                     "name" : "Other Visits on Different Dates",
+                     "type" : "ExpressionRef"
                   }, {
                      "name" : "Measurement Period",
                      "type" : "ParameterRef"
@@ -1046,24 +1135,8 @@
                   "name" : "EncountersInInterval",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "type" : "Query",
-                     "source" : [ {
-                        "alias" : "X",
-                        "expression" : {
-                           "name" : "Other Visits on Different Dates",
-                           "type" : "ExpressionRef"
-                        }
-                     } ],
-                     "return" : {
-                        "distinct" : false,
-                        "expression" : {
-                           "type" : "SingletonFrom",
-                           "operand" : {
-                              "name" : "X",
-                              "type" : "AliasRef"
-                           }
-                        }
-                     }
+                     "name" : "Other Visits on Different Dates",
+                     "type" : "ExpressionRef"
                   }, {
                      "name" : "Prior Period",
                      "type" : "ParameterRef"

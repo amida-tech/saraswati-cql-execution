@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 const codes = require('../src/cql-code-service');
 const cql = require('../src/cql');
 const fhirhelpers = require('../json-elm/FHIRHelpers.json');
+const helpers = require('../json-elm/helpers.json')
 
 const removeArrayValues = patient => {
   const clonedPatient = cloneDeep(patient);
@@ -33,7 +34,8 @@ const cleanData = patientResults => {
 
 const execute = (measure, patients, codeservice) => {
   const includedLibs = {
-    FHIRHelpers: fhirhelpers
+    FHIRHelpers: fhirhelpers,
+    helpers: helpers
   };
   const lib = new cql.Library(measure, new cql.Repository(includedLibs));
   const cservice = new codes.CodeService(codeservice);
@@ -43,7 +45,7 @@ const execute = (measure, patients, codeservice) => {
   patientSource.loadBundles(patients);
 
   const result = executor.exec(patientSource);
-  console.log(JSON.stringify(result.patientResults['numer-EXM165-FHIR3']["unionizer"], undefined, 2))
+  console.log(JSON.stringify(result.patientResults['numer-EXM165-FHIR3']["Other Visits on Different Dates"], undefined, 2))
   // console.log(JSON.stringify(result.patientResults['numer-EXM165-FHIR3']['~~~Other Visits on Different Dates'], undefined, 2))
   //console.log("~~~", result.patientResults['numer-EXM165-FHIR3']['Medication in Date Range'])
   console.log(result.patientResults); // eslint-disable-line no-console
