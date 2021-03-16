@@ -5,6 +5,9 @@ include FHIRHelpers version '4.0.0' called FHIRHelpers
 
 codesystem "SNOMED-CT": 'http://snomed.info/sct' version '20200301'
 
+// TODO: All of the uncommented valueset lines below are using
+// a URN from VSAC, but once we get programmatic access to the HEDIS excel files
+// we'll need to change these
 valueset "Asthma": '2.16.840.1.113883.3.526.3.362'
 valueset "Acute Inpatient": '2.16.840.1.113762.1.4.1182.120'
 valueset "Acute Respiratory Failure": '2.16.840.1.113883.3.464.1003.102.12.1018'
@@ -25,8 +28,6 @@ valueset "Telehealth Modifier": '2.16.840.1.113762.1.4.1138.731'
 valueset "Telehealth POS": '2.16.840.1.113883.3.464.1003.101.11.1155'
 valueset "Telephone Visits": '2.16.840.1.113883.3.1444.5.216'
 
-
-
 code "Albuterol": '372897005' from "SNOMED-CT" display 'Albuterol'
 code "Levalbuterol": '116090007' from "SNOMED-CT" display 'Levalbuterol'
 code "Dyphylline-guaifenesin": '398742006' from "SNOMED-CT" display 'Dyphylline-guaifenesin'
@@ -34,9 +35,8 @@ code "Montelukast": '372897005' from "SNOMED-CT" display 'Montelukast'
 code "Zafirlukast": '116090007' from "SNOMED-CT" display 'Zafirlukast'
 code "Zileuton": '108617005' from "SNOMED-CT" display 'Zileuton'
 
-// NOTE: there are wayyy more asthma medications than are listed here
-// but we are planning on creating a medication service that pulls all of the medication
-// associated with a HEDIS measure at some point in the future
+// TODO: there are more asthma medications needed than are listed here
+// See Missing Medication Codes section in README for details
 concept "Asthma Medication": {
   "Albuterol",
   "Levalbuterol",
