@@ -320,10 +320,6 @@
           },
           "participant": [
             {
-              "period": {
-                "start": "2019-01-17T16:00:00+10:00",
-                "end": "2019-01-17T16:30:00+10:00"
-              },
               "individual": {
                 "reference": "Practitioner/example",
                 "display": "Dr Adam Careful"
@@ -340,11 +336,7 @@
                 "reference": "#ED",
                 "display": "ED"
               },
-              "status": "completed",
-              "period": {
-                "start": "2015-01-19T16:00:00+10:00",
-                "end": "2015-01-19T16:30:00+10:00"
-              }
+              "status": "completed"
             }
           ]
         }
@@ -383,10 +375,6 @@
           },
           "participant": [
             {
-              "period": {
-                "start": "2019-01-18T16:00:00+10:00",
-                "end": "2019-01-18T16:30:00+10:00"
-              },
               "individual": {
                 "reference": "Practitioner/example",
                 "display": "Dr Adam Careful"
@@ -446,10 +434,6 @@
           },
           "participant": [
             {
-              "period": {
-                "start": "2019-01-17T16:00:00+10:00",
-                "end": "2019-01-17T16:30:00+10:00"
-              },
               "individual": {
                 "reference": "Practitioner/example",
                 "display": "Dr Adam Careful"
@@ -509,10 +493,6 @@
           },
           "participant": [
             {
-              "period": {
-                "start": "2019-01-17T16:00:00+10:00",
-                "end": "2019-01-17T16:30:00+10:00"
-              },
               "individual": {
                 "reference": "Practitioner/example",
                 "display": "Dr Adam Careful"
@@ -520,8 +500,8 @@
             }
           ],
           "period": {
-            "start": "2019-01-17T16:00:00+10:00",
-            "end": "2019-01-17T16:30:00+10:00"
+            "start": "2020-01-17T16:00:00+10:00",
+            "end": "2020-01-17T16:30:00+10:00"
           },
           "location": [
             {
@@ -536,6 +516,276 @@
               }
             }
           ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:gf3a4f19-9f99-6ceb-7dde-4900ae818cqq",
+        "resource": {
+          "resourceType": "MedicationDispense",
+          "id": "medicationdispense",
+          "contained": [
+            {
+              "resourceType": "Medication",
+              "id": "med0305",
+              "code": {
+                "coding": [
+                  {
+                    "system": "2.16.840.1.113883.6.96",
+                    "code": "116090007",
+                    "display": "Levalbuterol",
+                    "version": "20200301"
+                  }
+                ]
+              }
+            }
+          ],
+          "status": "completed",
+          "locationCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "19",
+                "display": "Off Campus-Outpatient Hospital"
+              }
+            ]
+          },
+          "medicationCodeableConcept": {
+            "coding": [
+              {
+                "system": "2.16.840.1.113883.6.96",
+                "code": "372897005",
+                "display": "Albuterol",
+                "version": "20200301"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "performer": [
+            {
+              "actor": {
+                "reference": "Practitioner/f006"
+              }
+            }
+          ],
+          "authorizingPrescription": [
+            {
+              "reference": "MedicationRequest/medrx0330"
+            }
+          ],
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "RFP",
+                "display": "Refill - Part Fill"
+              }
+            ]
+          },
+          "quantity": {
+            "value": 10,
+            "unit": "mL",
+            "system": "http://unitsofmeasure.org",
+            "code": "mL"
+          },
+          "daysSupply": {
+            "value": 30,
+            "unit": "Day",
+            "system": "http://unitsofmeasure.org",
+            "code": "d"
+          },
+          "whenPrepared": "2019-06-25T07:13:00+05:00",
+          "whenHandedOver": "2019-06-26T07:13:00+05:00",
+          "dosageInstruction": [
+            {
+              "sequence": 1,
+              "text": "Instil one drop in each eye twice daily",
+              "timing": {
+                "repeat": {
+                  "frequency": 2,
+                  "period": 1,
+                  "periodUnit": "d"
+                }
+              },
+              "route": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "54485002",
+                    "display": "Ophthalmic route (qualifier value)"
+                  }
+                ]
+              },
+              "method": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "421538008",
+                    "display": "Instill - dosing instruction imperative (qualifier value)"
+                  }
+                ]
+              },
+              "doseAndRate": [
+                {
+                  "type": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/dose-rate-type",
+                        "code": "ordered",
+                        "display": "Ordered"
+                      }
+                    ]
+                  },
+                  "doseQuantity": {
+                    "value": 1,
+                    "unit": "OPDROP",
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm",
+                    "code": "OPDROP"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "request": {
+          "method": "POST",
+          "url": "MedicationDispense"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:gf3a4f19-9f99-6ceb-7dde-4900ae818cqq",
+        "resource": {
+          "resourceType": "MedicationDispense",
+          "id": "medicationdispense1",
+          "contained": [
+            {
+              "resourceType": "Medication",
+              "id": "med0305",
+              "code": {
+                "coding": [
+                  {
+                    "system": "2.16.840.1.113883.6.96",
+                    "code": "386880006",
+                    "display": "Zafirlukast",
+                    "version": "20200301"
+                  }
+                ]
+              }
+            }
+          ],
+          "status": "completed",
+          "locationCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                "code": "19",
+                "display": "Off Campus-Outpatient Hospital"
+              }
+            ]
+          },
+          "medicationCodeableConcept": {
+            "coding": [
+              {
+                "system": "2.16.840.1.113883.6.96",
+                "code": "372897005",
+                "display": "Albuterol",
+                "version": "20200301"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "performer": [
+            {
+              "actor": {
+                "reference": "Practitioner/f006"
+              }
+            }
+          ],
+          "authorizingPrescription": [
+            {
+              "reference": "MedicationRequest/medrx0330"
+            }
+          ],
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "RFP",
+                "display": "Refill - Part Fill"
+              }
+            ]
+          },
+          "quantity": {
+            "value": 10,
+            "unit": "mL",
+            "system": "http://unitsofmeasure.org",
+            "code": "mL"
+          },
+          "daysSupply": {
+            "value": 30,
+            "unit": "Day",
+            "system": "http://unitsofmeasure.org",
+            "code": "d"
+          },
+          "whenPrepared": "2019-06-25T07:13:00+05:00",
+          "whenHandedOver": "2019-06-26T07:13:00+05:00",
+          "dosageInstruction": [
+            {
+              "sequence": 1,
+              "text": "Instil one drop in each eye twice daily",
+              "timing": {
+                "repeat": {
+                  "frequency": 2,
+                  "period": 1,
+                  "periodUnit": "d"
+                }
+              },
+              "route": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "54485002",
+                    "display": "Ophthalmic route (qualifier value)"
+                  }
+                ]
+              },
+              "method": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "421538008",
+                    "display": "Instill - dosing instruction imperative (qualifier value)"
+                  }
+                ]
+              },
+              "doseAndRate": [
+                {
+                  "type": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/dose-rate-type",
+                        "code": "ordered",
+                        "display": "Ordered"
+                      }
+                    ]
+                  },
+                  "doseQuantity": {
+                    "value": 1,
+                    "unit": "OPDROP",
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm",
+                    "code": "OPDROP"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "request": {
+          "method": "POST",
+          "url": "MedicationDispense"
         }
       }
     ]
@@ -830,6 +1080,258 @@
       {
         "resource": {
           "resourceType": "Encounter",
+          "id": "TeleHealth Modifier1",
+          "contained": [
+            {
+              "resourceType": "location",
+              "id": "home",
+              "description": "TeleHealth POS",
+              "mode": "kind"
+            }
+          ],
+          "status": "finished",
+          "class": {
+            "code": "185460008",
+            "system": "http://snomed.info/sct",
+            "version": "2020-09"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "code": "95",
+                  "system": "CPT",
+                  "version": "2021"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM166-FHIR3"
+          },
+          "participant": [
+            {
+              "period": {
+                "start": "2020-03-18T16:00:00+10:00",
+                "end": "2020-03-18T16:30:00+10:00"
+              },
+              "individual": {
+                "reference": "Practitioner/example",
+                "display": "Dr Adam Careful"
+              }
+            }
+          ],
+          "period": {
+            "start": "2020-03-18T16:00:00+10:00",
+            "end": "2020-03-18T16:30:00+10:00"
+          },
+          "location": [
+            {
+              "location": {
+                "reference": "#ED",
+                "display": "TeleHealth POS"
+              },
+              "status": "completed",
+              "period": {
+                "start": "2015-01-17T16:00:00+10:00",
+                "end": "2015-01-17T16:30:00+10:00"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "TeleHealth Modifier2",
+          "contained": [
+            {
+              "resourceType": "location",
+              "id": "home",
+              "description": "TeleHealth POS",
+              "mode": "kind"
+            }
+          ],
+          "status": "finished",
+          "class": {
+            "code": "185460008",
+            "system": "http://snomed.info/sct",
+            "version": "2020-09"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "code": "95",
+                  "system": "CPT",
+                  "version": "2021"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM166-FHIR3"
+          },
+          "participant": [
+            {
+              "period": {
+                "start": "2020-03-18T16:00:00+10:00",
+                "end": "2020-03-18T16:30:00+10:00"
+              },
+              "individual": {
+                "reference": "Practitioner/example",
+                "display": "Dr Adam Careful"
+              }
+            }
+          ],
+          "period": {
+            "start": "2020-03-20T16:30:00+10:00",
+            "end": "2020-03-20T16:40:00+10:00"
+          },
+          "location": [
+            {
+              "location": {
+                "reference": "#ED",
+                "display": "TeleHealth POS"
+              },
+              "status": "completed",
+              "period": {
+                "start": "2015-01-17T16:00:00+10:00",
+                "end": "2015-01-17T16:30:00+10:00"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "Telephone 1",
+          "contained": [
+            {
+              "resourceType": "location",
+              "id": "home",
+              "description": "TeleHealth POS",
+              "mode": "kind"
+            }
+          ],
+          "status": "finished",
+          "class": {
+            "code": "185460008",
+            "system": "http://snomed.info/sct",
+            "version": "2020-09"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "code": "185317003",
+                  "system": "http://snomed.info/sct",
+                  "version": "2020-09"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM166-FHIR3"
+          },
+          "participant": [
+            {
+              "period": {
+                "start": "2020-01-17T16:00:00+10:00",
+                "end": "2020-01-17T16:30:00+10:00"
+              },
+              "individual": {
+                "reference": "Practitioner/example",
+                "display": "Dr Adam Careful"
+              }
+            }
+          ],
+          "period": {
+            "start": "2020-03-20T16:00:00+10:00",
+            "end": "2020-03-20T16:30:00+10:00"
+          },
+          "location": [
+            {
+              "location": {
+                "reference": "#ED",
+                "display": "TeleHealth POS"
+              },
+              "status": "completed",
+              "period": {
+                "start": "2015-01-17T16:00:00+10:00",
+                "end": "2015-01-17T16:30:00+10:00"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "Telephone 2",
+          "contained": [
+            {
+              "resourceType": "location",
+              "id": "home",
+              "description": "TeleHealth POS",
+              "mode": "kind"
+            }
+          ],
+          "status": "finished",
+          "class": {
+            "code": "185460008",
+            "system": "http://snomed.info/sct",
+            "version": "2020-09"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "code": "185317003",
+                  "system": "http://snomed.info/sct",
+                  "version": "2020-09"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM166-FHIR3"
+          },
+          "participant": [
+            {
+              "period": {
+                "start": "2020-01-17T16:00:00+10:00",
+                "end": "2020-01-17T16:30:00+10:00"
+              },
+              "individual": {
+                "reference": "Practitioner/example",
+                "display": "Dr Adam Careful"
+              }
+            }
+          ],
+          "period": {
+            "start": "2020-04-19T16:00:00+10:00",
+            "end": "2020-04-19T16:30:00+10:00"
+          },
+          "location": [
+            {
+              "location": {
+                "reference": "#ED",
+                "display": "TeleHealth POS"
+              },
+              "status": "completed",
+              "period": {
+                "start": "2015-01-17T16:00:00+10:00",
+                "end": "2015-01-17T16:30:00+10:00"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Encounter",
           "id": "acute-inpatient1",
           "contained": [
             {
@@ -872,8 +1374,8 @@
             }
           ],
           "period": {
-            "start": "2019-01-17T16:00:00+10:00",
-            "end": "2019-01-17T16:30:00+10:00"
+            "start": "2019-04-19T16:00:00+10:00",
+            "end": "2019-04-19T16:30:00+10:00"
           },
           "location": [
             {

@@ -6,9 +6,9 @@
       }, {
          "libraryId" : "medication_management_for_people_with_asthma",
          "libraryVersion" : "1",
-         "startLine" : 158,
+         "startLine" : 138,
          "startChar" : 43,
-         "endLine" : 158,
+         "endLine" : 138,
          "endChar" : 48,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -214,7 +214,7 @@
       "codeSystems" : {
          "def" : [ {
             "name" : "SNOMED-CT",
-            "id" : "http://snomed.info/sct",
+            "id" : "2.16.840.1.113883.6.96",
             "version" : "20200301",
             "accessLevel" : "Public"
          } ]
@@ -325,7 +325,7 @@
             }
          }, {
             "name" : "Zafirlukast",
-            "id" : "116090007",
+            "id" : "386880006",
             "display" : "Zafirlukast",
             "accessLevel" : "Public",
             "codeSystem" : {
@@ -845,281 +845,157 @@
                } ]
             }
          }, {
-            "name" : "DeduplicateBasedOnStartDate",
+            "name" : "Tele Visits Filtered Dates",
             "context" : "Patient",
             "accessLevel" : "Public",
-            "type" : "FunctionDef",
-            "expression" : {
-               "type" : "If",
-               "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "Greater",
-                     "operand" : [ {
-                        "type" : "Count",
-                        "source" : {
-                           "name" : "Enc",
-                           "type" : "OperandRef"
-                        }
-                     }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "1",
-                        "type" : "Literal"
-                     } ]
-                  }
-               },
-               "then" : {
-                  "type" : "Query",
-                  "source" : [ {
-                     "alias" : "N1",
-                     "expression" : {
-                        "name" : "Enc",
-                        "type" : "OperandRef"
-                     }
-                  } ],
-                  "relationship" : [ {
-                     "alias" : "N2",
-                     "type" : "With",
-                     "expression" : {
-                        "name" : "Enc",
-                        "type" : "OperandRef"
-                     },
-                     "suchThat" : {
-                        "type" : "And",
-                        "operand" : [ {
-                           "type" : "Equal",
-                           "operand" : [ {
-                              "type" : "Add",
-                              "operand" : [ {
-                                 "type" : "IndexOf",
-                                 "source" : {
-                                    "name" : "Enc",
-                                    "type" : "OperandRef"
-                                 },
-                                 "element" : {
-                                    "name" : "N2",
-                                    "type" : "AliasRef"
-                                 }
-                              }, {
-                                 "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                 "value" : "1",
-                                 "type" : "Literal"
-                              } ]
-                           }, {
-                              "type" : "IndexOf",
-                              "source" : {
-                                 "name" : "Enc",
-                                 "type" : "OperandRef"
-                              },
-                              "element" : {
-                                 "name" : "N1",
-                                 "type" : "AliasRef"
-                              }
-                           } ]
-                        }, {
-                           "type" : "Not",
-                           "operand" : {
-                              "type" : "Equal",
-                              "operand" : [ {
-                                 "path" : "start",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "path" : "period",
-                                    "scope" : "N1",
-                                    "type" : "Property"
-                                 }
-                              }, {
-                                 "path" : "start",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "path" : "period",
-                                    "scope" : "N2",
-                                    "type" : "Property"
-                                 }
-                              } ]
-                           }
-                        } ]
-                     }
-                  } ]
-               },
-               "else" : {
-                  "type" : "ToList",
-                  "operand" : {
-                     "type" : "Indexer",
-                     "operand" : [ {
-                        "name" : "Enc",
-                        "type" : "OperandRef"
-                     }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "0",
-                        "type" : "Literal"
-                     } ]
-                  }
-               }
-            },
-            "operand" : [ {
-               "name" : "Enc",
-               "operandTypeSpecifier" : {
-                  "type" : "ListTypeSpecifier",
-                  "elementType" : {
-                     "name" : "{http://hl7.org/fhir}Encounter",
-                     "type" : "NamedTypeSpecifier"
-                  }
-               }
-            } ]
-         }, {
-            "name" : "Tele Visits",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Union",
-               "operand" : [ {
-                  "type" : "Union",
-                  "operand" : [ {
-                     "name" : "Telehealth Modifier Visit",
-                     "type" : "ExpressionRef"
-                  }, {
-                     "name" : "Telephone Visit",
-                     "type" : "ExpressionRef"
-                  } ]
-               }, {
-                  "type" : "Union",
-                  "operand" : [ {
-                     "name" : "Online Assessment",
-                     "type" : "ExpressionRef"
-                  }, {
-                     "name" : "Telehealth POS Visit",
-                     "type" : "ExpressionRef"
-                  } ]
-               } ]
-            }
-         }, {
-            "name" : "Tele Visits on Different Dates",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "name" : "DeduplicateBasedOnStartDate",
-               "type" : "FunctionRef",
-               "operand" : [ {
-                  "name" : "Tele Visits",
-                  "type" : "ExpressionRef"
-               } ]
-            }
-         }, {
-            "name" : "Other Visits",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Union",
-               "operand" : [ {
-                  "name" : "Outpatient Visit",
-                  "type" : "ExpressionRef"
-               }, {
-                  "name" : "Observation Visit",
-                  "type" : "ExpressionRef"
-               } ]
-            }
-         }, {
-            "name" : "Other Visits on Different Dates",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "name" : "DeduplicateBasedOnStartDate",
-               "type" : "FunctionRef",
-               "operand" : [ {
-                  "name" : "Other Visits",
-                  "type" : "ExpressionRef"
-               } ]
-            }
-         }, {
-            "name" : "EncountersInInterval",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "type" : "FunctionDef",
             "expression" : {
                "type" : "Query",
                "source" : [ {
-                  "alias" : "E",
+                  "alias" : "TeleVisits",
                   "expression" : {
-                     "name" : "Enc",
-                     "type" : "OperandRef"
+                     "type" : "Union",
+                     "operand" : [ {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "name" : "Telephone Visit",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "name" : "Telehealth Modifier Visit",
+                           "type" : "ExpressionRef"
+                        } ]
+                     }, {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "name" : "Online Assessment",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "name" : "Telehealth POS Visit",
+                           "type" : "ExpressionRef"
+                        } ]
+                     } ]
                   }
                } ],
                "relationship" : [ ],
-               "where" : {
-                  "type" : "In",
-                  "operand" : [ {
-                     "type" : "Start",
+               "return" : {
+                  "expression" : {
+                     "type" : "ToDate",
                      "operand" : {
-                        "name" : "ToInterval",
+                        "name" : "ToDateTime",
                         "libraryName" : "FHIRHelpers",
                         "type" : "FunctionRef",
                         "operand" : [ {
-                           "path" : "period",
-                           "scope" : "E",
-                           "type" : "Property"
+                           "path" : "start",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "period",
+                              "scope" : "TeleVisits",
+                              "type" : "Property"
+                           }
                         } ]
                      }
-                  }, {
-                     "name" : "Int",
-                     "type" : "OperandRef"
-                  } ]
-               }
-            },
-            "operand" : [ {
-               "name" : "Enc",
-               "operandTypeSpecifier" : {
-                  "type" : "ListTypeSpecifier",
-                  "elementType" : {
-                     "name" : "{http://hl7.org/fhir}Encounter",
-                     "type" : "NamedTypeSpecifier"
                   }
-               }
-            }, {
-               "name" : "Int",
-               "operandTypeSpecifier" : {
-                  "type" : "IntervalTypeSpecifier",
-                  "pointType" : {
-                     "name" : "{urn:hl7-org:elm-types:r1}DateTime",
-                     "type" : "NamedTypeSpecifier"
-                  }
-               }
-            } ]
-         }, {
-            "name" : "Tele Visit Count Measurement Period",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Count",
-               "source" : {
-                  "name" : "EncountersInInterval",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "name" : "Tele Visits on Different Dates",
-                     "type" : "ExpressionRef"
-                  }, {
-                     "name" : "Measurement Period",
-                     "type" : "ParameterRef"
-                  } ]
                }
             }
          }, {
-            "name" : "Other Visits Count Measurement Period",
+            "name" : "Other Visits Filtered Dates",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "OtherVisits",
+                  "expression" : {
+                     "type" : "Union",
+                     "operand" : [ {
+                        "name" : "Outpatient Visit",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "Observation Visit",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "type" : "ToDate",
+                     "operand" : {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "start",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "period",
+                              "scope" : "OtherVisits",
+                              "type" : "Property"
+                           }
+                        } ]
+                     }
+                  }
+               }
+            }
+         }, {
+            "name" : "Tele Visit Count in Measurement Period",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "Count",
                "source" : {
-                  "name" : "EncountersInInterval",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "name" : "Other Visits on Different Dates",
-                     "type" : "ExpressionRef"
-                  }, {
-                     "name" : "Measurement Period",
-                     "type" : "ParameterRef"
-                  } ]
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "D",
+                     "expression" : {
+                        "name" : "Tele Visits Filtered Dates",
+                        "type" : "ExpressionRef"
+                     }
+                  } ],
+                  "relationship" : [ ],
+                  "where" : {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "name" : "D",
+                           "type" : "AliasRef"
+                        }
+                     }, {
+                        "name" : "Measurement Period",
+                        "type" : "ParameterRef"
+                     } ]
+                  }
+               }
+            }
+         }, {
+            "name" : "Other Visits Count in Measurement Period",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Count",
+               "source" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "D",
+                     "expression" : {
+                        "name" : "Other Visits Filtered Dates",
+                        "type" : "ExpressionRef"
+                     }
+                  } ],
+                  "relationship" : [ ],
+                  "where" : {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "name" : "D",
+                           "type" : "AliasRef"
+                        }
+                     }, {
+                        "name" : "Measurement Period",
+                        "type" : "ParameterRef"
+                     } ]
+                  }
                }
             }
          }, {
@@ -1129,15 +1005,28 @@
             "expression" : {
                "type" : "Count",
                "source" : {
-                  "name" : "EncountersInInterval",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "name" : "Tele Visits on Different Dates",
-                     "type" : "ExpressionRef"
-                  }, {
-                     "name" : "Prior Period",
-                     "type" : "ParameterRef"
-                  } ]
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "D",
+                     "expression" : {
+                        "name" : "Tele Visits Filtered Dates",
+                        "type" : "ExpressionRef"
+                     }
+                  } ],
+                  "relationship" : [ ],
+                  "where" : {
+                     "type" : "In",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "name" : "D",
+                           "type" : "AliasRef"
+                        }
+                     }, {
+                        "name" : "Prior Period",
+                        "type" : "ParameterRef"
+                     } ]
+                  }
                }
             }
          }, {
@@ -1147,91 +1036,30 @@
             "expression" : {
                "type" : "Count",
                "source" : {
-                  "name" : "EncountersInInterval",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "name" : "Other Visits on Different Dates",
-                     "type" : "ExpressionRef"
-                  }, {
-                     "name" : "Prior Period",
-                     "type" : "ParameterRef"
-                  } ]
-               }
-            }
-         }, {
-            "name" : "AtLeastFourVisitsInPeriod",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "type" : "FunctionDef",
-            "expression" : {
-               "type" : "Case",
-               "comparand" : {
-                  "type" : "GreaterOrEqual",
-                  "operand" : [ {
-                     "name" : "TeleVisits",
-                     "type" : "OperandRef"
-                  }, {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "3",
-                     "type" : "Literal"
-                  } ]
-               },
-               "caseItem" : [ {
-                  "when" : {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                     "value" : "true",
-                     "type" : "Literal"
-                  },
-                  "then" : {
-                     "type" : "GreaterOrEqual",
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "D",
+                     "expression" : {
+                        "name" : "Other Visits Filtered Dates",
+                        "type" : "ExpressionRef"
+                     }
+                  } ],
+                  "relationship" : [ ],
+                  "where" : {
+                     "type" : "In",
                      "operand" : [ {
-                        "type" : "Add",
-                        "operand" : [ {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                           "value" : "3",
-                           "type" : "Literal"
-                        }, {
-                           "name" : "OtherVisits",
-                           "type" : "OperandRef"
-                        } ]
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "name" : "D",
+                           "type" : "AliasRef"
+                        }
                      }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "4",
-                        "type" : "Literal"
+                        "name" : "Prior Period",
+                        "type" : "ParameterRef"
                      } ]
                   }
-               } ],
-               "else" : {
-                  "type" : "GreaterOrEqual",
-                  "operand" : [ {
-                     "type" : "Add",
-                     "operand" : [ {
-                        "name" : "TeleVisits",
-                        "type" : "OperandRef"
-                     }, {
-                        "name" : "OtherVisits",
-                        "type" : "OperandRef"
-                     } ]
-                  }, {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "4",
-                     "type" : "Literal"
-                  } ]
                }
-            },
-            "operand" : [ {
-               "name" : "TeleVisits",
-               "operandTypeSpecifier" : {
-                  "name" : "{urn:hl7-org:elm-types:r1}Integer",
-                  "type" : "NamedTypeSpecifier"
-               }
-            }, {
-               "name" : "OtherVisits",
-               "operandTypeSpecifier" : {
-                  "name" : "{urn:hl7-org:elm-types:r1}Integer",
-                  "type" : "NamedTypeSpecifier"
-               }
-            } ]
+            }
          }, {
             "name" : "MedicationInPeriod",
             "context" : "Patient",
@@ -1727,6 +1555,80 @@
                } ]
             }
          }, {
+            "name" : "AtLeastFourVisitsInPeriod",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "GreaterOrEqual",
+                  "operand" : [ {
+                     "name" : "TeleVisits",
+                     "type" : "OperandRef"
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "3",
+                     "type" : "Literal"
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "type" : "GreaterOrEqual",
+                     "operand" : [ {
+                        "type" : "Add",
+                        "operand" : [ {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                           "value" : "3",
+                           "type" : "Literal"
+                        }, {
+                           "name" : "OtherVisits",
+                           "type" : "OperandRef"
+                        } ]
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "4",
+                        "type" : "Literal"
+                     } ]
+                  }
+               } ],
+               "else" : {
+                  "type" : "GreaterOrEqual",
+                  "operand" : [ {
+                     "type" : "Add",
+                     "operand" : [ {
+                        "name" : "TeleVisits",
+                        "type" : "OperandRef"
+                     }, {
+                        "name" : "OtherVisits",
+                        "type" : "OperandRef"
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "4",
+                     "type" : "Literal"
+                  } ]
+               }
+            },
+            "operand" : [ {
+               "name" : "TeleVisits",
+               "operandTypeSpecifier" : {
+                  "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "NamedTypeSpecifier"
+               }
+            }, {
+               "name" : "OtherVisits",
+               "operandTypeSpecifier" : {
+                  "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
             "name" : "Measurement Period Qualifiers",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -1737,24 +1639,44 @@
                   "operand" : [ {
                      "type" : "Exists",
                      "operand" : {
-                        "name" : "EncountersInInterval",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "name" : "Valid Encounters",
-                           "type" : "ExpressionRef"
-                        }, {
-                           "name" : "Measurement Period",
-                           "type" : "ParameterRef"
-                        } ]
+                        "type" : "Query",
+                        "source" : [ {
+                           "alias" : "E",
+                           "expression" : {
+                              "name" : "Valid Encounters",
+                              "type" : "ExpressionRef"
+                           }
+                        } ],
+                        "relationship" : [ ],
+                        "where" : {
+                           "type" : "In",
+                           "operand" : [ {
+                              "name" : "ToDateTime",
+                              "libraryName" : "FHIRHelpers",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "path" : "start",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "period",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              } ]
+                           }, {
+                              "name" : "Measurement Period",
+                              "type" : "ParameterRef"
+                           } ]
+                        }
                      }
                   }, {
                      "name" : "AtLeastFourVisitsInPeriod",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "Tele Visit Count Measurement Period",
+                        "name" : "Tele Visit Count in Measurement Period",
                         "type" : "ExpressionRef"
                      }, {
-                        "name" : "Other Visits Count Measurement Period",
+                        "name" : "Other Visits Count in Measurement Period",
                         "type" : "ExpressionRef"
                      } ]
                   } ]
@@ -1774,15 +1696,35 @@
                   "operand" : [ {
                      "type" : "Exists",
                      "operand" : {
-                        "name" : "EncountersInInterval",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "name" : "Valid Encounters",
-                           "type" : "ExpressionRef"
-                        }, {
-                           "name" : "Prior Period",
-                           "type" : "ParameterRef"
-                        } ]
+                        "type" : "Query",
+                        "source" : [ {
+                           "alias" : "E",
+                           "expression" : {
+                              "name" : "Valid Encounters",
+                              "type" : "ExpressionRef"
+                           }
+                        } ],
+                        "relationship" : [ ],
+                        "where" : {
+                           "type" : "In",
+                           "operand" : [ {
+                              "name" : "ToDateTime",
+                              "libraryName" : "FHIRHelpers",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "path" : "start",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "period",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              } ]
+                           }, {
+                              "name" : "Prior Period",
+                              "type" : "ParameterRef"
+                           } ]
+                        }
                      }
                   }, {
                      "name" : "AtLeastFourVisitsInPeriod",

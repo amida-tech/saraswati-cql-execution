@@ -3,7 +3,7 @@ library medication_management_for_people_with_asthma version '1'
 using FHIR version '4.0.0'
 include FHIRHelpers version '4.0.0' called FHIRHelpers
 
-codesystem "SNOMED-CT": 'http://snomed.info/sct' version '20200301'
+codesystem "SNOMED-CT": '2.16.840.1.113883.6.96' version '20200301'
 
 // TODO: All of the uncommented valueset lines below are using
 // a URN from VSAC, but once we get programmatic access to the HEDIS excel files
@@ -31,8 +31,10 @@ valueset "Telephone Visits": '2.16.840.1.113883.3.1444.5.216'
 code "Albuterol": '372897005' from "SNOMED-CT" display 'Albuterol'
 code "Levalbuterol": '116090007' from "SNOMED-CT" display 'Levalbuterol'
 code "Dyphylline-guaifenesin": '398742006' from "SNOMED-CT" display 'Dyphylline-guaifenesin'
+// The SNOWMED CT Browser tool shows that albuterol and Montelukast have the same code, 
+// which is strange given they are in different categories in the spec
 code "Montelukast": '372897005' from "SNOMED-CT" display 'Montelukast'
-code "Zafirlukast": '116090007' from "SNOMED-CT" display 'Zafirlukast'
+code "Zafirlukast": '386880006' from "SNOMED-CT" display 'Zafirlukast'
 code "Zileuton": '108617005' from "SNOMED-CT" display 'Zileuton'
 
 // TODO: there are more asthma medications needed than are listed here
@@ -105,50 +107,28 @@ define "Telephone Visit":
 define "Online Assessment":
   EncounterWithAsthma([Encounter: "Online Assessments"])
 
-// diff dates of service - should that start day or end day or both?
-define function DeduplicateBasedOnStartDate(Enc List<Encounter>):
-  if Count(Enc) > 1 then 
-    "Enc" N1
-      with "Enc" N2
-        such that (IndexOf("Enc", N2) + 1 = IndexOf("Enc", N1))
-          and not (N1.period.start = N2.period.start)
-  else Enc[0]
-
-define "Tele Visits":
+define "Tele Visits Filtered Dates":
+    ("Telephone Visit" union
     "Telehealth Modifier Visit" union
-    "Telephone Visit" union
     "Online Assessment" union
-    "Telehealth POS Visit"
+    "Telehealth POS Visit") TeleVisits
+    return ToDate(TeleVisits.period.start)
 
-define "Tele Visits on Different Dates":
-  DeduplicateBasedOnStartDate("Tele Visits")
+define "Other Visits Filtered Dates":
+  ("Outpatient Visit" union "Observation Visit") OtherVisits
+  return ToDate(OtherVisits.period.start)
 
-define "Other Visits":
-  "Outpatient Visit" union "Observation Visit"
+define "Tele Visit Count in Measurement Period":
+  Count("Tele Visits Filtered Dates" D where D in "Measurement Period")
 
-define "Other Visits on Different Dates":
-  DeduplicateBasedOnStartDate("Other Visits")
-
-define function EncountersInInterval(Enc List<Encounter>, Int Interval<DateTime>):
-  Enc E where E.period starts during Int
-
-define "Tele Visit Count Measurement Period":
-  Count(EncountersInInterval("Tele Visits on Different Dates", "Measurement Period"))
-
-define "Other Visits Count Measurement Period":
-  Count(EncountersInInterval("Other Visits on Different Dates", "Measurement Period"))
+define "Other Visits Count in Measurement Period":
+  Count("Other Visits Filtered Dates" D where D in "Measurement Period")
 
 define "Tele Visit Count Prior Period":
-  Count(EncountersInInterval("Tele Visits on Different Dates", "Prior Period"))
+  Count("Tele Visits Filtered Dates" D where D in "Prior Period")
 
 define "Other Visit Count Prior Period":
-  Count(EncountersInInterval("Other Visits on Different Dates", "Prior Period"))
-
-define function AtLeastFourVisitsInPeriod(TeleVisits Integer, OtherVisits Integer):
-  case TeleVisits >= 3
-    when true then 3 + OtherVisits >= 4
-    else TeleVisits + OtherVisits >= 4
-  end
+  Count("Other Visits Filtered Dates" D where D in "Prior Period")
 
 // Converting the coding to a code makes the list a singleton (takes the first value from list)
 // but I think in theory you wouldn't ever have more than one medication code in the coding
@@ -206,14 +186,19 @@ define "Exclusion Diagnoses":
   union [Condition: "Cystic Fibrosis"]
   union [Condition: "Acute Respiratory Failure"]
 
+define function AtLeastFourVisitsInPeriod(TeleVisits Integer, OtherVisits Integer):
+  case TeleVisits >= 3
+    when true then 3 + OtherVisits >= 4
+    else TeleVisits + OtherVisits >= 4
+  end
 
 define "Measurement Period Qualifiers":
-  exists(EncountersInInterval("Valid Encounters", "Measurement Period"))
-  or AtLeastFourVisitsInPeriod("Tele Visit Count Measurement Period", "Other Visits Count Measurement Period")
+  exists("Valid Encounters" E where E.period.start in "Measurement Period")
+  or AtLeastFourVisitsInPeriod("Tele Visit Count in Measurement Period", "Other Visits Count in Measurement Period")
   or "Asthma By Medication Measurement Period"
 
 define "Prior Period Qualifiers":
-  exists(EncountersInInterval("Valid Encounters", "Prior Period"))
+  exists("Valid Encounters" E where E.period.start in "Prior Period")
   or AtLeastFourVisitsInPeriod("Tele Visit Count Prior Period", "Other Visit Count Prior Period")
   or "Asthma By Medication Prior Period"
 
