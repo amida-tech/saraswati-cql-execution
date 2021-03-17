@@ -6,9 +6,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 181,
+         "startLine" : 179,
          "startChar" : 60,
-         "endLine" : 181,
+         "endLine" : 179,
          "endChar" : 65,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -17,9 +17,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 249,
+         "startLine" : 247,
          "startChar" : 60,
-         "endLine" : 249,
+         "endLine" : 247,
          "endChar" : 65,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -28,9 +28,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 250,
+         "startLine" : 248,
          "startChar" : 59,
-         "endLine" : 250,
+         "endLine" : 248,
          "endChar" : 64,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -39,9 +39,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 255,
+         "startLine" : 253,
          "startChar" : 85,
-         "endLine" : 255,
+         "endLine" : 253,
          "endChar" : 90,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -50,9 +50,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 281,
+         "startLine" : 279,
          "startChar" : 10,
-         "endLine" : 281,
+         "endLine" : 279,
          "endChar" : 50,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -1502,50 +1502,61 @@
                }
             } ]
          }, {
-            "name" : "Out Visits",
+            "name" : "Out Visits Deduplicated Dates",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Union",
-               "operand" : [ {
-                  "type" : "Union",
-                  "operand" : [ {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "OutVisits",
+                  "expression" : {
                      "type" : "Union",
                      "operand" : [ {
-                        "name" : "Outpatient Visit",
-                        "type" : "ExpressionRef"
+                        "type" : "Union",
+                        "operand" : [ {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "name" : "Outpatient Visit",
+                              "type" : "ExpressionRef"
+                           }, {
+                              "name" : "Observation Visit",
+                              "type" : "ExpressionRef"
+                           } ]
+                        }, {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "name" : "Emergency Department Visits",
+                              "type" : "ExpressionRef"
+                           }, {
+                              "name" : "Nonacute Diabetes Discharges-List",
+                              "type" : "ExpressionRef"
+                           } ]
+                        } ]
                      }, {
-                        "name" : "Observation Visit",
+                        "name" : "Nonacute Diabetes Discharges On Claim",
                         "type" : "ExpressionRef"
                      } ]
-                  }, {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "name" : "Emergency Department Visits",
-                        "type" : "ExpressionRef"
-                     }, {
-                        "name" : "Nonacute Diabetes Discharges-List",
-                        "type" : "ExpressionRef"
-                     } ]
-                  } ]
-               }, {
-                  "name" : "Nonacute Diabetes Discharges On Claim",
-                  "type" : "ExpressionRef"
-               } ]
-            }
-         }, {
-            "name" : "Out Visits on Different Dates",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Count",
-               "source" : {
-                  "name" : "DeduplicateBasedOnStartDate",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "name" : "Out Visits",
-                     "type" : "ExpressionRef"
-                  } ]
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "type" : "ToDate",
+                     "operand" : {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "start",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "period",
+                              "scope" : "OutVisits",
+                              "type" : "Property"
+                           }
+                        } ]
+                     }
+                  }
                }
             }
          }, {
@@ -1560,8 +1571,11 @@
                      "name" : "Out Tele Online Union",
                      "type" : "ExpressionRef"
                   }, {
-                     "name" : "Out Visits on Different Dates",
-                     "type" : "ExpressionRef"
+                     "type" : "Count",
+                     "source" : {
+                        "name" : "Out Visits Deduplicated Dates",
+                        "type" : "ExpressionRef"
+                     }
                   } ]
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",

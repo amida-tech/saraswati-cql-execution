@@ -162,19 +162,17 @@ define function DeduplicateBasedOnStartDate(Enc List<Encounter>):
           and not (N1.period.start = N2.period.start)
   else Enc[0]
 
-define "Out Visits":
-  "Outpatient Visit" union
+define "Out Visits Deduplicated Dates":
+  ("Outpatient Visit" union
   "Observation Visit" union
   "Emergency Department Visits" union
   "Nonacute Diabetes Discharges-List" union
-  "Nonacute Diabetes Discharges On Claim"
-
-define "Out Visits on Different Dates":
-  Count(DeduplicateBasedOnStartDate("Out Visits"))
+  "Nonacute Diabetes Discharges On Claim") OutVisits
+  return ToDate(OutVisits.period.start)
 
 // because we have a "Nonacute Inpatient Stay"  valueset, we can skip identifying a nonacute inpatient discharge (1,2,3)
 define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
-  "Out Tele Online Union" + "Out Visits on Different Dates" >= 2
+  "Out Tele Online Union" + Count("Out Visits Deduplicated Dates") >= 2
 
 define "Diabetes Diagnosis By Medication":
   exists([MedicationDispense] MedicationDispense

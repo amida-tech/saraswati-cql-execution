@@ -6,9 +6,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 192,
+         "startLine" : 182,
          "startChar" : 60,
-         "endLine" : 192,
+         "endLine" : 182,
          "endChar" : 65,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -17,9 +17,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 260,
+         "startLine" : 250,
          "startChar" : 60,
-         "endLine" : 260,
+         "endLine" : 250,
          "endChar" : 65,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -28,9 +28,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 261,
+         "startLine" : 251,
          "startChar" : 59,
-         "endLine" : 261,
+         "endLine" : 251,
          "endChar" : 64,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -39,9 +39,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 266,
+         "startLine" : 256,
          "startChar" : 85,
-         "endLine" : 266,
+         "endLine" : 256,
          "endChar" : 90,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -50,9 +50,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 292,
+         "startLine" : 282,
          "startChar" : 10,
-         "endLine" : 292,
+         "endLine" : 282,
          "endChar" : 50,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -61,9 +61,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 319,
+         "startLine" : 309,
          "startChar" : 91,
-         "endLine" : 319,
+         "endLine" : 309,
          "endChar" : 95,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -72,9 +72,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 319,
+         "startLine" : 309,
          "startChar" : 91,
-         "endLine" : 319,
+         "endLine" : 309,
          "endChar" : 95,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -83,9 +83,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 325,
+         "startLine" : 315,
          "startChar" : 123,
-         "endLine" : 325,
+         "endLine" : 315,
          "endChar" : 127,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -94,9 +94,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 325,
+         "startLine" : 315,
          "startChar" : 123,
-         "endLine" : 325,
+         "endLine" : 315,
          "endChar" : 127,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -105,9 +105,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 326,
+         "startLine" : 316,
          "startChar" : 100,
-         "endLine" : 326,
+         "endLine" : 316,
          "endChar" : 104,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -116,9 +116,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 326,
+         "startLine" : 316,
          "startChar" : 100,
-         "endLine" : 326,
+         "endLine" : 316,
          "endChar" : 104,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -127,9 +127,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 337,
+         "startLine" : 327,
          "startChar" : 123,
-         "endLine" : 337,
+         "endLine" : 327,
          "endChar" : 127,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -138,9 +138,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 337,
+         "startLine" : 327,
          "startChar" : 123,
-         "endLine" : 337,
+         "endLine" : 327,
          "endChar" : 127,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -149,9 +149,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 338,
+         "startLine" : 328,
          "startChar" : 100,
-         "endLine" : 338,
+         "endLine" : 328,
          "endChar" : 104,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -160,9 +160,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 338,
+         "startLine" : 328,
          "startChar" : 100,
-         "endLine" : 338,
+         "endLine" : 328,
          "endChar" : 104,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -1533,174 +1533,61 @@
                }
             }
          }, {
-            "name" : "DeduplicateBasedOnStartDate",
+            "name" : "Out Visits Deduplicated Dates",
             "context" : "Patient",
             "accessLevel" : "Public",
-            "type" : "FunctionDef",
             "expression" : {
-               "type" : "If",
-               "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "Greater",
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "OutVisits",
+                  "expression" : {
+                     "type" : "Union",
                      "operand" : [ {
-                        "type" : "Count",
-                        "source" : {
-                           "name" : "Enc",
-                           "type" : "OperandRef"
-                        }
-                     }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "1",
-                        "type" : "Literal"
-                     } ]
-                  }
-               },
-               "then" : {
-                  "type" : "Query",
-                  "source" : [ {
-                     "alias" : "N1",
-                     "expression" : {
-                        "name" : "Enc",
-                        "type" : "OperandRef"
-                     }
-                  } ],
-                  "relationship" : [ {
-                     "alias" : "N2",
-                     "type" : "With",
-                     "expression" : {
-                        "name" : "Enc",
-                        "type" : "OperandRef"
-                     },
-                     "suchThat" : {
-                        "type" : "And",
+                        "type" : "Union",
                         "operand" : [ {
-                           "type" : "Equal",
+                           "type" : "Union",
                            "operand" : [ {
-                              "type" : "Add",
-                              "operand" : [ {
-                                 "type" : "IndexOf",
-                                 "source" : {
-                                    "name" : "Enc",
-                                    "type" : "OperandRef"
-                                 },
-                                 "element" : {
-                                    "name" : "N2",
-                                    "type" : "AliasRef"
-                                 }
-                              }, {
-                                 "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                 "value" : "1",
-                                 "type" : "Literal"
-                              } ]
+                              "name" : "Outpatient Visit",
+                              "type" : "ExpressionRef"
                            }, {
-                              "type" : "IndexOf",
-                              "source" : {
-                                 "name" : "Enc",
-                                 "type" : "OperandRef"
-                              },
-                              "element" : {
-                                 "name" : "N1",
-                                 "type" : "AliasRef"
-                              }
+                              "name" : "Observation Visit",
+                              "type" : "ExpressionRef"
                            } ]
                         }, {
-                           "type" : "Not",
-                           "operand" : {
-                              "type" : "Equal",
-                              "operand" : [ {
-                                 "path" : "start",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "path" : "period",
-                                    "scope" : "N1",
-                                    "type" : "Property"
-                                 }
-                              }, {
-                                 "path" : "start",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "path" : "period",
-                                    "scope" : "N2",
-                                    "type" : "Property"
-                                 }
-                              } ]
+                           "type" : "Union",
+                           "operand" : [ {
+                              "name" : "Emergency Department Visits",
+                              "type" : "ExpressionRef"
+                           }, {
+                              "name" : "Nonacute Diabetes Discharges-List",
+                              "type" : "ExpressionRef"
+                           } ]
+                        } ]
+                     }, {
+                        "name" : "Nonacute Diabetes Discharges On Claim",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "type" : "ToDate",
+                     "operand" : {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "start",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "period",
+                              "scope" : "OutVisits",
+                              "type" : "Property"
                            }
                         } ]
                      }
-                  } ]
-               },
-               "else" : {
-                  "type" : "ToList",
-                  "operand" : {
-                     "type" : "Indexer",
-                     "operand" : [ {
-                        "name" : "Enc",
-                        "type" : "OperandRef"
-                     }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "0",
-                        "type" : "Literal"
-                     } ]
                   }
-               }
-            },
-            "operand" : [ {
-               "name" : "Enc",
-               "operandTypeSpecifier" : {
-                  "type" : "ListTypeSpecifier",
-                  "elementType" : {
-                     "name" : "{http://hl7.org/fhir}Encounter",
-                     "type" : "NamedTypeSpecifier"
-                  }
-               }
-            } ]
-         }, {
-            "name" : "Out Visits",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Union",
-               "operand" : [ {
-                  "type" : "Union",
-                  "operand" : [ {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "name" : "Outpatient Visit",
-                        "type" : "ExpressionRef"
-                     }, {
-                        "name" : "Observation Visit",
-                        "type" : "ExpressionRef"
-                     } ]
-                  }, {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "name" : "Emergency Department Visits",
-                        "type" : "ExpressionRef"
-                     }, {
-                        "name" : "Nonacute Diabetes Discharges-List",
-                        "type" : "ExpressionRef"
-                     } ]
-                  } ]
-               }, {
-                  "name" : "Nonacute Diabetes Discharges On Claim",
-                  "type" : "ExpressionRef"
-               } ]
-            }
-         }, {
-            "name" : "Out Visits on Different Dates",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Count",
-               "source" : {
-                  "name" : "DeduplicateBasedOnStartDate",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "name" : "Out Visits",
-                     "type" : "ExpressionRef"
-                  } ]
                }
             }
          }, {
@@ -1715,8 +1602,11 @@
                      "name" : "Out Tele Online Union",
                      "type" : "ExpressionRef"
                   }, {
-                     "name" : "Out Visits on Different Dates",
-                     "type" : "ExpressionRef"
+                     "type" : "Count",
+                     "source" : {
+                        "name" : "Out Visits Deduplicated Dates",
+                        "type" : "ExpressionRef"
+                     }
                   } ]
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
