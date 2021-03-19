@@ -66,26 +66,26 @@ concept "Long Term Stay": {
   "Referral to long term care service (procedure)"
 } display 'Long Term Stay'
 
-parameter MeasurementPeriod default Interval[@2020-01-01T00:00:00.0, @2020-12-31T23:59:59.999)
-parameter MeasurementPeriodExtended default Interval[@2019-01-01T00:00:00.0, @2020-12-31T23:59:59.999)
+parameter "Measurement Period" default Interval[@2020-01-01T00:00:00.0, @2020-12-31T23:59:59.999)
+parameter "Measurement Period Extended" default Interval[@2019-01-01T00:00:00.0, @2020-12-31T23:59:59.999)
 
 context Patient
 
 define "Initial Population":
-  AgeInYearsAt(start of MeasurementPeriod) >= 18 and AgeInYearsAt(start of MeasurementPeriod) <= 75
+  AgeInYearsAt(start of "Measurement Period") >= 18 and AgeInYearsAt(start of "Measurement Period") <= 75
 
 define "Telehealth Modifier Encounter":
   exists ([Encounter: "Telehealth Modifier"] E
-    where E.period starts during MeasurementPeriodExtended)
+    where E.period starts during "Measurement Period Extended")
 
 define "Telehealth POS Encounter":
   exists ([Encounter: "Telehealth POS"] E
-    where E.period starts during MeasurementPeriodExtended)
+    where E.period starts during "Measurement Period Extended")
 
 define "Acute Inpatient Encounter":
   exists ([Encounter: "Acute Inpatient"] E
     with [Condition: "Diabetes"] D
-    such that E.period starts during MeasurementPeriodExtended)
+    such that E.period starts during "Measurement Period Extended")
 
 define "Acute Inpatient Encounter Without Telehealth":
   "Acute Inpatient Encounter"
@@ -96,7 +96,7 @@ define "Acute Inpatient Discharge With Diabetes":
   [Encounter: "Acute Inpatient"] Enc
     with [Condition: "Diabetes"] Dia
       such that Enc.status = 'finished'
-      and Enc.period starts during MeasurementPeriodExtended
+      and Enc.period starts during "Measurement Period Extended"
 
 define "Claim with Acute Inpatient":
   [Claim] C
@@ -127,37 +127,37 @@ define "Nonacute Diabetes Discharges On Claim":
 define "Outpatient Visit":
   [Encounter: "Outpatient"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriodExtended
+      such that E.period starts during "Measurement Period Extended"
 
 define "Observation Visit":
   [Encounter: "Observation Encounter"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriodExtended
+      such that E.period starts during "Measurement Period Extended"
 
 define "Telehealth POS With Diabetes":
   [Encounter: "Telehealth POS"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriodExtended
+      such that E.period starts during "Measurement Period Extended"
 
 define "Telehealth Modifier With Diabetes":
   [Encounter: "Telehealth Modifier"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriodExtended
+      such that E.period starts during "Measurement Period Extended"
 
 define "Telephone Visit":
   [Encounter: "Telephone Visits"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriodExtended
+      such that E.period starts during "Measurement Period Extended"
 
 define "Online Assessment":
   [Encounter: "Online Assessments"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriodExtended
+      such that E.period starts during "Measurement Period Extended"
 
 define "Emergency Department Visits":
   [Encounter: "ED"] E
     with [Condition: "Diabetes"] c
-      such that E.period starts during MeasurementPeriodExtended
+      such that E.period starts during "Measurement Period Extended"
 
 define "Out Tele Online Union":
   case exists("Telehealth Modifier With Diabetes" union "Telephone Visit" union "Online Assessment" union "Telehealth POS With Diabetes")
@@ -195,13 +195,13 @@ define "Diabetes Diagnosis By Medication":
 
 define "Frailty":
   exists([Encounter: "Frailty Device"] D
-    where D.period starts during MeasurementPeriod)
+    where D.period starts during "Measurement Period")
     or exists([Encounter: "Frailty Diagnosis"] Dia
-      where Dia.period starts during MeasurementPeriod)
+      where Dia.period starts during "Measurement Period")
         or exists([Encounter: "Frailty Encounter"] E
-          where E.period starts during MeasurementPeriod)
+          where E.period starts during "Measurement Period")
           or exists([Encounter: "Frailty Symptom"] S
-            where S.period starts during MeasurementPeriod)
+            where S.period starts during "Measurement Period")
 
 define "Acute Inpatient With Advanced Illness":
   exists ([Condition: "Advanced Illness"]) and  exists ([Encounter : "Acute Inpatient"])
@@ -214,28 +214,28 @@ define "Acute Inpatient Discharge With Advanced Illness":
 define "Outpatient Advanced Illness":
   [Encounter: "Outpatient"] E
     with [Condition: "Advanced Illness"] AI
-      such that E.period starts during MeasurementPeriodExtended
+      such that E.period starts during "Measurement Period Extended"
 
 define "Observation Advanced Illness":
   [Encounter: "Observation Encounter"] E
     with [Condition: "Advanced Illness"] AI
-      such that E.period starts during MeasurementPeriodExtended
+      such that E.period starts during "Measurement Period Extended"
 
 define "ED Advanced Illness":
   [Encounter: "ED"] E
     with [Condition: "Advanced Illness"] AI
-      such that E.period starts during MeasurementPeriodExtended
+      such that E.period starts during "Measurement Period Extended"
 
 define "Nonacute AI":
   [Encounter: "Nonacute Inpatient"] E
     with [Condition: "Advanced Illness"] AI
-      such that E.period starts during MeasurementPeriodExtended
+      such that E.period starts during "Measurement Period Extended"
 
 define "Nonacute AI Discharge":
   [Encounter: "Nonacute Inpatient"] E
     with [Condition: "Advanced Illness"] AI
       such that E.status ~ 'finished'
-      and E.period starts during MeasurementPeriodExtended
+      and E.period starts during "Measurement Period Extended"
 
 // Because we have a "nonacute inpatient" valueset, we can skip 1,2, and 3
 define "At Least Two Out/Obs/ED Advaned Illness":
@@ -267,26 +267,26 @@ define "Is Living Long Term in Institution":
   exists([Encounter: "Encounter Inpatient"] DischargeLongTerm
     where FHIRHelpers.ToCode(DischargeLongTerm.hospitalization.dischargeDisposition.coding) ~ "Referral to long term care service (procedure)" 
       and DischargeLongTerm.status in { 'in-progress', 'finished' }
-      and DischargeLongTerm.period ends during "MeasurementPeriod"
+      and DischargeLongTerm.period ends during "Measurement Period"
   )
     or exists(["Task": "Care Services in Long-Term Residential Facility"] LongTermOrder
         where LongTermOrder.intent = 'order'
-          and (LongTermOrder.authoredOn during "MeasurementPeriod"
-            or LongTermOrder.executionPeriod overlaps "MeasurementPeriod"
+          and (LongTermOrder.authoredOn during "Measurement Period"
+            or LongTermOrder.executionPeriod overlaps "Measurement Period"
           )
     )
     or exists(["Procedure": "Care Services in Long-Term Residential Facility"] LongTermOrder
-        where (LongTermOrder.performed during "MeasurementPeriod"
-          or LongTermOrder.performed overlaps "MeasurementPeriod"
+        where (LongTermOrder.performed during "Measurement Period"
+          or LongTermOrder.performed overlaps "Measurement Period"
         )
     )
     or exists(["Encounter": "Care Services in Long-Term Residential Facility"] LongTermOrder
-        where LongTermOrder.period overlaps "MeasurementPeriod"
+        where LongTermOrder.period overlaps "Measurement Period"
     )
 
 // Exclusion
 define "Diabetes Exclusions":
-  AgeInYearsAt(start of MeasurementPeriod) >= 66 // Deals with first bullet point
+  AgeInYearsAt(start of "Measurement Period") >= 66 // Deals with first bullet point
     and ("Is Living Long Term in Institution"
     or ("Frailty" // Deals with second bullet number 1.
       and ("Acute Inpatient Discharge With Advanced Illness" // Deals with second bullet number 2 under number 2
@@ -310,11 +310,11 @@ define "Diabetes Condition Denominator":
 
 define "Correct Context For BP Reading":
   exists([Encounter: "Outpatient"] O
-    where O.period during MeasurementPeriod)
+    where O.period during "Measurement Period")
     or exists([Encounter: "Nonacute Inpatient Stay"] E
-      where E.period during MeasurementPeriod)
+      where E.period during "Measurement Period")
       // or [Encounter: "Remote Blood Pressure Monitoring"] R
-        // where R.period during MeasurementPeriod
+        // where R.period during "Measurement Period"
 
 define "Most Recent BP Reading Date":
   Last([Observation: "Blood pressure"] BP 
@@ -325,7 +325,7 @@ define "Qualifying Diastolic Blood Pressure Reading":
 	[Observation: "Blood pressure"] BloodPressure
 	  where BloodPressure.status in {'final', 'amended'}
       and FHIRHelpers.ToDateTime(Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event)) same day as "Most Recent BP Reading Date"
-      and Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event) during "MeasurementPeriod"
+      and Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event) during "Measurement Period"
       and exists (
         BloodPressure.component DiastolicBP
           where FHIRHelpers.ToConcept(DiastolicBP.code) ~ "Diastolic blood pressure"
@@ -337,7 +337,7 @@ define "Qualifying Systolic Blood Pressure Reading":
 	[Observation: "Blood pressure"] BloodPressure
 	  where BloodPressure.status in {'final', 'amended'}
       and FHIRHelpers.ToDateTime(Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event)) same day as "Most Recent BP Reading Date"
-      and Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event) during "MeasurementPeriod"
+      and Coalesce(BloodPressure.effective, BloodPressure.effective.start, BloodPressure.effective.event) during "Measurement Period"
       and exists (
         BloodPressure.component SystolicBP
           where FHIRHelpers.ToConcept(SystolicBP.code) ~ "Systolic blood pressure"
