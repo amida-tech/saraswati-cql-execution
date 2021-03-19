@@ -56,7 +56,7 @@ parameter "Prior Period" default Interval[@2019-01-01T00:00:00.0, @2019-12-31T23
 
 context Patient
 
-define "In Demographic":
+define "Initial Population":
 	AgeInYearsAt(start of "Measurement Period") >= 5
     and AgeInYearsAt(start of "Measurement Period") < 64
 
@@ -152,11 +152,11 @@ define "Leukotriene Medication Prior Period":
 
 define "Asthma Condition Measurement Period":
   exists([Condition: "Asthma"] C
-    where C.onset during "Measurement Period")
+    where C.onset.value during "Measurement Period")
 
 define "Asthma Condition Prior Period":
   exists([Condition: "Asthma"] C
-    where C.onset during "Prior Period")
+    where C.onset.value during "Prior Period")
 
 define "Asthma By Medication Measurement Period":
   case
@@ -206,60 +206,63 @@ define "Exclusions":
   exists("Exclusion Diagnoses" C where C.onset before DateTime(2020, 12, 31, 59, 59, 9))
   or "Non-Leukotriene Medication Measurement Period" + "Leukotriene Medication Measurement Period" = 0
 
-define Denominator:
-  "In Demographic"
+define "Denominator":
+  case (
+    "Initial Population"
     and "Measurement Period Qualifiers"
     and "Prior Period Qualifiers"
     and not "Exclusions"
-
-// define "Denominator":
-  // case ("Initial Population" and "Diabetes Condition Denominator" and not "Diabetes Exclusions")
-    // when true then 1
-    // else 0
-  // end
+    )
+    when true then 1
+    else 0
+  end
 
 define "Active Diagnoses During Measurement Period":
   "Exclusion Diagnoses" D where Interval[D.onset, D.abatement] overlaps "Measurement Period"
 
 define "Index Prescription Start Date":
-  First([MedicationDispense] C sort by whenHandedOver desc).whenHandedOver
+  First(
+    [MedicationDispense] MD
+      where MD.whenHandedOver.value in "Measurement Period"
+      sort by whenHandedOver.value asc).whenHandedOver
 
-define "Treatment Period":
-  days between "Index Prescription Start Date" and @2020-12-31
+define "End of 2020":
+  Date(2020, 12, 31)
 
-define function CumulativeDuration(Intervals List<Interval<DateTime>>):
-  Sum((collapse Intervals) X return all duration in days of X)
+define "Start of 2020":
+  Date(2020, 01, 01)
 
-//define function decimalToInt(Dec Decimal):
-  //return ToInteger(Dec)
+define "IPSD Number":
+  days between "Start of 2020" and "Index Prescription Start Date"
 
-//define "~~MED":
-  //[MedicationDispense] E
-    //return Tuple {
-      //"asdf": E.whenHandedOver//,
-      //"qwer": E.whenHandedOver +  decimalToInt(E.daysSupply.value.value) days //+ ToQuantity(90 days)//+ ToQuantity(ToString(E.daysSupply.value.value) days)
-      ////"fghj": ToInteger(1 year)
-     //}
+define "Treatment Period Number":
+  days between "Index Prescription Start Date" and "End of 2020" 
+
+define function CumulativeDuration(Intervals List<Interval<Integer>>):
+  Sum((collapse Intervals) X return end of X - start of X)
 
 define "Medication in Date Range":
   [MedicationDispense] E
-    // SHOULD THIS SAY MEASUREMENT PERIOD OR NO?
-    where Interval[E.whenHandedOver, E.whenHandedOver + E.daysSupply.value.value] overlaps "Measurement Period"
-    return Interval[E.whenHandedOver, E.whenHandedOver + E.daysSupply.value.value]
-    //return Interval[E.whenHandedOver, if E.whenHandedOver + E.daysSupply > DateTime(2020, 12, 31, 59, 59, 9) then DateTime(2020, 12, 31, 59, 59, 9) else E.whenHandedOver + E.daysSupply ]
+    where E.whenHandedOver in "Measurement Period"
+    return Interval[days between "Start of 2020" and E.whenHandedOver, (days between "Start of 2020" and E.whenHandedOver) + ToInteger(ToString(E.daysSupply.value.value))]
 
 define "Days Covered":
   CumulativeDuration("Medication in Date Range")
 
 define "Proportion of Days Covered":
-// add multiply in later- was getting error
-  Round(("Days Covered" / "Treatment Period") )//* 100)
+  "Days Covered" / "Treatment Period Number"
 
 define "Numerator Medication Compliance 50%":
-  "Proportion of Days Covered" >= 50
+  case ("Proportion of Days Covered" >= 0.50)
+    when true then 1
+    else 0
+  end
 
 define "Numerator Medication Compliance 75%":
-  "Proportion of Days Covered" >= 75
+  case ("Proportion of Days Covered" >= 0.75)
+    when true then 1
+    else 0
+  end
 
 define "Stratification 1":
   AgeInYearsAt(start of "Measurement Period") >= 5
@@ -279,11 +282,8 @@ define "Stratification 4":
 
 context Unfiltered
 
-// define "Denominator Count":
-  // Sum(Denominator)
+define "CDC Measure Score 1":
+  Sum("Numerator Medication Compliance 50%") / Sum(Denominator)
 
-// define "Numerator Count":
-  // Sum(Numerator)
-
-// define "CDC Measure Score":
-  // Sum(Numerator) / Sum(Denominator)
+define "CDC Measure Score 2":
+  Sum("Numerator Medication Compliance 75%") / Sum(Denominator)

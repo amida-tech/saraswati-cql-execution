@@ -385,7 +385,7 @@
                }
             }
          }, {
-            "name" : "In Demographic",
+            "name" : "Initial Population",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1231,20 +1231,19 @@
                   } ],
                   "relationship" : [ ],
                   "where" : {
-                     "type" : "IncludedIn",
+                     "type" : "In",
                      "operand" : [ {
-                        "name" : "ToInterval",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "asType" : "{http://hl7.org/fhir}Period",
-                           "type" : "As",
-                           "operand" : {
+                        "asType" : "{urn:hl7-org:elm-types:r1}DateTime",
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
                               "path" : "onset",
                               "scope" : "C",
                               "type" : "Property"
                            }
-                        } ]
+                        }
                      }, {
                         "name" : "Measurement Period",
                         "type" : "ParameterRef"
@@ -1275,20 +1274,19 @@
                   } ],
                   "relationship" : [ ],
                   "where" : {
-                     "type" : "IncludedIn",
+                     "type" : "In",
                      "operand" : [ {
-                        "name" : "ToInterval",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "asType" : "{http://hl7.org/fhir}Period",
-                           "type" : "As",
-                           "operand" : {
+                        "asType" : "{urn:hl7-org:elm-types:r1}DateTime",
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
                               "path" : "onset",
                               "scope" : "C",
                               "type" : "Property"
                            }
-                        } ]
+                        }
                      }, {
                         "name" : "Prior Period",
                         "type" : "ParameterRef"
@@ -1833,29 +1831,49 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "And",
-               "operand" : [ {
+               "type" : "Case",
+               "comparand" : {
                   "type" : "And",
                   "operand" : [ {
                      "type" : "And",
                      "operand" : [ {
-                        "name" : "In Demographic",
-                        "type" : "ExpressionRef"
+                        "type" : "And",
+                        "operand" : [ {
+                           "name" : "Initial Population",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "name" : "Measurement Period Qualifiers",
+                           "type" : "ExpressionRef"
+                        } ]
                      }, {
-                        "name" : "Measurement Period Qualifiers",
+                        "name" : "Prior Period Qualifiers",
                         "type" : "ExpressionRef"
                      } ]
                   }, {
-                     "name" : "Prior Period Qualifiers",
-                     "type" : "ExpressionRef"
+                     "type" : "Not",
+                     "operand" : {
+                        "name" : "Exclusions",
+                        "type" : "ExpressionRef"
+                     }
                   } ]
-               }, {
-                  "type" : "Not",
-                  "operand" : {
-                     "name" : "Exclusions",
-                     "type" : "ExpressionRef"
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
                   }
-               } ]
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
             }
          }, {
             "name" : "Active Diagnoses During Measurement Period",
@@ -1987,25 +2005,157 @@
                   "source" : {
                      "type" : "Query",
                      "source" : [ {
-                        "alias" : "C",
+                        "alias" : "MD",
                         "expression" : {
                            "dataType" : "{http://hl7.org/fhir}MedicationDispense",
                            "type" : "Retrieve"
                         }
                      } ],
                      "relationship" : [ ],
+                     "where" : {
+                        "type" : "In",
+                        "operand" : [ {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "whenHandedOver",
+                              "scope" : "MD",
+                              "type" : "Property"
+                           }
+                        }, {
+                           "name" : "Measurement Period",
+                           "type" : "ParameterRef"
+                        } ]
+                     },
                      "sort" : {
                         "by" : [ {
-                           "direction" : "desc",
-                           "path" : "whenHandedOver",
-                           "type" : "ByColumn"
+                           "direction" : "asc",
+                           "type" : "ByExpression",
+                           "expression" : {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "whenHandedOver",
+                                 "type" : "IdentifierRef"
+                              }
+                           }
                         } ]
                      }
                   }
                }
             }
          }, {
-            "name" : "Treatment Period",
+            "name" : "End of 2020",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Date",
+               "year" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "2020",
+                  "type" : "Literal"
+               },
+               "month" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "12",
+                  "type" : "Literal"
+               },
+               "day" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "31",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Start of 2020",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Date",
+               "year" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "2020",
+                  "type" : "Literal"
+               },
+               "month" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "01",
+                  "type" : "Literal"
+               },
+               "day" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "01",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Days Between",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "precision" : "Day",
+               "type" : "DurationBetween",
+               "operand" : [ {
+                  "type" : "Date",
+                  "year" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2020",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "01",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "01",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "type" : "Date",
+                  "year" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2020",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "12",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "31",
+                     "type" : "Literal"
+                  }
+               } ]
+            }
+         }, {
+            "name" : "IPSD Number",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "precision" : "Day",
+               "type" : "DurationBetween",
+               "operand" : [ {
+                  "type" : "ToDateTime",
+                  "operand" : {
+                     "name" : "Start of 2020",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "name" : "ToDateTime",
+                  "libraryName" : "FHIRHelpers",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "Index Prescription Start Date",
+                     "type" : "ExpressionRef"
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "Treatment Period Number",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -2022,22 +2172,8 @@
                }, {
                   "type" : "ToDateTime",
                   "operand" : {
-                     "type" : "Date",
-                     "year" : {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "2020",
-                        "type" : "Literal"
-                     },
-                     "month" : {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "12",
-                        "type" : "Literal"
-                     },
-                     "day" : {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "31",
-                        "type" : "Literal"
-                     }
+                     "name" : "End of 2020",
+                     "type" : "ExpressionRef"
                   }
                } ]
             }
@@ -2065,18 +2201,16 @@
                   } ],
                   "relationship" : [ ],
                   "return" : {
-                     "distinct" : false,
                      "expression" : {
-                        "precision" : "Day",
-                        "type" : "DurationBetween",
+                        "type" : "Subtract",
                         "operand" : [ {
-                           "type" : "Start",
+                           "type" : "End",
                            "operand" : {
                               "name" : "X",
                               "type" : "AliasRef"
                            }
                         }, {
-                           "type" : "End",
+                           "type" : "Start",
                            "operand" : {
                               "name" : "X",
                               "type" : "AliasRef"
@@ -2093,7 +2227,7 @@
                   "elementType" : {
                      "type" : "IntervalTypeSpecifier",
                      "pointType" : {
-                        "name" : "{urn:hl7-org:elm-types:r1}DateTime",
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
                         "type" : "NamedTypeSpecifier"
                      }
                   }
@@ -2114,49 +2248,16 @@
                } ],
                "relationship" : [ ],
                "where" : {
-                  "type" : "Overlaps",
+                  "type" : "In",
                   "operand" : [ {
-                     "lowClosed" : true,
-                     "highClosed" : true,
-                     "type" : "Interval",
-                     "low" : {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "path" : "whenHandedOver",
-                           "scope" : "E",
-                           "type" : "Property"
-                        } ]
-                     },
-                     "high" : {
-                        "type" : "Add",
-                        "operand" : [ {
-                           "name" : "ToDateTime",
-                           "libraryName" : "FHIRHelpers",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "path" : "whenHandedOver",
-                              "scope" : "E",
-                              "type" : "Property"
-                           } ]
-                        }, {
-                           "type" : "ToQuantity",
-                           "operand" : {
-                              "path" : "value",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "value",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "path" : "daysSupply",
-                                    "scope" : "E",
-                                    "type" : "Property"
-                                 }
-                              }
-                           }
-                        } ]
-                     }
+                     "name" : "ToDateTime",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "whenHandedOver",
+                        "scope" : "E",
+                        "type" : "Property"
+                     } ]
                   }, {
                      "name" : "Measurement Period",
                      "type" : "ParameterRef"
@@ -2168,18 +2269,15 @@
                      "highClosed" : true,
                      "type" : "Interval",
                      "low" : {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
+                        "precision" : "Day",
+                        "type" : "DurationBetween",
                         "operand" : [ {
-                           "path" : "whenHandedOver",
-                           "scope" : "E",
-                           "type" : "Property"
-                        } ]
-                     },
-                     "high" : {
-                        "type" : "Add",
-                        "operand" : [ {
+                           "type" : "ToDateTime",
+                           "operand" : {
+                              "name" : "Start of 2020",
+                              "type" : "ExpressionRef"
+                           }
+                        }, {
                            "name" : "ToDateTime",
                            "libraryName" : "FHIRHelpers",
                            "type" : "FunctionRef",
@@ -2188,18 +2286,44 @@
                               "scope" : "E",
                               "type" : "Property"
                            } ]
+                        } ]
+                     },
+                     "high" : {
+                        "type" : "Add",
+                        "operand" : [ {
+                           "precision" : "Day",
+                           "type" : "DurationBetween",
+                           "operand" : [ {
+                              "type" : "ToDateTime",
+                              "operand" : {
+                                 "name" : "Start of 2020",
+                                 "type" : "ExpressionRef"
+                              }
+                           }, {
+                              "name" : "ToDateTime",
+                              "libraryName" : "FHIRHelpers",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "path" : "whenHandedOver",
+                                 "scope" : "E",
+                                 "type" : "Property"
+                              } ]
+                           } ]
                         }, {
-                           "type" : "ToQuantity",
+                           "type" : "ToInteger",
                            "operand" : {
-                              "path" : "value",
-                              "type" : "Property",
-                              "source" : {
+                              "type" : "ToString",
+                              "operand" : {
                                  "path" : "value",
                                  "type" : "Property",
                                  "source" : {
-                                    "path" : "daysSupply",
-                                    "scope" : "E",
-                                    "type" : "Property"
+                                    "path" : "value",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "daysSupply",
+                                       "scope" : "E",
+                                       "type" : "Property"
+                                    }
                                  }
                               }
                            }
@@ -2225,59 +2349,90 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Round",
-               "operand" : {
-                  "type" : "Divide",
-                  "operand" : [ {
-                     "type" : "ToDecimal",
-                     "operand" : {
-                        "name" : "Days Covered",
-                        "type" : "ExpressionRef"
-                     }
-                  }, {
-                     "type" : "ToDecimal",
-                     "operand" : {
-                        "name" : "Treatment Period",
-                        "type" : "ExpressionRef"
-                     }
-                  } ]
-               }
+               "type" : "Divide",
+               "operand" : [ {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "name" : "Days Covered",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "name" : "Treatment Period Number",
+                     "type" : "ExpressionRef"
+                  }
+               } ]
             }
          }, {
             "name" : "Numerator Medication Compliance 50%",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "GreaterOrEqual",
-               "operand" : [ {
-                  "name" : "Proportion of Days Covered",
-                  "type" : "ExpressionRef"
-               }, {
-                  "type" : "ToDecimal",
-                  "operand" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "GreaterOrEqual",
+                  "operand" : [ {
+                     "name" : "Proportion of Days Covered",
+                     "type" : "ExpressionRef"
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "0.50",
+                     "type" : "Literal"
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "50",
+                     "value" : "1",
                      "type" : "Literal"
                   }
-               } ]
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
             }
          }, {
             "name" : "Numerator Medication Compliance 75%",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "GreaterOrEqual",
-               "operand" : [ {
-                  "name" : "Proportion of Days Covered",
-                  "type" : "ExpressionRef"
-               }, {
-                  "type" : "ToDecimal",
-                  "operand" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "GreaterOrEqual",
+                  "operand" : [ {
+                     "name" : "Proportion of Days Covered",
+                     "type" : "ExpressionRef"
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                     "value" : "0.75",
+                     "type" : "Literal"
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "75",
+                     "value" : "1",
                      "type" : "Literal"
                   }
-               } ]
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
             }
          }, {
             "name" : "Stratification 1",
@@ -2525,6 +2680,58 @@
                      "value" : "64",
                      "type" : "Literal"
                   } ]
+               } ]
+            }
+         }, {
+            "name" : "CDC Measure Score 1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Divide",
+               "operand" : [ {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "name" : "Numerator Medication Compliance 50%",
+                        "type" : "ExpressionRef"
+                     }
+                  }
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "name" : "Denominator",
+                        "type" : "ExpressionRef"
+                     }
+                  }
+               } ]
+            }
+         }, {
+            "name" : "CDC Measure Score 2",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Divide",
+               "operand" : [ {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "name" : "Numerator Medication Compliance 75%",
+                        "type" : "ExpressionRef"
+                     }
+                  }
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "name" : "Denominator",
+                        "type" : "ExpressionRef"
+                     }
+                  }
                } ]
             }
          } ]
