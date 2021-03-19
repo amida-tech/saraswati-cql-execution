@@ -66,8 +66,8 @@ concept "Long Term Stay": {
   "Referral to long term care service (procedure)"
 } display 'Long Term Stay'
 
-parameter MeasurementPeriod default Interval[@2018-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
-parameter MeasurementPeriodExtended default Interval[@2017-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
+parameter MeasurementPeriod default Interval[@2020-01-01T00:00:00.0, @2020-12-31T23:59:59.999)
+parameter MeasurementPeriodExtended default Interval[@2019-01-01T00:00:00.0, @2020-12-31T23:59:59.999)
 
 context Patient
 
