@@ -6,9 +6,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 178,
+         "startLine" : 179,
          "startChar" : 29,
-         "endLine" : 178,
+         "endLine" : 179,
          "endChar" : 59,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -17,20 +17,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 182,
+         "startLine" : 183,
          "startChar" : 60,
-         "endLine" : 182,
-         "endChar" : 65,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "cdc_hba1c_lessThanEight",
-         "libraryVersion" : "1",
-         "startLine" : 250,
-         "startChar" : 60,
-         "endLine" : 250,
+         "endLine" : 183,
          "endChar" : 65,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -40,8 +29,19 @@
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
          "startLine" : 251,
-         "startChar" : 59,
+         "startChar" : 60,
          "endLine" : 251,
+         "endChar" : 65,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_hba1c_lessThanEight",
+         "libraryVersion" : "1",
+         "startLine" : 252,
+         "startChar" : 59,
+         "endLine" : 252,
          "endChar" : 64,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -50,9 +50,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 256,
+         "startLine" : 257,
          "startChar" : 85,
-         "endLine" : 256,
+         "endLine" : 257,
          "endChar" : 90,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -61,9 +61,9 @@
       }, {
          "libraryId" : "cdc_hba1c_lessThanEight",
          "libraryVersion" : "1",
-         "startLine" : 282,
+         "startLine" : 283,
          "startChar" : 10,
-         "endLine" : 282,
+         "endLine" : 283,
          "endChar" : 50,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -107,17 +107,17 @@
                   "type" : "DateTime",
                   "year" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "2018",
+                     "value" : "2020",
                      "type" : "Literal"
                   },
                   "month" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "12",
+                     "value" : "1",
                      "type" : "Literal"
                   },
                   "day" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "31",
+                     "value" : "1",
                      "type" : "Literal"
                   },
                   "hour" : {
@@ -145,7 +145,7 @@
                   "type" : "DateTime",
                   "year" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "2019",
+                     "value" : "2020",
                      "type" : "Literal"
                   },
                   "month" : {
@@ -160,22 +160,22 @@
                   },
                   "hour" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "0",
+                     "value" : "23",
                      "type" : "Literal"
                   },
                   "minute" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "0",
+                     "value" : "59",
                      "type" : "Literal"
                   },
                   "second" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "0",
+                     "value" : "59",
                      "type" : "Literal"
                   },
                   "millisecond" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "0",
+                     "value" : "999",
                      "type" : "Literal"
                   }
                }
@@ -191,17 +191,17 @@
                   "type" : "DateTime",
                   "year" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "2017",
+                     "value" : "2019",
                      "type" : "Literal"
                   },
                   "month" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "12",
+                     "value" : "1",
                      "type" : "Literal"
                   },
                   "day" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "31",
+                     "value" : "1",
                      "type" : "Literal"
                   },
                   "hour" : {
@@ -229,7 +229,7 @@
                   "type" : "DateTime",
                   "year" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "2019",
+                     "value" : "2020",
                      "type" : "Literal"
                   },
                   "month" : {
@@ -244,22 +244,22 @@
                   },
                   "hour" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "0",
+                     "value" : "23",
                      "type" : "Literal"
                   },
                   "minute" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "0",
+                     "value" : "59",
                      "type" : "Literal"
                   },
                   "second" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "0",
+                     "value" : "59",
                      "type" : "Literal"
                   },
                   "millisecond" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "0",
+                     "value" : "999",
                      "type" : "Literal"
                   }
                }
@@ -284,6 +284,10 @@
             "id" : "2.16.840.1.113883.3.464.1003.110.12.1082",
             "accessLevel" : "Public"
          }, {
+            "name" : "Care Services in Long-Term Residential Facility",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1014",
+            "accessLevel" : "Public"
+         }, {
             "name" : "Dementia Medications 1",
             "id" : "2.16.840.1.113883.3.464.1003.196.11.1517",
             "accessLevel" : "Public"
@@ -298,6 +302,10 @@
          }, {
             "name" : "ED",
             "id" : "2.16.840.1.113883.3.464.1003.101.12.1085",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Encounter Inpatient",
+            "id" : "2.16.840.1.113883.3.666.5.307",
             "accessLevel" : "Public"
          }, {
             "name" : "Frailty Device",
@@ -344,6 +352,10 @@
             "id" : "2.16.840.1.113883.3.464.1003.101.12.1008",
             "accessLevel" : "Public"
          }, {
+            "name" : "Patients Age 65 or Older in SNP or Long Term Care",
+            "id" : "2.16.840.1.113762.1.4.1182.66",
+            "accessLevel" : "Public"
+         }, {
             "name" : "Telehealth Modifier",
             "id" : "2.16.840.1.113762.1.4.1138.731",
             "accessLevel" : "Public"
@@ -354,18 +366,6 @@
          }, {
             "name" : "Telephone Visits",
             "id" : "2.16.840.1.113883.3.1444.5.216",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Patients Age 65 or Older in SNP or Long Term Care",
-            "id" : "2.16.840.1.113762.1.4.1182.66",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Encounter Inpatient",
-            "id" : "2.16.840.1.113883.3.666.5.307",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Care Services in Long-Term Residential Facility",
-            "id" : "2.16.840.1.113883.3.464.1003.101.12.1014",
             "accessLevel" : "Public"
          } ]
       },
