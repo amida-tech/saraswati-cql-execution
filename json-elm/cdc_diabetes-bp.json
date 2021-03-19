@@ -6,20 +6,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 190,
-         "startChar" : 29,
-         "endLine" : 190,
-         "endChar" : 59,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
-         "libraryVersion" : "1",
-         "startLine" : 194,
+         "startLine" : 182,
          "startChar" : 60,
-         "endLine" : 194,
+         "endLine" : 182,
          "endChar" : 65,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -28,9 +17,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 262,
+         "startLine" : 250,
          "startChar" : 60,
-         "endLine" : 262,
+         "endLine" : 250,
          "endChar" : 65,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -39,9 +28,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 263,
+         "startLine" : 251,
          "startChar" : 59,
-         "endLine" : 263,
+         "endLine" : 251,
          "endChar" : 64,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -50,9 +39,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 268,
+         "startLine" : 256,
          "startChar" : 85,
-         "endLine" : 268,
+         "endLine" : 256,
          "endChar" : 90,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -61,9 +50,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 294,
+         "startLine" : 282,
          "startChar" : 10,
-         "endLine" : 294,
+         "endLine" : 282,
          "endChar" : 50,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -72,9 +61,9 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 321,
+         "startLine" : 309,
          "startChar" : 91,
-         "endLine" : 321,
+         "endLine" : 309,
          "endChar" : 95,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -83,10 +72,54 @@
       }, {
          "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
          "libraryVersion" : "1",
-         "startLine" : 321,
+         "startLine" : 309,
          "startChar" : 91,
-         "endLine" : 321,
+         "endLine" : 309,
          "endChar" : 95,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 315,
+         "startChar" : 123,
+         "endLine" : 315,
+         "endChar" : 127,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 315,
+         "startChar" : 123,
+         "endLine" : 315,
+         "endChar" : 127,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 316,
+         "startChar" : 100,
+         "endLine" : 316,
+         "endChar" : 104,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
+         "libraryVersion" : "1",
+         "startLine" : 316,
+         "startChar" : 100,
+         "endLine" : 316,
+         "endChar" : 104,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
          "errorSeverity" : "warning",
@@ -130,50 +163,6 @@
          "startLine" : 328,
          "startChar" : 100,
          "endLine" : 328,
-         "endChar" : 104,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
-         "libraryVersion" : "1",
-         "startLine" : 339,
-         "startChar" : 123,
-         "endLine" : 339,
-         "endChar" : 127,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
-         "libraryVersion" : "1",
-         "startLine" : 339,
-         "startChar" : 123,
-         "endLine" : 339,
-         "endChar" : 127,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
-         "libraryVersion" : "1",
-         "startLine" : 340,
-         "startChar" : 100,
-         "endLine" : 340,
-         "endChar" : 104,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "cdc_bp_lessThanOneHundredAndFortyOverNinety",
-         "libraryVersion" : "1",
-         "startLine" : 340,
-         "startChar" : 100,
-         "endLine" : 340,
          "endChar" : 104,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -1544,334 +1533,57 @@
                }
             }
          }, {
-            "name" : "Out visits on Different Dates",
+            "name" : "Out Visits Deduplicated Dates",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "Query",
                "source" : [ {
-                  "alias" : "cond1",
+                  "alias" : "OutVisits",
                   "expression" : {
-                     "name" : "Outpatient Visit",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "alias" : "cond2",
-                  "expression" : {
-                     "name" : "Observation Visit",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "alias" : "cond3",
-                  "expression" : {
-                     "name" : "Emergency Department Visits",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "alias" : "cond4",
-                  "expression" : {
-                     "name" : "Nonacute Diabetes Discharges-List",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "alias" : "cond5",
-                  "expression" : {
-                     "name" : "Nonacute Diabetes Discharges On Claim",
-                     "type" : "ExpressionRef"
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "And",
-                  "operand" : [ {
-                     "type" : "And",
+                     "type" : "Union",
                      "operand" : [ {
-                        "type" : "And",
-                        "operand" : [ {
-                           "type" : "And",
-                           "operand" : [ {
-                              "type" : "And",
-                              "operand" : [ {
-                                 "type" : "And",
-                                 "operand" : [ {
-                                    "type" : "And",
-                                    "operand" : [ {
-                                       "type" : "And",
-                                       "operand" : [ {
-                                          "type" : "And",
-                                          "operand" : [ {
-                                             "type" : "Not",
-                                             "operand" : {
-                                                "type" : "Equal",
-                                                "operand" : [ {
-                                                   "path" : "start",
-                                                   "type" : "Property",
-                                                   "source" : {
-                                                      "path" : "period",
-                                                      "scope" : "cond1",
-                                                      "type" : "Property"
-                                                   }
-                                                }, {
-                                                   "path" : "start",
-                                                   "type" : "Property",
-                                                   "source" : {
-                                                      "path" : "period",
-                                                      "scope" : "cond2",
-                                                      "type" : "Property"
-                                                   }
-                                                } ]
-                                             }
-                                          }, {
-                                             "type" : "Not",
-                                             "operand" : {
-                                                "type" : "Equal",
-                                                "operand" : [ {
-                                                   "path" : "start",
-                                                   "type" : "Property",
-                                                   "source" : {
-                                                      "path" : "period",
-                                                      "scope" : "cond1",
-                                                      "type" : "Property"
-                                                   }
-                                                }, {
-                                                   "path" : "start",
-                                                   "type" : "Property",
-                                                   "source" : {
-                                                      "path" : "period",
-                                                      "scope" : "cond3",
-                                                      "type" : "Property"
-                                                   }
-                                                } ]
-                                             }
-                                          } ]
-                                       }, {
-                                          "type" : "Not",
-                                          "operand" : {
-                                             "type" : "Equal",
-                                             "operand" : [ {
-                                                "path" : "start",
-                                                "type" : "Property",
-                                                "source" : {
-                                                   "path" : "period",
-                                                   "scope" : "cond1",
-                                                   "type" : "Property"
-                                                }
-                                             }, {
-                                                "path" : "start",
-                                                "type" : "Property",
-                                                "source" : {
-                                                   "path" : "period",
-                                                   "scope" : "cond4",
-                                                   "type" : "Property"
-                                                }
-                                             } ]
-                                          }
-                                       } ]
-                                    }, {
-                                       "type" : "Not",
-                                       "operand" : {
-                                          "type" : "Equal",
-                                          "operand" : [ {
-                                             "path" : "start",
-                                             "type" : "Property",
-                                             "source" : {
-                                                "path" : "period",
-                                                "scope" : "cond1",
-                                                "type" : "Property"
-                                             }
-                                          }, {
-                                             "path" : "start",
-                                             "type" : "Property",
-                                             "source" : {
-                                                "path" : "period",
-                                                "scope" : "cond5",
-                                                "type" : "Property"
-                                             }
-                                          } ]
-                                       }
-                                    } ]
-                                 }, {
-                                    "type" : "Not",
-                                    "operand" : {
-                                       "type" : "Equal",
-                                       "operand" : [ {
-                                          "path" : "start",
-                                          "type" : "Property",
-                                          "source" : {
-                                             "path" : "period",
-                                             "scope" : "cond2",
-                                             "type" : "Property"
-                                          }
-                                       }, {
-                                          "path" : "start",
-                                          "type" : "Property",
-                                          "source" : {
-                                             "path" : "period",
-                                             "scope" : "cond3",
-                                             "type" : "Property"
-                                          }
-                                       } ]
-                                    }
-                                 } ]
-                              }, {
-                                 "type" : "Not",
-                                 "operand" : {
-                                    "type" : "Equal",
-                                    "operand" : [ {
-                                       "path" : "start",
-                                       "type" : "Property",
-                                       "source" : {
-                                          "path" : "period",
-                                          "scope" : "cond2",
-                                          "type" : "Property"
-                                       }
-                                    }, {
-                                       "path" : "start",
-                                       "type" : "Property",
-                                       "source" : {
-                                          "path" : "period",
-                                          "scope" : "cond4",
-                                          "type" : "Property"
-                                       }
-                                    } ]
-                                 }
-                              } ]
-                           }, {
-                              "type" : "Not",
-                              "operand" : {
-                                 "type" : "Equal",
-                                 "operand" : [ {
-                                    "path" : "start",
-                                    "type" : "Property",
-                                    "source" : {
-                                       "path" : "period",
-                                       "scope" : "cond2",
-                                       "type" : "Property"
-                                    }
-                                 }, {
-                                    "path" : "start",
-                                    "type" : "Property",
-                                    "source" : {
-                                       "path" : "period",
-                                       "scope" : "cond5",
-                                       "type" : "Property"
-                                    }
-                                 } ]
-                              }
-                           } ]
-                        }, {
-                           "type" : "Not",
-                           "operand" : {
-                              "type" : "Equal",
-                              "operand" : [ {
-                                 "path" : "start",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "path" : "period",
-                                    "scope" : "cond3",
-                                    "type" : "Property"
-                                 }
-                              }, {
-                                 "path" : "start",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "path" : "period",
-                                    "scope" : "cond4",
-                                    "type" : "Property"
-                                 }
-                              } ]
-                           }
-                        } ]
-                     }, {
-                        "type" : "Not",
-                        "operand" : {
-                           "type" : "Equal",
-                           "operand" : [ {
-                              "path" : "start",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "period",
-                                 "scope" : "cond3",
-                                 "type" : "Property"
-                              }
-                           }, {
-                              "path" : "start",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "period",
-                                 "scope" : "cond5",
-                                 "type" : "Property"
-                              }
-                           } ]
-                        }
-                     } ]
-                  }, {
-                     "type" : "Not",
-                     "operand" : {
-                        "type" : "Equal",
-                        "operand" : [ {
-                           "path" : "start",
-                           "type" : "Property",
-                           "source" : {
-                              "path" : "period",
-                              "scope" : "cond4",
-                              "type" : "Property"
-                           }
-                        }, {
-                           "path" : "start",
-                           "type" : "Property",
-                           "source" : {
-                              "path" : "period",
-                              "scope" : "cond5",
-                              "type" : "Property"
-                           }
-                        } ]
-                     }
-                  } ]
-               },
-               "return" : {
-                  "expression" : {
-                     "type" : "Count",
-                     "source" : {
                         "type" : "Union",
                         "operand" : [ {
                            "type" : "Union",
                            "operand" : [ {
-                              "type" : "Union",
-                              "operand" : [ {
-                                 "type" : "ToList",
-                                 "operand" : {
-                                    "name" : "cond1",
-                                    "type" : "AliasRef"
-                                 }
-                              }, {
-                                 "type" : "ToList",
-                                 "operand" : {
-                                    "name" : "cond2",
-                                    "type" : "AliasRef"
-                                 }
-                              } ]
+                              "name" : "Outpatient Visit",
+                              "type" : "ExpressionRef"
                            }, {
-                              "type" : "Union",
-                              "operand" : [ {
-                                 "type" : "ToList",
-                                 "operand" : {
-                                    "name" : "cond3",
-                                    "type" : "AliasRef"
-                                 }
-                              }, {
-                                 "type" : "ToList",
-                                 "operand" : {
-                                    "name" : "cond4",
-                                    "type" : "AliasRef"
-                                 }
-                              } ]
+                              "name" : "Observation Visit",
+                              "type" : "ExpressionRef"
                            } ]
                         }, {
-                           "type" : "ToList",
-                           "operand" : {
-                              "name" : "cond5",
-                              "type" : "AliasRef"
+                           "type" : "Union",
+                           "operand" : [ {
+                              "name" : "Emergency Department Visits",
+                              "type" : "ExpressionRef"
+                           }, {
+                              "name" : "Nonacute Diabetes Discharges-List",
+                              "type" : "ExpressionRef"
+                           } ]
+                        } ]
+                     }, {
+                        "name" : "Nonacute Diabetes Discharges On Claim",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "type" : "ToDate",
+                     "operand" : {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "start",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "period",
+                              "scope" : "OutVisits",
+                              "type" : "Property"
                            }
                         } ]
                      }
@@ -1890,9 +1602,9 @@
                      "name" : "Out Tele Online Union",
                      "type" : "ExpressionRef"
                   }, {
-                     "type" : "SingletonFrom",
-                     "operand" : {
-                        "name" : "Out visits on Different Dates",
+                     "type" : "Count",
+                     "source" : {
+                        "name" : "Out Visits Deduplicated Dates",
                         "type" : "ExpressionRef"
                      }
                   } ]
