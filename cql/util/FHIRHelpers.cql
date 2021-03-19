@@ -334,9 +334,3 @@ define function ToString(value FHIR.vConfidentialityClassification): value.value
 define function ToString(value FHIR.ContractResourcePublicationStatusCodes): value.value
 define function ToString(value FHIR.VisionBase): value.value
 define function ToString(value FHIR.BundleType): value.value
-define function DeduplicateBasedOnStartDate(Enc List<FHIR.Encounter>):
-  "Enc" N1
-    with "Enc" N2
-      such that ( ( IndexOf("Enc", N2) + 1 = IndexOf("Enc", N1) )
-        and not ( N1.period.start = N2.period.start ) )
-          or IndexOf("Enc", N1) = 1 
