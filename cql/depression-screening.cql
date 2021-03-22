@@ -26,16 +26,15 @@ codesystem "CQFramework": 'http://cqframework.info/codesystem/placeholder'
 /* The following Valuesets come from VSAC*/
 valueset "Behavioral Health Encounter": '2.16.840.1.113883.3.464.1003.101.12.1054'
 valueset "Bipolar Disorder": '2.16.840.1.113883.3.67.1.101.1.128'
-valueset "Depression Diagnosis": '2.16.840.1.113883.3.600.145'
+valueset "Depression": '2.16.840.1.113883.3.600.145'
 valueset "Depression Case Management Encounter": '2.16.840.1.113762.1.4.1138.536'
 valueset "Depression Screen": '2.16.840.1.113762.1.4.1182.97'
 valueset "Follow Up Visit": '2.16.840.1.113883.3.464.1003.101.12.1061'
 valueset "Negative Depression Screening": '2.16.840.1.113883.3.7587.3.1020'
 valueset "Other Bipolar Disorder": '2.16.840.1.113883.3.464.1003.105.12.1204'
 valueset "Positive Depression Screening": '2.16.840.1.113883.3.7587.3.1019'
-valueset "Dysthymia": '2.16.840.1.113883.3.67.1.101.1.254'
 valueset "Antidepressant Medication": '2.16.840.1.113883.3.464.1003.196.12.1213'
-valueset "Hospice Services": '2.16.840.1.113762.1.4.1182.2'
+valueset "Hospice Encounter": '2.16.840.1.113762.1.4.1182.2'
 /*
 The following valuesets come from K. Health Plan Description AND ECDS_pp 557-650. 
 We probably want to use these in the future with real data and after we figure out the value code sets from the HEDIS b
@@ -51,12 +50,6 @@ We probably want to use these in the future with real data and after we figure o
 //valueset "Hospice Intervention": '2.16.840.1.113883.3.464.1004.1762'
 //valueset "Hospice Intervention" '2.16.840.1.113883.3.464.1004.1762'
 //valueset "Antidepressant Medication": '2.16.840.1.113883.3.464.1004.1503'
-
-
-//code "Antidepressant Medication": '1000048' from "RXNORM"
-code "PHQ-9 Modified Score": '00009' from "CQFramework"
-code "PHQ-9 Tool": '44249-1' from "LOINC"
-
 
 parameter "Measurement Period" default Interval[@2020-01-01, @2020-12-31]
 
@@ -78,7 +71,6 @@ context Patient
 Initial Population
 Product lines -- Commercial, Medicaid, Medicare (report each product line separately).
 */
-
 define "Initial Population":
 	AgeInYearsAt(start of "Measurement Period") >= 12
 
@@ -93,13 +85,12 @@ define "Denominator Exclusion":
 	)
 	or
 	exists (
-		[DiagnosticReport: "Depression Diagnosis"] MDD
-			where MDD.status.value in { 'preliminary', 'final', 'amended', 'corrected', 'appended' }
-				and PeriodToIntervalOfDT(MDD.effective) during "First Predecessor Year"
+		[Condition: "Depression"] D
+				where FHIRHelpers.ToDateTime(D.recordedDate)  during "First Predecessor Year"
 	)
 	or
 	exists (
-		[ServiceRequest: "Hospice Services"] HospicePerformed
+		[ServiceRequest: "Hospice Encounter"] HospicePerformed
 			where PeriodToIntervalOfDT(HospicePerformed.occurrence) during "Measurement Period"
 	)
 
@@ -120,14 +111,14 @@ define "Denominator 1":
 	end
 
 // Depression Screening
-define "Numerator 1":
+define "Numerator 1": // not for subset of denominotor 
 	case("Initial Population"
 	and
 	exists (
 		[Observation: "Depression Screen"] DepressionScreen
 			where DepressionScreen.status.value in { 'final', 'amended' }
 				and DepressionScreen.effective.value in "Measurement Period"
-	))
+	) and not "Denominator Exclusion")
 		when true then 1
 		else 0
 	end
@@ -141,7 +132,7 @@ define "Denominator 2":
 	end
 
 define "Numerator 2":
-	case("Initial Population"
+	case(("Denominator 2" = 1)
 		and
 		(
 			exists ("Dispensed Antidepressant Within 31 Days")
@@ -168,8 +159,9 @@ define "Follow-Up Care Encounters":
 		[Encounter: "Behavioral Health Encounter"]
 		union(
 			[Encounter: "Follow Up Visit"] E
-				with [Condition: "Depression Diagnosis"] D
+				with [Condition: "Depression"] D
 					such that E.status.value in { 'planned', 'arrived', 'triaged', 'in-progress', 'onleave', 'finished' }
+					and E.class.code in {'AMB', 'VR'} // AMB is outpatient, VR is for telephone
 		) union (
 		[Encounter: "Depression Case Management Encounter"])
 
@@ -266,7 +258,7 @@ define "Denominator Count 2":
 define "Numerator Count 2":
   Sum("Numerator 2")
 
-define "CDC Measure Score 2":
+define "DSF Measure Score 2":
   Sum("Numerator 2") / Sum("Denominator 2")
 
 /*
