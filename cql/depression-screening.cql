@@ -136,16 +136,22 @@ define "Numerator 2":
 		and
 		(
 			exists ("Dispensed Antidepressant Within 31 Days")
-			or exists ("Follow-Up Encounter Within 31 Days")
-			or exists ("Same Day Behavioral Encounter")
-			or exists ("Negative Depression Screening Within 31 Days")
+			or exists ("Follow-Up Encounter Within 31 Days") // takes care of behavioral health encounter bullet, depression case management encounter bullet, and outpatient or telephone follow-up bullet
+			or "Same Day and Subsequent Positive Screen"
 		))
 		when true then 1
 		else 0
 	end
 
+define "Same Day and Subsequent Positive Screen":
+	exists ("Same Day Behavioral Encounter")
+	and exists ("Negative Depression Screening Within 31 Days")
+
+define "Union of Positive Depression Screening & Depression Screen":
+	[Observation: "Depression Screen"] union [Observation: "Positive Depression Screening"]
+
 define "Positive Depression Screening During Follow-Up Period":
-	[Observation: "Positive Depression Screening"] PositiveScreen
+	"Union of Positive Depression Screening & Depression Screen" PositiveScreen
 		where PositiveScreen.status.value in { 'final', 'amended' }
 			and PositiveScreen.effective.value in "Measurement Period"
 

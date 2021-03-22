@@ -754,6 +754,32 @@
                }
             }
          }, {
+            "name" : "Union of Positive Depression Screening & Depression Screen",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Union",
+               "operand" : [ {
+                  "dataType" : "{http://hl7.org/fhir}Observation",
+                  "codeProperty" : "code",
+                  "codeComparator" : "in",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "name" : "Depression Screen",
+                     "type" : "ValueSetRef"
+                  }
+               }, {
+                  "dataType" : "{http://hl7.org/fhir}Observation",
+                  "codeProperty" : "code",
+                  "codeComparator" : "in",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "name" : "Positive Depression Screening",
+                     "type" : "ValueSetRef"
+                  }
+               } ]
+            }
+         }, {
             "name" : "Positive Depression Screening During Follow-Up Period",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -762,14 +788,8 @@
                "source" : [ {
                   "alias" : "PositiveScreen",
                   "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Observation",
-                     "codeProperty" : "code",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Positive Depression Screening",
-                        "type" : "ValueSetRef"
-                     }
+                     "name" : "Union of Positive Depression Screening & Depression Screen",
+                     "type" : "ExpressionRef"
                   }
                } ],
                "relationship" : [ ],
@@ -1409,6 +1429,26 @@
                }
             }
          }, {
+            "name" : "Same Day and Subsequent Positive Screen",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "Same Day Behavioral Encounter",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "Negative Depression Screening Within 31 Days",
+                     "type" : "ExpressionRef"
+                  }
+               } ]
+            }
+         }, {
             "name" : "Numerator 2",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -1431,33 +1471,21 @@
                      "operand" : [ {
                         "type" : "Or",
                         "operand" : [ {
-                           "type" : "Or",
-                           "operand" : [ {
-                              "type" : "Exists",
-                              "operand" : {
-                                 "name" : "Dispensed Antidepressant Within 31 Days",
-                                 "type" : "ExpressionRef"
-                              }
-                           }, {
-                              "type" : "Exists",
-                              "operand" : {
-                                 "name" : "Follow-Up Encounter Within 31 Days",
-                                 "type" : "ExpressionRef"
-                              }
-                           } ]
+                           "type" : "Exists",
+                           "operand" : {
+                              "name" : "Dispensed Antidepressant Within 31 Days",
+                              "type" : "ExpressionRef"
+                           }
                         }, {
                            "type" : "Exists",
                            "operand" : {
-                              "name" : "Same Day Behavioral Encounter",
+                              "name" : "Follow-Up Encounter Within 31 Days",
                               "type" : "ExpressionRef"
                            }
                         } ]
                      }, {
-                        "type" : "Exists",
-                        "operand" : {
-                           "name" : "Negative Depression Screening Within 31 Days",
-                           "type" : "ExpressionRef"
-                        }
+                        "name" : "Same Day and Subsequent Positive Screen",
+                        "type" : "ExpressionRef"
                      } ]
                   } ]
                },
