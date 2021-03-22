@@ -165,29 +165,17 @@ define "Out Tele Online Union":
     else 0
   end
 
-define "Out visits on Different Dates":
-  from
-    "Outpatient Visit" cond1,
-    "Observation Visit" cond2,
-    "Emergency Department Visits" cond3,
-    "Nonacute Diabetes Discharges-List" cond4,
-    "Nonacute Diabetes Discharges On Claim" cond5
-      where (cond1.period.start != cond2.period.start)
-        and (cond1.period.start != cond3.period.start)
-        and (cond1.period.start != cond4.period.start)
-        and (cond1.period.start != cond5.period.start)
-        and (cond2.period.start != cond3.period.start)
-        and (cond2.period.start != cond4.period.start)
-        and (cond2.period.start != cond5.period.start)
-        and (cond3.period.start != cond4.period.start)
-        and (cond3.period.start != cond5.period.start)
-        and (cond4.period.start != cond5.period.start)
-
-    return Count(((((cond1 union cond2) union cond3) union cond4) union cond5))
+define "Out Visits Deduplicated Dates":
+  ("Outpatient Visit" union
+  "Observation Visit" union
+  "Emergency Department Visits" union
+  "Nonacute Diabetes Discharges-List" union
+  "Nonacute Diabetes Discharges On Claim") OutVisits
+  return ToDate(OutVisits.period.start)
 
 // because we have a "Nonacute Inpatient Stay"  valueset, we can skip identifying a nonacute inpatient discharge (1,2,3)
 define "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes":
-  "Out Tele Online Union" + "Out visits on Different Dates" >= 2
+  "Out Tele Online Union" + Count("Out Visits Deduplicated Dates") >= 2
 
 define "Diabetes Diagnosis By Medication":
   exists([MedicationDispense] MedicationDispense
