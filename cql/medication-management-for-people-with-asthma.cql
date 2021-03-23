@@ -179,10 +179,10 @@ define "Valid Encounters":
 
 define "Exclusion Diagnoses":
   [Condition: "Emphysema"]
-  // union [Condition: "Other Emphysema"]
+  // union [Condition: "Other Emphysema"] // found in HEDIS book only
   union [Condition: "COPD"]
   union [Condition: "Obstructive Chronic Bronchitus"]
-  // union [Condition: "Chronic Respiratory Conditions Due to Fumes or Vapors"
+  // union [Condition: "Chronic Respiratory Conditions Due to Fumes or Vapors" // found in HEDIS book only
   union [Condition: "Cystic Fibrosis"]
   union [Condition: "Acute Respiratory Failure"]
 
@@ -282,8 +282,8 @@ define "Stratification 4":
 
 context Unfiltered
 
-define "CDC Measure Score 1":
+define "MMA Measure Score 1":
   Sum("Numerator Medication Compliance 50%") / Sum(Denominator)
 
-define "CDC Measure Score 2":
+define "MMA Measure Score 2":
   Sum("Numerator Medication Compliance 75%") / Sum(Denominator)
