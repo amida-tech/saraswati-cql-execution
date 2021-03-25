@@ -57,8 +57,8 @@ parameter "Prior Period" default Interval[@2019-01-01T00:00:00.0, @2019-12-31T23
 context Patient
 
 define "Initial Population":
-	AgeInYearsAt(start of "Measurement Period") >= 5
-    and AgeInYearsAt(start of "Measurement Period") < 64
+	AgeInYearsAt(end of "Measurement Period") >= 5
+    and AgeInYearsAt(end of "Measurement Period") < 64
 
 define "Emergency Department Visit":
   [Encounter: "ED"] E0

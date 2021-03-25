@@ -406,7 +406,7 @@
                            }
                         }
                      }, {
-                        "type" : "Start",
+                        "type" : "End",
                         "operand" : {
                            "name" : "Measurement Period",
                            "type" : "ParameterRef"
@@ -433,7 +433,7 @@
                            }
                         }
                      }, {
-                        "type" : "Start",
+                        "type" : "End",
                         "operand" : {
                            "name" : "Measurement Period",
                            "type" : "ParameterRef"
