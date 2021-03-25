@@ -66,7 +66,7 @@
             }
           ],
           "gender": "female",
-          "birthDate": "2017-11-15"
+          "birthDate": "2018-11-15"
         },
         "request": {
           "method": "PUT",
@@ -108,8 +108,8 @@
           "participant": [
             {
               "period": {
-                "start": "2018-01-17T16:00:00+10:00",
-                "end": "2018-01-17T16:30:00+10:00"
+                "start": "2019-01-17T16:00:00+10:00",
+                "end": "2019-01-17T16:30:00+10:00"
               },
               "individual": {
                 "reference": "Practitioner/example",
@@ -118,8 +118,8 @@
             }
           ],
           "period": {
-            "start": "2019-01-17T16:00:00+10:00",
-            "end": "2019-01-17T16:30:00+10:00"
+            "start": "2020-01-17T16:00:00+10:00",
+            "end": "2020-01-17T16:30:00+10:00"
           },
           "location": [
             {
@@ -213,9 +213,9 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "onsetDateTime": "2019-04-02",
-          "abatementString": "around April 9, 2019",
-          "recordedDate": "2019-04-04",
+          "onsetDateTime": "2020-04-02",
+          "abatementString": "around April 9, 2020",
+          "recordedDate": "2020-04-04",
           "recorder": {
             "reference": "Practitioner/f201"
           },
@@ -251,7 +251,7 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "occurrenceDateTime": "2019-01-10",
+          "occurrenceDateTime": "2020-01-10",
           "primarySource": true,
           "location": {
             "reference": "Location/1"
@@ -374,8 +374,8 @@
             "reference": "Patient/numer-EXM165-FHIR3"
           },
           "performedPeriod": {
-            "start": "2019-01-10T09:30:10+01:00",
-            "end": "2019-01-10T10:30:10+01:00"
+            "start": "2020-01-10T09:30:10+01:00",
+            "end": "2020-01-10T10:30:10+01:00"
           },
           "performer": [
             {
@@ -453,7 +453,7 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "occurrenceDateTime": "2019-02-10",
+          "occurrenceDateTime": "2020-02-10",
           "primarySource": true,
           "location": {
             "reference": "Location/1"
@@ -576,8 +576,8 @@
             "reference": "Patient/numer-EXM165-FHIR3"
           },
           "performedPeriod": {
-            "start": "2019-02-10T09:30:10+01:00",
-            "end": "2019-02-10T10:30:10+01:00"
+            "start": "2020-02-10T09:30:10+01:00",
+            "end": "2020-02-10T10:30:10+01:00"
           },
           "performer": [
             {
@@ -655,7 +655,7 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "occurrenceDateTime": "2019-03-10",
+          "occurrenceDateTime": "2020-03-10",
           "primarySource": true,
           "location": {
             "reference": "Location/1"
@@ -778,8 +778,8 @@
             "reference": "Patient/numer-EXM165-FHIR3"
           },
           "performedPeriod": {
-            "start": "2019-03-10T09:30:10+01:00",
-            "end": "2019-03-10T10:30:10+01:00"
+            "start": "2020-03-10T09:30:10+01:00",
+            "end": "2020-03-10T10:30:10+01:00"
           },
           "performer": [
             {
@@ -857,7 +857,7 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "occurrenceDateTime": "2019-04-10",
+          "occurrenceDateTime": "2020-04-10",
           "primarySource": true,
           "location": {
             "reference": "Location/1"
@@ -980,8 +980,8 @@
             "reference": "Patient/numer-EXM165-FHIR3"
           },
           "performedPeriod": {
-            "start": "2019-04-10T09:30:10+01:00",
-            "end": "2019-04-10T10:30:10+01:00"
+            "start": "2020-04-10T09:30:10+01:00",
+            "end": "2020-04-10T10:30:10+01:00"
           },
           "performer": [
             {
@@ -1059,7 +1059,7 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "occurrenceDateTime": "2019-01-10",
+          "occurrenceDateTime": "2020-01-10",
           "primarySource": true,
           "location": {
             "reference": "Location/1"
@@ -1182,8 +1182,8 @@
             "reference": "Patient/numer-EXM165-FHIR3"
           },
           "performedPeriod": {
-            "start": "2019-02-10T09:30:10+01:00",
-            "end": "2019-02-10T10:30:10+01:00"
+            "start": "2020-02-10T09:30:10+01:00",
+            "end": "2020-02-10T10:30:10+01:00"
           },
           "performer": [
             {
@@ -1253,8 +1253,8 @@
             "reference": "Patient/numer-EXM165-FHIR3"
           },
           "performedPeriod": {
-            "start": "2019-03-10T09:30:10+01:00",
-            "end": "2019-03-10T10:30:10+01:00"
+            "start": "2020-03-10T09:30:10+01:00",
+            "end": "2020-03-10T10:30:10+01:00"
           },
           "performer": [
             {
@@ -1382,9 +1382,9 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "onsetDateTime": "2019-04-02",
-          "abatementString": "around April 9, 2019",
-          "recordedDate": "2019-04-04",
+          "onsetDateTime": "2020-04-02",
+          "abatementString": "around April 9, 2020",
+          "recordedDate": "2020-04-04",
           "recorder": {
             "reference": "Practitioner/f201"
           },
@@ -1420,7 +1420,7 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "occurrenceDateTime": "2019-01-15",
+          "occurrenceDateTime": "2020-01-15",
           "primarySource": true,
           "location": {
             "reference": "Location/1"
@@ -1551,7 +1551,7 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "occurrenceDateTime": "2019-01-10",
+          "occurrenceDateTime": "2020-01-10",
           "primarySource": true,
           "location": {
             "reference": "Location/1"
@@ -1674,8 +1674,8 @@
             "reference": "Patient/numer-EXM165-FHIR3"
           },
           "performedPeriod": {
-            "start": "2019-01-10T09:30:10+01:00",
-            "end": "2019-01-10T10:30:10+01:00"
+            "start": "2020-01-10T09:30:10+01:00",
+            "end": "2020-01-10T10:30:10+01:00"
           },
           "performer": [
             {
@@ -1745,8 +1745,8 @@
             "reference": "Patient/numer-EXM165-FHIR3"
           },
           "performedPeriod": {
-            "start": "2019-02-10T09:30:10+01:00",
-            "end": "2019-02-10T10:30:10+01:00"
+            "start": "2020-02-10T09:30:10+01:00",
+            "end": "2020-02-10T10:30:10+01:00"
           },
           "performer": [
             {
@@ -1839,7 +1839,7 @@
             "coding": [
               {
                 "system": "http://loinc.org",
-                "code": "32018-4",
+                "code": "32019-4",
                 "version": "2.68",
                 "display": "Anti Hepatitis A IgG Antigen Test"
               }
@@ -1859,7 +1859,7 @@
           "subject": {
             "reference": "Patient/numer-EXM165-FHIR3"
           },
-          "effectiveDateTime": "2019-10-28T19:57:22-04:00",
+          "effectiveDateTime": "2020-10-28T19:57:22-04:00",
           "performer": [
             {
               "reference": "Practitioner/example"
@@ -1965,9 +1965,9 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "onsetDateTime": "2018-04-02",
-          "abatementString": "around April 9, 2018",
-          "recordedDate": "2018-04-04",
+          "onsetDateTime": "2019-04-02",
+          "abatementString": "around April 9, 2019",
+          "recordedDate": "2019-04-04",
           "recorder": {
             "reference": "Practitioner/f201"
           },
@@ -2053,9 +2053,9 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "onsetDateTime": "2018-05-02",
-          "abatementString": "around May 9, 2018",
-          "recordedDate": "2018-05-04",
+          "onsetDateTime": "2019-05-02",
+          "abatementString": "around May 9, 2019",
+          "recordedDate": "2019-05-04",
           "recorder": {
             "reference": "Practitioner/f201"
           },
@@ -2141,9 +2141,9 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "onsetDateTime": "2019-04-02",
-          "abatementString": "around April 9, 2019",
-          "recordedDate": "2019-04-04",
+          "onsetDateTime": "2020-04-02",
+          "abatementString": "around April 9, 2020",
+          "recordedDate": "2020-04-04",
           "recorder": {
             "reference": "Practitioner/f201"
           },
@@ -2179,7 +2179,7 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "occurrenceDateTime": "2019-01-10",
+          "occurrenceDateTime": "2020-01-10",
           "primarySource": true,
           "location": {
             "reference": "Location/1"
@@ -2310,7 +2310,7 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "occurrenceDateTime": "2019-02-10",
+          "occurrenceDateTime": "2020-02-10",
           "primarySource": true,
           "location": {
             "reference": "Location/1"
@@ -2433,8 +2433,8 @@
             "reference": "Patient/numer-EXM165-FHIR3"
           },
           "performedPeriod": {
-            "start": "2019-03-10T09:30:10+01:00",
-            "end": "2019-03-10T10:30:10+01:00"
+            "start": "2020-03-10T09:30:10+01:00",
+            "end": "2020-03-10T10:30:10+01:00"
           },
           "performer": [
             {
@@ -2504,8 +2504,8 @@
             "reference": "Patient/numer-EXM165-FHIR3"
           },
           "performedPeriod": {
-            "start": "2019-04-10T09:30:10+01:00",
-            "end": "2019-04-10T10:30:10+01:00"
+            "start": "2020-04-10T09:30:10+01:00",
+            "end": "2020-04-10T10:30:10+01:00"
           },
           "performer": [
             {
@@ -2633,9 +2633,9 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "onsetDateTime": "2019-04-02",
-          "abatementString": "around April 9, 2019",
-          "recordedDate": "2019-04-04",
+          "onsetDateTime": "2020-04-02",
+          "abatementString": "around April 9, 2020",
+          "recordedDate": "2020-04-04",
           "recorder": {
             "reference": "Practitioner/f201"
           },
@@ -2671,7 +2671,7 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "occurrenceDateTime": "2019-01-10",
+          "occurrenceDateTime": "2020-01-10",
           "primarySource": true,
           "location": {
             "reference": "Location/1"
@@ -2794,8 +2794,8 @@
             "reference": "Patient/numer-EXM165-FHIR3"
           },
           "performedPeriod": {
-            "start": "2019-01-12T09:30:10+01:00",
-            "end": "2019-01-12T10:30:10+01:00"
+            "start": "2020-01-12T09:30:10+01:00",
+            "end": "2020-01-12T10:30:10+01:00"
           },
           "performer": [
             {
@@ -2873,7 +2873,7 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "occurrenceDateTime": "2019-01-19",
+          "occurrenceDateTime": "2020-01-19",
           "primarySource": true,
           "location": {
             "reference": "Location/1"
@@ -2996,8 +2996,8 @@
             "reference": "Patient/numer-EXM165-FHIR3"
           },
           "performedPeriod": {
-            "start": "2019-01-16T09:30:10+01:00",
-            "end": "2019-01-16T10:30:10+01:00"
+            "start": "2020-01-16T09:30:10+01:00",
+            "end": "2020-01-16T10:30:10+01:00"
           },
           "performer": [
             {
@@ -3067,8 +3067,8 @@
             "reference": "Patient/numer-EXM165-FHIR3"
           },
           "performedPeriod": {
-            "start": "2019-01-17T09:30:10+01:00",
-            "end": "2019-01-17T10:30:10+01:00"
+            "start": "2020-01-17T09:30:10+01:00",
+            "end": "2020-01-17T10:30:10+01:00"
           },
           "performer": [
             {
@@ -3175,7 +3175,7 @@
           "subject": {
             "reference": "Patient/numer-EXM165-FHIR3"
           },
-          "effectiveDateTime": "2019-10-28T19:57:22-04:00",
+          "effectiveDateTime": "2020-10-28T19:57:22-04:00",
           "performer": [
             {
               "reference": "Practitioner/example"
@@ -3281,9 +3281,9 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "onsetDateTime": "2019-04-02",
-          "abatementString": "around April 9, 2019",
-          "recordedDate": "2019-04-04",
+          "onsetDateTime": "2020-04-02",
+          "abatementString": "around April 9, 2020",
+          "recordedDate": "2020-04-04",
           "recorder": {
             "reference": "Practitioner/f201"
           },
@@ -3353,7 +3353,7 @@
           "subject": {
             "reference": "Patient/numer-EXM165-FHIR3"
           },
-          "effectiveDateTime": "2019-10-28T19:57:22-04:00",
+          "effectiveDateTime": "2020-10-28T19:57:22-04:00",
           "performer": [
             {
               "reference": "Practitioner/example"
@@ -3409,7 +3409,7 @@
           "encounter": {
             "reference": "Encounter/example"
           },
-          "occurrenceDateTime": "2019-01-10",
+          "occurrenceDateTime": "2020-01-10",
           "primarySource": true,
           "location": {
             "reference": "Location/1"

@@ -84,7 +84,7 @@ valueset "Newborn Hepatitis B Vaccine Administered":'2.16.840.1.113883.3.464.100
 valueset "Anaphylactic Reaction to Common Baker's Yeast": '2.16.840.1.113883.3.464.1003.199.12.1032'
 */
 
-parameter "Measurement Period" default Interval[@2018-12-31T00:00:00.0, @2019-12-31T00:00:00.0)
+parameter "Measurement Period" default Interval[@2020-01-01T00:00:00.0, @2020-12-31T23:59:59.999)
 
 context Patient
 
