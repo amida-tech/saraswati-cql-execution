@@ -1,0 +1,1811 @@
+[
+    {
+      "resourceType": "Bundle",
+      "id": "tests-numer-EXAMPLE1-FHIR4-bundle",
+      "type": "transaction",
+      "entry": [
+        {
+          "resource": {
+            "resourceType": "Patient",
+            "id": "numer-EXAMPLE1-FHIR4",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+              ]
+            },
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+                "extension": [
+                  {
+                    "url": "ombCategory",
+                    "valueCoding": {
+                      "system": "urn:oid:2.16.840.1.113883.6.238",
+                      "code": "2054-5",
+                      "display": "Black or African American"
+                    }
+                  }
+                ]
+              },
+              {
+                "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+                "extension": [
+                  {
+                    "url": "ombCategory",
+                    "valueCoding": {
+                      "system": "urn:oid:2.16.840.1.113883.6.238",
+                      "code": "2186-5",
+                      "display": "Not Hispanic or Latino"
+                    }
+                  }
+                ]
+              }
+            ],
+            "identifier": [
+              {
+                "use": "usual",
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                      "code": "MR",
+                      "display": "Medical Record Number"
+                    }
+                  ]
+                },
+                "system": "http://hospital.smarthealthit.org",
+                "value": "999999993"
+              }
+            ],
+            "name": [
+              {
+                "family": "Doe",
+                "given": [
+                  "Jill"
+                ]
+              }
+            ],
+            "gender": "female",
+            "birthDate": "2000-07-29"
+          },
+          "request": {
+            "method": "PUT",
+            "url": "Patient/numer-EXAMPLE1-FHIR4"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:2784d4f5-0262-7192-d627-5e6ba0535cc6",
+          "resource": {
+            "resourceType": "Observation",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"
+              ]
+            },
+            "id": "2784d4f5-0262-7192-d627-5e6ba0535cc6",
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "laboratory",
+                    "display": "laboratory"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "273306008",
+                  "display": "Depression Screen"
+                }
+              ],
+              "text": "Depression Screen"
+            },
+            "subject": {
+              "reference": "urn:uuid:440487f4-1137-f542-8127-dc98e392d21e"
+            },
+            "encounter": {
+              "reference": "urn:uuid:9ff13252-9299-44f4-773a-19db01af425b"
+            },
+            "effectiveDateTime": "2020-03-14T02:18:59-04:00",
+            "issued": "2020-03-14T02:18:59.128-04:00",
+            "valueQuantity": {
+              "value": 7.53,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            }
+          },
+          "request": {
+            "method": "POST",
+            "url": "Observation"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:2784d4f5-0262-7192-d627-5e6ba0535cc6",
+          "resource": {
+            "resourceType": "Observation",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"
+              ]
+            },
+            "id": "2784d4f5-0262-7192-d627-5e6ba0535cc6",
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "laboratory",
+                    "display": "laboratory"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "428181000124104",
+                  "display": "Positive Depression Screening"
+                }
+              ],
+              "text": "Positive Depression Screening"
+            },
+            "subject": {
+              "reference": "urn:uuid:440487f4-1137-f542-8127-dc98e392d21e"
+            },
+            "encounter": {
+              "reference": "urn:uuid:9ff13252-9299-44f4-773a-19db01af425b"
+            },
+            "effectiveDateTime": "2020-08-13T19:57:22-04:00",
+            "issued": "2020-03-14T02:18:59.128-04:00",
+            "valueQuantity": {
+              "value": 7.53,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            }
+          },
+          "request": {
+            "method": "POST",
+            "url": "Observation"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:3594b761-d5e1-f669-515f-d4a6f292acdb",
+          "resource": {
+            "resourceType": "Encounter",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"
+              ]
+            },
+            "id": "3594b761-d5e1-f669-515f-d4a6f292acdb",
+            "status": "finished",
+            "class": {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code": "AMB"
+            },
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "CPT",
+                    "code": "98960"
+                  }
+                ],
+                "text": "Behavioral Health Follow-up Visit"
+              }
+            ],
+            "subject": {
+              "reference": "urn:uuid:96dcbd62-e4c6-a555-a663-77d08ad3c3b5",
+              "display": "Mr. Young120 Murphy561"
+            },
+            "period": {
+              "start": "2020-23-13T19:57:22-04:00",
+              "end": "2020-23-13T20:12:22-04:00"
+            },
+            "serviceProvider": {
+              "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
+              "display": "LEXINGTON EYE ASSOCIATES, INC"
+            }
+          },
+          "request": {
+            "method": "POST",
+            "url": "Encounter"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:3594b761-d5e1-f669-515f-d4a6f292acdb",
+          "resource": {
+            "resourceType": "Encounter",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"
+              ]
+            },
+            "id": "3594b761-d5e1-f669-515f-d4a6f292acdb",
+            "status": "finished",
+            "class": {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code": "VR"
+            },
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "12843005"
+                  }
+                ],
+                "text": "Ambulatory/ED Visit"
+              }
+            ],
+            "subject": {
+              "reference": "urn:uuid:96dcbd62-e4c6-a555-a663-77d08ad3c3b5",
+              "display": "Mr. Young120 Murphy561"
+            },
+            "period": {
+              "start": "2020-22-13T19:57:22-04:00",
+              "end": "2020-22-13T20:12:22-04:00"
+            },
+            "serviceProvider": {
+              "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
+              "display": "LEXINGTON EYE ASSOCIATES, INC"
+            }
+          },
+          "request": {
+            "method": "POST",
+            "url": "Encounter"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:3594b761-d5e1-f669-515f-d4a6f292acdb",
+          "resource": {
+            "resourceType": "Encounter",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"
+              ]
+            },
+            "id": "3594b761-d5e1-f669-515f-d4a6f292acdb",
+            "status": "finished",
+            "class": {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code": "AMB"
+            },
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "CPT",
+                    "code": "59400"
+                  }
+                ],
+                "text": "Depression Screening Encounter"
+              }
+            ],
+            "subject": {
+              "reference": "urn:uuid:96dcbd62-e4c6-a555-a663-77d08ad3c3b5",
+              "display": "Mr. Young120 Murphy561"
+            },
+            "period": {
+              "start": "2020-10-13T19:57:22-04:00",
+              "end": "2020-10-13T20:12:22-04:00"
+            },
+            "serviceProvider": {
+              "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
+              "display": "LEXINGTON EYE ASSOCIATES, INC"
+            }
+          },
+          "request": {
+            "method": "POST",
+            "url": "Encounter"
+          }
+        },
+        {
+          "fullUrl": "https://example.com/base/DiagnosticReport/f001",
+          "resource": {
+            "resourceType": "DiagnosticReport",
+            "id": "f001",
+            "identifier": [
+              {
+                "use": "official",
+                "system": "http://www.bmc.nl/zorgportal/identifiers/reports",
+                "value": "nr1239044"
+              }
+            ],
+            "basedOn": [
+              {
+                "reference": "ServiceRequest/req"
+              }
+            ],
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "196940090",
+                    "display": "Dysthymia"
+                  },
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                    "code": "HM"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "196940090",
+                  "display": "Dysthymia"
+                }
+              ]
+            },
+            "effectivePeriod": {
+              "start": "2015-22-13T19:57:22-04:00",
+              "end": "2015-22-13T20:12:22-04:00"
+            },
+            "subject": {
+              "reference": "Patient/f001",
+              "display": "P. van den Heuvel"
+            },
+            "issued": "2019-08-13T20:12:22-04:00",
+            "performer": [
+              {
+                "reference": "Organization/f001",
+                "display": "Burgers University Medical Centre"
+              }
+            ],
+            "result": [
+              {
+                "reference": "Observation/f001"
+              },
+              {
+                "reference": "Observation/f002"
+              },
+              {
+                "reference": "Observation/f003"
+              },
+              {
+                "reference": "Observation/f004"
+              },
+              {
+                "reference": "Observation/f005"
+              }
+            ],
+            "conclusion": "Core lab"
+          }
+        },
+        {
+          "fullUrl": "https://example.com/base/DiagnosticReport/f001",
+          "resource": {
+            "resourceType": "DiagnosticReport",
+            "id": "f001",
+            "identifier": [
+              {
+                "use": "official",
+                "system": "http://www.bmc.nl/zorgportal/identifiers/reports",
+                "value": "nr1239044"
+              }
+            ],
+            "basedOn": [
+              {
+                "reference": "ServiceRequest/req"
+              }
+            ],
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "250600399",
+                    "display": "Dysthymia"
+                  },
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                    "code": "HM"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "250600399",
+                  "display": "Dysthymia"
+                }
+              ]
+            },
+            "effectivePeriod": {
+              "start": "2015-08-13T19:57:22-04:00",
+              "end": "2015-08-13T20:12:22-04:00"
+            },
+            "subject": {
+              "reference": "Patient/f001",
+              "display": "P. van den Heuvel"
+            },
+            "issued": "2019-08-13T20:12:22-04:00",
+            "performer": [
+              {
+                "reference": "Organization/f001",
+                "display": "Burgers University Medical Centre"
+              }
+            ],
+            "result": [
+              {
+                "reference": "Observation/f001"
+              },
+              {
+                "reference": "Observation/f002"
+              },
+              {
+                "reference": "Observation/f003"
+              },
+              {
+                "reference": "Observation/f004"
+              },
+              {
+                "reference": "Observation/f005"
+              }
+            ],
+            "conclusion": "Core lab"
+          }
+        },
+        {
+          "fullUrl": "https://example.com/base/DiagnosticReport/f001",
+          "resource": {
+            "resourceType": "DiagnosticReport",
+            "id": "f001",
+            "identifier": [
+              {
+                "use": "official",
+                "system": "http://www.bmc.nl/zorgportal/identifiers/reports",
+                "value": "nr1239044"
+              }
+            ],
+            "basedOn": [
+              {
+                "reference": "ServiceRequest/req"
+              }
+            ],
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "1087500499",
+                    "display": "Bipolar Disorder"
+                  },
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                    "code": "HM"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "1087500499",
+                  "display": "Bipolar Disorder"
+                }
+              ]
+            },
+            "effectivePeriod": {
+              "start": "2020-08-13T19:57:22-04:00",
+              "end": "2020-08-13T20:12:22-04:00"
+            },
+            "subject": {
+              "reference": "Patient/f001",
+              "display": "P. van den Heuvel"
+            },
+            "issued": "2019-08-13T20:12:22-04:00",
+            "performer": [
+              {
+                "reference": "Organization/f001",
+                "display": "Burgers University Medical Centre"
+              }
+            ],
+            "result": [
+              {
+                "reference": "Observation/f001"
+              },
+              {
+                "reference": "Observation/f002"
+              },
+              {
+                "reference": "Observation/f003"
+              },
+              {
+                "reference": "Observation/f004"
+              },
+              {
+                "reference": "Observation/f005"
+              }
+            ],
+            "conclusion": "Core lab"
+          }
+        },
+        {
+          "fullUrl": "https://example.com/base/DiagnosticReport/f001",
+          "resource": {
+            "resourceType": "DiagnosticReport",
+            "id": "f001",
+            "identifier": [
+              {
+                "use": "official",
+                "system": "http://www.bmc.nl/zorgportal/identifiers/reports",
+                "value": "nr1239044"
+              }
+            ],
+            "basedOn": [
+              {
+                "reference": "ServiceRequest/req"
+              }
+            ],
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "119600199",
+                    "display": "Other Bipolar Disorder"
+                  },
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                    "code": "HM"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "119600199",
+                  "display": "Other Bipolar Disorder"
+                }
+              ]
+            },
+            "effectivePeriod": {
+              "start": "2020-08-13T19:57:22-04:00",
+              "end": "2020-08-13T20:12:22-04:00"
+            },
+            "subject": {
+              "reference": "Patient/f001",
+              "display": "P. van den Heuvel"
+            },
+            "issued": "2019-08-13T20:12:22-04:00",
+            "performer": [
+              {
+                "reference": "Organization/f001",
+                "display": "Burgers University Medical Centre"
+              }
+            ],
+            "result": [
+              {
+                "reference": "Observation/f001"
+              },
+              {
+                "reference": "Observation/f002"
+              },
+              {
+                "reference": "Observation/f003"
+              },
+              {
+                "reference": "Observation/f004"
+              },
+              {
+                "reference": "Observation/f005"
+              }
+            ],
+            "conclusion": "Core lab"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:3594b761-d5e1-f669-515f-d4a6f292acdb",
+          "resource": {
+            "resourceType": "Encounter",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"
+              ]
+            },
+            "id": "3594b761-d5e1-f669-515f-d4a6f292acdb",
+            "status": "finished",
+            "class": {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code": "AMB"
+            },
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "CPT",
+                    "code": "98960"
+                  }
+                ],
+                "text": "Behavioral Health Follow-up Visit"
+              }
+            ],
+            "subject": {
+              "reference": "urn:uuid:96dcbd62-e4c6-a555-a663-77d08ad3c3b5",
+              "display": "Mr. Young120 Murphy561"
+            },
+            "period": {
+              "start": "2020-08-13T19:57:22-04:00",
+              "end": "2020-08-13T20:12:22-04:00"
+            },
+            "serviceProvider": {
+              "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
+              "display": "LEXINGTON EYE ASSOCIATES, INC"
+            }
+          },
+          "request": {
+            "method": "POST",
+            "url": "Encounter"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:gf3a4f19-9f99-6ceb-7dde-4900ae818cqm",
+          "resource": {
+            "resourceType": "MedicationDispense",
+            "id": "meddisp0308",
+            "contained": [
+              {
+                "resourceType": "Medication",
+                "id": "med0305",
+                "code": {
+                  "coding": [
+                    {
+                      "system": "RXNORM",
+                      "code": "1000048",
+                      "version": "2021-02",
+                      "display": "Antidepressant Medication"
+                    }
+                  ]
+                }
+              }
+            ],
+            "status": "completed",
+            "locationCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                  "code": "19",
+                  "display": "Off Campus-Outpatient Hospital"
+                }
+              ]
+            },
+            "medicationCodeableConcept": {
+              "coding": [
+                {
+                  "system": "RXNORM",
+                  "code": "1000048",
+                  "version": "2021-02",
+                  "display": "Antidepressant Medication"
+                }
+              ]
+            },
+            "subject": {
+              "reference": "urn:uuid:440487f4-1137-f542-8127-dc98e392d21e"
+            },
+            "performer": [
+              {
+                "actor": {
+                  "reference": "Practitioner/f006"
+                }
+              }
+            ],
+            "authorizingPrescription": [
+              {
+                "reference": "MedicationRequest/medrx0330"
+              }
+            ],
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                  "code": "RFP",
+                  "display": "Refill - Part Fill"
+                }
+              ]
+            },
+            "quantity": {
+              "value": 10,
+              "unit": "mL",
+              "system": "http://unitsofmeasure.org",
+              "code": "mL"
+            },
+            "daysSupply": {
+              "value": 30,
+              "unit": "Day",
+              "system": "http://unitsofmeasure.org",
+              "code": "d"
+            },
+            "whenPrepared": "2015-06-25T07:13:00+05:00",
+            "whenHandedOver": "2020-08-13T19:57:22-04:00",
+            "dosageInstruction": [
+              {
+                "sequence": 1,
+                "text": "Instil one drop in each eye twice daily",
+                "timing": {
+                  "repeat": {
+                    "frequency": 2,
+                    "period": 1,
+                    "periodUnit": "d"
+                  }
+                },
+                "route": {
+                  "coding": [
+                    {
+                      "system": "http://snomed.info/sct",
+                      "code": "54485002",
+                      "display": "Ophthalmic route (qualifier value)"
+                    }
+                  ]
+                },
+                "method": {
+                  "coding": [
+                    {
+                      "system": "http://snomed.info/sct",
+                      "code": "421538008",
+                      "display": "Instill - dosing instruction imperative (qualifier value)"
+                    }
+                  ]
+                },
+                "doseAndRate": [
+                  {
+                    "type": {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/dose-rate-type",
+                          "code": "ordered",
+                          "display": "Ordered"
+                        }
+                      ]
+                    },
+                    "doseQuantity": {
+                      "value": 1,
+                      "unit": "OPDROP",
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm",
+                      "code": "OPDROP"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "request": {
+            "method": "POST",
+            "url": "MedicationDispense"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:2784d4f5-0262-7192-d627-5e6ba0535cc6",
+          "resource": {
+            "resourceType": "Observation",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"
+              ]
+            },
+            "id": "2784d4f5-0262-7192-d627-5e6ba0535cc6",
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "laboratory",
+                    "display": "laboratory"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "428171000124102",
+                  "display": "Negative Depression Screening"
+                }
+              ],
+              "text": "Positive Depression Screening"
+            },
+            "subject": {
+              "reference": "urn:uuid:440487f4-1137-f542-8127-dc98e392d21e"
+            },
+            "encounter": {
+              "reference": "urn:uuid:9ff13252-9299-44f4-773a-19db01af425b"
+            },
+            "effectiveDateTime": "2020-12-13T19:57:22-04:00",
+            "issued": "2020-03-14T02:18:59.128-04:00",
+            "valueQuantity": {
+              "value": 7.53,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            }
+          },
+          "request": {
+            "method": "POST",
+            "url": "Observation"
+          }
+        },
+        {
+          "resourceType": "Condition",
+          "id": "f201",
+          "identifier": [
+            {
+              "value": "12345"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "resolved"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "confirmed"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "55607006",
+                  "display": "Problem"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "10811121000119102",
+                "display": "Depression"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/f201",
+            "display": "Roel"
+          },
+          "encounter": {
+            "reference": "Encounter/f201"
+          },
+          "onsetDateTime": "2013-04-02",
+          "abatementString": "around April 9, 2013",
+          "recordedDate": "2020-11-31",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          },
+          "evidence": [
+            {
+              "code": [
+                {
+                  "coding": [
+                    {
+                      "system": "http://snomed.info/sct",
+                      "code": "258710007",
+                      "display": "degrees C"
+                    }
+                  ]
+                }
+              ],
+              "detail": [
+                {
+                  "reference": "Observation/f202",
+                  "display": "Temperature"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceType": "Bundle",
+      "id": "tests-numer-EXAMPLE2-FHIR4-bundle",
+      "type": "transaction",
+      "entry": [
+        {
+          "resource": {
+            "resourceType": "Patient",
+            "id": "numer-EXAMPLE2-FHIR4",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+              ]
+            },
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+                "extension": [
+                  {
+                    "url": "ombCategory",
+                    "valueCoding": {
+                      "system": "urn:oid:2.16.840.1.113883.6.238",
+                      "code": "2054-5",
+                      "display": "Black or African American"
+                    }
+                  }
+                ]
+              },
+              {
+                "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+                "extension": [
+                  {
+                    "url": "ombCategory",
+                    "valueCoding": {
+                      "system": "urn:oid:2.16.840.1.113883.6.238",
+                      "code": "2186-5",
+                      "display": "Not Hispanic or Latino"
+                    }
+                  }
+                ]
+              }
+            ],
+            "identifier": [
+              {
+                "use": "usual",
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                      "code": "MR",
+                      "display": "Medical Record Number"
+                    }
+                  ]
+                },
+                "system": "http://hospital.smarthealthit.org",
+                "value": "999999993"
+              }
+            ],
+            "name": [
+              {
+                "family": "Doe",
+                "given": [
+                  "Jill"
+                ]
+              }
+            ],
+            "gender": "female",
+            "birthDate": "2012-07-29"
+          },
+          "request": {
+            "method": "PUT",
+            "url": "Patient/numer-EXAMPLE2-FHIR4"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:2784d4f5-0262-7192-d627-5e6ba0535cc6",
+          "resource": {
+            "resourceType": "Observation",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"
+              ]
+            },
+            "id": "2784d4f5-0262-7192-d627-5e6ba0535cc6",
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "laboratory",
+                    "display": "laboratory"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "273306008",
+                  "display": "Depression Screen"
+                }
+              ],
+              "text": "Depression Screen"
+            },
+            "subject": {
+              "reference": "urn:uuid:440487f4-1137-f542-8127-dc98e392d21e"
+            },
+            "encounter": {
+              "reference": "urn:uuid:9ff13252-9299-44f4-773a-19db01af425b"
+            },
+            "effectiveDateTime": "2020-03-14T02:18:59-04:00",
+            "issued": "2020-03-14T02:18:59.128-04:00",
+            "valueQuantity": {
+              "value": 7.53,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            }
+          },
+          "request": {
+            "method": "POST",
+            "url": "Observation"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:2784d4f5-0262-7192-d627-5e6ba0535cc6",
+          "resource": {
+            "resourceType": "Observation",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"
+              ]
+            },
+            "id": "2784d4f5-0262-7192-d627-5e6ba0535cc6",
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "laboratory",
+                    "display": "laboratory"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "428181000124104",
+                  "display": "Positive Depression Screening"
+                }
+              ],
+              "text": "Positive Depression Screening"
+            },
+            "subject": {
+              "reference": "urn:uuid:440487f4-1137-f542-8127-dc98e392d21e"
+            },
+            "encounter": {
+              "reference": "urn:uuid:9ff13252-9299-44f4-773a-19db01af425b"
+            },
+            "effectiveDateTime": "2020-08-13T19:57:22-04:00",
+            "issued": "2020-03-14T02:18:59.128-04:00",
+            "valueQuantity": {
+              "value": 7.53,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            }
+          },
+          "request": {
+            "method": "POST",
+            "url": "Observation"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:3594b761-d5e1-f669-515f-d4a6f292acdb",
+          "resource": {
+            "resourceType": "Encounter",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"
+              ]
+            },
+            "id": "3594b761-d5e1-f669-515f-d4a6f292acdb",
+            "status": "finished",
+            "class": {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code": "AMB"
+            },
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "CPT",
+                    "code": "98960"
+                  }
+                ],
+                "text": "Behavioral Health Follow-up Visit"
+              }
+            ],
+            "subject": {
+              "reference": "urn:uuid:96dcbd62-e4c6-a555-a663-77d08ad3c3b5",
+              "display": "Mr. Young120 Murphy561"
+            },
+            "period": {
+              "start": "2020-23-13T19:57:22-04:00",
+              "end": "2020-23-13T20:12:22-04:00"
+            },
+            "serviceProvider": {
+              "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
+              "display": "LEXINGTON EYE ASSOCIATES, INC"
+            }
+          },
+          "request": {
+            "method": "POST",
+            "url": "Encounter"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:3594b761-d5e1-f669-515f-d4a6f292acdb",
+          "resource": {
+            "resourceType": "Encounter",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"
+              ]
+            },
+            "id": "3594b761-d5e1-f669-515f-d4a6f292acdb",
+            "status": "finished",
+            "class": {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code": "AMB"
+            },
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "12843005"
+                  }
+                ],
+                "text": "Ambulatory/ED Visit"
+              }
+            ],
+            "subject": {
+              "reference": "urn:uuid:96dcbd62-e4c6-a555-a663-77d08ad3c3b5",
+              "display": "Mr. Young120 Murphy561"
+            },
+            "period": {
+              "start": "2020-22-13T19:57:22-04:00",
+              "end": "2020-22-13T20:12:22-04:00"
+            },
+            "serviceProvider": {
+              "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
+              "display": "LEXINGTON EYE ASSOCIATES, INC"
+            }
+          },
+          "request": {
+            "method": "POST",
+            "url": "Encounter"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:3594b761-d5e1-f669-515f-d4a6f292acdb",
+          "resource": {
+            "resourceType": "Encounter",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"
+              ]
+            },
+            "id": "3594b761-d5e1-f669-515f-d4a6f292acdb",
+            "status": "finished",
+            "class": {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code": "AMB"
+            },
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "CPT",
+                    "code": "59400"
+                  }
+                ],
+                "text": "Depression Screening Encounter"
+              }
+            ],
+            "subject": {
+              "reference": "urn:uuid:96dcbd62-e4c6-a555-a663-77d08ad3c3b5",
+              "display": "Mr. Young120 Murphy561"
+            },
+            "period": {
+              "start": "2020-10-13T19:57:22-04:00",
+              "end": "2020-10-13T20:12:22-04:00"
+            },
+            "serviceProvider": {
+              "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
+              "display": "LEXINGTON EYE ASSOCIATES, INC"
+            }
+          },
+          "request": {
+            "method": "POST",
+            "url": "Encounter"
+          }
+        },
+        {
+          "fullUrl": "https://example.com/base/DiagnosticReport/f001",
+          "resource": {
+            "resourceType": "DiagnosticReport",
+            "id": "f001",
+            "identifier": [
+              {
+                "use": "official",
+                "system": "http://www.bmc.nl/zorgportal/identifiers/reports",
+                "value": "nr1239044"
+              }
+            ],
+            "basedOn": [
+              {
+                "reference": "ServiceRequest/req"
+              }
+            ],
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "196940090",
+                    "display": "Dysthymia"
+                  },
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                    "code": "HM"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "196940090",
+                  "display": "Dysthymia"
+                }
+              ]
+            },
+            "effectivePeriod": {
+              "start": "2020-22-13T19:57:22-04:00",
+              "end": "2020-22-13T20:12:22-04:00"
+            },
+            "subject": {
+              "reference": "Patient/f001",
+              "display": "P. van den Heuvel"
+            },
+            "issued": "2019-08-13T20:12:22-04:00",
+            "performer": [
+              {
+                "reference": "Organization/f001",
+                "display": "Burgers University Medical Centre"
+              }
+            ],
+            "result": [
+              {
+                "reference": "Observation/f001"
+              },
+              {
+                "reference": "Observation/f002"
+              },
+              {
+                "reference": "Observation/f003"
+              },
+              {
+                "reference": "Observation/f004"
+              },
+              {
+                "reference": "Observation/f005"
+              }
+            ],
+            "conclusion": "Core lab"
+          }
+        },
+        {
+          "fullUrl": "https://example.com/base/DiagnosticReport/f001",
+          "resource": {
+            "resourceType": "DiagnosticReport",
+            "id": "f001",
+            "identifier": [
+              {
+                "use": "official",
+                "system": "http://www.bmc.nl/zorgportal/identifiers/reports",
+                "value": "nr1239044"
+              }
+            ],
+            "basedOn": [
+              {
+                "reference": "ServiceRequest/req"
+              }
+            ],
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "250600399",
+                    "display": "Dysthymia"
+                  },
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                    "code": "HM"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "250600399",
+                  "display": "Dysthymia"
+                }
+              ]
+            },
+            "effectivePeriod": {
+              "start": "2019-08-13T19:57:22-04:00",
+              "end": "2019-08-13T20:12:22-04:00"
+            },
+            "subject": {
+              "reference": "Patient/f001",
+              "display": "P. van den Heuvel"
+            },
+            "issued": "2019-08-13T20:12:22-04:00",
+            "performer": [
+              {
+                "reference": "Organization/f001",
+                "display": "Burgers University Medical Centre"
+              }
+            ],
+            "result": [
+              {
+                "reference": "Observation/f001"
+              },
+              {
+                "reference": "Observation/f002"
+              },
+              {
+                "reference": "Observation/f003"
+              },
+              {
+                "reference": "Observation/f004"
+              },
+              {
+                "reference": "Observation/f005"
+              }
+            ],
+            "conclusion": "Core lab"
+          }
+        },
+        {
+          "fullUrl": "https://example.com/base/DiagnosticReport/f001",
+          "resource": {
+            "resourceType": "DiagnosticReport",
+            "id": "f001",
+            "identifier": [
+              {
+                "use": "official",
+                "system": "http://www.bmc.nl/zorgportal/identifiers/reports",
+                "value": "nr1239044"
+              }
+            ],
+            "basedOn": [
+              {
+                "reference": "ServiceRequest/req"
+              }
+            ],
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "108750090",
+                    "display": "Bipolar Disorder"
+                  },
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                    "code": "HM"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "108750090",
+                  "display": "Bipolar Disorder"
+                }
+              ]
+            },
+            "effectivePeriod": {
+              "start": "2020-08-13T19:57:22-04:00",
+              "end": "2020-08-13T20:12:22-04:00"
+            },
+            "subject": {
+              "reference": "Patient/f001",
+              "display": "P. van den Heuvel"
+            },
+            "issued": "2019-08-13T20:12:22-04:00",
+            "performer": [
+              {
+                "reference": "Organization/f001",
+                "display": "Burgers University Medical Centre"
+              }
+            ],
+            "result": [
+              {
+                "reference": "Observation/f001"
+              },
+              {
+                "reference": "Observation/f002"
+              },
+              {
+                "reference": "Observation/f003"
+              },
+              {
+                "reference": "Observation/f004"
+              },
+              {
+                "reference": "Observation/f005"
+              }
+            ],
+            "conclusion": "Core lab"
+          }
+        },
+        {
+          "fullUrl": "https://example.com/base/DiagnosticReport/f001",
+          "resource": {
+            "resourceType": "DiagnosticReport",
+            "id": "f001",
+            "identifier": [
+              {
+                "use": "official",
+                "system": "http://www.bmc.nl/zorgportal/identifiers/reports",
+                "value": "nr1239044"
+              }
+            ],
+            "basedOn": [
+              {
+                "reference": "ServiceRequest/req"
+              }
+            ],
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "11960090",
+                    "display": "Other Bipolar Disorder"
+                  },
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                    "code": "HM"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "11960090",
+                  "display": "Other Bipolar Disorder"
+                }
+              ]
+            },
+            "effectivePeriod": {
+              "start": "2020-08-13T19:57:22-04:00",
+              "end": "2020-08-13T20:12:22-04:00"
+            },
+            "subject": {
+              "reference": "Patient/f001",
+              "display": "P. van den Heuvel"
+            },
+            "issued": "2019-08-13T20:12:22-04:00",
+            "performer": [
+              {
+                "reference": "Organization/f001",
+                "display": "Burgers University Medical Centre"
+              }
+            ],
+            "result": [
+              {
+                "reference": "Observation/f001"
+              },
+              {
+                "reference": "Observation/f002"
+              },
+              {
+                "reference": "Observation/f003"
+              },
+              {
+                "reference": "Observation/f004"
+              },
+              {
+                "reference": "Observation/f005"
+              }
+            ],
+            "conclusion": "Core lab"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:3594b761-d5e1-f669-515f-d4a6f292acdb",
+          "resource": {
+            "resourceType": "Encounter",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"
+              ]
+            },
+            "id": "3594b761-d5e1-f669-515f-d4a6f292acdb",
+            "status": "finished",
+            "class": {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code": "AMB"
+            },
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "CPT",
+                    "code": "98960"
+                  }
+                ],
+                "text": "Behavioral Health Follow-up Visit"
+              }
+            ],
+            "subject": {
+              "reference": "urn:uuid:96dcbd62-e4c6-a555-a663-77d08ad3c3b5",
+              "display": "Mr. Young120 Murphy561"
+            },
+            "period": {
+              "start": "2020-08-13T19:57:22-04:00",
+              "end": "2020-08-13T20:12:22-04:00"
+            },
+            "serviceProvider": {
+              "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
+              "display": "LEXINGTON EYE ASSOCIATES, INC"
+            }
+          },
+          "request": {
+            "method": "POST",
+            "url": "Encounter"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:gf3a4f19-9f99-6ceb-7dde-4900ae818cqm",
+          "resource": {
+            "resourceType": "MedicationDispense",
+            "id": "meddisp0308",
+            "contained": [
+              {
+                "resourceType": "Medication",
+                "id": "med0305",
+                "code": {
+                  "coding": [
+                    {
+                      "system": "RXNORM",
+                      "code": "1000048",
+                      "version": "2021-02",
+                      "display": "Antidepressant Medication"
+                    }
+                  ]
+                }
+              }
+            ],
+            "status": "completed",
+            "locationCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/ex-serviceplace",
+                  "code": "19",
+                  "display": "Off Campus-Outpatient Hospital"
+                }
+              ]
+            },
+            "medicationCodeableConcept": {
+              "coding": [
+                {
+                  "system": "RXNORM",
+                  "code": "1000048",
+                  "version": "2021-02",
+                  "display": "Antidepressant Medication"
+                }
+              ]
+            },
+            "subject": {
+              "reference": "urn:uuid:440487f4-1137-f542-8127-dc98e392d21e"
+            },
+            "performer": [
+              {
+                "actor": {
+                  "reference": "Practitioner/f006"
+                }
+              }
+            ],
+            "authorizingPrescription": [
+              {
+                "reference": "MedicationRequest/medrx0330"
+              }
+            ],
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                  "code": "RFP",
+                  "display": "Refill - Part Fill"
+                }
+              ]
+            },
+            "quantity": {
+              "value": 10,
+              "unit": "mL",
+              "system": "http://unitsofmeasure.org",
+              "code": "mL"
+            },
+            "daysSupply": {
+              "value": 30,
+              "unit": "Day",
+              "system": "http://unitsofmeasure.org",
+              "code": "d"
+            },
+            "whenPrepared": "2015-06-25T07:13:00+05:00",
+            "whenHandedOver": "2020-08-13T19:57:22-04:00",
+            "dosageInstruction": [
+              {
+                "sequence": 1,
+                "text": "Instil one drop in each eye twice daily",
+                "timing": {
+                  "repeat": {
+                    "frequency": 2,
+                    "period": 1,
+                    "periodUnit": "d"
+                  }
+                },
+                "route": {
+                  "coding": [
+                    {
+                      "system": "http://snomed.info/sct",
+                      "code": "54485002",
+                      "display": "Ophthalmic route (qualifier value)"
+                    }
+                  ]
+                },
+                "method": {
+                  "coding": [
+                    {
+                      "system": "http://snomed.info/sct",
+                      "code": "421538008",
+                      "display": "Instill - dosing instruction imperative (qualifier value)"
+                    }
+                  ]
+                },
+                "doseAndRate": [
+                  {
+                    "type": {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/dose-rate-type",
+                          "code": "ordered",
+                          "display": "Ordered"
+                        }
+                      ]
+                    },
+                    "doseQuantity": {
+                      "value": 1,
+                      "unit": "OPDROP",
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm",
+                      "code": "OPDROP"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "request": {
+            "method": "POST",
+            "url": "MedicationDispense"
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:2784d4f5-0262-7192-d627-5e6ba0535cc6",
+          "resource": {
+            "resourceType": "Observation",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"
+              ]
+            },
+            "id": "2784d4f5-0262-7192-d627-5e6ba0535cc6",
+            "status": "final",
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "laboratory",
+                    "display": "laboratory"
+                  }
+                ]
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "428171000124102",
+                  "display": "Negative Depression Screening"
+                }
+              ],
+              "text": "Positive Depression Screening"
+            },
+            "subject": {
+              "reference": "urn:uuid:440487f4-1137-f542-8127-dc98e392d21e"
+            },
+            "encounter": {
+              "reference": "urn:uuid:9ff13252-9299-44f4-773a-19db01af425b"
+            },
+            "effectiveDateTime": "2020-12-13T19:57:22-04:00",
+            "issued": "2020-03-14T02:18:59.128-04:00",
+            "valueQuantity": {
+              "value": 7.53,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            }
+          },
+          "request": {
+            "method": "POST",
+            "url": "Observation"
+          }
+        }
+      ]
+    }
+        
+  ]
