@@ -6,9 +6,9 @@
       }, {
          "libraryId" : "medication_management_for_people_with_asthma",
          "libraryVersion" : "1",
-         "startLine" : 138,
+         "startLine" : 134,
          "startChar" : 43,
-         "endLine" : 138,
+         "endLine" : 134,
          "endChar" : 48,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -466,52 +466,6 @@
                   }
                } ],
                "relationship" : [ {
-                  "alias" : "E1",
-                  "type" : "Without",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Encounter",
-                     "codeProperty" : "type",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Telehealth Modifier",
-                        "type" : "ValueSetRef"
-                     }
-                  },
-                  "suchThat" : {
-                     "type" : "Exists",
-                     "operand" : {
-                        "type" : "ToList",
-                        "operand" : {
-                           "name" : "E1",
-                           "type" : "AliasRef"
-                        }
-                     }
-                  }
-               }, {
-                  "alias" : "E2",
-                  "type" : "Without",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Encounter",
-                     "codeProperty" : "type",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Telehealth POS",
-                        "type" : "ValueSetRef"
-                     }
-                  },
-                  "suchThat" : {
-                     "type" : "Exists",
-                     "operand" : {
-                        "type" : "ToList",
-                        "operand" : {
-                           "name" : "E2",
-                           "type" : "AliasRef"
-                        }
-                     }
-                  }
-               }, {
                   "alias" : "C",
                   "type" : "With",
                   "expression" : {

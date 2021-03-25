@@ -62,10 +62,6 @@ define "Initial Population":
 
 define "Emergency Department Visit":
   [Encounter: "ED"] E0
-    without [Encounter: "Telehealth Modifier"] E1
-      such that exists(E1)
-    without [Encounter: "Telehealth POS"] E2
-      such that exists(E2)
     with [Condition: "Asthma"] C
       such that exists(C)
 
