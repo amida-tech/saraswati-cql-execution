@@ -240,7 +240,10 @@ define function CumulativeDuration(Intervals List<Interval<Integer>>):
 define "Medication in Date Range":
   [MedicationDispense] E
     where E.whenHandedOver in "Measurement Period"
-    return Interval[days between "Start of 2020" and E.whenHandedOver, (days between "Start of 2020" and E.whenHandedOver) + ToInteger(ToString(E.daysSupply.value.value))]
+    return Interval[
+      days between "Start of 2020" and E.whenHandedOver, 
+      if (days between "Start of 2020" and E.whenHandedOver) + ToInteger(ToString(E.daysSupply.value.value)) > 365 then 365 else (days between "Start of 2020" and E.whenHandedOver) + ToInteger(ToString(E.daysSupply.value.value))
+    ]
 
 define "Days Covered":
   CumulativeDuration("Medication in Date Range")

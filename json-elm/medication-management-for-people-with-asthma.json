@@ -2200,45 +2200,105 @@
                         } ]
                      },
                      "high" : {
-                        "type" : "Add",
-                        "operand" : [ {
-                           "precision" : "Day",
-                           "type" : "DurationBetween",
-                           "operand" : [ {
-                              "type" : "ToDateTime",
-                              "operand" : {
-                                 "name" : "Start of 2020",
-                                 "type" : "ExpressionRef"
-                              }
-                           }, {
-                              "name" : "ToDateTime",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
-                              "operand" : [ {
-                                 "path" : "whenHandedOver",
-                                 "scope" : "E",
-                                 "type" : "Property"
-                              } ]
-                           } ]
-                        }, {
-                           "type" : "ToInteger",
+                        "type" : "If",
+                        "condition" : {
+                           "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                           "type" : "As",
                            "operand" : {
-                              "type" : "ToString",
+                              "type" : "Greater",
+                              "operand" : [ {
+                                 "type" : "Add",
+                                 "operand" : [ {
+                                    "precision" : "Day",
+                                    "type" : "DurationBetween",
+                                    "operand" : [ {
+                                       "type" : "ToDateTime",
+                                       "operand" : {
+                                          "name" : "Start of 2020",
+                                          "type" : "ExpressionRef"
+                                       }
+                                    }, {
+                                       "name" : "ToDateTime",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "whenHandedOver",
+                                          "scope" : "E",
+                                          "type" : "Property"
+                                       } ]
+                                    } ]
+                                 }, {
+                                    "type" : "ToInteger",
+                                    "operand" : {
+                                       "type" : "ToString",
+                                       "operand" : {
+                                          "path" : "value",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "path" : "value",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "daysSupply",
+                                                "scope" : "E",
+                                                "type" : "Property"
+                                             }
+                                          }
+                                       }
+                                    }
+                                 } ]
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                 "value" : "365",
+                                 "type" : "Literal"
+                              } ]
+                           }
+                        },
+                        "then" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                           "value" : "365",
+                           "type" : "Literal"
+                        },
+                        "else" : {
+                           "type" : "Add",
+                           "operand" : [ {
+                              "precision" : "Day",
+                              "type" : "DurationBetween",
+                              "operand" : [ {
+                                 "type" : "ToDateTime",
+                                 "operand" : {
+                                    "name" : "Start of 2020",
+                                    "type" : "ExpressionRef"
+                                 }
+                              }, {
+                                 "name" : "ToDateTime",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "path" : "whenHandedOver",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 } ]
+                              } ]
+                           }, {
+                              "type" : "ToInteger",
                               "operand" : {
-                                 "path" : "value",
-                                 "type" : "Property",
-                                 "source" : {
+                                 "type" : "ToString",
+                                 "operand" : {
                                     "path" : "value",
                                     "type" : "Property",
                                     "source" : {
-                                       "path" : "daysSupply",
-                                       "scope" : "E",
-                                       "type" : "Property"
+                                       "path" : "value",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "path" : "daysSupply",
+                                          "scope" : "E",
+                                          "type" : "Property"
+                                       }
                                     }
                                  }
                               }
-                           }
-                        } ]
+                           } ]
+                        }
                      }
                   }
                }
