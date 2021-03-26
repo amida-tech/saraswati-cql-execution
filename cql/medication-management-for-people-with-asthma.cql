@@ -228,6 +228,9 @@ define "End of 2020":
 define "Start of 2020":
   Date(2020, 01, 01)
 
+define "Days Between 2020":
+  days between "Start of 2020" and "End of 2020"
+
 define "IPSD Number":
   days between "Start of 2020" and "Index Prescription Start Date"
 
@@ -241,8 +244,8 @@ define "Medication in Date Range":
   [MedicationDispense] E
     where E.whenHandedOver in "Measurement Period"
     return Interval[
-      days between "Start of 2020" and E.whenHandedOver, 
-      if (days between "Start of 2020" and E.whenHandedOver) + ToInteger(ToString(E.daysSupply.value.value)) > 365 then 365 else (days between "Start of 2020" and E.whenHandedOver) + ToInteger(ToString(E.daysSupply.value.value))
+      (days between "Start of 2020" and E.whenHandedOver), 
+      if (days between "Start of 2020" and E.whenHandedOver) + ToInteger(ToString(E.daysSupply.value.value)) > 366 then 366 else (days between "Start of 2020" and E.whenHandedOver) + ToInteger(ToString(E.daysSupply.value.value))
     ]
 
 define "Days Covered":

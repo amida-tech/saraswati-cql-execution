@@ -2043,6 +2043,21 @@
                }
             }
          }, {
+            "name" : "Days Between 2020",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "precision" : "Day",
+               "type" : "DurationBetween",
+               "operand" : [ {
+                  "name" : "Start of 2020",
+                  "type" : "ExpressionRef"
+               }, {
+                  "name" : "End of 2020",
+                  "type" : "ExpressionRef"
+               } ]
+            }
+         }, {
             "name" : "IPSD Number",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -2248,14 +2263,14 @@
                                  } ]
                               }, {
                                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                 "value" : "365",
+                                 "value" : "366",
                                  "type" : "Literal"
                               } ]
                            }
                         },
                         "then" : {
                            "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                           "value" : "365",
+                           "value" : "366",
                            "type" : "Literal"
                         },
                         "else" : {
