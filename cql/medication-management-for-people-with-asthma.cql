@@ -226,20 +226,14 @@ define "Index Prescription Start Date":
       where MD.whenHandedOver.value in "Measurement Period"
       sort by whenHandedOver.value asc).whenHandedOver
 
-define "End of 2020":
-  Date(2020, 12, 31)
+define "Start of 2021":
+  Date(2021, 01, 01)
 
 define "Start of 2020":
   Date(2020, 01, 01)
 
-define "Days Between 2020":
-  days between "Start of 2020" and "End of 2020"
-
-define "IPSD Number":
-  days between "Start of 2020" and "Index Prescription Start Date"
-
 define "Treatment Period Number":
-  days between "Index Prescription Start Date" and "End of 2020" 
+  days between "Index Prescription Start Date" and "Start of 2021" 
 
 define function CumulativeDuration(Intervals List<Interval<Integer>>):
   Sum((collapse Intervals) X return end of X - start of X)

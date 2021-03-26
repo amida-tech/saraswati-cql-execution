@@ -2033,24 +2033,24 @@
                }
             }
          }, {
-            "name" : "End of 2020",
+            "name" : "Start of 2021",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "Date",
                "year" : {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                  "value" : "2020",
+                  "value" : "2021",
                   "type" : "Literal"
                },
                "month" : {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                  "value" : "12",
+                  "value" : "01",
                   "type" : "Literal"
                },
                "day" : {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                  "value" : "31",
+                  "value" : "01",
                   "type" : "Literal"
                }
             }
@@ -2077,44 +2077,6 @@
                }
             }
          }, {
-            "name" : "Days Between 2020",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "precision" : "Day",
-               "type" : "DurationBetween",
-               "operand" : [ {
-                  "name" : "Start of 2020",
-                  "type" : "ExpressionRef"
-               }, {
-                  "name" : "End of 2020",
-                  "type" : "ExpressionRef"
-               } ]
-            }
-         }, {
-            "name" : "IPSD Number",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "precision" : "Day",
-               "type" : "DurationBetween",
-               "operand" : [ {
-                  "type" : "ToDateTime",
-                  "operand" : {
-                     "name" : "Start of 2020",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "name" : "ToDateTime",
-                  "libraryName" : "FHIRHelpers",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "name" : "Index Prescription Start Date",
-                     "type" : "ExpressionRef"
-                  } ]
-               } ]
-            }
-         }, {
             "name" : "Treatment Period Number",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -2132,7 +2094,7 @@
                }, {
                   "type" : "ToDateTime",
                   "operand" : {
-                     "name" : "End of 2020",
+                     "name" : "Start of 2021",
                      "type" : "ExpressionRef"
                   }
                } ]
