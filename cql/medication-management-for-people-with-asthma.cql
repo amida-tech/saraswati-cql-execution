@@ -61,7 +61,7 @@ define "Initial Population":
     and AgeInYearsAt(end of "Measurement Period") < 64
 
 define "Emergency Department Visit":
-  [Encounter: "ED"] E0
+  [Encounter: "ED"] E
     with [Condition: "Asthma"] C
       such that exists(C)
 
@@ -115,16 +115,16 @@ define "Other Visits Filtered Dates":
   return ToDate(OtherVisits.period.start)
 
 define "Tele Visit Count in Measurement Period":
-  Count("Tele Visits Filtered Dates" D where D in "Measurement Period")
+  Count("Tele Visits Filtered Dates" E where E in "Measurement Period")
 
 define "Other Visits Count in Measurement Period":
-  Count("Other Visits Filtered Dates" D where D in "Measurement Period")
+  Count("Other Visits Filtered Dates" E where E in "Measurement Period")
 
 define "Tele Visit Count Prior Period":
-  Count("Tele Visits Filtered Dates" D where D in "Prior Period")
+  Count("Tele Visits Filtered Dates" E where E in "Prior Period")
 
 define "Other Visit Count Prior Period":
-  Count("Other Visits Filtered Dates" D where D in "Prior Period")
+  Count("Other Visits Filtered Dates" E where E in "Prior Period")
 
 define "Asthma Medication":
   [MedicationDispense: "Non-Leukotriene Based Medication"]
@@ -218,7 +218,7 @@ define "Denominator":
   end
 
 define "Active Diagnoses During Measurement Period":
-  "Exclusion Diagnoses" D where Interval[D.onset, D.abatement] overlaps "Measurement Period"
+  "Exclusion Diagnoses" C where Interval[C.onset, C.abatement] overlaps "Measurement Period"
 
 define "Index Prescription Start Date":
   First(
