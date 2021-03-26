@@ -14,6 +14,28 @@
          "errorType" : "semantic",
          "errorSeverity" : "warning",
          "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "medication_management_for_people_with_asthma",
+         "libraryVersion" : "1",
+         "startLine" : 139,
+         "startChar" : 53,
+         "endLine" : 139,
+         "endChar" : 58,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "medication_management_for_people_with_asthma",
+         "libraryVersion" : "1",
+         "startLine" : 144,
+         "startChar" : 53,
+         "endLine" : 144,
+         "endChar" : 58,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
       } ],
       "identifier" : {
          "id" : "medication_management_for_people_with_asthma",
@@ -1090,6 +1112,124 @@
                   }
                }
             } ]
+         }, {
+            "name" : "~~~",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "M",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "Equivalent",
+                     "operand" : [ {
+                        "type" : "ToConcept",
+                        "operand" : {
+                           "name" : "ToCode",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "type" : "SingletonFrom",
+                              "operand" : {
+                                 "path" : "coding",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "medication",
+                                    "scope" : "M",
+                                    "type" : "Property"
+                                 }
+                              }
+                           } ]
+                        }
+                     }, {
+                        "name" : "Asthma Medication",
+                        "type" : "ConceptRef"
+                     } ]
+                  }, {
+                     "type" : "In",
+                     "operand" : [ {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "whenHandedOver",
+                           "scope" : "M",
+                           "type" : "Property"
+                        } ]
+                     }, {
+                        "name" : "Measurement Period",
+                        "type" : "ParameterRef"
+                     } ]
+                  } ]
+               }
+            }
+         }, {
+            "name" : "~~~2",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "M",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "Equivalent",
+                     "operand" : [ {
+                        "type" : "ToConcept",
+                        "operand" : {
+                           "name" : "ToCode",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "type" : "SingletonFrom",
+                              "operand" : {
+                                 "path" : "coding",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "medication",
+                                    "scope" : "M",
+                                    "type" : "Property"
+                                 }
+                              }
+                           } ]
+                        }
+                     }, {
+                        "name" : "Leukotriene Based Medication",
+                        "type" : "ConceptRef"
+                     } ]
+                  }, {
+                     "type" : "In",
+                     "operand" : [ {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "whenHandedOver",
+                           "scope" : "M",
+                           "type" : "Property"
+                        } ]
+                     }, {
+                        "name" : "Measurement Period",
+                        "type" : "ParameterRef"
+                     } ]
+                  } ]
+               }
+            }
          }, {
             "name" : "Non-Leukotriene Medication Measurement Period",
             "context" : "Patient",
