@@ -6,32 +6,10 @@
       }, {
          "libraryId" : "medication_management_for_people_with_asthma",
          "libraryVersion" : "1",
-         "startLine" : 134,
+         "startLine" : 138,
          "startChar" : 43,
-         "endLine" : 134,
+         "endLine" : 138,
          "endChar" : 48,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "medication_management_for_people_with_asthma",
-         "libraryVersion" : "1",
-         "startLine" : 139,
-         "startChar" : 53,
-         "endLine" : 139,
-         "endChar" : 58,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "medication_management_for_people_with_asthma",
-         "libraryVersion" : "1",
-         "startLine" : 144,
-         "startChar" : 53,
-         "endLine" : 144,
-         "endChar" : 58,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
          "errorSeverity" : "warning",
@@ -365,8 +343,8 @@
       },
       "concepts" : {
          "def" : [ {
-            "name" : "Asthma Medication",
-            "display" : "Asthma Medication",
+            "name" : "Non-Leukotriene Based Medication",
+            "display" : "Non-Leukotriene Based Medication",
             "accessLevel" : "Public",
             "code" : [ {
                "name" : "Albuterol"
@@ -1037,6 +1015,40 @@
                }
             }
          }, {
+            "name" : "Asthma Medication",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Union",
+               "operand" : [ {
+                  "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                  "codeProperty" : "medication",
+                  "codeComparator" : "~",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "path" : "codes",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "Non-Leukotriene Based Medication",
+                        "type" : "ConceptRef"
+                     }
+                  }
+               }, {
+                  "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                  "codeProperty" : "medication",
+                  "codeComparator" : "~",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "path" : "codes",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "Leukotriene Based Medication",
+                        "type" : "ConceptRef"
+                     }
+                  }
+               } ]
+            }
+         }, {
             "name" : "MedicationInPeriod",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -1046,8 +1058,8 @@
                "source" : [ {
                   "alias" : "M",
                   "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                     "type" : "Retrieve"
+                     "name" : "Asthma Medication",
+                     "type" : "ExpressionRef"
                   }
                } ],
                "relationship" : [ ],
@@ -1113,124 +1125,6 @@
                }
             } ]
          }, {
-            "name" : "~~~",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "M",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                     "type" : "Retrieve"
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "And",
-                  "operand" : [ {
-                     "type" : "Equivalent",
-                     "operand" : [ {
-                        "type" : "ToConcept",
-                        "operand" : {
-                           "name" : "ToCode",
-                           "libraryName" : "FHIRHelpers",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "type" : "SingletonFrom",
-                              "operand" : {
-                                 "path" : "coding",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "path" : "medication",
-                                    "scope" : "M",
-                                    "type" : "Property"
-                                 }
-                              }
-                           } ]
-                        }
-                     }, {
-                        "name" : "Asthma Medication",
-                        "type" : "ConceptRef"
-                     } ]
-                  }, {
-                     "type" : "In",
-                     "operand" : [ {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "path" : "whenHandedOver",
-                           "scope" : "M",
-                           "type" : "Property"
-                        } ]
-                     }, {
-                        "name" : "Measurement Period",
-                        "type" : "ParameterRef"
-                     } ]
-                  } ]
-               }
-            }
-         }, {
-            "name" : "~~~2",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "M",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                     "type" : "Retrieve"
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "And",
-                  "operand" : [ {
-                     "type" : "Equivalent",
-                     "operand" : [ {
-                        "type" : "ToConcept",
-                        "operand" : {
-                           "name" : "ToCode",
-                           "libraryName" : "FHIRHelpers",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "type" : "SingletonFrom",
-                              "operand" : {
-                                 "path" : "coding",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "path" : "medication",
-                                    "scope" : "M",
-                                    "type" : "Property"
-                                 }
-                              }
-                           } ]
-                        }
-                     }, {
-                        "name" : "Leukotriene Based Medication",
-                        "type" : "ConceptRef"
-                     } ]
-                  }, {
-                     "type" : "In",
-                     "operand" : [ {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "path" : "whenHandedOver",
-                           "scope" : "M",
-                           "type" : "Property"
-                        } ]
-                     }, {
-                        "name" : "Measurement Period",
-                        "type" : "ParameterRef"
-                     } ]
-                  } ]
-               }
-            }
-         }, {
             "name" : "Non-Leukotriene Medication Measurement Period",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -1240,7 +1134,7 @@
                   "name" : "MedicationInPeriod",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "name" : "Asthma Medication",
+                     "name" : "Non-Leukotriene Based Medication",
                      "type" : "ConceptRef"
                   }, {
                      "name" : "Measurement Period",
@@ -1276,7 +1170,7 @@
                   "name" : "MedicationInPeriod",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "name" : "Asthma Medication",
+                     "name" : "Non-Leukotriene Based Medication",
                      "type" : "ConceptRef"
                   }, {
                      "name" : "Prior Period",
@@ -2101,8 +1995,8 @@
                      "source" : [ {
                         "alias" : "MD",
                         "expression" : {
-                           "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                           "type" : "Retrieve"
+                           "name" : "Asthma Medication",
+                           "type" : "ExpressionRef"
                         }
                      } ],
                      "relationship" : [ ],
@@ -2308,8 +2202,8 @@
                "source" : [ {
                   "alias" : "E",
                   "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                     "type" : "Retrieve"
+                     "name" : "Asthma Medication",
+                     "type" : "ExpressionRef"
                   }
                } ],
                "relationship" : [ ],

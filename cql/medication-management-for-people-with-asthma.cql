@@ -39,11 +39,11 @@ code "Zileuton": '108617005' from "SNOMED-CT" display 'Zileuton'
 
 // TODO: there are more asthma medications needed than are listed here
 // See Missing Medication Codes section in README for details
-concept "Asthma Medication": {
+concept "Non-Leukotriene Based Medication": {
   "Albuterol",
   "Levalbuterol",
   "Dyphylline-guaifenesin"
-} display 'Asthma Medication'
+} display 'Non-Leukotriene Based Medication'
 
 concept "Leukotriene Based Medication": {
   "Montelukast",
@@ -126,22 +126,26 @@ define "Tele Visit Count Prior Period":
 define "Other Visit Count Prior Period":
   Count("Other Visits Filtered Dates" D where D in "Prior Period")
 
+define "Asthma Medication":
+  [MedicationDispense: "Non-Leukotriene Based Medication"]
+    union [MedicationDispense: "Leukotriene Based Medication"]
+
 // Converting the coding to a code makes the list a singleton (takes the first value from list)
 // but I think in theory you wouldn't ever have more than one medication code in the coding
 // but not 100% sure about that
 define function MedicationInPeriod(MedType Concept, Int Interval<DateTime>):
-  [MedicationDispense] M
+  "Asthma Medication" M
     where FHIRHelpers.ToCode(M.medication.coding) ~ MedType
     and M.whenHandedOver during Int
 
 define "Non-Leukotriene Medication Measurement Period":
-  Count(MedicationInPeriod("Asthma Medication", "Measurement Period"))
+  Count(MedicationInPeriod("Non-Leukotriene Based Medication", "Measurement Period"))
 
 define "Leukotriene Medication Measurement Period":
   Count(MedicationInPeriod("Leukotriene Based Medication", "Measurement Period"))
 
 define "Non-Leukotriene Medication Prior Period":
-  Count(MedicationInPeriod("Asthma Medication", "Prior Period"))
+  Count(MedicationInPeriod("Non-Leukotriene Based Medication", "Prior Period"))
 
 define "Leukotriene Medication Prior Period":
   Count(MedicationInPeriod("Leukotriene Based Medication", "Prior Period"))
@@ -218,7 +222,7 @@ define "Active Diagnoses During Measurement Period":
 
 define "Index Prescription Start Date":
   First(
-    [MedicationDispense] MD
+    "Asthma Medication" MD
       where MD.whenHandedOver.value in "Measurement Period"
       sort by whenHandedOver.value asc).whenHandedOver
 
@@ -241,7 +245,7 @@ define function CumulativeDuration(Intervals List<Interval<Integer>>):
   Sum((collapse Intervals) X return end of X - start of X)
 
 define "Medication in Date Range":
-  [MedicationDispense] E
+  "Asthma Medication" E
     where E.whenHandedOver in "Measurement Period"
     return Interval[
       (days between "Start of 2020" and E.whenHandedOver), 
