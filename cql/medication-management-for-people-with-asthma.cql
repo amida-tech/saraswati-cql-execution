@@ -31,7 +31,7 @@ valueset "Telephone Visits": '2.16.840.1.113883.3.1444.5.216'
 code "Albuterol": '372897005' from "SNOMED-CT" display 'Albuterol'
 code "Levalbuterol": '116090007' from "SNOMED-CT" display 'Levalbuterol'
 code "Dyphylline-guaifenesin": '398742006' from "SNOMED-CT" display 'Dyphylline-guaifenesin'
-// The SNOWMED CT Browser tool shows that albuterol and Montelukast have the same code, 
+// The SNOWMED CT Browser tool shows that albuterol and Montelukast have the same code,
 // which is strange given they are in different categories in the spec
 code "Montelukast": '372897005' from "SNOMED-CT" display 'Montelukast'
 code "Zafirlukast": '386880006' from "SNOMED-CT" display 'Zafirlukast'
@@ -233,7 +233,7 @@ define "Start of 2020":
   Date(2020, 01, 01)
 
 define "Treatment Period Number":
-  days between "Index Prescription Start Date" and "Start of 2021" 
+  days between "Index Prescription Start Date" and "Start of 2021"
 
 define function CumulativeDuration(Intervals List<Interval<Integer>>):
   Sum((collapse Intervals) X return end of X - start of X)
@@ -242,8 +242,11 @@ define "Medication in Date Range":
   "Asthma Medication" E
     where E.whenHandedOver in "Measurement Period"
     return Interval[
-      (days between "Start of 2020" and E.whenHandedOver), 
-      if (days between "Start of 2020" and E.whenHandedOver) + ToInteger(ToString(E.daysSupply.value.value)) > 366 then 366 else (days between "Start of 2020" and E.whenHandedOver) + ToInteger(ToString(E.daysSupply.value.value))
+      (days between "Start of 2020" and E.whenHandedOver),
+      if (days between "Start of 2020" and E.whenHandedOver)
+      + ToInteger(ToString(E.daysSupply.value.value)) > 366
+      then 366
+      else (days between "Start of 2020" and E.whenHandedOver) + ToInteger(ToString(E.daysSupply.value.value))
     ]
 
 define "Days Covered":
