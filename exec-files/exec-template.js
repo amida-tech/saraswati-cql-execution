@@ -66,7 +66,7 @@ const execute = (measure, patients, codeservice) => {
     console.log(" ooookkkk");
   }
   //console.log(JSON.stringify(cleanedPatientResults));
-  return JSON.stringify(cleanedPatientResults);
+  return cleanedPatientResults;
 };
 
 module.exports = { execute, cleanData };

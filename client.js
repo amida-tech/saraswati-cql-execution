@@ -46,11 +46,11 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('/sms', function(req, res, next){
+app.post('/cql_service_connector', function(req, res, next){
 
     console.log(req.body); // req.body contains the parsed body of the request.
     res.end("ok")
 
 });
 
-app.listen(3000, 'localhost');
+app.listen(5000, 'localhost');
