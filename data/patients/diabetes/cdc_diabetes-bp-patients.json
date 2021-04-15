@@ -19,8 +19,8 @@
             },
             {
               "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
-              "valueAddress": {
-                "city": "Gardner",
+              "valueAddress": { 
+                "city": "Gardner",  
                 "state": "Massachusetts",
                 "country": "US"
               }
@@ -40,7 +40,7 @@
               "value": "96dcbd62-e4c6-a555-a663-77d08ad3c3b5"
             },
             {
-              "type": {
+              "type": { 
                 "coding": [
                   {
                     "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
