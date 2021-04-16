@@ -60,12 +60,6 @@ const execute = (measure, patients, codeservice) => {
   // fs.writeFile('./exec-files/results.json', JSON.stringify(cleanedPatientResults), err =>
   //   convertToJSONL(err)
   // );
-  if (JSON.stringify(cleanedPatientResults) != undefined){
-    //console.log(JSON.stringify(cleanedPatientResults) + "=====" );
-  } else {
-    console.log(" ooookkkk");
-  }
-  //console.log(JSON.stringify(cleanedPatientResults));
   return cleanedPatientResults;
 };
 

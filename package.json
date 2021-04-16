@@ -78,17 +78,11 @@
     "cql-execution": "^2.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "fs": "^0.0.1-security",
-    "hapi": "^18.1.0",
-    "http": "^0.0.1-security",
     "jsonl": "^1.1.2",
     "moment": "^2.27.0",
-    "node-cron": "^3.0.0",
     "node-watch": "^0.7.1",
-    "socket.io": "^4.0.1",
     "ucum": "^0.0.7",
-    "uuid": "^8.3.2",
-    "ws": "^7.4.4"
+    "uuid": "^8.3.2"
   },
   "resolutions": {
     "minimist": "^1.2.5",
