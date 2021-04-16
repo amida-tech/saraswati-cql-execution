@@ -93,6 +93,7 @@
     "lib": "lib"
   },
   "scripts": {
+    "start": "node processor.js",
     "prepublish": "npm run build --scripts-prepend-node-path && npm run build:browserify --scripts-prepend-node-path",
     "build": "babel src --out-dir lib",
     "build:browserify": "node ./bin/browserify.js",
