@@ -1,12 +1,15 @@
 const watch = require('node-watch');
-const axios = require('axios')
+const axios = require('axios');
+const config = require('./config');
 const { executeDiabetes } = require('./exec-files/exec-cdc_diabetes-bp');
 const { executeA1c } = require('./exec-files/exec-cdc_hba1c-lessThanEight');
 const { executeImmunization } = require('./exec-files/exec-childhood-immunization-status');
 const { executeDepression } = require('./exec-files/exec-depression-screening');
 const { executeAsthma } = require('./exec-files/exec-medication-management-for-people-with-asthma');
+const connectionUrl = `http://${config.host}:${config.port}/cql_service_connector`;
 
-watch('data/patients/', options = { 'recursive': true }, function (event, filename) {
+
+const watcher = (dir) => watch(dir, options = { 'recursive': true }, function (event, filename) {
   console.log(filename); // to know which file was processed
   const patients = require('./' + filename);
   if (patients) {
@@ -23,7 +26,7 @@ watch('data/patients/', options = { 'recursive': true }, function (event, filena
       data = executeImmunization(patients)
     }
     if (data) {
-      axios.post('http://127.0.0.1:5000/cql_service_connector', data).then(
+      axios.post(connectionUrl, data).then(
         (response) => {
           var result = response.data;
           console.log(result);
@@ -36,3 +39,8 @@ watch('data/patients/', options = { 'recursive': true }, function (event, filena
 
   }
 });
+
+watcher(config.directory);
+
+module.exports = { watcher };
+
