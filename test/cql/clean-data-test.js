@@ -1,16 +1,17 @@
+
+const should = require('should');
 const { cleanData } = require('../../exec-files/exec-template');
 const cisData = require('../data/cisData.json');
 const cisResults = require('../data/cisResults.json');
 const hba1cData = require('../data/hba1cData.json');
 const hba1cResults = require('../data/hba1cResults.json');
-const should = require('should');
 
 describe('return non-array and non-patient expression data', () => {
   it('CIS data is cleaned', () => {
-    cleanData(cisData).should.deepEqual(cisResults);
+    should(cleanData(cisData)).deepEqual(cisResults);
   });
 
   it('HbA1c data is cleaned', () => {
-    cleanData(hba1cData).should.deepEqual(hba1cResults);
+    should(cleanData(hba1cData)).deepEqual(hba1cResults);
   });
 });
