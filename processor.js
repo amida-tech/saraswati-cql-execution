@@ -1,6 +1,7 @@
 const watch = require('node-watch');
 const axios = require('axios');
 const config = require('./config');
+const path = require('path');
 const { executeDiabetes } = require('./exec-files/exec-cdc_diabetes-bp');
 const { executeA1c } = require('./exec-files/exec-cdc_hba1c-lessThanEight');
 const { executeImmunization } = require('./exec-files/exec-childhood-immunization-status');
@@ -8,21 +9,28 @@ const { executeDepression } = require('./exec-files/exec-depression-screening');
 const { executeAsthma } = require('./exec-files/exec-medication-management-for-people-with-asthma');
 const connectionUrl = `http://${config.host}:${config.port}/cql_service_connector`;
 
+const a1cPath = path.normalize("data/patients/a1c");
+const asthmaPath = path.normalize("data/patients/asthma");
+const depressionPath = path.normalize("data/patients/depression");
+const diabetesPath = path.normalize("data/patients/diabetes");
+const immunizationPath = path.normalize("data/patients/immunization");
+
 
 const watcher = (dir) => watch(dir, options = { 'recursive': true }, function (event, filename) {
   console.log(filename); // to know which file was processed
   const patients = require('./' + filename);
+  console.log(a1cPath);
   if (patients) {
     let data;
-    if (filename.startsWith("data/patients/a1c")) {
+    if (filename.startsWith(a1cPath)) {
       data = executeA1c(patients)
-    } else if (filename.startsWith("data/patients/asthma")) {
+    } else if (filename.startsWith(asthmaPath)) {
       data = executeAsthma(patients)
-    } else if (filename.startsWith("data/patients/depression")) {
+    } else if (filename.startsWith(depressionPath)) {
       data = executeDepression(patients)
-    } else if (filename.startsWith("data/patients/diabetes")) {
+    } else if (filename.startsWith(diabetesPath)) {
       data = executeDiabetes(patients)
-    } else if (filename.startsWith("data/patients/immunization")) {
+    } else if (filename.startsWith(immunizationPath)) {
       data = executeImmunization(patients)
     }
     if (data) {
