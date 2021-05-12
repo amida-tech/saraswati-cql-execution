@@ -19,7 +19,6 @@ const immunizationPath = path.normalize("data/patients/immunization");
 const watcher = (dir) => watch(dir, options = { 'recursive': true }, function (event, filename) {
   console.log(filename); // to know which file was processed
   const patients = require('./' + filename);
-  console.log(a1cPath);
   if (patients) {
     let data;
     if (filename.startsWith(a1cPath)) {
