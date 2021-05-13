@@ -7,15 +7,15 @@ const envVarsSchema = Joi.object({
   NODE_ENV: Joi.string()
     .allow('development', 'production', 'test', 'provision')
     .default('production')
-    .description('Environment of API service'),
+    .description('Environment of processor service'),
   LOG_LEVEL: Joi.string()
     .default('info')
-    .description('Log level of API service'),
+    .description('Log level of processor service'),
   HOST: Joi.string()
-    .description('Host of mock API service'),
+    .description('Host to make post call to saraswati-reports'),
   PORT: Joi.number()
     .default(5000)
-    .description('Port of mock API service, defaults to 4000'),
+    .description('Port to make post call to saraswati-reports, defaults to 5000'),
   DIR: Joi.string()
     .description('Directory to monitor'),
 }).unknown();
