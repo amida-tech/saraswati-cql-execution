@@ -14,8 +14,8 @@ const envVarsSchema = Joi.object({
   HOST: Joi.string()
     .description('Host to make post call to saraswati-reports'),
   PORT: Joi.number()
-    .default(4000)
-    .description('Port to make post call to saraswati-reports, defaults to 4000'),
+    .default(4001)
+    .description('Port to make post call to saraswati-reports, defaults to 4001'),
   DIR: Joi.string()
     .description('Directory to monitor'),
 }).unknown();
