@@ -43,7 +43,7 @@ const execute = (measure, patients, codeservice) => {
   patientSource.loadBundles(patients);
 
   const result = executor.exec(patientSource);
-  console.log(result.patientResults); // eslint-disable-line no-console
+  //console.log(result.patientResults); // eslint-disable-line no-console
 
   const cleanedPatientResults = cleanData(result.patientResults);
 
@@ -57,9 +57,10 @@ const execute = (measure, patients, codeservice) => {
     }
   };
 
-  fs.writeFile('./exec-files/results.json', JSON.stringify(cleanedPatientResults), err =>
-    convertToJSONL(err)
-  );
+  // fs.writeFile('./exec-files/results.json', JSON.stringify(cleanedPatientResults), err =>
+  //   convertToJSONL(err)
+  // );
+  return cleanedPatientResults;
 };
 
 module.exports = { execute, cleanData };
