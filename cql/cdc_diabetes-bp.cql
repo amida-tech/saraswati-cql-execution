@@ -49,6 +49,8 @@ code "Blood pressure": '85354-9' from "LOINC" display 'blood pressure'
 code "Diastolic blood pressure": '8462-4' from "LOINC" display 'Diastolic blood pressure'
 code "Systolic blood pressure": '8480-6' from "LOINC" display 'Systolic blood pressure'
 
+// TODO: there are more asthma medications needed than are listed here
+// See Missing Medication Codes section in README for details
 code "Acarbose": '386965004' from "SNOMED-CT"
 code "Miglitol": '109071007' from "SNOMED-CT"
 code "Insulin Aspart": '325072002' from "SNOMED-CT"
