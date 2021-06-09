@@ -18,9 +18,9 @@ const diabetesPath = path.normalize('data/patients/diabetes');
 const immunizationPath = path.normalize('data/patients/immunization');
 
 const watcher = dir =>
-  watch(dir, (options = { recursive: true }), function (event, filename) {
-    console.log(filename); // to know which file was processed
-    fs.readFile('.' + path.normalize('/' + filename), (err, data) => {
+  watch(dir, (options = { recursive: true, filter: /\.json$/ }), function (event, filename) {
+    console.log(filename, event); // to know which file was processed
+    fs.readFile('.' + path.normalize('/' + filename), function (err, data) {
       if (err) throw err;
       let patients = JSON.parse(data);
       if (patients) {
