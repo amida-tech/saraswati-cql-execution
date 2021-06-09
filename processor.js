@@ -20,35 +20,41 @@ const immunizationPath = path.normalize('data/patients/immunization');
 const watcher = dir =>
   watch(dir, (options = { recursive: true, filter: /\.json$/ }), function (event, filename) {
     console.log(filename, event); // to know which file was processed
-    fs.readFile('.' + path.normalize('/' + filename), function (err, data) {
-      if (err) throw err;
-      let patients = JSON.parse(data);
-      if (patients) {
-        let data;
-        if (filename.startsWith(a1cPath)) {
-          data = executeA1c(patients);
-        } else if (filename.startsWith(asthmaPath)) {
-          data = executeAsthma(patients);
-        } else if (filename.startsWith(depressionPath)) {
-          data = executeDepression(patients);
-        } else if (filename.startsWith(diabetesPath)) {
-          data = executeDiabetes(patients);
-        } else if (filename.startsWith(immunizationPath)) {
-          data = executeImmunization(patients);
-        }
-        if (data) {
-          axios.post(connectionUrl, data).then(
-            response => {
-              var result = response.data;
-              console.log(result);
-            },
-            error => {
-              console.log(error);
+    fs.access('.' + path.normalize('/' + filename), (err) => {
+      if (err){
+        console.log("File does not exists.");
+      } else {
+        fs.readFile('.' + path.normalize('/' + filename), function (err, data) {
+          if (err) throw err;
+          let patients = JSON.parse(data);
+          if (patients) {
+            let data;
+            if (filename.startsWith(a1cPath)) {
+              data = executeA1c(patients);
+            } else if (filename.startsWith(asthmaPath)) {
+              data = executeAsthma(patients);
+            } else if (filename.startsWith(depressionPath)) {
+              data = executeDepression(patients);
+            } else if (filename.startsWith(diabetesPath)) {
+              data = executeDiabetes(patients);
+            } else if (filename.startsWith(immunizationPath)) {
+              data = executeImmunization(patients);
             }
-          );
-        }
+            if (data) {
+              axios.post(connectionUrl, data).then(
+                response => {
+                  var result = response.data;
+                  console.log(result);
+                },
+                error => {
+                  console.log(error);
+                }
+              );
+            }
+          }
+        });
       }
-    });
+  });
   });
 
 watcher(config.directory);
