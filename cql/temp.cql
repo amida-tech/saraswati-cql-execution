@@ -7,7 +7,6 @@ codesystem "LOINC": 'http://loinc.org'
 codesystem "SNOMED": 'http://snomed.info/sct'
 codesystem "CQFramework": 'http://cqframework.info/codesystem/placeholder'
 
-
 valueset "Well-Care": '2.16.840.1.113883.3.464.1004.1262'
 valueset "Telehealth Modifier": '2.16.840.1.113762.1.4.1138.731'
 valueset "Telehealth POS": '2.16.840.1.113883.3.464.1003.101.11.1155'

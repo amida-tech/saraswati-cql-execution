@@ -42,7 +42,7 @@ const watcher = dir =>
             } else if (filename.startsWith(immunizationPath)) {
               data = executeImmunization(patients);
             } else if (filename.startsWith(childWellVisitPath)) {
-              data = executeImmunization(patients);
+              data = executeChildWellVisit(patients);
             }
             if (data) {
               axios.post(connectionUrl, data).then(
