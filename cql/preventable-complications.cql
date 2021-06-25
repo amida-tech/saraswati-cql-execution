@@ -1,6 +1,6 @@
 library preventable_complications version '1'
 
-using FHIR verison '4.0.0'
+using FHIR version '4.0.0'
 include FHIRHelpers version '4.0.0' called FHIRHelpers
 
 codesystem "SNOMED-CT": '2.16.840.1.113883.6.96' version '20200301'
@@ -8,8 +8,9 @@ codesystem "SNOMED-CT": '2.16.840.1.113883.6.96' version '20200301'
 // https://vsac.nlm.nih.gov/valueset/expansions?pr=all
 // Start with VSAC but use the N. HEDIS Value Set Directory if it is not found or difficult to figure out.
 // No promises JZ. https://cql.hl7.org/02-authorsguide.html
-valueset "Diabetes Long Term Complications": '2.16.840.1.113883.3.464.1004.1365'
+valueset "Care Services in Long-Term Residential Facility": '2.16.840.1.113883.3.464.1003.101.12.1014'
 valueset "Diabetes Short Term Complications": '2.16.840.1.113883.3.464.1004.1366'
+valueset "Diabetes Long Term Complications": '2.16.840.1.113883.3.464.1004.1365'
 valueset "Uncontrolled Diabetes": '2.16.840.1.113883.3.464.1004.1377'
 valueset "COPD": '2.16.840.1.113883.3.666.5.776'
 valueset "Asthma": '2.16.840.1.113883.3.526.3.362'
@@ -41,25 +42,32 @@ valueset "Nonacute Inpatient Stay": '2.16.840.1.113762.1.4.1182.289'
 valueset "Patients Age 65 or Older in SNP or Long Term Care": '2.16.840.1.113762.1.4.1182.66'
 // Medication codes would go here if they're added.
 
+code "Patient transfer, to another health care facility (procedure)": '19712007' from "SNOMED-CT" display 'Patient transfer, to another health care facility (procedure)'
+code "Referral to long term care service (procedure)": '417708006' from "SNOMED-CT" display 'Referral to long term care service (procedure)'
+concept "Long Term Stay": {
+  "Patient transfer, to another health care facility (procedure)",
+  "Referral to long term care service (procedure)"
+} display 'Long Term Stay'
+
 parameter "Measurement Period" default Interval[@2020-01-01T00:00:00.0, @2020-12-31T23:59:59.999)
-parameter "Prior Period" default Interval[@2019-01-01T00:00:00.0, @2019-12-31T23:59:59.999)
+parameter "Prior Period" default Interval[@2019-01-01T00:00:00.0, @2019-12-31T23:59:59.999) // Not used yet because allowable gap not figured.
 
 context Patient
 
 define "Initial Population":
-    (AgeInYearsAt(end of "Measurement Period") >= 67 and "Allowable gap")
+    AgeInYearsAt(end of "Measurement Period") >= 67 // and "Allowable gap")
         and not "Age Exclusions"
 
-define "Allowable gap":
+// define "Allowable gap":
     // CBT calculate differences in discharge dates, no more than one gap greater than 45 days.
 
 define "Age Exclusions":
-    exists("Patients Age 65 or Older in SNP or Long Term Care" E where E.period during "Measurement Period")
-    or "Is Living Long Term in Institution"
+    exists([Encounter: "Patients Age 65 or Older in SNP or Long Term Care"] E where E.period during "Measurement Period")
+    or exists([Encounter: "Is Living Long Term in Institution"])
 
 // Event/diagnosis
 define "Is Living Long Term in Institution":
-  exists([Encounter: "Encounter Inpatient"] DischargeLongTerm
+  exists([Encounter: "Inpatient Stay"] DischargeLongTerm
     where FHIRHelpers.ToCode(DischargeLongTerm.hospitalization.dischargeDisposition.coding) ~ "Referral to long term care service (procedure)" 
       and DischargeLongTerm.status in { 'in-progress', 'finished' } // CBT
       and DischargeLongTerm.period ends during "Measurement Period"
@@ -90,18 +98,18 @@ define "General ACSC Population":
 
 // Step 2. Return the last encounter of the Chronic ASCS Population.
 define "Direct Transfers": 
-    Last(
-        "General ASCS Population" GAP with
-        "General ASCS Population" GAP2
-        such that GAP.subject = GAP2.subject
-            and days between GAP.period.end and GAP2.period.start <= 1
-            where GAP2.period.end <= "December of 2020"
-            )
+  Last(
+    from
+      "General ACSC Population" GAP,
+      "General ACSC Population" GAP2
+      where GAP.subject = GAP2.subject
+          and (days between GAP.period.end and GAP2.period.start <= 1)
+          and GAP2.period.end <= "December of 2020"
+          )
 
 // Step 3 for Chronic. Identify discharges by claim. CBT
 define "Identify Chronic ASCS Discharges by Claim":
-    ([Encounter: "Direct Transfers"] // DOUBLE CHECK
-        where first([Condition:"Diabetes Short Term Complications"])
+    ([Encounter: "Direct Transfers"] DT where first([Condition:"Diabetes Short Term Complications"])
         or first([Condition: "Diabetes Long Term Complications"])
         or first([Condition: "Uncontrolled Diabetes"])
         or (exists("Lower Extremity Amputation with Diabetes")
@@ -119,55 +127,72 @@ define "Identify Chronic ASCS Discharges by Claim":
           and not exists("Cardiac Procedure Encounter") 
           and not exists("Stage I-IV Kidney Disease Encounter with Dialysis"))
     )
+  )
 
 // Step 3 chronic auxiliary functions.
 define "Lower Extremity Amputation with Diabetes":
   [Procedure: "Lower Extremity Amputation Diagnosis"] union [Condition: "Diabetes"]
 
 define "Traumatic Amputation of Lower Extremity Encounter":
-  [Encounter] E where E.status in { 'finished' } and E.diagnosis in "Traumatic Amputation of Lower Extremity"
+  [Encounter] E 
+    with [Condition: "Traumatic Amputation of Lower Extremity"] C
+      such that E.status in { 'finished' }
 
 define "Toe Amputation Diagnosis Encounter":
-  [Encounter] E where E.status in { 'finished' } and E.diagnosis in "Toe Amputation Diagnosis"
+  [Encounter] E 
+    with [Condition: "Toe Amputation Diagnosis"] C
+      such that E.status in { 'finished' }
 
 define "Cystic Fibrosis Encounter":
-  [Encounter] E where E.status in { 'finished' } and E.diagnosis in "Cystic Fibrosis"
+  [Encounter] E 
+    with [Condition: "Cystic Fibrosis"] C
+      such that E.status in { 'finished' }
 
 define "Acute Bronchitis with COPD":
-  first([Condition: "Acute Bronchitis"]) union [Condition: "COPD"]
+  first("Acute Bronchitis") union "COPD"
 
 define "Cardiac Procedure Encounter": 
-  [Encounter] E where E.status in { 'finished' } and E.diagnosis in "Cardiac Procedure"
+  [Encounter] E 
+    with [Condition: "Cardiac Procedure"] C
+     such that E.status in { 'finished' }
 
 define "Stage I-IV Kidney Disease Encounter":
-  [Encounter] E where E.status in { 'finished' } and E.diagnosis in "Stage I-IV Kidney Disease"
+  [Encounter] E 
+    with [Condition: "Stage I-IV Kidney Disease"] C
+      such that E.status in { 'finished' } 
 
 define "Stage I-IV Kidney Disease Encounter with Dialysis":
   "Stage I-IV Kidney Disease Encounter" union [Condition: "Dialysis"]
 
 // Step 3 for Acute. Identify discharges by claim. 
 define "Identify Acute ASCS Discharges by Claim":
-    ([Encounter: "Direct Transfers"] // DOUBLE CHECK
-        where (first([Condition:"Bacterial pneumonia"]) 
-          and not exists("Sickle Cell Anemia Encounter Encounter") 
-          and not exists("Immunocompromised Encounter Encounter"))
+    ([Encounter: "Direct Transfers"] DT where (first([Condition:"Bacterial pneumonia"]) 
+          and not exists("Sickle Cell Anemia Encounter") 
+          and not exists("Immunocompromised Encounter"))
         or (first([Condition: "Urinary tract infection"])
-          and not exists("Kidney and Urinary Tract Disorders Encounter Encounter")
-          and not exists("Immunocompromised Encounter Encounter"))
+          and not exists("Kidney and Urinary Tract Disorders Encounter")
+          and not exists("Immunocompromised Encounter"))
         or first([Condition: "Cellulitis"])
         or first([Condition: "Pressure ulcer"])
+      )
 
 // Step 3 acute auxiliary functions.
-define "Sickle Cell Anemia Encounter Encounter":
-  [Encounter] E where E.status in { 'finished' } and E.diagnosis in "Sickle Cell Anemia and HB S Disease"
+define "Sickle Cell Anemia Encounter":
+  [Encounter] E 
+    with [Condition: "Sickle Cell Anemia and HB S Disease"] C
+      such that E.status in { 'finished' } 
 
-define "Kidney and Urinary Tract Disorders Encounter Encounter":
-  [Encounter] E where E.status in { 'finished' } and E.diagnosis in "Kidney and Urinary Tract Disorders"
+define "Kidney and Urinary Tract Disorders Encounter":
+  [Encounter] E 
+    with [Condition: "Kidney and Urinary Tract Disorders"] C
+      such that E.status in { 'finished' }
 
-define "Immunocompromised Encounter Encounter":
-  [Encounter] E where E.status in { 'finished' } and E.diagnosis in "Immunocompromised Condition Encounter"
+define "Immunocompromised Encounter":
+  [Encounter] E 
+    with [Condition: "Immunocompromised Condition and Procedure"] C
+      such that E.status in { 'finished' }
 
-define "Immunocompromised Condition Encounter":
+define "Immunocompromised Condition and Procedure":
   [Condition: "Immunocompromised State"] union [Procedure: "Immunocompromised State"]
 
 // Step 4 Chronic.
@@ -184,20 +209,18 @@ define "Acute ASCS Outliers":
 define "Acute ASCS Nonoutliers":
   Count("Identify Acute ASCS Discharges by Claim") < 3
 
-
-
 define "December of 2020":
   Date(2020, 12, 01)
 
-define "Numerator":
+// define "Numerator":
 
-define "Denominator":
+// define "Denominator":
 
-define "Denominator Count":
-  Sum("Denominator")
+// define "Denominator Count":
+//  Sum("Denominator")
 
-define "Numerator Count":
-  Sum("Numerator")
+// define "Numerator Count":
+//  Sum("Numerator")
 
-define "CDC Measure Score":
-  Sum("Numerator") / Sum("Denominator")
+// define "CDC Measure Score":
+//   Sum("Numerator") / Sum("Denominator")
