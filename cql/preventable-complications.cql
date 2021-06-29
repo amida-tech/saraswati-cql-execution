@@ -109,21 +109,21 @@ define "Direct Transfers":
 
 // Step 3 for Chronic. Identify discharges by claim. CBT
 define "Identify Chronic ASCS Discharges by Claim":
-    ([Encounter: "Direct Transfers"] DT where first([Condition:"Diabetes Short Term Complications"])
-        or first([Condition: "Diabetes Long Term Complications"])
-        or first([Condition: "Uncontrolled Diabetes"])
+    ([Encounter: "Direct Transfers"] DT where exists(First([Condition:"Diabetes Short Term Complications"]))
+        or exists(First([Condition: "Diabetes Long Term Complications"]))
+        or exists(First([Condition: "Uncontrolled Diabetes"]))
         or (exists("Lower Extremity Amputation with Diabetes")
             and not exists("Traumatic Amputation of Lower Extremity Encounter") 
             and not exists("Toe Amputation Diagnosis Encounter"))
-        or (first([Condition: "COPD"]) 
+        or (exists(First([Condition: "COPD"])) 
           and not exists("Cystic Fibrosis Encounter")
-        or (first([Condition: "Asthma"]) 
+        or (exists(First([Condition: "Asthma"])) 
           and not exists("Cystic Fibrosis Encounter"))
         or (exists("Acute Bronchitis with COPD") 
           and not exists("Cystic Fibrosis Encounter"))
-        or (first([Condition: "Heart Failure"]) 
-          and not exist("Cardiac Procedure Encounter"))
-        or (first([Condition: "Hypertension"]) 
+        or (exists(First([Condition: "Heart Failure"])) 
+          and not exists("Cardiac Procedure Encounter"))
+        or (exists(First([Condition: "Hypertension"]))
           and not exists("Cardiac Procedure Encounter") 
           and not exists("Stage I-IV Kidney Disease Encounter with Dialysis"))
     )
@@ -149,7 +149,7 @@ define "Cystic Fibrosis Encounter":
       such that E.status in { 'finished' }
 
 define "Acute Bronchitis with COPD":
-  first("Acute Bronchitis") union "COPD"
+  First("Acute Bronchitis") union "COPD"
 
 define "Cardiac Procedure Encounter": 
   [Encounter] E 
@@ -166,14 +166,14 @@ define "Stage I-IV Kidney Disease Encounter with Dialysis":
 
 // Step 3 for Acute. Identify discharges by claim. 
 define "Identify Acute ASCS Discharges by Claim":
-    ([Encounter: "Direct Transfers"] DT where (first([Condition:"Bacterial pneumonia"]) 
+    ([Encounter: "Direct Transfers"] DT where (exists(First([Condition:"Bacterial pneumonia"])) 
           and not exists("Sickle Cell Anemia Encounter") 
           and not exists("Immunocompromised Encounter"))
-        or (first([Condition: "Urinary tract infection"])
+        or (exists(First([Condition: "Urinary tract infection"]))
           and not exists("Kidney and Urinary Tract Disorders Encounter")
           and not exists("Immunocompromised Encounter"))
-        or first([Condition: "Cellulitis"])
-        or first([Condition: "Pressure ulcer"])
+        or exists(First([Condition: "Cellulitis"]))
+        or exists(First([Condition: "Pressure ulcer"]))
       )
 
 // Step 3 acute auxiliary functions.
