@@ -24,7 +24,7 @@ define "Initial Population":
 
 define "Well-Care before patient 15mo birthday":
 	[Encounter: "Well-Care"] E0
-    where AgeInMonthsAt(E0.period.end) > 15 
+    where AgeInMonthsAt(E0.period.end) <= 15 
 
 define "Well-Care Without Duplicate Days":
 	//MUST BE DeduplicateBasedOnStartDate when called to eval
@@ -39,7 +39,7 @@ define "Well-Care Encounter Without Telehealth":
 
 define "Well-Care With PCP Code":
   [Encounter: "Well-Care"] E0
-    without [Encounter: "Primary Care Provider"] E1
+    with [Encounter: "Primary Care Provider"] E1
       such that exists(E1)
 
 define "Valid Visit Counter":
@@ -108,31 +108,16 @@ define "Numerator 6+":
   end
 
 define "Denominator":
-  case ("Initial Population")//and not "Denominator Exclusions")
+  case ("Initial Population")
     when true then 1
     else 0
   end
-
-//define "Denominator Exclusions":
-	//exists ( [Encounter: "Encounter Inpatient"] DischargeHospice
-			//where ( ( DischargeHospice.hospitalization.dischargeDisposition in "Discharged to Home for Hospice Care"
-						//or DischargeHospice.hospitalization.dischargeDisposition in "Discharged to Health Care Facility for Hospice Care"
-				//)
-					//and DischargeHospice.period ends during "Measurement Period"
-			//)
-	//)
-		//or exists ( [ServiceRequest: "Hospice care ambulatory"]
-		//)
-		//or exists ( [ServiceRequest: "Hospice care ambulatory"] HospicePerformed
-				//where Coalesce(HospicePerformed.occurrence, HospicePerformed.occurrence.start) during "Measurement Period"
-		//)
 
 context Unfiltered
 
 define "Denominator Count":
   Sum("Denominator")
 
-//Duplicate these two a bunch of times
 define "Numerator 0 Count":
   Sum("Numerator 0")
 
