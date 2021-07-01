@@ -12,15 +12,14 @@ valueset "Well-Care": '2.16.840.1.113883.3.464.1004.1262'
 valueset "Telehealth Modifier": '2.16.840.1.113762.1.4.1138.731'
 valueset "Telehealth POS": '2.16.840.1.113883.3.464.1003.101.11.1155'
 valueset "Telephone Visits": '2.16.840.1.113883.3.1444.5.216'
-valueset "Primary Care Provider": '2.16.840.1.113762.1.4.1182.375'
 
 parameter "Measurement Period" default Interval[@2020-01-01T00:00:00.0, @2020-12-31T23:59:59.999)
 
 context Patient
 
 define "Initial Population":
-	AgeInMonthsAt(start of "Measurement Period")>= 0
-	and AgeInMonthsAt(end of "Measurement Period")<= 15
+AgeInYears(start of measurement period) < 1 
+and AgeInMonths(end of measurement period) >= 15
 
 define "Well-Care before patient 15mo birthday":
 	[Encounter: "Well-Care"] E0
@@ -38,16 +37,17 @@ define "Well-Care Encounter Without Telehealth":
       such that exists(E2)
 
 define "Well-Care With PCP Code":
-  [Encounter: "Well-Care"] E0
-    with [Encounter: "Primary Care Provider"] E1
-      such that exists(E1)
+
+  [Encounter: "well-care"] E0 
+    with [Patient] P 
+      where exists(P.generalPractitioner)
 
 define "Valid Visit Counter":
 	Count(
 		"Well-Care before patient 15mo birthday"
-		union "Well-Care Encounter Without Telehealth"
-		union "Well-Care With PCP Code"
-		union DeduplicateBasedOnStartDate("Well-Care Without Duplicate Days")
+		intersect "Well-Care Encounter Without Telehealth"
+		intersect "Well-Care With PCP Code"
+		intersect DeduplicateBasedOnStartDate("Well-Care Without Duplicate Days")
 		)
 		
 define "Numerator 0":
