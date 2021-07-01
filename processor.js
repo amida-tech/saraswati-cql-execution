@@ -8,6 +8,7 @@ const { executeA1c } = require('./exec-files/exec-cdc_hba1c-lessThanEight');
 const { executeImmunization } = require('./exec-files/exec-childhood-immunization-status');
 const { executeDepression } = require('./exec-files/exec-depression-screening');
 const { executeAsthma } = require('./exec-files/exec-medication-management-for-people-with-asthma');
+const { executePreventable } = require('./exec-files/exec-preventable-complications');
 const connectionUrl = `http://${config.host}:${config.port}/cql_service_connector`;
 
 const a1cPath = path.normalize('data/patients/a1c');
@@ -15,6 +16,7 @@ const asthmaPath = path.normalize('data/patients/asthma');
 const depressionPath = path.normalize('data/patients/depression');
 const diabetesPath = path.normalize('data/patients/diabetes');
 const immunizationPath = path.normalize('data/patients/immunization');
+const preventablePath = path.normalize('data/patients/preventable');
 
 const watcher = (dir) => watch(dir, options = { 'recursive': true }, function (event, filename) {
   console.log(filename); // to know which file was processed
@@ -31,6 +33,8 @@ const watcher = (dir) => watch(dir, options = { 'recursive': true }, function (e
       data = executeDiabetes(patients);
     } else if (filename.startsWith(immunizationPath)) {
       data = executeImmunization(patients);
+    } else if (filename.startsWith(preventablePath)) {
+      data = executePreventable(patients);
     }
     if (data) {
       axios.post(connectionUrl, data).then(
