@@ -11,11 +11,11 @@ const envVarsSchema = Joi.object({
   LOG_LEVEL: Joi.string()
     .default('info')
     .description('Log level of processor service'),
-  HOST: Joi.string()
+  SARASWATI_REPORTS_HOST: Joi.string()
     .description('Host to make post call to saraswati-reports'),
-  PORT: Joi.number()
-    .default(4001)
-    .description('Port to make post call to saraswati-reports, defaults to 4001'),
+  SARASWATI_REPORTS_PORT: Joi.number()
+    .default(5000)
+    .description('Port to make post call to saraswati-reports, defaults to 5000'),
   DIR: Joi.string()
     .description('Directory to monitor'),
 }).unknown();
@@ -28,8 +28,8 @@ if (error) {
 const config = {
   env: envVars.NODE_ENV,
   logLevel: envVars.LOG_LEVEL,
-  host: envVars.HOST,
-  port: envVars.PORT,
+  host: envVars.SARASWATI_REPORTS_HOST,
+  port: envVars.SARASWATI_REPORTS_PORT,
   directory: envVars.DIR
 };
 
