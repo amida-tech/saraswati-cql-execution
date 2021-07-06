@@ -751,8 +751,9 @@
                 "code": "162673000",
                 "display": "General examination of patient (procedure)"
               }, {
-                "system":"https://nope.com",
-                "code": "2.16.840.1.113762.1.4.1182.285",
+                
+                "system":"http://snomed.info/sct",
+                "code": "112689000",
                 "display":"Inpatient Stay"
               } ],
               "text": "General examination of patient (procedure)"
@@ -2687,8 +2688,8 @@
             } ],
             "code": {
               "coding": [ {
-                "system": "http://madeup.info",
-                "code": "2.16.840.1.113883.3.464.1004.1366",
+                "system": "ICD10CM",
+                "code": "E10.10",
                 "display": "Diabetes Short Term Complications"
               } ],
               "text": "Diabetes Short Term Complications"
@@ -8653,9 +8654,9 @@
             },
             "type": [ {
               "coding": [ {
-                "system":"https://nope.com",
-                "code": "2.16.840.1.113762.1.4.1181.72",
-                "display":"Outpatient Stay"
+                "system":"http://snomed.info/sct",
+                "code": "257585005",
+                "display":"Observation Stay"
               }, {
                 "system": "http://snomed.info/sct",
                 "code": "162673000",

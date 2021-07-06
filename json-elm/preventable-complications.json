@@ -6,9 +6,9 @@
       }, {
          "libraryId" : "preventable_complications",
          "libraryVersion" : "1",
-         "startLine" : 71,
+         "startLine" : 108,
          "startChar" : 85,
-         "endLine" : 71,
+         "endLine" : 108,
          "endChar" : 90,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -17,9 +17,9 @@
       }, {
          "libraryId" : "preventable_complications",
          "libraryVersion" : "1",
-         "startLine" : 66,
+         "startLine" : 103,
          "startChar" : 15,
-         "endLine" : 66,
+         "endLine" : 103,
          "endChar" : 63,
          "message" : "Could not resolve membership operator for terminology target of the retrieve.",
          "errorType" : "semantic",
@@ -28,9 +28,9 @@
       }, {
          "libraryId" : "preventable_complications",
          "libraryVersion" : "1",
-         "startLine" : 112,
+         "startLine" : 149,
          "startChar" : 6,
-         "endLine" : 112,
+         "endLine" : 149,
          "endChar" : 36,
          "message" : "Could not resolve membership operator for terminology target of the retrieve.",
          "errorType" : "semantic",
@@ -39,9 +39,9 @@
       }, {
          "libraryId" : "preventable_complications",
          "libraryVersion" : "1",
-         "startLine" : 169,
+         "startLine" : 206,
          "startChar" : 6,
-         "endLine" : 169,
+         "endLine" : 206,
          "endChar" : 36,
          "message" : "Could not resolve membership operator for terminology target of the retrieve.",
          "errorType" : "semantic",
@@ -50,9 +50,9 @@
       }, {
          "libraryId" : "preventable_complications",
          "libraryVersion" : "1",
-         "startLine" : 192,
+         "startLine" : 229,
          "startChar" : 10,
-         "endLine" : 192,
+         "endLine" : 229,
          "endChar" : 65,
          "message" : "Could not resolve membership operator for terminology target of the retrieve.",
          "errorType" : "semantic",
@@ -306,11 +306,19 @@
             "accessLevel" : "Public"
          }, {
             "name" : "Urinary tract infection",
-            "id" : "2.16.840.1.113883.3.464.1004.1378",
+            "id" : "2.16.840.1.113883.17.4077.3.2054",
             "accessLevel" : "Public"
          }, {
-            "name" : "Cellulitis",
-            "id" : "2.16.840.1.113883.3.464.1004.1362",
+            "name" : "Cellulitis (ICD10CM)",
+            "id" : "2.16.840.1.113762.1.4.1146.717",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Cellulitis (SNOMED)",
+            "id" : "2.16.840.1.113762.1.4.1146.718",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Cellulitis Of Orbit",
+            "id" : "2.16.840.1.113883.3.3157.1003.129",
             "accessLevel" : "Public"
          }, {
             "name" : "Pressure ulcer",
@@ -318,7 +326,7 @@
             "accessLevel" : "Public"
          }, {
             "name" : "Sickle Cell Anemia and HB S Disease",
-            "id" : "2.16.840.1.113883.3.464.1004.1373",
+            "id" : "2.16.840.1.113762.1.4.1029.35",
             "accessLevel" : "Public"
          }, {
             "name" : "Immunocompromised State",
@@ -346,7 +354,7 @@
             "accessLevel" : "Public"
          }, {
             "name" : "Acute Bronchitis",
-            "id" : "2.16.840.1.113883.3.464.1004.1016",
+            "id" : "2.16.840.1.113883.3.88.12.3221.7.4",
             "accessLevel" : "Public"
          }, {
             "name" : "Cardiac Procedure",
@@ -1996,7 +2004,7 @@
                                  "codeComparator" : "in",
                                  "type" : "Retrieve",
                                  "codes" : {
-                                    "name" : "Cellulitis",
+                                    "name" : "Cellulitis (ICD10CM)",
                                     "type" : "ValueSetRef"
                                  }
                               }
