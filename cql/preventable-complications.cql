@@ -77,6 +77,7 @@ valueset "Dialysis": '2.16.840.1.113762.1.4.1222.161'
 valueset "Inpatient Stay": '2.16.840.1.113762.1.4.1182.285'
 valueset "Observation Stay": '2.16.840.1.113762.1.4.1181.72'
 valueset "Nonacute Inpatient Stay": '2.16.840.1.113762.1.4.1182.289'
+valueset "Encounter Inpatient": '2.16.840.1.113883.3.666.5.307'
 valueset "Patients Age 65 or Older in SNP or Long Term Care": '2.16.840.1.113762.1.4.1182.66'
 
 code "Patient transfer, to another health care facility (procedure)": '19712007' from "SNOMED-CT" display 'Patient transfer, to another health care facility (procedure)'
@@ -100,11 +101,11 @@ define "Initial Population":
 
 define "Age Exclusions":
     exists([Encounter: "Patients Age 65 or Older in SNP or Long Term Care"] E where E.period during "Measurement Period")
-    or exists([Encounter: "Is Living Long Term in Institution"])
+    or exists("Is Living Long Term in Institution")
 
 // Event/diagnosis
 define "Is Living Long Term in Institution":
-  exists([Encounter: "Inpatient Stay"] DischargeLongTerm
+  exists([Encounter: "Encounter Inpatient"] DischargeLongTerm
     where FHIRHelpers.ToCode(DischargeLongTerm.hospitalization.dischargeDisposition.coding) ~ "Referral to long term care service (procedure)" 
       and DischargeLongTerm.status in { 'in-progress', 'finished' } // CBT
       and DischargeLongTerm.period ends during "Measurement Period"
@@ -133,7 +134,7 @@ define "General ACSC Population":
     ) TotalStays
     where TotalStays.status in {'finished'}
 
-// Step 2. Return the last encounter of the Chronic ASCS Population.
+// Step 2. Return the last encounter of the Chronic ACSC Population.
 define "Direct Transfers": 
   Last(
     from
@@ -142,11 +143,13 @@ define "Direct Transfers":
       where GAP.subject = GAP2.subject
           and (days between GAP.period.end and GAP2.period.start <= 1)
           and GAP2.period.end <= "December of 2020"
-          )
+      return GAP2
+      )
+      
 
 // Step 3 for Chronic. Identify discharges by claim. CBT
-define "Identify Chronic ASCS Discharges by Claim":
-    ([Encounter: "Direct Transfers"] DT where exists(First([Condition:"Diabetes Short Term Complications"]))
+define "Identify Chronic ACSC Discharges by Claim":
+    ("Direct Transfers" DT where exists(First([Condition:"Diabetes Short Term Complications"]))
         or exists(First([Condition: "Diabetes Long Term Complications"]))
         or exists(First([Condition: "Uncontrolled Diabetes"]))
         or (exists("Lower Extremity Amputation with Diabetes")
@@ -202,8 +205,8 @@ define "Stage I-IV Kidney Disease Encounter with Dialysis":
   "Stage I-IV Kidney Disease Encounter" union [Condition: "Dialysis"]
 
 // Step 3 for Acute. Identify discharges by claim. 
-define "Identify Acute ASCS Discharges by Claim":
-    ([Encounter: "Direct Transfers"] DT where (exists(First([Condition:"Bacterial pneumonia"])) 
+define "Identify Acute ACSC Discharges by Claim":
+    ("Direct Transfers" DT where (exists(First([Condition:"Bacterial pneumonia"])) 
           and not exists("Sickle Cell Anemia Encounter") 
           and not exists("Immunocompromised Encounter"))
         or (exists(First([Condition: "Urinary tract infection"]))
@@ -226,38 +229,34 @@ define "Kidney and Urinary Tract Disorders Encounter":
 
 define "Immunocompromised Encounter":
   [Encounter] E 
-    with [Condition: "Immunocompromised Condition and Procedure"] C
+    with "Immunocompromised Condition and Procedure" C
       such that E.status in { 'finished' }
 
 define "Immunocompromised Condition and Procedure":
   [Condition: "Immunocompromised State"] union [Procedure: "Immunocompromised State"]
 
 // Step 4 Chronic.
-define "Chronic ASCS Outliers":
-  Count("Identify Chronic ASCS Discharges by Claim") >= 3
+define "Chronic ACSC Outliers":
+  Count("Identify Chronic ACSC Discharges by Claim") >= 3
 
-define "Chronic ASCS Nonoutliers":
-  Count("Identify Chronic ASCS Discharges by Claim") < 3
+define "Chronic ACSC Nonoutliers":
+  Count("Identify Chronic ACSC Discharges by Claim") < 3
 
 // Step 4 Acute.
-define "Acute ASCS Outliers":
-  Count("Identify Acute ASCS Discharges by Claim") >= 3
+define "Acute ACSC Outliers":
+  Count("Identify Acute ACSC Discharges by Claim") >= 3
 
-define "Acute ASCS Nonoutliers":
-  Count("Identify Acute ASCS Discharges by Claim") < 3
+define "Acute ACSC Nonoutliers":
+  Count("Identify Acute ACSC Discharges by Claim") < 3
+
+define "Total ACSC Outliers":
+  case
+    when "Acute ACSC Outliers" = false and "Chronic ACSC Outliers" = false then 0
+    when "Acute ACSC Outliers" = false and "Chronic ACSC Outliers" = true then 1
+    when "Acute ACSC Outliers" = true and "Chronic ACSC Outliers" = false then 1
+    else 2
+  end
 
 define "December of 2020":
   Date(2020, 12, 01)
 
-// define "Numerator":
-
-// define "Denominator":
-
-// define "Denominator Count":
-//  Sum("Denominator")
-
-// define "Numerator Count":
-//  Sum("Numerator")
-
-// define "CDC Measure Score":
-//   Sum("Numerator") / Sum("Denominator")

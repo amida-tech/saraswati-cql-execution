@@ -6,9 +6,9 @@
       }, {
          "libraryId" : "preventable_complications",
          "libraryVersion" : "1",
-         "startLine" : 108,
+         "startLine" : 109,
          "startChar" : 85,
-         "endLine" : 108,
+         "endLine" : 109,
          "endChar" : 90,
          "message" : "List-valued expression was demoted to a singleton.",
          "errorType" : "semantic",
@@ -17,44 +17,11 @@
       }, {
          "libraryId" : "preventable_complications",
          "libraryVersion" : "1",
-         "startLine" : 103,
+         "startLine" : 104,
          "startChar" : 15,
-         "endLine" : 103,
-         "endChar" : 63,
-         "message" : "Could not resolve membership operator for terminology target of the retrieve.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "preventable_complications",
-         "libraryVersion" : "1",
-         "startLine" : 149,
-         "startChar" : 6,
-         "endLine" : 149,
-         "endChar" : 36,
-         "message" : "Could not resolve membership operator for terminology target of the retrieve.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "preventable_complications",
-         "libraryVersion" : "1",
-         "startLine" : 206,
-         "startChar" : 6,
-         "endLine" : 206,
-         "endChar" : 36,
-         "message" : "Could not resolve membership operator for terminology target of the retrieve.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "preventable_complications",
-         "libraryVersion" : "1",
-         "startLine" : 229,
-         "startChar" : 10,
-         "endLine" : 229,
-         "endChar" : 65,
-         "message" : "Could not resolve membership operator for terminology target of the retrieve.",
+         "endLine" : 104,
+         "endChar" : 50,
+         "message" : "Boolean-valued expression was promoted to a list.",
          "errorType" : "semantic",
          "errorSeverity" : "warning",
          "type" : "CqlToElmError"
@@ -381,6 +348,10 @@
             "id" : "2.16.840.1.113762.1.4.1182.289",
             "accessLevel" : "Public"
          }, {
+            "name" : "Encounter Inpatient",
+            "id" : "2.16.840.1.113883.3.666.5.307",
+            "accessLevel" : "Public"
+         }, {
             "name" : "Patients Age 65 or Older in SNP or Long Term Care",
             "id" : "2.16.840.1.113762.1.4.1182.66",
             "accessLevel" : "Public"
@@ -455,7 +426,7 @@
                                  "codeComparator" : "in",
                                  "type" : "Retrieve",
                                  "codes" : {
-                                    "name" : "Inpatient Stay",
+                                    "name" : "Encounter Inpatient",
                                     "type" : "ValueSetRef"
                                  }
                               }
@@ -752,16 +723,10 @@
                }, {
                   "type" : "Exists",
                   "operand" : {
-                     "dataType" : "{http://hl7.org/fhir}Encounter",
-                     "codeProperty" : "type",
-                     "codeComparator" : "~",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "type" : "ToList",
-                        "operand" : {
-                           "name" : "Is Living Long Term in Institution",
-                           "type" : "ExpressionRef"
-                        }
+                     "type" : "ToList",
+                     "operand" : {
+                        "name" : "Is Living Long Term in Institution",
+                        "type" : "ExpressionRef"
                      }
                   }
                } ]
@@ -994,22 +959,9 @@
                      } ]
                   },
                   "return" : {
-                     "distinct" : true,
                      "expression" : {
-                        "type" : "Tuple",
-                        "element" : [ {
-                           "name" : "GAP",
-                           "value" : {
-                              "name" : "GAP",
-                              "type" : "AliasRef"
-                           }
-                        }, {
-                           "name" : "GAP2",
-                           "value" : {
-                              "name" : "GAP2",
-                              "type" : "AliasRef"
-                           }
-                        } ]
+                        "name" : "GAP2",
+                        "type" : "AliasRef"
                      }
                   }
                }
@@ -1391,7 +1343,7 @@
                } ]
             }
          }, {
-            "name" : "Identify Chronic ASCS Discharges by Claim",
+            "name" : "Identify Chronic ACSC Discharges by Claim",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1399,17 +1351,8 @@
                "source" : [ {
                   "alias" : "DT",
                   "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Encounter",
-                     "codeProperty" : "type",
-                     "codeComparator" : "~",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "type" : "ToList",
-                        "operand" : {
-                           "name" : "Direct Transfers",
-                           "type" : "ExpressionRef"
-                        }
-                     }
+                     "name" : "Direct Transfers",
+                     "type" : "ExpressionRef"
                   }
                } ],
                "relationship" : [ ],
@@ -1796,17 +1739,8 @@
                   "alias" : "C",
                   "type" : "With",
                   "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Condition",
-                     "codeProperty" : "code",
-                     "codeComparator" : "~",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "type" : "ToList",
-                        "operand" : {
-                           "name" : "Immunocompromised Condition and Procedure",
-                           "type" : "ExpressionRef"
-                        }
-                     }
+                     "name" : "Immunocompromised Condition and Procedure",
+                     "type" : "ExpressionRef"
                   },
                   "suchThat" : {
                      "type" : "In",
@@ -1879,7 +1813,7 @@
                } ]
             }
          }, {
-            "name" : "Identify Acute ASCS Discharges by Claim",
+            "name" : "Identify Acute ACSC Discharges by Claim",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1887,17 +1821,8 @@
                "source" : [ {
                   "alias" : "DT",
                   "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Encounter",
-                     "codeProperty" : "type",
-                     "codeComparator" : "~",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "type" : "ToList",
-                        "operand" : {
-                           "name" : "Direct Transfers",
-                           "type" : "ExpressionRef"
-                        }
-                     }
+                     "name" : "Direct Transfers",
+                     "type" : "ExpressionRef"
                   }
                } ],
                "relationship" : [ ],
@@ -2033,7 +1958,7 @@
                }
             }
          }, {
-            "name" : "Chronic ASCS Outliers",
+            "name" : "Chronic ACSC Outliers",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -2041,8 +1966,11 @@
                "operand" : [ {
                   "type" : "Count",
                   "source" : {
-                     "name" : "Identify Chronic ASCS Discharges by Claim",
-                     "type" : "ExpressionRef"
+                     "type" : "ToList",
+                     "operand" : {
+                        "name" : "Identify Chronic ACSC Discharges by Claim",
+                        "type" : "ExpressionRef"
+                     }
                   }
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
@@ -2051,7 +1979,7 @@
                } ]
             }
          }, {
-            "name" : "Chronic ASCS Nonoutliers",
+            "name" : "Chronic ACSC Nonoutliers",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -2059,8 +1987,11 @@
                "operand" : [ {
                   "type" : "Count",
                   "source" : {
-                     "name" : "Identify Chronic ASCS Discharges by Claim",
-                     "type" : "ExpressionRef"
+                     "type" : "ToList",
+                     "operand" : {
+                        "name" : "Identify Chronic ACSC Discharges by Claim",
+                        "type" : "ExpressionRef"
+                     }
                   }
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
@@ -2069,7 +2000,7 @@
                } ]
             }
          }, {
-            "name" : "Acute ASCS Outliers",
+            "name" : "Acute ACSC Outliers",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -2077,8 +2008,11 @@
                "operand" : [ {
                   "type" : "Count",
                   "source" : {
-                     "name" : "Identify Acute ASCS Discharges by Claim",
-                     "type" : "ExpressionRef"
+                     "type" : "ToList",
+                     "operand" : {
+                        "name" : "Identify Acute ACSC Discharges by Claim",
+                        "type" : "ExpressionRef"
+                     }
                   }
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
@@ -2087,7 +2021,7 @@
                } ]
             }
          }, {
-            "name" : "Acute ASCS Nonoutliers",
+            "name" : "Acute ACSC Nonoutliers",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -2095,14 +2029,120 @@
                "operand" : [ {
                   "type" : "Count",
                   "source" : {
-                     "name" : "Identify Acute ASCS Discharges by Claim",
-                     "type" : "ExpressionRef"
+                     "type" : "ToList",
+                     "operand" : {
+                        "name" : "Identify Acute ACSC Discharges by Claim",
+                        "type" : "ExpressionRef"
+                     }
                   }
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
                   "value" : "3",
                   "type" : "Literal"
                } ]
+            }
+         }, {
+            "name" : "Total ACSC Outliers",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "caseItem" : [ {
+                  "when" : {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "name" : "Acute ACSC Outliers",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                           "value" : "false",
+                           "type" : "Literal"
+                        } ]
+                     }, {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "name" : "Chronic ACSC Outliers",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                           "value" : "false",
+                           "type" : "Literal"
+                        } ]
+                     } ]
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "name" : "Acute ACSC Outliers",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                           "value" : "false",
+                           "type" : "Literal"
+                        } ]
+                     }, {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "name" : "Chronic ACSC Outliers",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                           "value" : "true",
+                           "type" : "Literal"
+                        } ]
+                     } ]
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "name" : "Acute ACSC Outliers",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                           "value" : "true",
+                           "type" : "Literal"
+                        } ]
+                     }, {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "name" : "Chronic ACSC Outliers",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                           "value" : "false",
+                           "type" : "Literal"
+                        } ]
+                     } ]
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "2",
+                  "type" : "Literal"
+               }
             }
          } ]
       }
