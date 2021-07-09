@@ -49,6 +49,8 @@ define "Valid Visit Counter":
 		intersect "Well-Care With PCP Code"
 		intersect DeduplicateBasedOnStartDate("Well-Care Without Duplicate Days")
 		)
+
+context Unfiltered
 		
 define "Numerator 0":
 	case ( "Initial Population"
@@ -112,8 +114,6 @@ define "Denominator":
     when true then 1
     else 0
   end
-
-context Unfiltered
 
 define "Denominator Count":
   Sum("Denominator")
