@@ -182,8 +182,9 @@
             "type": [ {
               "coding": [ {
                 "system": "http://snomed.info/sct",
-                "code": "162673000",
-                "display": "General examination of patient (procedure)"
+                "code": "112690009",
+                "version": "2021-03",
+                "display": "Nonacute Patient Stay - HPC should ignore this."
               } ],
               "text": "General examination of patient (procedure)"
             } ],
@@ -248,16 +249,11 @@
             },
             "type": [ {
               "coding": [ {
-                "system": "http://snomed.info/sct",
-                "code": "162673000",
-                "display": "General examination of patient (procedure)"
-              }, {
-                
                 "system":"http://snomed.info/sct",
                 "code": "112689000",
                 "display":"Inpatient Stay"
               } ],
-              "text": "General examination of patient (procedure)"
+              "text": "Inpatient Stay"
             } ],
             "subject": {
               "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae",
