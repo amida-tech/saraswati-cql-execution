@@ -10,6 +10,11 @@ valueset "Inpatient Stay": '2.16.840.1.113762.1.4.1182.285'
 valueset "Nonacute Inpatient Stay": '2.16.840.1.113762.1.4.1182.289'
 valueset "Observation Encounter": '2.16.840.1.113762.1.4.1181.72'
 valueset "Chemotherapy": '2.16.840.1.113762.1.4.1047.451'
+valueset "Rehabilitation Services": '2.16.840.1.113883.3.117.1.7.1.229'
+valueset "Rehabilitation Therapy": '2.16.840.1.113762.1.4.1045.19'
+valueset "Kidney Transplant": '2.16.840.1.113883.3.464.1003.109.11.1024'
+valueset "Bone Marrow Transplant": '2.16.840.1.113883.3.666.5.335'
+valueset "Organ Transplant": '2.16.840.1.113883.3.666.5.358'
 
 code "Patient deceased during stay": '371828006' from "SNOMEDCT" display 'Patient deceased during stay'
 code "Pregnancy": '305386002' from "SNOMEDCT" display 'Pregnancy'
@@ -20,6 +25,9 @@ parameter "Numerator Measurement Period" default Interval[@2020-01-03T00:00:00.0
 
 define "December of 2020":
    Date(2020, 12, 01)
+
+define "January of 2021":
+  Date(2021, 01, 01)
 
 context Patient
 
@@ -48,19 +56,24 @@ define "All Discharge List":
   "All Inpatient Discharge List" union "Observation Visit List"
 
 //Step 2
-define "Direct Transfers":
-  Last(
-    from
-      "Acute Discharge List" GAP,
-      "Acute Discharge List" GAP2
-      where GAP.subject = GAP2.subject
-           and (days between GAP.period.end and GAP2.period.start <= 1)
-           and GAP2.period.end <= "December of 2020"
-  )
+define "All Den Direct Transfers":
+  from
+    "Acute Discharge List" GAP,
+    "Acute Discharge List" GAP2
+    where GAP.subject = GAP2.subject
+       and (days between GAP.period.end and GAP2.period.start <= 1)
+       and GAP2.period.end <= "December of 2020"
+  return GAP2
+
+define "Final Den Direct Transfer":
+  Last("All Den Direct Transfers")
+
+define "Den Direct Transfers":
+    "Num Acute Discharge List" except "All Den Direct Transfers" union {"Final Den Direct Transfer"}
 
 //Step 3
 define "Multi-Day Visits":
-  [Encounter: "Direct Transfers"] DT
+  "Den Direct Transfers" DT
     where (days between DT.period.end and DT.period.start > 1)
 
 //Step 4
@@ -77,11 +90,12 @@ define "Continuous Enrollment":
     "All Discharge List" ALL
       where (ALL.period.end occurs 365 days or less before NDOP.period.end)
         or (ALL.period.end occurs 30 days or less after NDOP.period.end)
+  return ALL
 
 // Step 6 Remove hospital stays for outlier members
 define "Remove Outliers":
-  case Count([Encounter: "Continuous Enrollment"]) > 4
-    when true then [Encounter: "Continuous Enrollment"]
+  case Count("Continuous Enrollment") > 4
+    when true then "Continuous Enrollment"
     else {}
   end
 
@@ -109,24 +123,40 @@ define "Num Acute Discharge List":
     union "Num Observation Visit List"
 
 //Step 2
+define "All Num Direct Transfers":
+  from
+    "Num Acute Discharge List" GAP,
+    "Num Acute Discharge List" GAP2
+    where GAP.subject = GAP2.subject
+       and (days between GAP.period.end and GAP2.period.start <= 1)
+       and GAP2.period.end <= "January of 2021"
+  return GAP2
+
+define "Final Num Direct Transfer":
+  Last("All Num Direct Transfers")
+
 define "Num Direct Transfers":
-  Last(
-    from
-      "Num Acute Discharge List" GAP,
-      "Num Acute Discharge List" GAP2
-      where GAP.subject = GAP2.subject
-           and (days between GAP.period.end and GAP2.period.start <= 1)
-           and GAP2.period.end <= "December of 2020"
-  )
+    "Num Acute Discharge List" except "All Num Direct Transfers" union {"Final Num Direct Transfer"}
 
 // Step 3
+define "Numerator Exclusions":
+  [Encounter: "Chemotherapy"]
+    union [Encounter: "Rehabilitation Services"]
+    union [Encounter: "Rehabilitation Therapy"]
+    union [Encounter: "Kidney Transplant"]
+    union [Encounter: "Bone Marrow Transplant"]
+    union [Encounter: "Organ Transplant"]
+
 define "Num No Pregnancy":
-  [Encounter: "Num Direct Transfers"] NDT
+  "Num Direct Transfers" NDT
     where NDT.hospitalization.dischargeDisposition !~ "Pregnancy"
 
+define "Valid Num Encounters":
+  "Num No Pregnancy" except "Numerator Exclusions"
+
 // Step 4
-define "Readmission":
-  from
+define "Numerator":
+  Count(from
     "Num No Pregnancy" NNP,
-    [Encounter: "Continuous Enrollment"] CE
-      where days between CE.period.end and NNP.period.start <=30
+    "Continuous Enrollment" CE
+      where days between CE.period.end and NNP.period.start <=30)
