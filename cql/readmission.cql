@@ -15,6 +15,8 @@ valueset "Rehabilitation Therapy": '2.16.840.1.113762.1.4.1045.19'
 valueset "Kidney Transplant": '2.16.840.1.113883.3.464.1003.109.11.1024'
 valueset "Bone Marrow Transplant": '2.16.840.1.113883.3.666.5.335'
 valueset "Organ Transplant": '2.16.840.1.113883.3.666.5.358'
+valueset "Female Administrative Sex": '2.16.840.1.113883.3.560.100.2'
+valueset "Male Administrative Sex": '2.16.840.1.113883.3.560.100.1'
 
 code "Patient deceased during stay": '371828006' from "SNOMEDCT" display 'Patient deceased during stay'
 code "Pregnancy": '305386002' from "SNOMEDCT" display 'Pregnancy'
@@ -157,6 +159,43 @@ define "Valid Num Encounters":
 // Step 4
 define "Numerator":
   Count(from
-    "Num No Pregnancy" NNP,
+    "Valid Num Encounters" NNP,
     "Continuous Enrollment" CE
       where days between CE.period.end and NNP.period.start <=30)
+
+define function AgeGenderWeight(encounter FHIR.Encounter):
+  case getInsurance(encounter)
+    when 'Medicare' then medicareObservation(encounter)
+    when 'Medicaid' then medicaidObservation(encounter)
+    else commercialObservation(encounter)
+  end
+
+define function medicareObservation(encounter FHIR.Encounter):
+  case
+    when AgeInYearsAt(encounter.period.end) <= 44 then if isMale() then -2.1122 else -2.2225
+    when AgeInYearsAt(encounter.period.end) <= 54 then if isMale() then -2.3449 else -2.2655
+    when AgeInYearsAt(encounter.period.end) <= 64 then if isMale() then -2.2943 else -2.3833
+    when AgeInYearsAt(encounter.period.end) <= 74 then if isMale() then -2.5745 else -2.5870
+    when AgeInYearsAt(encounter.period.end) <= 84 then if isMale() then -2.4921 else -2.5367
+    else if isMale() then -2.5397 else -2.5696
+  end
+
+define function medicaidObservation(encounter FHIR.Encounter):
+  case
+    when AgeInYearsAt(encounter.period.end) <= 44 then if isMale() then -2.6788 else -2.7841
+    when AgeInYearsAt(encounter.period.end) <= 54 then if isMale() then -2.6552 else -2.7211
+    else if isMale() then -2.5792 else -2.6547
+  end
+
+define function commercialObservation(encounter FHIR.Encounter):
+  case
+    when AgeInYearsAt(encounter.period.end) <= 44 then if isMale() then -2.3867 else -2.4909
+    when AgeInYearsAt(encounter.period.end) <= 54 then if isMale() then -2.4489 else -2.4945
+    else if isMale() then -2.4410 else -2.4661
+  end
+
+define function getInsurance(encounter FHIR.Encounter):
+  FHIRHelpers.ToString(Last(encounter.account).display)
+
+define function isMale():
+  Patient.gender in "Male Administrative Sex"
