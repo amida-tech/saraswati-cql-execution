@@ -2,9 +2,10 @@
     {
         "resourceType": "Bundle",
         "type": "transaction",
+        "id": "whatever",
         "entry": [ {
           "fullUrl": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae",
-          "resource": {
+          "resource": { 
             "resourceType": "Patient",
             "id": "a300389f-259b-ee78-df91-971d28555fae",
             "meta": {
@@ -317,10 +318,10 @@
             "type": [ {
               "coding": [ {
                 "system": "http://snomed.info/sct",
-                "code": "162673000",
-                "display": "General examination of patient (procedure)"
+                "code": "257585005",
+                "display": "Observation Stay"
               } ],
-              "text": "General examination of patient (procedure)"
+              "text": "Observation Stay"
             } ],
             "subject": {
               "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae",
@@ -384,10 +385,10 @@
             "type": [ {
               "coding": [ {
                 "system": "http://snomed.info/sct",
-                "code": "162673000",
-                "display": "General examination of patient (procedure)"
+                "code": "285201006",
+                "display": "Observation Stay"
               } ],
-              "text": "General examination of patient (procedure)"
+              "text": "Observation Stay"
             } ],
             "subject": {
               "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae",
@@ -536,7 +537,7 @@
               "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
             },
             "encounter": {
-              "reference": "urn:uuid:47014030-92bf-892e-f39e-9e9f1a9a416c"
+              "reference": "urn:uuid:784d9f35-42a9-3fa4-b505-4292f7bfd29d"
             },
             "onsetDateTime": "2016-03-19T20:59:51-04:00",
             "recordedDate": "2016-03-19T20:59:51-04:00"
@@ -574,11 +575,11 @@
             } ],
             "code": {
               "coding": [ {
-                "system": "http://snomed.info/sct",
-                "code": "410429000",
-                "display": "Cardiac Arrest"
+                "system": "ICD10CM",
+                "code": "E10.641",
+                "display": "Diabetes Short Term Complications"
               } ],
-              "text": "Cardiac Arrest"
+              "text": "Diabetes Short Term Complications"
             },
             "subject": {
               "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -622,9 +623,10 @@
             } ],
             "code": {
               "coding": [ {
-                "system": "http://snomed.info/sct",
-                "code": "429007001",
-                "display": "History of cardiac arrest (situation)"
+                "system": "ICD10CM",
+                "code": "E10.21",
+                "version": "2019-10-01",
+                "display": "Diabetes Long Term Complications"
               } ],
               "text": "History of cardiac arrest (situation)"
             },
@@ -632,7 +634,7 @@
               "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
             },
             "encounter": {
-              "reference": "urn:uuid:db742bac-c437-4ced-17c0-cd8efdd95423"
+              "reference": "urn:uuid:54356c70-3b08-d655-3d95-82458b416d14"
             },
             "onsetDateTime": "2017-02-25T19:59:51-05:00",
             "recordedDate": "2017-02-25T19:59:51-05:00"

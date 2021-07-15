@@ -25,6 +25,28 @@
          "errorType" : "semantic",
          "errorSeverity" : "warning",
          "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "preventable_complications",
+         "libraryVersion" : "1",
+         "startLine" : 142,
+         "startChar" : 18,
+         "endLine" : 144,
+         "endChar" : 51,
+         "message" : "Boolean-valued expression was promoted to a list.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "preventable_complications",
+         "libraryVersion" : "1",
+         "startLine" : 142,
+         "startChar" : 18,
+         "endLine" : 144,
+         "endChar" : 51,
+         "message" : "Boolean-valued expression was promoted to a list.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
       } ],
       "identifier" : {
          "id" : "preventable_complications",
@@ -864,105 +886,108 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Last",
-               "source" : {
-                  "type" : "Query",
-                  "source" : [ {
-                     "alias" : "GAP",
-                     "expression" : {
-                        "name" : "General ACSC Population",
-                        "type" : "ExpressionRef"
-                     }
-                  }, {
-                     "alias" : "GAP2",
-                     "expression" : {
-                        "name" : "General ACSC Population",
-                        "type" : "ExpressionRef"
-                     }
-                  } ],
-                  "relationship" : [ ],
-                  "where" : {
-                     "type" : "And",
-                     "operand" : [ {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "GAP",
+                  "expression" : {
+                     "name" : "General ACSC Population",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "alias" : "GAP2",
+                  "expression" : {
+                     "name" : "General ACSC Population",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Last",
+                  "source" : {
+                     "type" : "ToList",
+                     "operand" : {
                         "type" : "And",
                         "operand" : [ {
-                           "type" : "Equal",
+                           "type" : "And",
                            "operand" : [ {
-                              "path" : "subject",
-                              "scope" : "GAP",
-                              "type" : "Property"
+                              "type" : "Equal",
+                              "operand" : [ {
+                                 "path" : "subject",
+                                 "scope" : "GAP",
+                                 "type" : "Property"
+                              }, {
+                                 "path" : "subject",
+                                 "scope" : "GAP2",
+                                 "type" : "Property"
+                              } ]
                            }, {
-                              "path" : "subject",
-                              "scope" : "GAP2",
-                              "type" : "Property"
+                              "type" : "LessOrEqual",
+                              "operand" : [ {
+                                 "precision" : "Day",
+                                 "type" : "DurationBetween",
+                                 "operand" : [ {
+                                    "name" : "ToDateTime",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "end",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "path" : "period",
+                                          "scope" : "GAP",
+                                          "type" : "Property"
+                                       }
+                                    } ]
+                                 }, {
+                                    "name" : "ToDateTime",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "start",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "path" : "period",
+                                          "scope" : "GAP2",
+                                          "type" : "Property"
+                                       }
+                                    } ]
+                                 } ]
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                 "value" : "1",
+                                 "type" : "Literal"
+                              } ]
                            } ]
                         }, {
                            "type" : "LessOrEqual",
                            "operand" : [ {
-                              "precision" : "Day",
-                              "type" : "DurationBetween",
+                              "name" : "ToDateTime",
+                              "libraryName" : "FHIRHelpers",
+                              "type" : "FunctionRef",
                               "operand" : [ {
-                                 "name" : "ToDateTime",
-                                 "libraryName" : "FHIRHelpers",
-                                 "type" : "FunctionRef",
-                                 "operand" : [ {
-                                    "path" : "end",
-                                    "type" : "Property",
-                                    "source" : {
-                                       "path" : "period",
-                                       "scope" : "GAP",
-                                       "type" : "Property"
-                                    }
-                                 } ]
-                              }, {
-                                 "name" : "ToDateTime",
-                                 "libraryName" : "FHIRHelpers",
-                                 "type" : "FunctionRef",
-                                 "operand" : [ {
-                                    "path" : "start",
-                                    "type" : "Property",
-                                    "source" : {
-                                       "path" : "period",
-                                       "scope" : "GAP2",
-                                       "type" : "Property"
-                                    }
-                                 } ]
+                                 "path" : "end",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "period",
+                                    "scope" : "GAP2",
+                                    "type" : "Property"
+                                 }
                               } ]
                            }, {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                              "value" : "1",
-                              "type" : "Literal"
-                           } ]
-                        } ]
-                     }, {
-                        "type" : "LessOrEqual",
-                        "operand" : [ {
-                           "name" : "ToDateTime",
-                           "libraryName" : "FHIRHelpers",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "path" : "end",
-                              "type" : "Property",
-                              "source" : {
-                                 "path" : "period",
-                                 "scope" : "GAP2",
-                                 "type" : "Property"
+                              "type" : "ToDateTime",
+                              "operand" : {
+                                 "name" : "December of 2020",
+                                 "type" : "ExpressionRef"
                               }
                            } ]
-                        }, {
-                           "type" : "ToDateTime",
-                           "operand" : {
-                              "name" : "December of 2020",
-                              "type" : "ExpressionRef"
-                           }
                         } ]
-                     } ]
-                  },
-                  "return" : {
-                     "expression" : {
-                        "name" : "GAP2",
-                        "type" : "AliasRef"
                      }
+                  }
+               },
+               "return" : {
+                  "expression" : {
+                     "name" : "GAP2",
+                     "type" : "AliasRef"
                   }
                }
             }
@@ -1966,11 +1991,8 @@
                "operand" : [ {
                   "type" : "Count",
                   "source" : {
-                     "type" : "ToList",
-                     "operand" : {
-                        "name" : "Identify Chronic ACSC Discharges by Claim",
-                        "type" : "ExpressionRef"
-                     }
+                     "name" : "Identify Chronic ACSC Discharges by Claim",
+                     "type" : "ExpressionRef"
                   }
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
@@ -1987,11 +2009,8 @@
                "operand" : [ {
                   "type" : "Count",
                   "source" : {
-                     "type" : "ToList",
-                     "operand" : {
-                        "name" : "Identify Chronic ACSC Discharges by Claim",
-                        "type" : "ExpressionRef"
-                     }
+                     "name" : "Identify Chronic ACSC Discharges by Claim",
+                     "type" : "ExpressionRef"
                   }
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
@@ -2008,11 +2027,8 @@
                "operand" : [ {
                   "type" : "Count",
                   "source" : {
-                     "type" : "ToList",
-                     "operand" : {
-                        "name" : "Identify Acute ACSC Discharges by Claim",
-                        "type" : "ExpressionRef"
-                     }
+                     "name" : "Identify Acute ACSC Discharges by Claim",
+                     "type" : "ExpressionRef"
                   }
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
@@ -2029,11 +2045,8 @@
                "operand" : [ {
                   "type" : "Count",
                   "source" : {
-                     "type" : "ToList",
-                     "operand" : {
-                        "name" : "Identify Acute ACSC Discharges by Claim",
-                        "type" : "ExpressionRef"
-                     }
+                     "name" : "Identify Acute ACSC Discharges by Claim",
+                     "type" : "ExpressionRef"
                   }
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",

@@ -136,15 +136,13 @@ define "General ACSC Population":
 
 // Step 2. Return the last encounter of the Chronic ACSC Population.
 define "Direct Transfers": 
-  Last(
     from
       "General ACSC Population" GAP,
       "General ACSC Population" GAP2
-      where GAP.subject = GAP2.subject
+      where Last(GAP.subject = GAP2.subject
           and (days between GAP.period.end and GAP2.period.start <= 1)
-          and GAP2.period.end <= "December of 2020"
+          and GAP2.period.end <= "December of 2020")
       return GAP2
-      )
       
 
 // Step 3 for Chronic. Identify discharges by claim. CBT
