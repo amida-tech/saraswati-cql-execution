@@ -36,18 +36,21 @@ context Patient
 //Denominator
 //Step 1
 define "All Inpatient Discharge List":
-  [Encounter: "Inpatient Stay"] Enc
-    where Enc.status = 'finished'
-    and Enc.period starts during "Denominator Measurement Period"
+  [ExplanationOfBenefit: "Inpatient Stay"] EOB
+   with [Encounter] enc
+    such that enc.status = 'finished'
+    and enc.period starts during "Denominator Measurement Period"
 
 define "Nonacute Inpatient Discharge List":
-  [Encounter: "Nonacute Inpatient Stay"] E
-    where E.status ~ 'finished'
+  [ExplanationOfBenefit: "Nonacute Inpatient Stay"] EOB
+    with [Encounter] E
+    such that E.status ~ 'finished'
     and E.period starts during "Denominator Measurement Period"
 
 define "Observation Visit List":
-  [Encounter: "Observation Encounter"] E
-    where E.status ~'finished'
+  [ExplanationOfBenefit: "Nonacute Inpatient Stay"] EOB
+    with [Encounter] E
+    such that E.status ~'finished'
     and E.period starts during "Denominator Measurement Period"
 
 define "Acute Discharge List":
@@ -62,46 +65,79 @@ define "All Den Direct Transfers":
   from
     "Acute Discharge List" GAP,
     "Acute Discharge List" GAP2
-    where GAP.subject = GAP2.subject
-       and (days between GAP.period.end and GAP2.period.start <= 1)
-       and GAP2.period.end <= "December of 2020"
+    where getEncounter(GAP).subject = getEncounter(GAP2).subject
+       and (days between getEncounter(GAP).period.end and getEncounter(GAP2).period.start <= 1)
+       and getEncounter(GAP2).period.end <= "December of 2020"
   return GAP2
 
 define "Final Den Direct Transfer":
   Last("All Den Direct Transfers")
 
 define "Den Direct Transfers":
-    "Num Acute Discharge List" except "All Den Direct Transfers" union {"Final Den Direct Transfer"}
+    "Acute Discharge List" except "All Den Direct Transfers" union {"Final Den Direct Transfer"}
 
 //Step 3
 define "Multi-Day Visits":
   "Den Direct Transfers" DT
-    where (days between DT.period.end and DT.period.start > 1)
+    where (days between getEncounter(DT).period.end and getEncounter(DT).period.start > 1)
 
 //Step 4
 define "No Death or Pregnancy":
   "Multi-Day Visits" MDV
-    where MDV.hospitalization.dischargeDisposition !~ "Patient deceased during stay"
-      and not contains(MDV.reasonCode.coding, "Pregnancy")
-        and not contains(MDV.reasonCode.coding, "Perinatal")
+    where getEncounter(MDV).hospitalization.dischargeDisposition !~ "Patient deceased during stay"
+      and not contains(getEncounter(MDV).reasonCode.coding, "Pregnancy")
+        and not contains(getEncounter(MDV).reasonCode.coding, "Perinatal")
 
 // Step 5 continuous enrollment
 define "Continuous Enrollment":
   from
     "No Death or Pregnancy" NDOP,
     "All Discharge List" ALL
-      where (ALL.period.end occurs 365 days or less before NDOP.period.end)
-        or (ALL.period.end occurs 30 days or less after NDOP.period.end)
+      where (getEncounter(ALL).period.end occurs 365 days or less before getEncounter(NDOP).period.end)
+        or (getEncounter(ALL).period.end occurs 30 days or less after getEncounter(NDOP).period.end)
   return ALL
 
 // Step 6 Remove hospital stays for outlier members
 define "Remove Outliers":
-  case Count("Continuous Enrollment") > 4
-    when true then "Continuous Enrollment"
-    else {}
+  case getInsurance(First("Continuous Enrollment"))
+    when 'Medicare' then if Count("Continuous Enrollment") < 4 then "Continuous Enrollment" else {}
+    when 'Medicaid' then if Count("Continuous Enrollment") < 4 then "Continuous Enrollment" else {}
+    else if Count("Continuous Enrollment") < 3 then "Continuous Enrollment" else {}
   end
 
 // Step 7
+define "Denominator Score":
+  getDenominatorScore("Remove Outliers")
+
+define function getDenominatorScore(eobs List<ExplanationOfBenefit>):
+  case
+    when Count("Remove Outliers") = 1 then "getEncounterScore"("Remove Outliers"[0])
+    when Count("Remove Outliers") = 2 then "getEncounterScore"("Remove Outliers"[0]) + "getEncounterScore"("Remove Outliers"[1])
+    when Count("Remove Outliers") = 3 then "getEncounterScore"("Remove Outliers"[0]) + "getEncounterScore"("Remove Outliers"[1]) + "getEncounterScore"("Remove Outliers"[2])
+    else 0
+  end
+
+define function getEncounterScore(eob ExplanationOfBenefit):
+  "AgeGenderWeight"(eob) + "surgeryOrObservation"(eob)
+
+define function surgeryOrObservation(eob ExplanationOfBenefit):
+  case
+    when isObservation(eob) then getObservationWeight(eob)
+    else getSurgeryWeight(eob)
+  end
+
+define function isObservation(eob ExplanationOfBenefit):
+  eob in "Observation Visit List"
+
+define function getObservationWeight(eob ExplanationOfBenefit):
+  case getInsurance(eob)
+    when 'Medicare' then if AgeInYearsAt(getEncounter(eob).period.end) < 65 then -0.1496 else -0.0970
+    when 'Medicaid' then -0.0337
+    else -0.6263
+  end
+
+define function getSurgeryWeight(eob ExplanationOfBenefit):
+  -0.5
 
 //Numerator
 //Step 1
@@ -161,16 +197,16 @@ define "Numerator":
   Count(from
     "Valid Num Encounters" NNP,
     "Continuous Enrollment" CE
-      where days between CE.period.end and NNP.period.start <=30)
+      where days between getEncounter(CE).period.end and NNP.period.start <=30)
 
-define function AgeGenderWeight(encounter FHIR.Encounter):
-  case getInsurance(encounter)
-    when 'Medicare' then medicareObservation(encounter)
-    when 'Medicaid' then medicaidObservation(encounter)
-    else commercialObservation(encounter)
+define function AgeGenderWeight(eob ExplanationOfBenefit):
+  case getInsurance(eob)
+    when 'Medicare' then medicareAgeGenderWeight(getEncounter(eob))
+    when 'Medicaid' then medicaidAgeGenderWeight(getEncounter(eob))
+    else commercialAgeGenderWeight(getEncounter(eob))
   end
 
-define function medicareObservation(encounter FHIR.Encounter):
+define function medicareAgeGenderWeight(encounter Encounter):
   case
     when AgeInYearsAt(encounter.period.end) <= 44 then if isMale() then -2.1122 else -2.2225
     when AgeInYearsAt(encounter.period.end) <= 54 then if isMale() then -2.3449 else -2.2655
@@ -180,22 +216,25 @@ define function medicareObservation(encounter FHIR.Encounter):
     else if isMale() then -2.5397 else -2.5696
   end
 
-define function medicaidObservation(encounter FHIR.Encounter):
+define function medicaidAgeGenderWeight(encounter Encounter):
   case
     when AgeInYearsAt(encounter.period.end) <= 44 then if isMale() then -2.6788 else -2.7841
     when AgeInYearsAt(encounter.period.end) <= 54 then if isMale() then -2.6552 else -2.7211
     else if isMale() then -2.5792 else -2.6547
   end
 
-define function commercialObservation(encounter FHIR.Encounter):
+define function commercialAgeGenderWeight(encounter Encounter):
   case
     when AgeInYearsAt(encounter.period.end) <= 44 then if isMale() then -2.3867 else -2.4909
     when AgeInYearsAt(encounter.period.end) <= 54 then if isMale() then -2.4489 else -2.4945
     else if isMale() then -2.4410 else -2.4661
   end
 
-define function getInsurance(encounter FHIR.Encounter):
-  FHIRHelpers.ToString(Last(encounter.account).display)
+define function getInsurance(eob ExplanationOfBenefit):
+  Last(([Coverage] cov where Last(eob.insurance).coverage.identifier in cov.identifier).type.text).value
 
 define function isMale():
   Patient.gender in "Male Administrative Sex"
+
+define function getEncounter(eob ExplanationOfBenefit):
+  Last([Encounter] enc where Last(eob.item.encounter).identifier in enc.identifier)
