@@ -43,8 +43,15 @@ const execute = (measure, patients, codeservice) => {
   patientSource.loadBundles(patients);
 
   const result = executor.exec(patientSource);
-  //console.log(result.patientResults); // eslint-disable-line no-console
-
+  // console.log(JSON.stringify(result.patientResults['a300389f-259b-ee78-df91-971d28555fae'])); // eslint-disable-line no-console
+   for (const item in result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers']) {
+    console.log(JSON.stringify(result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers'][item]["identifier"]));
+    console.log(JSON.stringify(result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers'][item]["period"]));
+    console.log(JSON.stringify(result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers'][item]["subject"]));
+  }
+  console.log(("---------------------"));
+  // console.log(JSON.stringify(result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers']));
+  
   const cleanedPatientResults = cleanData(result.patientResults);
 
   const convertToJSONL = err => {

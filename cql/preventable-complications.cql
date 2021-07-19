@@ -134,16 +134,42 @@ define "General ACSC Population":
     ) TotalStays
     where TotalStays.status in {'finished'}
 
-// Step 2. Return the last encounter of the Chronic ACSC Population.
-define "Direct Transfers": 
-    from
-      "General ACSC Population" GAP,
-      "General ACSC Population" GAP2
-      where Last(GAP.subject = GAP2.subject
-          and (days between GAP.period.end and GAP2.period.start <= 1)
-          and GAP2.period.end <= "December of 2020")
-      return GAP2
-      
+// define "Direct Transfers":
+//   "General ACSC Population" GAP
+//     with "General ACSC Population" GAP2
+//       such that GAP.subject = GAP2.subject
+//         and GAP.id != GAP2.id
+//         and (duration in days between GAP.period.end and GAP2.period.start) <= 1
+//        and GAP2.period.end <= "Measurement Year End"
+
+// define "Direct Transfers":
+//   from
+//       "General ACSC Population" GAP
+//       where "Direct Transfers Helper"(GAP)
+//       return GAP
+
+// And this?
+// define function "Direct Transfers Helper"(DTE Encounter):
+  // exists("General ACSC Population" GAP
+    // where DTE.subject = GAP.subject
+          // and DTE.id != GAP.id
+          // and DTE.period.start before GAP.period.start
+          // and (duration in days between GAP.period.end and DTE.period.start <= 1)
+          // )
+ //         and GAP.period.end <= "Measurement Year End")
+          
+
+define "Direct Transfers":
+  unique(from 
+    "General ACSC Population" GAP
+      such that "Direct Transfers Helper"(GAP)
+      return GAP)
+
+define function "Direct Transfers Helper"(DTE Encounter):
+  Last("General ACSC Population" GAP
+    where DTE.subject = GAP.subject
+      and DTE.id != GAP.id
+      and (duration in days between DTE.period.start and GAP.period.end <= 1))
 
 // Step 3 for Chronic. Identify discharges by claim. CBT
 define "Identify Chronic ACSC Discharges by Claim":
@@ -255,6 +281,6 @@ define "Total ACSC Outliers":
     else 2
   end
 
-define "December of 2020":
+define "Measurement Year End":
   Date(2020, 12, 01)
 
