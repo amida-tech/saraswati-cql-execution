@@ -230,7 +230,7 @@
             "id" : "2.16.840.1.113762.1.4.1182.289",
             "accessLevel" : "Public"
          }, {
-            "name" : "Observation Encounter",
+            "name" : "Observation Stay",
             "id" : "2.16.840.1.113762.1.4.1181.72",
             "accessLevel" : "Public"
          }, {
@@ -446,7 +446,7 @@
                      "codeComparator" : "in",
                      "type" : "Retrieve",
                      "codes" : {
-                        "name" : "Nonacute Inpatient Stay",
+                        "name" : "Observation Stay",
                         "type" : "ValueSetRef"
                      }
                   },
@@ -1515,22 +1515,46 @@
                }
             }
          }, {
-            "name" : "Num All Inpatient Discharge List",
+            "name" : "Numerator Gen Pop",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "Query",
                "source" : [ {
-                  "alias" : "Enc",
+                  "alias" : "TotalStays",
                   "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Encounter",
-                     "codeProperty" : "type",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Inpatient Stay",
-                        "type" : "ValueSetRef"
-                     }
+                     "type" : "Except",
+                     "operand" : [ {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}Encounter",
+                           "codeProperty" : "type",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Inpatient Stay",
+                              "type" : "ValueSetRef"
+                           }
+                        }, {
+                           "dataType" : "{http://hl7.org/fhir}Encounter",
+                           "codeProperty" : "type",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Observation Stay",
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
+                     }, {
+                        "dataType" : "{http://hl7.org/fhir}Encounter",
+                        "codeProperty" : "type",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Nonacute Inpatient Stay",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
                   }
                } ],
                "relationship" : [ ],
@@ -1544,7 +1568,7 @@
                         "type" : "FunctionRef",
                         "operand" : [ {
                            "path" : "status",
-                           "scope" : "Enc",
+                           "scope" : "TotalStays",
                            "type" : "Property"
                         } ]
                      }, {
@@ -1562,7 +1586,7 @@
                            "type" : "FunctionRef",
                            "operand" : [ {
                               "path" : "period",
-                              "scope" : "Enc",
+                              "scope" : "TotalStays",
                               "type" : "Property"
                            } ]
                         }
@@ -1572,144 +1596,6 @@
                      } ]
                   } ]
                }
-            }
-         }, {
-            "name" : "Num Nonacute Inpatient Discharge List",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "E",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Encounter",
-                     "codeProperty" : "type",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Nonacute Inpatient Stay",
-                        "type" : "ValueSetRef"
-                     }
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "And",
-                  "operand" : [ {
-                     "type" : "Equivalent",
-                     "operand" : [ {
-                        "name" : "ToString",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "path" : "status",
-                           "scope" : "E",
-                           "type" : "Property"
-                        } ]
-                     }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                        "value" : "finished",
-                        "type" : "Literal"
-                     } ]
-                  }, {
-                     "type" : "In",
-                     "operand" : [ {
-                        "type" : "Start",
-                        "operand" : {
-                           "name" : "ToInterval",
-                           "libraryName" : "FHIRHelpers",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "path" : "period",
-                              "scope" : "E",
-                              "type" : "Property"
-                           } ]
-                        }
-                     }, {
-                        "name" : "Numerator Measurement Period",
-                        "type" : "ParameterRef"
-                     } ]
-                  } ]
-               }
-            }
-         }, {
-            "name" : "Num Observation Visit List",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "E",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Encounter",
-                     "codeProperty" : "type",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Observation Encounter",
-                        "type" : "ValueSetRef"
-                     }
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "And",
-                  "operand" : [ {
-                     "type" : "Equivalent",
-                     "operand" : [ {
-                        "name" : "ToString",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "path" : "status",
-                           "scope" : "E",
-                           "type" : "Property"
-                        } ]
-                     }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                        "value" : "finished",
-                        "type" : "Literal"
-                     } ]
-                  }, {
-                     "type" : "In",
-                     "operand" : [ {
-                        "type" : "Start",
-                        "operand" : {
-                           "name" : "ToInterval",
-                           "libraryName" : "FHIRHelpers",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "path" : "period",
-                              "scope" : "E",
-                              "type" : "Property"
-                           } ]
-                        }
-                     }, {
-                        "name" : "Numerator Measurement Period",
-                        "type" : "ParameterRef"
-                     } ]
-                  } ]
-               }
-            }
-         }, {
-            "name" : "Num Acute Discharge List",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Union",
-               "operand" : [ {
-                  "type" : "Except",
-                  "operand" : [ {
-                     "name" : "Num All Inpatient Discharge List",
-                     "type" : "ExpressionRef"
-                  }, {
-                     "name" : "Num Nonacute Inpatient Discharge List",
-                     "type" : "ExpressionRef"
-                  } ]
-               }, {
-                  "name" : "Num Observation Visit List",
-                  "type" : "ExpressionRef"
-               } ]
             }
          }, {
             "name" : "numNonLastDirectTransfer",
@@ -1723,7 +1609,7 @@
                   "source" : [ {
                      "alias" : "ADL",
                      "expression" : {
-                        "name" : "Num Acute Discharge List",
+                        "name" : "Numerator Gen Pop",
                         "type" : "ExpressionRef"
                      }
                   } ],
@@ -1811,7 +1697,7 @@
                "source" : [ {
                   "alias" : "GAP",
                   "expression" : {
-                     "name" : "Num Acute Discharge List",
+                     "name" : "Numerator Gen Pop",
                      "type" : "ExpressionRef"
                   }
                } ],
@@ -1844,7 +1730,7 @@
                "comparand" : {
                   "type" : "Count",
                   "source" : {
-                     "name" : "Num Acute Discharge List",
+                     "name" : "Numerator Gen Pop",
                      "type" : "ExpressionRef"
                   }
                },
@@ -1868,7 +1754,7 @@
                      "element" : [ {
                         "type" : "Indexer",
                         "operand" : [ {
-                           "name" : "Num Acute Discharge List",
+                           "name" : "Numerator Gen Pop",
                            "type" : "ExpressionRef"
                         }, {
                            "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
@@ -1879,7 +1765,7 @@
                   }
                } ],
                "else" : {
-                  "name" : "Num Acute Discharge List",
+                  "name" : "Numerator Gen Pop",
                   "type" : "ExpressionRef"
                }
             }

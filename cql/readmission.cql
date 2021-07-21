@@ -10,7 +10,7 @@ valueset "Chemotherapy": '2.16.840.1.113762.1.4.1047.451'
 valueset "Inpatient Stay": '2.16.840.1.113762.1.4.1182.285'
 valueset "Kidney Transplant": '2.16.840.1.113883.3.464.1003.109.11.1024'
 valueset "Nonacute Inpatient Stay": '2.16.840.1.113762.1.4.1182.289'
-valueset "Observation Encounter": '2.16.840.1.113762.1.4.1181.72'
+valueset "Observation Stay": '2.16.840.1.113762.1.4.1181.72'
 valueset "Organ Transplant": '2.16.840.1.113883.3.666.5.358'
 valueset "Rehabilitation Services": '2.16.840.1.113883.3.117.1.7.1.229'
 valueset "Rehabilitation Therapy": '2.16.840.1.113762.1.4.1045.19'
@@ -25,7 +25,7 @@ parameter "Numerator Measurement Period" default Interval[@2020-01-03T00:00:00.0
 context Patient
 //****************************************************************************//
 //Denominator
-//Step 1
+//Step 1 all acute inpatient and obervation stays with no non-acute inpatiant
 define "All Inpatient Discharge List":
   [ExplanationOfBenefit] EOB
    with [Encounter: "Inpatient Stay"] enc
@@ -40,7 +40,7 @@ define "Nonacute Inpatient Discharge List":
 
 define "Observation Visit List":
   [ExplanationOfBenefit] EOB
-    with [Encounter: "Nonacute Inpatient Stay"] E
+    with [Encounter: "Observation Stay"] E
       such that E.status ~ 'finished'
       and E.period starts during "Denominator Measurement Period"
 
@@ -51,7 +51,7 @@ define "Acute Discharge List":
 define "All Discharge List":
   "All Inpatient Discharge List" union "Observation Visit List"
 
-//Step 2
+//Step 2 Remove direct transfers but keep the last one
 define "Den Direct Transfers":
   "All Discharge List" GAP
     with [Encounter] enc
@@ -71,13 +71,13 @@ define "Workaround Direct Transfers":
     else {"All Discharge List"[0], "All Discharge List"[1]}
   end
 
-//Step 3
+//Step 3 -  Remove everyone who leaves the same day they arrive
 define "Multi-Day Visits":
   "Workaround Direct Transfers" DT
     with [Encounter] enc
       such that duration in days of enc.period >= 1
 
-//Step 4
+//Step 4 - Nobody who died during their stay or is pregnant
 define "No Death or Pregnancy":
   "Multi-Day Visits" MDV
     with [Encounter] enc
@@ -85,7 +85,7 @@ define "No Death or Pregnancy":
       and not contains(enc.reasonCode.coding, "Pregnancy")
       and not contains(enc.reasonCode.coding, "Perinatal")
 
-// Step 5 continuous enrollment
+// Step 5 continuous enrollment a year before and 30 days after
 define "Continuous Enrollment":
   "No Death or Pregnancy" NDOP
     with [Encounter] enc
@@ -97,7 +97,7 @@ define function hasContinuousEnrollment(enc Encounter):
       such that (enc2.period.end occurs 365 days or less before enc.period.end)
       or (enc2.period.end occurs 30 days or less after enc.period.end))
 
-// Step 6 Remove hospital stays for outlier members
+// Step 6 Remove hospital stays if you go to the hospital too much
 define "Final Denominator List":
   case getInsurance(First("Continuous Enrollment"))
     when 'Medicare' then if Count("Continuous Enrollment") < 4 then "Continuous Enrollment" else List<ExplanationOfBenefit>{}
@@ -112,51 +112,41 @@ define "Denominator Tuple":
   "Cast Denominator List" CDL with [Encounter] enc such that 1=1
   return Tuple { id: getEncounter(CDL).id, period: getEncounter(CDL).period}
 
-// Step 7
+// Step 7 Count of all stays remaining
 define "Denominator":
   Count("Final Denominator List")
 
 //****************************************************************************//
 //Numerator
-//Step 1
-define "Num All Inpatient Discharge List":
-  [Encounter: "Inpatient Stay"] Enc
-    where Enc.status ~ 'finished'
-    and Enc.period starts during "Numerator Measurement Period"
+//Step 1 all acute inpatient and obervation stays with no non-acute inpatiant
+define "Numerator Gen Pop":
+  ([Encounter: "Inpatient Stay"]
+    union [Encounter: "Observation Stay"]
+      except [Encounter: "Nonacute Inpatient Stay"]
+  ) TotalStays
+  where TotalStays.status ~ 'finished'
+  and TotalStays.period starts during "Numerator Measurement Period"
 
-define "Num Nonacute Inpatient Discharge List":
-  [Encounter: "Nonacute Inpatient Stay"] E
-    where E.status ~ 'finished'
-    and E.period starts during "Numerator Measurement Period"
-
-define "Num Observation Visit List":
-  [Encounter: "Observation Encounter"] E
-    where E.status ~ 'finished'
-    and E.period starts during "Numerator Measurement Period"
-
-define "Num Acute Discharge List":
-  ("Num All Inpatient Discharge List" except "Num Nonacute Inpatient Discharge List")
-    union "Num Observation Visit List"
-
-//Step 2
+//Step 2 Remove direct transfers but keep the last one
 define "Num Direct Transfers":
-  "Num Acute Discharge List" GAP
+  "Numerator Gen Pop" GAP
     with [Encounter] enc
     such that not numNonLastDirectTransfer(enc)
 
 define function numNonLastDirectTransfer(enc Encounter):
-  Exists("Num Acute Discharge List" ADL
+  Exists("Numerator Gen Pop" ADL
     with [Encounter] enc2
       such that enc.subject = enc2.subject
       and (days between enc.period.end and enc2.period.start <= 1))
 
 define "Num Workaround Direct Transfers":
-  case Count("Num Acute Discharge List")
+  case Count("Numerator Gen Pop")
     when 0 then List<Encounter>{}
-    when 1 then {"Num Acute Discharge List"[0]}
-    else "Num Acute Discharge List"
+    when 1 then {"Numerator Gen Pop"[0]}
+    else "Numerator Gen Pop"
   end
-// Step 3
+
+// Step 3 - Exlcude various encounters
 define "Numerator Exclusions":
   [Encounter: "Chemotherapy"]
     union [Encounter: "Rehabilitation Services"]
@@ -172,7 +162,7 @@ define "Num No Pregnancy":
 define "Valid Num Encounters":
   "Num No Pregnancy" except "Numerator Exclusions"
 
-// Step 4
+// Step 4 - Check the denominator for numerator encounters withing 30 days
 define "Final Numerator List":
   "Denominator Tuple" FDL where hasReadmission(FDL.id, FDL.period)
 
