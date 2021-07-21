@@ -1,0 +1,1622 @@
+{
+   "library" : {
+      "annotation" : [ {
+         "translatorOptions" : "",
+         "type" : "CqlToElmInfo"
+      }, {
+         "libraryId" : "well_child_visits_w15",
+         "libraryVersion" : "1",
+         "startLine" : 65,
+         "startChar" : 6,
+         "endLine" : 65,
+         "endChar" : 26,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "well_child_visits_w15",
+         "libraryVersion" : "1",
+         "startLine" : 64,
+         "startChar" : 9,
+         "endLine" : 64,
+         "endChar" : 28,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "well_child_visits_w15",
+         "libraryVersion" : "1",
+         "startLine" : 73,
+         "startChar" : 6,
+         "endLine" : 73,
+         "endChar" : 26,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "well_child_visits_w15",
+         "libraryVersion" : "1",
+         "startLine" : 72,
+         "startChar" : 9,
+         "endLine" : 72,
+         "endChar" : 28,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "well_child_visits_w15",
+         "libraryVersion" : "1",
+         "startLine" : 81,
+         "startChar" : 6,
+         "endLine" : 81,
+         "endChar" : 26,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "well_child_visits_w15",
+         "libraryVersion" : "1",
+         "startLine" : 80,
+         "startChar" : 9,
+         "endLine" : 80,
+         "endChar" : 28,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "well_child_visits_w15",
+         "libraryVersion" : "1",
+         "startLine" : 90,
+         "startChar" : 6,
+         "endLine" : 90,
+         "endChar" : 26,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "well_child_visits_w15",
+         "libraryVersion" : "1",
+         "startLine" : 89,
+         "startChar" : 9,
+         "endLine" : 89,
+         "endChar" : 28,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "well_child_visits_w15",
+         "libraryVersion" : "1",
+         "startLine" : 98,
+         "startChar" : 6,
+         "endLine" : 98,
+         "endChar" : 26,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "well_child_visits_w15",
+         "libraryVersion" : "1",
+         "startLine" : 97,
+         "startChar" : 9,
+         "endLine" : 97,
+         "endChar" : 28,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "well_child_visits_w15",
+         "libraryVersion" : "1",
+         "startLine" : 106,
+         "startChar" : 6,
+         "endLine" : 106,
+         "endChar" : 26,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "well_child_visits_w15",
+         "libraryVersion" : "1",
+         "startLine" : 105,
+         "startChar" : 9,
+         "endLine" : 105,
+         "endChar" : 28,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "well_child_visits_w15",
+         "libraryVersion" : "1",
+         "startLine" : 114,
+         "startChar" : 6,
+         "endLine" : 114,
+         "endChar" : 26,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "well_child_visits_w15",
+         "libraryVersion" : "1",
+         "startLine" : 113,
+         "startChar" : 9,
+         "endLine" : 113,
+         "endChar" : 28,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "well_child_visits_w15",
+         "libraryVersion" : "1",
+         "startLine" : 122,
+         "startChar" : 10,
+         "endLine" : 122,
+         "endChar" : 13,
+         "message" : "Boolean-valued expression was promoted to a list.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      } ],
+      "identifier" : {
+         "id" : "well_child_visits_w15",
+         "version" : "1"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localIdentifier" : "FHIR",
+            "uri" : "http://hl7.org/fhir",
+            "version" : "4.0.0"
+         } ]
+      },
+      "includes" : {
+         "def" : [ {
+            "localIdentifier" : "FHIRHelpers",
+            "path" : "FHIRHelpers",
+            "version" : "4.0.0"
+         } ]
+      },
+      "parameters" : {
+         "def" : [ {
+            "name" : "Measurement Period",
+            "accessLevel" : "Public",
+            "default" : {
+               "lowClosed" : true,
+               "highClosed" : false,
+               "type" : "Interval",
+               "low" : {
+                  "type" : "DateTime",
+                  "year" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2020",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  },
+                  "hour" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "minute" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "second" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "millisecond" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  }
+               },
+               "high" : {
+                  "type" : "DateTime",
+                  "year" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2020",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "12",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "31",
+                     "type" : "Literal"
+                  },
+                  "hour" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "23",
+                     "type" : "Literal"
+                  },
+                  "minute" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "59",
+                     "type" : "Literal"
+                  },
+                  "second" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "59",
+                     "type" : "Literal"
+                  },
+                  "millisecond" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "999",
+                     "type" : "Literal"
+                  }
+               }
+            }
+         } ]
+      },
+      "codeSystems" : {
+         "def" : [ {
+            "name" : "LOINC",
+            "id" : "http://loinc.org",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "SNOMED",
+            "id" : "http://snomed.info/sct",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "CQFramework",
+            "id" : "http://cqframework.info/codesystem/placeholder",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "valueSets" : {
+         "def" : [ {
+            "name" : "Well-Care",
+            "id" : "2.16.840.1.113883.3.464.1004.1262",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Telehealth Modifier",
+            "id" : "2.16.840.1.113762.1.4.1138.731",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Telehealth POS",
+            "id" : "2.16.840.1.113883.3.464.1003.101.11.1155",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Telephone Visits",
+            "id" : "2.16.840.1.113883.3.1444.5.216",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
+         }, {
+            "name" : "Unfiltered"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Patient",
+            "context" : "Patient",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "dataType" : "{http://hl7.org/fhir}Patient",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "name" : "Initial Population",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "type" : "Less",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "Measurement Period",
+                           "type" : "ParameterRef"
+                        }
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  } ]
+               }, {
+                  "type" : "GreaterOrEqual",
+                  "operand" : [ {
+                     "precision" : "Month",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "type" : "End",
+                        "operand" : {
+                           "name" : "Measurement Period",
+                           "type" : "ParameterRef"
+                        }
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "15",
+                     "type" : "Literal"
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "Well-Care before patient 15mo birthday",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E0",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "codeProperty" : "type",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Well-Care",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "LessOrEqual",
+                  "operand" : [ {
+                     "precision" : "Month",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "name" : "ToDateTime",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "end",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "period",
+                              "scope" : "E0",
+                              "type" : "Property"
+                           }
+                        } ]
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "15",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Well-Care Without Duplicate Days",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E0",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "codeProperty" : "type",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Well-Care",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "asc",
+                     "type" : "ByExpression",
+                     "expression" : {
+                        "type" : "Start",
+                        "operand" : {
+                           "name" : "ToInterval",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "period",
+                              "type" : "IdentifierRef"
+                           } ]
+                        }
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Well-Care Encounter Without Telehealth",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E0",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "codeProperty" : "type",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Well-Care",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "E1",
+                  "type" : "Without",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "codeProperty" : "type",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Telehealth Modifier",
+                        "type" : "ValueSetRef"
+                     }
+                  },
+                  "suchThat" : {
+                     "type" : "Exists",
+                     "operand" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "E1",
+                           "type" : "AliasRef"
+                        }
+                     }
+                  }
+               }, {
+                  "alias" : "E2",
+                  "type" : "Without",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "codeProperty" : "type",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Telehealth POS",
+                        "type" : "ValueSetRef"
+                     }
+                  },
+                  "suchThat" : {
+                     "type" : "Exists",
+                     "operand" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "E2",
+                           "type" : "AliasRef"
+                        }
+                     }
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Patient Pcp",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "P0",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Patient",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "P1",
+                  "type" : "With",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "$this",
+                        "expression" : {
+                           "path" : "generalPractitioner",
+                           "scope" : "P0",
+                           "type" : "Property"
+                        }
+                     } ],
+                     "where" : {
+                        "type" : "Not",
+                        "operand" : {
+                           "type" : "IsNull",
+                           "operand" : {
+                              "path" : "reference",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "$this",
+                                 "type" : "AliasRef"
+                              }
+                           }
+                        }
+                     },
+                     "return" : {
+                        "distinct" : false,
+                        "expression" : {
+                           "path" : "reference",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "$this",
+                              "type" : "AliasRef"
+                           }
+                        }
+                     }
+                  },
+                  "suchThat" : {
+                     "type" : "Exists",
+                     "operand" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "P1",
+                           "type" : "AliasRef"
+                        }
+                     }
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Well-Care With PCP Code",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E0",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "codeProperty" : "type",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Well-Care",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "P1",
+                  "type" : "With",
+                  "expression" : {
+                     "name" : "Patient Pcp",
+                     "type" : "ExpressionRef"
+                  },
+                  "suchThat" : {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "ToList",
+                           "operand" : {
+                              "name" : "P1",
+                              "type" : "AliasRef"
+                           }
+                        }
+                     }, {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "$this",
+                              "expression" : {
+                                 "type" : "Query",
+                                 "source" : [ {
+                                    "alias" : "$this",
+                                    "expression" : {
+                                       "path" : "participant",
+                                       "scope" : "E0",
+                                       "type" : "Property"
+                                    }
+                                 } ],
+                                 "where" : {
+                                    "type" : "Not",
+                                    "operand" : {
+                                       "type" : "IsNull",
+                                       "operand" : {
+                                          "path" : "individual",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "name" : "$this",
+                                             "type" : "AliasRef"
+                                          }
+                                       }
+                                    }
+                                 },
+                                 "return" : {
+                                    "distinct" : false,
+                                    "expression" : {
+                                       "path" : "individual",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "$this",
+                                          "type" : "AliasRef"
+                                       }
+                                    }
+                                 }
+                              }
+                           } ],
+                           "where" : {
+                              "type" : "Not",
+                              "operand" : {
+                                 "type" : "IsNull",
+                                 "operand" : {
+                                    "path" : "reference",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "name" : "$this",
+                                       "type" : "AliasRef"
+                                    }
+                                 }
+                              }
+                           },
+                           "return" : {
+                              "distinct" : false,
+                              "expression" : {
+                                 "path" : "reference",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "name" : "$this",
+                                    "type" : "AliasRef"
+                                 }
+                              }
+                           }
+                        }, {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "$this",
+                              "expression" : {
+                                 "path" : "generalPractitioner",
+                                 "scope" : "P1",
+                                 "type" : "Property"
+                              }
+                           } ],
+                           "where" : {
+                              "type" : "Not",
+                              "operand" : {
+                                 "type" : "IsNull",
+                                 "operand" : {
+                                    "path" : "reference",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "name" : "$this",
+                                       "type" : "AliasRef"
+                                    }
+                                 }
+                              }
+                           },
+                           "return" : {
+                              "distinct" : false,
+                              "expression" : {
+                                 "path" : "reference",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "name" : "$this",
+                                    "type" : "AliasRef"
+                                 }
+                              }
+                           }
+                        } ]
+                     } ]
+                  }
+               } ]
+            }
+         }, {
+            "name" : "DeduplicateBasedOnStartDate",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "type" : "Greater",
+                  "operand" : [ {
+                     "type" : "Count",
+                     "source" : {
+                        "name" : "Enc",
+                        "type" : "OperandRef"
+                     }
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  } ]
+               },
+               "then" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "N1",
+                     "expression" : {
+                        "name" : "Enc",
+                        "type" : "OperandRef"
+                     }
+                  } ],
+                  "relationship" : [ {
+                     "alias" : "N2",
+                     "type" : "With",
+                     "expression" : {
+                        "name" : "Enc",
+                        "type" : "OperandRef"
+                     },
+                     "suchThat" : {
+                        "type" : "And",
+                        "operand" : [ {
+                           "type" : "Equal",
+                           "operand" : [ {
+                              "type" : "Add",
+                              "operand" : [ {
+                                 "type" : "IndexOf",
+                                 "source" : {
+                                    "name" : "Enc",
+                                    "type" : "OperandRef"
+                                 },
+                                 "element" : {
+                                    "name" : "N2",
+                                    "type" : "AliasRef"
+                                 }
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                 "value" : "1",
+                                 "type" : "Literal"
+                              } ]
+                           }, {
+                              "type" : "IndexOf",
+                              "source" : {
+                                 "name" : "Enc",
+                                 "type" : "OperandRef"
+                              },
+                              "element" : {
+                                 "name" : "N1",
+                                 "type" : "AliasRef"
+                              }
+                           } ]
+                        }, {
+                           "type" : "Not",
+                           "operand" : {
+                              "type" : "Equal",
+                              "operand" : [ {
+                                 "path" : "start",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "period",
+                                    "scope" : "N1",
+                                    "type" : "Property"
+                                 }
+                              }, {
+                                 "path" : "start",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "period",
+                                    "scope" : "N2",
+                                    "type" : "Property"
+                                 }
+                              } ]
+                           }
+                        } ]
+                     }
+                  } ]
+               },
+               "else" : {
+                  "type" : "ToList",
+                  "operand" : {
+                     "type" : "Indexer",
+                     "operand" : [ {
+                        "name" : "Enc",
+                        "type" : "OperandRef"
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "0",
+                        "type" : "Literal"
+                     } ]
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "Enc",
+               "operandTypeSpecifier" : {
+                  "type" : "ListTypeSpecifier",
+                  "elementType" : {
+                     "name" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               }
+            } ]
+         }, {
+            "name" : "Valid Visit Counter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Count",
+               "source" : {
+                  "type" : "Intersect",
+                  "operand" : [ {
+                     "type" : "Intersect",
+                     "operand" : [ {
+                        "name" : "Well-Care before patient 15mo birthday",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "Well-Care Encounter Without Telehealth",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }, {
+                     "type" : "Intersect",
+                     "operand" : [ {
+                        "name" : "Well-Care With PCP Code",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "DeduplicateBasedOnStartDate",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "Well-Care Without Duplicate Days",
+                           "type" : "ExpressionRef"
+                        } ]
+                     } ]
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Numerator 0",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "SingletonFrom",
+                     "operand" : {
+                        "name" : "Initial Population",
+                        "type" : "ExpressionRef"
+                     }
+                  }, {
+                     "type" : "Equal",
+                     "operand" : [ {
+                        "type" : "SingletonFrom",
+                        "operand" : {
+                           "name" : "Valid Visit Counter",
+                           "type" : "ExpressionRef"
+                        }
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "0",
+                        "type" : "Literal"
+                     } ]
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Numerator 1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "SingletonFrom",
+                     "operand" : {
+                        "name" : "Initial Population",
+                        "type" : "ExpressionRef"
+                     }
+                  }, {
+                     "type" : "Equal",
+                     "operand" : [ {
+                        "type" : "SingletonFrom",
+                        "operand" : {
+                           "name" : "Valid Visit Counter",
+                           "type" : "ExpressionRef"
+                        }
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "1",
+                        "type" : "Literal"
+                     } ]
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Numerator 2",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "SingletonFrom",
+                     "operand" : {
+                        "name" : "Initial Population",
+                        "type" : "ExpressionRef"
+                     }
+                  }, {
+                     "type" : "Equal",
+                     "operand" : [ {
+                        "type" : "SingletonFrom",
+                        "operand" : {
+                           "name" : "Valid Visit Counter",
+                           "type" : "ExpressionRef"
+                        }
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "2",
+                        "type" : "Literal"
+                     } ]
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Numerator 3",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "SingletonFrom",
+                     "operand" : {
+                        "name" : "Initial Population",
+                        "type" : "ExpressionRef"
+                     }
+                  }, {
+                     "type" : "Equal",
+                     "operand" : [ {
+                        "type" : "SingletonFrom",
+                        "operand" : {
+                           "name" : "Valid Visit Counter",
+                           "type" : "ExpressionRef"
+                        }
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "3",
+                        "type" : "Literal"
+                     } ]
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Numerator 4",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "SingletonFrom",
+                     "operand" : {
+                        "name" : "Initial Population",
+                        "type" : "ExpressionRef"
+                     }
+                  }, {
+                     "type" : "Equal",
+                     "operand" : [ {
+                        "type" : "SingletonFrom",
+                        "operand" : {
+                           "name" : "Valid Visit Counter",
+                           "type" : "ExpressionRef"
+                        }
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "4",
+                        "type" : "Literal"
+                     } ]
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Numerator 5",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "SingletonFrom",
+                     "operand" : {
+                        "name" : "Initial Population",
+                        "type" : "ExpressionRef"
+                     }
+                  }, {
+                     "type" : "Equal",
+                     "operand" : [ {
+                        "type" : "SingletonFrom",
+                        "operand" : {
+                           "name" : "Valid Visit Counter",
+                           "type" : "ExpressionRef"
+                        }
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "5",
+                        "type" : "Literal"
+                     } ]
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Numerator 6+",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "SingletonFrom",
+                     "operand" : {
+                        "name" : "Initial Population",
+                        "type" : "ExpressionRef"
+                     }
+                  }, {
+                     "type" : "GreaterOrEqual",
+                     "operand" : [ {
+                        "type" : "SingletonFrom",
+                        "operand" : {
+                           "name" : "Valid Visit Counter",
+                           "type" : "ExpressionRef"
+                        }
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "6",
+                        "type" : "Literal"
+                     } ]
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Denominator",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "name" : "Initial Population",
+                  "type" : "ExpressionRef"
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "type" : "ToList",
+                     "operand" : {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                        "value" : "true",
+                        "type" : "Literal"
+                     }
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Denominator Count",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Sum",
+               "source" : {
+                  "type" : "ToList",
+                  "operand" : {
+                     "name" : "Denominator",
+                     "type" : "ExpressionRef"
+                  }
+               }
+            }
+         }, {
+            "name" : "Numerator 0 Count",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Sum",
+               "source" : {
+                  "type" : "ToList",
+                  "operand" : {
+                     "name" : "Numerator 0",
+                     "type" : "ExpressionRef"
+                  }
+               }
+            }
+         }, {
+            "name" : "Numerator 1 Count",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Sum",
+               "source" : {
+                  "type" : "ToList",
+                  "operand" : {
+                     "name" : "Numerator 1",
+                     "type" : "ExpressionRef"
+                  }
+               }
+            }
+         }, {
+            "name" : "Numerator 2 Count",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Sum",
+               "source" : {
+                  "type" : "ToList",
+                  "operand" : {
+                     "name" : "Numerator 2",
+                     "type" : "ExpressionRef"
+                  }
+               }
+            }
+         }, {
+            "name" : "Numerator 3 Count",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Sum",
+               "source" : {
+                  "type" : "ToList",
+                  "operand" : {
+                     "name" : "Numerator 3",
+                     "type" : "ExpressionRef"
+                  }
+               }
+            }
+         }, {
+            "name" : "Numerator 4 Count",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Sum",
+               "source" : {
+                  "type" : "ToList",
+                  "operand" : {
+                     "name" : "Numerator 4",
+                     "type" : "ExpressionRef"
+                  }
+               }
+            }
+         }, {
+            "name" : "Numerator 5 Count",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Sum",
+               "source" : {
+                  "type" : "ToList",
+                  "operand" : {
+                     "name" : "Numerator 5",
+                     "type" : "ExpressionRef"
+                  }
+               }
+            }
+         }, {
+            "name" : "Numerator 6+ Count",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Sum",
+               "source" : {
+                  "type" : "ToList",
+                  "operand" : {
+                     "name" : "Numerator 6+",
+                     "type" : "ExpressionRef"
+                  }
+               }
+            }
+         }, {
+            "name" : "WCV15 0 Visits Measure Score",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Divide",
+               "operand" : [ {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "Numerator 0",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "Denominator",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }
+               } ]
+            }
+         }, {
+            "name" : "WCV15 1 Visits Measure Score",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Divide",
+               "operand" : [ {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "Numerator 1",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "Denominator",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }
+               } ]
+            }
+         }, {
+            "name" : "WCV15 2 Visits Measure Score",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Divide",
+               "operand" : [ {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "Numerator 2",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "Denominator",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }
+               } ]
+            }
+         }, {
+            "name" : "WCV15 3 Visits Measure Score",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Divide",
+               "operand" : [ {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "Numerator 3",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "Denominator",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }
+               } ]
+            }
+         }, {
+            "name" : "WCV15 4 Visits Measure Score",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Divide",
+               "operand" : [ {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "Numerator 4",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "Denominator",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }
+               } ]
+            }
+         }, {
+            "name" : "WCV15 5 Visits Measure Score",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Divide",
+               "operand" : [ {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "Numerator 5",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "Denominator",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }
+               } ]
+            }
+         }, {
+            "name" : "WCV15 6+ Visits Measure Score",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Divide",
+               "operand" : [ {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "Numerator 6+",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "Denominator",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }
+               } ]
+            }
+         } ]
+      }
+   }
+}
+

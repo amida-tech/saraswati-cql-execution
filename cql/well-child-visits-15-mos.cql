@@ -15,15 +15,18 @@ valueset "Telephone Visits": '2.16.840.1.113883.3.1444.5.216'
 
 parameter "Measurement Period" default Interval[@2020-01-01T00:00:00.0, @2020-12-31T23:59:59.999)
 
+//Data Presumptions-
+//The data must include a generalPractitioner Field in the data, or it will return nothing.
+
 context Patient
 
 define "Initial Population":
-AgeInYears(start of measurement period) < 1 
-and AgeInMonths(end of measurement period) >= 15
+AgeInYearsAt(start of "Measurement Period") < 1 
+and AgeInMonthsAt(end of "Measurement Period") >= 15
 
 define "Well-Care before patient 15mo birthday":
 	[Encounter: "Well-Care"] E0
-    where AgeInMonthsAt(E0.period.end) <= 15 
+    where AgeInMonthsAt(E0.period.end) <= 15
 
 define "Well-Care Without Duplicate Days":
 	//MUST BE DeduplicateBasedOnStartDate when called to eval
@@ -36,11 +39,16 @@ define "Well-Care Encounter Without Telehealth":
     without [Encounter: "Telehealth POS"] E2
       such that exists(E2)
 
-define "Well-Care With PCP Code":
+define "Patient Pcp":
+  [Patient] P0
+    with P0.generalPractitioner.reference P1
+      such that exists(P1)
 
-  [Encounter: "well-care"] E0 
-    with [Patient] P 
-      where exists(P.generalPractitioner)
+define "Well-Care With PCP Code":
+  [Encounter: "Well-Care"] E0
+    with "Patient Pcp" P1
+      such that exists(P1)
+    and E0.participant.individual.reference = P1.generalPractitioner.reference
 
 define "Valid Visit Counter":
 	Count(

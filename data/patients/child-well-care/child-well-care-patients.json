@@ -139,6 +139,10 @@
               }
             }
           ],
+          "generalPractitioner": [{
+            "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe",
+            "display": "Dr. Vanesa40 Cummings51"
+          }],
           "meta": {
             "profile": [
               "patient-qicore-qicore-patient"
@@ -498,6 +502,10 @@
               }
             }
           ],
+          "generalPractitioner": [{
+            "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe",
+            "display": "Dr. Vanesa40 Cummings51"
+          }],
           "meta": {
             "profile": [
               "patient-qicore-qicore-patient"
@@ -921,6 +929,10 @@
               }
             }
           ],
+          "generalPractitioner": [{
+            "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe",
+            "display": "Dr. Vanesa40 Cummings51"
+          }],
           "meta": {
             "profile": [
               "patient-qicore-qicore-patient"
@@ -1408,6 +1420,10 @@
               }
             }
           ],
+          "generalPractitioner": [{
+            "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe",
+            "display": "Dr. Vanesa40 Cummings51"
+          }],
           "meta": {
             "profile": [
               "patient-qicore-qicore-patient"
@@ -2023,6 +2039,10 @@
               }
             }
           ],
+          "generalPractitioner": [{
+            "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe",
+            "display": "Dr. Vanesa40 Cummings51"
+          }],
           "meta": {
             "profile": [
               "patient-qicore-qicore-patient"
@@ -2570,7 +2590,8 @@
         }
       }
     ]
-  },{
+  },
+  {
     "resourceType": "Bundle",
     "type": "transaction",
     "entry": [
@@ -2710,6 +2731,10 @@
               }
             }
           ],
+          "generalPractitioner": [{
+            "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe",
+            "display": "Dr. Vanesa40 Cummings51"
+          }],
           "meta": {
             "profile": [
               "patient-qicore-qicore-patient"
@@ -2990,7 +3015,8 @@
           "method": "POST",
           "url": "Encounter"
         }
-      },      {
+      },
+      {
         "fullUrl": "urn:uuid:cb5aac32-c535-3505-9097-e1a38b90c58e",
         "resource": {
           "resourceType": "Encounter",
@@ -3461,6 +3487,10 @@
               }
             }
           ],
+          "generalPractitioner": [{
+            "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe",
+            "display": "Dr. Vanesa40 Cummings51"
+          }],
           "meta": {
             "profile": [
               "patient-qicore-qicore-patient"
@@ -4155,4 +4185,4 @@
       }
     ]
   }
-]
+] 
