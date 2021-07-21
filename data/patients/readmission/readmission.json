@@ -439,9 +439,31 @@
             "display": "Mr. Young120 Murphy561"
           },
           "period": {
-            "start": "2020-08-13T19:57:22-04:00",
-            "end": "2020-08-13T20:12:22-04:00"
+            "start": "2020-06-13T19:57:22-04:00",
+            "end": "2020-06-15T20:12:22-04:00"
           },
+          "hospitalization": {
+            "dischargeDisposition":{
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "417708006",
+                  "display": "Referral to long term care service (procedure)"
+                }
+              ]
+            }
+          },
+          "reasonCode": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "271737000",
+                  "display": "Anemia (disorder)"
+                }
+              ]
+            }
+          ],
           "serviceProvider": {
             "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
             "display": "LEXINGTON EYE ASSOCIATES, INC"
@@ -745,8 +767,8 @@
                 "text": "Tdap"
               },
               "servicedPeriod": {
-                "start": "2011-08-13T19:57:22-04:00",
-                "end": "2011-08-13T20:12:22-04:00"
+                "start": "2011-06-13T19:57:22-04:00",
+                "end": "2011-06-13T20:12:22-04:00"
               },
               "locationCodeableConcept": {
                 "coding": [
@@ -1316,8 +1338,8 @@
                 }
               ],
               "period": {
-                "start": "2012-08-18T19:57:22-04:00",
-                "end": "2012-08-18T20:12:22-04:00"
+                "start": "2012-09-18T19:57:22-04:00",
+                "end": "2012-09-19T20:12:22-04:00"
               },
               "individual": {
                 "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe",
@@ -1326,8 +1348,8 @@
             }
           ],
           "period": {
-            "start": "2020-08-18T19:57:22-04:00",
-            "end": "2020-08-18T20:12:22-04:00"
+            "start": "2020-09-18T19:57:22-04:00",
+            "end": "2020-09-19T20:12:22-04:00" 
           },
           "serviceProvider": {
             "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
@@ -1391,7 +1413,7 @@
           "encounter": {
             "reference": "urn:uuid:e61d6cac-8fcd-827e-6a5c-b9b2249ce3ad"
           },
-          "occurrenceDateTime": "2012-08-18T19:57:22-04:00",
+          "occurrenceDateTime": "2012-09-18T19:57:22-04:00",
           "primarySource": true
         },
         "request": {
@@ -1529,8 +1551,8 @@
                 "text": "Well child visit (procedure)"
               },
               "servicedPeriod": {
-                "start": "2012-08-18T19:57:22-04:00",
-                "end": "2012-08-18T20:12:22-04:00"
+                "start": "2012-09-18T19:57:22-04:00",
+                "end": "2012-09-19T20:12:22-04:00"
               },
               "locationCodeableConcept": {
                 "coding": [
@@ -1572,8 +1594,8 @@
                 "text": "Influenza, seasonal, injectable, preservative free"
               },
               "servicedPeriod": {
-                "start": "2012-08-18T19:57:22-04:00",
-                "end": "2012-08-18T20:12:22-04:00"
+                "start": "2012-09-18T19:57:22-04:00",
+                "end": "2012-09-19T20:12:22-04:00"
               },
               "locationCodeableConcept": {
                 "coding": [
@@ -1885,7 +1907,7 @@
               ],
               "period": {
                 "start": "2013-08-24T19:57:22-04:00",
-                "end": "2013-08-24T20:12:22-04:00"
+                "end": "2013-08-25T20:12:22-04:00"
               },
               "individual": {
                 "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe",
@@ -1895,7 +1917,7 @@
           ],
           "period": {
             "start": "2020-08-24T19:57:22-04:00",
-            "end": "2020-08-24T20:12:22-04:00"
+            "end": "2020-08-25T20:12:22-04:00"
           },
           "serviceProvider": {
             "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
@@ -2533,7 +2555,7 @@
               ],
               "period": {
                 "start": "2020-08-30T19:57:22-04:00",
-                "end": "2020-08-30T20:12:22-04:00"
+                "end": "2020-08-31T20:12:22-04:00"
               },
               "individual": {
                 "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe",
@@ -2543,7 +2565,7 @@
           ],
           "period": {
             "start": "2020-08-30T19:57:22-04:00",
-            "end": "2020-08-30T20:12:22-04:00"
+            "end": "2020-08-31T20:12:22-04:00" 
           },
           "serviceProvider": {
             "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
@@ -4418,8 +4440,8 @@
                 }
               ],
               "period": {
-                "start": "2020-09-22T19:57:22-04:00",
-                "end": "2020-09-22T20:12:22-04:00"
+                "start": "2020-12-22T19:57:22-04:00",
+                "end": "2020-12-23T20:12:22-04:00"
               },
               "individual": {
                 "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe",
@@ -4428,8 +4450,8 @@
             }
           ],
           "period": {
-            "start": "2020-09-22T19:57:22-04:00",
-            "end": "2020-09-22T20:12:22-04:00"
+            "start": "2020-12-22T19:57:22-04:00",
+            "end": "2020-12-23T20:12:22-04:00"
           },
           "hospitalization": {
             "dischargeDisposition":{
@@ -4897,7 +4919,7 @@
               ],
               "period": {
                 "start": "2020-09-28T19:57:22-04:00",
-                "end": "2020-09-28T20:12:22-04:00"
+                "end": "2020-09-29T20:12:22-04:00"
               },
               "individual": {
                 "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe",
@@ -4907,7 +4929,7 @@
           ],
           "period": {
             "start": "2020-09-28T19:57:22-04:00",
-            "end": "2020-09-28T20:12:22-04:00"
+            "end": "2020-09-29T20:12:22-04:00"
           },
           "serviceProvider": {
             "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
@@ -6956,7 +6978,7 @@
               ],
               "period": {
                 "start": "2020-03-14T02:18:59-04:00",
-                "end": "2020-03-14T02:33:59-04:00"
+                "end": "2020-03-15T02:33:59-04:00"
               },
               "individual": {
                 "reference": "urn:uuid:c2d26221-3f2d-33e6-bb85-3732a6c601fc",
@@ -6966,7 +6988,7 @@
           ],
           "period": {
             "start": "2020-03-14T02:18:59-04:00",
-            "end": "2020-03-14T02:33:59-04:00"
+            "end": "2020-03-15T02:33:59-04:00"
           },
           "serviceProvider": {
             "reference": "urn:uuid:b75a65a9-dad5-3f25-af9e-4c53b33fc682",
@@ -8274,7 +8296,7 @@
               ],
               "period": {
                 "start": "2020-03-14T02:18:59-04:00",
-                "end": "2020-03-14T02:33:59-04:00"
+                "end": "2020-03-15T02:33:59-04:00"
               },
               "individual": {
                 "reference": "urn:uuid:61e070f3-eb76-3ca7-bccf-30ecf069d638",
@@ -8284,7 +8306,7 @@
           ],
           "period": {
             "start": "2020-03-14T02:18:59-04:00",
-            "end": "2020-03-14T02:33:59-04:00"
+            "end": "2020-03-15T02:33:59-04:00"
           },
           "reasonCode": [
             {
@@ -9264,8 +9286,8 @@
                 "text": "Peripheral blood smear interpretation"
               },
               "servicedPeriod": {
-                "start": "2020-03-14T02:18:59-04:00",
-                "end": "2020-03-14T02:33:59-04:00"
+                "start": "2020-08-24T02:18:59-04:00",
+                "end": "2020-08-24T02:33:59-04:00" 
               },
               "locationCodeableConcept": {
                 "coding": [

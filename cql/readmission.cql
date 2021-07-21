@@ -21,6 +21,7 @@ valueset "Male Administrative Sex": '2.16.840.1.113883.3.560.100.1'
 code "Patient deceased during stay": '371828006' from "SNOMEDCT" display 'Patient deceased during stay'
 code "Pregnancy": '305386002' from "SNOMEDCT" display 'Pregnancy'
 code "Perinatal": '183494008' from "SNOMEDCT" display 'Perinatal'
+code "Comorbidity": '398192003' from "SNOMEDCT" display 'Comorbidity'
 
 parameter "Denominator Measurement Period" default Interval[@2020-01-01T00:00:00.0, @2020-12-01T23:59:59.999)
 parameter "Numerator Measurement Period" default Interval[@2020-01-03T00:00:00.0, @2020-12-31T23:59:59.999)
@@ -36,22 +37,22 @@ context Patient
 //Denominator
 //Step 1
 define "All Inpatient Discharge List":
-  [ExplanationOfBenefit: "Inpatient Stay"] EOB
-   with [Encounter] enc
+  [ExplanationOfBenefit] EOB
+   with [Encounter: "Inpatient Stay"] enc
     such that enc.status = 'finished'
     and enc.period starts during "Denominator Measurement Period"
 
 define "Nonacute Inpatient Discharge List":
-  [ExplanationOfBenefit: "Nonacute Inpatient Stay"] EOB
-    with [Encounter] E
-    such that E.status ~ 'finished'
-    and E.period starts during "Denominator Measurement Period"
+  [ExplanationOfBenefit] EOB
+    with [Encounter: "Nonacute Inpatient Stay"] E
+      such that E.status ~ 'finished'
+      and E.period starts during "Denominator Measurement Period"
 
 define "Observation Visit List":
-  [ExplanationOfBenefit: "Nonacute Inpatient Stay"] EOB
-    with [Encounter] E
-    such that E.status ~'finished'
-    and E.period starts during "Denominator Measurement Period"
+  [ExplanationOfBenefit] EOB
+    with [Encounter: "Nonacute Inpatient Stay"] E
+      such that E.status ~'finished'
+      and E.period starts during "Denominator Measurement Period"
 
 define "Acute Discharge List":
   ("All Inpatient Discharge List" except "Nonacute Inpatient Discharge List")
@@ -61,83 +62,84 @@ define "All Discharge List":
   "All Inpatient Discharge List" union "Observation Visit List"
 
 //Step 2
-define "All Den Direct Transfers":
-  from
-    "Acute Discharge List" GAP,
-    "Acute Discharge List" GAP2
-    where getEncounter(GAP).subject = getEncounter(GAP2).subject
-       and (days between getEncounter(GAP).period.end and getEncounter(GAP2).period.start <= 1)
-       and getEncounter(GAP2).period.end <= "December of 2020"
-  return GAP2
-
-define "Final Den Direct Transfer":
-  Last("All Den Direct Transfers")
-
 define "Den Direct Transfers":
-    "Acute Discharge List" except "All Den Direct Transfers" union {"Final Den Direct Transfer"}
+  "All Discharge List" GAP
+    with [Encounter] enc
+      such that not nonLastDirectTransfer(enc)
+
+define function nonLastDirectTransfer(enc Encounter):
+  Exists("Acute Discharge List" ADL
+    with [Encounter] enc2
+      such that enc.id != enc2.id
+      //and enc.subject = enc2.subject
+      and (days between enc.period.end and enc2.period.start <= 1))
+
+define "Workaround Direct Transfers":
+  case Count("All Discharge List")
+    when 0 then List<ExplanationOfBenefit>{}
+    when 1 then {"All Discharge List"[0]}
+    else {"All Discharge List"[0], "All Discharge List"[1]}
+  end
+
+define "Workaround Direct Transfers Count":
+  Count("Workaround Direct Transfers")
 
 //Step 3
 define "Multi-Day Visits":
-  "Den Direct Transfers" DT
-    where (days between getEncounter(DT).period.end and getEncounter(DT).period.start > 1)
+  "Workaround Direct Transfers" DT
+    with [Encounter] enc
+      such that duration in days of enc.period >= 1
 
+define "Multi-Day Visits Count":
+  Count("Multi-Day Visits")
 //Step 4
 define "No Death or Pregnancy":
   "Multi-Day Visits" MDV
-    where getEncounter(MDV).hospitalization.dischargeDisposition !~ "Patient deceased during stay"
-      and not contains(getEncounter(MDV).reasonCode.coding, "Pregnancy")
-        and not contains(getEncounter(MDV).reasonCode.coding, "Perinatal")
+    with [Encounter] enc
+      such that enc.hospitalization.dischargeDisposition !~ "Patient deceased during stay"
+      and not contains(enc.reasonCode.coding, "Pregnancy")
+      and not contains(enc.reasonCode.coding, "Perinatal")
 
+define "No Death or Pregnancy Count":
+  Count("No Death or Pregnancy")
 // Step 5 continuous enrollment
 define "Continuous Enrollment":
-  from
-    "No Death or Pregnancy" NDOP,
-    "All Discharge List" ALL
-      where (getEncounter(ALL).period.end occurs 365 days or less before getEncounter(NDOP).period.end)
-        or (getEncounter(ALL).period.end occurs 30 days or less after getEncounter(NDOP).period.end)
-  return ALL
+  "No Death or Pregnancy" NDOP
+    with [Encounter] enc
+      such that hasContinuousEnrollment(enc)
+
+define function hasContinuousEnrollment(enc Encounter):
+  Exists([ExplanationOfBenefit] EOB
+    with [Encounter] enc2
+      such that (enc2.period.end occurs 365 days or less before enc.period.end)
+      or (enc2.period.end occurs 30 days or less after enc.period.end))
+
+define "Continuous Enrollment Count":
+  Count("Continuous Enrollment")
 
 // Step 6 Remove hospital stays for outlier members
-define "Remove Outliers":
+define "Final Denominator List":
   case getInsurance(First("Continuous Enrollment"))
-    when 'Medicare' then if Count("Continuous Enrollment") < 4 then "Continuous Enrollment" else {}
-    when 'Medicaid' then if Count("Continuous Enrollment") < 4 then "Continuous Enrollment" else {}
-    else if Count("Continuous Enrollment") < 3 then "Continuous Enrollment" else {}
+    when 'Medicare' then if Count("Continuous Enrollment") < 4 then "Continuous Enrollment" else List<ExplanationOfBenefit>{}
+    when 'Medicaid' then if Count("Continuous Enrollment") < 4 then "Continuous Enrollment" else List<ExplanationOfBenefit>{}
+    else if Count("Continuous Enrollment") < 3 then "Continuous Enrollment" else List<ExplanationOfBenefit>{}
   end
+
+define "Print0":
+  ("Final Denominator List"[0] as ExplanationOfBenefit).billablePeriod.end
+
+define "Print0-1":
+  ("Final Denominator List"[1] as ExplanationOfBenefit).billablePeriod.end
+
+define "Cast Denominator List":
+  "Final Denominator List" as List<ExplanationOfBenefit>
+
+define "Denominator Tuple":
+  "Cast Denominator List" CDL with [Encounter] enc such that 1=1 return Tuple { id: CDL.id, period: CDL.billablePeriod}
 
 // Step 7
 define "Denominator Score":
-  getDenominatorScore("Remove Outliers")
-
-define function getDenominatorScore(eobs List<ExplanationOfBenefit>):
-  case
-    when Count("Remove Outliers") = 1 then "getEncounterScore"("Remove Outliers"[0])
-    when Count("Remove Outliers") = 2 then "getEncounterScore"("Remove Outliers"[0]) + "getEncounterScore"("Remove Outliers"[1])
-    when Count("Remove Outliers") = 3 then "getEncounterScore"("Remove Outliers"[0]) + "getEncounterScore"("Remove Outliers"[1]) + "getEncounterScore"("Remove Outliers"[2])
-    else 0
-  end
-
-define function getEncounterScore(eob ExplanationOfBenefit):
-  "AgeGenderWeight"(eob) + "surgeryOrObservation"(eob)
-
-define function surgeryOrObservation(eob ExplanationOfBenefit):
-  case
-    when isObservation(eob) then getObservationWeight(eob)
-    else getSurgeryWeight(eob)
-  end
-
-define function isObservation(eob ExplanationOfBenefit):
-  eob in "Observation Visit List"
-
-define function getObservationWeight(eob ExplanationOfBenefit):
-  case getInsurance(eob)
-    when 'Medicare' then if AgeInYearsAt(getEncounter(eob).period.end) < 65 then -0.1496 else -0.0970
-    when 'Medicaid' then -0.0337
-    else -0.6263
-  end
-
-define function getSurgeryWeight(eob ExplanationOfBenefit):
-  -0.5
+  Count("Final Denominator List")
 
 //Numerator
 //Step 1
@@ -160,22 +162,27 @@ define "Num Acute Discharge List":
   ("Num All Inpatient Discharge List" except "Num Nonacute Inpatient Discharge List")
     union "Num Observation Visit List"
 
+define "Num Acute Discharge List Count":
+  Count("Num Acute Discharge List")
+
 //Step 2
-define "All Num Direct Transfers":
-  from
-    "Num Acute Discharge List" GAP,
-    "Num Acute Discharge List" GAP2
-    where GAP.subject = GAP2.subject
-       and (days between GAP.period.end and GAP2.period.start <= 1)
-       and GAP2.period.end <= "January of 2021"
-  return GAP2
-
-define "Final Num Direct Transfer":
-  Last("All Num Direct Transfers")
-
 define "Num Direct Transfers":
-    "Num Acute Discharge List" except "All Num Direct Transfers" union {"Final Num Direct Transfer"}
+  "Num Acute Discharge List" GAP
+    with [Encounter] enc
+    such that not numNonLastDirectTransfer(enc)
 
+define function numNonLastDirectTransfer(enc Encounter):
+  Exists("Num Acute Discharge List" ADL
+    with [Encounter] enc2
+      such that enc.subject = enc2.subject
+      and (days between enc.period.end and enc2.period.start <= 1))
+
+define "Num Workaround Direct Transfers":
+  case Count("Num Acute Discharge List")
+    when 0 then {}
+    when 1 then {"Num Acute Discharge List"[0]}
+    else "Num Acute Discharge List"
+  end
 // Step 3
 define "Numerator Exclusions":
   [Encounter: "Chemotherapy"]
@@ -186,55 +193,35 @@ define "Numerator Exclusions":
     union [Encounter: "Organ Transplant"]
 
 define "Num No Pregnancy":
-  "Num Direct Transfers" NDT
-    where NDT.hospitalization.dischargeDisposition !~ "Pregnancy"
+  "Num Workaround Direct Transfers" NDT
+    where (NDT as Encounter).hospitalization.dischargeDisposition !~ "Pregnancy"
 
 define "Valid Num Encounters":
   "Num No Pregnancy" except "Numerator Exclusions"
 
+define "Valid Num Encounters Count":
+  Count("Valid Num Encounters")
+
 // Step 4
+define "Print1":
+  ("Valid Num Encounters"[0] as Encounter).period.end
+
+define "Print1-1":
+  ("Valid Num Encounters"[1] as Encounter).period.end
+
+define "Final Numerator List":
+  "Denominator Tuple" FDL where hasReadmission(FDL.period)
+
+define function hasReadmission(denPeriod Period):
+  Exists("Valid Num Encounters" numEnc
+    where numEnc.period != denPeriod
+    and days between denPeriod.end and numEnc.period.start <= 30)
+
 define "Numerator":
-  Count(from
-    "Valid Num Encounters" NNP,
-    "Continuous Enrollment" CE
-      where days between getEncounter(CE).period.end and NNP.period.start <=30)
-
-define function AgeGenderWeight(eob ExplanationOfBenefit):
-  case getInsurance(eob)
-    when 'Medicare' then medicareAgeGenderWeight(getEncounter(eob))
-    when 'Medicaid' then medicaidAgeGenderWeight(getEncounter(eob))
-    else commercialAgeGenderWeight(getEncounter(eob))
-  end
-
-define function medicareAgeGenderWeight(encounter Encounter):
-  case
-    when AgeInYearsAt(encounter.period.end) <= 44 then if isMale() then -2.1122 else -2.2225
-    when AgeInYearsAt(encounter.period.end) <= 54 then if isMale() then -2.3449 else -2.2655
-    when AgeInYearsAt(encounter.period.end) <= 64 then if isMale() then -2.2943 else -2.3833
-    when AgeInYearsAt(encounter.period.end) <= 74 then if isMale() then -2.5745 else -2.5870
-    when AgeInYearsAt(encounter.period.end) <= 84 then if isMale() then -2.4921 else -2.5367
-    else if isMale() then -2.5397 else -2.5696
-  end
-
-define function medicaidAgeGenderWeight(encounter Encounter):
-  case
-    when AgeInYearsAt(encounter.period.end) <= 44 then if isMale() then -2.6788 else -2.7841
-    when AgeInYearsAt(encounter.period.end) <= 54 then if isMale() then -2.6552 else -2.7211
-    else if isMale() then -2.5792 else -2.6547
-  end
-
-define function commercialAgeGenderWeight(encounter Encounter):
-  case
-    when AgeInYearsAt(encounter.period.end) <= 44 then if isMale() then -2.3867 else -2.4909
-    when AgeInYearsAt(encounter.period.end) <= 54 then if isMale() then -2.4489 else -2.4945
-    else if isMale() then -2.4410 else -2.4661
-  end
+  Count("Final Numerator List")
 
 define function getInsurance(eob ExplanationOfBenefit):
   Last(([Coverage] cov where Last(eob.insurance).coverage.identifier in cov.identifier).type.text).value
-
-define function isMale():
-  Patient.gender in "Male Administrative Sex"
 
 define function getEncounter(eob ExplanationOfBenefit):
   Last([Encounter] enc where Last(eob.item.encounter).identifier in enc.identifier)
