@@ -221,42 +221,41 @@ define "Identify Acute ACSC Discharges by Claim":
       )
 
 // Step 3 acute auxiliary functions.
-define "Bacterial Pneumonia Encounter": 
-  [Encounter] E
-    return ("EncounterDiagnosis"(E))
-      // .code in "Bacterial pneumonia"
-      //and E.diagnosis.rank = 1)
+define "Bacterial Pneumonia Encounter":
+  from 
+    [Encounter] E,
+    [Condition: "Bacterial pneumonia"] C 
+    where E.id = "GetId"(C.encounter.reference)
+      return C
+      // "EncounterDiagnosis"(E).code in "Bacterial pneumonia"
       // such that E.diagnosis.rank = 1 // and E.diagnosis.condition in "Bacterial pneumonia"
       // such that E.status ~ 'finished' 
 
-define function "Whatever"(Encounter Encounter):
-  Encounter.diagnosis D 
-    where D.rank = 1
-    return D.condition.reference.value
+define function "PrimaryDiagnosis"(enc Encounter):
+  enc.diagnosis D 
+    where D.rank.value = 1
+      return D.condition
 
-define function "EncounterDiagnosis"(Encounter Encounter):
-  Encounter.diagnosis D
+define function "EncounterDiagnosis"(enc Encounter):
+  enc.diagnosis D
     where D.rank = 1
     return singleton from ([Condition] C where C.id.value = "GetId"(D.condition.reference.value))
 
-define function "Condition ID"(condition Condition):
-  [Condition] C 
-    return C.id
-
 define function "GetId"(uri String):
-  Last(Split(Substring(uri, "CheckFrontBracket"(uri), "CheckBackBracket"(uri)), ':'))
+  // Last(Split(Substring(uri, "CheckFrontBracket"(uri), "CheckBackBracket"(uri)), ':'))
+  Last(Split(uri, ':'))
 
-define function "CheckFrontBracket"(uri String):
-  case Matches(uri, '\\[')
-    when true then 1
-    else 0
-  end
+// define function "CheckFrontBracket"(uri String):
+//   case Matches(uri, '\\[')
+//     when true then 1
+//     else 0
+//   end
 
-define function "CheckBackBracket"(uri String):
-  case Matches(uri, ']')
-    when true then Length(uri) - 2
-    else Length(uri)
-  end
+// define function "CheckBackBracket"(uri String):
+//  case Matches(uri, ']')
+//    when true then Length(uri) - 2
+//    else Length(uri)
+//  end
 
 define "Sickle Cell Anemia Encounter":
   [Encounter] E 
