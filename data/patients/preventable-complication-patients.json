@@ -2,7 +2,7 @@
     {
         "resourceType": "Bundle",
         "type": "transaction",
-        "id": "whatever",
+        "id": "whatever2",
         "entry": [ {
           "fullUrl": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae",
           "resource": { 

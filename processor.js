@@ -48,10 +48,10 @@ const watcher = dir =>
               axios.post(connectionUrl, data).then(
                 response => {
                   var result = response.data;
-                  // console.log(result);
+                  console.log(result);
                 },
                 error => {
-                  // console.log(error);
+                  console.log(error);
                 }
               );
             }

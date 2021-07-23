@@ -817,7 +817,7 @@
                } ],
                "relationship" : [ ],
                "where" : {
-                  "type" : "In",
+                  "type" : "Equivalent",
                   "operand" : [ {
                      "name" : "ToString",
                      "libraryName" : "FHIRHelpers",
@@ -828,12 +828,9 @@
                         "type" : "Property"
                      } ]
                   }, {
-                     "type" : "List",
-                     "element" : [ {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                        "value" : "finished",
-                        "type" : "Literal"
-                     } ]
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "finished",
+                     "type" : "Literal"
                   } ]
                }
             }
@@ -850,13 +847,7 @@
                      "type" : "ExpressionRef"
                   }
                } ],
-               "relationship" : [ ],
-               "return" : {
-                  "expression" : {
-                     "name" : "GAP",
-                     "type" : "AliasRef"
-                  }
-               }
+               "relationship" : [ ]
             }
          }, {
             "name" : "Lower Extremity Amputation with Diabetes",
@@ -943,7 +934,7 @@
                      }
                   },
                   "suchThat" : {
-                     "type" : "In",
+                     "type" : "Equivalent",
                      "operand" : [ {
                         "name" : "ToString",
                         "libraryName" : "FHIRHelpers",
@@ -954,12 +945,9 @@
                            "type" : "Property"
                         } ]
                      }, {
-                        "type" : "List",
-                        "element" : [ {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "finished",
-                           "type" : "Literal"
-                        } ]
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "finished",
+                        "type" : "Literal"
                      } ]
                   }
                } ]
@@ -991,7 +979,7 @@
                      }
                   },
                   "suchThat" : {
-                     "type" : "In",
+                     "type" : "Equivalent",
                      "operand" : [ {
                         "name" : "ToString",
                         "libraryName" : "FHIRHelpers",
@@ -1002,12 +990,9 @@
                            "type" : "Property"
                         } ]
                      }, {
-                        "type" : "List",
-                        "element" : [ {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "finished",
-                           "type" : "Literal"
-                        } ]
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "finished",
+                        "type" : "Literal"
                      } ]
                   }
                } ]
@@ -1039,7 +1024,7 @@
                      }
                   },
                   "suchThat" : {
-                     "type" : "In",
+                     "type" : "Equivalent",
                      "operand" : [ {
                         "name" : "ToString",
                         "libraryName" : "FHIRHelpers",
@@ -1050,12 +1035,9 @@
                            "type" : "Property"
                         } ]
                      }, {
-                        "type" : "List",
-                        "element" : [ {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "finished",
-                           "type" : "Literal"
-                        } ]
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "finished",
+                        "type" : "Literal"
                      } ]
                   }
                } ]
@@ -1103,7 +1085,7 @@
                   "alias" : "C",
                   "type" : "With",
                   "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "dataType" : "{http://hl7.org/fhir}Procedure",
                      "codeProperty" : "code",
                      "codeComparator" : "in",
                      "type" : "Retrieve",
@@ -1113,7 +1095,7 @@
                      }
                   },
                   "suchThat" : {
-                     "type" : "In",
+                     "type" : "Equivalent",
                      "operand" : [ {
                         "name" : "ToString",
                         "libraryName" : "FHIRHelpers",
@@ -1124,12 +1106,9 @@
                            "type" : "Property"
                         } ]
                      }, {
-                        "type" : "List",
-                        "element" : [ {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "finished",
-                           "type" : "Literal"
-                        } ]
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "finished",
+                        "type" : "Literal"
                      } ]
                   }
                } ]
@@ -1161,7 +1140,7 @@
                      }
                   },
                   "suchThat" : {
-                     "type" : "In",
+                     "type" : "Equivalent",
                      "operand" : [ {
                         "name" : "ToString",
                         "libraryName" : "FHIRHelpers",
@@ -1172,12 +1151,9 @@
                            "type" : "Property"
                         } ]
                      }, {
-                        "type" : "List",
-                        "element" : [ {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "finished",
-                           "type" : "Literal"
-                        } ]
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "finished",
+                        "type" : "Literal"
                      } ]
                   }
                } ]
@@ -1509,6 +1485,262 @@
                }
             }
          }, {
+            "name" : "CheckFrontBracket",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "Matches",
+                  "operand" : [ {
+                     "name" : "uri",
+                     "type" : "OperandRef"
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "\\[",
+                     "type" : "Literal"
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            },
+            "operand" : [ {
+               "name" : "uri",
+               "operandTypeSpecifier" : {
+                  "name" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "CheckBackBracket",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "Matches",
+                  "operand" : [ {
+                     "name" : "uri",
+                     "type" : "OperandRef"
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "]",
+                     "type" : "Literal"
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "type" : "Subtract",
+                     "operand" : [ {
+                        "type" : "Length",
+                        "operand" : {
+                           "name" : "uri",
+                           "type" : "OperandRef"
+                        }
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "2",
+                        "type" : "Literal"
+                     } ]
+                  }
+               } ],
+               "else" : {
+                  "type" : "Length",
+                  "operand" : {
+                     "name" : "uri",
+                     "type" : "OperandRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "uri",
+               "operandTypeSpecifier" : {
+                  "name" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "GetId",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Last",
+               "source" : {
+                  "type" : "Split",
+                  "stringToSplit" : {
+                     "type" : "Substring",
+                     "stringToSub" : {
+                        "name" : "uri",
+                        "type" : "OperandRef"
+                     },
+                     "startIndex" : {
+                        "name" : "CheckFrontBracket",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "uri",
+                           "type" : "OperandRef"
+                        } ]
+                     },
+                     "length" : {
+                        "name" : "CheckBackBracket",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "uri",
+                           "type" : "OperandRef"
+                        } ]
+                     }
+                  },
+                  "separator" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : ":",
+                     "type" : "Literal"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "uri",
+               "operandTypeSpecifier" : {
+                  "name" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "EncounterDiagnosis",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "D",
+                  "expression" : {
+                     "path" : "diagnosis",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "Encounter",
+                        "type" : "OperandRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "name" : "ToInteger",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "rank",
+                        "scope" : "D",
+                        "type" : "Property"
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  } ]
+               },
+               "return" : {
+                  "expression" : {
+                     "type" : "SingletonFrom",
+                     "operand" : {
+                        "type" : "Query",
+                        "source" : [ {
+                           "alias" : "C",
+                           "expression" : {
+                              "dataType" : "{http://hl7.org/fhir}Condition",
+                              "type" : "Retrieve"
+                           }
+                        } ],
+                        "relationship" : [ ],
+                        "where" : {
+                           "type" : "Equal",
+                           "operand" : [ {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "id",
+                                 "scope" : "C",
+                                 "type" : "Property"
+                              }
+                           }, {
+                              "name" : "GetId",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "path" : "value",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "reference",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "condition",
+                                       "scope" : "D",
+                                       "type" : "Property"
+                                    }
+                                 }
+                              } ]
+                           } ]
+                        }
+                     }
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "Encounter",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Bacterial Pneumonia Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "name" : "EncounterDiagnosis",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "name" : "E",
+                        "type" : "AliasRef"
+                     } ]
+                  }
+               }
+            }
+         }, {
             "name" : "Sickle Cell Anemia Encounter",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -1535,7 +1767,7 @@
                      }
                   },
                   "suchThat" : {
-                     "type" : "In",
+                     "type" : "Equivalent",
                      "operand" : [ {
                         "name" : "ToString",
                         "libraryName" : "FHIRHelpers",
@@ -1546,12 +1778,9 @@
                            "type" : "Property"
                         } ]
                      }, {
-                        "type" : "List",
-                        "element" : [ {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "finished",
-                           "type" : "Literal"
-                        } ]
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "finished",
+                        "type" : "Literal"
                      } ]
                   }
                } ]
@@ -1635,7 +1864,7 @@
                      "type" : "ExpressionRef"
                   },
                   "suchThat" : {
-                     "type" : "In",
+                     "type" : "Equivalent",
                      "operand" : [ {
                         "name" : "ToString",
                         "libraryName" : "FHIRHelpers",
@@ -1646,12 +1875,9 @@
                            "type" : "Property"
                         } ]
                      }, {
-                        "type" : "List",
-                        "element" : [ {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "finished",
-                           "type" : "Literal"
-                        } ]
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "finished",
+                        "type" : "Literal"
                      } ]
                   }
                } ]
@@ -1683,7 +1909,7 @@
                      }
                   },
                   "suchThat" : {
-                     "type" : "In",
+                     "type" : "Equivalent",
                      "operand" : [ {
                         "name" : "ToString",
                         "libraryName" : "FHIRHelpers",
@@ -1694,12 +1920,9 @@
                            "type" : "Property"
                         } ]
                      }, {
-                        "type" : "List",
-                        "element" : [ {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "finished",
-                           "type" : "Literal"
-                        } ]
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "finished",
+                        "type" : "Literal"
                      } ]
                   }
                } ]
@@ -1731,20 +1954,8 @@
                               "operand" : [ {
                                  "type" : "Exists",
                                  "operand" : {
-                                    "type" : "ToList",
-                                    "operand" : {
-                                       "type" : "First",
-                                       "source" : {
-                                          "dataType" : "{http://hl7.org/fhir}Condition",
-                                          "codeProperty" : "code",
-                                          "codeComparator" : "in",
-                                          "type" : "Retrieve",
-                                          "codes" : {
-                                             "name" : "Bacterial pneumonia",
-                                             "type" : "ValueSetRef"
-                                          }
-                                       }
-                                    }
+                                    "name" : "Bacterial Pneumonia Encounter",
+                                    "type" : "ExpressionRef"
                                  }
                               }, {
                                  "type" : "Not",
@@ -1850,17 +2061,114 @@
                }
             }
          }, {
+            "name" : "Whatever",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "D",
+                  "expression" : {
+                     "path" : "diagnosis",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "Encounter",
+                        "type" : "OperandRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "name" : "ToInteger",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "rank",
+                        "scope" : "D",
+                        "type" : "Property"
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  } ]
+               },
+               "return" : {
+                  "expression" : {
+                     "path" : "value",
+                     "type" : "Property",
+                     "source" : {
+                        "path" : "reference",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "condition",
+                           "scope" : "D",
+                           "type" : "Property"
+                        }
+                     }
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "Encounter",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Condition ID",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "C",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "path" : "id",
+                     "scope" : "C",
+                     "type" : "Property"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "condition",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Condition",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Chronic ACSC Count",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Count",
+               "source" : {
+                  "name" : "Identify Chronic ACSC Discharges by Claim",
+                  "type" : "ExpressionRef"
+               }
+            }
+         }, {
             "name" : "Chronic ACSC Outliers",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "GreaterOrEqual",
                "operand" : [ {
-                  "type" : "Count",
-                  "source" : {
-                     "name" : "Identify Chronic ACSC Discharges by Claim",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "Chronic ACSC Count",
+                  "type" : "ExpressionRef"
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
                   "value" : "3",
@@ -1874,16 +2182,24 @@
             "expression" : {
                "type" : "Less",
                "operand" : [ {
-                  "type" : "Count",
-                  "source" : {
-                     "name" : "Identify Chronic ACSC Discharges by Claim",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "Chronic ACSC Count",
+                  "type" : "ExpressionRef"
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
                   "value" : "3",
                   "type" : "Literal"
                } ]
+            }
+         }, {
+            "name" : "Acute ACSC Count",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Count",
+               "source" : {
+                  "name" : "Identify Acute ACSC Discharges by Claim",
+                  "type" : "ExpressionRef"
+               }
             }
          }, {
             "name" : "Acute ACSC Outliers",
@@ -1892,11 +2208,8 @@
             "expression" : {
                "type" : "GreaterOrEqual",
                "operand" : [ {
-                  "type" : "Count",
-                  "source" : {
-                     "name" : "Identify Acute ACSC Discharges by Claim",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "Acute ACSC Count",
+                  "type" : "ExpressionRef"
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
                   "value" : "3",
@@ -1910,16 +2223,24 @@
             "expression" : {
                "type" : "Less",
                "operand" : [ {
-                  "type" : "Count",
-                  "source" : {
-                     "name" : "Identify Acute ACSC Discharges by Claim",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "Acute ACSC Count",
+                  "type" : "ExpressionRef"
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
                   "value" : "3",
                   "type" : "Literal"
                } ]
+            }
+         }, {
+            "name" : "General ACSC Count",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Count",
+               "source" : {
+                  "name" : "General ACSC Population",
+                  "type" : "ExpressionRef"
+               }
             }
          }, {
             "name" : "Total ACSC Outliers",

@@ -2,7 +2,7 @@
   {
       "resourceType": "Bundle",
       "type": "transaction",
-      "id": "whatever",
+      "id": "whatever2",
       "entry": [ {
         "fullUrl": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae",
         "resource": { 
@@ -584,6 +584,54 @@
               "display": "Cystic Fibrosis"
             } ],
             "text": "COPD with Cystic Fibrosis"
+          },
+          "subject": {
+            "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
+          },
+          "encounter": {
+            "reference": "urn:uuid:72c500f2-aac8-932d-8d16-2d14c2ed948e"
+          },
+          "onsetDateTime": "2017-02-25T19:59:51-05:00",
+          "recordedDate": "2017-02-25T19:59:51-05:00"
+        },
+        "request": {
+          "method": "POST",
+          "url": "Condition"
+        }
+      }, {
+        "fullUrl": "urn:uuid:20927316-2249-3760-c902-b389ec6db190",
+        "resource": {
+          "resourceType": "Condition",
+          "id": "20927316-2249-3760-c902-b389ec6db190",
+          "meta": {
+            "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition" ]
+          },
+          "clinicalStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            } ]
+          },
+          "verificationStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            } ]
+          },
+          "category": [ {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+              "code": "encounter-diagnosis",
+              "display": "Encounter Diagnosis"
+            } ]
+          } ],
+          "code": {
+            "coding": [ {
+              "system": "ICD9CM",
+              "code": "277.00",
+              "display": "Cystic Fibrosis"
+            } ],
+            "text": "Cystic Fibrosis"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -1972,6 +2020,17 @@
             "start": "2017-06-15T20:59:51-04:00",
             "end": "2017-06-15T21:14:51-04:00"
           },
+          "diagnosis": [ {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aedh"
+            },
+            "rank": 1
+          }, {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aezz"
+            },
+            "rank": 2
+          } ],
           "location": [ {
             "location": {
               "reference": "Location?identifier=https://github.com/synthetichealth/synthea|ada76ff9-a2aa-3119-b247-04d63e16f2ff",
@@ -2019,12 +2078,8 @@
               "system": "http://snomed.info/sct",
               "code": "420544002",
               "display": "Bacterial pneumonia"
-            },{
-              "system": "http://snomed.info/sct",
-              "code": "127040003",
-              "display": "Sickle Cell Anemia and HB S Disease"
-            }  ],
-            "text": "Bacterial pneumonia with Sickle Cell Anemia and HB S Disease"
+            }],
+            "text": "Bacterial pneumonia"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -2034,6 +2089,54 @@
           },
           "onsetDateTime": "2017-06-15T20:59:51-04:00",
           "recordedDate": "2017-06-15T21:59:51-04:00"
+        },
+        "request": {
+          "method": "POST",
+          "url": "Condition"
+        }
+      },{
+        "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aezz",
+        "resource": {
+          "resourceType": "Condition",
+          "id": "aa9059f2-1a11-4def-b44a-c8323498aezz",
+          "meta": {
+            "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition" ]
+          },
+          "clinicalStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            } ]
+          },
+          "verificationStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            } ]
+          },
+          "category": [ {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+              "code": "encounter-diagnosis",
+              "display": "Encounter Diagnosis"
+            } ]
+          } ],
+          "code": {
+            "coding": [ {
+              "system": "http://snomed.info/sct",
+              "code": "127040003",
+              "display": "Sickle Cell Anemia and HB S Disease"
+            }  ],
+            "text": "Sickle Cell Anemia and HB S Disease"
+          },
+          "subject": {
+            "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
+          },
+          "encounter": {
+            "reference": "urn:uuid:28907b36-7615-1503-dbb2-d3b143e08h23"
+          },
+          "onsetDateTime": "2017-06-15T20:59:51-04:00",
+          "recordedDate": "2017-06-15T22:59:51-04:00"
         },
         "request": {
           "method": "POST",

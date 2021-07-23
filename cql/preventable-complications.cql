@@ -132,12 +132,13 @@ define "General ACSC Population":
         union [Encounter: "Observation Stay"] 
         except [Encounter: "Nonacute Inpatient Stay"]
     ) TotalStays
-    where TotalStays.status in {'finished'}
+    where TotalStays.status ~ 'finished'
 
 // Step 2: Not currently working. Just returning GAP instead. 
 define "Direct Transfers":
-  from 
-    "General ACSC Population" GAP
+  "General ACSC Population" GAP
+  // from 
+    // "General ACSC Population" GAP
     // "General ACSC Population" GAP2
     // where GAP.subject = GAP2.subject
           // and GAP.id != GAP2.id
@@ -147,9 +148,7 @@ define "Direct Transfers":
           // and GAP2.period.start > GAP.period.start
           // and GAP2.period.end <= "Measurement Year End"
           // and GAP2.period.end <= Date(2013, 12, 01)
-    return GAP
-
-// define function "Direct Transfers Exclusions"(enc Encounter):
+    // return GAP
 
 // Step 3 for Chronic. Identify discharges by claim. CBT
 define "Identify Chronic ACSC Discharges by Claim":
@@ -180,37 +179,38 @@ define "Lower Extremity Amputation with Diabetes":
 define "Traumatic Amputation of Lower Extremity Encounter":
   [Encounter] E 
     with [Condition: "Traumatic Amputation of Lower Extremity"] C
-      such that E.status in { 'finished' }
+      such that E.status ~ 'finished' 
 
 define "Toe Amputation Diagnosis Encounter":
   [Encounter] E 
     with [Condition: "Toe Amputation Diagnosis"] C
-      such that E.status in { 'finished' }
+      such that E.status ~ 'finished' 
 
 define "Cystic Fibrosis Encounter":
   [Encounter] E 
     with [Condition: "Cystic Fibrosis"] C
-      such that E.status in { 'finished' }
+      such that E.status ~ 'finished' 
 
 define "Acute Bronchitis with COPD":
   First("Acute Bronchitis") union "COPD"
 
 define "Cardiac Procedure Encounter": 
   [Encounter] E 
-    with [Condition: "Cardiac Procedure"] C
-     such that E.status in { 'finished' }
+    with [Procedure: "Cardiac Procedure"] C
+     such that E.status ~ 'finished'
 
 define "Stage I-IV Kidney Disease Encounter":
   [Encounter] E 
     with [Condition: "Stage I-IV Kidney Disease"] C
-      such that E.status in { 'finished' } 
+      such that E.status ~ 'finished' 
 
 define "Stage I-IV Kidney Disease Encounter with Dialysis":
   "Stage I-IV Kidney Disease Encounter" union [Condition: "Dialysis"]
 
 // Step 3 for Acute. Identify discharges by claim. 
 define "Identify Acute ACSC Discharges by Claim":
-    ("Direct Transfers" DT where (exists(First([Condition:"Bacterial pneumonia"])) 
+    ("Direct Transfers" DT 
+      where (exists("Bacterial Pneumonia Encounter") 
           and not exists("Sickle Cell Anemia Encounter") 
           and not exists("Immunocompromised Encounter"))
         or (exists(First([Condition: "Urinary tract infection"]))
@@ -221,20 +221,57 @@ define "Identify Acute ACSC Discharges by Claim":
       )
 
 // Step 3 acute auxiliary functions.
+define "Bacterial Pneumonia Encounter": 
+  [Encounter] E
+    return ("EncounterDiagnosis"(E))
+      // .code in "Bacterial pneumonia"
+      //and E.diagnosis.rank = 1)
+      // such that E.diagnosis.rank = 1 // and E.diagnosis.condition in "Bacterial pneumonia"
+      // such that E.status ~ 'finished' 
+
+define function "Whatever"(Encounter Encounter):
+  Encounter.diagnosis D 
+    where D.rank = 1
+    return D.condition.reference.value
+
+define function "EncounterDiagnosis"(Encounter Encounter):
+  Encounter.diagnosis D
+    where D.rank = 1
+    return singleton from ([Condition] C where C.id.value = "GetId"(D.condition.reference.value))
+
+define function "Condition ID"(condition Condition):
+  [Condition] C 
+    return C.id
+
+define function "GetId"(uri String):
+  Last(Split(Substring(uri, "CheckFrontBracket"(uri), "CheckBackBracket"(uri)), ':'))
+
+define function "CheckFrontBracket"(uri String):
+  case Matches(uri, '\\[')
+    when true then 1
+    else 0
+  end
+
+define function "CheckBackBracket"(uri String):
+  case Matches(uri, ']')
+    when true then Length(uri) - 2
+    else Length(uri)
+  end
+
 define "Sickle Cell Anemia Encounter":
   [Encounter] E 
     with [Condition: "Sickle Cell Anemia and HB S Disease"] C
-      such that E.status in { 'finished' } 
+      such that E.status ~ 'finished' 
 
 define "Kidney and Urinary Tract Disorders Encounter":
   [Encounter] E 
     with [Condition: "Kidney and Urinary Tract Disorders"] C
-      such that E.status in { 'finished' }
+      such that E.status ~ 'finished'
 
 define "Immunocompromised Encounter":
   [Encounter] E 
     with "Immunocompromised Condition and Procedure" C
-      such that E.status in { 'finished' }
+      such that E.status ~ 'finished'
 
 define "Immunocompromised Condition and Procedure":
   [Condition: "Immunocompromised State"] union [Procedure: "Immunocompromised State"]
@@ -258,6 +295,9 @@ define "Acute ACSC Nonoutliers":
 
 define "Acute ACSC Count":
   Count("Identify Acute ACSC Discharges by Claim")
+
+define "General ACSC Count":
+  Count("General ACSC Population")
 
 define "Total ACSC Outliers":
   case

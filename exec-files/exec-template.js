@@ -11,6 +11,15 @@ const removeArrayValues = patient => {
   const clonedPatient = cloneDeep(patient);
   Object.entries(clonedPatient).forEach(([propertyKey, propertyValue]) => {
     // remove property values that are arrays - the data pipeline doesn't need them
+    if (propertyKey === "Bacterial Pneumonia Encounter" || propertyKey === "Whatever2") {
+      // for (stuff in propertyValue) {
+      //   if (propertyValue[stuff] !== null) {
+      //     console.log(JSON.stringify(propertyValue[stuff]));
+      //   }
+      // }
+      console.log(JSON.stringify(propertyValue));
+      console.log("//////////////////////");
+    }
     if (Array.isArray(propertyValue)) {
       delete patient[propertyKey];
     }
@@ -44,11 +53,11 @@ const execute = (measure, patients, codeservice) => {
 
   const result = executor.exec(patientSource);
   // console.log(JSON.stringify(result.patientResults['a300389f-259b-ee78-df91-971d28555fae'])); // eslint-disable-line no-console
-   for (const item in result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers']) {
-    console.log(JSON.stringify(result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers'][item]["identifier"]));
-    console.log(JSON.stringify(result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers'][item]["period"]));
-  }
-  console.log(("---------------------"));
+  //  for (const item in result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers']) {
+  //   console.log(JSON.stringify(result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers'][item]["identifier"]));
+  //   console.log(JSON.stringify(result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers'][item]["period"]));
+  // }
+  // console.log(("---------------------"));
   // console.log(JSON.stringify(result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers']));
   
   const cleanedPatientResults = cleanData(result.patientResults);
