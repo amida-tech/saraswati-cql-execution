@@ -47,7 +47,6 @@ const execute = (measure, patients, codeservice) => {
    for (const item in result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers']) {
     console.log(JSON.stringify(result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers'][item]["identifier"]));
     console.log(JSON.stringify(result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers'][item]["period"]));
-    console.log(JSON.stringify(result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers'][item]["subject"]));
   }
   console.log(("---------------------"));
   // console.log(JSON.stringify(result.patientResults['a300389f-259b-ee78-df91-971d28555fae']['Direct Transfers']));

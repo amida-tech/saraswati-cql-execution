@@ -134,42 +134,22 @@ define "General ACSC Population":
     ) TotalStays
     where TotalStays.status in {'finished'}
 
-// define "Direct Transfers":
-//   "General ACSC Population" GAP
-//     with "General ACSC Population" GAP2
-//       such that GAP.subject = GAP2.subject
-//         and GAP.id != GAP2.id
-//         and (duration in days between GAP.period.end and GAP2.period.start) <= 1
-//        and GAP2.period.end <= "Measurement Year End"
-
-// define "Direct Transfers":
-//   from
-//       "General ACSC Population" GAP
-//       where "Direct Transfers Helper"(GAP)
-//       return GAP
-
-// And this?
-// define function "Direct Transfers Helper"(DTE Encounter):
-  // exists("General ACSC Population" GAP
-    // where DTE.subject = GAP.subject
-          // and DTE.id != GAP.id
-          // and DTE.period.start before GAP.period.start
-          // and (duration in days between GAP.period.end and DTE.period.start <= 1)
-          // )
- //         and GAP.period.end <= "Measurement Year End")
-          
-
+// Step 2: Not currently working. Just returning GAP instead. 
 define "Direct Transfers":
-  unique(from 
+  from 
     "General ACSC Population" GAP
-      such that "Direct Transfers Helper"(GAP)
-      return GAP)
+    // "General ACSC Population" GAP2
+    // where GAP.subject = GAP2.subject
+          // and GAP.id != GAP2.id
+          // and (GAP.period.end before GAP.period.start)
+          // and (days between GAP.period.end and GAP2.period.start <=1)
+          // and duration in days between GAP.period.end and GAP2.period.start <= 1
+          // and GAP2.period.start > GAP.period.start
+          // and GAP2.period.end <= "Measurement Year End"
+          // and GAP2.period.end <= Date(2013, 12, 01)
+    return GAP
 
-define function "Direct Transfers Helper"(DTE Encounter):
-  Last("General ACSC Population" GAP
-    where DTE.subject = GAP.subject
-      and DTE.id != GAP.id
-      and (duration in days between DTE.period.start and GAP.period.end <= 1))
+// define function "Direct Transfers Exclusions"(enc Encounter):
 
 // Step 3 for Chronic. Identify discharges by claim. CBT
 define "Identify Chronic ACSC Discharges by Claim":
@@ -261,17 +241,23 @@ define "Immunocompromised Condition and Procedure":
 
 // Step 4 Chronic.
 define "Chronic ACSC Outliers":
-  Count("Identify Chronic ACSC Discharges by Claim") >= 3
+  "Chronic ACSC Count" >= 3
 
 define "Chronic ACSC Nonoutliers":
-  Count("Identify Chronic ACSC Discharges by Claim") < 3
+  "Chronic ACSC Count" < 3
+
+define "Chronic ACSC Count":
+  Count("Identify Chronic ACSC Discharges by Claim")
 
 // Step 4 Acute.
 define "Acute ACSC Outliers":
-  Count("Identify Acute ACSC Discharges by Claim") >= 3
+  "Acute ACSC Count" >= 3
 
 define "Acute ACSC Nonoutliers":
-  Count("Identify Acute ACSC Discharges by Claim") < 3
+  "Acute ACSC Count" < 3
+
+define "Acute ACSC Count":
+  Count("Identify Acute ACSC Discharges by Claim")
 
 define "Total ACSC Outliers":
   case
