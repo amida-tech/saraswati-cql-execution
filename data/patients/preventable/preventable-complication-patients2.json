@@ -2,7 +2,7 @@
   {
       "resourceType": "Bundle",
       "type": "transaction",
-      "id": "whatever",
+      "id": "whatever2",
       "entry": [ {
         "fullUrl": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae",
         "resource": { 
@@ -2129,7 +2129,7 @@
           "code": {
             "coding": [ {
               "system": "http://snomed.info/sct",
-              "code": "XXX",
+              "code": "127040003",
               "display": "Sickle Cell Anemia and HB S Disease"
             }  ],
             "text": "Sickle Cell Anemia and HB S Disease"
@@ -2199,6 +2199,17 @@
             "start": "2017-06-20T20:59:51-04:00",
             "end": "2017-06-20T21:14:51-04:00"
           },
+          "diagnosis": [ {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aedi"
+            },
+            "rank": 1
+          }, {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aeki"
+            },
+            "rank": 2
+          }],
           "location": [ {
             "location": {
               "reference": "Location?identifier=https://github.com/synthetichealth/synthea|ada76ff9-a2aa-3119-b247-04d63e16f2ff",
@@ -2246,12 +2257,56 @@
               "system": "http://snomed.info/sct",
               "code": "10812041000119103",
               "display": "Urinary Tract Infection"
-            }, {
+            }],
+            "text": "Urinary Tract Infection"
+          },
+          "subject": {
+            "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
+          },
+          "encounter": {
+            "reference": "urn:uuid:28907b36-7615-1503-dbb2-d3b143e08h24"
+          },
+          "onsetDateTime": "2017-06-20T20:59:51-04:00",
+          "recordedDate": "2017-06-20T21:59:51-04:00"
+        },
+        "request": {
+          "method": "POST",
+          "url": "Condition"
+        }
+      }, {
+        "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aeki",
+        "resource": {
+          "resourceType": "Condition",
+          "id": "aa9059f2-1a11-4def-b44a-c8323498aedki",
+          "meta": {
+            "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition" ]
+          },
+          "clinicalStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            } ]
+          },
+          "verificationStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            } ]
+          },
+          "category": [ {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+              "code": "encounter-diagnosis",
+              "display": "Encounter Diagnosis"
+            } ]
+          } ],
+          "code": {
+            "coding": [ {
               "system": "http://snomed.info/sct",
               "code": "104931000119100",
               "display": "Kidney and Urinary Tract Disorders"
             } ],
-            "text": "Urinary Tract Infection with Kidney and Urinary Tract Disorders"
+            "text": "Kidney and Urinary Tract Disorders"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -2508,7 +2563,7 @@
           "code": {
             "coding": [ {
               "system": "http://snomed.info/sct",
-              "code": "XXX",
+              "code": "109967007",
               "display": "Immunocompromised State"
             } ],
             "text": "Immunocompromised State"

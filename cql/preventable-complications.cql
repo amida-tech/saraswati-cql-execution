@@ -209,14 +209,14 @@ define "Stage I-IV Kidney Disease Encounter with Dialysis":
 
 // Step 3 for Acute. Identify discharges by claim. 
 define "Identify Acute ACSC Discharges by Claim":
-    ("Direct Transfers" DT 
+    "Direct Transfers" DT 
       intersect "Bacterial Pneumonia Encounter"
-        // or (exists(First([Condition: "Urinary tract infection"]))
+      intersect "Urinary Tract Infection Encounter"
+      // or (exists(First([Condition: "Urinary tract infection"]))
         //   and not exists("Kidney and Urinary Tract Disorders Encounter")
-        //   and not exists("Immunocompromised Encounter Old"))
+        //   and not exists("Immunocompromised Encounter"))
         // or exists(First([Condition: "Cellulitis (ICD10CM)"]))
         // or exists(First([Condition: "Pressure ulcer"]))
-      )
 
 // Step 3 acute auxiliary functions.
 define function "GetId"(uri String):
@@ -231,25 +231,30 @@ define "Bacterial Pneumonia Encounter":
       and not exists("Sickle Cell Anemia Encounter"(E))
       and not exists("Immunocompromised Encounter"(E))
 
+define "Urinary Tract Infection Encounter":
+  [Encounter] E
+    let PrincipalDiagnosis:
+      (singleton from (E.diagnosis D where D.rank = 1)) PD
+        return singleton from ([Condition] C where C.id in "GetId"(PD.condition.reference.value))
+    where PrincipalDiagnosis.code in "Urinary tract infection"
+      and not exists("Kidney and Urinary Tract Disorders Encounter"(E))
+      and not exists("Immunocompromised Encounter"(E))
+
 define function "Sickle Cell Anemia Encounter"(E Encounter):
   from 
     [Condition: "Sickle Cell Anemia and HB S Disease"] C
     where "GetId"(C.encounter.reference) = E.id
     return C
 
+define function "Kidney and Urinary Tract Disorders Encounter"(E Encounter):
+  from 
+    [Condition: "Kidney and Urinary Tract Disorders"] C
+    where "GetId"(C.encounter.reference) = E.id
+    return C
+
 define function "Immunocompromised Encounter"(E Encounter):
   "Immunocompromised Condition and Procedure" CP
     where "GetId"(CP.encounter.reference) = E.id
-
-define "Immunocompromised Encounter Old":
-  [Encounter] E 
-    with "Immunocompromised Condition and Procedure" C
-      such that E.status ~ 'finished'
-
-define "Kidney and Urinary Tract Disorders Encounter":
-  [Encounter] E 
-    with [Condition: "Kidney and Urinary Tract Disorders"] C
-      such that E.status ~ 'finished'
 
 define "Immunocompromised Condition and Procedure":
   [Condition: "Immunocompromised State"] union [Procedure: "Immunocompromised State"]
