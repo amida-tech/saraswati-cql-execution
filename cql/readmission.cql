@@ -62,12 +62,6 @@ define "Workaround Direct Transfers":
   end
 */
 
-define "Print1":
-  getEncounter("Den Direct Transfers"[1]).id.value
-
-define "Print2":
-  getEncounter("Den Direct Transfers"[2]).id.value
-
 
 //Step 3 -  Remove everyone who leaves the same day they arrive
 define "Multi-Day Visits":
@@ -76,8 +70,21 @@ define "Multi-Day Visits":
 //Step 4 - Nobody who died during their stay or is pregnant
 define "No Death or Pregnancy":
   "Multi-Day Visits" MDV
-    where FHIRHelpers.ToCode(getEncounter(MDV).hospitalization.dischargeDisposition.coding[0]) !~ "Patient deceased during stay"
-    or not hasPregnancyEncounter(MDV)
+    where not hasDiedDuringStay(getEncounter(MDV))
+    and not hasPregnancyEncounter(MDV)
+
+define function hasDiedDuringStay(enc Encounter):
+  case getCountWithNull(enc)
+    when 0 then false
+    else '371828006' in enc.hospitalization.dischargeDisposition.coding.code.value
+  end
+
+define function getCountWithNull(enc Encounter):
+  case
+    when enc.hospitalization is null then 0
+    when enc.hospitalization.dischargeDisposition is null then 0
+    else Count(enc.hospitalization.dischargeDisposition.coding.code)
+  end
 
 define function hasPregnancyEncounter(eob ExplanationOfBenefit):
   Exists(([Encounter: "Inpatient Obstetrics NDNQI"] enc where Substring(eob.item[0].encounter[0].reference.value, 9) = enc.id))

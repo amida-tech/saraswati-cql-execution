@@ -907,60 +907,6 @@
                }
             }
          }, {
-            "name" : "Print1",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "path" : "value",
-               "type" : "Property",
-               "source" : {
-                  "path" : "id",
-                  "type" : "Property",
-                  "source" : {
-                     "name" : "getEncounter",
-                     "type" : "FunctionRef",
-                     "operand" : [ {
-                        "type" : "Indexer",
-                        "operand" : [ {
-                           "name" : "Den Direct Transfers",
-                           "type" : "ExpressionRef"
-                        }, {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                           "value" : "1",
-                           "type" : "Literal"
-                        } ]
-                     } ]
-                  }
-               }
-            }
-         }, {
-            "name" : "Print2",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "path" : "value",
-               "type" : "Property",
-               "source" : {
-                  "path" : "id",
-                  "type" : "Property",
-                  "source" : {
-                     "name" : "getEncounter",
-                     "type" : "FunctionRef",
-                     "operand" : [ {
-                        "type" : "Indexer",
-                        "operand" : [ {
-                           "name" : "Den Direct Transfers",
-                           "type" : "ExpressionRef"
-                        }, {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                           "value" : "2",
-                           "type" : "Literal"
-                        } ]
-                     } ]
-                  }
-               }
-            }
-         }, {
             "name" : "Multi-Day Visits",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -1025,6 +971,414 @@
                   } ]
                }
             }
+         }, {
+            "name" : "getCountWithNull",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Case",
+               "caseItem" : [ {
+                  "when" : {
+                     "type" : "IsNull",
+                     "operand" : {
+                        "path" : "hospitalization",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "enc",
+                           "type" : "OperandRef"
+                        }
+                     }
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "type" : "IsNull",
+                     "operand" : {
+                        "path" : "dischargeDisposition",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "hospitalization",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "enc",
+                              "type" : "OperandRef"
+                           }
+                        }
+                     }
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "type" : "Count",
+                  "source" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "$this",
+                        "expression" : {
+                           "path" : "coding",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "dischargeDisposition",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "hospitalization",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "name" : "enc",
+                                    "type" : "OperandRef"
+                                 }
+                              }
+                           }
+                        }
+                     } ],
+                     "where" : {
+                        "type" : "Not",
+                        "operand" : {
+                           "type" : "IsNull",
+                           "operand" : {
+                              "path" : "code",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "$this",
+                                 "type" : "AliasRef"
+                              }
+                           }
+                        }
+                     },
+                     "return" : {
+                        "distinct" : false,
+                        "expression" : {
+                           "path" : "code",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "$this",
+                              "type" : "AliasRef"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "enc",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Print0",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "getCountWithNull",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "getEncounter",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "type" : "Indexer",
+                     "operand" : [ {
+                        "name" : "Multi-Day Visits",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "1",
+                        "type" : "Literal"
+                     } ]
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "Print1",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "path" : "value",
+               "type" : "Property",
+               "source" : {
+                  "path" : "id",
+                  "type" : "Property",
+                  "source" : {
+                     "name" : "getEncounter",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "type" : "Indexer",
+                        "operand" : [ {
+                           "name" : "Multi-Day Visits",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                           "value" : "1",
+                           "type" : "Literal"
+                        } ]
+                     } ]
+                  }
+               }
+            }
+         }, {
+            "name" : "Print2",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "name" : "getCountWithNull",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "getEncounter",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "type" : "Indexer",
+                        "operand" : [ {
+                           "name" : "Multi-Day Visits",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                           "value" : "1",
+                           "type" : "Literal"
+                        } ]
+                     } ]
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "false",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "type" : "In",
+                  "operand" : [ {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "371828006",
+                     "type" : "Literal"
+                  }, {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "$this",
+                        "expression" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "$this",
+                              "expression" : {
+                                 "path" : "coding",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "dischargeDisposition",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "hospitalization",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "getEncounter",
+                                          "type" : "FunctionRef",
+                                          "operand" : [ {
+                                             "type" : "Indexer",
+                                             "operand" : [ {
+                                                "name" : "Multi-Day Visits",
+                                                "type" : "ExpressionRef"
+                                             }, {
+                                                "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value" : "1",
+                                                "type" : "Literal"
+                                             } ]
+                                          } ]
+                                       }
+                                    }
+                                 }
+                              }
+                           } ],
+                           "where" : {
+                              "type" : "Not",
+                              "operand" : {
+                                 "type" : "IsNull",
+                                 "operand" : {
+                                    "path" : "code",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "name" : "$this",
+                                       "type" : "AliasRef"
+                                    }
+                                 }
+                              }
+                           },
+                           "return" : {
+                              "distinct" : false,
+                              "expression" : {
+                                 "path" : "code",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "name" : "$this",
+                                    "type" : "AliasRef"
+                                 }
+                              }
+                           }
+                        }
+                     } ],
+                     "where" : {
+                        "type" : "Not",
+                        "operand" : {
+                           "type" : "IsNull",
+                           "operand" : {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "$this",
+                                 "type" : "AliasRef"
+                              }
+                           }
+                        }
+                     },
+                     "return" : {
+                        "distinct" : false,
+                        "expression" : {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "$this",
+                              "type" : "AliasRef"
+                           }
+                        }
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "hasDiedDuringStay",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "name" : "getCountWithNull",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "enc",
+                     "type" : "OperandRef"
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "false",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "type" : "In",
+                  "operand" : [ {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "371828006",
+                     "type" : "Literal"
+                  }, {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "$this",
+                        "expression" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "$this",
+                              "expression" : {
+                                 "path" : "coding",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "dischargeDisposition",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "hospitalization",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "enc",
+                                          "type" : "OperandRef"
+                                       }
+                                    }
+                                 }
+                              }
+                           } ],
+                           "where" : {
+                              "type" : "Not",
+                              "operand" : {
+                                 "type" : "IsNull",
+                                 "operand" : {
+                                    "path" : "code",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "name" : "$this",
+                                       "type" : "AliasRef"
+                                    }
+                                 }
+                              }
+                           },
+                           "return" : {
+                              "distinct" : false,
+                              "expression" : {
+                                 "path" : "code",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "name" : "$this",
+                                    "type" : "AliasRef"
+                                 }
+                              }
+                           }
+                        }
+                     } ],
+                     "where" : {
+                        "type" : "Not",
+                        "operand" : {
+                           "type" : "IsNull",
+                           "operand" : {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "$this",
+                                 "type" : "AliasRef"
+                              }
+                           }
+                        }
+                     },
+                     "return" : {
+                        "distinct" : false,
+                        "expression" : {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "$this",
+                              "type" : "AliasRef"
+                           }
+                        }
+                     }
+                  } ]
+               }
+            },
+            "operand" : [ {
+               "name" : "enc",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
          }, {
             "name" : "hasPregnancyEncounter",
             "context" : "Patient",
@@ -1126,45 +1480,19 @@
                } ],
                "relationship" : [ ],
                "where" : {
-                  "type" : "Or",
+                  "type" : "And",
                   "operand" : [ {
                      "type" : "Not",
                      "operand" : {
-                        "type" : "Equivalent",
+                        "name" : "hasDiedDuringStay",
+                        "type" : "FunctionRef",
                         "operand" : [ {
-                           "name" : "ToCode",
-                           "libraryName" : "FHIRHelpers",
+                           "name" : "getEncounter",
                            "type" : "FunctionRef",
                            "operand" : [ {
-                              "type" : "Indexer",
-                              "operand" : [ {
-                                 "path" : "coding",
-                                 "type" : "Property",
-                                 "source" : {
-                                    "path" : "dischargeDisposition",
-                                    "type" : "Property",
-                                    "source" : {
-                                       "path" : "hospitalization",
-                                       "type" : "Property",
-                                       "source" : {
-                                          "name" : "getEncounter",
-                                          "type" : "FunctionRef",
-                                          "operand" : [ {
-                                             "name" : "MDV",
-                                             "type" : "AliasRef"
-                                          } ]
-                                       }
-                                    }
-                                 }
-                              }, {
-                                 "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                 "value" : "0",
-                                 "type" : "Literal"
-                              } ]
+                              "name" : "MDV",
+                              "type" : "AliasRef"
                            } ]
-                        }, {
-                           "name" : "Patient deceased during stay",
-                           "type" : "CodeRef"
                         } ]
                      }
                   }, {

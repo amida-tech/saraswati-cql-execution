@@ -3437,6 +3437,17 @@
             "start": "2020-03-20T19:57:22-04:00",
             "end": "2020-03-21T20:12:22-04:00"
           },
+          "hospitalization": {
+            "dischargeDisposition": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "371828006",
+                  "display": "Patient deceased during stay"
+                }
+              ]
+            }
+          },
           "serviceProvider": {
             "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
             "display": "LEXINGTON EYE ASSOCIATES, INC"
@@ -4385,7 +4396,7 @@
               ],
               "period": {
                 "start": "2020-01-06T19:57:22-04:00",
-                "end": "2020-01-06T20:12:22-04:00"
+                "end": "2020-01-07T20:12:22-04:00"
               },
               "individual": {
                 "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe",
@@ -4395,7 +4406,7 @@
           ],
           "period": {
             "start": "2020-01-06T19:57:22-04:00",
-            "end": "2020-01-06T20:12:22-04:00"
+            "end": "2020-01-07T20:12:22-04:00"
           },
           "hospitalization": {
             "dischargeDisposition": {
