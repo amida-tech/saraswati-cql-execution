@@ -4,6 +4,7 @@ using FHIR version '4.0.0'
 include FHIRHelpers version '4.0.0' called FHIRHelpers
 
 codesystem "SNOMEDCT": 'urn:oid:2.16.840.1.113883.6.96' version 'urn:hl7:version:2017-09'
+codesystem "ICD10PCS": 'urn:oid:2.16.840.1.113883.6.4' version 'urn:hl7:version:2021'
 
 valueset "Bone Marrow Transplant": '2.16.840.1.113883.3.666.5.335'
 valueset "Chemotherapy": '2.16.840.1.113762.1.4.1047.451'
@@ -13,10 +14,9 @@ valueset "Kidney Transplant": '2.16.840.1.113883.3.464.1003.109.11.1024'
 valueset "Nonacute Inpatient Stay": '2.16.840.1.113762.1.4.1182.289'
 valueset "Observation Stay": '2.16.840.1.113762.1.4.1181.72'
 valueset "Organ Transplant": '2.16.840.1.113883.3.666.5.358'
+valueset "Potentially Planned Procedures": '2.16.840.1.113762.1.4.1195.332'
 valueset "Rehabilitation Services": '2.16.840.1.113883.3.117.1.7.1.229'
 valueset "Rehabilitation Therapy": '2.16.840.1.113762.1.4.1045.19'
-
-code "Patient deceased during stay": '371828006' from "SNOMEDCT" display 'Patient deceased during stay'
 
 parameter "Denominator Measurement Period" default Interval[@2020-01-01T00:00:00.0, @2020-12-01T00:00:00)
 parameter "Numerator Measurement Period" default Interval[@2020-01-03T00:00:00.0, @2020-12-31T23:59:59.999)
@@ -52,16 +52,6 @@ define function nonLastDirectTransfer(enc Encounter):
       where enc.id != getEncounter(ADL).id
       and (days between enc.period.end and getEncounter(ADL).period.start <= 1)
       and enc.period.start before getEncounter(ADL).period.start)
-
-/*
-define "Workaround Direct Transfers":
-  case Count("Denominator Gen Pop")
-    when 0 then List<ExplanationOfBenefit>{}
-    when 1 then {"Denominator Gen Pop"[0]}
-    else {"Denominator Gen Pop"[0], "Denominator Gen Pop"[1]}
-  end
-*/
-
 
 //Step 3 -  Remove everyone who leaves the same day they arrive
 define "Multi-Day Visits":
@@ -150,9 +140,25 @@ define "Numerator Exclusions":
     union [Encounter: "Bone Marrow Transplant"]
     union [Encounter: "Organ Transplant"]
     union [Encounter: "Inpatient Obstetrics NDNQI"]
+    union [Encounter: "Potentially Planned Procedures"]
 
 define "Valid Num Encounters":
   "Num Direct Transfers" except "Numerator Exclusions"
+
+define "Print0_NUM":
+  "Valid Num Encounters"[0].id.value
+
+define "Print1_NUM":
+  "Valid Num Encounters"[1].id.value
+
+define "Print2_NUM":
+  "Valid Num Encounters"[2].id.value
+
+define "Print3_NUM":
+  "Valid Num Encounters"[3].id.value
+
+define "Print4_NUM":
+  "Valid Num Encounters"[4].id.value
 
 // Step 4 - Check the denominator for numerator encounters withing 30 days
 define "Final Numerator List":
@@ -161,7 +167,8 @@ define "Final Numerator List":
 define function hasReadmission(denEnc Encounter):
   Exists("Valid Num Encounters" numEnc
     where numEnc.id != denEnc.id
-    and days between denEnc.period.end and numEnc.period.start <= 30)
+    and days between denEnc.period.end and numEnc.period.start <= 30
+    and denEnc.period.end before numEnc.period.end)
 
 define "Numerator":
   Count("Final Numerator List")

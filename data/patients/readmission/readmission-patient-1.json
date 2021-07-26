@@ -2885,11 +2885,11 @@
               "coding": [
                 {
                   "system": "http://snomed.info/sct",
-                  "code": "410620009",
-                  "display": "Well child visit (procedure)"
+                  "code": "265762008",
+                  "display": "Subcutaneous chemotherapy (procedure)"
                 }
               ],
-              "text": "Well child visit (procedure)"
+              "text": "Chemotherapy"
             }
           ],
           "subject": {
@@ -2911,8 +2911,8 @@
                 }
               ],
               "period": {
-                "start": "2015-09-05T19:57:22-04:00",
-                "end": "2015-09-05T20:12:22-04:00"
+                "start": "2020-12-05T19:57:22-04:00",
+                "end": "2020-12-05T20:12:22-04:00"
               },
               "individual": {
                 "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe",
@@ -2921,8 +2921,8 @@
             }
           ],
           "period": {
-            "start": "2015-09-05T19:57:22-04:00",
-            "end": "2015-09-05T20:12:22-04:00"
+            "start": "2020-09-05T19:57:22-04:00",
+            "end": "2020-12-05T20:12:22-04:00"
           },
           "serviceProvider": {
             "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
@@ -4358,7 +4358,7 @@
         "fullUrl": "urn:uuid:zbc853b3-3488-8f95-34f3-028b9ff82da2",
         "resource": {
           "resourceType": "Encounter",
-          "id": ":zbc853b3-3488-8f95-34f3-028b9ff82da2",
+          "id": "zbc853b3-3488-8f95-34f3-028b9ff82da2",
           "status": "finished",
           "class": {
             "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
@@ -5233,4 +5233,4 @@
       }
     ]
   }
-] 
+]
