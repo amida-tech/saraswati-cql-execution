@@ -210,7 +210,7 @@ define "Stage I-IV Kidney Disease Encounter with Dialysis":
 // Step 3 for Acute. Identify discharges by claim. 
 define "Identify Acute ACSC Discharges by Claim":
     ("Direct Transfers" DT 
-      where exists("Bacterial Pneumonia Encounter") 
+      intersect "Bacterial Pneumonia Encounter"
         // or (exists(First([Condition: "Urinary tract infection"]))
         //   and not exists("Kidney and Urinary Tract Disorders Encounter")
         //   and not exists("Immunocompromised Encounter Old"))

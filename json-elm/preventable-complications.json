@@ -1855,22 +1855,21 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "DT",
-                  "expression" : {
-                     "name" : "Direct Transfers",
-                     "type" : "ExpressionRef"
-                  }
-               } ],
-               "relationship" : [ ],
-               "where" : {
-                  "type" : "Exists",
-                  "operand" : {
-                     "name" : "Bacterial Pneumonia Encounter",
-                     "type" : "ExpressionRef"
-                  }
-               }
+               "type" : "Intersect",
+               "operand" : [ {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "DT",
+                     "expression" : {
+                        "name" : "Direct Transfers",
+                        "type" : "ExpressionRef"
+                     }
+                  } ],
+                  "relationship" : [ ]
+               }, {
+                  "name" : "Bacterial Pneumonia Encounter",
+                  "type" : "ExpressionRef"
+               } ]
             }
          }, {
             "name" : "Immunocompromised Encounter Old",

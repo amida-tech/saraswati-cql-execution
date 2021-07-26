@@ -2,7 +2,7 @@
   {
       "resourceType": "Bundle",
       "type": "transaction",
-      "id": "whatever2",
+      "id": "whatever",
       "entry": [ {
         "fullUrl": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae",
         "resource": { 
@@ -2129,7 +2129,7 @@
           "code": {
             "coding": [ {
               "system": "http://snomed.info/sct",
-              "code": "127040003",
+              "code": "XXX",
               "display": "Sickle Cell Anemia and HB S Disease"
             }  ],
             "text": "Sickle Cell Anemia and HB S Disease"
@@ -2508,7 +2508,7 @@
           "code": {
             "coding": [ {
               "system": "http://snomed.info/sct",
-              "code": "109967007",
+              "code": "XXX",
               "display": "Immunocompromised State"
             } ],
             "text": "Immunocompromised State"
