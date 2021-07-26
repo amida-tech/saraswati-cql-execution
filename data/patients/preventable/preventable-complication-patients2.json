@@ -2,7 +2,7 @@
   {
       "resourceType": "Bundle",
       "type": "transaction",
-      "id": "whatever",
+      "id": "whatever2",
       "entry": [ {
         "fullUrl": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae",
         "resource": { 
@@ -2030,6 +2030,11 @@
               "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aezz"
             },
             "rank": 2
+          }, {
+            "condition": {
+              "reference": "urn:uuid:a8a35131-84a0-0a62-2bb9-b540577a779p"
+            },
+            "rank": 3
           } ],
           "location": [ {
             "location": {
@@ -2491,6 +2496,46 @@
           "method": "POST",
           "url": "Condition"
         }
-      } ]
+      }, {
+        "fullUrl": "urn:uuid:a8a35131-84a0-0a62-2bb9-b540577a779p",
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "a8a35131-84a0-0a62-2bb9-b540577a779p",
+          "meta": {
+            "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure" ]
+          },
+          "status": "completed",
+          "code": {
+            "coding": [ {
+              "system": "http://snomed.info/sct",
+              "code": "109967007",
+              "display": "Immunocompromised State"
+            } ],
+            "text": "Immunocompromised State"
+          },
+          "subject": {
+            "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
+          },
+          "encounter": {
+            "reference": "urn:uuid:28907b36-7615-1503-dbb2-d3b143e08h23"
+          },
+          "performedPeriod": {
+            "start": "2017-02-25T19:59:51-05:00",
+            "end": "2017-02-25T20:14:51-05:00"
+          },
+          "location": {
+            "reference": "Location?identifier=https://github.com/synthetichealth/synthea|5ad4118a-3589-3537-9c3a-3e70ad4306d8",
+            "display": "BETH ISRAEL DEACONESS HOSPITAL-MILTON INC"
+          },
+          "reasonReference": [ {
+            "reference": "urn:uuid:20927316-2249-3760-c902-b389ec6db190",
+            "display": "Cardiac Arrest"
+          } ]
+        },
+        "request": {
+          "method": "POST",
+          "url": "Procedure"
+        }
+      }]
     }
 ]

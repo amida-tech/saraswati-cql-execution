@@ -210,66 +210,45 @@ define "Stage I-IV Kidney Disease Encounter with Dialysis":
 // Step 3 for Acute. Identify discharges by claim. 
 define "Identify Acute ACSC Discharges by Claim":
     ("Direct Transfers" DT 
-      where (exists("Bacterial Pneumonia Encounter") 
-          and not exists("Sickle Cell Anemia Encounter") 
-          and not exists("Immunocompromised Encounter"))
-        or (exists(First([Condition: "Urinary tract infection"]))
-          and not exists("Kidney and Urinary Tract Disorders Encounter")
-          and not exists("Immunocompromised Encounter"))
-        or exists(First([Condition: "Cellulitis (ICD10CM)"]))
-        or exists(First([Condition: "Pressure ulcer"]))
+      where exists("Bacterial Pneumonia Encounter") 
+        // or (exists(First([Condition: "Urinary tract infection"]))
+        //   and not exists("Kidney and Urinary Tract Disorders Encounter")
+        //   and not exists("Immunocompromised Encounter Old"))
+        // or exists(First([Condition: "Cellulitis (ICD10CM)"]))
+        // or exists(First([Condition: "Pressure ulcer"]))
       )
 
 // Step 3 acute auxiliary functions.
-define "Bacterial Pneumonia Encounter":
-  from 
-    [Encounter] E,
-    [Condition: "Bacterial pneumonia"] C 
-    where E.id = "GetId"(C.encounter.reference)
-      return C
-      // "EncounterDiagnosis"(E).code in "Bacterial pneumonia"
-      // such that E.diagnosis.rank = 1 // and E.diagnosis.condition in "Bacterial pneumonia"
-      // such that E.status ~ 'finished' 
-
-define function "PrimaryDiagnosis"(enc Encounter):
-  enc.diagnosis D 
-    where D.rank.value = 1
-      return D.condition
-
-define function "EncounterDiagnosis"(enc Encounter):
-  enc.diagnosis D
-    where D.rank = 1
-    return singleton from ([Condition] C where C.id.value = "GetId"(D.condition.reference.value))
-
 define function "GetId"(uri String):
-  // Last(Split(Substring(uri, "CheckFrontBracket"(uri), "CheckBackBracket"(uri)), ':'))
   Last(Split(uri, ':'))
 
-// define function "CheckFrontBracket"(uri String):
-//   case Matches(uri, '\\[')
-//     when true then 1
-//     else 0
-//   end
+define "Bacterial Pneumonia Encounter":
+  [Encounter] E
+    let PrincipalDiagnosis:
+      (singleton from (E.diagnosis D where D.rank = 1)) PD
+        return singleton from ([Condition] C where C.id in "GetId"(PD.condition.reference.value))
+    where PrincipalDiagnosis.code in "Bacterial pneumonia"
+      and not exists("Sickle Cell Anemia Encounter"(E))
+      and not exists("Immunocompromised Encounter"(E))
 
-// define function "CheckBackBracket"(uri String):
-//  case Matches(uri, ']')
-//    when true then Length(uri) - 2
-//    else Length(uri)
-//  end
+define function "Sickle Cell Anemia Encounter"(E Encounter):
+  from 
+    [Condition: "Sickle Cell Anemia and HB S Disease"] C
+    where "GetId"(C.encounter.reference) = E.id
+    return C
 
-define "Sickle Cell Anemia Encounter":
+define function "Immunocompromised Encounter"(E Encounter):
+  "Immunocompromised Condition and Procedure" CP
+    where "GetId"(CP.encounter.reference) = E.id
+
+define "Immunocompromised Encounter Old":
   [Encounter] E 
-    with [Condition: "Sickle Cell Anemia and HB S Disease"] C
-      such that E.status ~ 'finished' 
+    with "Immunocompromised Condition and Procedure" C
+      such that E.status ~ 'finished'
 
 define "Kidney and Urinary Tract Disorders Encounter":
   [Encounter] E 
     with [Condition: "Kidney and Urinary Tract Disorders"] C
-      such that E.status ~ 'finished'
-
-define "Immunocompromised Encounter":
-  [Encounter] E 
-    with "Immunocompromised Condition and Procedure" C
       such that E.status ~ 'finished'
 
 define "Immunocompromised Condition and Procedure":
