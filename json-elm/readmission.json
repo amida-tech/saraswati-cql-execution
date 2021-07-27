@@ -1704,60 +1704,6 @@
                }
             }
          }, {
-            "name" : "Print0",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "path" : "value",
-               "type" : "Property",
-               "source" : {
-                  "path" : "id",
-                  "type" : "Property",
-                  "source" : {
-                     "name" : "getEncounter",
-                     "type" : "FunctionRef",
-                     "operand" : [ {
-                        "type" : "Indexer",
-                        "operand" : [ {
-                           "name" : "Final Denominator List",
-                           "type" : "ExpressionRef"
-                        }, {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                           "value" : "0",
-                           "type" : "Literal"
-                        } ]
-                     } ]
-                  }
-               }
-            }
-         }, {
-            "name" : "Print1",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "path" : "value",
-               "type" : "Property",
-               "source" : {
-                  "path" : "id",
-                  "type" : "Property",
-                  "source" : {
-                     "name" : "getEncounter",
-                     "type" : "FunctionRef",
-                     "operand" : [ {
-                        "type" : "Indexer",
-                        "operand" : [ {
-                           "name" : "Final Denominator List",
-                           "type" : "ExpressionRef"
-                        }, {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                           "value" : "1",
-                           "type" : "Literal"
-                        } ]
-                     } ]
-                  }
-               }
-            }
-         }, {
             "name" : "Denominator",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -2112,121 +2058,6 @@
                } ]
             }
          }, {
-            "name" : "Print0_NUM",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "path" : "value",
-               "type" : "Property",
-               "source" : {
-                  "path" : "id",
-                  "type" : "Property",
-                  "source" : {
-                     "type" : "Indexer",
-                     "operand" : [ {
-                        "name" : "Valid Num Encounters",
-                        "type" : "ExpressionRef"
-                     }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "0",
-                        "type" : "Literal"
-                     } ]
-                  }
-               }
-            }
-         }, {
-            "name" : "Print1_NUM",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "path" : "value",
-               "type" : "Property",
-               "source" : {
-                  "path" : "id",
-                  "type" : "Property",
-                  "source" : {
-                     "type" : "Indexer",
-                     "operand" : [ {
-                        "name" : "Valid Num Encounters",
-                        "type" : "ExpressionRef"
-                     }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "1",
-                        "type" : "Literal"
-                     } ]
-                  }
-               }
-            }
-         }, {
-            "name" : "Print2_NUM",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "path" : "value",
-               "type" : "Property",
-               "source" : {
-                  "path" : "id",
-                  "type" : "Property",
-                  "source" : {
-                     "type" : "Indexer",
-                     "operand" : [ {
-                        "name" : "Valid Num Encounters",
-                        "type" : "ExpressionRef"
-                     }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "2",
-                        "type" : "Literal"
-                     } ]
-                  }
-               }
-            }
-         }, {
-            "name" : "Print3_NUM",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "path" : "value",
-               "type" : "Property",
-               "source" : {
-                  "path" : "id",
-                  "type" : "Property",
-                  "source" : {
-                     "type" : "Indexer",
-                     "operand" : [ {
-                        "name" : "Valid Num Encounters",
-                        "type" : "ExpressionRef"
-                     }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "3",
-                        "type" : "Literal"
-                     } ]
-                  }
-               }
-            }
-         }, {
-            "name" : "Print4_NUM",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "path" : "value",
-               "type" : "Property",
-               "source" : {
-                  "path" : "id",
-                  "type" : "Property",
-                  "source" : {
-                     "type" : "Indexer",
-                     "operand" : [ {
-                        "name" : "Valid Num Encounters",
-                        "type" : "ExpressionRef"
-                     }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                        "value" : "4",
-                        "type" : "Literal"
-                     } ]
-                  }
-               }
-            }
-         }, {
             "name" : "hasReadmission",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -2409,24 +2240,67 @@
                }
             }
          }, {
+            "name" : "Print0",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Numerator Total",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Print1",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Denominator Total",
+               "type" : "ExpressionRef"
+            }
+         }, {
             "name" : "Readmission HEDIS Score",
             "context" : "Unfiltered",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Divide",
-               "operand" : [ {
-                  "type" : "ToDecimal",
-                  "operand" : {
-                     "name" : "Numerator Total",
-                     "type" : "ExpressionRef"
+               "type" : "Case",
+               "caseItem" : [ {
+                  "when" : {
+                     "type" : "Equal",
+                     "operand" : [ {
+                        "name" : "Denominator Total",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "0",
+                        "type" : "Literal"
+                     } ]
+                  },
+                  "then" : {
+                     "type" : "ToDecimal",
+                     "operand" : {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "0",
+                        "type" : "Literal"
+                     }
                   }
-               }, {
-                  "type" : "ToDecimal",
-                  "operand" : {
-                     "name" : "Denominator Total",
-                     "type" : "ExpressionRef"
-                  }
-               } ]
+               } ],
+               "else" : {
+                  "type" : "Divide",
+                  "operand" : [ {
+                     "type" : "ToDecimal",
+                     "operand" : {
+                        "type" : "Sum",
+                        "source" : {
+                           "name" : "Numerator",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }, {
+                     "type" : "ToDecimal",
+                     "operand" : {
+                        "name" : "Denominator Total",
+                        "type" : "ExpressionRef"
+                     }
+                  } ]
+               }
             }
          } ]
       }

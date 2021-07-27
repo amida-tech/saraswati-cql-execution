@@ -122,15 +122,6 @@ define function numNonLastDirectTransfer(enc Encounter):
     and (days between enc.period.end and enc2.period.start <= 1)
     and enc.period.start before enc2.period.start)
 
-/*
-define "Num Workaround Direct Transfers":
-  case Count("Numerator Gen Pop")
-    when 0 then List<Encounter>{}
-    when 1 then {"Numerator Gen Pop"[0]}
-    else "Numerator Gen Pop"
-  end
-*/
-
 // Step 3 - Exlcude various encounters
 define "Numerator Exclusions":
   [Encounter: "Chemotherapy"]
@@ -144,21 +135,6 @@ define "Numerator Exclusions":
 
 define "Valid Num Encounters":
   "Num Direct Transfers" except "Numerator Exclusions"
-
-define "Print0_NUM":
-  "Valid Num Encounters"[0].id.value
-
-define "Print1_NUM":
-  "Valid Num Encounters"[1].id.value
-
-define "Print2_NUM":
-  "Valid Num Encounters"[2].id.value
-
-define "Print3_NUM":
-  "Valid Num Encounters"[3].id.value
-
-define "Print4_NUM":
-  "Valid Num Encounters"[4].id.value
 
 // Step 4 - Check the denominator for numerator encounters withing 30 days
 define "Final Numerator List":
@@ -187,7 +163,10 @@ define "Denominator Total":
   Sum("Denominator")
 
 define "Numerator Total":
-  Sum(Numerator)
+  Sum("Numerator")
 
 define "Readmission HEDIS Score":
-  "Numerator Total" / "Denominator Total"
+  case
+    when "Denominator Total" = 0 then 0
+    else Sum("Numerator") / "Denominator Total"
+  end
