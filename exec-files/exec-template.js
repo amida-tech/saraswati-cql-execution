@@ -11,15 +11,6 @@ const removeArrayValues = patient => {
   const clonedPatient = cloneDeep(patient);
   Object.entries(clonedPatient).forEach(([propertyKey, propertyValue]) => {
     // remove property values that are arrays - the data pipeline doesn't need them
-    if (propertyKey === "Bacterial Pneumonia Encounter" || propertyKey === "Whatever2") {
-      // for (stuff in propertyValue) {
-      //   if (propertyValue[stuff] !== null) {
-      //     console.log(JSON.stringify(propertyValue[stuff]));
-      //   }
-      // }
-      console.log(JSON.stringify(propertyValue));
-      console.log("//////////////////////");
-    }
     if (Array.isArray(propertyValue)) {
       delete patient[propertyKey];
     }

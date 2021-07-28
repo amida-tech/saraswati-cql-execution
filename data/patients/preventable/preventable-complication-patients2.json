@@ -725,10 +725,10 @@
           "code": {
             "coding": [ {
               "system": "ICD10PCS",
-              "code": "02590ZZ",
-              "display": "Cardiac Procedure"
+              "code": "XXX",
+              "display": "Cardiac Procedure 02590ZZ"
             } ],
-            "text": "Cardiac Procedure"
+            "text": "Heart Failure with Cardiac Procedure CHRONIC CHECK"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -1324,6 +1324,17 @@
             "start": "2017-04-20T20:59:51-04:00",
             "end": "2017-04-20T21:14:51-04:00"
           },
+          "diagnosis": [ {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aza1"
+            },
+            "rank": 1
+          }, {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aza2"
+            },
+            "rank": 2
+          }],
           "location": [ {
             "location": {
               "reference": "Location?identifier=https://github.com/synthetichealth/synthea|ada76ff9-a2aa-3119-b247-04d63e16f2ff",
@@ -1340,10 +1351,10 @@
           "url": "Encounter"
         }
       }, {
-        "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aede",
+        "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aza1",
         "resource": {
           "resourceType": "Condition",
-          "id": "aa9059f2-1a11-4def-b44a-c8323498aede",
+          "id": "aa9059f2-1a11-4def-b44a-c8323498aza1",
           "meta": {
             "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition" ]
           },
@@ -1370,13 +1381,57 @@
             "coding": [ {
               "system": "http://snomed.info/sct",
               "code": "13151001",
-              "display": "Asthma"
-            }, {
+              "display": "Asthma 13151001"
+            } ],
+            "text": "Asthma CHRONIC CHECK"
+          },
+          "subject": {
+            "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
+          },
+          "encounter": {
+            "reference": "urn:uuid:28907b36-7615-1503-dbb2-d3b143e08f28"
+          },
+          "onsetDateTime": "2017-04-20T20:59:51-04:00",
+          "recordedDate": "2017-04-20T21:59:51-04:00"
+        },
+        "request": {
+          "method": "POST",
+          "url": "Condition"
+        }
+      }, {
+        "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aza2",
+        "resource": {
+          "resourceType": "Condition",
+          "id": "aa9059f2-1a11-4def-b44a-c8323498aza2",
+          "meta": {
+            "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition" ]
+          },
+          "clinicalStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            } ]
+          },
+          "verificationStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            } ]
+          },
+          "category": [ {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+              "code": "encounter-diagnosis",
+              "display": "Encounter Diagnosis"
+            } ]
+          } ],
+          "code": {
+            "coding": [ {
               "system": "http://snomed.info/sct",
               "code": "81423003",
-              "display": "Cystic Fibrosis"
+              "display": "Cystic Fibrosis 81423003"
             } ],
-            "text": "Asthma with Cystic Fibrosis"
+            "text": "Cystic Fibrosis CHRONIC CHECK"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -1796,6 +1851,22 @@
             "start": "2017-05-30T20:59:51-04:00",
             "end": "2017-05-30T21:14:51-04:00"
           },
+          "diagnosis": [ {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498ayy1"
+            },
+            "rank": 1
+          }, {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498ayy2"
+            },
+            "rank": 2
+          }, {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498ayy3"
+            },
+            "rank": 3
+          }],
           "location": [ {
             "location": {
               "reference": "Location?identifier=https://github.com/synthetichealth/synthea|ada76ff9-a2aa-3119-b247-04d63e16f2ff",
@@ -1812,10 +1883,10 @@
           "url": "Encounter"
         }
       }, {
-        "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aede",
+        "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498ayy1",
         "resource": {
           "resourceType": "Condition",
-          "id": "aa9059f2-1a11-4def-b44a-c8323498aede",
+          "id": "aa9059f2-1a11-4def-b44a-c8323498ayy1",
           "meta": {
             "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition" ]
           },
@@ -1842,17 +1913,105 @@
             "coding": [ {
               "system": "http://snomed.info/sct",
               "code": "10509002",
-              "display": "Acute Bronchitis"
-            },{
+              "display": "Acute Bronchitis 10509002"
+            }],
+            "text": "Acute Bronchitis with COPD and Cystic Fibrosis CHRONIC CHECK"
+          },
+          "subject": {
+            "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
+          },
+          "encounter": {
+            "reference": "urn:uuid:28907b36-7615-1503-dbb2-d3b143e08g99"
+          },
+          "onsetDateTime": "2017-05-30T20:59:51-04:00",
+          "recordedDate": "2017-05-30T21:59:51-04:00"
+        },
+        "request": {
+          "method": "POST",
+          "url": "Condition"
+        }
+      }, {
+        "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498ayy2",
+        "resource": {
+          "resourceType": "Condition",
+          "id": "aa9059f2-1a11-4def-b44a-c8323498ayy2",
+          "meta": {
+            "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition" ]
+          },
+          "clinicalStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            } ]
+          },
+          "verificationStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            } ]
+          },
+          "category": [ {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+              "code": "encounter-diagnosis",
+              "display": "Encounter Diagnosis"
+            } ]
+          } ],
+          "code": {
+            "coding": [{
               "system": "ICD10CM",
               "code": "J44.0",
-              "display": "COPD"
-            },{
+              "display": "COPD J44.0"
+            }],
+            "text": "Acute Bronchitis with COPD and Cystic Fibrosis CHRONIC CHECK"
+          },
+          "subject": {
+            "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
+          },
+          "encounter": {
+            "reference": "urn:uuid:28907b36-7615-1503-dbb2-d3b143e08g99"
+          },
+          "onsetDateTime": "2017-05-30T20:59:51-04:00",
+          "recordedDate": "2017-05-30T21:59:51-04:00"
+        },
+        "request": {
+          "method": "POST",
+          "url": "Condition"
+        }
+      }, {
+        "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498ayy3",
+        "resource": {
+          "resourceType": "Condition",
+          "id": "aa9059f2-1a11-4def-b44a-c8323498ayy3",
+          "meta": {
+            "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition" ]
+          },
+          "clinicalStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            } ]
+          },
+          "verificationStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            } ]
+          },
+          "category": [ {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+              "code": "encounter-diagnosis",
+              "display": "Encounter Diagnosis"
+            } ]
+          } ],
+          "code": {
+            "coding": [ {
               "system": "ICD10CM",
               "code": "E84.0",
-              "display": "Cystic Fibrosis"
+              "display": "Cystic Fibrosis E84.0"
             } ],
-            "text": "Acute Bronchitis with COPD and Cystic Fibrosis"
+            "text": "Acute Bronchitis with COPD and Cystic Fibrosis CHRONIC CHECK"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -1919,6 +2078,17 @@
             "start": "2017-06-02T20:59:51-04:00",
             "end": "2017-06-02T21:14:51-04:00"
           },
+          "diagnosis": [ {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aedf"
+            },
+            "rank": 1
+          }, {
+            "condition": {
+              "reference": "urn:uuid:73a447f7-c7cd-ee4b-e007-4f4524458f1c"
+            },
+            "rank": 2
+          }],
           "location": [ {
             "location": {
               "reference": "Location?identifier=https://github.com/synthetichealth/synthea|ada76ff9-a2aa-3119-b247-04d63e16f2ff",
@@ -2034,6 +2204,27 @@
             "start": "2017-06-10T20:59:51-04:00",
             "end": "2017-06-10T21:14:51-04:00"
           },
+          "diagnosis": [ {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aedg"
+            },
+            "rank": 1
+          }, {
+            "condition": {
+              "reference": "urn:uuid:73a447f7-c7cd-ee4b-e007-c8323498ae2g"
+            },
+            "rank": 2
+          }, {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498ae3g"
+            },
+            "rank": 3
+          }, {
+            "condition": {
+              "reference": "urn:uuid:73a447f7-c7cd-ee4b-e007-c8323498ae4g"
+            },
+            "rank": 4
+          }],
           "location": [ {
             "location": {
               "reference": "Location?identifier=https://github.com/synthetichealth/synthea|ada76ff9-a2aa-3119-b247-04d63e16f2ff",
@@ -2081,12 +2272,8 @@
               "system": "http://snomed.info/sct",
               "code": "104931000119100",
               "display": "Hypertension"
-            }, {
-              "system": "ICDM10CM",
-              "code": "I12.9",
-              "display": "Stage I-IV Kidney Disease"
-            } ],
-            "text": "Hypertension with Stage I-IV Kidney Disease"
+            }],
+            "text": "Hypertension with Stage I-IV Kidney Disease CHRONIC CHECK"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -2100,6 +2287,134 @@
         "request": {
           "method": "POST",
           "url": "Condition"
+        }
+      }, {
+        "fullUrl": "urn:uuid:73a447f7-c7cd-ee4b-e007-c8323498ae2g",
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "73a447f7-c7cd-ee4b-e007-c8323498ae2g",
+          "meta": {
+            "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure" ]
+          },
+          "status": "completed",
+          "code": {
+            "coding": [ {
+              "system": "ICD10PCS",
+              "code": "XXX",
+              "display": "Cardiac Procedure 027F34Z"
+            } ],
+            "text": "Hypertension with Cardiac Procedure CHRONIC CHECK"
+          },
+          "subject": {
+            "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
+          },
+          "encounter": {
+            "reference": "urn:uuid:28907b36-7615-1503-dbb2-d3b143e08h22"
+          },
+          "performedPeriod": {
+            "start": "2017-06-02T19:59:51-05:00",
+            "end": "2017-06-02T20:14:51-05:00"
+          },
+          "location": {
+            "reference": "Location?identifier=https://github.com/synthetichealth/synthea|5ad4118a-3589-3537-9c3a-3e70ad4306d8",
+            "display": "BETH ISRAEL DEACONESS HOSPITAL-MILTON INC"
+          },
+          "reasonReference": [ {
+            "reference": "urn:uuid:20927316-2249-3760-c902-b389ec6dbX10",
+            "display": "Cardiac Arrest"
+          } ]
+        },
+        "request": {
+          "method": "POST",
+          "url": "Procedure"
+        }
+      }, {
+        "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498ae3g",
+        "resource": {
+          "resourceType": "Condition",
+          "id": "aa9059f2-1a11-4def-b44a-c8323498ae3g",
+          "meta": {
+            "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition" ]
+          },
+          "clinicalStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            } ]
+          },
+          "verificationStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            } ]
+          },
+          "category": [ {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+              "code": "encounter-diagnosis",
+              "display": "Encounter Diagnosis"
+            } ]
+          } ],
+          "code": {
+            "coding": [ {
+              "system": "ICDM10CM",
+              "code": "I12.9",
+              "display": "Stage I-IV Kidney Disease I12.9"
+            } ],
+            "text": "Hypertension with Stage I-IV Kidney Disease CHRONIC CHECK"
+          },
+          "subject": {
+            "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
+          },
+          "encounter": {
+            "reference": "urn:uuid:28907b36-7615-1503-dbb2-d3b143e08h22"
+          },
+          "onsetDateTime": "2017-06-10T20:59:51-04:00",
+          "recordedDate": "2017-06-10T21:59:51-04:00"
+        },
+        "request": {
+          "method": "POST",
+          "url": "Condition"
+        }
+      }, {
+        "fullUrl": "urn:uuid:73a447f7-c7cd-ee4b-e007-c8323498ae4g",
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "73a447f7-c7cd-ee4b-e007-c8323498ae4g",
+          "meta": {
+            "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure" ]
+          },
+          "status": "completed",
+          "code": {
+            "coding": [ {
+              "system": "http://snomed.info/sct",
+              "code": "xxx",
+              "display": "Dialysis 11000731000119102"
+            } ],
+            "text": "Hypertension with Dialysis Procedure CHRONIC CHECK"
+          },
+          "subject": {
+            "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
+          },
+          "encounter": {
+            "reference": "urn:uuid:28907b36-7615-1503-dbb2-d3b143e08h22"
+          },
+          "performedPeriod": {
+            "start": "2017-06-02T19:59:51-05:00",
+            "end": "2017-06-02T20:14:51-05:00"
+          },
+          "location": {
+            "reference": "Location?identifier=https://github.com/synthetichealth/synthea|5ad4118a-3589-3537-9c3a-3e70ad4306d8",
+            "display": "BETH ISRAEL DEACONESS HOSPITAL-MILTON INC"
+          },
+          "reasonReference": [ {
+            "reference": "urn:uuid:28907b36-7615-1503-dbb2-d3b143e08h72",
+            "display": "Cardiac Arrest"
+          } ]
+        },
+        "request": {
+          "method": "POST",
+          "url": "Procedure"
         }
       }, {
         "fullUrl": "urn:uuid:28907b36-7615-1503-dbb2-d3b143e08h23",

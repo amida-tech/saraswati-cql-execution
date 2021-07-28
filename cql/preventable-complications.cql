@@ -156,15 +156,11 @@ define "Identify Chronic ACSC Discharges by Claim":
     union ("Direct Transfers" intersect "Diabetes Long Term Complications Encounter")
     union ("Direct Transfers" intersect "Uncontrolled Diabetes Encounter")
     union ("Direct Transfers" intersect "Lower Extremity Amputation with Diabetes Encounter")
-    union ("Direct Transfers" intersect "COPD Encounter")
-        // or (exists(First([Condition: "COPD"])) 
-          // and not exists("Cystic Fibrosis Encounter")
-        // or (exists(First([Condition: "Asthma"])) 
-          // and not exists("Cystic Fibrosis Encounter"))
-        // or (exists("Acute Bronchitis with COPD") 
-          // and not exists("Cystic Fibrosis Encounter"))
-        // or (exists(First([Condition: "Heart Failure"])) 
-          // and not exists("Cardiac Procedure Encounter"))
+    union ("Direct Transfers" intersect "COPD without Cystic Fibrosis Encounter")
+    union ("Direct Transfers" intersect "Asthma without Cystic Fibrosis Encounter")
+    union ("Direct Transfers" intersect "Acute Bronchitis with COPD Encounter")
+    union ("Direct Transfers" intersect "Heart Failure without Cardiac Procedure Encounter")
+    union ("Direct Transfers" intersect "Hypertension without Cardiac Procedure or Kidney Disease with Dialysis Encounter")
         // or (exists(First([Condition: "Hypertension"]))
           // and not exists("Cardiac Procedure Encounter") 
           // and not exists("Stage I-IV Kidney Disease Encounter with Dialysis"))
@@ -209,13 +205,62 @@ define "Lower Extremity Amputation with Diabetes Encounter":
       and not exists("Traumatic Amputation of Lower Extremity Encounter"(E))
       and not exists("Toe Amputation Diagnosis Encounter"(E))
 
-define "COPD Encounter":
+define "COPD without Cystic Fibrosis Encounter":
   [Encounter] E
     let PrincipalDiagnosis:
       (singleton from (E.diagnosis D where D.rank = 1)) PD
         return singleton from ([Condition] C where C.id in "GetId"(PD.condition.reference.value))
     where PrincipalDiagnosis.code in "COPD"
       and not exists("Cystic Fibrosis Encounter"(E))
+
+define "Asthma without Cystic Fibrosis Encounter":
+  [Encounter] E
+    let PrincipalDiagnosis:
+      (singleton from (E.diagnosis D where D.rank = 1)) PD
+        return singleton from ([Condition] C where C.id in "GetId"(PD.condition.reference.value))
+    where PrincipalDiagnosis.code in "Asthma"
+      and not exists("Cystic Fibrosis Encounter"(E))
+
+define "Acute Bronchitis with COPD Encounter":
+  [Encounter] E
+    let PrincipalDiagnosis:
+      (singleton from (E.diagnosis D where D.rank = 1)) PD
+        return singleton from ([Condition] C where C.id in "GetId"(PD.condition.reference.value))
+    where PrincipalDiagnosis.code in "Acute Bronchitis"
+      and exists("COPD Encounter"(E))
+      and not exists("Cystic Fibrosis Encounter"(E))
+
+define "Heart Failure without Cardiac Procedure Encounter":
+  [Encounter] E
+    let PrincipalDiagnosis:
+      (singleton from (E.diagnosis D where D.rank = 1)) PD
+        return singleton from ([Condition] C where C.id in "GetId"(PD.condition.reference.value))
+    where PrincipalDiagnosis.code in "Heart Failure"
+      and not exists("Cardiac Procedure Encounter"(E))
+
+define "Hypertension without Cardiac Procedure or Kidney Disease with Dialysis Encounter":
+    [Encounter] E
+    let PrincipalDiagnosis:
+      (singleton from (E.diagnosis D where D.rank = 1)) PD
+        return singleton from ([Condition] C where C.id in "GetId"(PD.condition.reference.value))
+    where PrincipalDiagnosis.code in "Hypertension"
+      and not exists("Cardiac Procedure Encounter"(E))
+      and not (
+        exists("Stage I-IV Kidney Disease Encounter"(E))
+        and exists("Dialysis Encounter"(E))
+      )
+
+define function "Cardiac Procedure Encounter"(E Encounter): 
+  from 
+    [Procedure: "Cardiac Procedure"] P
+    where "GetId"(P.encounter.reference) = E.id
+    return P
+
+define function "COPD Encounter"(E Encounter):
+  from 
+    [Condition: "COPD"] C
+    where "GetId"(C.encounter.reference) = E.id
+    return C
 
 define function "Cystic Fibrosis Encounter"(E Encounter):
   from 
@@ -247,21 +292,17 @@ define function "Toe Amputation Diagnosis Encounter"(E Encounter):
     where "GetId"(C.encounter.reference) = E.id
     return C
 
-define "Acute Bronchitis with COPD":
-  First("Acute Bronchitis") union "COPD"
+define function "Stage I-IV Kidney Disease Encounter"(E Encounter):
+  from 
+    [Condition: "Stage I-IV Kidney Disease"] C
+    where "GetId"(C.encounter.reference) = E.id
+    return C
 
-define "Cardiac Procedure Encounter": 
-  [Encounter] E 
-    with [Procedure: "Cardiac Procedure"] C
-     such that E.status ~ 'finished'
-
-define "Stage I-IV Kidney Disease Encounter":
-  [Encounter] E 
-    with [Condition: "Stage I-IV Kidney Disease"] C
-      such that E.status ~ 'finished' 
-
-define "Stage I-IV Kidney Disease Encounter with Dialysis":
-  "Stage I-IV Kidney Disease Encounter" union [Condition: "Dialysis"]
+define function "Dialysis Encounter"(E Encounter):
+  from 
+    [Procedure: "Dialysis"] P
+    where "GetId"(P.encounter.reference) = E.id
+    return P
 
 // Acute ACSC Auxiliary functions.
 define "Bacterial Pneumonia Encounter":
