@@ -78,6 +78,7 @@
     "cql-execution": "^2.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-actuator": "^1.7.1",
     "joi": "^17.4.0",
     "jsonl": "^1.1.2",
     "moment": "^2.27.0",

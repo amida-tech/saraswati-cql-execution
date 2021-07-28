@@ -1,3 +1,6 @@
+const express = require('express');
+const actuator = require('express-actuator');
+
 const watch = require('node-watch');
 const axios = require('axios');
 const config = require('./config');
@@ -54,9 +57,16 @@ const watcher = dir =>
           }
         });
       }
-  });
+    });
   });
 
 watcher(config.directory);
 
 module.exports = { watcher };
+
+const app = express();
+app.use(actuator());
+
+app.listen(config.actuatorPort, () => {
+  console.log(`Endpoint actuator listening at http://localhost:${config.actuatorPort}`);
+});
