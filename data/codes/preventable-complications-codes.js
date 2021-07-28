@@ -13892,352 +13892,352 @@ const codes = {
   '2.16.840.1.113883.3.464.1004.1376': {
     'Traumatic Amputation of Lower Extremity': [
       {
-        code: 'S78.011A ',
+        code: 'S78.011A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S78.012A ',
+        code: 'S78.012A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S78.019A ',
+        code: 'S78.019A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S78.021A ',
+        code: 'S78.021A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S78.022A ',
-        system: 'ICD10CM',
-        version: '2019-10-01'
+        code: 'S78.022A',
+        system:'ICD10CM',
+        version:'2019-10-01'
       },
       {
-        code: 'S78.029A ',
+        code: 'S78.029A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S78.111A ',
+        code: 'S78.111A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S78.112A ',
+        code: 'S78.112A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S78.122A ',
+        code: 'S78.122A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S78.129A ',
+        code: 'S78.129A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S78.911A ',
+        code: 'S78.911A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S78.912A ',
+        code: 'S78.912A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S78.919A ',
+        code: 'S78.919A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S78.921A ',
+        code: 'S78.921A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S78.922A ',
+        code: 'S78.922A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S78.929A ',
+        code: 'S78.929A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.011A ',
+        code: 'S88.011A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.012A ',
+        code: 'S88.012A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.019A ',
+        code: 'S88.019A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.021A ',
+        code: 'S88.021A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.022A ',
+        code: 'S88.022A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.029A ',
+        code: 'S88.029A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.111A ',
+        code: 'S88.111A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.112A ',
+        code: 'S88.112A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.119A ',
+        code: 'S88.119A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.121A ',
+        code: 'S88.121A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.122A ',
+        code: 'S88.122A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.129A ',
+        code: 'S88.129A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.911A ',
+        code: 'S88.911A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.912A ',
+        code: 'S88.912A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.919A ',
+        code: 'S88.919A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.921A ',
+        code: 'S88.921A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.922A ',
+        code: 'S88.922A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S88.929A ',
+        code: 'S88.929A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.011A ',
+        code: 'S98.011A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.012A ',
+        code: 'S98.012A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.019A ',
+        code: 'S98.019A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.021A ',
+        code: 'S98.021A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.022A ',
+        code: 'S98.022A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.029A ',
+        code: 'S98.029A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.111A ',
+        code: 'S98.111A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.112A ',
+        code: 'S98.112A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.119A ',
+        code: 'S98.119A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.121A ',
+        code: 'S98.121A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.122A ',
+        code: 'S98.122A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.129A ',
+        code: 'S98.129A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.131A ',
+        code: 'S98.131A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.132A ',
+        code: 'S98.132A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.139A ',
+        code: 'S98.139A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.141A ',
+        code: 'S98.141A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.142A ',
+        code: 'S98.142A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.149A ',
+        code: 'S98.149A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.211A ',
+        code: 'S98.211A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.212A ',
+        code: 'S98.212A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.219A ',
+        code: 'S98.219A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.221A ',
+        code: 'S98.221A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.222A ',
+        code: 'S98.222A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.229A ',
+        code: 'S98.229A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.311A ',
+        code: 'S98.311A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.312A ',
+        code: 'S98.312A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.319A ',
+        code: 'S98.319A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.321A ',
+        code: 'S98.321A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.322A ',
+        code: 'S98.322A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.329A ',
+        code: 'S98.329A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.911A ',
+        code: 'S98.911A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.912A ',
+        code: 'S98.912A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.919A ',
+        code: 'S98.919A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.921A ',
+        code: 'S98.921A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.922A ',
+        code: 'S98.922A',
         system: 'ICD10CM',
         version: '2019-10-01'
       },
       {
-        code: 'S98.929A ',
+        code: 'S98.929A',
         system: 'ICD10CM',
         version: '2019-10-01'
       }

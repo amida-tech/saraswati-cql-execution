@@ -152,44 +152,100 @@ define "Direct Transfers":
 
 // Step 3 for Chronic. Identify discharges by claim. CBT
 define "Identify Chronic ACSC Discharges by Claim":
-    ("Direct Transfers" DT where exists(First([Condition:"Diabetes Short Term Complications"]))
-        or exists(First([Condition: "Diabetes Long Term Complications"]))
-        or exists(First([Condition: "Uncontrolled Diabetes"]))
-        or (exists("Lower Extremity Amputation with Diabetes")
-            and not exists("Traumatic Amputation of Lower Extremity Encounter") 
-            and not exists("Toe Amputation Diagnosis Encounter"))
-        or (exists(First([Condition: "COPD"])) 
-          and not exists("Cystic Fibrosis Encounter")
-        or (exists(First([Condition: "Asthma"])) 
-          and not exists("Cystic Fibrosis Encounter"))
-        or (exists("Acute Bronchitis with COPD") 
-          and not exists("Cystic Fibrosis Encounter"))
-        or (exists(First([Condition: "Heart Failure"])) 
-          and not exists("Cardiac Procedure Encounter"))
-        or (exists(First([Condition: "Hypertension"]))
-          and not exists("Cardiac Procedure Encounter") 
-          and not exists("Stage I-IV Kidney Disease Encounter with Dialysis"))
-    )
-  )
+    ("Direct Transfers" intersect "Diabetes Short Term Complications Encounter")
+    union ("Direct Transfers" intersect "Diabetes Long Term Complications Encounter")
+    union ("Direct Transfers" intersect "Uncontrolled Diabetes Encounter")
+    union ("Direct Transfers" intersect "Lower Extremity Amputation with Diabetes Encounter")
+    union ("Direct Transfers" intersect "COPD Encounter")
+        // or (exists(First([Condition: "COPD"])) 
+          // and not exists("Cystic Fibrosis Encounter")
+        // or (exists(First([Condition: "Asthma"])) 
+          // and not exists("Cystic Fibrosis Encounter"))
+        // or (exists("Acute Bronchitis with COPD") 
+          // and not exists("Cystic Fibrosis Encounter"))
+        // or (exists(First([Condition: "Heart Failure"])) 
+          // and not exists("Cardiac Procedure Encounter"))
+        // or (exists(First([Condition: "Hypertension"]))
+          // and not exists("Cardiac Procedure Encounter") 
+          // and not exists("Stage I-IV Kidney Disease Encounter with Dialysis"))
 
-// Step 3 chronic auxiliary functions.
-define "Lower Extremity Amputation with Diabetes":
-  [Procedure: "Lower Extremity Amputation Diagnosis"] union [Condition: "Diabetes"]
+// Step 3 for Acute. Identify discharges by claim. 
+define "Identify Acute ACSC Discharges by Claim":
+    ("Direct Transfers" intersect "Bacterial Pneumonia Encounter")
+    union ("Direct Transfers" intersect "Urinary Tract Infection Encounter")
+    union ("Direct Transfers" intersect "Cellulitis (ICD10CM) Encounter")
+    union ("Direct Transfers" intersect "Pressure Ulcer Encounter")
 
-define "Traumatic Amputation of Lower Extremity Encounter":
-  [Encounter] E 
-    with [Condition: "Traumatic Amputation of Lower Extremity"] C
-      such that E.status ~ 'finished' 
+// Step 3 Universal Auxiliary functions.
+define function "GetId"(uri String):
+  Last(Split(uri, ':'))
 
-define "Toe Amputation Diagnosis Encounter":
-  [Encounter] E 
-    with [Condition: "Toe Amputation Diagnosis"] C
-      such that E.status ~ 'finished' 
+// Chronic ACSC Auxiliary functions.
+define "Diabetes Short Term Complications Encounter":
+  [Encounter] E
+    let PrincipalDiagnosis:
+      (singleton from (E.diagnosis D where D.rank = 1)) PD
+        return singleton from ([Condition] C where C.id in "GetId"(PD.condition.reference.value))
+    where PrincipalDiagnosis.code in "Diabetes Short Term Complications"
+    
+define "Diabetes Long Term Complications Encounter":
+  [Encounter] E
+    let PrincipalDiagnosis:
+      (singleton from (E.diagnosis D where D.rank = 1)) PD
+        return singleton from ([Condition] C where C.id in "GetId"(PD.condition.reference.value))
+    where PrincipalDiagnosis.code in "Diabetes Long Term Complications"
 
-define "Cystic Fibrosis Encounter":
-  [Encounter] E 
-    with [Condition: "Cystic Fibrosis"] C
-      such that E.status ~ 'finished' 
+define "Uncontrolled Diabetes Encounter":
+  [Encounter] E
+    let PrincipalDiagnosis:
+      (singleton from (E.diagnosis D where D.rank = 1)) PD
+        return singleton from ([Condition] C where C.id in "GetId"(PD.condition.reference.value))
+    where PrincipalDiagnosis.code in "Uncontrolled Diabetes"
+
+define "Lower Extremity Amputation with Diabetes Encounter":
+  [Encounter] E
+    where exists("Lower Extremity Amputation Encounter"(E))
+      and exists("Diabetes Encounter"(E))
+      and not exists("Traumatic Amputation of Lower Extremity Encounter"(E))
+      and not exists("Toe Amputation Diagnosis Encounter"(E))
+
+define "COPD Encounter":
+  [Encounter] E
+    let PrincipalDiagnosis:
+      (singleton from (E.diagnosis D where D.rank = 1)) PD
+        return singleton from ([Condition] C where C.id in "GetId"(PD.condition.reference.value))
+    where PrincipalDiagnosis.code in "COPD"
+      and not exists("Cystic Fibrosis Encounter"(E))
+
+define function "Cystic Fibrosis Encounter"(E Encounter):
+  from 
+    [Condition: "Cystic Fibrosis"] C
+    where "GetId"(C.encounter.reference) = E.id
+    return C
+
+define function "Diabetes Encounter"(E Encounter):
+  from 
+    [Condition: "Diabetes"] C
+    where "GetId"(C.encounter.reference) = E.id
+    return C
+
+define function "Lower Extremity Amputation Encounter"(E Encounter):
+  from 
+    [Procedure: "Lower Extremity Amputation Diagnosis"] P
+    where "GetId"(P.encounter.reference) = E.id
+    return P
+
+define function "Traumatic Amputation of Lower Extremity Encounter"(E Encounter):
+  from 
+    [Condition: "Traumatic Amputation of Lower Extremity"] C
+    where "GetId"(C.encounter.reference) = E.id
+    return C
+
+define function "Toe Amputation Diagnosis Encounter"(E Encounter):
+  from 
+    [Condition: "Toe Amputation Diagnosis"] C
+    where "GetId"(C.encounter.reference) = E.id
+    return C
 
 define "Acute Bronchitis with COPD":
   First("Acute Bronchitis") union "COPD"
@@ -207,21 +263,7 @@ define "Stage I-IV Kidney Disease Encounter":
 define "Stage I-IV Kidney Disease Encounter with Dialysis":
   "Stage I-IV Kidney Disease Encounter" union [Condition: "Dialysis"]
 
-// Step 3 for Acute. Identify discharges by claim. 
-define "Identify Acute ACSC Discharges by Claim":
-    "Direct Transfers" DT 
-      intersect "Bacterial Pneumonia Encounter"
-      intersect "Urinary Tract Infection Encounter"
-      // or (exists(First([Condition: "Urinary tract infection"]))
-        //   and not exists("Kidney and Urinary Tract Disorders Encounter")
-        //   and not exists("Immunocompromised Encounter"))
-        // or exists(First([Condition: "Cellulitis (ICD10CM)"]))
-        // or exists(First([Condition: "Pressure ulcer"]))
-
-// Step 3 acute auxiliary functions.
-define function "GetId"(uri String):
-  Last(Split(uri, ':'))
-
+// Acute ACSC Auxiliary functions.
 define "Bacterial Pneumonia Encounter":
   [Encounter] E
     let PrincipalDiagnosis:
@@ -239,6 +281,20 @@ define "Urinary Tract Infection Encounter":
     where PrincipalDiagnosis.code in "Urinary tract infection"
       and not exists("Kidney and Urinary Tract Disorders Encounter"(E))
       and not exists("Immunocompromised Encounter"(E))
+
+define "Cellulitis (ICD10CM) Encounter":
+  [Encounter] E
+    let PrincipalDiagnosis:
+      (singleton from (E.diagnosis D where D.rank = 1)) PD
+        return singleton from ([Condition] C where C.id in "GetId"(PD.condition.reference.value))
+    where PrincipalDiagnosis.code in "Cellulitis (ICD10CM)"
+
+define "Pressure Ulcer Encounter":
+  [Encounter] E
+    let PrincipalDiagnosis:
+      (singleton from (E.diagnosis D where D.rank = 1)) PD
+        return singleton from ([Condition] C where C.id in "GetId"(PD.condition.reference.value))
+    where PrincipalDiagnosis.code in "Pressure ulcer"
 
 define function "Sickle Cell Anemia Encounter"(E Encounter):
   from 

@@ -2,7 +2,7 @@
   {
       "resourceType": "Bundle",
       "type": "transaction",
-      "id": "whatever2",
+      "id": "whatever",
       "entry": [ {
         "fullUrl": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae",
         "resource": { 
@@ -349,6 +349,12 @@
             "start": "2014-03-08T19:59:51-05:00",
             "end": "2014-03-08T20:14:51-05:00"
           },
+          "diagnosis": [ {
+            "condition": {
+              "reference": "urn:uuid:8b042277-3163-9a27-0c9a-e9b41f384757"
+            },
+            "rank": 1
+          }],
           "location": [ {
             "location": {
               "reference": "Location?identifier=https://github.com/synthetichealth/synthea|ada76ff9-a2aa-3119-b247-04d63e16f2ff",
@@ -404,8 +410,8 @@
               "text": "primary performer"
             } ],
             "period": {
-              "start": "2017-04-17T17:59:51-04:00",
-              "end": "2017-04-17T18:14:51-04:00"
+              "start": "2017-02-25T17:59:51-04:00",
+              "end": "2017-02-25T18:14:51-04:00"
             },
             "individual": {
               "reference": "Practitioner?identifier=http://hl7.org/fhir/sid/us-npi|9999949589",
@@ -413,9 +419,20 @@
             }
           } ],
           "period": {
-            "start": "2017-04-17T17:59:51-04:00",
-            "end": "2017-04-17T18:14:51-04:00"
+            "start": "2017-02-25T17:59:51-04:00",
+            "end": "2017-02-25T18:14:51-04:00"
           },
+          "diagnosis": [ {
+            "condition": {
+              "reference": "urn:uuid:20927316-2249-3760-c902-b389ec6db190"
+            },
+            "rank": 1
+          }, {
+            "condition": {
+              "reference": "urn:uuid:20927316-2249-3760-c902-b389ec6db290"
+            },
+            "rank": 2
+          }],
           "location": [ {
             "location": {
               "reference": "Location?identifier=https://github.com/synthetichealth/synthea|ada76ff9-a2aa-3119-b247-04d63e16f2ff",
@@ -452,10 +469,10 @@
           "type": [ {
             "coding": [ {
               "system": "http://snomed.info/sct",
-              "code": "162673000",
-              "display": "General examination of patient (procedure)"
+              "code": "285201006",
+              "display": "Observation Stay"
             } ],
-            "text": "General examination of patient (procedure)"
+            "text": "Observation Stay"
           } ],
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae",
@@ -483,6 +500,12 @@
             "start": "2016-03-19T20:59:51-04:00",
             "end": "2016-03-19T21:14:51-04:00"
           },
+          "diagnosis": [ {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498ae2c"
+            },
+            "rank": 1
+          }],
           "location": [ {
             "location": {
               "reference": "Location?identifier=https://github.com/synthetichealth/synthea|ada76ff9-a2aa-3119-b247-04d63e16f2ff",
@@ -529,9 +552,9 @@
             "coding": [ {
               "system": "ICD10CM",
               "code": "E10.10",
-              "display": "Diabetes Short Term Complications"
+              "display": "Diabetes Short Term Complications E10.10"
             } ],
-            "text": "Diabetes Short Term Complications"
+            "text": "Diabetes Short Term Complications CHRONIC CHECK"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -577,13 +600,9 @@
             "coding": [ {
               "system": "ICD9CM",
               "code": "491.22",
-              "display": "COPD"
-            }, {
-              "system": "ICD9CM",
-              "code": "277.00",
-              "display": "Cystic Fibrosis"
-            } ],
-            "text": "COPD with Cystic Fibrosis"
+              "display": "COPD 491.22"
+            }],
+            "text": "COPD CHRONIC CHECK"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -599,10 +618,10 @@
           "url": "Condition"
         }
       }, {
-        "fullUrl": "urn:uuid:20927316-2249-3760-c902-b389ec6db190",
+        "fullUrl": "urn:uuid:20927316-2249-3760-c902-b389ec6db290",
         "resource": {
           "resourceType": "Condition",
-          "id": "20927316-2249-3760-c902-b389ec6db190",
+          "id": "20927316-2249-3760-c902-b389ec6db290",
           "meta": {
             "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition" ]
           },
@@ -628,10 +647,10 @@
           "code": {
             "coding": [ {
               "system": "ICD9CM",
-              "code": "277.00",
-              "display": "Cystic Fibrosis"
+              "code": "XXX",
+              "display": "Cystic Fibrosis 277.00"
             } ],
-            "text": "Cystic Fibrosis"
+            "text": "Cystic Fibrosis CHRONIC CHECK"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -677,10 +696,9 @@
             "coding": [ {
               "system": "ICD10CM",
               "code": "E10.21",
-              "version": "2019-10-01",
-              "display": "Diabetes Long Term Complications"
+              "display": "Diabetes Long Term Complications E10.21"
             } ],
-            "text": "Diabetes Long Term Complications"
+            "text": "Diabetes Long Term Complications CHRONIC CHECK"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -688,8 +706,8 @@
           "encounter": {
             "reference": "urn:uuid:54356c70-3b08-d655-3d95-82458b416d14"
           },
-          "onsetDateTime": "2017-02-25T19:59:51-05:00",
-          "recordedDate": "2017-02-25T19:59:51-05:00"
+          "onsetDateTime": "2017-03-08T19:59:51-05:00",
+          "recordedDate": "2017-03-08T19:59:51-05:00"
         },
         "request": {
           "method": "POST",
@@ -727,7 +745,7 @@
             "display": "BETH ISRAEL DEACONESS HOSPITAL-MILTON INC"
           },
           "reasonReference": [ {
-            "reference": "urn:uuid:20927316-2249-3760-c902-b389ec6db190",
+            "reference": "urn:uuid:20927316-2249-3760-c902-b389ec6dbX10",
             "display": "Cardiac Arrest"
           } ]
         },
@@ -767,7 +785,7 @@
             "display": "BETH ISRAEL DEACONESS HOSPITAL-MILTON INC"
           },
           "reasonReference": [ {
-            "reference": "urn:uuid:20927316-2249-3760-c902-b389ec6db190",
+            "reference": "urn:uuid:20927316-2249-3760-c902-b389ec6dbX20",
             "display": "Cardiac Arrest"
           } ]
         },
@@ -807,7 +825,7 @@
             "display": "BETH ISRAEL DEACONESS HOSPITAL-MILTON INC"
           },
           "reasonReference": [ {
-            "reference": "urn:uuid:20927316-2249-3760-c902-b389ec6db190",
+            "reference": "urn:uuid:20927316-2249-3760-c902-b389ec6dbX30",
             "display": "Cardiac Arrest"
           } ]
         },
@@ -1425,6 +1443,27 @@
             "start": "2017-05-22T20:59:51-04:00",
             "end": "2017-05-22T21:14:51-04:00"
           },
+          "diagnosis": [ {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498bb03"
+            },
+            "rank": 1
+          }, {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498bb01"
+            },
+            "rank": 2
+          }, {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498bb02"
+            },
+            "rank": 3
+          }, {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498bb00"
+            },
+            "rank": 4
+          }],
           "location": [ {
             "location": {
               "reference": "Location?identifier=https://github.com/synthetichealth/synthea|ada76ff9-a2aa-3119-b247-04d63e16f2ff",
@@ -1441,10 +1480,58 @@
           "url": "Encounter"
         }
       }, {
-        "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aede",
+        "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498bb00",
         "resource": {
           "resourceType": "Condition",
-          "id": "aa9059f2-1a11-4def-b44a-c8323498aede",
+          "id": "aa9059f2-1a11-4def-b44a-c8323498bb00",
+          "meta": {
+            "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition" ]
+          },
+          "clinicalStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            } ]
+          },
+          "verificationStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            } ]
+          },
+          "category": [ {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+              "code": "encounter-diagnosis",
+              "display": "Encounter Diagnosis"
+            } ]
+          } ],
+          "code": {
+            "coding": [ {
+              "system": "ICD10CM",
+              "code": "S78.011A",
+              "display": "Traumatic Amputation of Lower Extremity S78.011A"
+            } ],
+            "text": "Traumatic Amputation of Lower Extremity CHRONIC CHECK"
+          },
+          "subject": {
+            "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
+          },
+          "encounter": {
+            "reference": "urn:uuid:28907b36-7615-1503-dbb2-d3b143e08f38"
+          },
+          "onsetDateTime": "2017-05-22T20:59:51-04:00",
+          "recordedDate": "2017-05-22T21:59:51-04:00"
+        },
+        "request": {
+          "method": "POST",
+          "url": "Condition"
+        }
+      }, {
+        "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498bb01",
+        "resource": {
+          "resourceType": "Condition",
+          "id": "aa9059f2-1a11-4def-b44a-c8323498bb01",
           "meta": {
             "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition" ]
           },
@@ -1470,18 +1557,58 @@
           "code": {
             "coding": [ {
               "system": "http://snomed.info/sct",
-              "code": "13151001",
-              "display": "Lower Extremity Amputation Diagnosis"
-            }, {
-              "system": "http://snomed.info/sct",
               "code": "102781000119107",
-              "display": "Diabetes"
-            }, {
+              "display": "Diabetes 102781000119107"
+            }],
+            "text": "Diabetes CHRONIC CHECK"
+          },
+          "subject": {
+            "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
+          },
+          "encounter": {
+            "reference": "urn:uuid:28907b36-7615-1503-dbb2-d3b143e08f38"
+          },
+          "onsetDateTime": "2017-05-22T20:59:51-04:00",
+          "recordedDate": "2017-05-22T21:59:51-04:00"
+        },
+        "request": {
+          "method": "POST",
+          "url": "Condition"
+        }
+      }, {
+        "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498bb02",
+        "resource": {
+          "resourceType": "Condition",
+          "id": "aa9059f2-1a11-4def-b44a-c8323498bb02",
+          "meta": {
+            "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition" ]
+          },
+          "clinicalStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            } ]
+          },
+          "verificationStatus": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            } ]
+          },
+          "category": [ {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+              "code": "encounter-diagnosis",
+              "display": "Encounter Diagnosis"
+            } ]
+          } ],
+          "code": {
+            "coding": [ {
               "system": "ICD10CM",
               "code": "0Y6P0Z0",
-              "display": "Toe Amputation"
+              "display": "Toe Amputation 0Y6P0Z0"
             } ],
-            "text": "Lower Extremity Amputation Diagnosis with Diabetes and Toe Amputation"
+            "text": "Toe Amputation CHRONIC CHECK"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -1548,6 +1675,12 @@
             "start": "2017-05-26T20:59:51-04:00",
             "end": "2017-05-26T21:14:51-04:00"
           },
+          "diagnosis": [ {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498a81e"
+            },
+            "rank": 1
+          }],
           "location": [ {
             "location": {
               "reference": "Location?identifier=https://github.com/synthetichealth/synthea|ada76ff9-a2aa-3119-b247-04d63e16f2ff",
@@ -1564,10 +1697,10 @@
           "url": "Encounter"
         }
       }, {
-        "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aede",
+        "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498a81e",
         "resource": {
           "resourceType": "Condition",
-          "id": "aa9059f2-1a11-4def-b44a-c8323498aede",
+          "id": "aa9059f2-1a11-4def-b44a-c8323498a81e",
           "meta": {
             "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition" ]
           },
@@ -1594,9 +1727,9 @@
             "coding": [ {
               "system": "ICD10CM",
               "code": "E10.649",
-              "display": "Uncontrolled Diabetes"
+              "display": "Uncontrolled Diabetes E10.649"
             } ],
-            "text": "Uncontrolled Diabetes"
+            "text": "Uncontrolled Diabetes CHRONIC CHECK"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -2129,10 +2262,10 @@
           "code": {
             "coding": [ {
               "system": "http://snomed.info/sct",
-              "code": "127040003",
-              "display": "Sickle Cell Anemia and HB S Disease"
+              "code": "XXXX",
+              "display": "Sickle Cell Anemia and HB S Disease 127040003"
             }  ],
-            "text": "Sickle Cell Anemia and HB S Disease"
+            "text": "Sickle Cell Anemia and HB S Disease ACUTE CHECK"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -2277,7 +2410,7 @@
         "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aeki",
         "resource": {
           "resourceType": "Condition",
-          "id": "aa9059f2-1a11-4def-b44a-c8323498aedki",
+          "id": "aa9059f2-1a11-4def-b44a-c8323498aeki",
           "meta": {
             "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition" ]
           },
@@ -2303,10 +2436,10 @@
           "code": {
             "coding": [ {
               "system": "http://snomed.info/sct",
-              "code": "104931000119100",
-              "display": "Kidney and Urinary Tract Disorders"
+              "code": "XXXX",
+              "display": "Kidney and Urinary Tract Disorders 104931000119100"
             } ],
-            "text": "Kidney and Urinary Tract Disorders"
+            "text": "Kidney and Urinary Tract Disorders ACUTE CHECK"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -2373,6 +2506,12 @@
             "start": "2017-06-25T20:59:51-04:00",
             "end": "2017-06-25T21:14:51-04:00"
           },
+          "diagnosis": [ {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aedj"
+            },
+            "rank": 1
+          }],
           "location": [ {
             "location": {
               "reference": "Location?identifier=https://github.com/synthetichealth/synthea|ada76ff9-a2aa-3119-b247-04d63e16f2ff",
@@ -2421,7 +2560,7 @@
               "code": "H05.01",
               "display": "Cellulitis (ICD10CM)"
             } ],
-            "text": "Cellulitis (ICD10CM)"
+            "text": "Cellulitis (ICD10CM) ACUTE CHECK"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -2488,6 +2627,12 @@
             "start": "2017-06-30T20:59:51-04:00",
             "end": "2017-06-30T21:14:51-04:00"
           },
+          "diagnosis": [ {
+            "condition": {
+              "reference": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aedk"
+            },
+            "rank": 1
+          }],
           "location": [ {
             "location": {
               "reference": "Location?identifier=https://github.com/synthetichealth/synthea|ada76ff9-a2aa-3119-b247-04d63e16f2ff",
@@ -2507,7 +2652,7 @@
         "fullUrl": "urn:uuid:aa9059f2-1a11-4def-b44a-c8323498aedk",
         "resource": {
           "resourceType": "Condition",
-          "id": "aa9059f2-1a11-4def-b44a-c8323498aedj",
+          "id": "aa9059f2-1a11-4def-b44a-c8323498aedk",
           "meta": {
             "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition" ]
           },
@@ -2534,9 +2679,9 @@
             "coding": [ {
               "system": "http://snomed.info/sct",
               "code": "12366701000119107",
-              "display": "Pressure ulcer"
+              "display": "Pressure ulcer 12366701000119107"
             } ],
-            "text": "Pressure ulcer"
+            "text": "Pressure ulcer ACUTE CHECK"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -2563,10 +2708,10 @@
           "code": {
             "coding": [ {
               "system": "http://snomed.info/sct",
-              "code": "109967007",
-              "display": "Immunocompromised State"
+              "code": "XXXX",
+              "display": "Immunocompromised State 109967007"
             } ],
-            "text": "Immunocompromised State"
+            "text": "Immunocompromised State ACUTE CHECK"
           },
           "subject": {
             "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
@@ -2583,7 +2728,47 @@
             "display": "BETH ISRAEL DEACONESS HOSPITAL-MILTON INC"
           },
           "reasonReference": [ {
-            "reference": "urn:uuid:20927316-2249-3760-c902-b389ec6db190",
+            "reference": "urn:uuid:20927316-2249-3760-c902-b389ec6dbX50",
+            "display": "Cardiac Arrest"
+          } ]
+        },
+        "request": {
+          "method": "POST",
+          "url": "Procedure"
+        }
+      }, {
+        "fullUrl": "urn:uuid:a8a35131-84a0-0a62-2bb9-b540577abb03",
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "a8a35131-84a0-0a62-2bb9-b540577abb03",
+          "meta": {
+            "profile": [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure" ]
+          },
+          "status": "completed",
+          "code": {
+            "coding": [ {
+              "system": "ICD10CM",
+              "code": "Z89.411",
+              "display": "Lower Extremity Amputation Diagnosis Z89.411"
+            } ],
+            "text": "Lower Extremity Amputation Diagnosis CHRONIC CHECK"
+          },
+          "subject": {
+            "reference": "urn:uuid:a300389f-259b-ee78-df91-971d28555fae"
+          },
+          "encounter": {
+            "reference": "urn:uuid:28907b36-7615-1503-dbb2-d3b143e08f38"
+          },
+          "performedPeriod": {
+            "start": "2017-02-25T19:59:51-05:00",
+            "end": "2017-02-25T20:14:51-05:00"
+          },
+          "location": {
+            "reference": "Location?identifier=https://github.com/synthetichealth/synthea|5ad4118a-3589-3537-9c3a-3e70ad4306d8",
+            "display": "BETH ISRAEL DEACONESS HOSPITAL-MILTON INC"
+          },
+          "reasonReference": [ {
+            "reference": "urn:uuid:20927316-2249-3760-c902-b389ec6dbX60",
             "display": "Cardiac Arrest"
           } ]
         },
