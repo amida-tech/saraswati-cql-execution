@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 const codes = require('../src/cql-code-service');
 const cql = require('../src/cql');
 const fhirhelpers = require('../json-elm/FHIRHelpers.json');
+const moment = require('moment');
 
 const removeArrayValues = patient => {
   const clonedPatient = cloneDeep(patient);
@@ -46,6 +47,7 @@ const execute = (measure, patients, codeservice) => {
   //console.log(result.patientResults); // eslint-disable-line no-console
 
   const cleanedPatientResults = cleanData(result.patientResults);
+  cleanedPatientResults.timeStamp = moment().format();
 
   const convertToJSONL = err => {
     if (err) {
