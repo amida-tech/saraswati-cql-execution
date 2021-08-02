@@ -1,5 +1,22 @@
 pipeline {
-    agent any
+    agent {
+    kubernetes {
+      yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    name: saraswati-cql-execution 
+spec:
+  containers:
+  - name: node
+    image: node:13.10.1-alpine3.11
+    command:
+    - cat
+    tty: true
+"""
+    }
+  }
 
     stages {
         stage('Install Dependencies') {
