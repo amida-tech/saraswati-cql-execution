@@ -51,34 +51,32 @@ define "Well-Care With PCP Code":
     and E0.participant.individual.reference = P1.generalPractitioner.reference
 
 define "Valid Visit Counter":
-	Count(
 		"Well-Care before patient 15mo birthday"
 		intersect "Well-Care Encounter Without Telehealth"
 		intersect "Well-Care With PCP Code"
 		intersect DeduplicateBasedOnStartDate("Well-Care Without Duplicate Days")
-		)
 
 context Unfiltered
 		
 define "Numerator 0":
-	case ( "Initial Population"
-	and "Valid Visit Counter" = 0
+	case (exists("Initial Population")
+	and Count("Valid Visit Counter") = 0
 	)
 		when true then 1
     else 0
   end
 
 define "Numerator 1":
-	case ( "Initial Population"
-	and "Valid Visit Counter" = 1
+	case (exists("Initial Population")
+	and Count("Valid Visit Counter") = 1
 	)
 		when true then 1
     else 0
   end
 
 define "Numerator 2":
-	case ( "Initial Population"
-	and "Valid Visit Counter" = 2
+	case (exists("Initial Population")
+	and Count("Valid Visit Counter") = 2
 	)
 		when true then 1
     else 0
@@ -86,39 +84,39 @@ define "Numerator 2":
 
 
 define "Numerator 3":
-	case ( "Initial Population"
-	and "Valid Visit Counter" = 3
+	case (exists("Initial Population")
+	and Count("Valid Visit Counter") = 3
 	)
 		when true then 1
     else 0
   end
 
 define "Numerator 4":
-	case ( "Initial Population"
-	and "Valid Visit Counter" = 4
+	case (exists("Initial Population")
+	and Count("Valid Visit Counter") = 4
 	)
 		when true then 1
     else 0
   end
 
 define "Numerator 5":
-	case ( "Initial Population"
-	and "Valid Visit Counter" = 5
+	case (exists("Initial Population")
+	and Count("Valid Visit Counter") = 5
 	)
 		when true then 1
     else 0
   end
 
 define "Numerator 6+":
-	case ( "Initial Population"
-	and "Valid Visit Counter" >= 6
+	case (exists("Initial Population")
+	and Count("Valid Visit Counter") >= 6
 	)
 		when true then 1
     else 0
   end
 
 define "Denominator":
-  case ("Initial Population")
+  case (exists("Initial Population"))
     when true then 1
     else 0
   end

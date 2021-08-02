@@ -3,171 +3,6 @@
       "annotation" : [ {
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
-      }, {
-         "libraryId" : "well_child_visits_w15",
-         "libraryVersion" : "1",
-         "startLine" : 65,
-         "startChar" : 6,
-         "endLine" : 65,
-         "endChar" : 26,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "well_child_visits_w15",
-         "libraryVersion" : "1",
-         "startLine" : 64,
-         "startChar" : 9,
-         "endLine" : 64,
-         "endChar" : 28,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "well_child_visits_w15",
-         "libraryVersion" : "1",
-         "startLine" : 73,
-         "startChar" : 6,
-         "endLine" : 73,
-         "endChar" : 26,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "well_child_visits_w15",
-         "libraryVersion" : "1",
-         "startLine" : 72,
-         "startChar" : 9,
-         "endLine" : 72,
-         "endChar" : 28,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "well_child_visits_w15",
-         "libraryVersion" : "1",
-         "startLine" : 81,
-         "startChar" : 6,
-         "endLine" : 81,
-         "endChar" : 26,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "well_child_visits_w15",
-         "libraryVersion" : "1",
-         "startLine" : 80,
-         "startChar" : 9,
-         "endLine" : 80,
-         "endChar" : 28,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "well_child_visits_w15",
-         "libraryVersion" : "1",
-         "startLine" : 90,
-         "startChar" : 6,
-         "endLine" : 90,
-         "endChar" : 26,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "well_child_visits_w15",
-         "libraryVersion" : "1",
-         "startLine" : 89,
-         "startChar" : 9,
-         "endLine" : 89,
-         "endChar" : 28,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "well_child_visits_w15",
-         "libraryVersion" : "1",
-         "startLine" : 98,
-         "startChar" : 6,
-         "endLine" : 98,
-         "endChar" : 26,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "well_child_visits_w15",
-         "libraryVersion" : "1",
-         "startLine" : 97,
-         "startChar" : 9,
-         "endLine" : 97,
-         "endChar" : 28,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "well_child_visits_w15",
-         "libraryVersion" : "1",
-         "startLine" : 106,
-         "startChar" : 6,
-         "endLine" : 106,
-         "endChar" : 26,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "well_child_visits_w15",
-         "libraryVersion" : "1",
-         "startLine" : 105,
-         "startChar" : 9,
-         "endLine" : 105,
-         "endChar" : 28,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "well_child_visits_w15",
-         "libraryVersion" : "1",
-         "startLine" : 114,
-         "startChar" : 6,
-         "endLine" : 114,
-         "endChar" : 26,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "well_child_visits_w15",
-         "libraryVersion" : "1",
-         "startLine" : 113,
-         "startChar" : 9,
-         "endLine" : 113,
-         "endChar" : 28,
-         "message" : "List-valued expression was demoted to a singleton.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
-      }, {
-         "libraryId" : "well_child_visits_w15",
-         "libraryVersion" : "1",
-         "startLine" : 122,
-         "startChar" : 10,
-         "endLine" : 122,
-         "endChar" : 13,
-         "message" : "Boolean-valued expression was promoted to a list.",
-         "errorType" : "semantic",
-         "errorSeverity" : "warning",
-         "type" : "CqlToElmError"
       } ],
       "identifier" : {
          "id" : "well_child_visits_w15",
@@ -891,33 +726,30 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Count",
-               "source" : {
+               "type" : "Intersect",
+               "operand" : [ {
                   "type" : "Intersect",
                   "operand" : [ {
-                     "type" : "Intersect",
-                     "operand" : [ {
-                        "name" : "Well-Care before patient 15mo birthday",
-                        "type" : "ExpressionRef"
-                     }, {
-                        "name" : "Well-Care Encounter Without Telehealth",
-                        "type" : "ExpressionRef"
-                     } ]
+                     "name" : "Well-Care before patient 15mo birthday",
+                     "type" : "ExpressionRef"
                   }, {
-                     "type" : "Intersect",
+                     "name" : "Well-Care Encounter Without Telehealth",
+                     "type" : "ExpressionRef"
+                  } ]
+               }, {
+                  "type" : "Intersect",
+                  "operand" : [ {
+                     "name" : "Well-Care With PCP Code",
+                     "type" : "ExpressionRef"
+                  }, {
+                     "name" : "DeduplicateBasedOnStartDate",
+                     "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "Well-Care With PCP Code",
+                        "name" : "Well-Care Without Duplicate Days",
                         "type" : "ExpressionRef"
-                     }, {
-                        "name" : "DeduplicateBasedOnStartDate",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "name" : "Well-Care Without Duplicate Days",
-                           "type" : "ExpressionRef"
-                        } ]
                      } ]
                   } ]
-               }
+               } ]
             }
          }, {
             "name" : "Numerator 0",
@@ -928,7 +760,7 @@
                "comparand" : {
                   "type" : "And",
                   "operand" : [ {
-                     "type" : "SingletonFrom",
+                     "type" : "Exists",
                      "operand" : {
                         "name" : "Initial Population",
                         "type" : "ExpressionRef"
@@ -936,8 +768,8 @@
                   }, {
                      "type" : "Equal",
                      "operand" : [ {
-                        "type" : "SingletonFrom",
-                        "operand" : {
+                        "type" : "Count",
+                        "source" : {
                            "name" : "Valid Visit Counter",
                            "type" : "ExpressionRef"
                         }
@@ -975,7 +807,7 @@
                "comparand" : {
                   "type" : "And",
                   "operand" : [ {
-                     "type" : "SingletonFrom",
+                     "type" : "Exists",
                      "operand" : {
                         "name" : "Initial Population",
                         "type" : "ExpressionRef"
@@ -983,8 +815,8 @@
                   }, {
                      "type" : "Equal",
                      "operand" : [ {
-                        "type" : "SingletonFrom",
-                        "operand" : {
+                        "type" : "Count",
+                        "source" : {
                            "name" : "Valid Visit Counter",
                            "type" : "ExpressionRef"
                         }
@@ -1022,7 +854,7 @@
                "comparand" : {
                   "type" : "And",
                   "operand" : [ {
-                     "type" : "SingletonFrom",
+                     "type" : "Exists",
                      "operand" : {
                         "name" : "Initial Population",
                         "type" : "ExpressionRef"
@@ -1030,8 +862,8 @@
                   }, {
                      "type" : "Equal",
                      "operand" : [ {
-                        "type" : "SingletonFrom",
-                        "operand" : {
+                        "type" : "Count",
+                        "source" : {
                            "name" : "Valid Visit Counter",
                            "type" : "ExpressionRef"
                         }
@@ -1069,7 +901,7 @@
                "comparand" : {
                   "type" : "And",
                   "operand" : [ {
-                     "type" : "SingletonFrom",
+                     "type" : "Exists",
                      "operand" : {
                         "name" : "Initial Population",
                         "type" : "ExpressionRef"
@@ -1077,8 +909,8 @@
                   }, {
                      "type" : "Equal",
                      "operand" : [ {
-                        "type" : "SingletonFrom",
-                        "operand" : {
+                        "type" : "Count",
+                        "source" : {
                            "name" : "Valid Visit Counter",
                            "type" : "ExpressionRef"
                         }
@@ -1116,7 +948,7 @@
                "comparand" : {
                   "type" : "And",
                   "operand" : [ {
-                     "type" : "SingletonFrom",
+                     "type" : "Exists",
                      "operand" : {
                         "name" : "Initial Population",
                         "type" : "ExpressionRef"
@@ -1124,8 +956,8 @@
                   }, {
                      "type" : "Equal",
                      "operand" : [ {
-                        "type" : "SingletonFrom",
-                        "operand" : {
+                        "type" : "Count",
+                        "source" : {
                            "name" : "Valid Visit Counter",
                            "type" : "ExpressionRef"
                         }
@@ -1163,7 +995,7 @@
                "comparand" : {
                   "type" : "And",
                   "operand" : [ {
-                     "type" : "SingletonFrom",
+                     "type" : "Exists",
                      "operand" : {
                         "name" : "Initial Population",
                         "type" : "ExpressionRef"
@@ -1171,8 +1003,8 @@
                   }, {
                      "type" : "Equal",
                      "operand" : [ {
-                        "type" : "SingletonFrom",
-                        "operand" : {
+                        "type" : "Count",
+                        "source" : {
                            "name" : "Valid Visit Counter",
                            "type" : "ExpressionRef"
                         }
@@ -1210,7 +1042,7 @@
                "comparand" : {
                   "type" : "And",
                   "operand" : [ {
-                     "type" : "SingletonFrom",
+                     "type" : "Exists",
                      "operand" : {
                         "name" : "Initial Population",
                         "type" : "ExpressionRef"
@@ -1218,8 +1050,8 @@
                   }, {
                      "type" : "GreaterOrEqual",
                      "operand" : [ {
-                        "type" : "SingletonFrom",
-                        "operand" : {
+                        "type" : "Count",
+                        "source" : {
                            "name" : "Valid Visit Counter",
                            "type" : "ExpressionRef"
                         }
@@ -1255,17 +1087,17 @@
             "expression" : {
                "type" : "Case",
                "comparand" : {
-                  "name" : "Initial Population",
-                  "type" : "ExpressionRef"
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "Initial Population",
+                     "type" : "ExpressionRef"
+                  }
                },
                "caseItem" : [ {
                   "when" : {
-                     "type" : "ToList",
-                     "operand" : {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                        "value" : "true",
-                        "type" : "Literal"
-                     }
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
                   },
                   "then" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
