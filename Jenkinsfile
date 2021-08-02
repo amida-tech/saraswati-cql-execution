@@ -22,19 +22,25 @@ spec:
         stage('Install Dependencies') {
             steps {
                 echo 'Installing..'
-                sh 'yarn install'
+                container('node') {
+                    sh 'yarn install'
+                }
             }
         }
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh 'yarn build:all'
+                container('node') {
+                    sh 'yarn build:all'
+                }
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing?'
-                sh 'yarn test'
+                container('node') {
+                    sh 'yarn test'
+                }
             }
         }
         stage('Deploy') {
