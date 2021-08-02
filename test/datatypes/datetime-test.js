@@ -758,12 +758,12 @@ describe('DateTime.differenceBetween', () => {
     // calculation needs to be updated in light of the most recent spec changes (don't normalize for TZ when calculating
     // difference for days/months/years), but this isn't the time/place to do it.  For now, if we detect travis, then
     // we don't run this part of the test.
-    //if (process.env.TRAVIS !== 'true') {
-      //a = DateTime.parse('2012-09-13T14:50:00.0-04:00');
-      //b = DateTime.parse('2012-12-31T23:59:59.999-05:00');
-      //a.differenceBetween(b, DateTime.Unit.MONTH).should.eql(new Uncertainty(3));
-      //a.durationBetween(b, DateTime.Unit.MONTH).should.eql(new Uncertainty(3));
-    //}
+    if (process.env.TRAVIS !== 'true' && process.env.JENKINS !== 'true') {
+      a = DateTime.parse('2012-09-13T14:50:00.0-04:00');
+      b = DateTime.parse('2012-12-31T23:59:59.999-05:00');
+      a.differenceBetween(b, DateTime.Unit.MONTH).should.eql(new Uncertainty(3));
+      a.durationBetween(b, DateTime.Unit.MONTH).should.eql(new Uncertainty(3));
+    }
 
     a = DateTime.parse('2012-09-13T14:50:00.0+00:00');
     b = DateTime.parse('2012-12-31T23:59:59.999+00:00');

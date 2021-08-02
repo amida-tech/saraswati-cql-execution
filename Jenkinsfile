@@ -1,7 +1,7 @@
 pipeline {
     agent {
-    kubernetes {
-      yaml """
+        kubernetes {
+            yaml """
 apiVersion: v1
 kind: Pod
 metadata:
@@ -15,8 +15,11 @@ spec:
     - cat
     tty: true
 """
+        }
     }
-  }
+    environment {
+        JENKINS=true
+    }
 
     stages {
         stage('Install Dependencies') {
