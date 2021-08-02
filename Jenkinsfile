@@ -23,6 +23,7 @@ spec:
             steps {
                 echo 'Installing..'
                 container('node') {
+                    sh 'apk add openjdk11'
                     sh 'yarn install'
                 }
             }
