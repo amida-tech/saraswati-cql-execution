@@ -22,7 +22,7 @@ spec:
         stage('Install Dependencies') {
             steps {
                 echo 'Installing..'
-                sh 'npm install'
+                sh 'yarn install'
             }
         }
         stage('Build') {
@@ -34,7 +34,7 @@ spec:
         stage('Test') {
             steps {
                 echo 'Testing?'
-                sh 'npm test'
+                sh 'yarn test'
             }
         }
         stage('Deploy') {
