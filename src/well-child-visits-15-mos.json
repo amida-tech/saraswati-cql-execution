@@ -266,10 +266,9 @@
                            }
                         }
                      }, {
-                        "name" : "ToDateTime",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
                            "path" : "end",
                            "type" : "Property",
                            "source" : {
@@ -277,7 +276,7 @@
                               "scope" : "E0",
                               "type" : "Property"
                            }
-                        } ]
+                        }
                      } ]
                   }, {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
@@ -326,70 +325,49 @@
                }
             }
          }, {
+            "name" : "Telehealth Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Union",
+               "operand" : [ {
+                  "dataType" : "{http://hl7.org/fhir}Encounter",
+                  "codeProperty" : "type",
+                  "codeComparator" : "in",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "name" : "Telehealth POS",
+                     "type" : "ValueSetRef"
+                  }
+               }, {
+                  "dataType" : "{http://hl7.org/fhir}Encounter",
+                  "codeProperty" : "type",
+                  "codeComparator" : "in",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "name" : "Telehealth Modifier",
+                     "type" : "ValueSetRef"
+                  }
+               } ]
+            }
+         }, {
             "name" : "Well-Care Encounter Without Telehealth",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "E0",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Encounter",
-                     "codeProperty" : "type",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Well-Care",
-                        "type" : "ValueSetRef"
-                     }
-                  }
-               } ],
-               "relationship" : [ {
-                  "alias" : "E1",
-                  "type" : "Without",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Encounter",
-                     "codeProperty" : "type",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Telehealth Modifier",
-                        "type" : "ValueSetRef"
-                     }
-                  },
-                  "suchThat" : {
-                     "type" : "Exists",
-                     "operand" : {
-                        "type" : "ToList",
-                        "operand" : {
-                           "name" : "E1",
-                           "type" : "AliasRef"
-                        }
-                     }
+               "type" : "Except",
+               "operand" : [ {
+                  "dataType" : "{http://hl7.org/fhir}Encounter",
+                  "codeProperty" : "type",
+                  "codeComparator" : "in",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "name" : "Well-Care",
+                     "type" : "ValueSetRef"
                   }
                }, {
-                  "alias" : "E2",
-                  "type" : "Without",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Encounter",
-                     "codeProperty" : "type",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Telehealth POS",
-                        "type" : "ValueSetRef"
-                     }
-                  },
-                  "suchThat" : {
-                     "type" : "Exists",
-                     "operand" : {
-                        "type" : "ToList",
-                        "operand" : {
-                           "name" : "E2",
-                           "type" : "AliasRef"
-                        }
-                     }
-                  }
+                  "name" : "Telehealth Encounter",
+                  "type" : "ExpressionRef"
                } ]
             }
          }, {

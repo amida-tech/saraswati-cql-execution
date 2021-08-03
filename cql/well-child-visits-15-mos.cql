@@ -26,18 +26,18 @@ and AgeInMonthsAt(end of "Measurement Period") >= 15
 
 define "Well-Care before patient 15mo birthday":
 	[Encounter: "Well-Care"] E0
-    where AgeInMonthsAt(E0.period.end) <= 15
+    where AgeInMonthsAt(E0.period.end.value) <= 15
 
 define "Well-Care Without Duplicate Days":
 	//MUST BE DeduplicateBasedOnStartDate when called to eval
 	[Encounter: "Well-Care"] E0 sort by start of period
 
+define "Telehealth Encounter": 
+  [Encounter: "Telehealth POS"] union [Encounter: "Telehealth Modifier"]
+
 define "Well-Care Encounter Without Telehealth":
-  [Encounter: "Well-Care"] E0
-    without [Encounter: "Telehealth Modifier"] E1
-      such that exists(E1)
-    without [Encounter: "Telehealth POS"] E2
-      such that exists(E2)
+  [Encounter: "Well-Care"] 
+    except "Telehealth Encounter"
 
 define "Patient Pcp":
   [Patient] P0
