@@ -8,8 +8,8 @@ app.use(bodyParser.json());
 
 app.post('/cql_service_connector', function(req, res, next){
 
-  console.log(req.body);
-  res.end('ok');
+    console.log(req.body);
+    res.end("ok")
 
 });
 
