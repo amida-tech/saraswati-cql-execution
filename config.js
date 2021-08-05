@@ -21,6 +21,27 @@ const envVarsSchema = Joi.object({
   ACTUATOR_PORT: Joi.string()
     .default('5001')
     .description('Port used for actuator endpoint'),
+  KAFKA_BOOTSTRAP_SERVERS: Joi.string()
+    .default('http://127.0.0.1:9092')
+    .description('The Kafka queue server address to connect to.'),
+  KAFKA_USERNAME: Joi.string()
+    .default('username1')
+    .description('The SASL username for accessing the Kafka queue.'),
+  KAFKA_PASSWORD: Joi.string()
+    .default('k@Fka3sk')
+    .description('The SASL password for accessing the Kafka queue.'),
+  KAFKA_PROTOCOL: Joi.string()
+    .default('sasl_ssl')
+    .allow('plaintext', 'sasl_plaintext', 'sasl_ssl', 'ssl')
+    .description('The security protocol for accessing the Kafka queue.'),
+  KAFKA_MECHANISMS: Joi.string()
+    .description('The SASL mechanism for accessing the Kafka queue.'),
+  KAFKA_GROUP_ID: Joi.string()
+    .default('saraswati')
+    .description('The Kafka group ids.'),
+  KAFKA_TOPIC: Joi.string()
+    .default('saraswati-cql-execution')
+    .description('The Kafka topic used.')
 }).unknown();
 
 const { error, value: envVars } = envVarsSchema.validate(process.env);
@@ -34,7 +55,14 @@ const config = {
   host: envVars.SARASWATI_REPORTS_HOST,
   port: envVars.SARASWATI_REPORTS_PORT,
   directory: envVars.DIR,
-  actuatorPort: envVars.ACTUATOR_PORT
+  actuatorPort: envVars.ACTUATOR_PORT,
+  kafkaServers: envVars.KAFKA_BOOTSTRAP_SERVERS,
+  kafkaUsername: envVars.KAFKA_USERNAME,
+  kafkaPassword: envVars.KAFKA_PASSWORD,
+  kafkaProtocol: envVars.KAFKA_PROTOCOL,
+  kafkaMechanisms: envVars.KAFKA_MECHANISMS,
+  kafkaGroupId: envVars.KAFKA_GROUP_ID,
+  kafkaTopic: envVars.KAFKA_TOPIC
 };
 
 module.exports = config;
