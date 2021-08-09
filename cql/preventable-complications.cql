@@ -388,5 +388,5 @@ define "Total ACSC Outliers":
   end
 
 define "Measurement Year End":
-  Date(2020, 12, 01)
+  Date(2020, 12, 31)
 
