@@ -1278,10 +1278,9 @@
                      "name" : "GetId",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ToString",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
                            "path" : "reference",
                            "type" : "Property",
                            "source" : {
@@ -1289,7 +1288,7 @@
                               "scope" : "P",
                               "type" : "Property"
                            }
-                        } ]
+                        }
                      } ]
                   }, {
                      "name" : "ToString",
@@ -1346,10 +1345,9 @@
                      "name" : "GetId",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ToString",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
                            "path" : "reference",
                            "type" : "Property",
                            "source" : {
@@ -1357,7 +1355,7 @@
                               "scope" : "C",
                               "type" : "Property"
                            }
-                        } ]
+                        }
                      } ]
                   }, {
                      "name" : "ToString",
@@ -1414,10 +1412,9 @@
                      "name" : "GetId",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ToString",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
                            "path" : "reference",
                            "type" : "Property",
                            "source" : {
@@ -1425,7 +1422,7 @@
                               "scope" : "C",
                               "type" : "Property"
                            }
-                        } ]
+                        }
                      } ]
                   }, {
                      "name" : "ToString",
@@ -1482,10 +1479,9 @@
                      "name" : "GetId",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ToString",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
                            "path" : "reference",
                            "type" : "Property",
                            "source" : {
@@ -1493,7 +1489,7 @@
                               "scope" : "C",
                               "type" : "Property"
                            }
-                        } ]
+                        }
                      } ]
                   }, {
                      "name" : "ToString",
@@ -1621,10 +1617,9 @@
                      "name" : "GetId",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ToString",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
                            "path" : "reference",
                            "type" : "Property",
                            "source" : {
@@ -1632,7 +1627,7 @@
                               "scope" : "C",
                               "type" : "Property"
                            }
-                        } ]
+                        }
                      } ]
                   }, {
                      "name" : "ToString",
@@ -1971,10 +1966,9 @@
                      "name" : "GetId",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ToString",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
                            "path" : "reference",
                            "type" : "Property",
                            "source" : {
@@ -1982,7 +1976,7 @@
                               "scope" : "C",
                               "type" : "Property"
                            }
-                        } ]
+                        }
                      } ]
                   }, {
                      "name" : "ToString",
@@ -2193,10 +2187,9 @@
                      "name" : "GetId",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ToString",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
                            "path" : "reference",
                            "type" : "Property",
                            "source" : {
@@ -2204,7 +2197,7 @@
                               "scope" : "P",
                               "type" : "Property"
                            }
-                        } ]
+                        }
                      } ]
                   }, {
                      "name" : "ToString",
@@ -2402,10 +2395,9 @@
                      "name" : "GetId",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ToString",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
                            "path" : "reference",
                            "type" : "Property",
                            "source" : {
@@ -2413,7 +2405,7 @@
                               "scope" : "C",
                               "type" : "Property"
                            }
-                        } ]
+                        }
                      } ]
                   }, {
                      "name" : "ToString",
@@ -2470,10 +2462,9 @@
                      "name" : "GetId",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ToString",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
                            "path" : "reference",
                            "type" : "Property",
                            "source" : {
@@ -2481,7 +2472,7 @@
                               "scope" : "P",
                               "type" : "Property"
                            }
-                        } ]
+                        }
                      } ]
                   }, {
                      "name" : "ToString",
@@ -2818,10 +2809,9 @@
                      "name" : "GetId",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ToString",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
                            "path" : "reference",
                            "type" : "Property",
                            "source" : {
@@ -2829,7 +2819,7 @@
                               "scope" : "C",
                               "type" : "Property"
                            }
-                        } ]
+                        }
                      } ]
                   }, {
                      "name" : "ToString",
@@ -2938,10 +2928,9 @@
                      "name" : "GetId",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ToString",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
                            "path" : "reference",
                            "type" : "Property",
                            "source" : {
@@ -2949,7 +2938,7 @@
                               "scope" : "CP",
                               "type" : "Property"
                            }
-                        } ]
+                        }
                      } ]
                   }, {
                      "name" : "ToString",
@@ -3157,10 +3146,9 @@
                      "name" : "GetId",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ToString",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
                            "path" : "reference",
                            "type" : "Property",
                            "source" : {
@@ -3168,7 +3156,7 @@
                               "scope" : "C",
                               "type" : "Property"
                            }
-                        } ]
+                        }
                      } ]
                   }, {
                      "name" : "ToString",
@@ -3869,7 +3857,7 @@
                },
                "day" : {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                  "value" : "01",
+                  "value" : "31",
                   "type" : "Literal"
                }
             }

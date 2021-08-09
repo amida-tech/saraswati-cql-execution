@@ -253,55 +253,55 @@ define "Hypertension without Cardiac Procedure or Kidney Disease with Dialysis E
 define function "Cardiac Procedure Encounter"(E Encounter): 
   from 
     [Procedure: "Cardiac Procedure"] P
-    where "GetId"(P.encounter.reference) = E.id
+    where "GetId"(P.encounter.reference.value) = E.id
     return P
 
 define function "COPD Encounter"(E Encounter):
   from 
     [Condition: "COPD"] C
-    where "GetId"(C.encounter.reference) = E.id
+    where "GetId"(C.encounter.reference.value) = E.id
     return C
 
 define function "Cystic Fibrosis Encounter"(E Encounter):
   from 
     [Condition: "Cystic Fibrosis"] C
-    where "GetId"(C.encounter.reference) = E.id
+    where "GetId"(C.encounter.reference.value) = E.id
     return C
 
 define function "Diabetes Encounter"(E Encounter):
   from 
     [Condition: "Diabetes"] C
-    where "GetId"(C.encounter.reference) = E.id
+    where "GetId"(C.encounter.reference.value) = E.id
     return C
 
 define function "Lower Extremity Amputation Encounter"(E Encounter):
   from 
     [Procedure: "Lower Extremity Amputation Diagnosis"] P
-    where "GetId"(P.encounter.reference) = E.id
+    where "GetId"(P.encounter.reference.value) = E.id
     return P
 
 define function "Traumatic Amputation of Lower Extremity Encounter"(E Encounter):
   from 
     [Condition: "Traumatic Amputation of Lower Extremity"] C
-    where "GetId"(C.encounter.reference) = E.id
+    where "GetId"(C.encounter.reference.value) = E.id
     return C
 
 define function "Toe Amputation Diagnosis Encounter"(E Encounter):
   from 
     [Condition: "Toe Amputation Diagnosis"] C
-    where "GetId"(C.encounter.reference) = E.id
+    where "GetId"(C.encounter.reference.value) = E.id
     return C
 
 define function "Stage I-IV Kidney Disease Encounter"(E Encounter):
   from 
     [Condition: "Stage I-IV Kidney Disease"] C
-    where "GetId"(C.encounter.reference) = E.id
+    where "GetId"(C.encounter.reference.value) = E.id
     return C
 
 define function "Dialysis Encounter"(E Encounter):
   from 
     [Procedure: "Dialysis"] P
-    where "GetId"(P.encounter.reference) = E.id
+    where "GetId"(P.encounter.reference.value) = E.id
     return P
 
 // Acute ACSC Auxiliary functions.
@@ -340,18 +340,18 @@ define "Pressure Ulcer Encounter":
 define function "Sickle Cell Anemia Encounter"(E Encounter):
   from 
     [Condition: "Sickle Cell Anemia and HB S Disease"] C
-    where "GetId"(C.encounter.reference) = E.id
+    where "GetId"(C.encounter.reference.value) = E.id
     return C
 
 define function "Kidney and Urinary Tract Disorders Encounter"(E Encounter):
   from 
     [Condition: "Kidney and Urinary Tract Disorders"] C
-    where "GetId"(C.encounter.reference) = E.id
+    where "GetId"(C.encounter.reference.value) = E.id
     return C
 
 define function "Immunocompromised Encounter"(E Encounter):
   "Immunocompromised Condition and Procedure" CP
-    where "GetId"(CP.encounter.reference) = E.id
+    where "GetId"(CP.encounter.reference.value) = E.id
 
 define "Immunocompromised Condition and Procedure":
   [Condition: "Immunocompromised State"] union [Procedure: "Immunocompromised State"]
