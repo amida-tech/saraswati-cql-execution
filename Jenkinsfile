@@ -6,7 +6,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   labels:
-    name: saraswati-cql-execution 
+    name: saraswati-cql-execution
 spec:
   containers:
   - name: node
@@ -14,6 +14,24 @@ spec:
     command:
     - cat
     tty: true
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
+    imagePullPolicy: Always
+    command:
+    - /busybox/cat
+    tty: true
+    volumeMounts:
+      - name: jenkins-docker-cfg
+        mountPath: /kaniko/.docker
+  volumes:
+  - name: jenkins-docker-cfg
+    projected:
+      sources:
+      - secret:
+          name: mh-docker-hub
+          items:
+            - key: config.json
+              path: config.json
 """
         }
     }
@@ -44,6 +62,30 @@ spec:
                 echo 'Testing?'
                 container('node') {
                     sh 'yarn test'
+                }
+            }
+        }
+        stage('Build Production with Kaniko') {
+            when { 
+                expression {env.GIT_BRANCH == 'master'} 
+            }
+            steps {
+                container(name: 'kaniko', shell: '/busybox/sh') {
+                sh '''#!/busybox/sh
+                    /kaniko/executor --context `pwd` --verbosity debug --destination=amidatech/saraswati-cql-execution:latest
+                '''
+                }
+            }
+        }
+        stage('Build Develop with Kaniko') {
+            when { 
+                expression {env.GIT_BRANCH != 'master'} 
+            }
+            steps {
+                container(name: 'kaniko', shell: '/busybox/sh') {
+                sh '''#!/busybox/sh
+                    /kaniko/executor --context `pwd` --verbosity debug --destination=amidatech/saraswati-cql-execution:develop
+                '''
                 }
             }
         }
