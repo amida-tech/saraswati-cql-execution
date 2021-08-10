@@ -54,7 +54,7 @@ const watcher = dir =>
           }
         });
       }
-  });
+    });
   });
 
 watcher(config.directory);
