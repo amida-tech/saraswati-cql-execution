@@ -18,6 +18,9 @@ const envVarsSchema = Joi.object({
     .description('Port to make post call to saraswati-reports, defaults to 5000'),
   DIR: Joi.string()
     .description('Directory to monitor'),
+  ACTUATOR_PORT: Joi.string()
+    .default('5001')
+    .description('Port used for actuator endpoint'),
 }).unknown();
 
 const { error, value: envVars } = envVarsSchema.validate(process.env);
@@ -30,7 +33,8 @@ const config = {
   logLevel: envVars.LOG_LEVEL,
   host: envVars.SARASWATI_REPORTS_HOST,
   port: envVars.SARASWATI_REPORTS_PORT,
-  directory: envVars.DIR
+  directory: envVars.DIR,
+  actuatorPort: envVars.ACTUATOR_PORT
 };
 
 module.exports = config;

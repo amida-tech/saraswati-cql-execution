@@ -10,3 +10,4 @@ yarn-error.log
 exec-files/results.json
 exec-files/*.jsonl
 .env
+test/*

@@ -1,0 +1,3868 @@
+{
+   "library" : {
+      "annotation" : [ {
+         "translatorOptions" : "",
+         "type" : "CqlToElmInfo"
+      }, {
+         "libraryId" : "preventable_complications",
+         "libraryVersion" : "1",
+         "startLine" : 109,
+         "startChar" : 85,
+         "endLine" : 109,
+         "endChar" : 90,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "preventable_complications",
+         "libraryVersion" : "1",
+         "startLine" : 104,
+         "startChar" : 15,
+         "endLine" : 104,
+         "endChar" : 50,
+         "message" : "Boolean-valued expression was promoted to a list.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      } ],
+      "identifier" : {
+         "id" : "preventable_complications",
+         "version" : "1"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localIdentifier" : "FHIR",
+            "uri" : "http://hl7.org/fhir",
+            "version" : "4.0.0"
+         } ]
+      },
+      "includes" : {
+         "def" : [ {
+            "localIdentifier" : "FHIRHelpers",
+            "path" : "FHIRHelpers",
+            "version" : "4.0.0"
+         } ]
+      },
+      "parameters" : {
+         "def" : [ {
+            "name" : "Measurement Period",
+            "accessLevel" : "Public",
+            "default" : {
+               "lowClosed" : true,
+               "highClosed" : false,
+               "type" : "Interval",
+               "low" : {
+                  "type" : "DateTime",
+                  "year" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2020",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  },
+                  "hour" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "minute" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "second" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "millisecond" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  }
+               },
+               "high" : {
+                  "type" : "DateTime",
+                  "year" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2020",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "12",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "31",
+                     "type" : "Literal"
+                  },
+                  "hour" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "23",
+                     "type" : "Literal"
+                  },
+                  "minute" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "59",
+                     "type" : "Literal"
+                  },
+                  "second" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "59",
+                     "type" : "Literal"
+                  },
+                  "millisecond" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "999",
+                     "type" : "Literal"
+                  }
+               }
+            }
+         }, {
+            "name" : "Prior Period",
+            "accessLevel" : "Public",
+            "default" : {
+               "lowClosed" : true,
+               "highClosed" : false,
+               "type" : "Interval",
+               "low" : {
+                  "type" : "DateTime",
+                  "year" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2019",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  },
+                  "hour" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "minute" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "second" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  },
+                  "millisecond" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  }
+               },
+               "high" : {
+                  "type" : "DateTime",
+                  "year" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2019",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "12",
+                     "type" : "Literal"
+                  },
+                  "day" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "31",
+                     "type" : "Literal"
+                  },
+                  "hour" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "23",
+                     "type" : "Literal"
+                  },
+                  "minute" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "59",
+                     "type" : "Literal"
+                  },
+                  "second" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "59",
+                     "type" : "Literal"
+                  },
+                  "millisecond" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "999",
+                     "type" : "Literal"
+                  }
+               }
+            }
+         } ]
+      },
+      "codeSystems" : {
+         "def" : [ {
+            "name" : "SNOMED-CT",
+            "id" : "2.16.840.1.113883.6.96",
+            "version" : "20200301",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "valueSets" : {
+         "def" : [ {
+            "name" : "Care Services in Long-Term Residential Facility",
+            "id" : "2.16.840.1.113883.3.464.1003.101.12.1014",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Diabetes Short Term Complications",
+            "id" : "2.16.840.1.113883.3.464.1004.1366",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Diabetes Long Term Complications",
+            "id" : "2.16.840.1.113883.3.464.1004.1365",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Uncontrolled Diabetes",
+            "id" : "2.16.840.1.113883.3.464.1004.1377",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "COPD",
+            "id" : "2.16.840.1.113883.3.666.5.776",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Asthma",
+            "id" : "2.16.840.1.113883.3.526.3.362",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Hypertension",
+            "id" : "2.16.840.1.113883.3.3157.4022",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Heart Failure",
+            "id" : "2.16.840.1.113762.1.4.1106.82",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Lower Extremity Amputation Diagnosis",
+            "id" : "2.16.840.1.113883.3.464.1003.113.11.1303",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Bacterial pneumonia",
+            "id" : "2.16.840.1.113883.3.464.1003.102.11.1043",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Urinary tract infection",
+            "id" : "2.16.840.1.113883.17.4077.3.2054",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Cellulitis (ICD10CM)",
+            "id" : "2.16.840.1.113762.1.4.1146.717",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Cellulitis (SNOMED)",
+            "id" : "2.16.840.1.113762.1.4.1146.718",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Cellulitis Of Orbit",
+            "id" : "2.16.840.1.113883.3.3157.1003.129",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Pressure ulcer",
+            "id" : "2.16.840.1.113883.3.2066.2046",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Sickle Cell Anemia and HB S Disease",
+            "id" : "2.16.840.1.113762.1.4.1029.35",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Immunocompromised State",
+            "id" : "2.16.840.1.113883.3.666.5.1940",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Kidney and Urinary Tract Disorders",
+            "id" : "2.16.840.1.113883.17.4077.3.2028",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Cystic Fibrosis",
+            "id" : "2.16.840.1.113883.3.464.1003.102.12.1002",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Diabetes",
+            "id" : "2.16.840.1.113883.3.464.1003.103.12.1001",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Traumatic Amputation of Lower Extremity",
+            "id" : "2.16.840.1.113883.3.464.1004.1376",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Toe Amputation Diagnosis",
+            "id" : "2.16.840.1.113883.3.464.1004.1375",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Acute Bronchitis",
+            "id" : "2.16.840.1.113883.3.88.12.3221.7.4",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Cardiac Procedure",
+            "id" : "2.16.840.1.113762.1.4.1029.55",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Stage I-IV Kidney Disease",
+            "id" : "2.16.840.1.113883.3.464.1004.1374",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Dialysis",
+            "id" : "2.16.840.1.113762.1.4.1222.161",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Inpatient Stay",
+            "id" : "2.16.840.1.113762.1.4.1182.285",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Observation Stay",
+            "id" : "2.16.840.1.113762.1.4.1181.72",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Nonacute Inpatient Stay",
+            "id" : "2.16.840.1.113762.1.4.1182.289",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Encounter Inpatient",
+            "id" : "2.16.840.1.113883.3.666.5.307",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Patients Age 65 or Older in SNP or Long Term Care",
+            "id" : "2.16.840.1.113762.1.4.1182.66",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "codes" : {
+         "def" : [ {
+            "name" : "Patient transfer, to another health care facility (procedure)",
+            "id" : "19712007",
+            "display" : "Patient transfer, to another health care facility (procedure)",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "SNOMED-CT"
+            }
+         }, {
+            "name" : "Referral to long term care service (procedure)",
+            "id" : "417708006",
+            "display" : "Referral to long term care service (procedure)",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "SNOMED-CT"
+            }
+         } ]
+      },
+      "concepts" : {
+         "def" : [ {
+            "name" : "Long Term Stay",
+            "display" : "Long Term Stay",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Patient transfer, to another health care facility (procedure)"
+            }, {
+               "name" : "Referral to long term care service (procedure)"
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Patient",
+            "context" : "Patient",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "dataType" : "{http://hl7.org/fhir}Patient",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "name" : "Is Living Long Term in Institution",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Or",
+               "operand" : [ {
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "Or",
+                     "operand" : [ {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "DischargeLongTerm",
+                              "expression" : {
+                                 "dataType" : "{http://hl7.org/fhir}Encounter",
+                                 "codeProperty" : "type",
+                                 "codeComparator" : "in",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Encounter Inpatient",
+                                    "type" : "ValueSetRef"
+                                 }
+                              }
+                           } ],
+                           "relationship" : [ ],
+                           "where" : {
+                              "type" : "And",
+                              "operand" : [ {
+                                 "type" : "And",
+                                 "operand" : [ {
+                                    "type" : "Equivalent",
+                                    "operand" : [ {
+                                       "name" : "ToCode",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "type" : "SingletonFrom",
+                                          "operand" : {
+                                             "path" : "coding",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "dischargeDisposition",
+                                                "type" : "Property",
+                                                "source" : {
+                                                   "path" : "hospitalization",
+                                                   "scope" : "DischargeLongTerm",
+                                                   "type" : "Property"
+                                                }
+                                             }
+                                          }
+                                       } ]
+                                    }, {
+                                       "name" : "Referral to long term care service (procedure)",
+                                       "type" : "CodeRef"
+                                    } ]
+                                 }, {
+                                    "type" : "In",
+                                    "operand" : [ {
+                                       "name" : "ToString",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "status",
+                                          "scope" : "DischargeLongTerm",
+                                          "type" : "Property"
+                                       } ]
+                                    }, {
+                                       "type" : "List",
+                                       "element" : [ {
+                                          "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                          "value" : "in-progress",
+                                          "type" : "Literal"
+                                       }, {
+                                          "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                          "value" : "finished",
+                                          "type" : "Literal"
+                                       } ]
+                                    } ]
+                                 } ]
+                              }, {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "type" : "End",
+                                    "operand" : {
+                                       "name" : "ToInterval",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "period",
+                                          "scope" : "DischargeLongTerm",
+                                          "type" : "Property"
+                                       } ]
+                                    }
+                                 }, {
+                                    "name" : "Measurement Period",
+                                    "type" : "ParameterRef"
+                                 } ]
+                              } ]
+                           }
+                        }
+                     }, {
+                        "type" : "Exists",
+                        "operand" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "LongTermOrder",
+                              "expression" : {
+                                 "dataType" : "{http://hl7.org/fhir}Task",
+                                 "codeProperty" : "code",
+                                 "codeComparator" : "in",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Care Services in Long-Term Residential Facility",
+                                    "type" : "ValueSetRef"
+                                 }
+                              }
+                           } ],
+                           "relationship" : [ ],
+                           "where" : {
+                              "type" : "And",
+                              "operand" : [ {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "intent",
+                                       "scope" : "LongTermOrder",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                    "value" : "order",
+                                    "type" : "Literal"
+                                 } ]
+                              }, {
+                                 "type" : "Or",
+                                 "operand" : [ {
+                                    "type" : "In",
+                                    "operand" : [ {
+                                       "name" : "ToDateTime",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "authoredOn",
+                                          "scope" : "LongTermOrder",
+                                          "type" : "Property"
+                                       } ]
+                                    }, {
+                                       "name" : "Measurement Period",
+                                       "type" : "ParameterRef"
+                                    } ]
+                                 }, {
+                                    "type" : "Overlaps",
+                                    "operand" : [ {
+                                       "name" : "ToInterval",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "executionPeriod",
+                                          "scope" : "LongTermOrder",
+                                          "type" : "Property"
+                                       } ]
+                                    }, {
+                                       "name" : "Measurement Period",
+                                       "type" : "ParameterRef"
+                                    } ]
+                                 } ]
+                              } ]
+                           }
+                        }
+                     } ]
+                  }, {
+                     "type" : "Exists",
+                     "operand" : {
+                        "type" : "Query",
+                        "source" : [ {
+                           "alias" : "LongTermOrder",
+                           "expression" : {
+                              "dataType" : "{http://hl7.org/fhir}Procedure",
+                              "codeProperty" : "code",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Care Services in Long-Term Residential Facility",
+                                 "type" : "ValueSetRef"
+                              }
+                           }
+                        } ],
+                        "relationship" : [ ],
+                        "where" : {
+                           "type" : "Or",
+                           "operand" : [ {
+                              "type" : "IncludedIn",
+                              "operand" : [ {
+                                 "name" : "ToInterval",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "asType" : "{http://hl7.org/fhir}Period",
+                                    "type" : "As",
+                                    "operand" : {
+                                       "path" : "performed",
+                                       "scope" : "LongTermOrder",
+                                       "type" : "Property"
+                                    }
+                                 } ]
+                              }, {
+                                 "name" : "Measurement Period",
+                                 "type" : "ParameterRef"
+                              } ]
+                           }, {
+                              "type" : "Overlaps",
+                              "operand" : [ {
+                                 "name" : "ToInterval",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "asType" : "{http://hl7.org/fhir}Period",
+                                    "type" : "As",
+                                    "operand" : {
+                                       "path" : "performed",
+                                       "scope" : "LongTermOrder",
+                                       "type" : "Property"
+                                    }
+                                 } ]
+                              }, {
+                                 "name" : "Measurement Period",
+                                 "type" : "ParameterRef"
+                              } ]
+                           } ]
+                        }
+                     }
+                  } ]
+               }, {
+                  "type" : "Exists",
+                  "operand" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "LongTermOrder",
+                        "expression" : {
+                           "dataType" : "{http://hl7.org/fhir}Encounter",
+                           "codeProperty" : "type",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Care Services in Long-Term Residential Facility",
+                              "type" : "ValueSetRef"
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "Overlaps",
+                        "operand" : [ {
+                           "name" : "ToInterval",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "period",
+                              "scope" : "LongTermOrder",
+                              "type" : "Property"
+                           } ]
+                        }, {
+                           "name" : "Measurement Period",
+                           "type" : "ParameterRef"
+                        } ]
+                     }
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Age Exclusions",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Or",
+               "operand" : [ {
+                  "type" : "Exists",
+                  "operand" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "E",
+                        "expression" : {
+                           "dataType" : "{http://hl7.org/fhir}Encounter",
+                           "codeProperty" : "type",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Patients Age 65 or Older in SNP or Long Term Care",
+                              "type" : "ValueSetRef"
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "IncludedIn",
+                        "operand" : [ {
+                           "name" : "ToInterval",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "period",
+                              "scope" : "E",
+                              "type" : "Property"
+                           } ]
+                        }, {
+                           "name" : "Measurement Period",
+                           "type" : "ParameterRef"
+                        } ]
+                     }
+                  }
+               }, {
+                  "type" : "Exists",
+                  "operand" : {
+                     "type" : "ToList",
+                     "operand" : {
+                        "name" : "Is Living Long Term in Institution",
+                        "type" : "ExpressionRef"
+                     }
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Initial Population",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "type" : "GreaterOrEqual",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAgeAt",
+                     "operand" : [ {
+                        "type" : "ToDateTime",
+                        "operand" : {
+                           "path" : "birthDate.value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     }, {
+                        "type" : "End",
+                        "operand" : {
+                           "name" : "Measurement Period",
+                           "type" : "ParameterRef"
+                        }
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "67",
+                     "type" : "Literal"
+                  } ]
+               }, {
+                  "type" : "Not",
+                  "operand" : {
+                     "name" : "Age Exclusions",
+                     "type" : "ExpressionRef"
+                  }
+               } ]
+            }
+         }, {
+            "name" : "General ACSC Population",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "TotalStays",
+                  "expression" : {
+                     "type" : "Except",
+                     "operand" : [ {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}Encounter",
+                           "codeProperty" : "type",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Inpatient Stay",
+                              "type" : "ValueSetRef"
+                           }
+                        }, {
+                           "dataType" : "{http://hl7.org/fhir}Encounter",
+                           "codeProperty" : "type",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Observation Stay",
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
+                     }, {
+                        "dataType" : "{http://hl7.org/fhir}Encounter",
+                        "codeProperty" : "type",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Nonacute Inpatient Stay",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equivalent",
+                  "operand" : [ {
+                     "name" : "ToString",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "status",
+                        "scope" : "TotalStays",
+                        "type" : "Property"
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "finished",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Direct Transfers",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "GAP",
+                  "expression" : {
+                     "name" : "General ACSC Population",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ]
+            }
+         }, {
+            "name" : "GetId",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Last",
+               "source" : {
+                  "type" : "Split",
+                  "stringToSplit" : {
+                     "name" : "uri",
+                     "type" : "OperandRef"
+                  },
+                  "separator" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : ":",
+                     "type" : "Literal"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "uri",
+               "operandTypeSpecifier" : {
+                  "name" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Diabetes Short Term Complications Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "let" : [ {
+                  "identifier" : "PrincipalDiagnosis",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "PD",
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "D",
+                                 "expression" : {
+                                    "path" : "diagnosis",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "name" : "ToInteger",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "rank",
+                                       "scope" : "D",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "1",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "return" : {
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "C",
+                                 "expression" : {
+                                    "dataType" : "{http://hl7.org/fhir}Condition",
+                                    "type" : "Retrieve"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "type" : "ToList",
+                                    "operand" : {
+                                       "name" : "GetId",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "value",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "path" : "reference",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "condition",
+                                                "scope" : "PD",
+                                                "type" : "Property"
+                                             }
+                                          }
+                                       } ]
+                                    }
+                                 } ]
+                              }
+                           }
+                        }
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "InValueSet",
+                  "code" : {
+                     "name" : "ToConcept",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "code",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "PrincipalDiagnosis",
+                           "type" : "QueryLetRef"
+                        }
+                     } ]
+                  },
+                  "valueset" : {
+                     "name" : "Diabetes Short Term Complications",
+                     "type" : "ValueSetRef"
+                  }
+               }
+            }
+         }, {
+            "name" : "Diabetes Long Term Complications Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "let" : [ {
+                  "identifier" : "PrincipalDiagnosis",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "PD",
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "D",
+                                 "expression" : {
+                                    "path" : "diagnosis",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "name" : "ToInteger",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "rank",
+                                       "scope" : "D",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "1",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "return" : {
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "C",
+                                 "expression" : {
+                                    "dataType" : "{http://hl7.org/fhir}Condition",
+                                    "type" : "Retrieve"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "type" : "ToList",
+                                    "operand" : {
+                                       "name" : "GetId",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "value",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "path" : "reference",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "condition",
+                                                "scope" : "PD",
+                                                "type" : "Property"
+                                             }
+                                          }
+                                       } ]
+                                    }
+                                 } ]
+                              }
+                           }
+                        }
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "InValueSet",
+                  "code" : {
+                     "name" : "ToConcept",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "code",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "PrincipalDiagnosis",
+                           "type" : "QueryLetRef"
+                        }
+                     } ]
+                  },
+                  "valueset" : {
+                     "name" : "Diabetes Long Term Complications",
+                     "type" : "ValueSetRef"
+                  }
+               }
+            }
+         }, {
+            "name" : "Uncontrolled Diabetes Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "let" : [ {
+                  "identifier" : "PrincipalDiagnosis",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "PD",
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "D",
+                                 "expression" : {
+                                    "path" : "diagnosis",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "name" : "ToInteger",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "rank",
+                                       "scope" : "D",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "1",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "return" : {
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "C",
+                                 "expression" : {
+                                    "dataType" : "{http://hl7.org/fhir}Condition",
+                                    "type" : "Retrieve"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "type" : "ToList",
+                                    "operand" : {
+                                       "name" : "GetId",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "value",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "path" : "reference",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "condition",
+                                                "scope" : "PD",
+                                                "type" : "Property"
+                                             }
+                                          }
+                                       } ]
+                                    }
+                                 } ]
+                              }
+                           }
+                        }
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "InValueSet",
+                  "code" : {
+                     "name" : "ToConcept",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "code",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "PrincipalDiagnosis",
+                           "type" : "QueryLetRef"
+                        }
+                     } ]
+                  },
+                  "valueset" : {
+                     "name" : "Uncontrolled Diabetes",
+                     "type" : "ValueSetRef"
+                  }
+               }
+            }
+         }, {
+            "name" : "Lower Extremity Amputation Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "P",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Procedure",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Lower Extremity Amputation Diagnosis",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "name" : "GetId",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "reference",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "encounter",
+                              "scope" : "P",
+                              "type" : "Property"
+                           }
+                        }
+                     } ]
+                  }, {
+                     "name" : "ToString",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "id",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "E",
+                           "type" : "OperandRef"
+                        }
+                     } ]
+                  } ]
+               },
+               "return" : {
+                  "expression" : {
+                     "name" : "P",
+                     "type" : "AliasRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "E",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Diabetes Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "C",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Diabetes",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "name" : "GetId",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "reference",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "encounter",
+                              "scope" : "C",
+                              "type" : "Property"
+                           }
+                        }
+                     } ]
+                  }, {
+                     "name" : "ToString",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "id",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "E",
+                           "type" : "OperandRef"
+                        }
+                     } ]
+                  } ]
+               },
+               "return" : {
+                  "expression" : {
+                     "name" : "C",
+                     "type" : "AliasRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "E",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Traumatic Amputation of Lower Extremity Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "C",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Traumatic Amputation of Lower Extremity",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "name" : "GetId",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "reference",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "encounter",
+                              "scope" : "C",
+                              "type" : "Property"
+                           }
+                        }
+                     } ]
+                  }, {
+                     "name" : "ToString",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "id",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "E",
+                           "type" : "OperandRef"
+                        }
+                     } ]
+                  } ]
+               },
+               "return" : {
+                  "expression" : {
+                     "name" : "C",
+                     "type" : "AliasRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "E",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Toe Amputation Diagnosis Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "C",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Toe Amputation Diagnosis",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "name" : "GetId",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "reference",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "encounter",
+                              "scope" : "C",
+                              "type" : "Property"
+                           }
+                        }
+                     } ]
+                  }, {
+                     "name" : "ToString",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "id",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "E",
+                           "type" : "OperandRef"
+                        }
+                     } ]
+                  } ]
+               },
+               "return" : {
+                  "expression" : {
+                     "name" : "C",
+                     "type" : "AliasRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "E",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Lower Extremity Amputation with Diabetes Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "And",
+                        "operand" : [ {
+                           "type" : "Exists",
+                           "operand" : {
+                              "name" : "Lower Extremity Amputation Encounter",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "name" : "E",
+                                 "type" : "AliasRef"
+                              } ]
+                           }
+                        }, {
+                           "type" : "Exists",
+                           "operand" : {
+                              "name" : "Diabetes Encounter",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "name" : "E",
+                                 "type" : "AliasRef"
+                              } ]
+                           }
+                        } ]
+                     }, {
+                        "type" : "Not",
+                        "operand" : {
+                           "type" : "Exists",
+                           "operand" : {
+                              "name" : "Traumatic Amputation of Lower Extremity Encounter",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "name" : "E",
+                                 "type" : "AliasRef"
+                              } ]
+                           }
+                        }
+                     } ]
+                  }, {
+                     "type" : "Not",
+                     "operand" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "name" : "Toe Amputation Diagnosis Encounter",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "E",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Cystic Fibrosis Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "C",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Cystic Fibrosis",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "name" : "GetId",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "reference",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "encounter",
+                              "scope" : "C",
+                              "type" : "Property"
+                           }
+                        }
+                     } ]
+                  }, {
+                     "name" : "ToString",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "id",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "E",
+                           "type" : "OperandRef"
+                        }
+                     } ]
+                  } ]
+               },
+               "return" : {
+                  "expression" : {
+                     "name" : "C",
+                     "type" : "AliasRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "E",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "COPD without Cystic Fibrosis Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "let" : [ {
+                  "identifier" : "PrincipalDiagnosis",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "PD",
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "D",
+                                 "expression" : {
+                                    "path" : "diagnosis",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "name" : "ToInteger",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "rank",
+                                       "scope" : "D",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "1",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "return" : {
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "C",
+                                 "expression" : {
+                                    "dataType" : "{http://hl7.org/fhir}Condition",
+                                    "type" : "Retrieve"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "type" : "ToList",
+                                    "operand" : {
+                                       "name" : "GetId",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "value",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "path" : "reference",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "condition",
+                                                "scope" : "PD",
+                                                "type" : "Property"
+                                             }
+                                          }
+                                       } ]
+                                    }
+                                 } ]
+                              }
+                           }
+                        }
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "InValueSet",
+                     "code" : {
+                        "name" : "ToConcept",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "code",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "PrincipalDiagnosis",
+                              "type" : "QueryLetRef"
+                           }
+                        } ]
+                     },
+                     "valueset" : {
+                        "name" : "COPD",
+                        "type" : "ValueSetRef"
+                     }
+                  }, {
+                     "type" : "Not",
+                     "operand" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "name" : "Cystic Fibrosis Encounter",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "E",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Asthma without Cystic Fibrosis Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "let" : [ {
+                  "identifier" : "PrincipalDiagnosis",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "PD",
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "D",
+                                 "expression" : {
+                                    "path" : "diagnosis",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "name" : "ToInteger",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "rank",
+                                       "scope" : "D",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "1",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "return" : {
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "C",
+                                 "expression" : {
+                                    "dataType" : "{http://hl7.org/fhir}Condition",
+                                    "type" : "Retrieve"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "type" : "ToList",
+                                    "operand" : {
+                                       "name" : "GetId",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "value",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "path" : "reference",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "condition",
+                                                "scope" : "PD",
+                                                "type" : "Property"
+                                             }
+                                          }
+                                       } ]
+                                    }
+                                 } ]
+                              }
+                           }
+                        }
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "InValueSet",
+                     "code" : {
+                        "name" : "ToConcept",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "code",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "PrincipalDiagnosis",
+                              "type" : "QueryLetRef"
+                           }
+                        } ]
+                     },
+                     "valueset" : {
+                        "name" : "Asthma",
+                        "type" : "ValueSetRef"
+                     }
+                  }, {
+                     "type" : "Not",
+                     "operand" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "name" : "Cystic Fibrosis Encounter",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "E",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "COPD Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "C",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "COPD",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "name" : "GetId",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "reference",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "encounter",
+                              "scope" : "C",
+                              "type" : "Property"
+                           }
+                        }
+                     } ]
+                  }, {
+                     "name" : "ToString",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "id",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "E",
+                           "type" : "OperandRef"
+                        }
+                     } ]
+                  } ]
+               },
+               "return" : {
+                  "expression" : {
+                     "name" : "C",
+                     "type" : "AliasRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "E",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Acute Bronchitis with COPD Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "let" : [ {
+                  "identifier" : "PrincipalDiagnosis",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "PD",
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "D",
+                                 "expression" : {
+                                    "path" : "diagnosis",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "name" : "ToInteger",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "rank",
+                                       "scope" : "D",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "1",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "return" : {
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "C",
+                                 "expression" : {
+                                    "dataType" : "{http://hl7.org/fhir}Condition",
+                                    "type" : "Retrieve"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "type" : "ToList",
+                                    "operand" : {
+                                       "name" : "GetId",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "value",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "path" : "reference",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "condition",
+                                                "scope" : "PD",
+                                                "type" : "Property"
+                                             }
+                                          }
+                                       } ]
+                                    }
+                                 } ]
+                              }
+                           }
+                        }
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "InValueSet",
+                        "code" : {
+                           "name" : "ToConcept",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "PrincipalDiagnosis",
+                                 "type" : "QueryLetRef"
+                              }
+                           } ]
+                        },
+                        "valueset" : {
+                           "name" : "Acute Bronchitis",
+                           "type" : "ValueSetRef"
+                        }
+                     }, {
+                        "type" : "Exists",
+                        "operand" : {
+                           "name" : "COPD Encounter",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "E",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     } ]
+                  }, {
+                     "type" : "Not",
+                     "operand" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "name" : "Cystic Fibrosis Encounter",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "E",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Cardiac Procedure Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "P",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Procedure",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Cardiac Procedure",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "name" : "GetId",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "reference",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "encounter",
+                              "scope" : "P",
+                              "type" : "Property"
+                           }
+                        }
+                     } ]
+                  }, {
+                     "name" : "ToString",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "id",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "E",
+                           "type" : "OperandRef"
+                        }
+                     } ]
+                  } ]
+               },
+               "return" : {
+                  "expression" : {
+                     "name" : "P",
+                     "type" : "AliasRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "E",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Heart Failure without Cardiac Procedure Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "let" : [ {
+                  "identifier" : "PrincipalDiagnosis",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "PD",
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "D",
+                                 "expression" : {
+                                    "path" : "diagnosis",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "name" : "ToInteger",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "rank",
+                                       "scope" : "D",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "1",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "return" : {
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "C",
+                                 "expression" : {
+                                    "dataType" : "{http://hl7.org/fhir}Condition",
+                                    "type" : "Retrieve"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "type" : "ToList",
+                                    "operand" : {
+                                       "name" : "GetId",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "value",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "path" : "reference",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "condition",
+                                                "scope" : "PD",
+                                                "type" : "Property"
+                                             }
+                                          }
+                                       } ]
+                                    }
+                                 } ]
+                              }
+                           }
+                        }
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "InValueSet",
+                     "code" : {
+                        "name" : "ToConcept",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "code",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "PrincipalDiagnosis",
+                              "type" : "QueryLetRef"
+                           }
+                        } ]
+                     },
+                     "valueset" : {
+                        "name" : "Heart Failure",
+                        "type" : "ValueSetRef"
+                     }
+                  }, {
+                     "type" : "Not",
+                     "operand" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "name" : "Cardiac Procedure Encounter",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "E",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Stage I-IV Kidney Disease Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "C",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Stage I-IV Kidney Disease",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "name" : "GetId",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "reference",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "encounter",
+                              "scope" : "C",
+                              "type" : "Property"
+                           }
+                        }
+                     } ]
+                  }, {
+                     "name" : "ToString",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "id",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "E",
+                           "type" : "OperandRef"
+                        }
+                     } ]
+                  } ]
+               },
+               "return" : {
+                  "expression" : {
+                     "name" : "C",
+                     "type" : "AliasRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "E",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Dialysis Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "P",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Procedure",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Dialysis",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "name" : "GetId",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "reference",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "encounter",
+                              "scope" : "P",
+                              "type" : "Property"
+                           }
+                        }
+                     } ]
+                  }, {
+                     "name" : "ToString",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "id",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "E",
+                           "type" : "OperandRef"
+                        }
+                     } ]
+                  } ]
+               },
+               "return" : {
+                  "expression" : {
+                     "name" : "P",
+                     "type" : "AliasRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "E",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Hypertension without Cardiac Procedure or Kidney Disease with Dialysis Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "let" : [ {
+                  "identifier" : "PrincipalDiagnosis",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "PD",
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "D",
+                                 "expression" : {
+                                    "path" : "diagnosis",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "name" : "ToInteger",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "rank",
+                                       "scope" : "D",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "1",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "return" : {
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "C",
+                                 "expression" : {
+                                    "dataType" : "{http://hl7.org/fhir}Condition",
+                                    "type" : "Retrieve"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "type" : "ToList",
+                                    "operand" : {
+                                       "name" : "GetId",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "value",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "path" : "reference",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "condition",
+                                                "scope" : "PD",
+                                                "type" : "Property"
+                                             }
+                                          }
+                                       } ]
+                                    }
+                                 } ]
+                              }
+                           }
+                        }
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "InValueSet",
+                        "code" : {
+                           "name" : "ToConcept",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "PrincipalDiagnosis",
+                                 "type" : "QueryLetRef"
+                              }
+                           } ]
+                        },
+                        "valueset" : {
+                           "name" : "Hypertension",
+                           "type" : "ValueSetRef"
+                        }
+                     }, {
+                        "type" : "Not",
+                        "operand" : {
+                           "type" : "Exists",
+                           "operand" : {
+                              "name" : "Cardiac Procedure Encounter",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "name" : "E",
+                                 "type" : "AliasRef"
+                              } ]
+                           }
+                        }
+                     } ]
+                  }, {
+                     "type" : "Not",
+                     "operand" : {
+                        "type" : "And",
+                        "operand" : [ {
+                           "type" : "Exists",
+                           "operand" : {
+                              "name" : "Stage I-IV Kidney Disease Encounter",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "name" : "E",
+                                 "type" : "AliasRef"
+                              } ]
+                           }
+                        }, {
+                           "type" : "Exists",
+                           "operand" : {
+                              "name" : "Dialysis Encounter",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "name" : "E",
+                                 "type" : "AliasRef"
+                              } ]
+                           }
+                        } ]
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Identify Chronic ACSC Discharges by Claim",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Union",
+               "operand" : [ {
+                  "type" : "Union",
+                  "operand" : [ {
+                     "type" : "Union",
+                     "operand" : [ {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "type" : "Intersect",
+                              "operand" : [ {
+                                 "name" : "Direct Transfers",
+                                 "type" : "ExpressionRef"
+                              }, {
+                                 "name" : "Diabetes Short Term Complications Encounter",
+                                 "type" : "ExpressionRef"
+                              } ]
+                           }, {
+                              "type" : "Intersect",
+                              "operand" : [ {
+                                 "name" : "Direct Transfers",
+                                 "type" : "ExpressionRef"
+                              }, {
+                                 "name" : "Diabetes Long Term Complications Encounter",
+                                 "type" : "ExpressionRef"
+                              } ]
+                           } ]
+                        }, {
+                           "type" : "Union",
+                           "operand" : [ {
+                              "type" : "Intersect",
+                              "operand" : [ {
+                                 "name" : "Direct Transfers",
+                                 "type" : "ExpressionRef"
+                              }, {
+                                 "name" : "Uncontrolled Diabetes Encounter",
+                                 "type" : "ExpressionRef"
+                              } ]
+                           }, {
+                              "type" : "Intersect",
+                              "operand" : [ {
+                                 "name" : "Direct Transfers",
+                                 "type" : "ExpressionRef"
+                              }, {
+                                 "name" : "Lower Extremity Amputation with Diabetes Encounter",
+                                 "type" : "ExpressionRef"
+                              } ]
+                           } ]
+                        } ]
+                     }, {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "type" : "Intersect",
+                           "operand" : [ {
+                              "name" : "Direct Transfers",
+                              "type" : "ExpressionRef"
+                           }, {
+                              "name" : "COPD without Cystic Fibrosis Encounter",
+                              "type" : "ExpressionRef"
+                           } ]
+                        }, {
+                           "type" : "Intersect",
+                           "operand" : [ {
+                              "name" : "Direct Transfers",
+                              "type" : "ExpressionRef"
+                           }, {
+                              "name" : "Asthma without Cystic Fibrosis Encounter",
+                              "type" : "ExpressionRef"
+                           } ]
+                        } ]
+                     } ]
+                  }, {
+                     "type" : "Union",
+                     "operand" : [ {
+                        "type" : "Intersect",
+                        "operand" : [ {
+                           "name" : "Direct Transfers",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "name" : "Acute Bronchitis with COPD Encounter",
+                           "type" : "ExpressionRef"
+                        } ]
+                     }, {
+                        "type" : "Intersect",
+                        "operand" : [ {
+                           "name" : "Direct Transfers",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "name" : "Heart Failure without Cardiac Procedure Encounter",
+                           "type" : "ExpressionRef"
+                        } ]
+                     } ]
+                  } ]
+               }, {
+                  "type" : "Intersect",
+                  "operand" : [ {
+                     "name" : "Direct Transfers",
+                     "type" : "ExpressionRef"
+                  }, {
+                     "name" : "Hypertension without Cardiac Procedure or Kidney Disease with Dialysis Encounter",
+                     "type" : "ExpressionRef"
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "Sickle Cell Anemia Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "C",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Sickle Cell Anemia and HB S Disease",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "name" : "GetId",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "reference",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "encounter",
+                              "scope" : "C",
+                              "type" : "Property"
+                           }
+                        }
+                     } ]
+                  }, {
+                     "name" : "ToString",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "id",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "E",
+                           "type" : "OperandRef"
+                        }
+                     } ]
+                  } ]
+               },
+               "return" : {
+                  "expression" : {
+                     "name" : "C",
+                     "type" : "AliasRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "E",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Immunocompromised Condition and Procedure",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Union",
+               "operand" : [ {
+                  "type" : "As",
+                  "operand" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Immunocompromised State",
+                        "type" : "ValueSetRef"
+                     }
+                  },
+                  "asTypeSpecifier" : {
+                     "type" : "ListTypeSpecifier",
+                     "elementType" : {
+                        "type" : "ChoiceTypeSpecifier",
+                        "choice" : [ {
+                           "name" : "{http://hl7.org/fhir}Procedure",
+                           "type" : "NamedTypeSpecifier"
+                        }, {
+                           "name" : "{http://hl7.org/fhir}Condition",
+                           "type" : "NamedTypeSpecifier"
+                        } ]
+                     }
+                  }
+               }, {
+                  "type" : "As",
+                  "operand" : {
+                     "dataType" : "{http://hl7.org/fhir}Procedure",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Immunocompromised State",
+                        "type" : "ValueSetRef"
+                     }
+                  },
+                  "asTypeSpecifier" : {
+                     "type" : "ListTypeSpecifier",
+                     "elementType" : {
+                        "type" : "ChoiceTypeSpecifier",
+                        "choice" : [ {
+                           "name" : "{http://hl7.org/fhir}Procedure",
+                           "type" : "NamedTypeSpecifier"
+                        }, {
+                           "name" : "{http://hl7.org/fhir}Condition",
+                           "type" : "NamedTypeSpecifier"
+                        } ]
+                     }
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Immunocompromised Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "CP",
+                  "expression" : {
+                     "name" : "Immunocompromised Condition and Procedure",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "name" : "GetId",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "reference",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "encounter",
+                              "scope" : "CP",
+                              "type" : "Property"
+                           }
+                        }
+                     } ]
+                  }, {
+                     "name" : "ToString",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "id",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "E",
+                           "type" : "OperandRef"
+                        }
+                     } ]
+                  } ]
+               }
+            },
+            "operand" : [ {
+               "name" : "E",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Bacterial Pneumonia Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "let" : [ {
+                  "identifier" : "PrincipalDiagnosis",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "PD",
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "D",
+                                 "expression" : {
+                                    "path" : "diagnosis",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "name" : "ToInteger",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "rank",
+                                       "scope" : "D",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "1",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "return" : {
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "C",
+                                 "expression" : {
+                                    "dataType" : "{http://hl7.org/fhir}Condition",
+                                    "type" : "Retrieve"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "type" : "ToList",
+                                    "operand" : {
+                                       "name" : "GetId",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "value",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "path" : "reference",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "condition",
+                                                "scope" : "PD",
+                                                "type" : "Property"
+                                             }
+                                          }
+                                       } ]
+                                    }
+                                 } ]
+                              }
+                           }
+                        }
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "InValueSet",
+                        "code" : {
+                           "name" : "ToConcept",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "PrincipalDiagnosis",
+                                 "type" : "QueryLetRef"
+                              }
+                           } ]
+                        },
+                        "valueset" : {
+                           "name" : "Bacterial pneumonia",
+                           "type" : "ValueSetRef"
+                        }
+                     }, {
+                        "type" : "Not",
+                        "operand" : {
+                           "type" : "Exists",
+                           "operand" : {
+                              "name" : "Sickle Cell Anemia Encounter",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "name" : "E",
+                                 "type" : "AliasRef"
+                              } ]
+                           }
+                        }
+                     } ]
+                  }, {
+                     "type" : "Not",
+                     "operand" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "name" : "Immunocompromised Encounter",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "E",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Kidney and Urinary Tract Disorders Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "C",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Kidney and Urinary Tract Disorders",
+                        "type" : "ValueSetRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "name" : "GetId",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "reference",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "encounter",
+                              "scope" : "C",
+                              "type" : "Property"
+                           }
+                        }
+                     } ]
+                  }, {
+                     "name" : "ToString",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "id",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "E",
+                           "type" : "OperandRef"
+                        }
+                     } ]
+                  } ]
+               },
+               "return" : {
+                  "expression" : {
+                     "name" : "C",
+                     "type" : "AliasRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "E",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Urinary Tract Infection Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "let" : [ {
+                  "identifier" : "PrincipalDiagnosis",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "PD",
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "D",
+                                 "expression" : {
+                                    "path" : "diagnosis",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "name" : "ToInteger",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "rank",
+                                       "scope" : "D",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "1",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "return" : {
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "C",
+                                 "expression" : {
+                                    "dataType" : "{http://hl7.org/fhir}Condition",
+                                    "type" : "Retrieve"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "type" : "ToList",
+                                    "operand" : {
+                                       "name" : "GetId",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "value",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "path" : "reference",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "condition",
+                                                "scope" : "PD",
+                                                "type" : "Property"
+                                             }
+                                          }
+                                       } ]
+                                    }
+                                 } ]
+                              }
+                           }
+                        }
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "InValueSet",
+                        "code" : {
+                           "name" : "ToConcept",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "PrincipalDiagnosis",
+                                 "type" : "QueryLetRef"
+                              }
+                           } ]
+                        },
+                        "valueset" : {
+                           "name" : "Urinary tract infection",
+                           "type" : "ValueSetRef"
+                        }
+                     }, {
+                        "type" : "Not",
+                        "operand" : {
+                           "type" : "Exists",
+                           "operand" : {
+                              "name" : "Kidney and Urinary Tract Disorders Encounter",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "name" : "E",
+                                 "type" : "AliasRef"
+                              } ]
+                           }
+                        }
+                     } ]
+                  }, {
+                     "type" : "Not",
+                     "operand" : {
+                        "type" : "Exists",
+                        "operand" : {
+                           "name" : "Immunocompromised Encounter",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "E",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "Cellulitis (ICD10CM) Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "let" : [ {
+                  "identifier" : "PrincipalDiagnosis",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "PD",
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "D",
+                                 "expression" : {
+                                    "path" : "diagnosis",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "name" : "ToInteger",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "rank",
+                                       "scope" : "D",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "1",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "return" : {
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "C",
+                                 "expression" : {
+                                    "dataType" : "{http://hl7.org/fhir}Condition",
+                                    "type" : "Retrieve"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "type" : "ToList",
+                                    "operand" : {
+                                       "name" : "GetId",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "value",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "path" : "reference",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "condition",
+                                                "scope" : "PD",
+                                                "type" : "Property"
+                                             }
+                                          }
+                                       } ]
+                                    }
+                                 } ]
+                              }
+                           }
+                        }
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "InValueSet",
+                  "code" : {
+                     "name" : "ToConcept",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "code",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "PrincipalDiagnosis",
+                           "type" : "QueryLetRef"
+                        }
+                     } ]
+                  },
+                  "valueset" : {
+                     "name" : "Cellulitis (ICD10CM)",
+                     "type" : "ValueSetRef"
+                  }
+               }
+            }
+         }, {
+            "name" : "Pressure Ulcer Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "let" : [ {
+                  "identifier" : "PrincipalDiagnosis",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "PD",
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "D",
+                                 "expression" : {
+                                    "path" : "diagnosis",
+                                    "scope" : "E",
+                                    "type" : "Property"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "name" : "ToInteger",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "rank",
+                                       "scope" : "D",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "1",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "return" : {
+                        "expression" : {
+                           "type" : "SingletonFrom",
+                           "operand" : {
+                              "type" : "Query",
+                              "source" : [ {
+                                 "alias" : "C",
+                                 "expression" : {
+                                    "dataType" : "{http://hl7.org/fhir}Condition",
+                                    "type" : "Retrieve"
+                                 }
+                              } ],
+                              "relationship" : [ ],
+                              "where" : {
+                                 "type" : "In",
+                                 "operand" : [ {
+                                    "name" : "ToString",
+                                    "libraryName" : "FHIRHelpers",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "path" : "id",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    } ]
+                                 }, {
+                                    "type" : "ToList",
+                                    "operand" : {
+                                       "name" : "GetId",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "value",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "path" : "reference",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "condition",
+                                                "scope" : "PD",
+                                                "type" : "Property"
+                                             }
+                                          }
+                                       } ]
+                                    }
+                                 } ]
+                              }
+                           }
+                        }
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "InValueSet",
+                  "code" : {
+                     "name" : "ToConcept",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "code",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "PrincipalDiagnosis",
+                           "type" : "QueryLetRef"
+                        }
+                     } ]
+                  },
+                  "valueset" : {
+                     "name" : "Pressure ulcer",
+                     "type" : "ValueSetRef"
+                  }
+               }
+            }
+         }, {
+            "name" : "Identify Acute ACSC Discharges by Claim",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Union",
+               "operand" : [ {
+                  "type" : "Union",
+                  "operand" : [ {
+                     "type" : "Intersect",
+                     "operand" : [ {
+                        "name" : "Direct Transfers",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "Bacterial Pneumonia Encounter",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }, {
+                     "type" : "Intersect",
+                     "operand" : [ {
+                        "name" : "Direct Transfers",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "Urinary Tract Infection Encounter",
+                        "type" : "ExpressionRef"
+                     } ]
+                  } ]
+               }, {
+                  "type" : "Union",
+                  "operand" : [ {
+                     "type" : "Intersect",
+                     "operand" : [ {
+                        "name" : "Direct Transfers",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "Cellulitis (ICD10CM) Encounter",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }, {
+                     "type" : "Intersect",
+                     "operand" : [ {
+                        "name" : "Direct Transfers",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "Pressure Ulcer Encounter",
+                        "type" : "ExpressionRef"
+                     } ]
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "Chronic ACSC Count",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Count",
+               "source" : {
+                  "name" : "Identify Chronic ACSC Discharges by Claim",
+                  "type" : "ExpressionRef"
+               }
+            }
+         }, {
+            "name" : "Chronic ACSC Outliers",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "GreaterOrEqual",
+               "operand" : [ {
+                  "name" : "Chronic ACSC Count",
+                  "type" : "ExpressionRef"
+               }, {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "3",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "name" : "Chronic ACSC Nonoutliers",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Less",
+               "operand" : [ {
+                  "name" : "Chronic ACSC Count",
+                  "type" : "ExpressionRef"
+               }, {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "3",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "name" : "Acute ACSC Count",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Count",
+               "source" : {
+                  "name" : "Identify Acute ACSC Discharges by Claim",
+                  "type" : "ExpressionRef"
+               }
+            }
+         }, {
+            "name" : "Acute ACSC Outliers",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "GreaterOrEqual",
+               "operand" : [ {
+                  "name" : "Acute ACSC Count",
+                  "type" : "ExpressionRef"
+               }, {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "3",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "name" : "Acute ACSC Nonoutliers",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Less",
+               "operand" : [ {
+                  "name" : "Acute ACSC Count",
+                  "type" : "ExpressionRef"
+               }, {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "3",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "name" : "General ACSC Count",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Count",
+               "source" : {
+                  "name" : "General ACSC Population",
+                  "type" : "ExpressionRef"
+               }
+            }
+         }, {
+            "name" : "Total ACSC Outliers",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "caseItem" : [ {
+                  "when" : {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "name" : "Acute ACSC Outliers",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                           "value" : "false",
+                           "type" : "Literal"
+                        } ]
+                     }, {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "name" : "Chronic ACSC Outliers",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                           "value" : "false",
+                           "type" : "Literal"
+                        } ]
+                     } ]
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "name" : "Acute ACSC Outliers",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                           "value" : "false",
+                           "type" : "Literal"
+                        } ]
+                     }, {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "name" : "Chronic ACSC Outliers",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                           "value" : "true",
+                           "type" : "Literal"
+                        } ]
+                     } ]
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "name" : "Acute ACSC Outliers",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                           "value" : "true",
+                           "type" : "Literal"
+                        } ]
+                     }, {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "name" : "Chronic ACSC Outliers",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                           "value" : "false",
+                           "type" : "Literal"
+                        } ]
+                     } ]
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "2",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Measurement Year End",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Date",
+               "year" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "2020",
+                  "type" : "Literal"
+               },
+               "month" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "12",
+                  "type" : "Literal"
+               },
+               "day" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "31",
+                  "type" : "Literal"
+               }
+            }
+         } ]
+      }
+   }
+}
+
