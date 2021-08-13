@@ -38,96 +38,89 @@ parameter "Measurement Period Extended" default Interval[@2019-01-01T00:00:00.0,
 
 context Patient
 
-define "End of Delivery Date":
-	"Event/diagnosis - Step 1" Proc
-		where Proc.status.value = 'completed'
-		return Proc.performed.end.value
+// Anchor Date
+define "Anchor Date":
+	"Event/diagnosis - Step 1" Proc where Proc.status.value = 'completed'
+	return Proc.performed.end.value
 
+// Event/diagnosis
 define "Event/diagnosis - Step 1":
-  [Procedure: "Deliveries"] delivery
-  where  Patient.gender ~ 'female'
+  [Procedure: "Deliveries"] delivery where  Patient.gender ~ 'female'
   and delivery.performed.end in Interval[@2019-10-08T00:00:00.0, @2020-10-07T23:59:59.999]
 
 define "Event/diagnosis - Step 2":
     "Event/diagnosis - Step 1" del
-    without [Condition: "Non-live Births"] cond
-    such that exists(del)
+    without [Condition: "Non-live Births"] cond such that exists(del)
 
 define "Event/diagnosis - Step 3":
-	"Event/diagnosis - Step 2" P
-	where P.status.value = 'completed'
-	return "Is Continuously Enrolled In Period"(Interval[P.performed.end.value - 43 days, P.performed.end.value + 60 days), 0)
+	"Event/diagnosis - Step 2" P where P.status.value = 'completed'
+	and "Is Continuously Enrolled In Period"(Interval[P.performed.end.value - 43 days, P.performed.end.value + 60 days), 0)
 
-
-// Prenatal
+// Timeliness of Prenatal Care
 define "Prenatal Visits Procedure":
-	[Procedure: "Prenatal Bundled Services"] P where P.status.value = 'completed' and exists(P.performed.end)
+	[Procedure: "Prenatal Bundled Services"] P where P.status.value = 'completed' 
+	and exists(P.performed.end)
 
 define "Prenatal Visits Encounter":
 	[Encounter: "Stand Alone Prenatal Visits"]
 	union ([Encounter: "Prenatal Visits"] E with [Condition: "Pregnancy Diagnosis"] C such that exists(C))
 
 define "Prenatal Care - Step 1 and 3":
-	from "End of Delivery Date" D,
-	Patient P
-	with [Coverage] C
-	such that P.gender ~ 'female' 
+	from "Anchor Date" D,
+	Patient P with [Coverage] C such that P.gender ~ 'female' 
 	and C.period starts during Interval[D - 280 days, D - 219 days] 
 	and exists("Prenatal Visits Encounter" E where E.period starts during Interval[D - 280 days, D - 176 days])
 	and exists("Prenatal Visits Procedure" Proc where Proc.performed.start during Interval[D - 280 days, D - 176 days])
 
 define "Prenatal Care - Step 2 and 3":
-	from "End of Delivery Date" D,
-	Patient P
-	with [Coverage] C
-	such that P.gender ~ 'female'
+	from "Anchor Date" D,
+	Patient P with [Coverage] C such that P.gender ~ 'female'
 	and C.period starts during Interval[D - 219 days, D)
-	and exists("Prenatal Visits Procedure" Proc
-	where Proc.performed.start 280 days before D 
+	and exists("Prenatal Visits Procedure" Proc where Proc.performed.start 280 days before D 
 	and Proc.performed.end 42 days after start of C.period)
-	and exists("Prenatal Visits Encounter" E
-	where E.period starts 280 days before D 
+	and exists("Prenatal Visits Encounter" E where E.period starts 280 days before D 
 	and E.period ends 42 days after start of C.period) 
 
 
 	//from [Coverage] C,
-	//"End of Delivery Date" D,
+	//"Anchor Date" D,
 	//[Encounter: "Prenatal Visits"] E
 	//where exists(E)
 	//and C.period in Interval[D - 219 days, D)
 	//and E.period starts during Interval[D - 280 days, D)
 	//and E.period ends 42 days after start of C.period
 
-
 // Postpartum Care
 define "Postpartum Care Criteria":
-    (([Encounter: "Postpartum Visits"] E  with "End of Delivery Date" D such that E.period starts during Interval[D+ 7 days, D + 84 days])
+    ([Encounter: "Postpartum Visits"] E  with "Anchor Date" D such that E.period starts during Interval[D+ 7 days, D + 84 days])
     union [Procedure: "Cervical Cytology Lab Test"]
 	union [Observation: "Cervical Cytology Result or Finding"]
-    union ([Procedure: "Postpartum Bundled Services"] P where P.status.value = 'completed' and exists(P.performed.end))) E 
-    return E
+    union ([Procedure: "Postpartum Bundled Services"] P where P.status.value = 'completed' and exists(P.performed.end)) Enc
+	without "Postpartum Care Exclusion" Exclusion such that exists(Enc)
 
 define "Postpartum Care Exclusion":
 	[Encounter: "Acute Inpatient"] union [Encounter: "Acute Inpatient POS"]
 
-define "Postpartum Care Numerator":
-	"Postpartum Care Criteria" P
-	//without "Postpartum Care Criteria"
-	//such that exists(P)
-    //exists("Postpartum Care Criteria"
-    //and not ("Postpartum Care Exclusion"))
+// Denominator
+define "Denominator":
+	case (exists("Event/diagnosis - Step 3")) 
+		when true then 1 else 0 
+	end
 
-define function PeriodToIntervalOfDT(value FHIR.Period):
-	Interval[value."start".value, value."end".value]
+// Numerator
+define "Numerator":
+	case (("Denominator" = 1) and exists("Prenatal Care - Step 1 and 3") and exists("Prenatal Care - Step 2 and 3"))
+		when true then 1 else 0
+	end
 
+// Helper Functions
 /*
 Returns the periods during which the patient had coverage during the given participation period	
 */
 define function "Coverage In Period"(CoveragePeriod Interval<DateTime>):
 	collapse (
 		[Coverage] P
-			let I: P.period intersect CoveragePeriod
-			where P.period overlaps CoveragePeriod
+			let I: P.period intersect CoveragePeriod where P.period overlaps CoveragePeriod
 			return all Interval[ToDate(start of I), predecessor of (ToDate(end of I) + 1 day)]
 	)
 

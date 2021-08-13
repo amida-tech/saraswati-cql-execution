@@ -412,7 +412,7 @@
                }
             }
          }, {
-            "name" : "End of Delivery Date",
+            "name" : "Anchor Date",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -931,23 +931,23 @@
                } ],
                "relationship" : [ ],
                "where" : {
-                  "type" : "Equal",
+                  "type" : "And",
                   "operand" : [ {
-                     "path" : "value",
-                     "type" : "Property",
-                     "source" : {
-                        "path" : "status",
-                        "scope" : "P",
-                        "type" : "Property"
-                     }
+                     "type" : "Equal",
+                     "operand" : [ {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "status",
+                           "scope" : "P",
+                           "type" : "Property"
+                        }
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "completed",
+                        "type" : "Literal"
+                     } ]
                   }, {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                     "value" : "completed",
-                     "type" : "Literal"
-                  } ]
-               },
-               "return" : {
-                  "expression" : {
                      "name" : "Is Continuously Enrolled In Period",
                      "type" : "FunctionRef",
                      "operand" : [ {
@@ -999,7 +999,7 @@
                         "value" : "0",
                         "type" : "Literal"
                      } ]
-                  }
+                  } ]
                }
             }
          }, {
@@ -1121,7 +1121,7 @@
                "source" : [ {
                   "alias" : "D",
                   "expression" : {
-                     "name" : "End of Delivery Date",
+                     "name" : "Anchor Date",
                      "type" : "ExpressionRef"
                   }
                }, {
@@ -1346,7 +1346,7 @@
                "source" : [ {
                   "alias" : "D",
                   "expression" : {
-                     "name" : "End of Delivery Date",
+                     "name" : "Anchor Date",
                      "type" : "ExpressionRef"
                   }
                }, {
@@ -1599,14 +1599,40 @@
                }
             }
          }, {
+            "name" : "Postpartum Care Exclusion",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Union",
+               "operand" : [ {
+                  "dataType" : "{http://hl7.org/fhir}Encounter",
+                  "codeProperty" : "type",
+                  "codeComparator" : "in",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "name" : "Acute Inpatient",
+                     "type" : "ValueSetRef"
+                  }
+               }, {
+                  "dataType" : "{http://hl7.org/fhir}Encounter",
+                  "codeProperty" : "type",
+                  "codeComparator" : "in",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "name" : "Acute Inpatient POS",
+                     "type" : "ValueSetRef"
+                  }
+               } ]
+            }
+         }, {
             "name" : "Postpartum Care Criteria",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "E",
-                  "expression" : {
+               "type" : "Union",
+               "operand" : [ {
+                  "type" : "As",
+                  "operand" : {
                      "type" : "Union",
                      "operand" : [ {
                         "type" : "As",
@@ -1615,112 +1641,68 @@
                            "operand" : [ {
                               "type" : "As",
                               "operand" : {
-                                 "type" : "Union",
-                                 "operand" : [ {
-                                    "type" : "As",
-                                    "operand" : {
-                                       "type" : "Query",
-                                       "source" : [ {
-                                          "alias" : "E",
-                                          "expression" : {
-                                             "dataType" : "{http://hl7.org/fhir}Encounter",
-                                             "codeProperty" : "type",
-                                             "codeComparator" : "in",
-                                             "type" : "Retrieve",
-                                             "codes" : {
-                                                "name" : "Postpartum Visits",
-                                                "type" : "ValueSetRef"
-                                             }
-                                          }
-                                       } ],
-                                       "relationship" : [ {
-                                          "alias" : "D",
-                                          "type" : "With",
-                                          "expression" : {
-                                             "name" : "End of Delivery Date",
-                                             "type" : "ExpressionRef"
-                                          },
-                                          "suchThat" : {
-                                             "type" : "In",
-                                             "operand" : [ {
-                                                "type" : "Start",
-                                                "operand" : {
-                                                   "name" : "ToInterval",
-                                                   "libraryName" : "FHIRHelpers",
-                                                   "type" : "FunctionRef",
-                                                   "operand" : [ {
-                                                      "path" : "period",
-                                                      "scope" : "E",
-                                                      "type" : "Property"
-                                                   } ]
-                                                }
-                                             }, {
-                                                "lowClosed" : true,
-                                                "highClosed" : true,
-                                                "type" : "Interval",
-                                                "low" : {
-                                                   "type" : "Add",
-                                                   "operand" : [ {
-                                                      "name" : "D",
-                                                      "type" : "AliasRef"
-                                                   }, {
-                                                      "value" : 7,
-                                                      "unit" : "days",
-                                                      "type" : "Quantity"
-                                                   } ]
-                                                },
-                                                "high" : {
-                                                   "type" : "Add",
-                                                   "operand" : [ {
-                                                      "name" : "D",
-                                                      "type" : "AliasRef"
-                                                   }, {
-                                                      "value" : 84,
-                                                      "unit" : "days",
-                                                      "type" : "Quantity"
-                                                   } ]
-                                                }
-                                             } ]
-                                          }
-                                       } ]
-                                    },
-                                    "asTypeSpecifier" : {
-                                       "type" : "ListTypeSpecifier",
-                                       "elementType" : {
-                                          "type" : "ChoiceTypeSpecifier",
-                                          "choice" : [ {
-                                             "name" : "{http://hl7.org/fhir}Encounter",
-                                             "type" : "NamedTypeSpecifier"
-                                          }, {
-                                             "name" : "{http://hl7.org/fhir}Procedure",
-                                             "type" : "NamedTypeSpecifier"
-                                          } ]
-                                       }
-                                    }
-                                 }, {
-                                    "type" : "As",
-                                    "operand" : {
-                                       "dataType" : "{http://hl7.org/fhir}Procedure",
-                                       "codeProperty" : "code",
+                                 "type" : "Query",
+                                 "source" : [ {
+                                    "alias" : "E",
+                                    "expression" : {
+                                       "dataType" : "{http://hl7.org/fhir}Encounter",
+                                       "codeProperty" : "type",
                                        "codeComparator" : "in",
                                        "type" : "Retrieve",
                                        "codes" : {
-                                          "name" : "Cervical Cytology Lab Test",
+                                          "name" : "Postpartum Visits",
                                           "type" : "ValueSetRef"
                                        }
+                                    }
+                                 } ],
+                                 "relationship" : [ {
+                                    "alias" : "D",
+                                    "type" : "With",
+                                    "expression" : {
+                                       "name" : "Anchor Date",
+                                       "type" : "ExpressionRef"
                                     },
-                                    "asTypeSpecifier" : {
-                                       "type" : "ListTypeSpecifier",
-                                       "elementType" : {
-                                          "type" : "ChoiceTypeSpecifier",
-                                          "choice" : [ {
-                                             "name" : "{http://hl7.org/fhir}Encounter",
-                                             "type" : "NamedTypeSpecifier"
-                                          }, {
-                                             "name" : "{http://hl7.org/fhir}Procedure",
-                                             "type" : "NamedTypeSpecifier"
-                                          } ]
-                                       }
+                                    "suchThat" : {
+                                       "type" : "In",
+                                       "operand" : [ {
+                                          "type" : "Start",
+                                          "operand" : {
+                                             "name" : "ToInterval",
+                                             "libraryName" : "FHIRHelpers",
+                                             "type" : "FunctionRef",
+                                             "operand" : [ {
+                                                "path" : "period",
+                                                "scope" : "E",
+                                                "type" : "Property"
+                                             } ]
+                                          }
+                                       }, {
+                                          "lowClosed" : true,
+                                          "highClosed" : true,
+                                          "type" : "Interval",
+                                          "low" : {
+                                             "type" : "Add",
+                                             "operand" : [ {
+                                                "name" : "D",
+                                                "type" : "AliasRef"
+                                             }, {
+                                                "value" : 7,
+                                                "unit" : "days",
+                                                "type" : "Quantity"
+                                             } ]
+                                          },
+                                          "high" : {
+                                             "type" : "Add",
+                                             "operand" : [ {
+                                                "name" : "D",
+                                                "type" : "AliasRef"
+                                             }, {
+                                                "value" : 84,
+                                                "unit" : "days",
+                                                "type" : "Quantity"
+                                             } ]
+                                          }
+                                       } ]
                                     }
                                  } ]
                               },
@@ -1734,21 +1716,18 @@
                                     }, {
                                        "name" : "{http://hl7.org/fhir}Procedure",
                                        "type" : "NamedTypeSpecifier"
-                                    }, {
-                                       "name" : "{http://hl7.org/fhir}Observation",
-                                       "type" : "NamedTypeSpecifier"
                                     } ]
                                  }
                               }
                            }, {
                               "type" : "As",
                               "operand" : {
-                                 "dataType" : "{http://hl7.org/fhir}Observation",
+                                 "dataType" : "{http://hl7.org/fhir}Procedure",
                                  "codeProperty" : "code",
                                  "codeComparator" : "in",
                                  "type" : "Retrieve",
                                  "codes" : {
-                                    "name" : "Cervical Cytology Result or Finding",
+                                    "name" : "Cervical Cytology Lab Test",
                                     "type" : "ValueSetRef"
                                  }
                               },
@@ -1761,9 +1740,6 @@
                                        "type" : "NamedTypeSpecifier"
                                     }, {
                                        "name" : "{http://hl7.org/fhir}Procedure",
-                                       "type" : "NamedTypeSpecifier"
-                                    }, {
-                                       "name" : "{http://hl7.org/fhir}Observation",
                                        "type" : "NamedTypeSpecifier"
                                     } ]
                                  }
@@ -1789,6 +1765,56 @@
                      }, {
                         "type" : "As",
                         "operand" : {
+                           "dataType" : "{http://hl7.org/fhir}Observation",
+                           "codeProperty" : "code",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Cervical Cytology Result or Finding",
+                              "type" : "ValueSetRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "type" : "ListTypeSpecifier",
+                           "elementType" : {
+                              "type" : "ChoiceTypeSpecifier",
+                              "choice" : [ {
+                                 "name" : "{http://hl7.org/fhir}Encounter",
+                                 "type" : "NamedTypeSpecifier"
+                              }, {
+                                 "name" : "{http://hl7.org/fhir}Procedure",
+                                 "type" : "NamedTypeSpecifier"
+                              }, {
+                                 "name" : "{http://hl7.org/fhir}Observation",
+                                 "type" : "NamedTypeSpecifier"
+                              } ]
+                           }
+                        }
+                     } ]
+                  },
+                  "asTypeSpecifier" : {
+                     "type" : "ListTypeSpecifier",
+                     "elementType" : {
+                        "type" : "ChoiceTypeSpecifier",
+                        "choice" : [ {
+                           "name" : "{http://hl7.org/fhir}Encounter",
+                           "type" : "NamedTypeSpecifier"
+                        }, {
+                           "name" : "{http://hl7.org/fhir}Procedure",
+                           "type" : "NamedTypeSpecifier"
+                        }, {
+                           "name" : "{http://hl7.org/fhir}Observation",
+                           "type" : "NamedTypeSpecifier"
+                        } ]
+                     }
+                  }
+               }, {
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "Enc",
+                        "expression" : {
                            "type" : "Query",
                            "source" : [ {
                               "alias" : "P",
@@ -1837,116 +1863,129 @@
                                  }
                               } ]
                            }
+                        }
+                     } ],
+                     "relationship" : [ {
+                        "alias" : "Exclusion",
+                        "type" : "Without",
+                        "expression" : {
+                           "name" : "Postpartum Care Exclusion",
+                           "type" : "ExpressionRef"
                         },
-                        "asTypeSpecifier" : {
-                           "type" : "ListTypeSpecifier",
-                           "elementType" : {
-                              "type" : "ChoiceTypeSpecifier",
-                              "choice" : [ {
-                                 "name" : "{http://hl7.org/fhir}Encounter",
-                                 "type" : "NamedTypeSpecifier"
-                              }, {
-                                 "name" : "{http://hl7.org/fhir}Procedure",
-                                 "type" : "NamedTypeSpecifier"
-                              }, {
-                                 "name" : "{http://hl7.org/fhir}Observation",
-                                 "type" : "NamedTypeSpecifier"
-                              } ]
+                        "suchThat" : {
+                           "type" : "Exists",
+                           "operand" : {
+                              "type" : "ToList",
+                              "operand" : {
+                                 "name" : "Enc",
+                                 "type" : "AliasRef"
+                              }
                            }
                         }
                      } ]
-                  }
-               } ],
-               "relationship" : [ ],
-               "return" : {
-                  "expression" : {
-                     "name" : "E",
-                     "type" : "AliasRef"
-                  }
-               }
-            }
-         }, {
-            "name" : "Postpartum Care Exclusion",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Union",
-               "operand" : [ {
-                  "dataType" : "{http://hl7.org/fhir}Encounter",
-                  "codeProperty" : "type",
-                  "codeComparator" : "in",
-                  "type" : "Retrieve",
-                  "codes" : {
-                     "name" : "Acute Inpatient",
-                     "type" : "ValueSetRef"
-                  }
-               }, {
-                  "dataType" : "{http://hl7.org/fhir}Encounter",
-                  "codeProperty" : "type",
-                  "codeComparator" : "in",
-                  "type" : "Retrieve",
-                  "codes" : {
-                     "name" : "Acute Inpatient POS",
-                     "type" : "ValueSetRef"
+                  },
+                  "asTypeSpecifier" : {
+                     "type" : "ListTypeSpecifier",
+                     "elementType" : {
+                        "type" : "ChoiceTypeSpecifier",
+                        "choice" : [ {
+                           "name" : "{http://hl7.org/fhir}Encounter",
+                           "type" : "NamedTypeSpecifier"
+                        }, {
+                           "name" : "{http://hl7.org/fhir}Procedure",
+                           "type" : "NamedTypeSpecifier"
+                        }, {
+                           "name" : "{http://hl7.org/fhir}Observation",
+                           "type" : "NamedTypeSpecifier"
+                        } ]
+                     }
                   }
                } ]
             }
          }, {
-            "name" : "Postpartum Care Numerator",
+            "name" : "Denominator",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "P",
-                  "expression" : {
-                     "name" : "Postpartum Care Criteria",
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "Event/diagnosis - Step 3",
                      "type" : "ExpressionRef"
                   }
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
                } ],
-               "relationship" : [ ]
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
             }
          }, {
-            "name" : "PeriodToIntervalOfDT",
+            "name" : "Numerator",
             "context" : "Patient",
             "accessLevel" : "Public",
-            "type" : "FunctionDef",
             "expression" : {
-               "lowClosed" : true,
-               "highClosed" : true,
-               "type" : "Interval",
-               "low" : {
-                  "path" : "value",
-                  "type" : "Property",
-                  "source" : {
-                     "path" : "start",
-                     "type" : "Property",
-                     "source" : {
-                        "name" : "value",
-                        "type" : "OperandRef"
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "name" : "Denominator",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                           "value" : "1",
+                           "type" : "Literal"
+                        } ]
+                     }, {
+                        "type" : "Exists",
+                        "operand" : {
+                           "name" : "Prenatal Care - Step 1 and 3",
+                           "type" : "ExpressionRef"
+                        }
+                     } ]
+                  }, {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Prenatal Care - Step 2 and 3",
+                        "type" : "ExpressionRef"
                      }
-                  }
+                  } ]
                },
-               "high" : {
-                  "path" : "value",
-                  "type" : "Property",
-                  "source" : {
-                     "path" : "end",
-                     "type" : "Property",
-                     "source" : {
-                        "name" : "value",
-                        "type" : "OperandRef"
-                     }
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
                   }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
                }
-            },
-            "operand" : [ {
-               "name" : "value",
-               "operandTypeSpecifier" : {
-                  "name" : "{http://hl7.org/fhir}Period",
-                  "type" : "NamedTypeSpecifier"
-               }
-            } ]
+            }
          } ]
       }
    }
