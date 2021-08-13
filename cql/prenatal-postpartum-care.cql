@@ -6,7 +6,8 @@ include FHIRHelpers version '4.0.0' called FHIRHelpers
 valueset "Hospice": '2.16.840.1.113762.1.4.1182.2'
 valueset "Deliveries": '2.16.840.1.113762.1.4.1078.3'
 valueset "Non-live Births": '2.16.840.1.113762.1.4.1195.6'
-valueset "Cervical Cytology": '2.16.840.1.113883.3.464.1003.111.12.1006'
+valueset "Cervical Cytology Lab Test": '2.16.840.1.113883.3.464.1004.1525'
+valueset "Cervical Cytology Result or Finding": '2.16.840.1.113883.3.464.1004.1524'
 valueset "Postpartum Visits": '2.16.840.1.113762.1.4.1146.678'
 valueset "Postpartum Bundled Services": '2.16.840.1.113762.1.4.1146.677'
 valueset "Acute Inpatient": '2.16.840.1.113883.3.464.1003.101.12.1083'
@@ -37,37 +38,120 @@ parameter "Measurement Period Extended" default Interval[@2019-01-01T00:00:00.0,
 
 context Patient
 
-define "End of Delivery":
-    "Event/diagnosis - Step 1" P
-    return P.performed.end
+define "End of Delivery Date":
+	"Event/diagnosis - Step 1" Proc
+		where Proc.status.value = 'completed'
+		return Proc.performed.end.value
 
 define "Event/diagnosis - Step 1":
   [Procedure: "Deliveries"] delivery
-  where  Patient.gender ~ 'female' and
-  delivery.performed.start in Interval[@2019-10-08T00:00:00.0, @2020-10-07T23:59:59.999)
+  where  Patient.gender ~ 'female'
+  and delivery.performed.end in Interval[@2019-10-08T00:00:00.0, @2020-10-07T23:59:59.999]
 
 define "Event/diagnosis - Step 2":
     "Event/diagnosis - Step 1" del
     without [Condition: "Non-live Births"] cond
-    such that exists(cond)
+    such that exists(del)
+
+define "Event/diagnosis - Step 3":
+	"Event/diagnosis - Step 2" P
+	where P.status.value = 'completed'
+	return "Is Continuously Enrolled In Period"(Interval[P.performed.end.value - 43 days, P.performed.end.value + 60 days), 0)
 
 
-// Prenatal Care
-define "Prenatal Care - Step 3":
-    [Encounter: "Stand Alone Prenatal Visits"]
-    union [Procedure: "Prenatal Bundled Services"]
-    union ([Encounter: "Prenatal Visits"] E with [Condition: "Pregnancy Diagnosis"] C such that exists(C))
+// Prenatal
+define "Prenatal Visits Procedure":
+	[Procedure: "Prenatal Bundled Services"] P where P.status.value = 'completed' and exists(P.performed.end)
+
+define "Prenatal Visits Encounter":
+	[Encounter: "Stand Alone Prenatal Visits"]
+	union ([Encounter: "Prenatal Visits"] E with [Condition: "Pregnancy Diagnosis"] C such that exists(C))
+
+define "Prenatal Care - Step 1 and 3":
+	from "End of Delivery Date" D,
+	Patient P
+	with [Coverage] C
+	such that P.gender ~ 'female' 
+	and C.period starts during Interval[D - 280 days, D - 219 days] 
+	and exists("Prenatal Visits Encounter" E where E.period starts during Interval[D - 280 days, D - 176 days])
+	and exists("Prenatal Visits Procedure" Proc where Proc.performed.start during Interval[D - 280 days, D - 176 days])
+
+define "Prenatal Care - Step 2 and 3":
+	from "End of Delivery Date" D,
+	Patient P
+	with [Coverage] C
+	such that P.gender ~ 'female'
+	and C.period starts during Interval[D - 219 days, D)
+	and exists("Prenatal Visits Procedure" Proc
+	where Proc.performed.start 280 days before D 
+	and Proc.performed.end 42 days after start of C.period)
+	and exists("Prenatal Visits Encounter" E
+	where E.period starts 280 days before D 
+	and E.period ends 42 days after start of C.period) 
+
+
+	//from [Coverage] C,
+	//"End of Delivery Date" D,
+	//[Encounter: "Prenatal Visits"] E
+	//where exists(E)
+	//and C.period in Interval[D - 219 days, D)
+	//and E.period starts during Interval[D - 280 days, D)
+	//and E.period ends 42 days after start of C.period
+
 
 // Postpartum Care
 define "Postpartum Care Criteria":
-    ([Encounter: "Postpartum Visits"]
-    union [Observation: "Cervical Cytology"]
-    union [Procedure: "Postpartum Bundled Services"]) E 
-    where Coalesce(E.performed.start, E.effective.value, E.period.start) between 7 and 84 days after "End of Delivery"
+    (([Encounter: "Postpartum Visits"] E  with "End of Delivery Date" D such that E.period starts during Interval[D+ 7 days, D + 84 days])
+    union [Procedure: "Cervical Cytology Lab Test"]
+	union [Observation: "Cervical Cytology Result or Finding"]
+    union ([Procedure: "Postpartum Bundled Services"] P where P.status.value = 'completed' and exists(P.performed.end))) E 
+    return E
 
-define "Numerator Exclusion":
-    [Encounter: "Acute Inpatient"] union [Encounter: "Acute Inpatient POS"]
+define "Postpartum Care Exclusion":
+	[Encounter: "Acute Inpatient"] union [Encounter: "Acute Inpatient POS"]
 
 define "Postpartum Care Numerator":
-    exists("Postpartum Care Criteria")
-    and not ("Numerator Exclusion")
+	"Postpartum Care Criteria" P
+	//without "Postpartum Care Criteria"
+	//such that exists(P)
+    //exists("Postpartum Care Criteria"
+    //and not ("Postpartum Care Exclusion"))
+
+define function PeriodToIntervalOfDT(value FHIR.Period):
+	Interval[value."start".value, value."end".value]
+
+/*
+Returns the periods during which the patient had coverage during the given participation period	
+*/
+define function "Coverage In Period"(CoveragePeriod Interval<DateTime>):
+	collapse (
+		[Coverage] P
+			let I: P.period intersect CoveragePeriod
+			where P.period overlaps CoveragePeriod
+			return all Interval[ToDate(start of I), predecessor of (ToDate(end of I) + 1 day)]
+	)
+
+/*
+Returns the number of gap days in the given coverage periods, allowing only one gap.
+If there is more than one gap, returns the maximum Integer
+*/
+define function "Gap Days In Period"(CoveragePeriod Interval<DateTime>, Periods List<Interval<DateTime>>):
+		case Count(Periods)
+			when 1 then
+			  if Periods[0] starts day of CoveragePeriod then
+				  difference in days between end of Periods[0] and end of CoveragePeriod
+			  else if Periods[0] ends day of CoveragePeriod then
+				  difference in days between start of CoveragePeriod and start of Periods[0]
+			  else 
+				  maximum Integer
+			when 2 then
+			  if Periods[0] starts day of CoveragePeriod and Periods[1] ends day of CoveragePeriod then
+				  difference in days between end of Periods[0] and start of Periods[1]
+			  else
+				  maximum Integer
+			else
+			  maximum Integer
+		end
+
+define function "Is Continuously Enrolled In Period"(EnrollmentPeriod Interval<DateTime>, AllowedGapDays Integer):
+	"Gap Days In Period"(EnrollmentPeriod, "Coverage In Period"(EnrollmentPeriod)) <= AllowedGapDays

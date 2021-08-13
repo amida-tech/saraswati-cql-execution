@@ -42,6 +42,8 @@ const watcher = dir =>
               data = executeDiabetes(patients);
             } else if (filename.startsWith(immunizationPath)) {
               data = executeImmunization(patients);
+            } else if (filename.startsWith(ppcPath)) {
+              data = executePPC(patients);
             }
             if (data) {
               axios.post(connectionUrl, data).then(
