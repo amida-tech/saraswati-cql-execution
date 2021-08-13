@@ -1,3 +1,6 @@
+const express = require('express');
+const actuator = require('express-actuator');
+
 const watch = require('node-watch');
 const axios = require('axios');
 const config = require('./config');
@@ -10,7 +13,8 @@ const { executeImmunization } = require('./exec-files/exec-childhood-immunizatio
 const { executeDepression } = require('./exec-files/exec-depression-screening');
 const { executeAsthma } = require('./exec-files/exec-medication-management-for-people-with-asthma');
 const { executePPC } = require('./exec-files/exec-prenatal-postpartum-care');
-
+const { executePreventable } = require('./exec-files/exec-preventable-complications');
+const { executeChildWellVisit } = require('./exec-files/exec-childhood-well-visit');
 const connectionUrl = `http://${config.host}:${config.port}/cql_service_connector`;
 
 const a1cPath = path.normalize('data/patients/a1c');
@@ -19,13 +23,15 @@ const depressionPath = path.normalize('data/patients/depression');
 const diabetesPath = path.normalize('data/patients/diabetes');
 const immunizationPath = path.normalize('data/patients/immunization');
 const ppcPath = path.normalize('data/patients/ppc');
+const preventablePath = path.normalize('data/patients/preventable');
+const childWellVisitPath = path.normalize('data/patients/child-well-care');
 
 const watcher = dir =>
   watch(dir, (options = { recursive: true, filter: /\.json$/ }), function (event, filename) {
     console.log(filename, event); // to know which file was processed
     fs.access('.' + path.normalize('/' + filename), (err) => {
       if (err){
-        console.log("File does not exists.");
+        console.log('File does not exists.');
       } else {
         fs.readFile('.' + path.normalize('/' + filename), function (err, data) {
           if (err) throw err;
@@ -44,6 +50,10 @@ const watcher = dir =>
               data = executeImmunization(patients);
             } else if (filename.startsWith(ppcPath)) {
               data = executePPC(patients);
+            } else if (filename.startsWith(preventablePath)) {
+              data = executePreventable(patients);
+            } else if (filename.startsWith(childWellVisitPath)) {
+              data = executeChildWellVisit(patients);
             }
             if (data) {
               axios.post(connectionUrl, data).then(
@@ -59,9 +69,16 @@ const watcher = dir =>
           }
         });
       }
-  });
+    });
   });
 
 watcher(config.directory);
 
 module.exports = { watcher };
+
+const app = express();
+app.use(actuator());
+
+app.listen(config.actuatorPort, () => {
+  console.log(`Endpoint actuator listening at http://localhost:${config.actuatorPort}`);
+});
