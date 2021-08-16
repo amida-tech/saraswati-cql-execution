@@ -5356,6 +5356,45 @@ const codes = {
               "version": "2019-10-01"
           }
     ]
+    },
+    "2.16.840.1.113883.3.464.1004.1220": {
+      "Pregnancy Diagnosis": [
+        {
+            "code": "009.00",
+            "system": "ICD10CM",
+            "version": "2020-10-19AA"
+          },
+          {
+            "code": "009.01",
+            "system": "ICD10CM",
+            "version": "2020-10-19AA"
+          },
+          {
+              "code": "009.02",
+              "system": "ICD10CM",
+              "version": "2020-10-19AA"
+          },
+          {
+              "code": "009.03",
+              "system": "ICD10CM",
+              "version": "2020-10-19AA"
+          },
+          {
+              "code": "009.10",
+              "system": "ICD10CM",
+              "version": "2020-10-19AA"
+          },
+          {
+              "code": "009.11",
+              "system": "ICD10CM",
+              "version": "2020-10-19AA"
+          },
+          {
+              "code": "009.12",
+              "system": "ICD10CM",
+              "version": "2020-10-19AA"
+          }
+    ]
     }
 }
   

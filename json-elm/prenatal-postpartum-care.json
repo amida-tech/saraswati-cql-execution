@@ -1003,7 +1003,7 @@
                }
             }
          }, {
-            "name" : "Prenatal Visits Procedure",
+            "name" : "Prenatal Visits Procedures",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1057,7 +1057,7 @@
                }
             }
          }, {
-            "name" : "Prenatal Visits Encounter",
+            "name" : "Prenatal Visits Encounters",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1209,7 +1209,7 @@
                               "source" : [ {
                                  "alias" : "E",
                                  "expression" : {
-                                    "name" : "Prenatal Visits Encounter",
+                                    "name" : "Prenatal Visits Encounters",
                                     "type" : "ExpressionRef"
                                  }
                               } ],
@@ -1265,7 +1265,7 @@
                            "source" : [ {
                               "alias" : "Proc",
                               "expression" : {
-                                 "name" : "Prenatal Visits Procedure",
+                                 "name" : "Prenatal Visits Procedures",
                                  "type" : "ExpressionRef"
                               }
                            } ],
@@ -1427,7 +1427,7 @@
                               "source" : [ {
                                  "alias" : "Proc",
                                  "expression" : {
-                                    "name" : "Prenatal Visits Procedure",
+                                    "name" : "Prenatal Visits Procedures",
                                     "type" : "ExpressionRef"
                                  }
                               } ],
@@ -1506,7 +1506,7 @@
                            "source" : [ {
                               "alias" : "E",
                               "expression" : {
-                                 "name" : "Prenatal Visits Encounter",
+                                 "name" : "Prenatal Visits Encounters",
                                  "type" : "ExpressionRef"
                               }
                            } ],
@@ -1575,6 +1575,114 @@
                               } ]
                            }
                         }
+                     } ]
+                  }
+               } ],
+               "return" : {
+                  "distinct" : true,
+                  "expression" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "D",
+                        "value" : {
+                           "name" : "D",
+                           "type" : "AliasRef"
+                        }
+                     }, {
+                        "name" : "P",
+                        "value" : {
+                           "name" : "P",
+                           "type" : "AliasRef"
+                        }
+                     } ]
+                  }
+               }
+            }
+         }, {
+            "name" : "Coverage",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "D",
+                  "expression" : {
+                     "name" : "Anchor Date",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "alias" : "P",
+                  "expression" : {
+                     "name" : "Patient",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ {
+                  "alias" : "C",
+                  "type" : "With",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Coverage",
+                     "type" : "Retrieve"
+                  },
+                  "suchThat" : {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "Equivalent",
+                        "operand" : [ {
+                           "name" : "ToString",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "gender",
+                              "scope" : "P",
+                              "type" : "Property"
+                           } ]
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "female",
+                           "type" : "Literal"
+                        } ]
+                     }, {
+                        "type" : "In",
+                        "operand" : [ {
+                           "type" : "Start",
+                           "operand" : {
+                              "name" : "ToInterval",
+                              "libraryName" : "FHIRHelpers",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "path" : "period",
+                                 "scope" : "C",
+                                 "type" : "Property"
+                              } ]
+                           }
+                        }, {
+                           "lowClosed" : true,
+                           "highClosed" : true,
+                           "type" : "Interval",
+                           "low" : {
+                              "type" : "Subtract",
+                              "operand" : [ {
+                                 "name" : "D",
+                                 "type" : "AliasRef"
+                              }, {
+                                 "value" : 280,
+                                 "unit" : "days",
+                                 "type" : "Quantity"
+                              } ]
+                           },
+                           "high" : {
+                              "type" : "Subtract",
+                              "operand" : [ {
+                                 "name" : "D",
+                                 "type" : "AliasRef"
+                              }, {
+                                 "value" : 219,
+                                 "unit" : "days",
+                                 "type" : "Quantity"
+                              } ]
+                           }
+                        } ]
                      } ]
                   }
                } ],

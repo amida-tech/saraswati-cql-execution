@@ -57,11 +57,11 @@ define "Event/diagnosis - Step 3":
 	and "Is Continuously Enrolled In Period"(Interval[P.performed.end.value - 43 days, P.performed.end.value + 60 days), 0)
 
 // Timeliness of Prenatal Care
-define "Prenatal Visits Procedure":
+define "Prenatal Visits Procedures":
 	[Procedure: "Prenatal Bundled Services"] P where P.status.value = 'completed' 
 	and exists(P.performed.end)
 
-define "Prenatal Visits Encounter":
+define "Prenatal Visits Encounters":
 	[Encounter: "Stand Alone Prenatal Visits"]
 	union ([Encounter: "Prenatal Visits"] E with [Condition: "Pregnancy Diagnosis"] C such that exists(C))
 
@@ -69,18 +69,24 @@ define "Prenatal Care - Step 1 and 3":
 	from "Anchor Date" D,
 	Patient P with [Coverage] C such that P.gender ~ 'female' 
 	and C.period starts during Interval[D - 280 days, D - 219 days] 
-	and exists("Prenatal Visits Encounter" E where E.period starts during Interval[D - 280 days, D - 176 days])
-	and exists("Prenatal Visits Procedure" Proc where Proc.performed.start during Interval[D - 280 days, D - 176 days])
+	and exists("Prenatal Visits Encounters" E where E.period starts during Interval[D - 280 days, D - 176 days])
+	and exists("Prenatal Visits Procedures" Proc where Proc.performed.start during Interval[D - 280 days, D - 176 days])
 
 define "Prenatal Care - Step 2 and 3":
 	from "Anchor Date" D,
 	Patient P with [Coverage] C such that P.gender ~ 'female'
 	and C.period starts during Interval[D - 219 days, D)
-	and exists("Prenatal Visits Procedure" Proc where Proc.performed.start 280 days before D 
+	and exists("Prenatal Visits Procedures" Proc where Proc.performed.start 280 days before D 
 	and Proc.performed.end 42 days after start of C.period)
-	and exists("Prenatal Visits Encounter" E where E.period starts 280 days before D 
+	and exists("Prenatal Visits Encounters" E where E.period starts 280 days before D 
 	and E.period ends 42 days after start of C.period) 
 
+define "Coverage":
+	from "Anchor Date" D,
+	Patient P with [Coverage] C such that P.gender ~ 'female' 
+	and C.period starts during Interval[D - 280 days, D - 219 days]
+	//and exists("Prenatal Visits Procedures" Proc where Proc.performed.start 280 days before D) 
+	//and Proc.performed.end 42 days after start of C.period)
 
 	//from [Coverage] C,
 	//"Anchor Date" D,

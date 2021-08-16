@@ -1,4 +1,4 @@
-[
+[ 
     {
       "resourceType": "Bundle",
       "id": "tests-numer-EXM165-FHIR3-bundle",
@@ -1305,10 +1305,151 @@
             ]
           }
         },
+        { 
+          "resource": { 
+            "resourceType": "Procedure",
+            "id": "ipv-proc-2",
+            "status": "completed",
+            "code": {
+              "coding": [
+                {
+                  "code": "59400",
+                  "system": "CPT",
+                  "version": "2019-10-01"
+                }
+              ],
+              "id": "Inactivated Polio Vaccine (IPV) Administered"
+            },
+            "patient": {
+              "reference": "Patient/numer-EXM165-FHIR3"
+            },
+            "performedPeriod": {
+              "start": "2019-04-26T09:30:10+01:00",
+              "end": "2019-05-29T10:30:10+01:00"
+            },
+            "performer": [
+              {
+                "function": {
+                  "coding": [
+                    {
+                      "system": "urn:oid:2.16.840.1.113883.2.4.15.111",
+                      "code": "01.000",
+                      "display": "Arts"
+                    }
+                  ],
+                  "text": "Care role"
+                },
+                "actor": {
+                  "reference": "Practitioner/f005",
+                  "display": "A. Langeveld"
+                }
+              }
+            ],
+            "reasonCode": [
+              {
+                "text": "ensure breathing during surgery"
+              }
+            ],
+            "bodySite": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "83030008",
+                    "display": "Retropharyngeal area"
+                  }
+                ]
+              }
+            ],
+            "outcome": {
+              "text": "removal of the retropharyngeal abscess"
+            },
+            "report": [
+              {
+                "reference": "DiagnosticReport/f001"
+              }
+            ],
+            "followUp": [
+              {
+                "text": "described in care plan"
+              }
+            ]
+          }
+        },
         {
           "resource": {
+            "resourceType": "Encounter",
+            "id": "prenatal-visit",
+            "contained": [
+              {
+                "resourceType": "location",
+                "id": "home",
+                "description": "Client's home",
+                "mode": "kind"
+              }
+            ],
+            "status": "finished",
+            "class": {
+              "code": "99201",
+              "system": "CPT",
+              "version": "2019-10-01"
+            },
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "17629007",
+                    "display": "Stand Alone Prenatal Visits"
+                  }
+                ]
+              }
+            ],
+            "subject": {
+              "reference": "Patient/numer-EXM165-FHIR3"
+            },
+            "participant": [
+              {
+                "period": {
+                  "start": "2019-01-17T16:00:00+10:00",
+                  "end": "2019-01-17T16:30:00+10:00"
+                },
+                "individual": {
+                  "reference": "Practitioner/example",
+                  "display": "Dr Adam Careful"
+                }
+              }
+            ],
+            "period": {
+              "start": "2020-01-17T16:00:00+10:00",
+              "end": "2020-01-17T16:30:00+10:00"
+            },
+            "diagnosis": [
+              {
+                "condition": {
+                  "reference": "Condition/pregnancy-condition"
+                }
+              }
+            ],
+            "location": [
+              {
+                "location": {
+                  "reference": "#home",
+                  "display": "Client's home"
+                },
+                "status": "completed",
+                "period": {
+                  "start": "2015-01-17T16:00:00+10:00",
+                  "end": "2015-01-17T16:30:00+10:00"
+                }
+              }
+            ]
+          }
+        },
+        { 
+          "resource": {
             "resourceType": "Condition",
-            "id": "hep-b-condition",
+            "id": "pregnancy-condition",
             "identifier": [
               {
                 "system": "urn:ietf:rfc:3986",
@@ -1358,10 +1499,9 @@
             "code": {
               "coding": [
                 {
-                  "code": "1116000",
-                  "system": "http://snomed.info/sct",
-                  "version": "2020-09",
-                  "display": "Hepatitis B"
+                  "code": "009.00",
+                  "system": "ICD10CM",
+                  "version": "2020-10-19AA"
                 }
               ]
             },
@@ -3555,14 +3695,14 @@
             ]
           }, 
           "period": {
-            "start": "2010-04-01",
+            "start": "2019-05-05",
             "end": "2029-06-01"
           },
           "payor": [
             {
               "reference": "Organization/2"
             }
-          ],
+          ], 
           "class": [
             {
               "type": {
