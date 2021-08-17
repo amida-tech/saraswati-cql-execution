@@ -107,9 +107,9 @@
             },
             "participant": [
               {
-                "period": {
-                  "start": "2019-01-17T16:00:00+10:00",
-                  "end": "2019-01-17T16:30:00+10:00"
+                "period": { 
+                  "start": "2020-02-02T16:00:00+10:00",
+                  "end": "2020-02-02T16:30:00+10:00"
                 },
                 "individual": {
                   "reference": "Practitioner/example",
@@ -118,15 +118,15 @@
               }
             ],
             "period": {
-              "start": "2020-01-17T16:00:00+10:00",
-              "end": "2020-01-17T16:30:00+10:00"
+              "start": "2020-02-10T16:00:00+10:00",
+              "end": "2020-02-10T16:30:00+10:00"
             },
             "location": [
-              {
-                "location": {
+              { 
+                "location": { 
                   "reference": "#home",
                   "display": "Client's home"
-                },
+                }, 
                 "status": "completed",
                 "period": {
                   "start": "2015-01-17T16:00:00+10:00",

@@ -84,7 +84,7 @@ define "Prenatal Care - Step 2 and 3":
 
 // Postpartum Care
 define "Postpartum Care Criteria":
-    ([Encounter: "Postpartum Visits"] E  with "Anchor Date" D such that E.period starts during Interval[D+ 7 days, D + 84 days])
+    ([Encounter: "Postpartum Visits"] E  with "Anchor Date" D such that E.period starts during Interval[D + 7 days, D + 84 days])
     union [Procedure: "Cervical Cytology Lab Test"]
 	union [Observation: "Cervical Cytology Result or Finding"]
     union ([Procedure: "Postpartum Bundled Services"] P where P.status.value = 'completed' and exists(P.performed.end)) Enc
@@ -100,8 +100,13 @@ define "Denominator":
 	end
 
 // Numerator
-define "Numerator":
+define "Timeliness of Prenatal Care Numerator":
 	case (("Denominator" = 1) and exists("Prenatal Care - Step 1 and 3") and exists("Prenatal Care - Step 2 and 3"))
+		when true then 1 else 0
+	end
+
+define "Postpartum Care Numerator":
+	case (("Denominator" = 1) and exists("Postpartum Care Criteria") and not exists("Postpartum Care Exclusion"))
 		when true then 1 else 0
 	end
 
