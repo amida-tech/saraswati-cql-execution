@@ -75,26 +75,12 @@ define "Prenatal Care - Step 1 and 3":
 define "Prenatal Care - Step 2 and 3":
 	from "Anchor Date" D,
 	Patient P with [Coverage] C such that P.gender ~ 'female'
-	and C.period starts during Interval[D - 219 days, D)
-	and exists("Prenatal Visits Procedures" Proc where Proc.performed.start 280 days before D 
-	and Proc.performed.end 42 days after start of C.period)
-	and exists("Prenatal Visits Encounters" E where E.period starts 280 days before D 
-	and E.period ends 42 days after start of C.period) 
-
-define "Coverage":
-	from "Anchor Date" D,
-	Patient P with [Coverage] C such that P.gender ~ 'female' 
-	and C.period starts during Interval[D - 280 days, D - 219 days]
-	//and exists("Prenatal Visits Procedures" Proc where Proc.performed.start 280 days before D) 
-	//and Proc.performed.end 42 days after start of C.period)
-
-	//from [Coverage] C,
-	//"Anchor Date" D,
-	//[Encounter: "Prenatal Visits"] E
-	//where exists(E)
-	//and C.period in Interval[D - 219 days, D)
-	//and E.period starts during Interval[D - 280 days, D)
-	//and E.period ends 42 days after start of C.period
+	and ((days between C.period.start.value and D) > 219)
+	and exists("Prenatal Visits Procedures" Proc where Proc.performed.start during Interval[D - 280 days, C.period.start.value + 42 days] 
+	and Proc.performed.start.value !~ D)
+	and exists("Prenatal Visits Encounters" E where E.period starts during Interval[D - 280 days, C.period.start.value + 42 days] 
+	and E.period.start.value !~ D)
+	
 
 // Postpartum Care
 define "Postpartum Care Criteria":

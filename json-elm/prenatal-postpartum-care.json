@@ -1386,38 +1386,30 @@
                                  "type" : "Literal"
                               } ]
                            }, {
-                              "type" : "In",
+                              "type" : "Greater",
                               "operand" : [ {
-                                 "type" : "Start",
-                                 "operand" : {
-                                    "name" : "ToInterval",
-                                    "libraryName" : "FHIRHelpers",
-                                    "type" : "FunctionRef",
-                                    "operand" : [ {
-                                       "path" : "period",
-                                       "scope" : "C",
-                                       "type" : "Property"
-                                    } ]
-                                 }
-                              }, {
-                                 "lowClosed" : true,
-                                 "highClosed" : false,
-                                 "type" : "Interval",
-                                 "low" : {
-                                    "type" : "Subtract",
-                                    "operand" : [ {
-                                       "name" : "D",
-                                       "type" : "AliasRef"
-                                    }, {
-                                       "value" : 219,
-                                       "unit" : "days",
-                                       "type" : "Quantity"
-                                    } ]
-                                 },
-                                 "high" : {
+                                 "precision" : "Day",
+                                 "type" : "DurationBetween",
+                                 "operand" : [ {
+                                    "path" : "value",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "start",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "path" : "period",
+                                          "scope" : "C",
+                                          "type" : "Property"
+                                       }
+                                    }
+                                 }, {
                                     "name" : "D",
                                     "type" : "AliasRef"
-                                 }
+                                 } ]
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                 "value" : "219",
+                                 "type" : "Literal"
                               } ]
                            } ]
                         }, {
@@ -1435,7 +1427,7 @@
                               "where" : {
                                  "type" : "And",
                                  "operand" : [ {
-                                    "type" : "SameAs",
+                                    "type" : "In",
                                     "operand" : [ {
                                        "name" : "ToDateTime",
                                        "libraryName" : "FHIRHelpers",
@@ -1450,51 +1442,62 @@
                                           }
                                        } ]
                                     }, {
-                                       "type" : "Subtract",
-                                       "operand" : [ {
-                                          "name" : "D",
-                                          "type" : "AliasRef"
-                                       }, {
-                                          "value" : 280,
-                                          "unit" : "days",
-                                          "type" : "Quantity"
-                                       } ]
+                                       "lowClosed" : true,
+                                       "highClosed" : true,
+                                       "type" : "Interval",
+                                       "low" : {
+                                          "type" : "Subtract",
+                                          "operand" : [ {
+                                             "name" : "D",
+                                             "type" : "AliasRef"
+                                          }, {
+                                             "value" : 280,
+                                             "unit" : "days",
+                                             "type" : "Quantity"
+                                          } ]
+                                       },
+                                       "high" : {
+                                          "type" : "Add",
+                                          "operand" : [ {
+                                             "path" : "value",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "start",
+                                                "type" : "Property",
+                                                "source" : {
+                                                   "path" : "period",
+                                                   "scope" : "C",
+                                                   "type" : "Property"
+                                                }
+                                             }
+                                          }, {
+                                             "value" : 42,
+                                             "unit" : "days",
+                                             "type" : "Quantity"
+                                          } ]
+                                       }
                                     } ]
                                  }, {
-                                    "type" : "SameAs",
-                                    "operand" : [ {
-                                       "name" : "ToDateTime",
-                                       "libraryName" : "FHIRHelpers",
-                                       "type" : "FunctionRef",
+                                    "type" : "Not",
+                                    "operand" : {
+                                       "type" : "Equivalent",
                                        "operand" : [ {
-                                          "path" : "end",
+                                          "path" : "value",
                                           "type" : "Property",
                                           "source" : {
-                                             "path" : "performed",
-                                             "scope" : "Proc",
-                                             "type" : "Property"
-                                          }
-                                       } ]
-                                    }, {
-                                       "type" : "Add",
-                                       "operand" : [ {
-                                          "type" : "Start",
-                                          "operand" : {
-                                             "name" : "ToInterval",
-                                             "libraryName" : "FHIRHelpers",
-                                             "type" : "FunctionRef",
-                                             "operand" : [ {
-                                                "path" : "period",
-                                                "scope" : "C",
+                                             "path" : "start",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "performed",
+                                                "scope" : "Proc",
                                                 "type" : "Property"
-                                             } ]
+                                             }
                                           }
                                        }, {
-                                          "value" : 42,
-                                          "unit" : "days",
-                                          "type" : "Quantity"
+                                          "name" : "D",
+                                          "type" : "AliasRef"
                                        } ]
-                                    } ]
+                                    }
                                  } ]
                               }
                            }
@@ -1514,7 +1517,7 @@
                            "where" : {
                               "type" : "And",
                               "operand" : [ {
-                                 "type" : "SameAs",
+                                 "type" : "In",
                                  "operand" : [ {
                                     "type" : "Start",
                                     "operand" : {
@@ -1528,161 +1531,65 @@
                                        } ]
                                     }
                                  }, {
-                                    "type" : "Subtract",
-                                    "operand" : [ {
-                                       "name" : "D",
-                                       "type" : "AliasRef"
-                                    }, {
-                                       "value" : 280,
-                                       "unit" : "days",
-                                       "type" : "Quantity"
-                                    } ]
-                                 } ]
-                              }, {
-                                 "type" : "SameAs",
-                                 "operand" : [ {
-                                    "type" : "End",
-                                    "operand" : {
-                                       "name" : "ToInterval",
-                                       "libraryName" : "FHIRHelpers",
-                                       "type" : "FunctionRef",
+                                    "lowClosed" : true,
+                                    "highClosed" : true,
+                                    "type" : "Interval",
+                                    "low" : {
+                                       "type" : "Subtract",
                                        "operand" : [ {
-                                          "path" : "period",
-                                          "scope" : "E",
-                                          "type" : "Property"
+                                          "name" : "D",
+                                          "type" : "AliasRef"
+                                       }, {
+                                          "value" : 280,
+                                          "unit" : "days",
+                                          "type" : "Quantity"
+                                       } ]
+                                    },
+                                    "high" : {
+                                       "type" : "Add",
+                                       "operand" : [ {
+                                          "path" : "value",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "path" : "start",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "path" : "period",
+                                                "scope" : "C",
+                                                "type" : "Property"
+                                             }
+                                          }
+                                       }, {
+                                          "value" : 42,
+                                          "unit" : "days",
+                                          "type" : "Quantity"
                                        } ]
                                     }
-                                 }, {
-                                    "type" : "Add",
+                                 } ]
+                              }, {
+                                 "type" : "Not",
+                                 "operand" : {
+                                    "type" : "Equivalent",
                                     "operand" : [ {
-                                       "type" : "Start",
-                                       "operand" : {
-                                          "name" : "ToInterval",
-                                          "libraryName" : "FHIRHelpers",
-                                          "type" : "FunctionRef",
-                                          "operand" : [ {
+                                       "path" : "value",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "path" : "start",
+                                          "type" : "Property",
+                                          "source" : {
                                              "path" : "period",
-                                             "scope" : "C",
+                                             "scope" : "E",
                                              "type" : "Property"
-                                          } ]
+                                          }
                                        }
                                     }, {
-                                       "value" : 42,
-                                       "unit" : "days",
-                                       "type" : "Quantity"
+                                       "name" : "D",
+                                       "type" : "AliasRef"
                                     } ]
-                                 } ]
+                                 }
                               } ]
                            }
                         }
-                     } ]
-                  }
-               } ],
-               "return" : {
-                  "distinct" : true,
-                  "expression" : {
-                     "type" : "Tuple",
-                     "element" : [ {
-                        "name" : "D",
-                        "value" : {
-                           "name" : "D",
-                           "type" : "AliasRef"
-                        }
-                     }, {
-                        "name" : "P",
-                        "value" : {
-                           "name" : "P",
-                           "type" : "AliasRef"
-                        }
-                     } ]
-                  }
-               }
-            }
-         }, {
-            "name" : "Coverage",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "type" : "Query",
-               "source" : [ {
-                  "alias" : "D",
-                  "expression" : {
-                     "name" : "Anchor Date",
-                     "type" : "ExpressionRef"
-                  }
-               }, {
-                  "alias" : "P",
-                  "expression" : {
-                     "name" : "Patient",
-                     "type" : "ExpressionRef"
-                  }
-               } ],
-               "relationship" : [ {
-                  "alias" : "C",
-                  "type" : "With",
-                  "expression" : {
-                     "dataType" : "{http://hl7.org/fhir}Coverage",
-                     "type" : "Retrieve"
-                  },
-                  "suchThat" : {
-                     "type" : "And",
-                     "operand" : [ {
-                        "type" : "Equivalent",
-                        "operand" : [ {
-                           "name" : "ToString",
-                           "libraryName" : "FHIRHelpers",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "path" : "gender",
-                              "scope" : "P",
-                              "type" : "Property"
-                           } ]
-                        }, {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "female",
-                           "type" : "Literal"
-                        } ]
-                     }, {
-                        "type" : "In",
-                        "operand" : [ {
-                           "type" : "Start",
-                           "operand" : {
-                              "name" : "ToInterval",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
-                              "operand" : [ {
-                                 "path" : "period",
-                                 "scope" : "C",
-                                 "type" : "Property"
-                              } ]
-                           }
-                        }, {
-                           "lowClosed" : true,
-                           "highClosed" : true,
-                           "type" : "Interval",
-                           "low" : {
-                              "type" : "Subtract",
-                              "operand" : [ {
-                                 "name" : "D",
-                                 "type" : "AliasRef"
-                              }, {
-                                 "value" : 280,
-                                 "unit" : "days",
-                                 "type" : "Quantity"
-                              } ]
-                           },
-                           "high" : {
-                              "type" : "Subtract",
-                              "operand" : [ {
-                                 "name" : "D",
-                                 "type" : "AliasRef"
-                              }, {
-                                 "value" : 219,
-                                 "unit" : "days",
-                                 "type" : "Quantity"
-                              } ]
-                           }
-                        } ]
                      } ]
                   }
                } ],
