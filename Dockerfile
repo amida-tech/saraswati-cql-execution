@@ -18,5 +18,5 @@ COPY ./processor.js .
 VOLUME [ "/app/data/patients" ]
 
 RUN yarn install --frozen-lockfile && yarn cache clean
-#EXPOSE 3000
+
 CMD [ "yarn", "start" ]
