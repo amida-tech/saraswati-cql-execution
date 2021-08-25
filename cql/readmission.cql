@@ -6,6 +6,7 @@ include FHIRHelpers version '4.0.0' called FHIRHelpers
 codesystem "SNOMEDCT": 'urn:oid:2.16.840.1.113883.6.96' version 'urn:hl7:version:2017-09'
 codesystem "ICD10PCS": 'urn:oid:2.16.840.1.113883.6.4' version 'urn:hl7:version:2021'
 
+valueset "Acute Conditions": '2.16.840.1.113883.3.464.1003.101.11.1269'
 valueset "Bone Marrow Transplant": '2.16.840.1.113883.3.666.5.335'
 valueset "Chemotherapy": '2.16.840.1.113762.1.4.1047.451'
 valueset "Inpatient Stay": '2.16.840.1.113762.1.4.1182.285'
@@ -14,6 +15,7 @@ valueset "Kidney Transplant": '2.16.840.1.113883.3.464.1003.109.11.1024'
 valueset "Nonacute Inpatient Stay": '2.16.840.1.113762.1.4.1182.289'
 valueset "Observation Stay": '2.16.840.1.113762.1.4.1181.72'
 valueset "Organ Transplant": '2.16.840.1.113883.3.666.5.358'
+valueset "Perinatal Conditions": '2.16.840.1.113762.1.4.1195.334'
 valueset "Potentially Planned Procedures": '2.16.840.1.113762.1.4.1195.332'
 valueset "Rehabilitation Services": '2.16.840.1.113883.3.117.1.7.1.229'
 valueset "Rehabilitation Therapy": '2.16.840.1.113762.1.4.1045.19'
@@ -78,6 +80,7 @@ define function getCountWithNull(enc Encounter):
 
 define function hasPregnancyEncounter(eob ExplanationOfBenefit):
   Exists(([Encounter: "Inpatient Obstetrics NDNQI"] enc where Substring(eob.item[0].encounter[0].reference.value, 9) = enc.id))
+   or Exists(([Encounter: "Perinatal Conditions"] enc where Substring(eob.item[0].encounter[0].reference.value, 9) = enc.id))
 
 // Step 5 continuous enrollment a year before and 30 days after
 define "Continuous Enrollment":
@@ -131,7 +134,11 @@ define "Numerator Exclusions":
     union [Encounter: "Bone Marrow Transplant"]
     union [Encounter: "Organ Transplant"]
     union [Encounter: "Inpatient Obstetrics NDNQI"]
-    union [Encounter: "Potentially Planned Procedures"]
+    union [Encounter: "Perinatal Conditions"]
+    union "Planned Procedures"
+
+define "Planned Procedures":
+  [Encounter: "Potentially Planned Procedures"] except [Encounter: "Acute Conditions"]
 
 define "Valid Num Encounters":
   "Num Direct Transfers" except "Numerator Exclusions"

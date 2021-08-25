@@ -210,6 +210,10 @@
       },
       "valueSets" : {
          "def" : [ {
+            "name" : "Acute Conditions",
+            "id" : "2.16.840.1.113883.3.464.1003.101.11.1269",
+            "accessLevel" : "Public"
+         }, {
             "name" : "Bone Marrow Transplant",
             "id" : "2.16.840.1.113883.3.666.5.335",
             "accessLevel" : "Public"
@@ -240,6 +244,10 @@
          }, {
             "name" : "Organ Transplant",
             "id" : "2.16.840.1.113883.3.666.5.358",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Perinatal Conditions",
+            "id" : "2.16.840.1.113762.1.4.1195.334",
             "accessLevel" : "Public"
          }, {
             "name" : "Potentially Planned Procedures",
@@ -1199,78 +1207,154 @@
             "accessLevel" : "Public",
             "type" : "FunctionDef",
             "expression" : {
-               "type" : "Exists",
-               "operand" : {
-                  "type" : "Query",
-                  "source" : [ {
-                     "alias" : "enc",
-                     "expression" : {
-                        "dataType" : "{http://hl7.org/fhir}Encounter",
-                        "codeProperty" : "type",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Inpatient Obstetrics NDNQI",
-                           "type" : "ValueSetRef"
+               "type" : "Or",
+               "operand" : [ {
+                  "type" : "Exists",
+                  "operand" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "enc",
+                        "expression" : {
+                           "dataType" : "{http://hl7.org/fhir}Encounter",
+                           "codeProperty" : "type",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Inpatient Obstetrics NDNQI",
+                              "type" : "ValueSetRef"
+                           }
                         }
-                     }
-                  } ],
-                  "relationship" : [ ],
-                  "where" : {
-                     "type" : "Equal",
-                     "operand" : [ {
-                        "type" : "Substring",
-                        "stringToSub" : {
-                           "path" : "value",
-                           "type" : "Property",
-                           "source" : {
-                              "path" : "reference",
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "type" : "Substring",
+                           "stringToSub" : {
+                              "path" : "value",
                               "type" : "Property",
                               "source" : {
-                                 "type" : "Indexer",
-                                 "operand" : [ {
-                                    "path" : "encounter",
-                                    "type" : "Property",
-                                    "source" : {
-                                       "type" : "Indexer",
-                                       "operand" : [ {
-                                          "path" : "item",
-                                          "type" : "Property",
-                                          "source" : {
-                                             "name" : "eob",
-                                             "type" : "OperandRef"
-                                          }
-                                       }, {
-                                          "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                          "value" : "0",
-                                          "type" : "Literal"
-                                       } ]
-                                    }
-                                 }, {
-                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                                    "value" : "0",
-                                    "type" : "Literal"
-                                 } ]
+                                 "path" : "reference",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "type" : "Indexer",
+                                    "operand" : [ {
+                                       "path" : "encounter",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "type" : "Indexer",
+                                          "operand" : [ {
+                                             "path" : "item",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "name" : "eob",
+                                                "type" : "OperandRef"
+                                             }
+                                          }, {
+                                             "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                             "value" : "0",
+                                             "type" : "Literal"
+                                          } ]
+                                       }
+                                    }, {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                       "value" : "0",
+                                       "type" : "Literal"
+                                    } ]
+                                 }
                               }
+                           },
+                           "startIndex" : {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                              "value" : "9",
+                              "type" : "Literal"
                            }
-                        },
-                        "startIndex" : {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                           "value" : "9",
-                           "type" : "Literal"
-                        }
-                     }, {
-                        "name" : "ToString",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "path" : "id",
-                           "scope" : "enc",
-                           "type" : "Property"
+                        }, {
+                           "name" : "ToString",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "id",
+                              "scope" : "enc",
+                              "type" : "Property"
+                           } ]
                         } ]
-                     } ]
+                     }
                   }
-               }
+               }, {
+                  "type" : "Exists",
+                  "operand" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "enc",
+                        "expression" : {
+                           "dataType" : "{http://hl7.org/fhir}Encounter",
+                           "codeProperty" : "type",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Perinatal Conditions",
+                              "type" : "ValueSetRef"
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "type" : "Substring",
+                           "stringToSub" : {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "reference",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "type" : "Indexer",
+                                    "operand" : [ {
+                                       "path" : "encounter",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "type" : "Indexer",
+                                          "operand" : [ {
+                                             "path" : "item",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "name" : "eob",
+                                                "type" : "OperandRef"
+                                             }
+                                          }, {
+                                             "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                             "value" : "0",
+                                             "type" : "Literal"
+                                          } ]
+                                       }
+                                    }, {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                       "value" : "0",
+                                       "type" : "Literal"
+                                    } ]
+                                 }
+                              }
+                           },
+                           "startIndex" : {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                              "value" : "9",
+                              "type" : "Literal"
+                           }
+                        }, {
+                           "name" : "ToString",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "id",
+                              "scope" : "enc",
+                              "type" : "Property"
+                           } ]
+                        } ]
+                     }
+                  }
+               } ]
             },
             "operand" : [ {
                "name" : "eob",
@@ -1946,6 +2030,32 @@
                }
             }
          }, {
+            "name" : "Planned Procedures",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Except",
+               "operand" : [ {
+                  "dataType" : "{http://hl7.org/fhir}Encounter",
+                  "codeProperty" : "type",
+                  "codeComparator" : "in",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "name" : "Potentially Planned Procedures",
+                     "type" : "ValueSetRef"
+                  }
+               }, {
+                  "dataType" : "{http://hl7.org/fhir}Encounter",
+                  "codeProperty" : "type",
+                  "codeComparator" : "in",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "name" : "Acute Conditions",
+                     "type" : "ValueSetRef"
+                  }
+               } ]
+            }
+         }, {
             "name" : "Numerator Exclusions",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -1958,23 +2068,47 @@
                      "operand" : [ {
                         "type" : "Union",
                         "operand" : [ {
-                           "dataType" : "{http://hl7.org/fhir}Encounter",
-                           "codeProperty" : "type",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Chemotherapy",
-                              "type" : "ValueSetRef"
-                           }
+                           "type" : "Union",
+                           "operand" : [ {
+                              "dataType" : "{http://hl7.org/fhir}Encounter",
+                              "codeProperty" : "type",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Chemotherapy",
+                                 "type" : "ValueSetRef"
+                              }
+                           }, {
+                              "dataType" : "{http://hl7.org/fhir}Encounter",
+                              "codeProperty" : "type",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Rehabilitation Services",
+                                 "type" : "ValueSetRef"
+                              }
+                           } ]
                         }, {
-                           "dataType" : "{http://hl7.org/fhir}Encounter",
-                           "codeProperty" : "type",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Rehabilitation Services",
-                              "type" : "ValueSetRef"
-                           }
+                           "type" : "Union",
+                           "operand" : [ {
+                              "dataType" : "{http://hl7.org/fhir}Encounter",
+                              "codeProperty" : "type",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Rehabilitation Therapy",
+                                 "type" : "ValueSetRef"
+                              }
+                           }, {
+                              "dataType" : "{http://hl7.org/fhir}Encounter",
+                              "codeProperty" : "type",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Kidney Transplant",
+                                 "type" : "ValueSetRef"
+                              }
+                           } ]
                         } ]
                      }, {
                         "type" : "Union",
@@ -1984,7 +2118,7 @@
                            "codeComparator" : "in",
                            "type" : "Retrieve",
                            "codes" : {
-                              "name" : "Rehabilitation Therapy",
+                              "name" : "Bone Marrow Transplant",
                               "type" : "ValueSetRef"
                            }
                         }, {
@@ -1993,7 +2127,7 @@
                            "codeComparator" : "in",
                            "type" : "Retrieve",
                            "codes" : {
-                              "name" : "Kidney Transplant",
+                              "name" : "Organ Transplant",
                               "type" : "ValueSetRef"
                            }
                         } ]
@@ -2006,7 +2140,7 @@
                         "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
-                           "name" : "Bone Marrow Transplant",
+                           "name" : "Inpatient Obstetrics NDNQI",
                            "type" : "ValueSetRef"
                         }
                      }, {
@@ -2015,32 +2149,14 @@
                         "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
-                           "name" : "Organ Transplant",
+                           "name" : "Perinatal Conditions",
                            "type" : "ValueSetRef"
                         }
                      } ]
                   } ]
                }, {
-                  "type" : "Union",
-                  "operand" : [ {
-                     "dataType" : "{http://hl7.org/fhir}Encounter",
-                     "codeProperty" : "type",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Inpatient Obstetrics NDNQI",
-                        "type" : "ValueSetRef"
-                     }
-                  }, {
-                     "dataType" : "{http://hl7.org/fhir}Encounter",
-                     "codeProperty" : "type",
-                     "codeComparator" : "in",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Potentially Planned Procedures",
-                        "type" : "ValueSetRef"
-                     }
-                  } ]
+                  "name" : "Planned Procedures",
+                  "type" : "ExpressionRef"
                } ]
             }
          }, {
@@ -2238,22 +2354,6 @@
                   "name" : "Numerator",
                   "type" : "ExpressionRef"
                }
-            }
-         }, {
-            "name" : "Print0",
-            "context" : "Unfiltered",
-            "accessLevel" : "Public",
-            "expression" : {
-               "name" : "Numerator Total",
-               "type" : "ExpressionRef"
-            }
-         }, {
-            "name" : "Print1",
-            "context" : "Unfiltered",
-            "accessLevel" : "Public",
-            "expression" : {
-               "name" : "Denominator Total",
-               "type" : "ExpressionRef"
             }
          }, {
             "name" : "Readmission HEDIS Score",
