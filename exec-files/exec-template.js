@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 const codes = require('../src/cql-code-service');
 const cql = require('../src/cql');
 const fhirhelpers = require('../json-elm/FHIRHelpers.json');
+const diabetes_library = require('../json-elm/Diabetes_Library.json');
 const moment = require('moment');
 
 const removeArrayValues = patient => {
@@ -34,7 +35,8 @@ const cleanData = patientResults => {
 
 const execute = (measure, patients, codeservice) => {
   const includedLibs = {
-    FHIRHelpers: fhirhelpers
+    FHIRHelpers: fhirhelpers,
+    Diabetes_Library: diabetes_library
   };
   const lib = new cql.Library(measure, new cql.Repository(includedLibs));
   const cservice = new codes.CodeService(codeservice);
