@@ -39,9 +39,12 @@ const envVarsSchema = Joi.object({
   KAFKA_GROUP_ID: Joi.string()
     .default('saraswati')
     .description('The Kafka group ids.'),
-  KAFKA_TOPIC: Joi.string()
-    .default('saraswati-cql-execution')
-    .description('The Kafka topic used.')
+  KAFKA_CONSUMED_TOPIC: Joi.string()
+    .default('saraswati-cql-processing')
+    .description('The Kafka topic consumed.'),
+  KAFKA_PRODUCED_TOPIC: Joi.string()
+    .default('saraswati-evaluate-measurements')
+    .description('The Kafka topic produced.')
 }).unknown();
 
 const { error, value: envVars } = envVarsSchema.validate(process.env);
@@ -62,7 +65,8 @@ const config = {
   kafkaProtocol: envVars.KAFKA_PROTOCOL,
   kafkaMechanisms: envVars.KAFKA_MECHANISMS,
   kafkaGroupId: envVars.KAFKA_GROUP_ID,
-  kafkaTopic: envVars.KAFKA_TOPIC
+  kafkaConsumedTopic: envVars.KAFKA_CONSUMED_TOPIC,
+  kafkaProducedTopic: envVars.KAFKA_PRODUCED_TOPIC
 };
 
 module.exports = config;

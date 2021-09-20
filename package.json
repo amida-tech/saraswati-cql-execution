@@ -86,6 +86,8 @@
     "node-watch": "^0.7.1",
     "ucum": "^0.0.7",
     "uuid": "^8.3.2",
+    "winston": "^3.3.3",
+    "winston-json-formatter": "^0.10.0",
     "yarn": "^1.22.10"
   },
   "resolutions": {
