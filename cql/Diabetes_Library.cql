@@ -42,9 +42,9 @@ valueset "Hospice Intervention": '2.16.840.1.113762.1.4.1182.2'
 
 // TODO: there are more asthma medications needed than are listed here
 // See Missing Medication Codes section in README for details
-code "Acarbose": '386965004' from "SNOMED-CT" display 'Acarbose'
-code "Miglitol": '109071007' from "SNOMED-CT" display 'Miglitol'
-code "Insulin Aspart": '325072002' from "SNOMED-CT" display 'Insulin Aspart'
+code "Acarbose": '386965004' from "SNOMED-CT"
+code "Miglitol": '109071007' from "SNOMED-CT"
+code "Insulin Aspart": '325072002' from "SNOMED-CT"
 concept "Diabetes Medication": {
   "Acarbose",
   "Miglitol",

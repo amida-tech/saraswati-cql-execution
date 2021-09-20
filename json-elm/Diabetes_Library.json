@@ -362,7 +362,6 @@
          "def" : [ {
             "name" : "Acarbose",
             "id" : "386965004",
-            "display" : "Acarbose",
             "accessLevel" : "Public",
             "codeSystem" : {
                "name" : "SNOMED-CT"
@@ -370,7 +369,6 @@
          }, {
             "name" : "Miglitol",
             "id" : "109071007",
-            "display" : "Miglitol",
             "accessLevel" : "Public",
             "codeSystem" : {
                "name" : "SNOMED-CT"
@@ -378,7 +376,6 @@
          }, {
             "name" : "Insulin Aspart",
             "id" : "325072002",
-            "display" : "Insulin Aspart",
             "accessLevel" : "Public",
             "codeSystem" : {
                "name" : "SNOMED-CT"
