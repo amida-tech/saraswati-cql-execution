@@ -74,7 +74,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
-    "cql-exec-fhir": "^1.5.0",
+    "cql-exec-fhir": "^2.0.0",
     "cql-execution": "^2.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
