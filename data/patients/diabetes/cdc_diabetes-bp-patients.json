@@ -5228,7 +5228,7 @@
               "code": {
                 "coding": [
                   {
-                    "system": "2.16.840.1.113883.6.96",
+                    "system": "http://snomed.info/sct",
                     "code": "109071007",
                     "display": "Miglitol",
                     "version": "20200301"
@@ -5250,7 +5250,7 @@
           "medicationCodeableConcept": {
             "coding": [
               {
-                "system": "2.16.840.1.113883.6.96",
+                "system": "http://snomed.info/sct",
                 "code": "109071007",
                 "display": "Miglitol",
                 "version": "20200301"
