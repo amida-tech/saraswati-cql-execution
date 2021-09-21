@@ -82,7 +82,7 @@ watcher(config.directory);
 module.exports = { watcher };
 
 const app = express();
-app.use(actuator());
+app.use(actuator()); // See https://github.com/amida-tech/mcp-ap-web/blob/00f4558c0b696f9239e4c2238b2d232b0e239e12/src/config/serverConfig.js
 
 app.listen(config.actuatorPort, () => {
   logger.info(`Endpoint actuator listening at http://localhost:${config.actuatorPort}`);
