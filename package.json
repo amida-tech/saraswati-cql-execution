@@ -81,6 +81,7 @@
     "express-actuator": "^1.7.1",
     "joi": "^17.4.0",
     "jsonl": "^1.1.2",
+    "minimist": "^1.2.5",
     "moment": "^2.27.0",
     "node-watch": "^0.7.1",
     "ucum": "^0.0.7",
