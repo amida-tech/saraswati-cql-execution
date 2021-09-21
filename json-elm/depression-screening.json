@@ -581,7 +581,7 @@
                } ]
             }
          }, {
-            "name" : "Denominator 1",
+            "name" : "Initial Population With Exclusions",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -618,7 +618,7 @@
                }
             }
          }, {
-            "name" : "Numerator 1",
+            "name" : "Depression screened",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -872,7 +872,7 @@
                }
             }
          }, {
-            "name" : "Denominator 2",
+            "name" : "Positive Depression Screen",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1449,7 +1449,7 @@
                } ]
             }
          }, {
-            "name" : "Numerator 2",
+            "name" : "Follow Up Care",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1459,7 +1459,7 @@
                   "operand" : [ {
                      "type" : "Equal",
                      "operand" : [ {
-                        "name" : "Denominator 2",
+                        "name" : "Positive Depression Screen",
                         "type" : "ExpressionRef"
                      }, {
                         "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
@@ -1660,7 +1660,7 @@
             "expression" : {
                "type" : "Sum",
                "source" : {
-                  "name" : "Denominator 1",
+                  "name" : "Initial Population With Exclusions",
                   "type" : "ExpressionRef"
                }
             }
@@ -1671,7 +1671,7 @@
             "expression" : {
                "type" : "Sum",
                "source" : {
-                  "name" : "Numerator 1",
+                  "name" : "Depression screened",
                   "type" : "ExpressionRef"
                }
             }
@@ -1686,7 +1686,7 @@
                   "operand" : {
                      "type" : "Sum",
                      "source" : {
-                        "name" : "Numerator 1",
+                        "name" : "Depression screened",
                         "type" : "ExpressionRef"
                      }
                   }
@@ -1695,7 +1695,7 @@
                   "operand" : {
                      "type" : "Sum",
                      "source" : {
-                        "name" : "Denominator 1",
+                        "name" : "Initial Population With Exclusions",
                         "type" : "ExpressionRef"
                      }
                   }
@@ -1708,7 +1708,7 @@
             "expression" : {
                "type" : "Sum",
                "source" : {
-                  "name" : "Denominator 2",
+                  "name" : "Positive Depression Screen",
                   "type" : "ExpressionRef"
                }
             }
@@ -1719,7 +1719,7 @@
             "expression" : {
                "type" : "Sum",
                "source" : {
-                  "name" : "Numerator 2",
+                  "name" : "Follow Up Care",
                   "type" : "ExpressionRef"
                }
             }
@@ -1734,7 +1734,7 @@
                   "operand" : {
                      "type" : "Sum",
                      "source" : {
-                        "name" : "Numerator 2",
+                        "name" : "Follow Up Care",
                         "type" : "ExpressionRef"
                      }
                   }
@@ -1743,7 +1743,7 @@
                   "operand" : {
                      "type" : "Sum",
                      "source" : {
-                        "name" : "Denominator 2",
+                        "name" : "Positive Depression Screen",
                         "type" : "ExpressionRef"
                      }
                   }

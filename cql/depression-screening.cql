@@ -104,14 +104,14 @@ Denominators and Numerators
 */
 
 // Depression Screening
-define "Denominator 1":
+define "Initial Population With Exclusions":
 	case ("Initial Population" and not "Denominator Exclusion")
 		when true then 1
 		else 0
 	end
 
 // Depression Screening
-define "Numerator 1": // not for subset of denominotor 
+define "Depression screened": // not for subset of denominotor 
 	case("Initial Population"
 	and
 	exists (
@@ -124,15 +124,15 @@ define "Numerator 1": // not for subset of denominotor
 	end
 
 // Positive Follow-Up
-define "Denominator 2":
+define "Positive Depression Screen":
 	case("Initial Population"
 		and exists ("Positive Depression Screening During Follow-Up Period"))
 		when true then 1
 		else 0
 	end
 
-define "Numerator 2":
-	case(("Denominator 2" = 1)
+define "Follow Up Care":
+	case(("Positive Depression Screen" = 1)
 		and
 		(
 			exists ("Dispensed Antidepressant Within 31 Days")
@@ -250,22 +250,22 @@ define "Stratifier 11":
 context Unfiltered
 
 define "Denominator Count 1":
-  Sum("Denominator 1")
+  Sum("Initial Population With Exclusions")
 
 define "Numerator Count 1":
-  Sum("Numerator 1")
+  Sum("Depression screened")
 
 define "CDC Measure Score 1":
-  Sum("Numerator 1") / Sum("Denominator 1")
+  Sum("Depression screened") / Sum("Initial Population With Exclusions")
 
 define "Denominator Count 2":
-  Sum("Denominator 2")
+  Sum("Positive Depression Screen")
 
 define "Numerator Count 2":
-  Sum("Numerator 2")
+  Sum("Follow Up Care")
 
 define "DSF Measure Score 2":
-  Sum("Numerator 2") / Sum("Denominator 2")
+  Sum("Follow Up Care") / Sum("Positive Depression Screen")
 
 /*
 Utility Functions
