@@ -22,6 +22,7 @@ fs.readdir(parseArgs['dir'], function(readErr, files) {
     console.error('\x1b[31m', 
       '\tError: Unable to scan directory:' + readErr + '.',
       '\x1b[0m');
+    process.exit();
   }
 
   files.forEach(file => {
@@ -61,7 +62,9 @@ fs.readdir(parseArgs['dir'], function(readErr, files) {
       console.log('\tNote: Using identifier for oidKey.');
       oidKey = jsonFile.identifier[0].value;
     } else {
-      console.log('\tNote: Using filename for oidKey.');
+      console.warn('\x1b[33m',
+        '\tNote: Using filename for oidKey.',
+        '\x1b[0m');
       oidKey = file.slice(0,-5);
     }
 
