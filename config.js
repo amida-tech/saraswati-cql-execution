@@ -40,10 +40,10 @@ const envVarsSchema = Joi.object({
     .default('saraswati')
     .description('The Kafka group ids.'),
   KAFKA_CONSUMED_TOPIC: Joi.string()
-    .default('saraswati-cql-processing')
+    .default('fhir-logged')
     .description('The Kafka topic consumed.'),
   KAFKA_PRODUCED_TOPIC: Joi.string()
-    .default('saraswati-evaluate-measurements')
+    .default('hedis-measures')
     .description('The Kafka topic produced.')
 }).unknown();
 
