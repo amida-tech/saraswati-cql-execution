@@ -11,7 +11,7 @@ Any valuesets that are listed in CQL files and are NOT commented out are using a
 ## Generating ValueSet Codes from NCQA Measurements.
 As of September 2021, we received measurements from NCQA that came with ValueSet codes. To generate these codes quickly, use the following command in this repo:
 `node code-generator.js --dir=<directory that contains the files> --name=<output name of .js>`
-The script will then generate the needed codes for you. The created file will be in the same directory you indicated, so be sure to move it to `/data/codes` after checking there are no issues.
+The script will then generate the needed codes for you. The created file will be in the same directory you indicated, so be sure to move it to `/data/codes` after checking there are no issues and run a test there.
 
 # CQL Execution Framework
 
