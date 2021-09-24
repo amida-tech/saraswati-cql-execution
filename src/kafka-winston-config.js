@@ -18,9 +18,9 @@ const toWinstonLogLevel = level => {
   }
 };
 
-const ProdWinstonLogCreator = (logLevel) => {
+const ProdWinstonLogCreator = (loggedLevel) => {
     const logger = winston.createLogger({
-      level: toWinstonLogLevel(logLevel),
+      level: toWinstonLogLevel(loggedLevel),
       transports: [
         new winston.transports.Console(),
         new winston.transports.File({ filename: 'myapp.log' })
@@ -35,19 +35,12 @@ const ProdWinstonLogCreator = (logLevel) => {
   
     logger.format = configuredFormatter(options);
 
-    return ({ namespace, level, label, log }) => {
-      const { message, ...extra } = log; 
-      logger.log({
-        level: toWinstonLogLevel(level),
-        message,
-        extra,
-      });
-  }
+    return LogResult(logger);
 }
 
-const DevWinstonLogCreator = (logLevel) => {
+const DevWinstonLogCreator = (loggedLevel) => {
   const logger = winston.createLogger({
-    level: toWinstonLogLevel(logLevel),
+    level: toWinstonLogLevel(loggedLevel),
     transports: [
       new winston.transports.Console({
         format: winston.format.simple()
@@ -56,6 +49,10 @@ const DevWinstonLogCreator = (logLevel) => {
     ]
   });
 
+  return LogResult(logger);
+}
+
+const LogResult = (logger) => {
   return ({ namespace, level, label, log }) => {
     const { message, ...extra } = log; 
     logger.log({
@@ -63,7 +60,7 @@ const DevWinstonLogCreator = (logLevel) => {
       message,
       extra,
     });
-}
+  }
 }
 
 module.exports = config.env === 'production' ? ProdWinstonLogCreator : DevWinstonLogCreator;
