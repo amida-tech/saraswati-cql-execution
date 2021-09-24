@@ -44,6 +44,8 @@ define Disjoint: {1, 2} union {4, 5}
 define NestedToFifteen: {1, 2, 3} union {4, 5, 6} union {7 ,8 , 9} union {10, 11, 12} union {13, 14, 15}
 define NullUnion: null union {1, 2, 3}
 define UnionNull: {1, 2, 3} union null
+define nullUnionNull: (null as List<String>) union (null as List<String>)
+
 
 // @Test: Except
 define ExceptThreeFour: {1, 2, 3, 4, 5} except {3, 4}
@@ -200,3 +202,20 @@ define NullValue: Length(null as List<Integer>)
 define FiveInFive: 5 in 5 // CQL-to-ELM will promote the second 5 to a list via ToList
 define FourInFive: 4 in 5 // CQL-to-ELM will promote the 5 to a list via ToList
 define LengthOfNull: Length(null as Integer) // CQL-to-ELM will promote the null to a list via ToList
+
+// @Test: Skip
+define Skip2: Skip({ 1, 2, 3, 4, 5 }, 2)
+define SkipNull: Skip({ 1, 3, 5 }, null)
+define SkipEmpty: Skip({ 1, 3, 5 }, -1)
+define SkipIsNull: Skip(null, 2)
+
+// @Test: Tail
+define Tail234: Tail({ 1, 2, 3, 4 })
+define TailEmpty: Tail({ })
+define TailIsNull: Tail(null)
+
+// @Test: Take
+define Take2: Take({ 1, 2, 3, 4 }, 2)
+define TakeTooMany: Take({ 1, 2 }, 3)
+define TakeEmpty: Take({ 1, 2, 3, 4 }, null)
+define TakeIsNull: Take(null, 2)

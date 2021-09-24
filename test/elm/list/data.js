@@ -24,6 +24,14 @@ module.exports['List'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "24",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -41,7 +49,27 @@ module.exports['List'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -65,7 +93,7 @@ module.exports['List'] = {
                "s" : {
                   "r" : "5",
                   "s" : [ {
-                     "value" : [ "define ","Three",": " ]
+                     "value" : [ "","define ","Three",": " ]
                   }, {
                      "r" : "4",
                      "s" : [ {
@@ -100,7 +128,7 @@ module.exports['List'] = {
                "s" : {
                   "r" : "10",
                   "s" : [ {
-                     "value" : [ "define ","IntList",": " ]
+                     "value" : [ "","define ","IntList",": " ]
                   }, {
                      "r" : "9",
                      "s" : [ {
@@ -140,7 +168,7 @@ module.exports['List'] = {
                "s" : {
                   "r" : "15",
                   "s" : [ {
-                     "value" : [ "define ","StringList",": " ]
+                     "value" : [ "","define ","StringList",": " ]
                   }, {
                      "r" : "14",
                      "s" : [ {
@@ -200,7 +228,7 @@ module.exports['List'] = {
                "s" : {
                   "r" : "21",
                   "s" : [ {
-                     "value" : [ "define ","MixedList",": " ]
+                     "value" : [ "","define ","MixedList",": " ]
                   }, {
                      "r" : "20",
                      "s" : [ {
@@ -260,7 +288,7 @@ module.exports['List'] = {
                "s" : {
                   "r" : "24",
                   "s" : [ {
-                     "value" : [ "define ","EmptyList",": " ]
+                     "value" : [ "","define ","EmptyList",": " ]
                   }, {
                      "r" : "23",
                      "s" : [ {
@@ -303,6 +331,14 @@ module.exports['Exists'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "35",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -320,7 +356,27 @@ module.exports['Exists'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -344,7 +400,7 @@ module.exports['Exists'] = {
                "s" : {
                   "r" : "5",
                   "s" : [ {
-                     "value" : [ "define ","EmptyList",": " ]
+                     "value" : [ "","define ","EmptyList",": " ]
                   }, {
                      "r" : "4",
                      "s" : [ {
@@ -390,7 +446,7 @@ module.exports['Exists'] = {
                "s" : {
                   "r" : "11",
                   "s" : [ {
-                     "value" : [ "define ","FullList",": " ]
+                     "value" : [ "","define ","FullList",": " ]
                   }, {
                      "r" : "10",
                      "s" : [ {
@@ -446,7 +502,7 @@ module.exports['Exists'] = {
                "s" : {
                   "r" : "15",
                   "s" : [ {
-                     "value" : [ "define ","ListWithOneNull",": " ]
+                     "value" : [ "","define ","ListWithOneNull",": " ]
                   }, {
                      "r" : "14",
                      "s" : [ {
@@ -490,7 +546,7 @@ module.exports['Exists'] = {
                "s" : {
                   "r" : "20",
                   "s" : [ {
-                     "value" : [ "define ","ListWithTwoNulls",": " ]
+                     "value" : [ "","define ","ListWithTwoNulls",": " ]
                   }, {
                      "r" : "19",
                      "s" : [ {
@@ -537,7 +593,7 @@ module.exports['Exists'] = {
                "s" : {
                   "r" : "26",
                   "s" : [ {
-                     "value" : [ "define ","ListStartingWithNull",": " ]
+                     "value" : [ "","define ","ListStartingWithNull",": " ]
                   }, {
                      "r" : "25",
                      "s" : [ {
@@ -595,7 +651,7 @@ module.exports['Exists'] = {
                "s" : {
                   "r" : "32",
                   "s" : [ {
-                     "value" : [ "define ","ListWithNull",": " ]
+                     "value" : [ "","define ","ListWithNull",": " ]
                   }, {
                      "r" : "31",
                      "s" : [ {
@@ -653,7 +709,7 @@ module.exports['Exists'] = {
                "s" : {
                   "r" : "35",
                   "s" : [ {
-                     "value" : [ "define ","NullExists",": " ]
+                     "value" : [ "","define ","NullExists",": " ]
                   }, {
                      "r" : "34",
                      "s" : [ {
@@ -712,6 +768,14 @@ module.exports['Equal'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "121",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -729,7 +793,27 @@ module.exports['Equal'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -753,7 +837,7 @@ module.exports['Equal'] = {
                "s" : {
                   "r" : "11",
                   "s" : [ {
-                     "value" : [ "define ","EqualIntList",": " ]
+                     "value" : [ "","define ","EqualIntList",": " ]
                   }, {
                      "r" : "10",
                      "s" : [ {
@@ -827,7 +911,7 @@ module.exports['Equal'] = {
                "s" : {
                   "r" : "20",
                   "s" : [ {
-                     "value" : [ "define ","UnequalIntList",": " ]
+                     "value" : [ "","define ","UnequalIntList",": " ]
                   }, {
                      "r" : "19",
                      "s" : [ {
@@ -896,7 +980,7 @@ module.exports['Equal'] = {
                "s" : {
                   "r" : "30",
                   "s" : [ {
-                     "value" : [ "define ","ReverseIntList",": " ]
+                     "value" : [ "","define ","ReverseIntList",": " ]
                   }, {
                      "r" : "29",
                      "s" : [ {
@@ -970,7 +1054,7 @@ module.exports['Equal'] = {
                "s" : {
                   "r" : "38",
                   "s" : [ {
-                     "value" : [ "define ","EqualStringList",": " ]
+                     "value" : [ "","define ","EqualStringList",": " ]
                   }, {
                      "r" : "37",
                      "s" : [ {
@@ -1060,7 +1144,7 @@ module.exports['Equal'] = {
                "s" : {
                   "r" : "46",
                   "s" : [ {
-                     "value" : [ "define ","UnequalStringList",": " ]
+                     "value" : [ "","define ","UnequalStringList",": " ]
                   }, {
                      "r" : "45",
                      "s" : [ {
@@ -1150,7 +1234,7 @@ module.exports['Equal'] = {
                "s" : {
                   "r" : "66",
                   "s" : [ {
-                     "value" : [ "define ","EqualTupleList",": " ]
+                     "value" : [ "","define ","EqualTupleList",": " ]
                   }, {
                      "r" : "65",
                      "s" : [ {
@@ -1414,7 +1498,7 @@ module.exports['Equal'] = {
                "s" : {
                   "r" : "87",
                   "s" : [ {
-                     "value" : [ "define ","UnequalTupleList",": " ]
+                     "value" : [ "","define ","UnequalTupleList",": " ]
                   }, {
                      "r" : "86",
                      "s" : [ {
@@ -1687,7 +1771,7 @@ module.exports['Equal'] = {
                "s" : {
                   "r" : "98",
                   "s" : [ {
-                     "value" : [ "define ","FirstListHasNull",": " ]
+                     "value" : [ "","define ","FirstListHasNull",": " ]
                   }, {
                      "r" : "97",
                      "s" : [ {
@@ -1810,7 +1894,7 @@ module.exports['Equal'] = {
                "s" : {
                   "r" : "109",
                   "s" : [ {
-                     "value" : [ "define ","SecondListHasNull",": " ]
+                     "value" : [ "","define ","SecondListHasNull",": " ]
                   }, {
                      "r" : "108",
                      "s" : [ {
@@ -1933,7 +2017,7 @@ module.exports['Equal'] = {
                "s" : {
                   "r" : "121",
                   "s" : [ {
-                     "value" : [ "define ","BothListsHaveNull",": " ]
+                     "value" : [ "","define ","BothListsHaveNull",": " ]
                   }, {
                      "r" : "120",
                      "s" : [ {
@@ -2068,6 +2152,14 @@ module.exports['NotEqual'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "87",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -2085,7 +2177,27 @@ module.exports['NotEqual'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -2109,7 +2221,7 @@ module.exports['NotEqual'] = {
                "s" : {
                   "r" : "11",
                   "s" : [ {
-                     "value" : [ "define ","EqualIntList",": " ]
+                     "value" : [ "","define ","EqualIntList",": " ]
                   }, {
                      "r" : "10",
                      "s" : [ {
@@ -2186,7 +2298,7 @@ module.exports['NotEqual'] = {
                "s" : {
                   "r" : "20",
                   "s" : [ {
-                     "value" : [ "define ","UnequalIntList",": " ]
+                     "value" : [ "","define ","UnequalIntList",": " ]
                   }, {
                      "r" : "19",
                      "s" : [ {
@@ -2258,7 +2370,7 @@ module.exports['NotEqual'] = {
                "s" : {
                   "r" : "30",
                   "s" : [ {
-                     "value" : [ "define ","ReverseIntList",": " ]
+                     "value" : [ "","define ","ReverseIntList",": " ]
                   }, {
                      "r" : "29",
                      "s" : [ {
@@ -2335,7 +2447,7 @@ module.exports['NotEqual'] = {
                "s" : {
                   "r" : "38",
                   "s" : [ {
-                     "value" : [ "define ","EqualStringList",": " ]
+                     "value" : [ "","define ","EqualStringList",": " ]
                   }, {
                      "r" : "37",
                      "s" : [ {
@@ -2428,7 +2540,7 @@ module.exports['NotEqual'] = {
                "s" : {
                   "r" : "46",
                   "s" : [ {
-                     "value" : [ "define ","UnequalStringList",": " ]
+                     "value" : [ "","define ","UnequalStringList",": " ]
                   }, {
                      "r" : "45",
                      "s" : [ {
@@ -2521,7 +2633,7 @@ module.exports['NotEqual'] = {
                "s" : {
                   "r" : "66",
                   "s" : [ {
-                     "value" : [ "define ","EqualTupleList",": " ]
+                     "value" : [ "","define ","EqualTupleList",": " ]
                   }, {
                      "r" : "65",
                      "s" : [ {
@@ -2788,7 +2900,7 @@ module.exports['NotEqual'] = {
                "s" : {
                   "r" : "87",
                   "s" : [ {
-                     "value" : [ "define ","UnequalTupleList",": " ]
+                     "value" : [ "","define ","UnequalTupleList",": " ]
                   }, {
                      "r" : "86",
                      "s" : [ {
@@ -3070,6 +3182,7 @@ define Disjoint: {1, 2} union {4, 5}
 define NestedToFifteen: {1, 2, 3} union {4, 5, 6} union {7 ,8 , 9} union {10, 11, 12} union {13, 14, 15}
 define NullUnion: null union {1, 2, 3}
 define UnionNull: {1, 2, 3} union null
+define nullUnionNull: (null as List<String>) union (null as List<String>)
 */
 
 module.exports['Union'] = {
@@ -3077,6 +3190,14 @@ module.exports['Union'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "96",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -3094,7 +3215,27 @@ module.exports['Union'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -3118,7 +3259,7 @@ module.exports['Union'] = {
                "s" : {
                   "r" : "15",
                   "s" : [ {
-                     "value" : [ "define ","OneToTen",": " ]
+                     "value" : [ "","define ","OneToTen",": " ]
                   }, {
                      "r" : "14",
                      "s" : [ {
@@ -3212,7 +3353,7 @@ module.exports['Union'] = {
                "s" : {
                   "r" : "26",
                   "s" : [ {
-                     "value" : [ "define ","OneToFiveOverlapped",": " ]
+                     "value" : [ "","define ","OneToFiveOverlapped",": " ]
                   }, {
                      "r" : "25",
                      "s" : [ {
@@ -3291,7 +3432,7 @@ module.exports['Union'] = {
                "s" : {
                   "r" : "39",
                   "s" : [ {
-                     "value" : [ "define ","OneToFiveOverlappedWithNulls",": " ]
+                     "value" : [ "","define ","OneToFiveOverlappedWithNulls",": " ]
                   }, {
                      "r" : "38",
                      "s" : [ {
@@ -3384,7 +3525,7 @@ module.exports['Union'] = {
                "s" : {
                   "r" : "47",
                   "s" : [ {
-                     "value" : [ "define ","Disjoint",": " ]
+                     "value" : [ "","define ","Disjoint",": " ]
                   }, {
                      "r" : "46",
                      "s" : [ {
@@ -3448,7 +3589,7 @@ module.exports['Union'] = {
                "s" : {
                   "r" : "72",
                   "s" : [ {
-                     "value" : [ "define ","NestedToFifteen",": " ]
+                     "value" : [ "","define ","NestedToFifteen",": " ]
                   }, {
                      "r" : "71",
                      "s" : [ {
@@ -3623,7 +3764,7 @@ module.exports['Union'] = {
                "s" : {
                   "r" : "79",
                   "s" : [ {
-                     "value" : [ "define ","NullUnion",": " ]
+                     "value" : [ "","define ","NullUnion",": " ]
                   }, {
                      "r" : "78",
                      "s" : [ {
@@ -3686,7 +3827,7 @@ module.exports['Union'] = {
                "s" : {
                   "r" : "86",
                   "s" : [ {
-                     "value" : [ "define ","UnionNull",": " ]
+                     "value" : [ "","define ","UnionNull",": " ]
                   }, {
                      "r" : "85",
                      "s" : [ {
@@ -3739,6 +3880,114 @@ module.exports['Union'] = {
                   }
                } ]
             }
+         }, {
+            "localId" : "96",
+            "name" : "nullUnionNull",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "96",
+                  "s" : [ {
+                     "value" : [ "","define ","nullUnionNull",": " ]
+                  }, {
+                     "r" : "95",
+                     "s" : [ {
+                        "r" : "90",
+                        "s" : [ {
+                           "value" : [ "(" ]
+                        }, {
+                           "r" : "90",
+                           "s" : [ {
+                              "r" : "87",
+                              "value" : [ "null"," as " ]
+                           }, {
+                              "r" : "89",
+                              "s" : [ {
+                                 "value" : [ "List<" ]
+                              }, {
+                                 "r" : "88",
+                                 "s" : [ {
+                                    "value" : [ "String" ]
+                                 } ]
+                              }, {
+                                 "value" : [ ">" ]
+                              } ]
+                           } ]
+                        }, {
+                           "value" : [ ")" ]
+                        } ]
+                     }, {
+                        "value" : [ " union " ]
+                     }, {
+                        "r" : "94",
+                        "s" : [ {
+                           "value" : [ "(" ]
+                        }, {
+                           "r" : "94",
+                           "s" : [ {
+                              "r" : "91",
+                              "value" : [ "null"," as " ]
+                           }, {
+                              "r" : "93",
+                              "s" : [ {
+                                 "value" : [ "List<" ]
+                              }, {
+                                 "r" : "92",
+                                 "s" : [ {
+                                    "value" : [ "String" ]
+                                 } ]
+                              }, {
+                                 "value" : [ ">" ]
+                              } ]
+                           } ]
+                        }, {
+                           "value" : [ ")" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "95",
+               "type" : "Union",
+               "operand" : [ {
+                  "localId" : "90",
+                  "strict" : false,
+                  "type" : "As",
+                  "operand" : {
+                     "localId" : "87",
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "localId" : "89",
+                     "type" : "ListTypeSpecifier",
+                     "elementType" : {
+                        "localId" : "88",
+                        "name" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "NamedTypeSpecifier"
+                     }
+                  }
+               }, {
+                  "localId" : "94",
+                  "strict" : false,
+                  "type" : "As",
+                  "operand" : {
+                     "localId" : "91",
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "localId" : "93",
+                     "type" : "ListTypeSpecifier",
+                     "elementType" : {
+                        "localId" : "92",
+                        "name" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "NamedTypeSpecifier"
+                     }
+                  }
+               } ]
+            }
          } ]
       }
    }
@@ -3767,6 +4016,14 @@ module.exports['Except'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "126",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -3784,7 +4041,27 @@ module.exports['Except'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -3808,7 +4085,7 @@ module.exports['Except'] = {
                "s" : {
                   "r" : "12",
                   "s" : [ {
-                     "value" : [ "define ","ExceptThreeFour",": " ]
+                     "value" : [ "","define ","ExceptThreeFour",": " ]
                   }, {
                      "r" : "11",
                      "s" : [ {
@@ -3887,7 +4164,7 @@ module.exports['Except'] = {
                "s" : {
                   "r" : "23",
                   "s" : [ {
-                     "value" : [ "define ","ThreeFourExcept",": " ]
+                     "value" : [ "","define ","ThreeFourExcept",": " ]
                   }, {
                      "r" : "22",
                      "s" : [ {
@@ -3966,7 +4243,7 @@ module.exports['Except'] = {
                "s" : {
                   "r" : "34",
                   "s" : [ {
-                     "value" : [ "define ","ExceptFiveThree",": " ]
+                     "value" : [ "","define ","ExceptFiveThree",": " ]
                   }, {
                      "r" : "33",
                      "s" : [ {
@@ -4045,7 +4322,7 @@ module.exports['Except'] = {
                "s" : {
                   "r" : "49",
                   "s" : [ {
-                     "value" : [ "define ","ExceptNoOp",": " ]
+                     "value" : [ "","define ","ExceptNoOp",": " ]
                   }, {
                      "r" : "48",
                      "s" : [ {
@@ -4144,7 +4421,7 @@ module.exports['Except'] = {
                "s" : {
                   "r" : "64",
                   "s" : [ {
-                     "value" : [ "define ","ExceptEverything",": " ]
+                     "value" : [ "","define ","ExceptEverything",": " ]
                   }, {
                      "r" : "63",
                      "s" : [ {
@@ -4243,7 +4520,7 @@ module.exports['Except'] = {
                "s" : {
                   "r" : "76",
                   "s" : [ {
-                     "value" : [ "define ","MultipleNullExcept",": " ]
+                     "value" : [ "","define ","MultipleNullExcept",": " ]
                   }, {
                      "r" : "75",
                      "s" : [ {
@@ -4333,7 +4610,7 @@ module.exports['Except'] = {
                "s" : {
                   "r" : "86",
                   "s" : [ {
-                     "value" : [ "define ","SomethingExceptNothing",": " ]
+                     "value" : [ "","define ","SomethingExceptNothing",": " ]
                   }, {
                      "r" : "85",
                      "s" : [ {
@@ -4407,7 +4684,7 @@ module.exports['Except'] = {
                "s" : {
                   "r" : "96",
                   "s" : [ {
-                     "value" : [ "define ","NothingExceptSomething",": " ]
+                     "value" : [ "","define ","NothingExceptSomething",": " ]
                   }, {
                      "r" : "95",
                      "s" : [ {
@@ -4481,7 +4758,7 @@ module.exports['Except'] = {
                "s" : {
                   "r" : "108",
                   "s" : [ {
-                     "value" : [ "define ","ExceptTuples",": " ]
+                     "value" : [ "","define ","ExceptTuples",": " ]
                   }, {
                      "r" : "107",
                      "s" : [ {
@@ -4627,7 +4904,7 @@ module.exports['Except'] = {
                "s" : {
                   "r" : "117",
                   "s" : [ {
-                     "value" : [ "define ","ExceptNull",": " ]
+                     "value" : [ "","define ","ExceptNull",": " ]
                   }, {
                      "r" : "116",
                      "s" : [ {
@@ -4700,7 +4977,7 @@ module.exports['Except'] = {
                "s" : {
                   "r" : "126",
                   "s" : [ {
-                     "value" : [ "define ","NullExcept",": " ]
+                     "value" : [ "","define ","NullExcept",": " ]
                   }, {
                      "r" : "125",
                      "s" : [ {
@@ -4789,6 +5066,14 @@ module.exports['Intersect'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "149",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -4806,7 +5091,27 @@ module.exports['Intersect'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -4830,7 +5135,7 @@ module.exports['Intersect'] = {
                "s" : {
                   "r" : "12",
                   "s" : [ {
-                     "value" : [ "define ","NoIntersection",": " ]
+                     "value" : [ "","define ","NoIntersection",": " ]
                   }, {
                      "r" : "11",
                      "s" : [ {
@@ -4909,7 +5214,7 @@ module.exports['Intersect'] = {
                "s" : {
                   "r" : "24",
                   "s" : [ {
-                     "value" : [ "define ","IntersectOnFive",": " ]
+                     "value" : [ "","define ","IntersectOnFive",": " ]
                   }, {
                      "r" : "23",
                      "s" : [ {
@@ -4993,7 +5298,7 @@ module.exports['Intersect'] = {
                "s" : {
                   "r" : "37",
                   "s" : [ {
-                     "value" : [ "define ","IntersectionOnFourDuplicates",": " ]
+                     "value" : [ "","define ","IntersectionOnFourDuplicates",": " ]
                   }, {
                      "r" : "36",
                      "s" : [ {
@@ -5082,7 +5387,7 @@ module.exports['Intersect'] = {
                "s" : {
                   "r" : "58",
                   "s" : [ {
-                     "value" : [ "define ","IntersectOnEvens",": " ]
+                     "value" : [ "","define ","IntersectOnEvens",": " ]
                   }, {
                      "r" : "57",
                      "s" : [ {
@@ -5211,7 +5516,7 @@ module.exports['Intersect'] = {
                "s" : {
                   "r" : "72",
                   "s" : [ {
-                     "value" : [ "define ","IntersectOnAll",": " ]
+                     "value" : [ "","define ","IntersectOnAll",": " ]
                   }, {
                      "r" : "71",
                      "s" : [ {
@@ -5305,7 +5610,7 @@ module.exports['Intersect'] = {
                "s" : {
                   "r" : "100",
                   "s" : [ {
-                     "value" : [ "define ","NestedIntersects",": " ]
+                     "value" : [ "","define ","NestedIntersects",": " ]
                   }, {
                      "r" : "99",
                      "s" : [ {
@@ -5486,7 +5791,7 @@ module.exports['Intersect'] = {
                "s" : {
                   "r" : "125",
                   "s" : [ {
-                     "value" : [ "define ","IntersectTuples",": " ]
+                     "value" : [ "","define ","IntersectTuples",": " ]
                   }, {
                      "r" : "124",
                      "s" : [ {
@@ -5843,7 +6148,7 @@ module.exports['Intersect'] = {
                "s" : {
                   "r" : "132",
                   "s" : [ {
-                     "value" : [ "define ","NullIntersect",": " ]
+                     "value" : [ "","define ","NullIntersect",": " ]
                   }, {
                      "r" : "131",
                      "s" : [ {
@@ -5906,7 +6211,7 @@ module.exports['Intersect'] = {
                "s" : {
                   "r" : "139",
                   "s" : [ {
-                     "value" : [ "define ","IntersectNull",": " ]
+                     "value" : [ "","define ","IntersectNull",": " ]
                   }, {
                      "r" : "138",
                      "s" : [ {
@@ -5969,7 +6274,7 @@ module.exports['Intersect'] = {
                "s" : {
                   "r" : "149",
                   "s" : [ {
-                     "value" : [ "define ","MultipleNullInListIntersect",": " ]
+                     "value" : [ "","define ","MultipleNullInListIntersect",": " ]
                   }, {
                      "r" : "148",
                      "s" : [ {
@@ -6063,6 +6368,14 @@ module.exports['IndexOf'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "95",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -6080,7 +6393,27 @@ module.exports['IndexOf'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -6104,7 +6437,7 @@ module.exports['IndexOf'] = {
                "s" : {
                   "r" : "9",
                   "s" : [ {
-                     "value" : [ "define ","IndexOfSecond",": " ]
+                     "value" : [ "","define ","IndexOfSecond",": " ]
                   }, {
                      "r" : "8",
                      "s" : [ {
@@ -6200,7 +6533,7 @@ module.exports['IndexOf'] = {
                "s" : {
                   "r" : "20",
                   "s" : [ {
-                     "value" : [ "define ","IndexOfThirdTuple",": " ]
+                     "value" : [ "","define ","IndexOfThirdTuple",": " ]
                   }, {
                      "r" : "19",
                      "s" : [ {
@@ -6340,7 +6673,7 @@ module.exports['IndexOf'] = {
                "s" : {
                   "r" : "31",
                   "s" : [ {
-                     "value" : [ "define ","MultipleMatches",": " ]
+                     "value" : [ "","define ","MultipleMatches",": " ]
                   }, {
                      "r" : "30",
                      "s" : [ {
@@ -6472,7 +6805,7 @@ module.exports['IndexOf'] = {
                "s" : {
                   "r" : "38",
                   "s" : [ {
-                     "value" : [ "define ","ItemNotFound",": " ]
+                     "value" : [ "","define ","ItemNotFound",": " ]
                   }, {
                      "r" : "37",
                      "s" : [ {
@@ -6556,7 +6889,7 @@ module.exports['IndexOf'] = {
                "s" : {
                   "r" : "42",
                   "s" : [ {
-                     "value" : [ "define ","NullList",": " ]
+                     "value" : [ "","define ","NullList",": " ]
                   }, {
                      "r" : "41",
                      "s" : [ {
@@ -6607,7 +6940,7 @@ module.exports['IndexOf'] = {
                "s" : {
                   "r" : "49",
                   "s" : [ {
-                     "value" : [ "define ","NullItem",": " ]
+                     "value" : [ "","define ","NullItem",": " ]
                   }, {
                      "r" : "48",
                      "s" : [ {
@@ -6687,7 +7020,7 @@ module.exports['IndexOf'] = {
                "s" : {
                   "r" : "62",
                   "s" : [ {
-                     "value" : [ "define ","ListCode",": " ]
+                     "value" : [ "","define ","ListCode",": " ]
                   }, {
                      "r" : "61",
                      "s" : [ {
@@ -6899,7 +7232,7 @@ module.exports['IndexOf'] = {
                "s" : {
                   "r" : "73",
                   "s" : [ {
-                     "value" : [ "define ","ListCodeUndefined",": " ]
+                     "value" : [ "","define ","ListCodeUndefined",": " ]
                   }, {
                      "r" : "72",
                      "s" : [ {
@@ -7073,7 +7406,7 @@ module.exports['IndexOf'] = {
                "s" : {
                   "r" : "84",
                   "s" : [ {
-                     "value" : [ "define ","ListWrongCode",": " ]
+                     "value" : [ "","define ","ListWrongCode",": " ]
                   }, {
                      "r" : "83",
                      "s" : [ {
@@ -7247,7 +7580,7 @@ module.exports['IndexOf'] = {
                "s" : {
                   "r" : "95",
                   "s" : [ {
-                     "value" : [ "define ","ListWrongCodeSystem",": " ]
+                     "value" : [ "","define ","ListWrongCodeSystem",": " ]
                   }, {
                      "r" : "94",
                      "s" : [ {
@@ -7432,6 +7765,14 @@ module.exports['Indexer'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "40",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -7449,7 +7790,27 @@ module.exports['Indexer'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -7473,7 +7834,7 @@ module.exports['Indexer'] = {
                "s" : {
                   "r" : "9",
                   "s" : [ {
-                     "value" : [ "define ","SecondItem",": " ]
+                     "value" : [ "","define ","SecondItem",": " ]
                   }, {
                      "r" : "8",
                      "s" : [ {
@@ -7560,7 +7921,7 @@ module.exports['Indexer'] = {
                "s" : {
                   "r" : "17",
                   "s" : [ {
-                     "value" : [ "define ","ZeroIndex",": " ]
+                     "value" : [ "","define ","ZeroIndex",": " ]
                   }, {
                      "r" : "16",
                      "s" : [ {
@@ -7647,7 +8008,7 @@ module.exports['Indexer'] = {
                "s" : {
                   "r" : "25",
                   "s" : [ {
-                     "value" : [ "define ","OutOfBounds",": " ]
+                     "value" : [ "","define ","OutOfBounds",": " ]
                   }, {
                      "r" : "24",
                      "s" : [ {
@@ -7734,7 +8095,7 @@ module.exports['Indexer'] = {
                "s" : {
                   "r" : "32",
                   "s" : [ {
-                     "value" : [ "define ","NullList",": " ]
+                     "value" : [ "","define ","NullList",": " ]
                   }, {
                      "r" : "31",
                      "s" : [ {
@@ -7806,7 +8167,7 @@ module.exports['Indexer'] = {
                "s" : {
                   "r" : "40",
                   "s" : [ {
-                     "value" : [ "define ","NullIndexer",": " ]
+                     "value" : [ "","define ","NullIndexer",": " ]
                   }, {
                      "r" : "39",
                      "s" : [ {
@@ -7908,6 +8269,14 @@ module.exports['In'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "64",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -7925,7 +8294,27 @@ module.exports['In'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -7949,7 +8338,7 @@ module.exports['In'] = {
                "s" : {
                   "r" : "8",
                   "s" : [ {
-                     "value" : [ "define ","IsIn",": " ]
+                     "value" : [ "","define ","IsIn",": " ]
                   }, {
                      "r" : "7",
                      "s" : [ {
@@ -8004,7 +8393,7 @@ module.exports['In'] = {
                "s" : {
                   "r" : "15",
                   "s" : [ {
-                     "value" : [ "define ","IsNotIn",": " ]
+                     "value" : [ "","define ","IsNotIn",": " ]
                   }, {
                      "r" : "14",
                      "s" : [ {
@@ -8059,7 +8448,7 @@ module.exports['In'] = {
                "s" : {
                   "r" : "30",
                   "s" : [ {
-                     "value" : [ "define ","TupleIsIn",": " ]
+                     "value" : [ "","define ","TupleIsIn",": " ]
                   }, {
                      "r" : "29",
                      "s" : [ {
@@ -8270,7 +8659,7 @@ module.exports['In'] = {
                "s" : {
                   "r" : "45",
                   "s" : [ {
-                     "value" : [ "define ","TupleIsNotIn",": " ]
+                     "value" : [ "","define ","TupleIsNotIn",": " ]
                   }, {
                      "r" : "44",
                      "s" : [ {
@@ -8481,7 +8870,7 @@ module.exports['In'] = {
                "s" : {
                   "r" : "53",
                   "s" : [ {
-                     "value" : [ "define ","NullIn",": " ]
+                     "value" : [ "","define ","NullIn",": " ]
                   }, {
                      "r" : "52",
                      "s" : [ {
@@ -8545,7 +8934,7 @@ module.exports['In'] = {
                "s" : {
                   "r" : "57",
                   "s" : [ {
-                     "value" : [ "define ","InNull",": " ]
+                     "value" : [ "","define ","InNull",": " ]
                   }, {
                      "r" : "56",
                      "s" : [ {
@@ -8588,7 +8977,7 @@ module.exports['In'] = {
                "s" : {
                   "r" : "64",
                   "s" : [ {
-                     "value" : [ "define ","NullNotIn",": " ]
+                     "value" : [ "","define ","NullNotIn",": " ]
                   }, {
                      "r" : "63",
                      "s" : [ {
@@ -8658,6 +9047,14 @@ module.exports['Contains'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "67",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -8675,7 +9072,27 @@ module.exports['Contains'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -8699,7 +9116,7 @@ module.exports['Contains'] = {
                "s" : {
                   "r" : "8",
                   "s" : [ {
-                     "value" : [ "define ","IsIn",": " ]
+                     "value" : [ "","define ","IsIn",": " ]
                   }, {
                      "r" : "7",
                      "s" : [ {
@@ -8754,7 +9171,7 @@ module.exports['Contains'] = {
                "s" : {
                   "r" : "15",
                   "s" : [ {
-                     "value" : [ "define ","IsNotIn",": " ]
+                     "value" : [ "","define ","IsNotIn",": " ]
                   }, {
                      "r" : "14",
                      "s" : [ {
@@ -8809,7 +9226,7 @@ module.exports['Contains'] = {
                "s" : {
                   "r" : "30",
                   "s" : [ {
-                     "value" : [ "define ","TupleIsIn",": " ]
+                     "value" : [ "","define ","TupleIsIn",": " ]
                   }, {
                      "r" : "29",
                      "s" : [ {
@@ -9020,7 +9437,7 @@ module.exports['Contains'] = {
                "s" : {
                   "r" : "45",
                   "s" : [ {
-                     "value" : [ "define ","TupleIsNotIn",": " ]
+                     "value" : [ "","define ","TupleIsNotIn",": " ]
                   }, {
                      "r" : "44",
                      "s" : [ {
@@ -9231,7 +9648,7 @@ module.exports['Contains'] = {
                "s" : {
                   "r" : "52",
                   "s" : [ {
-                     "value" : [ "define ","InNull",": " ]
+                     "value" : [ "","define ","InNull",": " ]
                   }, {
                      "r" : "51",
                      "s" : [ {
@@ -9303,7 +9720,7 @@ module.exports['Contains'] = {
                "s" : {
                   "r" : "60",
                   "s" : [ {
-                     "value" : [ "define ","NullIn",": " ]
+                     "value" : [ "","define ","NullIn",": " ]
                   }, {
                      "r" : "59",
                      "s" : [ {
@@ -9367,7 +9784,7 @@ module.exports['Contains'] = {
                "s" : {
                   "r" : "67",
                   "s" : [ {
-                     "value" : [ "define ","NullNotIn",": " ]
+                     "value" : [ "","define ","NullNotIn",": " ]
                   }, {
                      "r" : "66",
                      "s" : [ {
@@ -9521,6 +9938,14 @@ module.exports['Includes'] = {
          "errorType" : "semantic",
          "errorSeverity" : "warning",
          "type" : "CqlToElmError"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "189",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -9538,7 +9963,27 @@ module.exports['Includes'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -9562,7 +10007,7 @@ module.exports['Includes'] = {
                "s" : {
                   "r" : "13",
                   "s" : [ {
-                     "value" : [ "define ","IsIncluded",": " ]
+                     "value" : [ "","define ","IsIncluded",": " ]
                   }, {
                      "r" : "12",
                      "s" : [ {
@@ -9647,7 +10092,7 @@ module.exports['Includes'] = {
                "s" : {
                   "r" : "25",
                   "s" : [ {
-                     "value" : [ "define ","IsIncludedReversed",": " ]
+                     "value" : [ "","define ","IsIncludedReversed",": " ]
                   }, {
                      "r" : "24",
                      "s" : [ {
@@ -9732,7 +10177,7 @@ module.exports['Includes'] = {
                "s" : {
                   "r" : "39",
                   "s" : [ {
-                     "value" : [ "define ","IsSame",": " ]
+                     "value" : [ "","define ","IsSame",": " ]
                   }, {
                      "r" : "38",
                      "s" : [ {
@@ -9827,7 +10272,7 @@ module.exports['Includes'] = {
                "s" : {
                   "r" : "51",
                   "s" : [ {
-                     "value" : [ "define ","IsNotIncluded",": " ]
+                     "value" : [ "","define ","IsNotIncluded",": " ]
                   }, {
                      "r" : "50",
                      "s" : [ {
@@ -9912,7 +10357,7 @@ module.exports['Includes'] = {
                "s" : {
                   "r" : "70",
                   "s" : [ {
-                     "value" : [ "define ","TuplesIncluded",": " ]
+                     "value" : [ "","define ","TuplesIncluded",": " ]
                   }, {
                      "r" : "69",
                      "s" : [ {
@@ -10180,7 +10625,7 @@ module.exports['Includes'] = {
                "s" : {
                   "r" : "89",
                   "s" : [ {
-                     "value" : [ "define ","TuplesNotIncluded",": " ]
+                     "value" : [ "","define ","TuplesNotIncluded",": " ]
                   }, {
                      "r" : "88",
                      "s" : [ {
@@ -10448,7 +10893,7 @@ module.exports['Includes'] = {
                "s" : {
                   "r" : "98",
                   "s" : [ {
-                     "value" : [ "define ","NullIncluded",": " ]
+                     "value" : [ "","define ","NullIncluded",": " ]
                   }, {
                      "r" : "97",
                      "s" : [ {
@@ -10521,7 +10966,7 @@ module.exports['Includes'] = {
                "s" : {
                   "r" : "107",
                   "s" : [ {
-                     "value" : [ "define ","NullIncludes",": " ]
+                     "value" : [ "","define ","NullIncludes",": " ]
                   }, {
                      "r" : "106",
                      "s" : [ {
@@ -10594,7 +11039,7 @@ module.exports['Includes'] = {
                "s" : {
                   "r" : "126",
                   "s" : [ {
-                     "value" : [ "define ","DayIncluded",": " ]
+                     "value" : [ "","define ","DayIncluded",": " ]
                   }, {
                      "r" : "125",
                      "s" : [ {
@@ -10742,7 +11187,7 @@ module.exports['Includes'] = {
                "s" : {
                   "r" : "145",
                   "s" : [ {
-                     "value" : [ "define ","DayNotIncluded",": " ]
+                     "value" : [ "","define ","DayNotIncluded",": " ]
                   }, {
                      "r" : "144",
                      "s" : [ {
@@ -10890,7 +11335,7 @@ module.exports['Includes'] = {
                "s" : {
                   "r" : "154",
                   "s" : [ {
-                     "value" : [ "define ","IntegerIncluded",": " ]
+                     "value" : [ "","define ","IntegerIncluded",": " ]
                   }, {
                      "r" : "153",
                      "s" : [ {
@@ -10955,7 +11400,7 @@ module.exports['Includes'] = {
                "s" : {
                   "r" : "163",
                   "s" : [ {
-                     "value" : [ "define ","IntegerNotIncluded",": " ]
+                     "value" : [ "","define ","IntegerNotIncluded",": " ]
                   }, {
                      "r" : "162",
                      "s" : [ {
@@ -11020,7 +11465,7 @@ module.exports['Includes'] = {
                "s" : {
                   "r" : "176",
                   "s" : [ {
-                     "value" : [ "define ","QuantityInList",": " ]
+                     "value" : [ "","define ","QuantityInList",": " ]
                   }, {
                      "r" : "175",
                      "s" : [ {
@@ -11167,7 +11612,7 @@ module.exports['Includes'] = {
                "s" : {
                   "r" : "189",
                   "s" : [ {
-                     "value" : [ "define ","QuantityNotInList",": " ]
+                     "value" : [ "","define ","QuantityNotInList",": " ]
                   }, {
                      "r" : "188",
                      "s" : [ {
@@ -11400,6 +11845,14 @@ module.exports['IncludedIn'] = {
          "errorType" : "semantic",
          "errorSeverity" : "warning",
          "type" : "CqlToElmError"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "189",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -11417,7 +11870,27 @@ module.exports['IncludedIn'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -11441,7 +11914,7 @@ module.exports['IncludedIn'] = {
                "s" : {
                   "r" : "13",
                   "s" : [ {
-                     "value" : [ "define ","IsIncluded",": " ]
+                     "value" : [ "","define ","IsIncluded",": " ]
                   }, {
                      "r" : "12",
                      "s" : [ {
@@ -11526,7 +11999,7 @@ module.exports['IncludedIn'] = {
                "s" : {
                   "r" : "25",
                   "s" : [ {
-                     "value" : [ "define ","IsIncludedReversed",": " ]
+                     "value" : [ "","define ","IsIncludedReversed",": " ]
                   }, {
                      "r" : "24",
                      "s" : [ {
@@ -11611,7 +12084,7 @@ module.exports['IncludedIn'] = {
                "s" : {
                   "r" : "39",
                   "s" : [ {
-                     "value" : [ "define ","IsSame",": " ]
+                     "value" : [ "","define ","IsSame",": " ]
                   }, {
                      "r" : "38",
                      "s" : [ {
@@ -11706,7 +12179,7 @@ module.exports['IncludedIn'] = {
                "s" : {
                   "r" : "51",
                   "s" : [ {
-                     "value" : [ "define ","IsNotIncluded",": " ]
+                     "value" : [ "","define ","IsNotIncluded",": " ]
                   }, {
                      "r" : "50",
                      "s" : [ {
@@ -11791,7 +12264,7 @@ module.exports['IncludedIn'] = {
                "s" : {
                   "r" : "70",
                   "s" : [ {
-                     "value" : [ "define ","TuplesIncluded",": " ]
+                     "value" : [ "","define ","TuplesIncluded",": " ]
                   }, {
                      "r" : "69",
                      "s" : [ {
@@ -12059,7 +12532,7 @@ module.exports['IncludedIn'] = {
                "s" : {
                   "r" : "89",
                   "s" : [ {
-                     "value" : [ "define ","TuplesNotIncluded",": " ]
+                     "value" : [ "","define ","TuplesNotIncluded",": " ]
                   }, {
                      "r" : "88",
                      "s" : [ {
@@ -12327,7 +12800,7 @@ module.exports['IncludedIn'] = {
                "s" : {
                   "r" : "98",
                   "s" : [ {
-                     "value" : [ "define ","NullIncludes",": " ]
+                     "value" : [ "","define ","NullIncludes",": " ]
                   }, {
                      "r" : "97",
                      "s" : [ {
@@ -12400,7 +12873,7 @@ module.exports['IncludedIn'] = {
                "s" : {
                   "r" : "107",
                   "s" : [ {
-                     "value" : [ "define ","NullIncluded",": " ]
+                     "value" : [ "","define ","NullIncluded",": " ]
                   }, {
                      "r" : "106",
                      "s" : [ {
@@ -12473,7 +12946,7 @@ module.exports['IncludedIn'] = {
                "s" : {
                   "r" : "126",
                   "s" : [ {
-                     "value" : [ "define ","DayIncluded",": " ]
+                     "value" : [ "","define ","DayIncluded",": " ]
                   }, {
                      "r" : "125",
                      "s" : [ {
@@ -12621,7 +13094,7 @@ module.exports['IncludedIn'] = {
                "s" : {
                   "r" : "145",
                   "s" : [ {
-                     "value" : [ "define ","DayNotIncluded",": " ]
+                     "value" : [ "","define ","DayNotIncluded",": " ]
                   }, {
                      "r" : "144",
                      "s" : [ {
@@ -12769,7 +13242,7 @@ module.exports['IncludedIn'] = {
                "s" : {
                   "r" : "154",
                   "s" : [ {
-                     "value" : [ "define ","IntegerIncluded",": " ]
+                     "value" : [ "","define ","IntegerIncluded",": " ]
                   }, {
                      "r" : "153",
                      "s" : [ {
@@ -12834,7 +13307,7 @@ module.exports['IncludedIn'] = {
                "s" : {
                   "r" : "163",
                   "s" : [ {
-                     "value" : [ "define ","IntegerNotIncluded",": " ]
+                     "value" : [ "","define ","IntegerNotIncluded",": " ]
                   }, {
                      "r" : "162",
                      "s" : [ {
@@ -12899,7 +13372,7 @@ module.exports['IncludedIn'] = {
                "s" : {
                   "r" : "176",
                   "s" : [ {
-                     "value" : [ "define ","QuantityInList",": " ]
+                     "value" : [ "","define ","QuantityInList",": " ]
                   }, {
                      "r" : "175",
                      "s" : [ {
@@ -13046,7 +13519,7 @@ module.exports['IncludedIn'] = {
                "s" : {
                   "r" : "189",
                   "s" : [ {
-                     "value" : [ "define ","QuantityNotInList",": " ]
+                     "value" : [ "","define ","QuantityNotInList",": " ]
                   }, {
                      "r" : "188",
                      "s" : [ {
@@ -13284,6 +13757,14 @@ module.exports['ProperIncludes'] = {
          "errorType" : "semantic",
          "errorSeverity" : "warning",
          "type" : "CqlToElmError"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "110",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -13301,7 +13782,27 @@ module.exports['ProperIncludes'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -13325,7 +13826,7 @@ module.exports['ProperIncludes'] = {
                "s" : {
                   "r" : "14",
                   "s" : [ {
-                     "value" : [ "define ","IsIncluded",": " ]
+                     "value" : [ "","define ","IsIncluded",": " ]
                   }, {
                      "r" : "13",
                      "s" : [ {
@@ -13415,7 +13916,7 @@ module.exports['ProperIncludes'] = {
                "s" : {
                   "r" : "27",
                   "s" : [ {
-                     "value" : [ "define ","IsIncludedReversed",": " ]
+                     "value" : [ "","define ","IsIncludedReversed",": " ]
                   }, {
                      "r" : "26",
                      "s" : [ {
@@ -13505,7 +14006,7 @@ module.exports['ProperIncludes'] = {
                "s" : {
                   "r" : "41",
                   "s" : [ {
-                     "value" : [ "define ","IsSame",": " ]
+                     "value" : [ "","define ","IsSame",": " ]
                   }, {
                      "r" : "40",
                      "s" : [ {
@@ -13600,7 +14101,7 @@ module.exports['ProperIncludes'] = {
                "s" : {
                   "r" : "54",
                   "s" : [ {
-                     "value" : [ "define ","IsNotIncluded",": " ]
+                     "value" : [ "","define ","IsNotIncluded",": " ]
                   }, {
                      "r" : "53",
                      "s" : [ {
@@ -13690,7 +14191,7 @@ module.exports['ProperIncludes'] = {
                "s" : {
                   "r" : "73",
                   "s" : [ {
-                     "value" : [ "define ","TuplesIncluded",": " ]
+                     "value" : [ "","define ","TuplesIncluded",": " ]
                   }, {
                      "r" : "72",
                      "s" : [ {
@@ -13958,7 +14459,7 @@ module.exports['ProperIncludes'] = {
                "s" : {
                   "r" : "92",
                   "s" : [ {
-                     "value" : [ "define ","TuplesNotIncluded",": " ]
+                     "value" : [ "","define ","TuplesNotIncluded",": " ]
                   }, {
                      "r" : "91",
                      "s" : [ {
@@ -14226,7 +14727,7 @@ module.exports['ProperIncludes'] = {
                "s" : {
                   "r" : "101",
                   "s" : [ {
-                     "value" : [ "define ","NullIncluded",": " ]
+                     "value" : [ "","define ","NullIncluded",": " ]
                   }, {
                      "r" : "100",
                      "s" : [ {
@@ -14299,7 +14800,7 @@ module.exports['ProperIncludes'] = {
                "s" : {
                   "r" : "110",
                   "s" : [ {
-                     "value" : [ "define ","NullIncludes",": " ]
+                     "value" : [ "","define ","NullIncludes",": " ]
                   }, {
                      "r" : "109",
                      "s" : [ {
@@ -14463,6 +14964,14 @@ module.exports['ProperIncludedIn'] = {
          "errorType" : "semantic",
          "errorSeverity" : "warning",
          "type" : "CqlToElmError"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "110",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -14480,7 +14989,27 @@ module.exports['ProperIncludedIn'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -14504,7 +15033,7 @@ module.exports['ProperIncludedIn'] = {
                "s" : {
                   "r" : "13",
                   "s" : [ {
-                     "value" : [ "define ","IsIncluded",": " ]
+                     "value" : [ "","define ","IsIncluded",": " ]
                   }, {
                      "r" : "12",
                      "s" : [ {
@@ -14589,7 +15118,7 @@ module.exports['ProperIncludedIn'] = {
                "s" : {
                   "r" : "25",
                   "s" : [ {
-                     "value" : [ "define ","IsIncludedReversed",": " ]
+                     "value" : [ "","define ","IsIncludedReversed",": " ]
                   }, {
                      "r" : "24",
                      "s" : [ {
@@ -14674,7 +15203,7 @@ module.exports['ProperIncludedIn'] = {
                "s" : {
                   "r" : "39",
                   "s" : [ {
-                     "value" : [ "define ","IsSame",": " ]
+                     "value" : [ "","define ","IsSame",": " ]
                   }, {
                      "r" : "38",
                      "s" : [ {
@@ -14769,7 +15298,7 @@ module.exports['ProperIncludedIn'] = {
                "s" : {
                   "r" : "51",
                   "s" : [ {
-                     "value" : [ "define ","IsNotIncluded",": " ]
+                     "value" : [ "","define ","IsNotIncluded",": " ]
                   }, {
                      "r" : "50",
                      "s" : [ {
@@ -14854,7 +15383,7 @@ module.exports['ProperIncludedIn'] = {
                "s" : {
                   "r" : "70",
                   "s" : [ {
-                     "value" : [ "define ","TuplesIncluded",": " ]
+                     "value" : [ "","define ","TuplesIncluded",": " ]
                   }, {
                      "r" : "69",
                      "s" : [ {
@@ -15122,7 +15651,7 @@ module.exports['ProperIncludedIn'] = {
                "s" : {
                   "r" : "89",
                   "s" : [ {
-                     "value" : [ "define ","TuplesNotIncluded",": " ]
+                     "value" : [ "","define ","TuplesNotIncluded",": " ]
                   }, {
                      "r" : "88",
                      "s" : [ {
@@ -15390,7 +15919,7 @@ module.exports['ProperIncludedIn'] = {
                "s" : {
                   "r" : "98",
                   "s" : [ {
-                     "value" : [ "define ","NullIncludes",": " ]
+                     "value" : [ "","define ","NullIncludes",": " ]
                   }, {
                      "r" : "97",
                      "s" : [ {
@@ -15463,7 +15992,7 @@ module.exports['ProperIncludedIn'] = {
                "s" : {
                   "r" : "110",
                   "s" : [ {
-                     "value" : [ "define ","NullIncluded",": " ]
+                     "value" : [ "","define ","NullIncluded",": " ]
                   }, {
                      "r" : "109",
                      "s" : [ {
@@ -15573,6 +16102,14 @@ module.exports['Flatten'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "31",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -15590,7 +16127,27 @@ module.exports['Flatten'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -15614,7 +16171,7 @@ module.exports['Flatten'] = {
                "s" : {
                   "r" : "28",
                   "s" : [ {
-                     "value" : [ "define ","ListOfLists",": " ]
+                     "value" : [ "","define ","ListOfLists",": " ]
                   }, {
                      "r" : "27",
                      "s" : [ {
@@ -15809,7 +16366,7 @@ module.exports['Flatten'] = {
                "s" : {
                   "r" : "31",
                   "s" : [ {
-                     "value" : [ "define ","NullValue",": " ]
+                     "value" : [ "","define ","NullValue",": " ]
                   }, {
                      "r" : "30",
                      "s" : [ {
@@ -15861,6 +16418,14 @@ module.exports['Distinct'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "60",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -15878,7 +16443,27 @@ module.exports['Distinct'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -15902,7 +16487,7 @@ module.exports['Distinct'] = {
                "s" : {
                   "r" : "23",
                   "s" : [ {
-                     "value" : [ "define ","LotsOfDups",": " ]
+                     "value" : [ "","define ","LotsOfDups",": " ]
                   }, {
                      "r" : "22",
                      "s" : [ {
@@ -16031,7 +16616,7 @@ module.exports['Distinct'] = {
                "s" : {
                   "r" : "31",
                   "s" : [ {
-                     "value" : [ "define ","NoDups",": " ]
+                     "value" : [ "","define ","NoDups",": " ]
                   }, {
                      "r" : "30",
                      "s" : [ {
@@ -16090,7 +16675,7 @@ module.exports['Distinct'] = {
                "s" : {
                   "r" : "42",
                   "s" : [ {
-                     "value" : [ "define ","DupsTuples",": " ]
+                     "value" : [ "","define ","DupsTuples",": " ]
                   }, {
                      "r" : "41",
                      "s" : [ {
@@ -16243,7 +16828,7 @@ module.exports['Distinct'] = {
                "s" : {
                   "r" : "49",
                   "s" : [ {
-                     "value" : [ "define ","NoDupsTuples",": " ]
+                     "value" : [ "","define ","NoDupsTuples",": " ]
                   }, {
                      "r" : "48",
                      "s" : [ {
@@ -16336,7 +16921,7 @@ module.exports['Distinct'] = {
                "s" : {
                   "r" : "60",
                   "s" : [ {
-                     "value" : [ "define ","DuplicateNulls",": " ]
+                     "value" : [ "","define ","DuplicateNulls",": " ]
                   }, {
                      "r" : "59",
                      "s" : [ {
@@ -16429,6 +17014,14 @@ module.exports['First'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "53",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -16446,7 +17039,27 @@ module.exports['First'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -16470,7 +17083,7 @@ module.exports['First'] = {
                "s" : {
                   "r" : "8",
                   "s" : [ {
-                     "value" : [ "define ","Numbers",": " ]
+                     "value" : [ "","define ","Numbers",": " ]
                   }, {
                      "r" : "7",
                      "s" : [ {
@@ -16526,7 +17139,7 @@ module.exports['First'] = {
                "s" : {
                   "r" : "14",
                   "s" : [ {
-                     "value" : [ "define ","Letters",": " ]
+                     "value" : [ "","define ","Letters",": " ]
                   }, {
                      "r" : "13",
                      "s" : [ {
@@ -16597,7 +17210,7 @@ module.exports['First'] = {
                "s" : {
                   "r" : "25",
                   "s" : [ {
-                     "value" : [ "define ","Lists",": " ]
+                     "value" : [ "","define ","Lists",": " ]
                   }, {
                      "r" : "24",
                      "s" : [ {
@@ -16726,7 +17339,7 @@ module.exports['First'] = {
                "s" : {
                   "r" : "36",
                   "s" : [ {
-                     "value" : [ "define ","Tuples",": " ]
+                     "value" : [ "","define ","Tuples",": " ]
                   }, {
                      "r" : "35",
                      "s" : [ {
@@ -16873,7 +17486,7 @@ module.exports['First'] = {
                "s" : {
                   "r" : "43",
                   "s" : [ {
-                     "value" : [ "define ","Unordered",": " ]
+                     "value" : [ "","define ","Unordered",": " ]
                   }, {
                      "r" : "42",
                      "s" : [ {
@@ -16929,7 +17542,7 @@ module.exports['First'] = {
                "s" : {
                   "r" : "47",
                   "s" : [ {
-                     "value" : [ "define ","Empty",": " ]
+                     "value" : [ "","define ","Empty",": " ]
                   }, {
                      "r" : "46",
                      "s" : [ {
@@ -16970,7 +17583,7 @@ module.exports['First'] = {
                "s" : {
                   "r" : "53",
                   "s" : [ {
-                     "value" : [ "define ","NullValue",": " ]
+                     "value" : [ "","define ","NullValue",": " ]
                   }, {
                      "r" : "52",
                      "s" : [ {
@@ -17044,6 +17657,14 @@ module.exports['Last'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "53",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -17061,7 +17682,27 @@ module.exports['Last'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -17085,7 +17726,7 @@ module.exports['Last'] = {
                "s" : {
                   "r" : "8",
                   "s" : [ {
-                     "value" : [ "define ","Numbers",": " ]
+                     "value" : [ "","define ","Numbers",": " ]
                   }, {
                      "r" : "7",
                      "s" : [ {
@@ -17141,7 +17782,7 @@ module.exports['Last'] = {
                "s" : {
                   "r" : "14",
                   "s" : [ {
-                     "value" : [ "define ","Letters",": " ]
+                     "value" : [ "","define ","Letters",": " ]
                   }, {
                      "r" : "13",
                      "s" : [ {
@@ -17212,7 +17853,7 @@ module.exports['Last'] = {
                "s" : {
                   "r" : "25",
                   "s" : [ {
-                     "value" : [ "define ","Lists",": " ]
+                     "value" : [ "","define ","Lists",": " ]
                   }, {
                      "r" : "24",
                      "s" : [ {
@@ -17341,7 +17982,7 @@ module.exports['Last'] = {
                "s" : {
                   "r" : "36",
                   "s" : [ {
-                     "value" : [ "define ","Tuples",": " ]
+                     "value" : [ "","define ","Tuples",": " ]
                   }, {
                      "r" : "35",
                      "s" : [ {
@@ -17488,7 +18129,7 @@ module.exports['Last'] = {
                "s" : {
                   "r" : "43",
                   "s" : [ {
-                     "value" : [ "define ","Unordered",": " ]
+                     "value" : [ "","define ","Unordered",": " ]
                   }, {
                      "r" : "42",
                      "s" : [ {
@@ -17544,7 +18185,7 @@ module.exports['Last'] = {
                "s" : {
                   "r" : "47",
                   "s" : [ {
-                     "value" : [ "define ","Empty",": " ]
+                     "value" : [ "","define ","Empty",": " ]
                   }, {
                      "r" : "46",
                      "s" : [ {
@@ -17585,7 +18226,7 @@ module.exports['Last'] = {
                "s" : {
                   "r" : "53",
                   "s" : [ {
-                     "value" : [ "define ","NullValue",": " ]
+                     "value" : [ "","define ","NullValue",": " ]
                   }, {
                      "r" : "52",
                      "s" : [ {
@@ -17657,6 +18298,14 @@ module.exports['Length'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "49",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -17674,7 +18323,27 @@ module.exports['Length'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -17698,7 +18367,7 @@ module.exports['Length'] = {
                "s" : {
                   "r" : "9",
                   "s" : [ {
-                     "value" : [ "define ","Numbers",": " ]
+                     "value" : [ "","define ","Numbers",": " ]
                   }, {
                      "r" : "8",
                      "s" : [ {
@@ -17759,7 +18428,7 @@ module.exports['Length'] = {
                "s" : {
                   "r" : "28",
                   "s" : [ {
-                     "value" : [ "define ","Lists",": " ]
+                     "value" : [ "","define ","Lists",": " ]
                   }, {
                      "r" : "27",
                      "s" : [ {
@@ -17902,7 +18571,7 @@ module.exports['Length'] = {
                "s" : {
                   "r" : "39",
                   "s" : [ {
-                     "value" : [ "define ","Tuples",": " ]
+                     "value" : [ "","define ","Tuples",": " ]
                   }, {
                      "r" : "38",
                      "s" : [ {
@@ -18049,7 +18718,7 @@ module.exports['Length'] = {
                "s" : {
                   "r" : "43",
                   "s" : [ {
-                     "value" : [ "define ","Empty",": " ]
+                     "value" : [ "","define ","Empty",": " ]
                   }, {
                      "r" : "42",
                      "s" : [ {
@@ -18090,7 +18759,7 @@ module.exports['Length'] = {
                "s" : {
                   "r" : "49",
                   "s" : [ {
-                     "value" : [ "define ","NullValue",": " ]
+                     "value" : [ "","define ","NullValue",": " ]
                   }, {
                      "r" : "48",
                      "s" : [ {
@@ -18160,6 +18829,14 @@ module.exports['ToList'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "14",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -18177,7 +18854,27 @@ module.exports['ToList'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -18201,7 +18898,7 @@ module.exports['ToList'] = {
                "s" : {
                   "r" : "5",
                   "s" : [ {
-                     "value" : [ "define ","FiveInFive",": " ]
+                     "value" : [ "","define ","FiveInFive",": " ]
                   }, {
                      "r" : "4",
                      "s" : [ {
@@ -18239,7 +18936,7 @@ module.exports['ToList'] = {
                "s" : {
                   "r" : "9",
                   "s" : [ {
-                     "value" : [ "define ","FourInFive",": " ]
+                     "value" : [ "// CQL-to-ELM will promote the second 5 to a list via ToList","define ","FourInFive",": " ]
                   }, {
                      "r" : "8",
                      "s" : [ {
@@ -18277,7 +18974,7 @@ module.exports['ToList'] = {
                "s" : {
                   "r" : "14",
                   "s" : [ {
-                     "value" : [ "define ","LengthOfNull",": " ]
+                     "value" : [ "// CQL-to-ELM will promote the 5 to a list via ToList","define ","LengthOfNull",": " ]
                   }, {
                      "r" : "13",
                      "s" : [ {
@@ -18318,6 +19015,921 @@ module.exports['ToList'] = {
                         "type" : "NamedTypeSpecifier"
                      }
                   }
+               }
+            }
+         } ]
+      }
+   }
+}
+
+/* Skip
+library TestSnippet version '1'
+using Simple version '1.0.0'
+context Patient
+define Skip2: Skip({ 1, 2, 3, 4, 5 }, 2)
+define SkipNull: Skip({ 1, 3, 5 }, null)
+define SkipEmpty: Skip({ 1, 3, 5 }, -1)
+define SkipIsNull: Skip(null, 2)
+*/
+
+module.exports['Skip'] = {
+   "library" : {
+      "annotation" : [ {
+         "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
+         "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "29",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
+      } ],
+      "identifier" : {
+         "id" : "TestSnippet",
+         "version" : "1"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localId" : "1",
+            "localIdentifier" : "Simple",
+            "uri" : "https://github.com/cqframework/cql-execution/simple",
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Patient",
+            "context" : "Patient",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "dataType" : "{https://github.com/cqframework/cql-execution/simple}Patient",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "localId" : "10",
+            "name" : "Skip2",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "10",
+                  "s" : [ {
+                     "value" : [ "","define ","Skip2",": " ]
+                  }, {
+                     "r" : "9",
+                     "s" : [ {
+                        "value" : [ "Skip","(" ]
+                     }, {
+                        "r" : "7",
+                        "s" : [ {
+                           "r" : "2",
+                           "value" : [ "{ ","1",", ","2",", ","3",", ","4",", ","5"," }" ]
+                        } ]
+                     }, {
+                        "r" : "8",
+                        "value" : [ ", ","2",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "9",
+               "type" : "Slice",
+               "source" : {
+                  "localId" : "7",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "2",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "3",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "4",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "3",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "5",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "4",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "6",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  } ]
+               },
+               "startIndex" : {
+                  "localId" : "8",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "2",
+                  "type" : "Literal"
+               },
+               "endIndex" : {
+                  "resultTypeName" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "Null"
+               }
+            }
+         }, {
+            "localId" : "17",
+            "name" : "SkipNull",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "17",
+                  "s" : [ {
+                     "value" : [ "","define ","SkipNull",": " ]
+                  }, {
+                     "r" : "16",
+                     "s" : [ {
+                        "value" : [ "Skip","(" ]
+                     }, {
+                        "r" : "14",
+                        "s" : [ {
+                           "r" : "11",
+                           "value" : [ "{ ","1",", ","3",", ","5"," }" ]
+                        } ]
+                     }, {
+                        "r" : "15",
+                        "value" : [ ", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "16",
+               "type" : "Slice",
+               "source" : {
+                  "localId" : "14",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "11",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "12",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "3",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "13",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  } ]
+               },
+               "startIndex" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "As",
+                  "operand" : {
+                     "localId" : "15",
+                     "type" : "Null"
+                  }
+               },
+               "endIndex" : {
+                  "resultTypeName" : "{urn:hl7-org:elm-types:r1}Any",
+                  "type" : "Null"
+               }
+            }
+         }, {
+            "localId" : "25",
+            "name" : "SkipEmpty",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "25",
+                  "s" : [ {
+                     "value" : [ "","define ","SkipEmpty",": " ]
+                  }, {
+                     "r" : "24",
+                     "s" : [ {
+                        "value" : [ "Skip","(" ]
+                     }, {
+                        "r" : "21",
+                        "s" : [ {
+                           "r" : "18",
+                           "value" : [ "{ ","1",", ","3",", ","5"," }" ]
+                        } ]
+                     }, {
+                        "value" : [ ", " ]
+                     }, {
+                        "r" : "23",
+                        "s" : [ {
+                           "r" : "22",
+                           "value" : [ "-","1" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "24",
+               "type" : "Slice",
+               "source" : {
+                  "localId" : "21",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "18",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "19",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "3",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "20",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "5",
+                     "type" : "Literal"
+                  } ]
+               },
+               "startIndex" : {
+                  "localId" : "23",
+                  "type" : "Negate",
+                  "operand" : {
+                     "localId" : "22",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               },
+               "endIndex" : {
+                  "resultTypeName" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "Null"
+               }
+            }
+         }, {
+            "localId" : "29",
+            "name" : "SkipIsNull",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "29",
+                  "s" : [ {
+                     "value" : [ "","define ","SkipIsNull",": " ]
+                  }, {
+                     "r" : "28",
+                     "s" : [ {
+                        "r" : "26",
+                        "value" : [ "Skip","(","null",", ","2",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "28",
+               "type" : "Slice",
+               "source" : {
+                  "type" : "As",
+                  "operand" : {
+                     "localId" : "26",
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "type" : "ListTypeSpecifier",
+                     "elementType" : {
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     }
+                  }
+               },
+               "startIndex" : {
+                  "localId" : "27",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "2",
+                  "type" : "Literal"
+               },
+               "endIndex" : {
+                  "resultTypeName" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "Null"
+               }
+            }
+         } ]
+      }
+   }
+}
+
+/* Tail
+library TestSnippet version '1'
+using Simple version '1.0.0'
+context Patient
+define Tail234: Tail({ 1, 2, 3, 4 })
+define TailEmpty: Tail({ })
+define TailIsNull: Tail(null)
+*/
+
+module.exports['Tail'] = {
+   "library" : {
+      "annotation" : [ {
+         "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
+         "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "14",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
+      } ],
+      "identifier" : {
+         "id" : "TestSnippet",
+         "version" : "1"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localId" : "1",
+            "localIdentifier" : "Simple",
+            "uri" : "https://github.com/cqframework/cql-execution/simple",
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Patient",
+            "context" : "Patient",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "dataType" : "{https://github.com/cqframework/cql-execution/simple}Patient",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "localId" : "8",
+            "name" : "Tail234",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "8",
+                  "s" : [ {
+                     "value" : [ "","define ","Tail234",": " ]
+                  }, {
+                     "r" : "7",
+                     "s" : [ {
+                        "value" : [ "Tail","(" ]
+                     }, {
+                        "r" : "6",
+                        "s" : [ {
+                           "r" : "2",
+                           "value" : [ "{ ","1",", ","2",", ","3",", ","4"," }" ]
+                        } ]
+                     }, {
+                        "value" : [ ")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "7",
+               "type" : "Slice",
+               "source" : {
+                  "localId" : "6",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "2",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "3",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "4",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "3",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "5",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "4",
+                     "type" : "Literal"
+                  } ]
+               },
+               "startIndex" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "1",
+                  "type" : "Literal"
+               },
+               "endIndex" : {
+                  "resultTypeName" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "Null"
+               }
+            }
+         }, {
+            "localId" : "11",
+            "name" : "TailEmpty",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "11",
+                  "s" : [ {
+                     "value" : [ "","define ","TailEmpty",": " ]
+                  }, {
+                     "r" : "10",
+                     "s" : [ {
+                        "r" : "9",
+                        "value" : [ "Tail","(","{ }",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "10",
+               "type" : "Slice",
+               "source" : {
+                  "localId" : "9",
+                  "type" : "List"
+               },
+               "startIndex" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "1",
+                  "type" : "Literal"
+               },
+               "endIndex" : {
+                  "resultTypeName" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "Null"
+               }
+            }
+         }, {
+            "localId" : "14",
+            "name" : "TailIsNull",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "14",
+                  "s" : [ {
+                     "value" : [ "","define ","TailIsNull",": " ]
+                  }, {
+                     "r" : "13",
+                     "s" : [ {
+                        "r" : "12",
+                        "value" : [ "Tail","(","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "13",
+               "type" : "Slice",
+               "source" : {
+                  "type" : "As",
+                  "operand" : {
+                     "localId" : "12",
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "type" : "ListTypeSpecifier",
+                     "elementType" : {
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     }
+                  }
+               },
+               "startIndex" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "1",
+                  "type" : "Literal"
+               },
+               "endIndex" : {
+                  "resultTypeName" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "Null"
+               }
+            }
+         } ]
+      }
+   }
+}
+
+/* Take
+library TestSnippet version '1'
+using Simple version '1.0.0'
+context Patient
+define Take2: Take({ 1, 2, 3, 4 }, 2)
+define TakeTooMany: Take({ 1, 2 }, 3)
+define TakeEmpty: Take({ 1, 2, 3, 4 }, null)
+define TakeIsNull: Take(null, 2)
+*/
+
+module.exports['Take'] = {
+   "library" : {
+      "annotation" : [ {
+         "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
+         "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "27",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
+      } ],
+      "identifier" : {
+         "id" : "TestSnippet",
+         "version" : "1"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localId" : "1",
+            "localIdentifier" : "Simple",
+            "uri" : "https://github.com/cqframework/cql-execution/simple",
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Patient",
+            "context" : "Patient",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "dataType" : "{https://github.com/cqframework/cql-execution/simple}Patient",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "localId" : "9",
+            "name" : "Take2",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "9",
+                  "s" : [ {
+                     "value" : [ "","define ","Take2",": " ]
+                  }, {
+                     "r" : "8",
+                     "s" : [ {
+                        "value" : [ "Take","(" ]
+                     }, {
+                        "r" : "6",
+                        "s" : [ {
+                           "r" : "2",
+                           "value" : [ "{ ","1",", ","2",", ","3",", ","4"," }" ]
+                        } ]
+                     }, {
+                        "r" : "7",
+                        "value" : [ ", ","2",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "8",
+               "type" : "Slice",
+               "source" : {
+                  "localId" : "6",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "2",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "3",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "4",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "3",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "5",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "4",
+                     "type" : "Literal"
+                  } ]
+               },
+               "startIndex" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               },
+               "endIndex" : {
+                  "type" : "Coalesce",
+                  "operand" : [ {
+                     "localId" : "7",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2",
+                     "type" : "Literal"
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "15",
+            "name" : "TakeTooMany",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "15",
+                  "s" : [ {
+                     "value" : [ "","define ","TakeTooMany",": " ]
+                  }, {
+                     "r" : "14",
+                     "s" : [ {
+                        "value" : [ "Take","(" ]
+                     }, {
+                        "r" : "12",
+                        "s" : [ {
+                           "r" : "10",
+                           "value" : [ "{ ","1",", ","2"," }" ]
+                        } ]
+                     }, {
+                        "r" : "13",
+                        "value" : [ ", ","3",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "14",
+               "type" : "Slice",
+               "source" : {
+                  "localId" : "12",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "10",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "11",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2",
+                     "type" : "Literal"
+                  } ]
+               },
+               "startIndex" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               },
+               "endIndex" : {
+                  "type" : "Coalesce",
+                  "operand" : [ {
+                     "localId" : "13",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "3",
+                     "type" : "Literal"
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "23",
+            "name" : "TakeEmpty",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "23",
+                  "s" : [ {
+                     "value" : [ "","define ","TakeEmpty",": " ]
+                  }, {
+                     "r" : "22",
+                     "s" : [ {
+                        "value" : [ "Take","(" ]
+                     }, {
+                        "r" : "20",
+                        "s" : [ {
+                           "r" : "16",
+                           "value" : [ "{ ","1",", ","2",", ","3",", ","4"," }" ]
+                        } ]
+                     }, {
+                        "r" : "21",
+                        "value" : [ ", ","null",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "22",
+               "type" : "Slice",
+               "source" : {
+                  "localId" : "20",
+                  "type" : "List",
+                  "element" : [ {
+                     "localId" : "16",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "17",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "18",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "3",
+                     "type" : "Literal"
+                  }, {
+                     "localId" : "19",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "4",
+                     "type" : "Literal"
+                  } ]
+               },
+               "startIndex" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               },
+               "endIndex" : {
+                  "type" : "Coalesce",
+                  "operand" : [ {
+                     "asType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "As",
+                     "operand" : {
+                        "localId" : "21",
+                        "type" : "Null"
+                     }
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  } ]
+               }
+            }
+         }, {
+            "localId" : "27",
+            "name" : "TakeIsNull",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "27",
+                  "s" : [ {
+                     "value" : [ "","define ","TakeIsNull",": " ]
+                  }, {
+                     "r" : "26",
+                     "s" : [ {
+                        "r" : "24",
+                        "value" : [ "Take","(","null",", ","2",")" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "26",
+               "type" : "Slice",
+               "source" : {
+                  "type" : "As",
+                  "operand" : {
+                     "localId" : "24",
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "type" : "ListTypeSpecifier",
+                     "elementType" : {
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier"
+                     }
+                  }
+               },
+               "startIndex" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               },
+               "endIndex" : {
+                  "type" : "Coalesce",
+                  "operand" : [ {
+                     "localId" : "25",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2",
+                     "type" : "Literal"
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "0",
+                     "type" : "Literal"
+                  } ]
                }
             }
          } ]

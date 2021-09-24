@@ -2,6 +2,7 @@
 define not_null: Count({1,2,3,4,5})
 define has_null: Count({1,null,null,null,2})
 define empty: Count({})
+define is_null: Count(null as List<Integer>)
 
 // @Test: Sum
 define not_null: Sum({1,2,3,4,5})
@@ -27,6 +28,7 @@ define DecimalMin: Min({ 5.0, 4.9, 5.1, -5.0 })
 define DateMin: Min({ @2012-12-31, @2013-01-01, @2012-01-01 })
 define DateTimeMin: Min({ DateTime(2012, 9, 9), DateTime(2012, 9, 5) })
 define TimeMin: Min({ Time(12, 30, 4), Time(12, 30, 3), Time(12, 30, 5)})
+define StringMin: Min({'def', 'abc', 'jkl', 'ghi'})
 define MinIsNull: Min({ null as Quantity, null as Quantity, null as Quantity })
 define MinIsAlsoNull: Min(null as List<Decimal>)
 define IncompatibleUnitsNull: Min({1 'mg/d', 0.002 '/d'})
@@ -47,6 +49,7 @@ define DecimalMax: Max({ 5.0, 4.9, 5.1, -5.0 })
 define DateMax: Max({ @2012-12-31, @2013-01-01, @2012-01-01 })
 define DateTimeMax: Max({ DateTime(2012, 2, 3), DateTime(2012, 9, 5) })
 define TimeMax: Max({ Time(12, 30, 1), Time(12, 30, 3), Time(12, 30, 2)})
+define StringMax: Max({'def', 'abc', 'jkl', 'ghi'})
 define MaxIsNull: Max({ null as Quantity, null as Quantity, null as Quantity })
 define MaxIsAlsoNull: Max(null as List<Decimal>)
 

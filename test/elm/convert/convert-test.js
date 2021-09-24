@@ -4,6 +4,7 @@ const data = require('./data');
 const { isNull } = require('../../../src/util/util');
 const { DateTime } = require('../../../src/datatypes/datetime');
 const { Quantity } = require('../../../src/datatypes/quantity');
+const { Uncertainty } = require('../../../src/datatypes/uncertainty');
 
 describe('FromString', () => {
   beforeEach(function () {
@@ -363,6 +364,28 @@ describe('ToQuantity', () => {
     setup(this, data);
   });
 
+  it('should convert a decimal to a quantity with unit 1', function () {
+    this.decimalOverload.exec(this.ctx).should.eql(new Quantity(0.1, '1'));
+  });
+
+  it('should convert an integer to a quantity with unit 1', function () {
+    this.integerOverload.exec(this.ctx).should.eql(new Quantity(13, '1'));
+  });
+
+  it('should convert an integer uncertainty to a quantity uncertainty', function () {
+    this.uncertaintyOverload
+      .exec(this.ctx)
+      .should.eql(new Uncertainty(new Quantity(6, '1'), new Quantity(18, '1')));
+  });
+
+  it('should convert a string to a quantity with the specified unit', function () {
+    this.stringOverload.exec(this.ctx).should.eql(new Quantity(-0.1, 'mg'));
+  });
+
+  it('should convert a ratio to a quantity by dividing numerator by denominator', function () {
+    this.ratioOverload.exec(this.ctx).should.eql(new Quantity(0.5, 'mg/mL'));
+  });
+
   it('should be null if string is not formatted properly', function () {
     should(this.wrongFormatQuantity.exec(this.ctx)).be.null();
   });
@@ -435,7 +458,7 @@ describe('ToTime', () => {
     should(this.invalidTime.exec(this.ctx)).be.null();
   });
 
-  it('should work with for hh', function () {
+  it('should work with hh', function () {
     // NOTE: We need to pass in null timezoneOffset because DateTime assumes
     // execution context timezoneOffset while time does not have a
     // timezoneOffset
@@ -443,17 +466,17 @@ describe('ToTime', () => {
     this.timeH.exec(this.ctx).equals(expectedDateTime).should.be.true();
   });
 
-  it('should work with for hh:mm', function () {
+  it('should work with hh:mm', function () {
     const expectedDateTime = new DateTime(0, 1, 1, 2, 4, null, null, null);
     this.timeHM.exec(this.ctx).equals(expectedDateTime).should.be.true();
   });
 
-  it('should work with for hh:mm:ss', function () {
+  it('should work with hh:mm:ss', function () {
     const expectedDateTime = new DateTime(0, 1, 1, 2, 4, 59, null, null);
     this.timeHMS.exec(this.ctx).equals(expectedDateTime).should.be.true();
   });
 
-  it('should work with for hh:mm:ss.fff', function () {
+  it('should work with hh:mm:ss.fff', function () {
     const expectedDateTime = new DateTime(0, 1, 1, 2, 4, 59, 123, null);
     this.timeHMSMs.exec(this.ctx).equals(expectedDateTime).should.be.true();
   });

@@ -1,11 +1,13 @@
+const { NullMessageListener } = require('./messageListeners');
 const { Results } = require('./results');
 const { UnfilteredContext, PatientContext } = require('./context');
 
 class Executor {
-  constructor(library, codeService, parameters) {
+  constructor(library, codeService, parameters, messageListener = new NullMessageListener()) {
     this.library = library;
     this.codeService = codeService;
     this.parameters = parameters;
+    this.messageListener = messageListener;
   }
 
   withLibrary(lib) {
@@ -23,7 +25,12 @@ class Executor {
     return this;
   }
 
-  exec_expression(expression, patientSource) {
+  withMessageListener(ml) {
+    this.messageListener = ml;
+    return this;
+  }
+
+  exec_expression(expression, patientSource, executionDateTime) {
     const r = new Results();
     const expr = this.library.expressions[expression];
     if (expr != null) {
@@ -32,9 +39,11 @@ class Executor {
           this.library,
           patientSource.currentPatient(),
           this.codeService,
-          this.parameters
+          this.parameters,
+          executionDateTime,
+          this.messageListener
         );
-        r.recordPatientResult(patient_ctx, expression, expr.execute(patient_ctx));
+        r.recordPatientResults(patient_ctx, { [expression]: expr.execute(patient_ctx) });
         patientSource.nextPatient();
       }
     }
@@ -47,14 +56,18 @@ class Executor {
       this.library,
       r,
       this.codeService,
-      this.parameters
+      this.parameters,
+      executionDateTime,
+      this.messageListener
     );
+    const resultMap = {};
     for (let key in this.library.expressions) {
       const expr = this.library.expressions[key];
       if (expr.context === 'Unfiltered') {
-        r.recordUnfilteredResult(key, expr.exec(unfilteredContext));
+        resultMap[key] = expr.exec(unfilteredContext);
       }
     }
+    r.recordUnfilteredResults(resultMap);
     return r;
   }
 
@@ -66,14 +79,17 @@ class Executor {
         patientSource.currentPatient(),
         this.codeService,
         this.parameters,
-        executionDateTime
+        executionDateTime,
+        this.messageListener
       );
+      const resultMap = {};
       for (let key in this.library.expressions) {
         const expr = this.library.expressions[key];
         if (expr.context === 'Patient') {
-          r.recordPatientResult(patient_ctx, key, expr.execute(patient_ctx));
+          resultMap[key] = expr.execute(patient_ctx);
         }
       }
+      r.recordPatientResults(patient_ctx, resultMap);
       patientSource.nextPatient();
     }
     return r;

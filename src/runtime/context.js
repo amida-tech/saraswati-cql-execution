@@ -1,9 +1,10 @@
 const { Exception } = require('../datatypes/exception');
 const { typeIsArray } = require('../util/util');
+const { NullMessageListener } = require('./messageListeners');
 const dt = require('../datatypes/datatypes');
 
 class Context {
-  constructor(parent, _codeService = null, _parameters = {}) {
+  constructor(parent, _codeService, _parameters, executionDateTime, messageListener) {
     this.parent = parent;
     this._codeService = _codeService;
     this.context_values = {};
@@ -12,7 +13,9 @@ class Context {
     this.evaluatedRecords = [];
     // TODO: If there is an issue with number of parameters look into cql4browsers fix: 387ea77538182833283af65e6341e7a05192304c
     this.checkParameters(_parameters); // not crazy about possibly throwing an error in a constructor, but...
-    this._parameters = _parameters;
+    this._parameters = _parameters || {};
+    this.executionDateTime = executionDateTime;
+    this.messageListener = messageListener;
   }
 
   get parameters() {
@@ -99,6 +102,16 @@ class Context {
       return this.parent.getExecutionDateTime();
     } else {
       throw new Exception('No Execution DateTime has been set');
+    }
+  }
+
+  getMessageListener() {
+    if (this.messageListener != null) {
+      return this.messageListener;
+    } else if (this.parent && this.parent.getMessageListener != null) {
+      return this.parent.getMessageListener();
+    } else {
+      return new NullMessageListener();
     }
   }
 
@@ -242,9 +255,17 @@ class Context {
   }
 
   matchesTupleTypeSpecifier(val, spec) {
+    // TODO: Spec is not clear about exactly how tuples should be matched
     return (
+      val != null &&
       typeof val === 'object' &&
       !typeIsArray(val) &&
+      !val.isInterval &&
+      !val.isConcept &&
+      !val.isCode &&
+      !val.isDateTime &&
+      !val.isDate &&
+      !val.isQuantity &&
       spec.element.every(
         x =>
           typeof val[x.name] === 'undefined' ||
@@ -289,46 +310,60 @@ class Context {
       case '{urn:hl7-org:elm-types:r1}Quantity':
         return val && val.isQuantity;
       case '{urn:hl7-org:elm-types:r1}Time':
-        return val && val.isDateTime && val.isTime();
+        return val && val.isTime && val.isTime();
       default:
         // Use the data model's implementation of _is, if it is available
         if (typeof val._is === 'function') {
           return val._is(spec);
         }
-        // otherwise just default to true
+        // If the value is an array or interval, then we assume it cannot be cast to a
+        // named type. Technically, this is not 100% true because a modelinfo can define
+        // a named type whose base type is a list or interval.  But none of our models
+        // (FHIR, QDM, QICore) do that, so for those models, this approach will always be
+        // correct.
+        if (Array.isArray(val) || val.isInterval) {
+          return false;
+        }
+        // Otherwise just default to true to match legacy behavior.
+        //
+        // NOTE: This is also where arbitrary tuples land because they will not have
+        // an "is" function and we don't encode the type information into the runtime
+        // objects so we can't easily determine their type. We can't reject them,
+        // else things like `Encounter{ id: "1" } is Encounter` would return false.
+        // So for now we allow false positives in order to avoid false negatives.
         return true;
     }
   }
 
   matchesInstanceType(val, inst) {
-    switch (false) {
-      case !inst.isBooleanLiteral:
-        return typeof val === 'boolean';
-      case !inst.isDecimalLiteral:
-        return typeof val === 'number';
-      case !inst.isIntegerLiteral:
-        return typeof val === 'number' && Math.floor(val) === val;
-      case !inst.isStringLiteral:
-        return typeof val === 'string';
-      case !inst.isCode:
-        return val && val.isCode;
-      case !inst.isConcept:
-        return val && val.isConcept;
-      case !inst.isDateTime:
-        return val && val.isDateTime;
-      case !inst.isQuantity:
-        return val && val.isQuantity;
-      case !inst.isTime:
-        return val && val.isDateTime && val.isTime();
-      case !inst.isList:
-        return this.matchesListInstanceType(val, inst);
-      case !inst.isTuple:
-        return this.matchesTupleInstanceType(val, inst);
-      case !inst.isInterval:
-        return this.matchesIntervalInstanceType(val, inst);
-      default:
-        return true; // default to true when we don't know for sure
+    if (inst.isBooleanLiteral) {
+      return typeof val === 'boolean';
+    } else if (inst.isDecimalLiteral) {
+      return typeof val === 'number';
+    } else if (inst.isIntegerLiteral) {
+      return typeof val === 'number' && Math.floor(val) === val;
+    } else if (inst.isStringLiteral) {
+      return typeof val === 'string';
+    } else if (inst.isCode) {
+      return val && val.isCode;
+    } else if (inst.isConcept) {
+      return val && val.isConcept;
+    } else if (inst.isTime && inst.isTime()) {
+      return val && val.isTime && val.isTime();
+    } else if (inst.isDate) {
+      return val && val.isDate;
+    } else if (inst.isDateTime) {
+      return val && val.isDateTime;
+    } else if (inst.isQuantity) {
+      return val && val.isQuantity;
+    } else if (inst.isList) {
+      return this.matchesListInstanceType(val, inst);
+    } else if (inst.isTuple) {
+      return this.matchesTupleInstanceType(val, inst);
+    } else if (inst.isInterval) {
+      return this.matchesIntervalInstanceType(val, inst);
     }
+    return true; // default to true when we don't know for sure
   }
 
   matchesListInstanceType(val, list) {
@@ -361,12 +396,12 @@ class PatientContext extends Context {
     patient,
     codeService,
     parameters,
-    executionDateTime = dt.DateTime.fromJSDate(new Date())
+    executionDateTime = dt.DateTime.fromJSDate(new Date()),
+    messageListener = new NullMessageListener()
   ) {
-    super(library, codeService, parameters);
+    super(library, codeService, parameters, executionDateTime, messageListener);
     this.library = library;
     this.patient = patient;
-    this.executionDateTime = executionDateTime;
   }
 
   rootContext() {
@@ -410,12 +445,12 @@ class UnfilteredContext extends Context {
     results,
     codeService,
     parameters,
-    executionDateTime = dt.DateTime.fromJSDate(new Date())
+    executionDateTime = dt.DateTime.fromJSDate(new Date()),
+    messageListener = new NullMessageListener()
   ) {
-    super(library, codeService, parameters);
+    super(library, codeService, parameters, executionDateTime, messageListener);
     this.library = library;
     this.results = results;
-    this.executionDateTime = executionDateTime;
   }
 
   rootContext() {
