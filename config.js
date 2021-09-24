@@ -1,7 +1,11 @@
 const Joi = require('joi');
 const dotenv = require('dotenv');
 
-dotenv.config();
+if (process.env.NODE_ENV === 'test') {
+  dotenv.config({ path: '.env.test' });
+} else {
+  dotenv.config();
+}
 
 const envVarsSchema = Joi.object({
   NODE_ENV: Joi.string()
@@ -21,9 +25,8 @@ const envVarsSchema = Joi.object({
   ACTUATOR_PORT: Joi.string()
     .default('5001')
     .description('Port used for actuator endpoint'),
-  KAFKA_BOOTSTRAP_SERVERS: Joi.string()
-    .default('http://127.0.0.1:9092')
-    .description('The Kafka queue server address to connect to.'),
+  KAFKA_BROKERS: Joi.string()
+    .description('The Kafka queue server addresses to connect to.'),
   KAFKA_USERNAME: Joi.string()
     .default('username1')
     .description('The SASL username for accessing the Kafka queue.'),
@@ -47,9 +50,16 @@ const envVarsSchema = Joi.object({
     .description('The Kafka topic produced.')
 }).unknown();
 
-const { error, value: envVars } = envVarsSchema.validate(process.env);
+const { error, value: envVars } = envVarsSchema.validate(process.env, {convert: true});
 if (error) {
   throw new Error(`Config validation error: ${error.message}`);
+}
+
+let arrayDelimiter = ' ';
+if (envVars.KAFKA_BROKERS.includes(', ')) {
+  arrayDelimiter = ', ';
+} else if (envVars.KAFKA_BROKERS.includes(',')) {
+  arrayDelimiter = ',';
 }
 
 const config = {
@@ -59,7 +69,7 @@ const config = {
   port: envVars.SARASWATI_REPORTS_PORT,
   directory: envVars.DIR,
   actuatorPort: envVars.ACTUATOR_PORT,
-  kafkaServers: envVars.KAFKA_BOOTSTRAP_SERVERS,
+  kafkaBrokers: envVars.KAFKA_BROKERS.replace(/[["'\]]/g, '').split(arrayDelimiter),
   kafkaUsername: envVars.KAFKA_USERNAME,
   kafkaPassword: envVars.KAFKA_PASSWORD,
   kafkaProtocol: envVars.KAFKA_PROTOCOL,
