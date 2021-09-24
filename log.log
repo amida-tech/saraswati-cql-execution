@@ -1,0 +1,13 @@
+{"message":"Testing started, creating topic queue.","level":"info"}
+{"message":"************","level":"info"}
+{"message":{},"level":"info"}
+{"message":"Testing complete, clearing topic queue.","level":"info"}
+{"message":"Testing started, creating topic queue.","level":"info"}
+{"message":"************","level":"info"}
+{"message":{},"level":"info"}
+{"level":"info","message":"Testing complete, clearing topic queue."}
+{"message":"Testing started, creating topic queue.","level":"info"}
+{"message":"************","level":"info"}
+{"message":{},"level":"info"}
+{"level":"info","message":"Testing started, creating topic queue."}
+{"level":"info","message":"Testing complete, clearing topic queue."}
