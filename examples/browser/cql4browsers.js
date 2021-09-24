@@ -11663,15 +11663,15 @@ var EndsWith = /*#__PURE__*/function (_Expression11) {
   return EndsWith;
 }(Expression);
 
-var ReplaceMatches = /*#__PURE__*/function (_Expression13) {
-  _inherits(ReplaceMatches, _Expression13);
+var ReplaceMatches = /*#__PURE__*/function (_Expression12) {
+  _inherits(ReplaceMatches, _Expression12);
 
-  var _super13 = _createSuper(ReplaceMatches);
+  var _super12 = _createSuper(ReplaceMatches);
 
   function ReplaceMatches(json) {
     _classCallCheck(this, ReplaceMatches);
 
-    return _super13.call(this, json);
+    return _super12.call(this, json);
   }
 
   _createClass(ReplaceMatches, [{
