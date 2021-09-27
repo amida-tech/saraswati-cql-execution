@@ -23,7 +23,7 @@ const ProdWinstonLogCreator = (loggedLevel) => {
       level: toWinstonLogLevel(loggedLevel),
       transports: [
         new winston.transports.Console(),
-        new winston.transports.File({ filename: 'myapp.log' })
+        // new winston.transports.File({ filename: 'myapp.log' })
       ]
     });
 
@@ -45,7 +45,7 @@ const DevWinstonLogCreator = (loggedLevel) => {
       new winston.transports.Console({
         format: winston.format.simple()
       }),
-      new winston.transports.File({ filename: 'myapp.log' })
+      // new winston.transports.File({ filename: 'myapp.log' })
     ]
   });
 
