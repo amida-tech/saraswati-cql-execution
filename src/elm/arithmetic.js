@@ -8,6 +8,7 @@ const {
   doMultiplication,
   doDivision
 } = require('../datatypes/quantity');
+const { Uncertainty } = require('../datatypes/uncertainty');
 
 class Add extends Expression {
   constructor(json) {
@@ -21,8 +22,25 @@ class Add extends Expression {
     }
 
     const sum = args.reduce((x, y) => {
-      if (x.isQuantity || x.isDateTime || x.isDate || x.isTime) {
+      if (x.isUncertainty && !y.isUncertainty) {
+        y = new Uncertainty(y, y);
+      } else if (y.isUncertainty && !x.isUncertainty) {
+        x = new Uncertainty(x, x);
+      }
+
+      if (x.isQuantity || x.isDateTime || x.isDate || (x.isTime && x.isTime())) {
         return doAddition(x, y);
+      } else if (x.isUncertainty && y.isUncertainty) {
+        if (
+          x.low.isQuantity ||
+          x.low.isDateTime ||
+          x.low.isDate ||
+          (x.low.isTime && x.low.isTime())
+        ) {
+          return new Uncertainty(doAddition(x.low, y.low), doAddition(x.high, y.high));
+        } else {
+          return new Uncertainty(x.low + y.low, x.high + y.high);
+        }
       } else {
         return x + y;
       }
@@ -47,8 +65,20 @@ class Subtract extends Expression {
     }
 
     const difference = args.reduce((x, y) => {
+      if (x.isUncertainty && !y.isUncertainty) {
+        y = new Uncertainty(y, y);
+      } else if (y.isUncertainty && !x.isUncertainty) {
+        x = new Uncertainty(x, x);
+      }
+
       if (x.isQuantity || x.isDateTime || x.isDate) {
         return doSubtraction(x, y);
+      } else if (x.isUncertainty && y.isUncertainty) {
+        if (x.low.isQuantity || x.low.isDateTime || x.low.isDate) {
+          return new Uncertainty(doSubtraction(x.low, y.high), doSubtraction(x.high, y.low));
+        } else {
+          return new Uncertainty(x.low - y.high, x.high - y.low);
+        }
       } else {
         return x - y;
       }
@@ -69,12 +99,24 @@ class Multiply extends Expression {
   exec(ctx) {
     let args = this.execArgs(ctx);
     if (args == null || args.some(x => x == null)) {
-      null;
+      return null;
     }
 
     const product = args.reduce((x, y) => {
+      if (x.isUncertainty && !y.isUncertainty) {
+        y = new Uncertainty(y, y);
+      } else if (y.isUncertainty && !x.isUncertainty) {
+        x = new Uncertainty(x, x);
+      }
+
       if (x.isQuantity || y.isQuantity) {
         return doMultiplication(x, y);
+      } else if (x.isUncertainty && y.isUncertainty) {
+        if (x.low.isQuantity) {
+          return new Uncertainty(doMultiplication(x.low, y.low), doMultiplication(x.high, y.high));
+        } else {
+          return new Uncertainty(x.low * y.low, x.high * y.high);
+        }
       } else {
         return x * y;
       }
@@ -99,8 +141,20 @@ class Divide extends Expression {
     }
 
     const quotient = args.reduce(function (x, y) {
+      if (x.isUncertainty && !y.isUncertainty) {
+        y = new Uncertainty(y, y);
+      } else if (y.isUncertainty && !x.isUncertainty) {
+        x = new Uncertainty(x, x);
+      }
+
       if (x.isQuantity) {
         return doDivision(x, y);
+      } else if (x.isUncertainty && y.isUncertainty) {
+        if (x.low.isQuantity) {
+          return new Uncertainty(doDivision(x.low, y.high), doDivision(x.high, y.low));
+        } else {
+          return new Uncertainty(x.low / y.high, x.high / y.low);
+        }
       } else {
         return x / y;
       }
@@ -126,12 +180,13 @@ class TruncatedDivide extends Expression {
       return null;
     }
 
-    const quotient = Math.floor(args.reduce((x, y) => x / y));
+    const quotient = args.reduce((x, y) => x / y);
+    const truncatedQuotient = quotient >= 0 ? Math.floor(quotient) : Math.ceil(quotient);
 
-    if (MathUtil.overflowsOrUnderflows(quotient)) {
+    if (MathUtil.overflowsOrUnderflows(truncatedQuotient)) {
       return null;
     }
-    return quotient;
+    return truncatedQuotient;
   }
 }
 
@@ -146,7 +201,9 @@ class Modulo extends Expression {
       return null;
     }
 
-    return args.reduce((x, y) => x % y);
+    const modulo = args.reduce((x, y) => x % y);
+
+    return MathUtil.decimalOrNull(modulo);
   }
 }
 
@@ -180,8 +237,20 @@ class Floor extends Expression {
   }
 }
 
-class Truncate extends Floor {}
+class Truncate extends Expression {
+  constructor(json) {
+    super(json);
+  }
 
+  exec(ctx) {
+    const arg = this.execArgs(ctx);
+    if (arg == null) {
+      return null;
+    }
+
+    return arg >= 0 ? Math.floor(arg) : Math.ceil(arg);
+  }
+}
 class Abs extends Expression {
   constructor(json) {
     super(json);
@@ -244,7 +313,9 @@ class Ln extends Expression {
       return null;
     }
 
-    return Math.log(arg);
+    const ln = Math.log(arg);
+
+    return MathUtil.decimalOrNull(ln);
   }
 }
 
@@ -279,7 +350,9 @@ class Log extends Expression {
       return null;
     }
 
-    return args.reduce((x, y) => Math.log(x) / Math.log(y));
+    const log = args.reduce((x, y) => Math.log(x) / Math.log(y));
+
+    return MathUtil.decimalOrNull(log);
   }
 }
 
@@ -291,7 +364,7 @@ class Power extends Expression {
   exec(ctx) {
     const args = this.execArgs(ctx);
     if (args == null || args.some(x => x == null)) {
-      null;
+      return null;
     }
 
     const power = args.reduce((x, y) => Math.pow(x, y));
@@ -367,7 +440,7 @@ class Successor extends Expression {
   exec(ctx) {
     const arg = this.execArgs(ctx);
     if (arg == null) {
-      null;
+      return null;
     }
 
     let successor = null;
@@ -396,7 +469,7 @@ class Predecessor extends Expression {
   exec(ctx) {
     const arg = this.execArgs(ctx);
     if (arg == null) {
-      null;
+      return null;
     }
 
     let predecessor = null;

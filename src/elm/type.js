@@ -1,10 +1,11 @@
 const { Expression, UnimplementedExpression } = require('./expression');
 const { DateTime, Date } = require('../datatypes/datetime');
 const { Concept } = require('../datatypes/clinical');
-const { parseQuantity } = require('../datatypes/quantity');
+const { Quantity, parseQuantity } = require('../datatypes/quantity');
 const { isValidDecimal, isValidInteger, limitDecimalPrecision } = require('../util/math');
 const { normalizeMillisecondsField } = require('../util/util');
 const { Ratio } = require('../datatypes/ratio');
+const { Uncertainty } = require('../datatypes/uncertainty');
 
 // TODO: Casting and Conversion needs unit tests!
 
@@ -29,14 +30,13 @@ class As extends Expression {
     if (arg == null) {
       return null;
     }
-    if (typeof arg._is !== 'function' && !isSystemType(this.asTypeSpecifier)) {
-      // We need an _is implementation in order to check non System types
-      // If this is not found then we should just return the arg to match old functionality.
-      return arg;
-    }
     if (ctx.matchesTypeSpecifier(arg, this.asTypeSpecifier)) {
       // TODO: request patient source to change type identification
       return arg;
+    } else if (this.strict) {
+      const argTypeString = specifierToString(guessSpecifierType(arg));
+      const asTypeString = specifierToString(this.asTypeSpecifier);
+      throw new Error(`Cannot cast ${argTypeString} as ${asTypeString}`);
     } else {
       return null;
     }
@@ -119,9 +119,15 @@ class ToDecimal extends Expression {
   exec(ctx) {
     const arg = this.execArgs(ctx);
     if (arg != null) {
-      const decimal = limitDecimalPrecision(parseFloat(arg.toString()));
-      if (isValidDecimal(decimal)) {
-        return decimal;
+      if (arg.isUncertainty) {
+        const low = limitDecimalPrecision(parseFloat(arg.low.toString()));
+        const high = limitDecimalPrecision(parseFloat(arg.high.toString()));
+        return new Uncertainty(low, high);
+      } else {
+        const decimal = limitDecimalPrecision(parseFloat(arg.toString()));
+        if (isValidDecimal(decimal)) {
+          return decimal;
+        }
       }
     }
     return null;
@@ -151,11 +157,22 @@ class ToQuantity extends Expression {
   }
 
   exec(ctx) {
-    const arg = this.execArgs(ctx);
-    if (arg != null) {
-      return parseQuantity(arg.toString());
-    } else {
+    return this.convertValue(this.execArgs(ctx));
+  }
+
+  convertValue(val) {
+    if (val == null) {
       return null;
+    } else if (typeof val === 'number') {
+      return new Quantity(val, '1');
+    } else if (val.isRatio) {
+      // numerator and denominator are guaranteed non-null
+      return val.numerator.dividedBy(val.denominator);
+    } else if (val.isUncertainty) {
+      return new Uncertainty(this.convertValue(val.low), this.convertValue(val.high));
+    } else {
+      // it's a string or something else we'll try to parse as a string
+      return parseQuantity(val.toString());
     }
   }
 }
@@ -222,7 +239,9 @@ class ToTime extends Expression {
       const timeString = arg.toString();
       // Return null if string doesn't represent a valid ISO-8601 Time
       // hh:mm:ss.fff or hh:mm:ss.fff
-      const matches = /^((\d{2})(:(\d{2})(:(\d{2})(\.(\d+))?)?)?)?$/.exec(timeString);
+      const matches = /^T?((\d{2})(:(\d{2})(:(\d{2})(\.(\d+))?)?)?)?(Z|(([+-])(\d{2})(:?(\d{2}))?))?$/.exec(
+        timeString
+      );
       if (matches == null) {
         return null;
       }
@@ -532,6 +551,80 @@ function isSystemType(spec) {
     default:
       return false;
   }
+}
+
+function specifierToString(spec) {
+  if (typeof spec === 'string') {
+    return spec;
+  } else if (spec == null || spec.type == null) {
+    return '';
+  }
+  switch (spec.type) {
+    case 'NamedTypeSpecifier':
+      return spec.name;
+    case 'ListTypeSpecifier':
+      return `List<${specifierToString(spec.elementType)}>`;
+    case 'TupleTypeSpecifier':
+      return `Tuple<${spec.element
+        .map(e => `${e.name} ${specifierToString(e.elementType)}`)
+        .join(', ')}>`;
+    case 'IntervalTypeSpecifier':
+      return `Interval<${specifierToString(spec.pointType)}>`;
+    case 'ChoiceTypeSpecifier':
+      return `Choice<${spec.choice.map(c => specifierToString(c)).join(', ')}>`;
+    default:
+      return JSON.stringify(spec);
+  }
+}
+
+function guessSpecifierType(val) {
+  if (val == null) {
+    return 'Null';
+  }
+  const typeHierarchy = typeof val._typeHierarchy === 'function' && val._typeHierarchy();
+  if (typeHierarchy && typeHierarchy.length > 0) {
+    return typeHierarchy[0];
+  } else if (typeof val === 'boolean') {
+    return { type: 'NamedTypeSpecifier', name: '{urn:hl7-org:elm-types:r1}Boolean' };
+  } else if (typeof val === 'number' && Math.floor(val) === val) {
+    // it could still be a decimal, but we have to just take our best guess!
+    return { type: 'NamedTypeSpecifier', name: '{urn:hl7-org:elm-types:r1}Integer' };
+  } else if (typeof val === 'number') {
+    return { type: 'NamedTypeSpecifier', name: '{urn:hl7-org:elm-types:r1}Decimal' };
+  } else if (typeof val === 'string') {
+    return { type: 'NamedTypeSpecifier', name: '{urn:hl7-org:elm-types:r1}String' };
+  } else if (val.isConcept) {
+    return { type: 'NamedTypeSpecifier', name: '{urn:hl7-org:elm-types:r1}Concept' };
+  } else if (val.isCode) {
+    return { type: 'NamedTypeSpecifier', name: '{urn:hl7-org:elm-types:r1}Code' };
+  } else if (val.isDate) {
+    return { type: 'NamedTypeSpecifier', name: '{urn:hl7-org:elm-types:r1}Date' };
+  } else if (val.isTime && val.isTime()) {
+    return { type: 'NamedTypeSpecifier', name: '{urn:hl7-org:elm-types:r1}Time' };
+  } else if (val.isDateTime) {
+    return { type: 'NamedTypeSpecifier', name: '{urn:hl7-org:elm-types:r1}DateTime' };
+  } else if (val.isQuantity) {
+    return { type: 'NamedTypeSpecifier', name: '{urn:hl7-org:elm-types:r1}DateTime' };
+  } else if (Array.isArray(val)) {
+    // Get unique types from the array (by converting to string and putting in a Set)
+    const typesAsStrings = Array.from(new Set(val.map(v => JSON.stringify(guessSpecifierType(v)))));
+    const types = typesAsStrings.map(ts => (/^{/.test(ts) ? JSON.parse(ts) : ts));
+    return {
+      type: 'ListTypeSpecifier',
+      elementType: types.length == 1 ? types[0] : { type: 'ChoiceTypeSpecifier', choice: types }
+    };
+  } else if (val.isInterval) {
+    return {
+      type: 'IntervalTypeSpecifier',
+      pointType: val.pointType
+    };
+  } else if (typeof val === 'object' && Object.keys(val).length > 0) {
+    return {
+      type: 'TupleTypeSpecifier',
+      element: Object.keys(val).map(k => ({ name: k, elementType: guessSpecifierType(val[k]) }))
+    };
+  }
+  return 'Unknown';
 }
 
 class IntervalTypeSpecifier extends UnimplementedExpression {}

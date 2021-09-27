@@ -17,7 +17,7 @@ class Equal extends Expression {
     if (args[0] == null || args[1] == null) {
       return null;
     }
-    return equals(...this.execArgs(ctx));
+    return equals(...args);
   }
 }
 
@@ -59,11 +59,25 @@ class Union extends Expression {
 
   exec(ctx) {
     const [a, b] = this.execArgs(ctx);
+    if (a == null && b == null) {
+      return this.listTypeArgs() ? [] : null;
+    }
     if (a == null || b == null) {
-      return null;
+      const notNull = a || b;
+      if (typeIsArray(notNull)) {
+        return notNull;
+      } else {
+        return null;
+      }
     }
     const lib = typeIsArray(a) ? LIST : IVL;
     return lib.doUnion(a, b);
+  }
+
+  listTypeArgs() {
+    return this.args.some(arg => {
+      return arg.asTypeSpecifier != null && arg.asTypeSpecifier.type === 'ListTypeSpecifier';
+    });
   }
 }
 
@@ -74,8 +88,11 @@ class Except extends Expression {
 
   exec(ctx) {
     const [a, b] = this.execArgs(ctx);
-    if (a == null || b == null) {
+    if (a == null) {
       return null;
+    }
+    if (b == null) {
+      return typeIsArray(a) ? a : null;
     }
     const lib = typeIsArray(a) ? LIST : IVL;
     return lib.doExcept(a, b);
@@ -122,8 +139,11 @@ class In extends Expression {
 
   exec(ctx) {
     const [item, container] = this.execArgs(ctx);
-    if (container == null || item == null) {
+    if (item == null) {
       return null;
+    }
+    if (container == null) {
+      return false;
     }
     const lib = typeIsArray(container) ? LIST : IVL;
     return lib.doContains(container, item, this.precision);
@@ -138,7 +158,10 @@ class Contains extends Expression {
 
   exec(ctx) {
     const [container, item] = this.execArgs(ctx);
-    if (container == null || item == null) {
+    if (container == null) {
+      return false;
+    }
+    if (item == null) {
       return null;
     }
     const lib = typeIsArray(container) ? LIST : IVL;
@@ -219,6 +242,8 @@ class Length extends Expression {
     const arg = this.execArgs(ctx);
     if (arg != null) {
       return arg.length;
+    } else if (this.arg.asTypeSpecifier.type === 'ListTypeSpecifier') {
+      return 0;
     } else {
       return null;
     }
@@ -305,6 +330,28 @@ class SameOrBefore extends Expression {
   }
 }
 
+// Implemented for DateTime, Date, and Time but not for Decimal yet
+class Precision extends Expression {
+  constructor(json) {
+    super(json);
+  }
+
+  exec(ctx) {
+    const arg = this.execArgs(ctx);
+    if (arg == null) {
+      return null;
+    }
+
+    // Since we can't extend UnimplementedExpression directly for this overloaded function,
+    // we have to copy the error to throw here if we are not using the correct type
+    if (!arg.getPrecisionValue) {
+      throw new Error(`Unimplemented Expression: Precision`);
+    }
+
+    return arg.getPrecisionValue();
+  }
+}
+
 module.exports = {
   After,
   Before,
@@ -319,6 +366,7 @@ module.exports = {
   Intersect,
   Length,
   NotEqual,
+  Precision,
   ProperIncludedIn,
   ProperIncludes,
   SameAs,

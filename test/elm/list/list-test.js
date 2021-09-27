@@ -170,9 +170,13 @@ describe('Union', () => {
       .should.eql([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
   });
 
-  it('should return null if either arg is null', function () {
-    should(this.unionNull.exec(this.ctx)).be.null();
-    should(this.nullUnion.exec(this.ctx)).be.null();
+  it('should return other list if either arg is null', function () {
+    should(this.unionNull.exec(this.ctx)).be.eql([1, 2, 3]);
+    should(this.nullUnion.exec(this.ctx)).be.eql([1, 2, 3]);
+  });
+
+  it('should return an empty list if both args are null but expected to be lists', function () {
+    this.nullUnionNull.exec(this.ctx).should.be.eql([]);
   });
 });
 
@@ -201,8 +205,8 @@ describe('Except', () => {
     this.exceptEverything.exec(this.ctx).should.eql([]);
   });
 
-  it('should return items in first list without 3', function () {
-    this.multipleNullExcept.exec(this.ctx).should.eql([1, 5, 7, null]);
+  it('should return items in first list without 3 and null', function () {
+    this.multipleNullExcept.exec(this.ctx).should.eql([1, 5, 7]);
   });
 
   it('should be a no-op when second list is empty', function () {
@@ -217,9 +221,12 @@ describe('Except', () => {
     this.exceptTuples.exec(this.ctx).should.eql([{ a: 1 }, { a: 3 }]);
   });
 
-  it('should return null if either arg is null', function () {
-    should(this.exceptNull.exec(this.ctx)).be.null();
+  it('should return null if first arg is null', function () {
     should(this.nullExcept.exec(this.ctx)).be.null();
+  });
+
+  it('should return first arg if second arg is null', function () {
+    this.exceptNull.exec(this.ctx).should.eql([1, 2, 3, 4, 5]);
   });
 });
 
@@ -264,8 +271,8 @@ describe('Intersect', () => {
     should(this.nullIntersect.exec(this.ctx)).be.null();
   });
 
-  it('should intersect on 3', function () {
-    this.multipleNullInListIntersect.exec(this.ctx).should.eql([3]);
+  it('should intersect two lists that contain null', function () {
+    this.multipleNullInListIntersect.exec(this.ctx).should.eql([3, null]);
   });
 });
 
@@ -360,8 +367,8 @@ describe('In', () => {
     this.tupleIsNotIn.exec(this.ctx).should.be.false();
   });
 
-  it('should return null if list is null', function () {
-    should(this.inNull.exec(this.ctx)).be.null();
+  it('should return false if list is null', function () {
+    this.inNull.exec(this.ctx).should.be.false();
   });
 
   it('should return null if null is in list', function () {
@@ -402,8 +409,8 @@ describe('Contains', () => {
     should(this.nullNotIn.exec(this.ctx)).be.null();
   });
 
-  it('should return null if list is null', function () {
-    should(this.inNull.exec(this.ctx)).be.null();
+  it('should return false if list is null', function () {
+    this.inNull.exec(this.ctx).should.be.false();
   });
 });
 
@@ -615,9 +622,9 @@ describe('Distinct', () => {
     this.noDupsTuples.exec(this.ctx).should.eql([{ hello: 'world' }, { hello: 'cleveland' }]);
   });
 
-  it('should preserve duplicate null values in original order', function () {
+  it('should remove duplicate null values', function () {
     // define DuplicateNulls: distinct {null, 1, 2, null, 3, 4, 5, null}
-    this.duplicateNulls.exec(this.ctx).should.eql([null, 1, 2, null, 3, 4, 5, null]);
+    this.duplicateNulls.exec(this.ctx).should.eql([null, 1, 2, 3, 4, 5]);
   });
 });
 
@@ -650,7 +657,7 @@ describe('First', () => {
     should(this.empty.exec(this.ctx)).be.null();
   });
 
-  it('should return null for an empty list', function () {
+  it('should return null for a null list', function () {
     should(this.nullValue.exec(this.ctx)).be.null();
   });
 });
@@ -684,7 +691,7 @@ describe('Last', () => {
     should(this.empty.exec(this.ctx)).be.null();
   });
 
-  it('should return null for an empty list', function () {
+  it('should return null for a null list', function () {
     should(this.nullValue.exec(this.ctx)).be.null();
   });
 });
@@ -710,8 +717,8 @@ describe('Length', () => {
     this.empty.exec(this.ctx).should.equal(0);
   });
 
-  it('should return null for an empty list', function () {
-    should(this.nullValue.exec(this.ctx)).be.null();
+  it('should return zero for a null list', function () {
+    this.nullValue.exec(this.ctx).should.equal(0);
   });
 });
 
@@ -730,5 +737,67 @@ describe('ToList', () => {
 
   it('should make null into an empty list', function () {
     this.lengthOfNull.exec(this.ctx).should.equal(0);
+  });
+});
+
+describe('Skip', () => {
+  beforeEach(function () {
+    setup(this, data);
+  });
+
+  it('should skip two elements', function () {
+    this.skip2.exec(this.ctx).should.eql([3, 4, 5]);
+  });
+
+  it('should not skip when using null', function () {
+    this.skipNull.exec(this.ctx).should.eql([1, 3, 5]);
+  });
+
+  it('should return empty list when using negative number', function () {
+    this.skipEmpty.exec(this.ctx).should.eql([]);
+  });
+
+  it('should return null when given null', function () {
+    should(this.skipIsNull.exec(this.ctx)).be.null();
+  });
+});
+
+describe('Tail', () => {
+  beforeEach(function () {
+    setup(this, data);
+  });
+
+  it('should get tail of list', function () {
+    this.tail234.exec(this.ctx).should.eql([2, 3, 4]);
+  });
+
+  it('should return empty list when given empty list', function () {
+    this.tailEmpty.exec(this.ctx).should.eql([]);
+  });
+
+  it('should return null when given null', function () {
+    should(this.tailIsNull.exec(this.ctx)).be.null();
+  });
+});
+
+describe('Take', () => {
+  beforeEach(function () {
+    setup(this, data);
+  });
+
+  it('should take two elements', function () {
+    this.take2.exec(this.ctx).should.eql([1, 2]);
+  });
+
+  it('should return full list when asked for too many elements', function () {
+    this.takeTooMany.exec(this.ctx).should.eql([1, 2]);
+  });
+
+  it('should return empty list when using null', function () {
+    this.takeEmpty.exec(this.ctx).should.eql([]);
+  });
+
+  it('should return null when given null', function () {
+    should(this.takeIsNull.exec(this.ctx)).be.null();
   });
 });

@@ -49,11 +49,10 @@ class Split extends Expression {
   exec(ctx) {
     const stringToSplit = this.stringToSplit.execute(ctx);
     const separator = this.separator.execute(ctx);
-    if (stringToSplit == null || separator == null) {
-      return null;
-    } else {
+    if (stringToSplit && separator) {
       return stringToSplit.split(separator);
     }
+    return stringToSplit ? [stringToSplit] : null;
   }
 }
 
@@ -67,11 +66,10 @@ class SplitOnMatches extends Expression {
   exec(ctx) {
     const stringToSplit = this.stringToSplit.execute(ctx);
     const separatorPattern = this.separatorPattern.execute(ctx);
-    if (stringToSplit == null || separatorPattern == null) {
-      return null;
-    } else {
+    if (stringToSplit && separatorPattern) {
       return stringToSplit.split(new RegExp(separatorPattern));
     }
+    return stringToSplit ? [stringToSplit] : null;
   }
 }
 
@@ -137,11 +135,8 @@ class Matches extends Expression {
     if (string == null || pattern == null) {
       return null;
     }
-    if (string.match(new RegExp(pattern))) {
-      return true;
-    } else {
-      return false;
-    }
+
+    return new RegExp('^' + pattern + '$').test(string);
   }
 }
 
@@ -203,6 +198,21 @@ class EndsWith extends Expression {
   }
 }
 
+class ReplaceMatches extends Expression {
+  constructor(json) {
+    super(json);
+  }
+
+  exec(ctx) {
+    const args = this.execArgs(ctx);
+    if (args.some(x => x == null)) {
+      return null;
+    } else {
+      return args[0].replace(new RegExp(args[1], 'g'), args[2]);
+    }
+  }
+}
+
 module.exports = {
   Combine,
   Concatenate,
@@ -210,6 +220,7 @@ module.exports = {
   Lower,
   Matches,
   PositionOf,
+  ReplaceMatches,
   Split,
   SplitOnMatches,
   StartsWith,

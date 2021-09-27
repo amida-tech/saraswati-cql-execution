@@ -1,14 +1,17 @@
 const { Expression } = require('./expression');
 const { build } = require('./builder');
-const { Quantity, doAddition, compare_units, convert_value } = require('../datatypes/quantity');
+const { Quantity, doAddition } = require('../datatypes/quantity');
 const { successor, predecessor, MAX_DATETIME_VALUE, MIN_DATETIME_VALUE } = require('../util/math');
+const { convertUnit, compareUnits, convertToCQLDateUnit } = require('../util/units');
 const dtivl = require('../datatypes/interval');
 
 class Interval extends Expression {
   constructor(json) {
     super(json);
     this.lowClosed = json.lowClosed;
+    this.lowClosedExpression = build(json.lowClosedExpression);
     this.highClosed = json.highClosed;
+    this.highClosedExpression = build(json.highClosedExpression);
     this.low = build(json.low);
     this.high = build(json.high);
   }
@@ -20,12 +23,29 @@ class Interval extends Expression {
   }
 
   exec(ctx) {
-    return new dtivl.Interval(
-      this.low.execute(ctx),
-      this.high.execute(ctx),
-      this.lowClosed,
-      this.highClosed
-    );
+    const lowValue = this.low.execute(ctx);
+    const highValue = this.high.execute(ctx);
+    const lowClosed =
+      this.lowClosed != null
+        ? this.lowClosed
+        : this.lowClosedExpression && this.lowClosedExpression.execute(ctx);
+    const highClosed =
+      this.highClosed != null
+        ? this.highClosed
+        : this.highClosedExpression && this.highClosedExpression.execute(ctx);
+    let defaultPointType;
+    if (lowValue == null && highValue == null) {
+      // try to get the default point type from a cast
+      if (this.low.asTypeSpecifier && this.low.asTypeSpecifier.type === 'NamedTypeSpecifier') {
+        defaultPointType = this.low.asTypeSpecifier.name;
+      } else if (
+        this.high.asTypeSpecifier &&
+        this.high.asTypeSpecifier.type === 'NamedTypeSpecifier'
+      ) {
+        defaultPointType = this.high.asTypeSpecifier.name;
+      }
+    }
+    return new dtivl.Interval(lowValue, highValue, lowClosed, highClosed, defaultPointType);
   }
 }
 
@@ -293,12 +313,7 @@ function intervalListType(intervals) {
     const low = itvl.low != null ? itvl.low : itvl.high;
     const high = itvl.high != null ? itvl.high : itvl.low;
 
-    if (
-      typeof low.isTime === 'function' &&
-      low.isTime() &&
-      typeof high.isTime === 'function' &&
-      high.isTime()
-    ) {
+    if (low.isTime && low.isTime() && high.isTime && high.isTime()) {
       if (type == null) {
         type = 'time';
       } else if (type === 'time') {
@@ -370,6 +385,10 @@ class Expand extends Expression {
     // expand(argument List<Interval<T>>, per Quantity) List<Interval<T>>
     let defaultPer, expandFunction;
     let [intervals, per] = this.execArgs(ctx);
+    // CQL 1.5 introduced an overload to allow singular intervals; make it a list so we can use the same logic for either overload
+    if (!Array.isArray(intervals)) {
+      intervals = [intervals];
+    }
     const type = intervalListType(intervals);
     if (type === 'mismatch') {
       throw new Error('List of intervals contains mismatched types.');
@@ -425,7 +444,9 @@ class Expand extends Expression {
   }
 
   expandDTishInterval(interval, per) {
-    if (['week', 'weeks'].includes(per.unit)) {
+    per.unit = convertToCQLDateUnit(per.unit);
+
+    if (per.unit === 'week') {
       per.value *= 7;
       per.unit = 'day';
     }
@@ -488,15 +509,15 @@ class Expand extends Expression {
   expandQuantityInterval(interval, per) {
     // we want to convert everything to the more precise of the interval.low or per
     let result_units;
-    if (compare_units(interval.low.unit, per.unit) > 0) {
+    if (compareUnits(interval.low.unit, per.unit) > 0) {
       //interval.low.unit is 'bigger' aka les precise
       result_units = per.unit;
     } else {
       result_units = interval.low.unit;
     }
-    const low_value = convert_value(interval.low.value, interval.low.unit, result_units);
-    const high_value = convert_value(interval.high.value, interval.high.unit, result_units);
-    const per_value = convert_value(per.value, per.unit, result_units);
+    const low_value = convertUnit(interval.low.value, interval.low.unit, result_units);
+    const high_value = convertUnit(interval.high.value, interval.high.unit, result_units);
+    const per_value = convertUnit(per.value, per.unit, result_units);
 
     // return null if unit conversion failed, must have mismatched units
     if (!(low_value != null && high_value != null && per_value != null)) {

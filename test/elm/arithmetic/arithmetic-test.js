@@ -61,6 +61,24 @@ describe('Add', () => {
   it('should add Time/Quantity', function () {
     this.addTime.exec(this.ctx).isTime().should.be.true();
   });
+
+  it('should add uncertainty and uncertainty', function () {
+    const result = this.addUncertainties.exec(this.ctx);
+    result.low.should.equal(6);
+    result.high.should.equal(30);
+  });
+
+  it('should add uncertainty and number', function () {
+    const result = this.addUncertaintyAndNumber.exec(this.ctx);
+    result.low.should.equal(5);
+    result.high.should.equal(17);
+  });
+
+  it('should add number and uncertainty', function () {
+    const result = this.addNumberAndUncertainty.exec(this.ctx);
+    result.low.should.equal(10);
+    result.high.should.equal(22);
+  });
 });
 
 describe('Subtract', () => {
@@ -79,6 +97,24 @@ describe('Subtract', () => {
   it('should subtract variables', function () {
     this.subtractVariables.exec(this.ctx).should.equal(1);
   });
+
+  it('should subtract uncertainty from uncertainty', function () {
+    const result = this.subtractUncertainties.exec(this.ctx);
+    result.low.should.equal(-6);
+    result.high.should.equal(18);
+  });
+
+  it('should subtract number from uncertainty', function () {
+    const result = this.subtractNumberFromUncertainty.exec(this.ctx);
+    result.low.should.equal(1);
+    result.high.should.equal(13);
+  });
+
+  it('should subtract uncertainty from number', function () {
+    const result = this.subtractUncertaintyFromNumber.exec(this.ctx);
+    result.low.should.equal(-8);
+    result.high.should.equal(4);
+  });
 });
 
 describe('Multiply', () => {
@@ -96,6 +132,24 @@ describe('Multiply', () => {
 
   it('should multiply variables', function () {
     this.multiplyVariables.exec(this.ctx).should.equal(110);
+  });
+
+  it('should multiply uncertainty and uncertainty', function () {
+    const result = this.multiplyUncertainties.exec(this.ctx);
+    result.low.should.equal(12);
+    result.high.should.equal(252);
+  });
+
+  it('should multiply uncertainty and number', function () {
+    const result = this.multiplyUncertaintyAndNumber.exec(this.ctx);
+    result.low.should.equal(10);
+    result.high.should.equal(70);
+  });
+
+  it('should multiply number and uncertainty', function () {
+    const result = this.multiplyNumberAndUncertainty.exec(this.ctx);
+    result.low.should.equal(20);
+    result.high.should.equal(140);
   });
 });
 
@@ -118,6 +172,24 @@ describe('Divide', () => {
 
   it('should divide variables', function () {
     this.divideVariables.exec(this.ctx).should.equal(25);
+  });
+
+  it('should divide uncertainty by uncertainty', function () {
+    const result = this.divideUncertainties.exec(this.ctx);
+    result.low.should.equal(6 / 14);
+    result.high.should.equal(9);
+  });
+
+  it('should divide uncertainty by number', function () {
+    const result = this.divideUncertaintyByNumber.exec(this.ctx);
+    result.low.should.equal(3);
+    result.high.should.equal(9);
+  });
+
+  it('should divide number by uncertainty', function () {
+    const result = this.divideNumberByUncertainty.exec(this.ctx);
+    result.low.should.equal(2);
+    result.high.should.equal(6);
   });
 });
 
@@ -166,7 +238,7 @@ describe('MinValue', () => {
   });
 
   it('of Decimal should return minimum representable Decimal value', function () {
-    const minDecimalValue = -99999999999999999999999999999.99999999;
+    const minDecimalValue = -99999999999999999999.99999999;
     this.minDecimal.exec(this.ctx).should.be.approximately(minDecimalValue, 0.000000001);
   });
 
@@ -205,7 +277,7 @@ describe('MaxValue', () => {
   });
 
   it('of Decimal should return maximum representable Decimal value', function () {
-    const maxDecimalValue = 99999999999999999999999999999.99999999;
+    const maxDecimalValue = 99999999999999999999.99999999;
     this.maxDecimal.exec(this.ctx).should.be.approximately(maxDecimalValue, 0.000000001);
   });
 
@@ -575,7 +647,7 @@ describe('Quantity', () => {
   });
 
   it('should be able to perform Quantity Multiplication', function () {
-    // decilmal to quantity multiplication results in decimal value only
+    // decimal to quantity multiplication results in decimal value only
     validateQuantity(this.mul_d_q.exec(this.ctx), 20, 'days');
     validateQuantity(this.mul_q_d.exec(this.ctx), 20, 'days');
     validateQuantity(this.mul_q_q.exec(this.ctx), 20, 'm2');
@@ -626,8 +698,8 @@ describe('Quantity', () => {
       ["25 'km'", "5 'm'", "5000 '1'"],
       ["25 'mg'", "5 'mg'", "5 '1'"],
       ["25 'mg'", "5 '1'", "5 'mg'"],
-      ["100 'm'", "2 'h'", "0.01388889 'm/s'"],
-      ["100 'mg'", "2 '[lb_av]'", "50 'mg/[lb_av]'"]
+      ["100 'm'", "2 'h'", "50 'm/h'"],
+      ["100 '[in_i]'", "2 '[lb_av]'", "50 '[in_i]/[lb_av]'"]
     ];
     // Note that these tests check for equality but not that the result
     // has any particular unit.  12 cm^2 / 4 cm = 0.03 m rather than 3 cm.
@@ -841,6 +913,8 @@ describe('OutOfBounds', () => {
     it('should return null for predecessor underflow', function () {
       should(this.dateTimePredecessorUnderflow.exec(this.ctx)).be.null();
     });
+
+    // Tests for Precision are include in the spec tests
   });
 
   describe('Date', () => {
@@ -873,6 +947,8 @@ describe('OutOfBounds', () => {
     it('should return null for predecessor underflow', function () {
       should(this.datePredecessorUnderflow.exec(this.ctx)).be.null();
     });
+
+    // Tests for Precision are include in the spec tests
   });
 
   describe('Time', () => {
@@ -899,6 +975,8 @@ describe('OutOfBounds', () => {
     it('should return null for predecessor underflow', function () {
       should(this.timePredecessorUnderflow.exec(this.ctx)).be.null();
     });
+
+    // Tests for Precision are include in the spec tests
   });
 
   it('Exp should return null for overflow', function () {
