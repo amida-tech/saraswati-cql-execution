@@ -21,10 +21,10 @@ if (config.env === 'production') {
 } else {
   logger = createLogger({
     transports: [
-      new transports.File({
-        json: false,
-        filename:'log.log'
-      }),
+      // new transports.File({
+      //   json: false,
+      //   filename:'log.log'
+      // }),
       new transports.Console({
         format: format.simple(),
       })
