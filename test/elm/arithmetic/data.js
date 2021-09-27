@@ -18,6 +18,11 @@ define OnePlusTwo: 1 + 2
 define AddMultiple: 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10
 define AddVariables: Ten + Eleven
 define AddTime: Time(12) + 1 'hour'
+define UncertaintyZeroToTwelve: months between DateTime(2005, 12) and DateTime(2006)
+define UncertaintySixToEighteen: months between DateTime(2005) and DateTime(2006, 7)
+define AddUncertainties: UncertaintyZeroToTwelve + UncertaintySixToEighteen
+define AddUncertaintyAndNumber: UncertaintyZeroToTwelve + 5
+define AddNumberAndUncertainty: 10 + UncertaintyZeroToTwelve
 */
 
 module.exports['Add'] = {
@@ -25,6 +30,14 @@ module.exports['Add'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "64",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -42,7 +55,27 @@ module.exports['Add'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -67,7 +100,7 @@ module.exports['Add'] = {
                   "r" : "3",
                   "s" : [ {
                      "r" : "2",
-                     "value" : [ "define ","Ten",": ","10" ]
+                     "value" : [ "","define ","Ten",": ","10" ]
                   } ]
                }
             } ],
@@ -88,7 +121,7 @@ module.exports['Add'] = {
                   "r" : "5",
                   "s" : [ {
                      "r" : "4",
-                     "value" : [ "define ","Eleven",": ","11" ]
+                     "value" : [ "","define ","Eleven",": ","11" ]
                   } ]
                }
             } ],
@@ -108,7 +141,7 @@ module.exports['Add'] = {
                "s" : {
                   "r" : "9",
                   "s" : [ {
-                     "value" : [ "define ","OnePlusTwo",": " ]
+                     "value" : [ "","define ","OnePlusTwo",": " ]
                   }, {
                      "r" : "8",
                      "s" : [ {
@@ -143,7 +176,7 @@ module.exports['Add'] = {
                "s" : {
                   "r" : "29",
                   "s" : [ {
-                     "value" : [ "define ","AddMultiple",": " ]
+                     "value" : [ "","define ","AddMultiple",": " ]
                   }, {
                      "r" : "28",
                      "s" : [ {
@@ -298,7 +331,7 @@ module.exports['Add'] = {
                "s" : {
                   "r" : "33",
                   "s" : [ {
-                     "value" : [ "define ","AddVariables",": " ]
+                     "value" : [ "","define ","AddVariables",": " ]
                   }, {
                      "r" : "32",
                      "s" : [ {
@@ -340,7 +373,7 @@ module.exports['Add'] = {
                "s" : {
                   "r" : "38",
                   "s" : [ {
-                     "value" : [ "define ","AddTime",": " ]
+                     "value" : [ "","define ","AddTime",": " ]
                   }, {
                      "r" : "37",
                      "s" : [ {
@@ -379,6 +412,252 @@ module.exports['Add'] = {
                   "type" : "Quantity"
                } ]
             }
+         }, {
+            "localId" : "45",
+            "name" : "UncertaintyZeroToTwelve",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "45",
+                  "s" : [ {
+                     "value" : [ "","define ","UncertaintyZeroToTwelve",": " ]
+                  }, {
+                     "r" : "44",
+                     "s" : [ {
+                        "value" : [ "months between " ]
+                     }, {
+                        "r" : "41",
+                        "s" : [ {
+                           "r" : "39",
+                           "value" : [ "DateTime","(","2005",", ","12",")" ]
+                        } ]
+                     }, {
+                        "value" : [ " and " ]
+                     }, {
+                        "r" : "43",
+                        "s" : [ {
+                           "r" : "42",
+                           "value" : [ "DateTime","(","2006",")" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "44",
+               "precision" : "Month",
+               "type" : "DurationBetween",
+               "operand" : [ {
+                  "localId" : "41",
+                  "type" : "DateTime",
+                  "year" : {
+                     "localId" : "39",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2005",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "localId" : "40",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "12",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "localId" : "43",
+                  "type" : "DateTime",
+                  "year" : {
+                     "localId" : "42",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2006",
+                     "type" : "Literal"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "52",
+            "name" : "UncertaintySixToEighteen",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "52",
+                  "s" : [ {
+                     "value" : [ "","define ","UncertaintySixToEighteen",": " ]
+                  }, {
+                     "r" : "51",
+                     "s" : [ {
+                        "value" : [ "months between " ]
+                     }, {
+                        "r" : "47",
+                        "s" : [ {
+                           "r" : "46",
+                           "value" : [ "DateTime","(","2005",")" ]
+                        } ]
+                     }, {
+                        "value" : [ " and " ]
+                     }, {
+                        "r" : "50",
+                        "s" : [ {
+                           "r" : "48",
+                           "value" : [ "DateTime","(","2006",", ","7",")" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "51",
+               "precision" : "Month",
+               "type" : "DurationBetween",
+               "operand" : [ {
+                  "localId" : "47",
+                  "type" : "DateTime",
+                  "year" : {
+                     "localId" : "46",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2005",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "localId" : "50",
+                  "type" : "DateTime",
+                  "year" : {
+                     "localId" : "48",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2006",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "localId" : "49",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "7",
+                     "type" : "Literal"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "56",
+            "name" : "AddUncertainties",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "56",
+                  "s" : [ {
+                     "value" : [ "","define ","AddUncertainties",": " ]
+                  }, {
+                     "r" : "55",
+                     "s" : [ {
+                        "r" : "53",
+                        "s" : [ {
+                           "value" : [ "UncertaintyZeroToTwelve" ]
+                        } ]
+                     }, {
+                        "value" : [ " + " ]
+                     }, {
+                        "r" : "54",
+                        "s" : [ {
+                           "value" : [ "UncertaintySixToEighteen" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "55",
+               "type" : "Add",
+               "operand" : [ {
+                  "localId" : "53",
+                  "name" : "UncertaintyZeroToTwelve",
+                  "type" : "ExpressionRef"
+               }, {
+                  "localId" : "54",
+                  "name" : "UncertaintySixToEighteen",
+                  "type" : "ExpressionRef"
+               } ]
+            }
+         }, {
+            "localId" : "60",
+            "name" : "AddUncertaintyAndNumber",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "60",
+                  "s" : [ {
+                     "value" : [ "","define ","AddUncertaintyAndNumber",": " ]
+                  }, {
+                     "r" : "59",
+                     "s" : [ {
+                        "r" : "57",
+                        "s" : [ {
+                           "value" : [ "UncertaintyZeroToTwelve" ]
+                        } ]
+                     }, {
+                        "r" : "58",
+                        "value" : [ " + ","5" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "59",
+               "type" : "Add",
+               "operand" : [ {
+                  "localId" : "57",
+                  "name" : "UncertaintyZeroToTwelve",
+                  "type" : "ExpressionRef"
+               }, {
+                  "localId" : "58",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "5",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "64",
+            "name" : "AddNumberAndUncertainty",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "64",
+                  "s" : [ {
+                     "value" : [ "","define ","AddNumberAndUncertainty",": " ]
+                  }, {
+                     "r" : "63",
+                     "s" : [ {
+                        "r" : "61",
+                        "value" : [ "10"," + " ]
+                     }, {
+                        "r" : "62",
+                        "s" : [ {
+                           "value" : [ "UncertaintyZeroToTwelve" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "63",
+               "type" : "Add",
+               "operand" : [ {
+                  "localId" : "61",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "10",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "62",
+                  "name" : "UncertaintyZeroToTwelve",
+                  "type" : "ExpressionRef"
+               } ]
+            }
          } ]
       }
    }
@@ -393,6 +672,11 @@ define Eleven: 11
 define FiveMinusTwo: 5 - 2
 define SubtractMultiple: 100 - 50 - 25 - 10
 define SubtractVariables: Eleven - Ten
+define UncertaintyZeroToTwelve: months between DateTime(2005, 12) and DateTime(2006)
+define UncertaintySixToEighteen: months between DateTime(2005) and DateTime(2006, 7)
+define SubtractUncertainties: UncertaintySixToEighteen - UncertaintyZeroToTwelve
+define SubtractNumberFromUncertainty: UncertaintySixToEighteen - 5
+define SubtractUncertaintyFromNumber: 10 - UncertaintySixToEighteen
 */
 
 module.exports['Subtract'] = {
@@ -400,6 +684,14 @@ module.exports['Subtract'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "47",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -417,7 +709,27 @@ module.exports['Subtract'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -442,7 +754,7 @@ module.exports['Subtract'] = {
                   "r" : "3",
                   "s" : [ {
                      "r" : "2",
-                     "value" : [ "define ","Ten",": ","10" ]
+                     "value" : [ "","define ","Ten",": ","10" ]
                   } ]
                }
             } ],
@@ -463,7 +775,7 @@ module.exports['Subtract'] = {
                   "r" : "5",
                   "s" : [ {
                      "r" : "4",
-                     "value" : [ "define ","Eleven",": ","11" ]
+                     "value" : [ "","define ","Eleven",": ","11" ]
                   } ]
                }
             } ],
@@ -483,7 +795,7 @@ module.exports['Subtract'] = {
                "s" : {
                   "r" : "9",
                   "s" : [ {
-                     "value" : [ "define ","FiveMinusTwo",": " ]
+                     "value" : [ "","define ","FiveMinusTwo",": " ]
                   }, {
                      "r" : "8",
                      "s" : [ {
@@ -518,7 +830,7 @@ module.exports['Subtract'] = {
                "s" : {
                   "r" : "17",
                   "s" : [ {
-                     "value" : [ "define ","SubtractMultiple",": " ]
+                     "value" : [ "","define ","SubtractMultiple",": " ]
                   }, {
                      "r" : "16",
                      "s" : [ {
@@ -583,7 +895,7 @@ module.exports['Subtract'] = {
                "s" : {
                   "r" : "21",
                   "s" : [ {
-                     "value" : [ "define ","SubtractVariables",": " ]
+                     "value" : [ "","define ","SubtractVariables",": " ]
                   }, {
                      "r" : "20",
                      "s" : [ {
@@ -615,6 +927,252 @@ module.exports['Subtract'] = {
                   "type" : "ExpressionRef"
                } ]
             }
+         }, {
+            "localId" : "28",
+            "name" : "UncertaintyZeroToTwelve",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "28",
+                  "s" : [ {
+                     "value" : [ "","define ","UncertaintyZeroToTwelve",": " ]
+                  }, {
+                     "r" : "27",
+                     "s" : [ {
+                        "value" : [ "months between " ]
+                     }, {
+                        "r" : "24",
+                        "s" : [ {
+                           "r" : "22",
+                           "value" : [ "DateTime","(","2005",", ","12",")" ]
+                        } ]
+                     }, {
+                        "value" : [ " and " ]
+                     }, {
+                        "r" : "26",
+                        "s" : [ {
+                           "r" : "25",
+                           "value" : [ "DateTime","(","2006",")" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "27",
+               "precision" : "Month",
+               "type" : "DurationBetween",
+               "operand" : [ {
+                  "localId" : "24",
+                  "type" : "DateTime",
+                  "year" : {
+                     "localId" : "22",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2005",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "localId" : "23",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "12",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "localId" : "26",
+                  "type" : "DateTime",
+                  "year" : {
+                     "localId" : "25",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2006",
+                     "type" : "Literal"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "35",
+            "name" : "UncertaintySixToEighteen",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "35",
+                  "s" : [ {
+                     "value" : [ "","define ","UncertaintySixToEighteen",": " ]
+                  }, {
+                     "r" : "34",
+                     "s" : [ {
+                        "value" : [ "months between " ]
+                     }, {
+                        "r" : "30",
+                        "s" : [ {
+                           "r" : "29",
+                           "value" : [ "DateTime","(","2005",")" ]
+                        } ]
+                     }, {
+                        "value" : [ " and " ]
+                     }, {
+                        "r" : "33",
+                        "s" : [ {
+                           "r" : "31",
+                           "value" : [ "DateTime","(","2006",", ","7",")" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "34",
+               "precision" : "Month",
+               "type" : "DurationBetween",
+               "operand" : [ {
+                  "localId" : "30",
+                  "type" : "DateTime",
+                  "year" : {
+                     "localId" : "29",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2005",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "localId" : "33",
+                  "type" : "DateTime",
+                  "year" : {
+                     "localId" : "31",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2006",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "localId" : "32",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "7",
+                     "type" : "Literal"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "39",
+            "name" : "SubtractUncertainties",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "39",
+                  "s" : [ {
+                     "value" : [ "","define ","SubtractUncertainties",": " ]
+                  }, {
+                     "r" : "38",
+                     "s" : [ {
+                        "r" : "36",
+                        "s" : [ {
+                           "value" : [ "UncertaintySixToEighteen" ]
+                        } ]
+                     }, {
+                        "value" : [ " - " ]
+                     }, {
+                        "r" : "37",
+                        "s" : [ {
+                           "value" : [ "UncertaintyZeroToTwelve" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "38",
+               "type" : "Subtract",
+               "operand" : [ {
+                  "localId" : "36",
+                  "name" : "UncertaintySixToEighteen",
+                  "type" : "ExpressionRef"
+               }, {
+                  "localId" : "37",
+                  "name" : "UncertaintyZeroToTwelve",
+                  "type" : "ExpressionRef"
+               } ]
+            }
+         }, {
+            "localId" : "43",
+            "name" : "SubtractNumberFromUncertainty",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "43",
+                  "s" : [ {
+                     "value" : [ "","define ","SubtractNumberFromUncertainty",": " ]
+                  }, {
+                     "r" : "42",
+                     "s" : [ {
+                        "r" : "40",
+                        "s" : [ {
+                           "value" : [ "UncertaintySixToEighteen" ]
+                        } ]
+                     }, {
+                        "r" : "41",
+                        "value" : [ " - ","5" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "42",
+               "type" : "Subtract",
+               "operand" : [ {
+                  "localId" : "40",
+                  "name" : "UncertaintySixToEighteen",
+                  "type" : "ExpressionRef"
+               }, {
+                  "localId" : "41",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "5",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "47",
+            "name" : "SubtractUncertaintyFromNumber",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "47",
+                  "s" : [ {
+                     "value" : [ "","define ","SubtractUncertaintyFromNumber",": " ]
+                  }, {
+                     "r" : "46",
+                     "s" : [ {
+                        "r" : "44",
+                        "value" : [ "10"," - " ]
+                     }, {
+                        "r" : "45",
+                        "s" : [ {
+                           "value" : [ "UncertaintySixToEighteen" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "46",
+               "type" : "Subtract",
+               "operand" : [ {
+                  "localId" : "44",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "10",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "45",
+                  "name" : "UncertaintySixToEighteen",
+                  "type" : "ExpressionRef"
+               } ]
+            }
          } ]
       }
    }
@@ -629,6 +1187,11 @@ define Eleven: 11
 define FiveTimesTwo: 5 * 2
 define MultiplyMultiple: 1 * 2 * 3 * 4 * 5
 define MultiplyVariables: Eleven * Ten
+define UncertaintyTwoToFourteen: months between DateTime(2005, 10) and DateTime(2006)
+define UncertaintySixToEighteen: months between DateTime(2005) and DateTime(2006, 7)
+define MultiplyUncertainties: UncertaintyTwoToFourteen * UncertaintySixToEighteen
+define MultiplyUncertaintyAndNumber: UncertaintyTwoToFourteen * 5
+define MultiplyNumberAndUncertainty: 10 * UncertaintyTwoToFourteen
 */
 
 module.exports['Multiply'] = {
@@ -636,6 +1199,14 @@ module.exports['Multiply'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "49",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -653,7 +1224,27 @@ module.exports['Multiply'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -678,7 +1269,7 @@ module.exports['Multiply'] = {
                   "r" : "3",
                   "s" : [ {
                      "r" : "2",
-                     "value" : [ "define ","Ten",": ","10" ]
+                     "value" : [ "","define ","Ten",": ","10" ]
                   } ]
                }
             } ],
@@ -699,7 +1290,7 @@ module.exports['Multiply'] = {
                   "r" : "5",
                   "s" : [ {
                      "r" : "4",
-                     "value" : [ "define ","Eleven",": ","11" ]
+                     "value" : [ "","define ","Eleven",": ","11" ]
                   } ]
                }
             } ],
@@ -719,7 +1310,7 @@ module.exports['Multiply'] = {
                "s" : {
                   "r" : "9",
                   "s" : [ {
-                     "value" : [ "define ","FiveTimesTwo",": " ]
+                     "value" : [ "","define ","FiveTimesTwo",": " ]
                   }, {
                      "r" : "8",
                      "s" : [ {
@@ -754,7 +1345,7 @@ module.exports['Multiply'] = {
                "s" : {
                   "r" : "19",
                   "s" : [ {
-                     "value" : [ "define ","MultiplyMultiple",": " ]
+                     "value" : [ "","define ","MultiplyMultiple",": " ]
                   }, {
                      "r" : "18",
                      "s" : [ {
@@ -834,7 +1425,7 @@ module.exports['Multiply'] = {
                "s" : {
                   "r" : "23",
                   "s" : [ {
-                     "value" : [ "define ","MultiplyVariables",": " ]
+                     "value" : [ "","define ","MultiplyVariables",": " ]
                   }, {
                      "r" : "22",
                      "s" : [ {
@@ -866,6 +1457,252 @@ module.exports['Multiply'] = {
                   "type" : "ExpressionRef"
                } ]
             }
+         }, {
+            "localId" : "30",
+            "name" : "UncertaintyTwoToFourteen",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "30",
+                  "s" : [ {
+                     "value" : [ "","define ","UncertaintyTwoToFourteen",": " ]
+                  }, {
+                     "r" : "29",
+                     "s" : [ {
+                        "value" : [ "months between " ]
+                     }, {
+                        "r" : "26",
+                        "s" : [ {
+                           "r" : "24",
+                           "value" : [ "DateTime","(","2005",", ","10",")" ]
+                        } ]
+                     }, {
+                        "value" : [ " and " ]
+                     }, {
+                        "r" : "28",
+                        "s" : [ {
+                           "r" : "27",
+                           "value" : [ "DateTime","(","2006",")" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "29",
+               "precision" : "Month",
+               "type" : "DurationBetween",
+               "operand" : [ {
+                  "localId" : "26",
+                  "type" : "DateTime",
+                  "year" : {
+                     "localId" : "24",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2005",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "localId" : "25",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "localId" : "28",
+                  "type" : "DateTime",
+                  "year" : {
+                     "localId" : "27",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2006",
+                     "type" : "Literal"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "37",
+            "name" : "UncertaintySixToEighteen",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "37",
+                  "s" : [ {
+                     "value" : [ "","define ","UncertaintySixToEighteen",": " ]
+                  }, {
+                     "r" : "36",
+                     "s" : [ {
+                        "value" : [ "months between " ]
+                     }, {
+                        "r" : "32",
+                        "s" : [ {
+                           "r" : "31",
+                           "value" : [ "DateTime","(","2005",")" ]
+                        } ]
+                     }, {
+                        "value" : [ " and " ]
+                     }, {
+                        "r" : "35",
+                        "s" : [ {
+                           "r" : "33",
+                           "value" : [ "DateTime","(","2006",", ","7",")" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "36",
+               "precision" : "Month",
+               "type" : "DurationBetween",
+               "operand" : [ {
+                  "localId" : "32",
+                  "type" : "DateTime",
+                  "year" : {
+                     "localId" : "31",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2005",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "localId" : "35",
+                  "type" : "DateTime",
+                  "year" : {
+                     "localId" : "33",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2006",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "localId" : "34",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "7",
+                     "type" : "Literal"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "41",
+            "name" : "MultiplyUncertainties",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "41",
+                  "s" : [ {
+                     "value" : [ "","define ","MultiplyUncertainties",": " ]
+                  }, {
+                     "r" : "40",
+                     "s" : [ {
+                        "r" : "38",
+                        "s" : [ {
+                           "value" : [ "UncertaintyTwoToFourteen" ]
+                        } ]
+                     }, {
+                        "value" : [ " * " ]
+                     }, {
+                        "r" : "39",
+                        "s" : [ {
+                           "value" : [ "UncertaintySixToEighteen" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "40",
+               "type" : "Multiply",
+               "operand" : [ {
+                  "localId" : "38",
+                  "name" : "UncertaintyTwoToFourteen",
+                  "type" : "ExpressionRef"
+               }, {
+                  "localId" : "39",
+                  "name" : "UncertaintySixToEighteen",
+                  "type" : "ExpressionRef"
+               } ]
+            }
+         }, {
+            "localId" : "45",
+            "name" : "MultiplyUncertaintyAndNumber",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "45",
+                  "s" : [ {
+                     "value" : [ "","define ","MultiplyUncertaintyAndNumber",": " ]
+                  }, {
+                     "r" : "44",
+                     "s" : [ {
+                        "r" : "42",
+                        "s" : [ {
+                           "value" : [ "UncertaintyTwoToFourteen" ]
+                        } ]
+                     }, {
+                        "r" : "43",
+                        "value" : [ " * ","5" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "44",
+               "type" : "Multiply",
+               "operand" : [ {
+                  "localId" : "42",
+                  "name" : "UncertaintyTwoToFourteen",
+                  "type" : "ExpressionRef"
+               }, {
+                  "localId" : "43",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "5",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "localId" : "49",
+            "name" : "MultiplyNumberAndUncertainty",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "49",
+                  "s" : [ {
+                     "value" : [ "","define ","MultiplyNumberAndUncertainty",": " ]
+                  }, {
+                     "r" : "48",
+                     "s" : [ {
+                        "r" : "46",
+                        "value" : [ "10"," * " ]
+                     }, {
+                        "r" : "47",
+                        "s" : [ {
+                           "value" : [ "UncertaintyTwoToFourteen" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "48",
+               "type" : "Multiply",
+               "operand" : [ {
+                  "localId" : "46",
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "10",
+                  "type" : "Literal"
+               }, {
+                  "localId" : "47",
+                  "name" : "UncertaintyTwoToFourteen",
+                  "type" : "ExpressionRef"
+               } ]
+            }
          } ]
       }
    }
@@ -881,6 +1718,11 @@ define TenDividedByTwo: 10 / 2
 define TenDividedByFour: 10 / 4
 define DivideMultiple: 1000 / 4 / 10 / 5
 define DivideVariables: Hundred / Four
+define UncertaintyTwoToFourteen: months between DateTime(2005, 10) and DateTime(2006)
+define UncertaintySixToEighteen: months between DateTime(2005) and DateTime(2006, 7)
+define DivideUncertainties: UncertaintySixToEighteen / UncertaintyTwoToFourteen
+define DivideUncertaintyByNumber: UncertaintySixToEighteen / 2
+define DivideNumberByUncertainty: 36 / UncertaintySixToEighteen
 */
 
 module.exports['Divide'] = {
@@ -888,6 +1730,14 @@ module.exports['Divide'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "51",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -905,7 +1755,27 @@ module.exports['Divide'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -930,7 +1800,7 @@ module.exports['Divide'] = {
                   "r" : "3",
                   "s" : [ {
                      "r" : "2",
-                     "value" : [ "define ","Hundred",": ","100" ]
+                     "value" : [ "","define ","Hundred",": ","100" ]
                   } ]
                }
             } ],
@@ -951,7 +1821,7 @@ module.exports['Divide'] = {
                   "r" : "5",
                   "s" : [ {
                      "r" : "4",
-                     "value" : [ "define ","Four",": ","4" ]
+                     "value" : [ "","define ","Four",": ","4" ]
                   } ]
                }
             } ],
@@ -971,7 +1841,7 @@ module.exports['Divide'] = {
                "s" : {
                   "r" : "9",
                   "s" : [ {
-                     "value" : [ "define ","TenDividedByTwo",": " ]
+                     "value" : [ "","define ","TenDividedByTwo",": " ]
                   }, {
                      "r" : "8",
                      "s" : [ {
@@ -1012,7 +1882,7 @@ module.exports['Divide'] = {
                "s" : {
                   "r" : "13",
                   "s" : [ {
-                     "value" : [ "define ","TenDividedByFour",": " ]
+                     "value" : [ "","define ","TenDividedByFour",": " ]
                   }, {
                      "r" : "12",
                      "s" : [ {
@@ -1053,7 +1923,7 @@ module.exports['Divide'] = {
                "s" : {
                   "r" : "21",
                   "s" : [ {
-                     "value" : [ "define ","DivideMultiple",": " ]
+                     "value" : [ "","define ","DivideMultiple",": " ]
                   }, {
                      "r" : "20",
                      "s" : [ {
@@ -1130,7 +2000,7 @@ module.exports['Divide'] = {
                "s" : {
                   "r" : "25",
                   "s" : [ {
-                     "value" : [ "define ","DivideVariables",": " ]
+                     "value" : [ "","define ","DivideVariables",": " ]
                   }, {
                      "r" : "24",
                      "s" : [ {
@@ -1168,6 +2038,270 @@ module.exports['Divide'] = {
                   }
                } ]
             }
+         }, {
+            "localId" : "32",
+            "name" : "UncertaintyTwoToFourteen",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "32",
+                  "s" : [ {
+                     "value" : [ "","define ","UncertaintyTwoToFourteen",": " ]
+                  }, {
+                     "r" : "31",
+                     "s" : [ {
+                        "value" : [ "months between " ]
+                     }, {
+                        "r" : "28",
+                        "s" : [ {
+                           "r" : "26",
+                           "value" : [ "DateTime","(","2005",", ","10",")" ]
+                        } ]
+                     }, {
+                        "value" : [ " and " ]
+                     }, {
+                        "r" : "30",
+                        "s" : [ {
+                           "r" : "29",
+                           "value" : [ "DateTime","(","2006",")" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "31",
+               "precision" : "Month",
+               "type" : "DurationBetween",
+               "operand" : [ {
+                  "localId" : "28",
+                  "type" : "DateTime",
+                  "year" : {
+                     "localId" : "26",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2005",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "localId" : "27",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "10",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "localId" : "30",
+                  "type" : "DateTime",
+                  "year" : {
+                     "localId" : "29",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2006",
+                     "type" : "Literal"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "39",
+            "name" : "UncertaintySixToEighteen",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "39",
+                  "s" : [ {
+                     "value" : [ "","define ","UncertaintySixToEighteen",": " ]
+                  }, {
+                     "r" : "38",
+                     "s" : [ {
+                        "value" : [ "months between " ]
+                     }, {
+                        "r" : "34",
+                        "s" : [ {
+                           "r" : "33",
+                           "value" : [ "DateTime","(","2005",")" ]
+                        } ]
+                     }, {
+                        "value" : [ " and " ]
+                     }, {
+                        "r" : "37",
+                        "s" : [ {
+                           "r" : "35",
+                           "value" : [ "DateTime","(","2006",", ","7",")" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "38",
+               "precision" : "Month",
+               "type" : "DurationBetween",
+               "operand" : [ {
+                  "localId" : "34",
+                  "type" : "DateTime",
+                  "year" : {
+                     "localId" : "33",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2005",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "localId" : "37",
+                  "type" : "DateTime",
+                  "year" : {
+                     "localId" : "35",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2006",
+                     "type" : "Literal"
+                  },
+                  "month" : {
+                     "localId" : "36",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "7",
+                     "type" : "Literal"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "43",
+            "name" : "DivideUncertainties",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "43",
+                  "s" : [ {
+                     "value" : [ "","define ","DivideUncertainties",": " ]
+                  }, {
+                     "r" : "42",
+                     "s" : [ {
+                        "r" : "40",
+                        "s" : [ {
+                           "value" : [ "UncertaintySixToEighteen" ]
+                        } ]
+                     }, {
+                        "value" : [ " / " ]
+                     }, {
+                        "r" : "41",
+                        "s" : [ {
+                           "value" : [ "UncertaintyTwoToFourteen" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "42",
+               "type" : "Divide",
+               "operand" : [ {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "localId" : "40",
+                     "name" : "UncertaintySixToEighteen",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "localId" : "41",
+                     "name" : "UncertaintyTwoToFourteen",
+                     "type" : "ExpressionRef"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "47",
+            "name" : "DivideUncertaintyByNumber",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "47",
+                  "s" : [ {
+                     "value" : [ "","define ","DivideUncertaintyByNumber",": " ]
+                  }, {
+                     "r" : "46",
+                     "s" : [ {
+                        "r" : "44",
+                        "s" : [ {
+                           "value" : [ "UncertaintySixToEighteen" ]
+                        } ]
+                     }, {
+                        "r" : "45",
+                        "value" : [ " / ","2" ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "46",
+               "type" : "Divide",
+               "operand" : [ {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "localId" : "44",
+                     "name" : "UncertaintySixToEighteen",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "localId" : "45",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "2",
+                     "type" : "Literal"
+                  }
+               } ]
+            }
+         }, {
+            "localId" : "51",
+            "name" : "DivideNumberByUncertainty",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "51",
+                  "s" : [ {
+                     "value" : [ "","define ","DivideNumberByUncertainty",": " ]
+                  }, {
+                     "r" : "50",
+                     "s" : [ {
+                        "r" : "48",
+                        "value" : [ "36"," / " ]
+                     }, {
+                        "r" : "49",
+                        "s" : [ {
+                           "value" : [ "UncertaintySixToEighteen" ]
+                        } ]
+                     } ]
+                  } ]
+               }
+            } ],
+            "expression" : {
+               "localId" : "50",
+               "type" : "Divide",
+               "operand" : [ {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "localId" : "48",
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "36",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "localId" : "49",
+                     "name" : "UncertaintySixToEighteen",
+                     "type" : "ExpressionRef"
+                  }
+               } ]
+            }
          } ]
       }
    }
@@ -1185,6 +2319,14 @@ module.exports['Negate'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "4",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -1202,7 +2344,27 @@ module.exports['Negate'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -1226,7 +2388,7 @@ module.exports['Negate'] = {
                "s" : {
                   "r" : "4",
                   "s" : [ {
-                     "value" : [ "define ","NegativeOne",": " ]
+                     "value" : [ "","define ","NegativeOne",": " ]
                   }, {
                      "r" : "3",
                      "s" : [ {
@@ -1264,6 +2426,14 @@ module.exports['MathPrecedence'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "21",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -1281,7 +2451,27 @@ module.exports['MathPrecedence'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -1305,7 +2495,7 @@ module.exports['MathPrecedence'] = {
                "s" : {
                   "r" : "11",
                   "s" : [ {
-                     "value" : [ "define ","Mixed",": " ]
+                     "value" : [ "","define ","Mixed",": " ]
                   }, {
                      "r" : "10",
                      "s" : [ {
@@ -1393,7 +2583,7 @@ module.exports['MathPrecedence'] = {
                "s" : {
                   "r" : "21",
                   "s" : [ {
-                     "value" : [ "define ","Parenthetical",": " ]
+                     "value" : [ "","define ","Parenthetical",": " ]
                   }, {
                      "r" : "20",
                      "s" : [ {
@@ -1499,6 +2689,14 @@ module.exports['Power'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "5",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -1516,7 +2714,27 @@ module.exports['Power'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -1540,7 +2758,7 @@ module.exports['Power'] = {
                "s" : {
                   "r" : "5",
                   "s" : [ {
-                     "value" : [ "define ","Pow",": " ]
+                     "value" : [ "","define ","Pow",": " ]
                   }, {
                      "r" : "4",
                      "s" : [ {
@@ -1586,6 +2804,14 @@ module.exports['MinValue'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "16",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -1603,7 +2829,27 @@ module.exports['MinValue'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -1627,7 +2873,7 @@ module.exports['MinValue'] = {
                "s" : {
                   "r" : "4",
                   "s" : [ {
-                     "value" : [ "define ","MinInteger",": " ]
+                     "value" : [ "","define ","MinInteger",": " ]
                   }, {
                      "r" : "3",
                      "s" : [ {
@@ -1656,7 +2902,7 @@ module.exports['MinValue'] = {
                "s" : {
                   "r" : "7",
                   "s" : [ {
-                     "value" : [ "define ","MinDecimal",": " ]
+                     "value" : [ "","define ","MinDecimal",": " ]
                   }, {
                      "r" : "6",
                      "s" : [ {
@@ -1685,7 +2931,7 @@ module.exports['MinValue'] = {
                "s" : {
                   "r" : "10",
                   "s" : [ {
-                     "value" : [ "define ","MinDateTime",": " ]
+                     "value" : [ "","define ","MinDateTime",": " ]
                   }, {
                      "r" : "9",
                      "s" : [ {
@@ -1714,7 +2960,7 @@ module.exports['MinValue'] = {
                "s" : {
                   "r" : "13",
                   "s" : [ {
-                     "value" : [ "define ","MinTime",": " ]
+                     "value" : [ "","define ","MinTime",": " ]
                   }, {
                      "r" : "12",
                      "s" : [ {
@@ -1743,7 +2989,7 @@ module.exports['MinValue'] = {
                "s" : {
                   "r" : "16",
                   "s" : [ {
-                     "value" : [ "define ","MinWrongType",": " ]
+                     "value" : [ "","define ","MinWrongType",": " ]
                   }, {
                      "r" : "15",
                      "s" : [ {
@@ -1783,6 +3029,14 @@ module.exports['MaxValue'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "16",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -1800,7 +3054,27 @@ module.exports['MaxValue'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -1824,7 +3098,7 @@ module.exports['MaxValue'] = {
                "s" : {
                   "r" : "4",
                   "s" : [ {
-                     "value" : [ "define ","MaxInteger",": " ]
+                     "value" : [ "","define ","MaxInteger",": " ]
                   }, {
                      "r" : "3",
                      "s" : [ {
@@ -1853,7 +3127,7 @@ module.exports['MaxValue'] = {
                "s" : {
                   "r" : "7",
                   "s" : [ {
-                     "value" : [ "define ","MaxDecimal",": " ]
+                     "value" : [ "","define ","MaxDecimal",": " ]
                   }, {
                      "r" : "6",
                      "s" : [ {
@@ -1882,7 +3156,7 @@ module.exports['MaxValue'] = {
                "s" : {
                   "r" : "10",
                   "s" : [ {
-                     "value" : [ "define ","MaxDateTime",": " ]
+                     "value" : [ "","define ","MaxDateTime",": " ]
                   }, {
                      "r" : "9",
                      "s" : [ {
@@ -1911,7 +3185,7 @@ module.exports['MaxValue'] = {
                "s" : {
                   "r" : "13",
                   "s" : [ {
-                     "value" : [ "define ","MaxTime",": " ]
+                     "value" : [ "","define ","MaxTime",": " ]
                   }, {
                      "r" : "12",
                      "s" : [ {
@@ -1940,7 +3214,7 @@ module.exports['MaxValue'] = {
                "s" : {
                   "r" : "16",
                   "s" : [ {
-                     "value" : [ "define ","MaxWrongType",": " ]
+                     "value" : [ "","define ","MaxWrongType",": " ]
                   }, {
                      "r" : "15",
                      "s" : [ {
@@ -1977,6 +3251,14 @@ module.exports['TruncatedDivide'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "9",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -1994,7 +3276,27 @@ module.exports['TruncatedDivide'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -2018,7 +3320,7 @@ module.exports['TruncatedDivide'] = {
                "s" : {
                   "r" : "5",
                   "s" : [ {
-                     "value" : [ "define ","Trunc",": " ]
+                     "value" : [ "","define ","Trunc",": " ]
                   }, {
                      "r" : "4",
                      "s" : [ {
@@ -2053,7 +3355,7 @@ module.exports['TruncatedDivide'] = {
                "s" : {
                   "r" : "9",
                   "s" : [ {
-                     "value" : [ "define ","Even",": " ]
+                     "value" : [ "","define ","Even",": " ]
                   }, {
                      "r" : "8",
                      "s" : [ {
@@ -2095,6 +3397,14 @@ module.exports['Modulo'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "5",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -2112,7 +3422,27 @@ module.exports['Modulo'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -2136,7 +3466,7 @@ module.exports['Modulo'] = {
                "s" : {
                   "r" : "5",
                   "s" : [ {
-                     "value" : [ "define ","Mod",": " ]
+                     "value" : [ "","define ","Mod",": " ]
                   }, {
                      "r" : "4",
                      "s" : [ {
@@ -2179,6 +3509,14 @@ module.exports['Ceiling'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "7",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -2196,7 +3534,27 @@ module.exports['Ceiling'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -2220,7 +3578,7 @@ module.exports['Ceiling'] = {
                "s" : {
                   "r" : "4",
                   "s" : [ {
-                     "value" : [ "define ","Ceil",": " ]
+                     "value" : [ "","define ","Ceil",": " ]
                   }, {
                      "r" : "3",
                      "s" : [ {
@@ -2250,7 +3608,7 @@ module.exports['Ceiling'] = {
                "s" : {
                   "r" : "7",
                   "s" : [ {
-                     "value" : [ "define ","Even",": " ]
+                     "value" : [ "","define ","Even",": " ]
                   }, {
                      "r" : "6",
                      "s" : [ {
@@ -2291,6 +3649,14 @@ module.exports['Floor'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "7",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -2308,7 +3674,27 @@ module.exports['Floor'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -2332,7 +3718,7 @@ module.exports['Floor'] = {
                "s" : {
                   "r" : "4",
                   "s" : [ {
-                     "value" : [ "define ","flr",": " ]
+                     "value" : [ "","define ","flr",": " ]
                   }, {
                      "r" : "3",
                      "s" : [ {
@@ -2362,7 +3748,7 @@ module.exports['Floor'] = {
                "s" : {
                   "r" : "7",
                   "s" : [ {
-                     "value" : [ "define ","Even",": " ]
+                     "value" : [ "","define ","Even",": " ]
                   }, {
                      "r" : "6",
                      "s" : [ {
@@ -2403,6 +3789,14 @@ module.exports['Truncate'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "7",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -2420,7 +3814,27 @@ module.exports['Truncate'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -2444,7 +3858,7 @@ module.exports['Truncate'] = {
                "s" : {
                   "r" : "4",
                   "s" : [ {
-                     "value" : [ "define ","Trunc",": " ]
+                     "value" : [ "","define ","Trunc",": " ]
                   }, {
                      "r" : "3",
                      "s" : [ {
@@ -2474,7 +3888,7 @@ module.exports['Truncate'] = {
                "s" : {
                   "r" : "7",
                   "s" : [ {
-                     "value" : [ "define ","Even",": " ]
+                     "value" : [ "","define ","Even",": " ]
                   }, {
                      "r" : "6",
                      "s" : [ {
@@ -2516,6 +3930,14 @@ module.exports['Abs'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "11",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -2533,7 +3955,27 @@ module.exports['Abs'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -2557,7 +3999,7 @@ module.exports['Abs'] = {
                "s" : {
                   "r" : "4",
                   "s" : [ {
-                     "value" : [ "define ","Pos",": " ]
+                     "value" : [ "","define ","Pos",": " ]
                   }, {
                      "r" : "3",
                      "s" : [ {
@@ -2587,7 +4029,7 @@ module.exports['Abs'] = {
                "s" : {
                   "r" : "8",
                   "s" : [ {
-                     "value" : [ "define ","Neg",": " ]
+                     "value" : [ "","define ","Neg",": " ]
                   }, {
                      "r" : "7",
                      "s" : [ {
@@ -2628,7 +4070,7 @@ module.exports['Abs'] = {
                "s" : {
                   "r" : "11",
                   "s" : [ {
-                     "value" : [ "define ","Zero",": " ]
+                     "value" : [ "","define ","Zero",": " ]
                   }, {
                      "r" : "10",
                      "s" : [ {
@@ -2668,6 +4110,14 @@ module.exports['Round'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "15",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -2685,7 +4135,27 @@ module.exports['Round'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -2709,7 +4179,7 @@ module.exports['Round'] = {
                "s" : {
                   "r" : "4",
                   "s" : [ {
-                     "value" : [ "define ","Up",": " ]
+                     "value" : [ "","define ","Up",": " ]
                   }, {
                      "r" : "3",
                      "s" : [ {
@@ -2739,7 +4209,7 @@ module.exports['Round'] = {
                "s" : {
                   "r" : "8",
                   "s" : [ {
-                     "value" : [ "define ","Up_percent",": " ]
+                     "value" : [ "","define ","Up_percent",": " ]
                   }, {
                      "r" : "7",
                      "s" : [ {
@@ -2775,7 +4245,7 @@ module.exports['Round'] = {
                "s" : {
                   "r" : "11",
                   "s" : [ {
-                     "value" : [ "define ","Down",": " ]
+                     "value" : [ "","define ","Down",": " ]
                   }, {
                      "r" : "10",
                      "s" : [ {
@@ -2805,7 +4275,7 @@ module.exports['Round'] = {
                "s" : {
                   "r" : "15",
                   "s" : [ {
-                     "value" : [ "define ","Down_percent",": " ]
+                     "value" : [ "","define ","Down_percent",": " ]
                   }, {
                      "r" : "14",
                      "s" : [ {
@@ -2848,6 +4318,14 @@ module.exports['Ln'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "4",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -2865,7 +4343,27 @@ module.exports['Ln'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -2889,7 +4387,7 @@ module.exports['Ln'] = {
                "s" : {
                   "r" : "4",
                   "s" : [ {
-                     "value" : [ "define ","ln",": " ]
+                     "value" : [ "","define ","ln",": " ]
                   }, {
                      "r" : "3",
                      "s" : [ {
@@ -2929,6 +4427,14 @@ module.exports['Log'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "5",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -2946,7 +4452,27 @@ module.exports['Log'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -2970,7 +4496,7 @@ module.exports['Log'] = {
                "s" : {
                   "r" : "5",
                   "s" : [ {
-                     "value" : [ "define ","log",": " ]
+                     "value" : [ "","define ","log",": " ]
                   }, {
                      "r" : "4",
                      "s" : [ {
@@ -3028,6 +4554,14 @@ module.exports['Successor'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "69",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -3045,7 +4579,27 @@ module.exports['Successor'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -3069,7 +4623,7 @@ module.exports['Successor'] = {
                "s" : {
                   "r" : "4",
                   "s" : [ {
-                     "value" : [ "define ","Is",": " ]
+                     "value" : [ "","define ","Is",": " ]
                   }, {
                      "r" : "3",
                      "s" : [ {
@@ -3099,7 +4653,7 @@ module.exports['Successor'] = {
                "s" : {
                   "r" : "7",
                   "s" : [ {
-                     "value" : [ "define ","Rs",": " ]
+                     "value" : [ "","define ","Rs",": " ]
                   }, {
                      "r" : "6",
                      "s" : [ {
@@ -3129,7 +4683,7 @@ module.exports['Successor'] = {
                "s" : {
                   "r" : "10",
                   "s" : [ {
-                     "value" : [ "define ","ofr",": " ]
+                     "value" : [ "","define ","ofr",": " ]
                   }, {
                      "r" : "9",
                      "s" : [ {
@@ -3159,7 +4713,7 @@ module.exports['Successor'] = {
                "s" : {
                   "r" : "14",
                   "s" : [ {
-                     "value" : [ "define ","y_date",": " ]
+                     "value" : [ "","define ","y_date",": " ]
                   }, {
                      "r" : "13",
                      "s" : [ {
@@ -3198,7 +4752,7 @@ module.exports['Successor'] = {
                "s" : {
                   "r" : "19",
                   "s" : [ {
-                     "value" : [ "define ","ym_date",": " ]
+                     "value" : [ "","define ","ym_date",": " ]
                   }, {
                      "r" : "18",
                      "s" : [ {
@@ -3243,7 +4797,7 @@ module.exports['Successor'] = {
                "s" : {
                   "r" : "25",
                   "s" : [ {
-                     "value" : [ "define ","ymd_date",": " ]
+                     "value" : [ "","define ","ymd_date",": " ]
                   }, {
                      "r" : "24",
                      "s" : [ {
@@ -3294,7 +4848,7 @@ module.exports['Successor'] = {
                "s" : {
                   "r" : "32",
                   "s" : [ {
-                     "value" : [ "define ","ymdh_date",": " ]
+                     "value" : [ "","define ","ymdh_date",": " ]
                   }, {
                      "r" : "31",
                      "s" : [ {
@@ -3351,7 +4905,7 @@ module.exports['Successor'] = {
                "s" : {
                   "r" : "40",
                   "s" : [ {
-                     "value" : [ "define ","ymdhm_date",": " ]
+                     "value" : [ "","define ","ymdhm_date",": " ]
                   }, {
                      "r" : "39",
                      "s" : [ {
@@ -3414,7 +4968,7 @@ module.exports['Successor'] = {
                "s" : {
                   "r" : "49",
                   "s" : [ {
-                     "value" : [ "define ","ymdhms_date",": " ]
+                     "value" : [ "","define ","ymdhms_date",": " ]
                   }, {
                      "r" : "48",
                      "s" : [ {
@@ -3483,7 +5037,7 @@ module.exports['Successor'] = {
                "s" : {
                   "r" : "59",
                   "s" : [ {
-                     "value" : [ "define ","ymdhmsm_date",": " ]
+                     "value" : [ "","define ","ymdhmsm_date",": " ]
                   }, {
                      "r" : "58",
                      "s" : [ {
@@ -3558,7 +5112,7 @@ module.exports['Successor'] = {
                "s" : {
                   "r" : "69",
                   "s" : [ {
-                     "value" : [ "define ","max_date",": " ]
+                     "value" : [ "","define ","max_date",": " ]
                   }, {
                      "r" : "68",
                      "s" : [ {
@@ -3650,6 +5204,14 @@ module.exports['Predecessor'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "70",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -3667,7 +5229,27 @@ module.exports['Predecessor'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -3691,7 +5273,7 @@ module.exports['Predecessor'] = {
                "s" : {
                   "r" : "4",
                   "s" : [ {
-                     "value" : [ "define ","Is",": " ]
+                     "value" : [ "","define ","Is",": " ]
                   }, {
                      "r" : "3",
                      "s" : [ {
@@ -3721,7 +5303,7 @@ module.exports['Predecessor'] = {
                "s" : {
                   "r" : "7",
                   "s" : [ {
-                     "value" : [ "define ","Rs",": " ]
+                     "value" : [ "","define ","Rs",": " ]
                   }, {
                      "r" : "6",
                      "s" : [ {
@@ -3751,7 +5333,7 @@ module.exports['Predecessor'] = {
                "s" : {
                   "r" : "11",
                   "s" : [ {
-                     "value" : [ "define ","ufr",": " ]
+                     "value" : [ "","define ","ufr",": " ]
                   }, {
                      "r" : "10",
                      "s" : [ {
@@ -3790,7 +5372,7 @@ module.exports['Predecessor'] = {
                "s" : {
                   "r" : "15",
                   "s" : [ {
-                     "value" : [ "define ","y_date",": " ]
+                     "value" : [ "","define ","y_date",": " ]
                   }, {
                      "r" : "14",
                      "s" : [ {
@@ -3829,7 +5411,7 @@ module.exports['Predecessor'] = {
                "s" : {
                   "r" : "20",
                   "s" : [ {
-                     "value" : [ "define ","ym_date",": " ]
+                     "value" : [ "","define ","ym_date",": " ]
                   }, {
                      "r" : "19",
                      "s" : [ {
@@ -3874,7 +5456,7 @@ module.exports['Predecessor'] = {
                "s" : {
                   "r" : "26",
                   "s" : [ {
-                     "value" : [ "define ","ymd_date",": " ]
+                     "value" : [ "","define ","ymd_date",": " ]
                   }, {
                      "r" : "25",
                      "s" : [ {
@@ -3925,7 +5507,7 @@ module.exports['Predecessor'] = {
                "s" : {
                   "r" : "33",
                   "s" : [ {
-                     "value" : [ "define ","ymdh_date",": " ]
+                     "value" : [ "","define ","ymdh_date",": " ]
                   }, {
                      "r" : "32",
                      "s" : [ {
@@ -3982,7 +5564,7 @@ module.exports['Predecessor'] = {
                "s" : {
                   "r" : "41",
                   "s" : [ {
-                     "value" : [ "define ","ymdhm_date",": " ]
+                     "value" : [ "","define ","ymdhm_date",": " ]
                   }, {
                      "r" : "40",
                      "s" : [ {
@@ -4045,7 +5627,7 @@ module.exports['Predecessor'] = {
                "s" : {
                   "r" : "50",
                   "s" : [ {
-                     "value" : [ "define ","ymdhms_date",": " ]
+                     "value" : [ "","define ","ymdhms_date",": " ]
                   }, {
                      "r" : "49",
                      "s" : [ {
@@ -4114,7 +5696,7 @@ module.exports['Predecessor'] = {
                "s" : {
                   "r" : "60",
                   "s" : [ {
-                     "value" : [ "define ","ymdhmsm_date",": " ]
+                     "value" : [ "","define ","ymdhmsm_date",": " ]
                   }, {
                      "r" : "59",
                      "s" : [ {
@@ -4189,7 +5771,7 @@ module.exports['Predecessor'] = {
                "s" : {
                   "r" : "70",
                   "s" : [ {
-                     "value" : [ "define ","min_date",": " ]
+                     "value" : [ "","define ","min_date",": " ]
                   }, {
                      "r" : "69",
                      "s" : [ {
@@ -4293,6 +5875,14 @@ module.exports['Quantity'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "94",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -4310,7 +5900,27 @@ module.exports['Quantity'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -4334,7 +5944,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "3",
                   "s" : [ {
-                     "value" : [ "define ","days_10",": " ]
+                     "value" : [ "","define ","days_10",": " ]
                   }, {
                      "r" : "2",
                      "s" : [ {
@@ -4359,7 +5969,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "7",
                   "s" : [ {
-                     "value" : [ "define ","QL10Days",": " ]
+                     "value" : [ "","define ","QL10Days",": " ]
                   }, {
                      "r" : "6",
                      "s" : [ {
@@ -4421,7 +6031,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "11",
                   "s" : [ {
-                     "value" : [ "define ","QL10Min"," : " ]
+                     "value" : [ "","define ","QL10Min"," : " ]
                   }, {
                      "r" : "10",
                      "s" : [ {
@@ -4483,7 +6093,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "16",
                   "s" : [ {
-                     "value" : [ "define ","Jan1_2000",": " ]
+                     "value" : [ "","define ","Jan1_2000",": " ]
                   }, {
                      "r" : "15",
                      "s" : [ {
@@ -4525,7 +6135,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "20",
                   "s" : [ {
-                     "value" : [ "define ","add_q_q"," : " ]
+                     "value" : [ "","define ","add_q_q"," : " ]
                   }, {
                      "r" : "19",
                      "s" : [ {
@@ -4567,7 +6177,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "24",
                   "s" : [ {
-                     "value" : [ "define ","add_d_q"," : " ]
+                     "value" : [ "","define ","add_d_q"," : " ]
                   }, {
                      "r" : "23",
                      "s" : [ {
@@ -4609,7 +6219,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "28",
                   "s" : [ {
-                     "value" : [ "define ","sub_q_q"," : " ]
+                     "value" : [ "","define ","sub_q_q"," : " ]
                   }, {
                      "r" : "27",
                      "s" : [ {
@@ -4651,7 +6261,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "32",
                   "s" : [ {
-                     "value" : [ "define ","sub_d_q"," : " ]
+                     "value" : [ "","define ","sub_d_q"," : " ]
                   }, {
                      "r" : "31",
                      "s" : [ {
@@ -4693,7 +6303,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "36",
                   "s" : [ {
-                     "value" : [ "define ","add_q_q_diff"," : " ]
+                     "value" : [ "","define ","add_q_q_diff"," : " ]
                   }, {
                      "r" : "35",
                      "s" : [ {
@@ -4735,7 +6345,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "40",
                   "s" : [ {
-                     "value" : [ "define ","sub_q_q_diff"," : " ]
+                     "value" : [ "","define ","sub_q_q_diff"," : " ]
                   }, {
                      "r" : "39",
                      "s" : [ {
@@ -4777,7 +6387,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "44",
                   "s" : [ {
-                     "value" : [ "define ","div_q_d"," : " ]
+                     "value" : [ "","define ","div_q_d"," : " ]
                   }, {
                      "r" : "43",
                      "s" : [ {
@@ -4819,7 +6429,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "48",
                   "s" : [ {
-                     "value" : [ "define ","div_q_q"," : " ]
+                     "value" : [ "","define ","div_q_q"," : " ]
                   }, {
                      "r" : "47",
                      "s" : [ {
@@ -4861,7 +6471,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "52",
                   "s" : [ {
-                     "value" : [ "define ","mul_q_d"," : " ]
+                     "value" : [ "","define ","mul_q_d"," : " ]
                   }, {
                      "r" : "51",
                      "s" : [ {
@@ -4903,7 +6513,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "56",
                   "s" : [ {
-                     "value" : [ "define ","mul_d_q"," : " ]
+                     "value" : [ "","define ","mul_d_q"," : " ]
                   }, {
                      "r" : "55",
                      "s" : [ {
@@ -4945,7 +6555,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "60",
                   "s" : [ {
-                     "value" : [ "define ","mul_q_q"," : " ]
+                     "value" : [ "","define ","mul_q_q"," : " ]
                   }, {
                      "r" : "59",
                      "s" : [ {
@@ -4989,7 +6599,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "64",
                   "s" : [ {
-                     "value" : [ "define ","mul_q_q_diff"," : " ]
+                     "value" : [ "","define ","mul_q_q_diff"," : " ]
                   }, {
                      "r" : "63",
                      "s" : [ {
@@ -5033,7 +6643,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "67",
                   "s" : [ {
-                     "value" : [ "define ","neg"," : " ]
+                     "value" : [ "","define ","neg"," : " ]
                   }, {
                      "r" : "66",
                      "s" : [ {
@@ -5066,7 +6676,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "70",
                   "s" : [ {
-                     "value" : [ "define ","abs"," : " ]
+                     "value" : [ "","define ","abs"," : " ]
                   }, {
                      "r" : "69",
                      "s" : [ {
@@ -5101,7 +6711,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "76",
                   "s" : [ {
-                     "value" : [ "define ","MultiplyUcum",": " ]
+                     "value" : [ "","define ","MultiplyUcum",": " ]
                   }, {
                      "r" : "75",
                      "s" : [ {
@@ -5171,7 +6781,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "82",
                   "s" : [ {
-                     "value" : [ "define ","DivideUcum",": " ]
+                     "value" : [ "","define ","DivideUcum",": " ]
                   }, {
                      "r" : "81",
                      "s" : [ {
@@ -5241,7 +6851,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "88",
                   "s" : [ {
-                     "value" : [ "define ","AddUcum",": " ]
+                     "value" : [ "","define ","AddUcum",": " ]
                   }, {
                      "r" : "87",
                      "s" : [ {
@@ -5311,7 +6921,7 @@ module.exports['Quantity'] = {
                "s" : {
                   "r" : "94",
                   "s" : [ {
-                     "value" : [ "define ","SubtractUcum",": " ]
+                     "value" : [ "","define ","SubtractUcum",": " ]
                   }, {
                      "r" : "93",
                      "s" : [ {
@@ -5451,6 +7061,14 @@ module.exports['OutOfBounds'] = {
       "annotation" : [ {
          "translatorOptions" : "EnableDateRangeOptimization,EnableAnnotations",
          "type" : "CqlToElmInfo"
+      }, {
+         "type" : "Annotation",
+         "s" : {
+            "r" : "282",
+            "s" : [ {
+               "value" : [ "","library TestSnippet version '1'" ]
+            } ]
+         }
       } ],
       "identifier" : {
          "id" : "TestSnippet",
@@ -5468,7 +7086,27 @@ module.exports['OutOfBounds'] = {
             "localId" : "1",
             "localIdentifier" : "Simple",
             "uri" : "https://github.com/cqframework/cql-execution/simple",
-            "version" : "1.0.0"
+            "version" : "1.0.0",
+            "annotation" : [ {
+               "type" : "Annotation",
+               "s" : {
+                  "r" : "1",
+                  "s" : [ {
+                     "value" : [ "","using " ]
+                  }, {
+                     "s" : [ {
+                        "value" : [ "Simple" ]
+                     } ]
+                  }, {
+                     "value" : [ " version ","'1.0.0'" ]
+                  } ]
+               }
+            } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -5492,7 +7130,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "6",
                   "s" : [ {
-                     "value" : [ "define ","IntegerAddOverflow",": " ]
+                     "value" : [ "","define ","IntegerAddOverflow",": " ]
                   }, {
                      "r" : "5",
                      "s" : [ {
@@ -5536,7 +7174,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "12",
                   "s" : [ {
-                     "value" : [ "define ","IntegerAddUnderflow",": " ]
+                     "value" : [ "","define ","IntegerAddUnderflow",": " ]
                   }, {
                      "r" : "11",
                      "s" : [ {
@@ -5589,7 +7227,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "18",
                   "s" : [ {
-                     "value" : [ "define ","IntegerSubtractOverflow",": " ]
+                     "value" : [ "","define ","IntegerSubtractOverflow",": " ]
                   }, {
                      "r" : "17",
                      "s" : [ {
@@ -5642,7 +7280,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "23",
                   "s" : [ {
-                     "value" : [ "define ","IntegerSubtractUnderflow",": " ]
+                     "value" : [ "","define ","IntegerSubtractUnderflow",": " ]
                   }, {
                      "r" : "22",
                      "s" : [ {
@@ -5686,7 +7324,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "28",
                   "s" : [ {
-                     "value" : [ "define ","IntegerMultiplyOverflow",": " ]
+                     "value" : [ "","define ","IntegerMultiplyOverflow",": " ]
                   }, {
                      "r" : "27",
                      "s" : [ {
@@ -5730,7 +7368,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "34",
                   "s" : [ {
-                     "value" : [ "define ","IntegerMultiplyUnderflow",": " ]
+                     "value" : [ "","define ","IntegerMultiplyUnderflow",": " ]
                   }, {
                      "r" : "33",
                      "s" : [ {
@@ -5783,7 +7421,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "39",
                   "s" : [ {
-                     "value" : [ "define ","IntegerDivideOverflow",": " ]
+                     "value" : [ "","define ","IntegerDivideOverflow",": " ]
                   }, {
                      "r" : "38",
                      "s" : [ {
@@ -5835,7 +7473,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "45",
                   "s" : [ {
-                     "value" : [ "define ","IntegerDivideUnderflow",": " ]
+                     "value" : [ "","define ","IntegerDivideUnderflow",": " ]
                   }, {
                      "r" : "44",
                      "s" : [ {
@@ -5898,7 +7536,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "49",
                   "s" : [ {
-                     "value" : [ "define ","IntegerDivideByZero",": " ]
+                     "value" : [ "","define ","IntegerDivideByZero",": " ]
                   }, {
                      "r" : "48",
                      "s" : [ {
@@ -5939,7 +7577,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "54",
                   "s" : [ {
-                     "value" : [ "define ","IntegerPowerOverflow",": " ]
+                     "value" : [ "","define ","IntegerPowerOverflow",": " ]
                   }, {
                      "r" : "53",
                      "s" : [ {
@@ -5990,7 +7628,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "59",
                   "s" : [ {
-                     "value" : [ "define ","IntegerPowerUnderflow",": " ]
+                     "value" : [ "","define ","IntegerPowerUnderflow",": " ]
                   }, {
                      "r" : "58",
                      "s" : [ {
@@ -6041,7 +7679,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "63",
                   "s" : [ {
-                     "value" : [ "define ","IntegerSuccessorOverflow",": " ]
+                     "value" : [ "","define ","IntegerSuccessorOverflow",": " ]
                   }, {
                      "r" : "62",
                      "s" : [ {
@@ -6079,7 +7717,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "67",
                   "s" : [ {
-                     "value" : [ "define ","IntegerPredecessorUnderflow",": " ]
+                     "value" : [ "","define ","IntegerPredecessorUnderflow",": " ]
                   }, {
                      "r" : "66",
                      "s" : [ {
@@ -6117,7 +7755,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "72",
                   "s" : [ {
-                     "value" : [ "define ","DecimalAddOverflow",": " ]
+                     "value" : [ "","define ","DecimalAddOverflow",": " ]
                   }, {
                      "r" : "71",
                      "s" : [ {
@@ -6161,7 +7799,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "78",
                   "s" : [ {
-                     "value" : [ "define ","DecimalAddUnderflow",": " ]
+                     "value" : [ "","define ","DecimalAddUnderflow",": " ]
                   }, {
                      "r" : "77",
                      "s" : [ {
@@ -6214,7 +7852,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "84",
                   "s" : [ {
-                     "value" : [ "define ","DecimalSubtractOverflow",": " ]
+                     "value" : [ "","define ","DecimalSubtractOverflow",": " ]
                   }, {
                      "r" : "83",
                      "s" : [ {
@@ -6267,7 +7905,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "89",
                   "s" : [ {
-                     "value" : [ "define ","DecimalSubtractUnderflow",": " ]
+                     "value" : [ "","define ","DecimalSubtractUnderflow",": " ]
                   }, {
                      "r" : "88",
                      "s" : [ {
@@ -6311,7 +7949,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "94",
                   "s" : [ {
-                     "value" : [ "define ","DecimalMultiplyOverflow",": " ]
+                     "value" : [ "","define ","DecimalMultiplyOverflow",": " ]
                   }, {
                      "r" : "93",
                      "s" : [ {
@@ -6358,7 +7996,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "100",
                   "s" : [ {
-                     "value" : [ "define ","DecimalMultiplyUnderflow",": " ]
+                     "value" : [ "","define ","DecimalMultiplyUnderflow",": " ]
                   }, {
                      "r" : "99",
                      "s" : [ {
@@ -6414,7 +8052,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "105",
                   "s" : [ {
-                     "value" : [ "define ","DecimalDivideOverflow",": " ]
+                     "value" : [ "","define ","DecimalDivideOverflow",": " ]
                   }, {
                      "r" : "104",
                      "s" : [ {
@@ -6463,7 +8101,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "111",
                   "s" : [ {
-                     "value" : [ "define ","DecimalDivideUnderflow",": " ]
+                     "value" : [ "","define ","DecimalDivideUnderflow",": " ]
                   }, {
                      "r" : "110",
                      "s" : [ {
@@ -6523,7 +8161,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "115",
                   "s" : [ {
-                     "value" : [ "define ","DecimalDivideByZero",": " ]
+                     "value" : [ "","define ","DecimalDivideByZero",": " ]
                   }, {
                      "r" : "114",
                      "s" : [ {
@@ -6561,7 +8199,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "120",
                   "s" : [ {
-                     "value" : [ "define ","DecimalPowerOverflow",": " ]
+                     "value" : [ "","define ","DecimalPowerOverflow",": " ]
                   }, {
                      "r" : "119",
                      "s" : [ {
@@ -6615,7 +8253,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "125",
                   "s" : [ {
-                     "value" : [ "define ","DecimalPowerUnderflow",": " ]
+                     "value" : [ "","define ","DecimalPowerUnderflow",": " ]
                   }, {
                      "r" : "124",
                      "s" : [ {
@@ -6669,7 +8307,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "129",
                   "s" : [ {
-                     "value" : [ "define ","DecimalSuccessorOverflow",": " ]
+                     "value" : [ "","define ","DecimalSuccessorOverflow",": " ]
                   }, {
                      "r" : "128",
                      "s" : [ {
@@ -6707,7 +8345,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "133",
                   "s" : [ {
-                     "value" : [ "define ","DecimalPredecessorUnderflow",": " ]
+                     "value" : [ "","define ","DecimalPredecessorUnderflow",": " ]
                   }, {
                      "r" : "132",
                      "s" : [ {
@@ -6745,7 +8383,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "138",
                   "s" : [ {
-                     "value" : [ "define ","MaxQuantity",": " ]
+                     "value" : [ "","define ","MaxQuantity",": " ]
                   }, {
                      "r" : "137",
                      "s" : [ {
@@ -6812,7 +8450,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "143",
                   "s" : [ {
-                     "value" : [ "define ","MinQuantity",": " ]
+                     "value" : [ "","define ","MinQuantity",": " ]
                   }, {
                      "r" : "142",
                      "s" : [ {
@@ -6879,7 +8517,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "147",
                   "s" : [ {
-                     "value" : [ "define ","QuantityAddOverflow",": " ]
+                     "value" : [ "","define ","QuantityAddOverflow",": " ]
                   }, {
                      "r" : "146",
                      "s" : [ {
@@ -6922,7 +8560,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "152",
                   "s" : [ {
-                     "value" : [ "define ","QuantityAddUnderflow",": " ]
+                     "value" : [ "","define ","QuantityAddUnderflow",": " ]
                   }, {
                      "r" : "151",
                      "s" : [ {
@@ -6981,7 +8619,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "157",
                   "s" : [ {
-                     "value" : [ "define ","QuantitySubtractOverflow",": " ]
+                     "value" : [ "","define ","QuantitySubtractOverflow",": " ]
                   }, {
                      "r" : "156",
                      "s" : [ {
@@ -7040,7 +8678,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "161",
                   "s" : [ {
-                     "value" : [ "define ","QuantitySubtractUnderflow",": " ]
+                     "value" : [ "","define ","QuantitySubtractUnderflow",": " ]
                   }, {
                      "r" : "160",
                      "s" : [ {
@@ -7083,7 +8721,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "165",
                   "s" : [ {
-                     "value" : [ "define ","QuantityMultiplyOverflow",": " ]
+                     "value" : [ "","define ","QuantityMultiplyOverflow",": " ]
                   }, {
                      "r" : "164",
                      "s" : [ {
@@ -7126,7 +8764,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "169",
                   "s" : [ {
-                     "value" : [ "define ","QuantityMultiplyUnderflow",": " ]
+                     "value" : [ "","define ","QuantityMultiplyUnderflow",": " ]
                   }, {
                      "r" : "168",
                      "s" : [ {
@@ -7169,7 +8807,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "173",
                   "s" : [ {
-                     "value" : [ "define ","QuantityDivideOverflow",": " ]
+                     "value" : [ "","define ","QuantityDivideOverflow",": " ]
                   }, {
                      "r" : "172",
                      "s" : [ {
@@ -7212,7 +8850,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "178",
                   "s" : [ {
-                     "value" : [ "define ","QuantityDivideUnderflow",": " ]
+                     "value" : [ "","define ","QuantityDivideUnderflow",": " ]
                   }, {
                      "r" : "177",
                      "s" : [ {
@@ -7271,7 +8909,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "182",
                   "s" : [ {
-                     "value" : [ "define ","QuantityDivideByZero",": " ]
+                     "value" : [ "","define ","QuantityDivideByZero",": " ]
                   }, {
                      "r" : "181",
                      "s" : [ {
@@ -7315,7 +8953,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "185",
                   "s" : [ {
-                     "value" : [ "define ","QuantitySuccessorOverflow",": " ]
+                     "value" : [ "","define ","QuantitySuccessorOverflow",": " ]
                   }, {
                      "r" : "184",
                      "s" : [ {
@@ -7348,7 +8986,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "188",
                   "s" : [ {
-                     "value" : [ "define ","QuantityPredecessorUnderflow",": " ]
+                     "value" : [ "","define ","QuantityPredecessorUnderflow",": " ]
                   }, {
                      "r" : "187",
                      "s" : [ {
@@ -7381,7 +9019,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "193",
                   "s" : [ {
-                     "value" : [ "define ","DateTimeAddOverflow",": " ]
+                     "value" : [ "","define ","DateTimeAddOverflow",": " ]
                   }, {
                      "r" : "192",
                      "s" : [ {
@@ -7429,7 +9067,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "199",
                   "s" : [ {
-                     "value" : [ "define ","DateTimeAddUnderflow",": " ]
+                     "value" : [ "","define ","DateTimeAddUnderflow",": " ]
                   }, {
                      "r" : "198",
                      "s" : [ {
@@ -7493,7 +9131,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "205",
                   "s" : [ {
-                     "value" : [ "define ","DateTimeSubtractOverflow",": " ]
+                     "value" : [ "","define ","DateTimeSubtractOverflow",": " ]
                   }, {
                      "r" : "204",
                      "s" : [ {
@@ -7557,7 +9195,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "210",
                   "s" : [ {
-                     "value" : [ "define ","DateTimeSubtractUnderflow",": " ]
+                     "value" : [ "","define ","DateTimeSubtractUnderflow",": " ]
                   }, {
                      "r" : "209",
                      "s" : [ {
@@ -7605,7 +9243,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "214",
                   "s" : [ {
-                     "value" : [ "define ","DateTimeSuccessorOverflow",": " ]
+                     "value" : [ "","define ","DateTimeSuccessorOverflow",": " ]
                   }, {
                      "r" : "213",
                      "s" : [ {
@@ -7643,7 +9281,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "218",
                   "s" : [ {
-                     "value" : [ "define ","DateTimePredecessorUnderflow",": " ]
+                     "value" : [ "","define ","DateTimePredecessorUnderflow",": " ]
                   }, {
                      "r" : "217",
                      "s" : [ {
@@ -7681,7 +9319,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "223",
                   "s" : [ {
-                     "value" : [ "define ","DateAddOverflow",": " ]
+                     "value" : [ "","define ","DateAddOverflow",": " ]
                   }, {
                      "r" : "222",
                      "s" : [ {
@@ -7729,7 +9367,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "229",
                   "s" : [ {
-                     "value" : [ "define ","DateAddUnderflow",": " ]
+                     "value" : [ "","define ","DateAddUnderflow",": " ]
                   }, {
                      "r" : "228",
                      "s" : [ {
@@ -7793,7 +9431,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "235",
                   "s" : [ {
-                     "value" : [ "define ","DateSubtractOverflow",": " ]
+                     "value" : [ "","define ","DateSubtractOverflow",": " ]
                   }, {
                      "r" : "234",
                      "s" : [ {
@@ -7857,7 +9495,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "240",
                   "s" : [ {
-                     "value" : [ "define ","DateSubtractUnderflow",": " ]
+                     "value" : [ "","define ","DateSubtractUnderflow",": " ]
                   }, {
                      "r" : "239",
                      "s" : [ {
@@ -7905,7 +9543,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "244",
                   "s" : [ {
-                     "value" : [ "define ","DateSuccessorOverflow",": " ]
+                     "value" : [ "","define ","DateSuccessorOverflow",": " ]
                   }, {
                      "r" : "243",
                      "s" : [ {
@@ -7943,7 +9581,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "248",
                   "s" : [ {
-                     "value" : [ "define ","DatePredecessorUnderflow",": " ]
+                     "value" : [ "","define ","DatePredecessorUnderflow",": " ]
                   }, {
                      "r" : "247",
                      "s" : [ {
@@ -7981,7 +9619,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "253",
                   "s" : [ {
-                     "value" : [ "define ","TimeAddOverflow",": " ]
+                     "value" : [ "","define ","TimeAddOverflow",": " ]
                   }, {
                      "r" : "252",
                      "s" : [ {
@@ -8029,7 +9667,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "259",
                   "s" : [ {
-                     "value" : [ "define ","TimeAddUnderflow",": " ]
+                     "value" : [ "","define ","TimeAddUnderflow",": " ]
                   }, {
                      "r" : "258",
                      "s" : [ {
@@ -8093,7 +9731,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "265",
                   "s" : [ {
-                     "value" : [ "define ","TimeSubtractOverflow",": " ]
+                     "value" : [ "","define ","TimeSubtractOverflow",": " ]
                   }, {
                      "r" : "264",
                      "s" : [ {
@@ -8157,7 +9795,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "270",
                   "s" : [ {
-                     "value" : [ "define ","TimeSubtractUnderflow",": " ]
+                     "value" : [ "","define ","TimeSubtractUnderflow",": " ]
                   }, {
                      "r" : "269",
                      "s" : [ {
@@ -8205,7 +9843,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "274",
                   "s" : [ {
-                     "value" : [ "define ","TimeSuccessorOverflow",": " ]
+                     "value" : [ "","define ","TimeSuccessorOverflow",": " ]
                   }, {
                      "r" : "273",
                      "s" : [ {
@@ -8243,7 +9881,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "278",
                   "s" : [ {
-                     "value" : [ "define ","TimePredecessorUnderflow",": " ]
+                     "value" : [ "","define ","TimePredecessorUnderflow",": " ]
                   }, {
                      "r" : "277",
                      "s" : [ {
@@ -8281,7 +9919,7 @@ module.exports['OutOfBounds'] = {
                "s" : {
                   "r" : "282",
                   "s" : [ {
-                     "value" : [ "define ","ExpOverflow",": " ]
+                     "value" : [ "","define ","ExpOverflow",": " ]
                   }, {
                      "r" : "281",
                      "s" : [ {

@@ -14,12 +14,12 @@
       "quotes": ["error", "single", { "allowTemplateLiterals": true, "avoidEscape": true }],
       "semi": ["error", "always"]
   },
-  "plugins": ["jest"],
+//   "plugins": ["jest"],
   "env": {
       "es6": true,
       "node": true,
-      "mocha": true,
-      "jest/globals": true
+      "mocha": true
+    //   "jest/globals": true
   },
   "extends": ["eslint:recommended", "prettier"]
 }

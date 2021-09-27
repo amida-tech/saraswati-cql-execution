@@ -47,14 +47,14 @@ function doUnion(a, b) {
 function doExcept(a, b) {
   const distinct = doDistinct(a);
   const setList = removeDuplicateNulls(distinct);
-  return setList.filter(item => !doContains(b, item));
+  return setList.filter(item => !doContains(b, item, true));
 }
 
 // Delegated to by overloaded#Intersect
 function doIntersect(a, b) {
   const distinct = doDistinct(a);
   const setList = removeDuplicateNulls(distinct);
-  return setList.filter(item => doContains(b, item));
+  return setList.filter(item => doContains(b, item, true));
 }
 
 // ELM-only, not a product of CQL
@@ -127,8 +127,10 @@ class IndexOf extends Expression {
 // Indexer is completely handled by overloaded#Indexer
 
 // Delegated to by overloaded#Contains and overloaded#In
-function doContains(container, item) {
-  return container.some(element => equals(element, item));
+function doContains(container, item, nullEquivalence = false) {
+  return container.some(
+    element => equals(element, item) || (nullEquivalence && element == null && item == null)
+  );
 }
 
 // Delegated to by overloaded#Includes and overloaded@IncludedIn
@@ -181,7 +183,7 @@ function doDistinct(list) {
       distinct.push(item);
     }
   });
-  return distinct;
+  return removeDuplicateNulls(distinct);
 }
 
 function removeDuplicateNulls(list) {
@@ -234,6 +236,30 @@ class Last extends Expression {
   }
 }
 
+class Slice extends Expression {
+  constructor(json) {
+    super(json);
+    this.source = build(json.source);
+    this.startIndex = build(json.startIndex);
+    this.endIndex = build(json.endIndex);
+  }
+
+  exec(ctx) {
+    const src = this.source.exec(ctx);
+    if (src != null && typeIsArray(src)) {
+      const startIndex = this.startIndex.exec(ctx);
+      const endIndex = this.endIndex.exec(ctx);
+      const start = startIndex != null ? startIndex : 0;
+      const end = endIndex != null ? endIndex : src.length;
+      if (src.length === 0 || start < 0 || end < 0 || end < start) {
+        return [];
+      }
+      return src.slice(start, end);
+    }
+    return null;
+  }
+}
+
 // Length is completely handled by overloaded#Length
 
 module.exports = {
@@ -248,6 +274,7 @@ module.exports = {
   Last,
   List,
   SingletonFrom,
+  Slice,
   Times,
   ToList,
   doContains,

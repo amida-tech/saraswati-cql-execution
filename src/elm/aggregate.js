@@ -19,10 +19,10 @@ class Count extends AggregateExpression {
 
   exec(ctx) {
     const items = this.source.execute(ctx);
-    if (!typeIsArray(items)) {
-      return null;
+    if (typeIsArray(items)) {
+      return removeNulls(items).length;
     }
-    return removeNulls(items).length;
+    return 0;
   }
 }
 
@@ -292,8 +292,8 @@ class StdDev extends AggregateExpression {
       sumOfSquares += Math.pow(sq - mean, 2);
     }
 
-    const std_var = (1 / list.length) * sumOfSquares;
-    const pop_var = (1 / (list.length - 1)) * sumOfSquares;
+    const std_var = (1 / (list.length - 1)) * sumOfSquares;
+    const pop_var = (1 / list.length) * sumOfSquares;
     const std_dev = Math.sqrt(std_var);
     const pop_dev = Math.sqrt(pop_var);
     return {
@@ -397,7 +397,7 @@ class AllTrue extends AggregateExpression {
 
   exec(ctx) {
     const items = this.source.execute(ctx);
-    return allTrue(items);
+    return allTrue(removeNulls(items));
   }
 }
 
