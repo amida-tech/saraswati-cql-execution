@@ -20,7 +20,7 @@ describe('It tests KafkaJS', () => {
 
   const admin = kafka.admin();
   const producer = kafka.producer();
-  const consumer = kafka.consumer({ groupId: testGroup});
+  const consumer = kafka.consumer({ groupId: testGroup });
 
   afterEach(async () => {
     logger.log('info', 'Testing complete, clearing topic queue.');
@@ -51,7 +51,7 @@ describe('It tests KafkaJS', () => {
     it('Consumes a topic and produces a measurement', async () => {
       const consumedMessages = [];
       await consumer.connect();
-      await consumer.subscribe({ topic: testGroup, fromBeginning: true});
+      await consumer.subscribe({ topic: testGroup, fromBeginning: true });
       await consumer.run({
         eachMessage: async({ topic, partition, message }) => {
           consumedMessages.push({ topic, partition, message: message.value.toString()});
