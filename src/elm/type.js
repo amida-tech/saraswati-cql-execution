@@ -25,7 +25,9 @@ class As extends Expression {
   }
 
   exec(ctx) {
+    console.log('ctx = ' + Object.getOwnPropertyNames(ctx));
     const arg = this.execArgs(ctx);
+    console.log('arg = ' + Object.getOwnPropertyNames(arg));
     // If it is null, return null
     if (arg == null) {
       return null;
@@ -35,7 +37,9 @@ class As extends Expression {
       return arg;
     } else if (this.strict) {
       const argTypeString = specifierToString(guessSpecifierType(arg));
+      console.log('ArgTypeString = ' + argTypeString);
       const asTypeString = specifierToString(this.asTypeSpecifier);
+      console.log('AsTypeString = ' + asTypeString);
       throw new Error(`Cannot cast ${argTypeString} as ${asTypeString}`);
     } else {
       return null;
