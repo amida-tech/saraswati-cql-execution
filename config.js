@@ -1,7 +1,11 @@
 const Joi = require('joi');
 const dotenv = require('dotenv');
 
-dotenv.config();
+if (process.env.NODE_ENV === 'test') {
+  dotenv.config({ path: '.env.test' });
+} else {
+  dotenv.config();
+}
 
 const envVarsSchema = Joi.object({
   NODE_ENV: Joi.string()
@@ -21,11 +25,41 @@ const envVarsSchema = Joi.object({
   ACTUATOR_PORT: Joi.string()
     .default('5001')
     .description('Port used for actuator endpoint'),
+  KAFKA_BROKERS: Joi.string()
+    .description('The Kafka queue server addresses to connect to. We will parse the entry afterwards.'),
+  KAFKA_USERNAME: Joi.string()
+    .default('username1')
+    .description('The SASL username for accessing the Kafka queue.'),
+  KAFKA_PASSWORD: Joi.string()
+    .default('k@Fka3sk')
+    .description('The SASL password for accessing the Kafka queue.'),
+  KAFKA_PROTOCOL: Joi.string()
+    .default('sasl_ssl')
+    .allow('plaintext', 'sasl_plaintext', 'sasl_ssl', 'ssl')
+    .description('The security protocol for accessing the Kafka queue.'),
+  KAFKA_MECHANISMS: Joi.string()
+    .description('The SASL mechanism for accessing the Kafka queue.'),
+  KAFKA_GROUP_ID: Joi.string()
+    .default('saraswati')
+    .description('The Kafka group ids.'),
+  KAFKA_CONSUMED_TOPIC: Joi.string()
+    .default('fhir-logged')
+    .description('The Kafka topic consumed.'),
+  KAFKA_PRODUCED_TOPIC: Joi.string()
+    .default('hedis-measures')
+    .description('The Kafka topic produced.')
 }).unknown();
 
-const { error, value: envVars } = envVarsSchema.validate(process.env);
+const { error, value: envVars } = envVarsSchema.validate(process.env, {convert: true});
 if (error) {
   throw new Error(`Config validation error: ${error.message}`);
+}
+
+let arrayDelimiter = ' ';
+if (envVars.KAFKA_BROKERS.includes(', ')) {
+  arrayDelimiter = ', ';
+} else if (envVars.KAFKA_BROKERS.includes(',')) {
+  arrayDelimiter = ',';
 }
 
 const config = {
@@ -34,7 +68,15 @@ const config = {
   host: envVars.SARASWATI_REPORTS_HOST,
   port: envVars.SARASWATI_REPORTS_PORT,
   directory: envVars.DIR,
-  actuatorPort: envVars.ACTUATOR_PORT
+  actuatorPort: envVars.ACTUATOR_PORT,
+  kafkaBrokers: envVars.KAFKA_BROKERS.replace(/[["'\]]/g, '').split(arrayDelimiter),
+  kafkaUsername: envVars.KAFKA_USERNAME,
+  kafkaPassword: envVars.KAFKA_PASSWORD,
+  kafkaProtocol: envVars.KAFKA_PROTOCOL,
+  kafkaMechanisms: envVars.KAFKA_MECHANISMS,
+  kafkaGroupId: envVars.KAFKA_GROUP_ID,
+  kafkaConsumedTopic: envVars.KAFKA_CONSUMED_TOPIC,
+  kafkaProducedTopic: envVars.KAFKA_PRODUCED_TOPIC
 };
 
 module.exports = config;
