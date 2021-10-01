@@ -1,5 +1,5 @@
 // const consumer = require('../processor-kafka');
-const { Kafka, logLevel } = require('kafkajs');
+const { Kafka } = require('kafkajs');
 const logger = require('../../src/winston');
 const kafkaLogger = require('../../src/kafka-winston-config');
 const config = require('../../config');
@@ -14,7 +14,7 @@ describe('It tests KafkaJS', () => {
   const kafka = new Kafka({
     clientId: testGroup,
     brokers:  config.kafkaBrokers,
-    logLevel: logLevel.INFO,
+    logLevel: config.logLevel,
     logCreator: kafkaLogger
   });
 
