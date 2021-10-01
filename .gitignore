@@ -11,3 +11,4 @@ exec-files/results.json
 exec-files/*.jsonl
 .env
 private
+/test/generator/*
