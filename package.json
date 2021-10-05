@@ -107,7 +107,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "start": "cross-env node processor.js",
+    "start": "node processor.js",
     "kafka": "cross-env node processor-kafka.js",
     "prepublish": "npm run build --scripts-prepend-node-path && npm run build:browserify --scripts-prepend-node-path",
     "build": "babel src --out-dir lib",
