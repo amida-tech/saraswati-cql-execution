@@ -24,6 +24,7 @@ async function runner() {
     await consumer.connect()
     await producer.connect()
 
+    console.log("ERIC LOOK HERE: " + JSON.stringify(config));
     let consumedTopic = config.kafkaConsumedTopic
     let producedTopic = config.kafkaProducedTopic
     // const consumedTopic = "fhir-logged";
