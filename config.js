@@ -1,9 +1,6 @@
 const Joi = require('joi');
 const dotenv = require('dotenv');
 
-console.log(">>>>>>>>>> Hello, yes this is config")
-console.log(" >>>>>>>>>> This is the .ENV: " + JSON.stringify(process.env))
-
 if (process.env.NODE_ENV === 'test') {
   dotenv.config({ path: '.env.test' });
 } else {
@@ -84,5 +81,7 @@ const config = {
   kafkaConsumedTopic: envVars.KAFKA_CONSUMED_TOPIC,
   kafkaProducedTopic: envVars.KAFKA_PRODUCED_TOPIC
 };
+
+console.log("WAAAAAAAAAAAAAT" + JSON.stringify(config));
 
 module.exports = config;
