@@ -1,38 +1,61 @@
-const kafka = require('./kafka');
-
+const { Kafka } = require('kafkajs')
 const { kafkaConfig } = require("./config");
+
+const { executeDiabetes } = require('./exec-files/exec-cdc_diabetes-bp');
+const { executeA1c } = require('./exec-files/exec-cdc_hba1c-lessThanEight');
+const { executeImmunization } = require('./exec-files/exec-childhood-immunization-status');
+const { executeDepression } = require('./exec-files/exec-depression-screening');
+const { executeAsthma } = require('./exec-files/exec-medication-management-for-people-with-asthma');
+const { executePPC } = require('./exec-files/exec-prenatal-postpartum-care');
+const { executePreventable } = require('./exec-files/exec-preventable-complications');
+const { executeChildWellVisit } = require('./exec-files/exec-childhood-well-visit');
+const { executeReadmission } = require('./exec-files/exec-readmission');
+
+const kafka = new Kafka({
+    clientId: 'cql-execution',
+    brokers: ['broker:29092', 'broker:29093']
+})
 
 const consumer = kafka.consumer({ groupId: 'hedis-measures' })
 
 const producer = kafka.producer()
 
-await consumer.connect()
-await producer.connect()
+async function runner() {
+    await consumer.connect()
+    await producer.connect()
 
-await consumer.subscribe({ topic: kafkaConfig.kafkaConsumedTopic, fromBeginning: false })
-
-//Runs each time a message is recieved
-await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
-        let fhirJson = message.value.toString();
-        let patients = JSON.parse(fhirJson);
-        let data = [];
-        evalData(patients,data)
-        if (data != null) {
-            producer.send(
-                {
-                    topic: kafkaConfig.kafkaProducedTopic,
-                    messages: [
-                        {value: JSON.stringify(data)},
-                    ],
-                }
-            )
-            console.log({
-                value: message.value.toString(),
-            })
-        }
-    },
-})
+    // const consumedTopic = kafkaConfig.kafkaConsumedTopic
+    // const producedTopic = kafkaConfig.kafkaProducedTopic
+    const consumedTopic = "fhir-logged";
+    const producedTopic = "hedis-measures";
+    
+    await consumer.subscribe({ topic: consumedTopic, fromBeginning: false })
+    
+    //Runs each time a message is recieved
+    await consumer.run({
+        eachMessage: async ({ topic, partition, message }) => {
+            console.log(">>>>>>>>> Message Recieved")
+            let fhirJson = message.value.toString();
+            let patients = JSON.parse(fhirJson);
+            let data = [];
+            evalData(patients,data)
+            if (data != null) {
+                console.log(">>>>>>>>>> Sending message")
+                producer.send(
+                    {
+                        topic: producedTopic,
+                        messages: [
+                            {value: JSON.stringify(data)},
+                        ],
+                    }
+                )
+                console.log({
+                    value: message.value.toString(),
+                })
+            }
+        },
+    })    
+}
 
 // This function contains all of the business logic for the evaluation.
 function evalData(patients, data){
@@ -55,3 +78,5 @@ function evalData(patients, data){
         });
     });
 }
+
+runner();
