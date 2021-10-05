@@ -1,6 +1,9 @@
 const Joi = require('joi');
 const dotenv = require('dotenv');
 
+console.log(">>>>>>>>>> Hello, yes this is config")
+console.log(" >>>>>>>>>> This is the .ENV: " + JSON.stringify(process.env))
+
 if (process.env.NODE_ENV === 'test') {
   dotenv.config({ path: '.env.test' });
 } else {

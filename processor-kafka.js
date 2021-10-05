@@ -1,5 +1,5 @@
 const { Kafka } = require('kafkajs')
-const { kafkaConfig } = require("./config");
+const { config } = require("./config");
 
 const { executeDiabetes } = require('./exec-files/exec-cdc_diabetes-bp');
 const { executeA1c } = require('./exec-files/exec-cdc_hba1c-lessThanEight');
@@ -24,10 +24,10 @@ async function runner() {
     await consumer.connect()
     await producer.connect()
 
-    // const consumedTopic = kafkaConfig.kafkaConsumedTopic
-    // const producedTopic = kafkaConfig.kafkaProducedTopic
-    const consumedTopic = "fhir-logged";
-    const producedTopic = "hedis-measures";
+    let consumedTopic = config.kafkaConsumedTopic
+    let producedTopic = config.kafkaProducedTopic
+    // const consumedTopic = "fhir-logged";
+    // const producedTopic = "hedis-measures";
     
     await consumer.subscribe({ topic: consumedTopic, fromBeginning: false })
     
