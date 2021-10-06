@@ -13,7 +13,7 @@ const { executeReadmission } = require('./exec-files/exec-readmission');
 
 const kafka = new Kafka({
     clientId: 'cql-execution',
-    brokers: ['broker:29092', 'broker:29093']
+    brokers: [config.kafkaBroker, 'broker:29093']
 })
 
 const consumer = kafka.consumer({ groupId: 'hedis-measures' })
