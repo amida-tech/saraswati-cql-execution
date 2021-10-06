@@ -1,5 +1,5 @@
 const { Kafka } = require('kafkajs')
-const { config } = require("./config");
+const config = require("./config");
 
 const { executeDiabetes } = require('./exec-files/exec-cdc_diabetes-bp');
 const { executeA1c } = require('./exec-files/exec-cdc_hba1c-lessThanEight');
