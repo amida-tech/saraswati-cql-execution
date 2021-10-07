@@ -49,14 +49,14 @@ const execute = (measure, patients, codeservice) => {
     Diabetes_Library: diabetes_library,
     FHIRHelpers401: fhirhelpers401,
     CQLBase: cql_base,
+    NCQAClaims: NCQA_Claims,
     CQLFhirBase: cql_fhirbase,
     CQLHealthPlanEnrollement: cql_healthplanEnrollementbase,
     CQLImmunization: NCQA_Immunization,
+    NCQAMedication: NCQA_Medication,
     CQLStatus: NCQA_Status,
     CQLTerminology: NCQA_Terminology,
-    CQLHospice: NCQA_Hospice,
-    NCQAClaims: NCQA_Claims,
-    NCQAMedication: NCQA_Medication
+    CQLHospice: NCQA_Hospice
   };
 
   const lib = new cql.Library(measure, new cql.Repository(includedLibs));
