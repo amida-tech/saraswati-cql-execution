@@ -19,10 +19,6 @@ class CodeService {
   }
 
   findValueSet(oid, version) {
-    if (oid.startsWith('https://www.ncqa.org/fhir/valueset/')) {
-      oid = oid.replace('https://www.ncqa.org/fhir/valueset/', '');
-    }
-    
     if (version != null) {
       return this.valueSets[oid] != null ? this.valueSets[oid][version] : undefined;
     } else {

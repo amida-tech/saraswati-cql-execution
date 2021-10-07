@@ -2968,7 +2968,7 @@
         "fullUrl": "urn:uuid:981b42b3-eb5b-7b9c-7bda-97999d594d712",
         "resource": {
           "resourceType": "Claim",
-          "id": "981b42b3-eb5b-7b9c-7bda-97999d594d712",
+          "id": "urn:uuid:981b42b3-eb5b-7b9c-7bda-97999d594d712",
           "identifier": [
             {
               "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
@@ -3055,11 +3055,20 @@
               "productOrService": {
                 "coding": [
                   {
-                    "code": "1200"
+                    "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                    "version": "2021.03.01.20AB",
+                    "code": "2118728",
+                    "display": "acetaminophen 325 MG / benzhydrocodone 4.08 MG Oral Tablet"
                   }
                 ]
               },
               "servicedDate": "2020-08-16",
+              "quantity": {
+                "value": 30,
+                "unit": "TAB",
+                "system": "http://unitsofmeasure.org",
+                "code": "TAB"
+              },
               "unitPrice": {
                 "value": 135.57,
                 "currency": "USD"
@@ -3140,37 +3149,6 @@
                     ]
                   },
                   "amount": {
-                    "value": 0.00,
-                    "currency": "USD"
-                  }
-                },
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "benefit"
-                      }
-                    ]
-                  },
-                  "amount": {
-                    "value": 0.00,
-                    "currency": "USD"
-                  }
-                }
-              ]
-            },
-            {
-              "itemSequence": 2,
-              "adjudication": [
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "eligible"
-                      }
-                    ]
-                  },
-                  "amount": {
                     "value": 105.00,
                     "currency": "USD"
                   }
@@ -3201,7 +3179,7 @@
               ]
             },
             {
-              "itemSequence": 3,
+              "itemSequence": 2,
               "adjudication": [
                 {
                   "category": {
