@@ -1,5 +1,6 @@
 const express = require('express');
 const actuator = require('express-actuator');
+const logger = require('./src/winston');
 
 const watch = require('node-watch');
 const axios = require('axios');
@@ -31,10 +32,10 @@ const readmissionPath = path.normalize('data/patients/readmission');
 
 const watcher = dir =>
   watch(dir, (options = { recursive: true, filter: /\.json$/ }), function (event, filename) {
-    console.log(filename, event); // to know which file was processed
+    logger.info(filename, event); // to know which file was processed
     fs.access('.' + path.normalize('/' + filename), (err) => {
       if (err){
-        console.log('File does not exists.');
+        logger.info('File does not exists.');
       } else {
         fs.readFile('.' + path.normalize('/' + filename), function (err, data) {
           if (err) throw err;
@@ -64,10 +65,10 @@ const watcher = dir =>
               axios.post(connectionUrl, data).then(
                 response => {
                   var result = response.data;
-                  console.log(result);
+                  logger.info(result);
                 },
                 error => {
-                  console.log(error);
+                  logger.error(error);
                 }
               );
             }
@@ -82,8 +83,8 @@ watcher(config.directory);
 module.exports = { watcher };
 
 const app = express();
-app.use(actuator());
+app.use(actuator()); // See https://github.com/amida-tech/mcp-ap-web/blob/00f4558c0b696f9239e4c2238b2d232b0e239e12/src/config/serverConfig.js
 
 app.listen(config.actuatorPort, () => {
-  console.log(`Endpoint actuator listening at http://localhost:${config.actuatorPort}`);
+  logger.info(`Endpoint actuator listening at http://localhost:${config.actuatorPort}`);
 });

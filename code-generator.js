@@ -58,14 +58,14 @@ fs.readdir(parseArgs['dir'], function(readErr, files) {
     }
     
     let oidKey;
-    if (jsonFile.identifier && jsonFile.identifier[0].value) {
-      console.log('\tNote: Using identifier for oidKey.');
-      oidKey = jsonFile.identifier[0].value;
+    if (jsonFile.url) {
+      console.log('\tNote: Using url for oidKey.');
+      oidKey = jsonFile.url;
     } else {
       console.warn('\x1b[33m',
         '\tNote: Using filename for oidKey.',
         '\x1b[0m');
-      oidKey = file.slice(0,-5);
+      oidKey = 'http://www.ncqa.org/fhir/valueset/' + file.slice(0,-5);
     }
 
     codes[oidKey] = {
