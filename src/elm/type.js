@@ -35,9 +35,7 @@ class As extends Expression {
       return arg;
     } else if (this.strict) {
       const argTypeString = specifierToString(guessSpecifierType(arg));
-      console.log('ArgTypeString = ' + argTypeString);
       const asTypeString = specifierToString(this.asTypeSpecifier);
-      console.log('AsTypeString = ' + asTypeString);
       throw new Error(`Cannot cast ${argTypeString} as ${asTypeString}`);
     } else {
       return null;
