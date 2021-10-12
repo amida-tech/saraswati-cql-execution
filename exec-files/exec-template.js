@@ -62,7 +62,7 @@ const execute = (measure, patients, codeservice) => {
   const parameters = {
     'Measurement Period' : new cql.Interval(
       new cql.DateTime(Number(config.measurementYear), 1, 1, 0, 0, 0, 0),
-      new cql.DateTime(Number(config.measurementYear), 1, 1, 0, 0, 0, 0),
+      new cql.DateTime(Number(config.measurementYear) + 1, 1, 1, 0, 0, 0, 0),
       true,
       false
     )
