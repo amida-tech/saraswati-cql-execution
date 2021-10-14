@@ -8,13 +8,13 @@ CQL files that require medication codes are don't include all of the necessary c
 ## Using VSAC URNs instead of the HEDIS specified URNs (Updated: 3/16/2021)
 Any valuesets that are listed in CQL files and are NOT commented out are using a valueset URN (and therefore a list of codes in the `data/codes` directory) from VSAC; Long term, we want to be using the valueset URNs (and therefore codes associated with those URNs) from the valuesets listed in the HEDIS excel sheet that a few of us have licesnses to; however, we can't currently grab data from that excel sheet (programmatically or otherwise) due to some licensing issues. However,  Mike is a part of a HEDIS user group and thinks he may have access to the excel sheet, but hasn't looked into it yet.
 
-## Generating ValueSet Codes from ⓇHEDIS Measures.
-As of September 2021, we received measurements from ⓇHEDIS that came with ValueSet codes. To generate these codes quickly, use the following command in this repo:
+## Generating ValueSet Codes from HEDISⓇ Measures.
+As of September 2021, we received measurements from HEDIS that came with ValueSet codes. To generate these codes quickly, use the following command in this repo:
 `node code-generator.js --dir=<directory that contains the files> --name=<output name of .js>`
 The script will then generate the needed codes for you. The created file will be in the same directory you indicated, so be sure to move it to `/data/codes` after checking there are no issues and run a test there.
 
 ## Running Third Party CQL files
-In order to run third party CQL files, please refere to [Third Party CQL Repository](https://github.com/amida-tech/ncqa-cql). From that repository choose which CQL files you would like to execute and placed them under the `private` folder under this repository. If there is not `private` folder, create one. Furthermore, follow the instructions below on how to generate ValueSet Codes from ⓇHEDIS measures.
+In order to run third party CQL files, please refere to [Third Party CQL Repository](https://github.com/amida-tech/ncqa-cql). From that repository choose which CQL files you would like to execute and placed them under the `private` folder under this repository. If there is not `private` folder, create one. Furthermore, follow the instructions below on how to generate ValueSet Codes from HEDIS measures.
 
 # CQL Execution Framework
 
