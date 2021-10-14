@@ -1,17 +1,20 @@
 [![Build Status](https://travis-ci.org/cqframework/cql-execution.svg?branch=master)](https://travis-ci.org/cqframework/cql-execution)
 [![codecov](https://codecov.io/gh/cqframework/cql-execution/branch/master/graph/badge.svg)](https://codecov.io/gh/cqframework/cql-execution)
 
-# Notes about Amida Created CQL Libraries
+# Saraswati CQL Execution
 ## Missing Medication Codes (Updated: 3/16/2021)
 CQL files that require medication codes are don't include all of the necessary codes that are required by the HEDIS spec. This is because we are planning on creating a medication service that programmatically pulls all of the medication associated with a HEDIS measure at some point in the future (James Z/Mike have talked about this).
 
 ## Using VSAC URNs instead of the HEDIS specified URNs (Updated: 3/16/2021)
 Any valuesets that are listed in CQL files and are NOT commented out are using a valueset URN (and therefore a list of codes in the `data/codes` directory) from VSAC; Long term, we want to be using the valueset URNs (and therefore codes associated with those URNs) from the valuesets listed in the HEDIS excel sheet that a few of us have licesnses to; however, we can't currently grab data from that excel sheet (programmatically or otherwise) due to some licensing issues. However,  Mike is a part of a HEDIS user group and thinks he may have access to the excel sheet, but hasn't looked into it yet.
 
-## Generating ValueSet Codes from NCQA Measurements.
-As of September 2021, we received measurements from NCQA that came with ValueSet codes. To generate these codes quickly, use the following command in this repo:
+## Generating ValueSet Codes from HEDISⓇ Measures.
+As of September 2021, we received measurements from HEDIS that came with ValueSet codes. To generate these codes quickly, use the following command in this repo:
 `node code-generator.js --dir=<directory that contains the files> --name=<output name of .js>`
 The script will then generate the needed codes for you. The created file will be in the same directory you indicated, so be sure to move it to `/data/codes` after checking there are no issues and run a test there.
+
+## Running Third Party CQL files
+In order to run third party CQL files, please refere to [Third Party CQL Repository](https://github.com/amida-tech/ncqa-cql). From that repository choose which CQL files you would like to execute and placed them under the `private` folder under this repository. If there is not `private` folder, create one. Furthermore, follow the instructions below on how to generate ValueSet Codes from HEDIS measures.
 
 # CQL Execution Framework
 
@@ -300,3 +303,14 @@ otherwise Travis CI will fail. To generate this file, run:
 ```
 yarn build:all
 ```
+
+# Testing
+To test locally you can create a Redpanda instance here:
+`docker run -d --pull=always --name=redpanda-1 --rm -p 9092:9092 -p 9644:9644 docker.vectorized.io/vectorized/redpanda:latest redpanda start --overprovisioned --smp 1 --memory 1G --reserve-memory 0M --node-id 0 --check=false`
+
+For a container to container approach, try:
+`docker network create -d bridge rp`
+
+`docker run -d --pull=always --name=redpanda-1 --network=rp -p 9092:9092 docker.vectorized.io/vectorized/redpanda:latest redpanda start --overprovisioned --smp 1  --memory 1G --reserve-memory 0M --node-id 0 --check=false --kafka-addr "PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092" --advertise-kafka-addr "PLAINTEXT://redpanda:29092,OUTSIDE://redpanda-1:9092"`
+
+Drop `--kafka-addr "PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092" --advertise-kafka-addr "PLAINTEXT://redpanda:29092,OUTSIDE://redpanda-1:9092"` to connect via localhost.

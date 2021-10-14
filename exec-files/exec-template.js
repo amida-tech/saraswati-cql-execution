@@ -1,4 +1,5 @@
 var fs = require('fs');
+const config = require('../config');
 const cqlfhir = require('cql-exec-fhir');
 var jsonl = require('jsonl');
 var { cloneDeep } = require('lodash');
@@ -61,8 +62,17 @@ const execute = (measure, patients, codeservice) => {
 
   const lib = new cql.Library(measure, new cql.Repository(includedLibs));
   const cservice = new codes.CodeService(codeservice);
+  const messageListener = new cql.ConsoleMessageListener();
+  const parameters = {
+    'Measurement Period' : new cql.Interval(
+      new cql.DateTime(Number(config.measurementYear), 1, 1, 0, 0, 0, 0),
+      new cql.DateTime(Number(config.measurementYear) + 1, 1, 1, 0, 0, 0, 0),
+      true,
+      false
+    )
+  };
 
-  const executor = new cql.Executor(lib, cservice);
+  const executor = new cql.Executor(lib, cservice, parameters, messageListener);
   const patientSource = cqlfhir.PatientSource.FHIRv401();
   patientSource.loadBundles(patients);
 
