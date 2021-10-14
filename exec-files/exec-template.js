@@ -9,10 +9,12 @@ const cql = require('../src/cql');
 const fhirhelpers = require('../json-elm/FHIRHelpers.json');
 const fhirhelpers401 = require('../private/CISE_HEDIS_MY2022-1.0.0/libraryElm/FHIRHelpers-4.0.1.json');
 const diabetes_library = require('../json-elm/Diabetes_Library.json');
+const NCQA_Claims = require('../private/UOP_HEDIS_MY2022-1.0.0/libraryElm/NCQA_Claims-1.0.0.json');
 const cql_base = require('../private/CISE_HEDIS_MY2022-1.0.0/libraryElm/NCQA_CQLBase-1.0.0.json');
 const cql_fhirbase = require('../private/CISE_HEDIS_MY2022-1.0.0/libraryElm/NCQA_FHIRBase-1.0.0.json');
 const cql_healthplanEnrollementbase = require('../private/CISE_HEDIS_MY2022-1.0.0/libraryElm/NCQA_HealthPlanEnrollment-1.0.0.json');
 const NCQA_Hospice = require('../private/CISE_HEDIS_MY2022-1.0.0/libraryElm/NCQA_Hospice-1.0.0.json');
+const NCQA_Medication = require('../private/UOP_HEDIS_MY2022-1.0.0/libraryElm/NCQA_Medication-1.0.0.json');
 const NCQA_Immunization = require('../private/CISE_HEDIS_MY2022-1.0.0/libraryElm/NCQA_Immunization-1.0.0.json');
 const NCQA_Status = require('../private/CISE_HEDIS_MY2022-1.0.0/libraryElm/NCQA_Status-1.0.0.json');
 const NCQA_Terminology = require('../private/CISE_HEDIS_MY2022-1.0.0/libraryElm/NCQA_Terminology-1.0.0.json');
@@ -48,9 +50,11 @@ const execute = (measure, patients, codeservice) => {
     Diabetes_Library: diabetes_library,
     FHIRHelpers401: fhirhelpers401,
     CQLBase: cql_base,
+    NCQAClaims: NCQA_Claims,
     CQLFhirBase: cql_fhirbase,
     CQLHealthPlanEnrollement: cql_healthplanEnrollementbase,
     CQLImmunization: NCQA_Immunization,
+    NCQAMedication: NCQA_Medication,
     CQLStatus: NCQA_Status,
     CQLTerminology: NCQA_Terminology,
     CQLHospice: NCQA_Hospice

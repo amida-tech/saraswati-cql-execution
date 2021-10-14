@@ -18,6 +18,7 @@ const { executePPC } = require('./exec-files/exec-prenatal-postpartum-care');
 const { executePreventable } = require('./exec-files/exec-preventable-complications');
 const { executeChildWellVisit } = require('./exec-files/exec-childhood-well-visit');
 const { executeReadmission } = require('./exec-files/exec-readmission');
+const { executeOpioids } = require('./exec-files/exec-opioids');
 const connectionUrl = `http://${config.host}:${config.port}/cql_service_connector`;
 
 const a1cPath = path.normalize('data/patients/a1c');
@@ -29,6 +30,7 @@ const ppcPath = path.normalize('data/patients/ppc');
 const preventablePath = path.normalize('data/patients/preventable');
 const childWellVisitPath = path.normalize('data/patients/child-well-care');
 const readmissionPath = path.normalize('data/patients/readmission');
+const opioidsPath = path.normalize('data/patients/opioids');
 
 const watcher = dir =>
   watch(dir, (options = { recursive: true, filter: /\.json$/ }), function (event, filename) {
@@ -60,6 +62,8 @@ const watcher = dir =>
               data = executeChildWellVisit(patients);
             } else if (filename.startsWith(readmissionPath)) {
               data = executeReadmission(patients);
+            } else if (filename.startsWith(opioidsPath)) {
+              data = executeOpioids(patients);
             }
             if (data) {
               axios.post(connectionUrl, data).then(
