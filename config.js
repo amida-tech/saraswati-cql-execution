@@ -47,7 +47,10 @@ const envVarsSchema = Joi.object({
     .description('The Kafka topic consumed.'),
   KAFKA_PRODUCED_TOPIC: Joi.string()
     .default('hedis-measures')
-    .description('The Kafka topic produced.')
+    .description('The Kafka topic produced.'),
+  MEASUREMENT_YEAR: Joi.string()
+    .default('2022')
+    .description('The year for which the measure is evaluated')
 }).unknown();
 
 const { error, value: envVars } = envVarsSchema.validate(process.env, {convert: true});
@@ -76,7 +79,8 @@ const config = {
   kafkaMechanisms: envVars.KAFKA_MECHANISMS,
   kafkaGroupId: envVars.KAFKA_GROUP_ID,
   kafkaConsumedTopic: envVars.KAFKA_CONSUMED_TOPIC,
-  kafkaProducedTopic: envVars.KAFKA_PRODUCED_TOPIC
+  kafkaProducedTopic: envVars.KAFKA_PRODUCED_TOPIC,
+  measurementYear: envVars.MEASUREMENT_YEAR
 };
 
 module.exports = config;
