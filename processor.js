@@ -10,8 +10,7 @@ const fs = require('fs');
 
 const { executeDiabetes } = require('./exec-files/exec-cdc_diabetes-bp');
 const { executeA1c } = require('./exec-files/exec-cdc_hba1c-lessThanEight');
-const { executeImmunization } = require('./exec-files/exec-childhood-immunization-status');
-const { executeNEWImmunization } = require('./exec-files/exec-new-cis');
+const { executeImmunization } = require('./exec-files/exec-cis');
 const { executeDepression } = require('./exec-files/exec-depression-screening');
 const { executeAsthma } = require('./exec-files/exec-medication-management-for-people-with-asthma');
 const { executePPC } = require('./exec-files/exec-prenatal-postpartum-care');
@@ -19,6 +18,7 @@ const { executePreventable } = require('./exec-files/exec-preventable-complicati
 const { executeChildWellVisit } = require('./exec-files/exec-childhood-well-visit');
 const { executeReadmission } = require('./exec-files/exec-readmission');
 const { executeOpioids } = require('./exec-files/exec-opioids');
+const { executeDepressionRemission } = require('./exec-files/exec-drre');
 const connectionUrl = `http://${config.host}:${config.port}/cql_service_connector`;
 
 const a1cPath = path.normalize('data/patients/a1c');
@@ -31,6 +31,7 @@ const preventablePath = path.normalize('data/patients/preventable');
 const childWellVisitPath = path.normalize('data/patients/child-well-care');
 const readmissionPath = path.normalize('data/patients/readmission');
 const opioidsPath = path.normalize('data/patients/opioids');
+const depressionRemissionPath = path.normalize('data/patients/drre');
 
 const watcher = dir =>
   watch(dir, (options = { recursive: true, filter: /\.json$/ }), function (event, filename) {
@@ -53,7 +54,7 @@ const watcher = dir =>
             } else if (filename.startsWith(diabetesPath)) {
               data = executeDiabetes(patients);
             } else if (filename.startsWith(immunizationPath)) {
-              data = executeNEWImmunization(patients);
+              data = executeImmunization(patients);
             } else if (filename.startsWith(ppcPath)) {
               data = executePPC(patients);
             } else if (filename.startsWith(preventablePath)) {
@@ -64,6 +65,8 @@ const watcher = dir =>
               data = executeReadmission(patients);
             } else if (filename.startsWith(opioidsPath)) {
               data = executeOpioids(patients);
+            } else if (filename.startsWith(depressionRemissionPath)) {
+              data = executeDepressionRemission(patients);
             }
             if (data) {
               axios.post(connectionUrl, data).then(
