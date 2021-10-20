@@ -89,6 +89,4 @@ const config = {
   measurementYear: envVars.MEASUREMENT_YEAR
 };
 
-console.log(">>>>>>" + JSON.stringify(config));
-
 module.exports = config;
