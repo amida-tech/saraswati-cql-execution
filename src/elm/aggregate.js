@@ -12,7 +12,7 @@ class AggregateExpression extends Expression {
   }
 }
 
-class Count extends AggregateExpression {
+class Count extends AggregateExpression { 
   constructor(json) {
     super(json);
   }
