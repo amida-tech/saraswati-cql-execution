@@ -34,6 +34,7 @@ class Sum extends AggregateExpression {
   exec(ctx) {
     let items = this.source.execute(ctx);
     if (!typeIsArray(items)) {
+      console.log('test');
       return null;
     }
 
