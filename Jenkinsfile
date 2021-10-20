@@ -49,7 +49,7 @@ spec:
                 }
             }
         }
-        stage('Build') {
+        stage('Jenkins Build') {
             steps {
                 echo 'Building..'
                 container('node') {
@@ -57,7 +57,7 @@ spec:
                 }
             }
         }
-        stage('Test') {
+        stage('Jenkins Test') {
             steps {
                 echo 'Testing?'
                 container('node') {
