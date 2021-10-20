@@ -11,12 +11,14 @@ const fs = require('fs');
 const { executeDiabetes } = require('./exec-files/exec-cdc_diabetes-bp');
 const { executeA1c } = require('./exec-files/exec-cdc_hba1c-lessThanEight');
 const { executeImmunization } = require('./exec-files/exec-childhood-immunization-status');
+const { executeNEWImmunization } = require('./exec-files/exec-new-cis');
 const { executeDepression } = require('./exec-files/exec-depression-screening');
 const { executeAsthma } = require('./exec-files/exec-medication-management-for-people-with-asthma');
 const { executePPC } = require('./exec-files/exec-prenatal-postpartum-care');
 const { executePreventable } = require('./exec-files/exec-preventable-complications');
 const { executeChildWellVisit } = require('./exec-files/exec-childhood-well-visit');
 const { executeReadmission } = require('./exec-files/exec-readmission');
+const { executeOpioids } = require('./exec-files/exec-opioids');
 const connectionUrl = `http://${config.host}:${config.port}/cql_service_connector`;
 
 const a1cPath = path.normalize('data/patients/a1c');
@@ -28,6 +30,7 @@ const ppcPath = path.normalize('data/patients/ppc');
 const preventablePath = path.normalize('data/patients/preventable');
 const childWellVisitPath = path.normalize('data/patients/child-well-care');
 const readmissionPath = path.normalize('data/patients/readmission');
+const opioidsPath = path.normalize('data/patients/opioids');
 
 const watcher = dir =>
   watch(dir, (options = { recursive: true, filter: /\.json$/ }), function (event, filename) {
@@ -50,7 +53,7 @@ const watcher = dir =>
             } else if (filename.startsWith(diabetesPath)) {
               data = executeDiabetes(patients);
             } else if (filename.startsWith(immunizationPath)) {
-              data = executeImmunization(patients);
+              data = executeNEWImmunization(patients);
             } else if (filename.startsWith(ppcPath)) {
               data = executePPC(patients);
             } else if (filename.startsWith(preventablePath)) {
@@ -59,6 +62,8 @@ const watcher = dir =>
               data = executeChildWellVisit(patients);
             } else if (filename.startsWith(readmissionPath)) {
               data = executeReadmission(patients);
+            } else if (filename.startsWith(opioidsPath)) {
+              data = executeOpioids(patients);
             }
             if (data) {
               axios.post(connectionUrl, data).then(
