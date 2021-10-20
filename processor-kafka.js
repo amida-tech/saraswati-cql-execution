@@ -24,24 +24,18 @@ async function runner() {
     await consumer.connect()
     await producer.connect()
 
-    console.log("ERIC LOOK HERE: " + JSON.stringify(config));
     let consumedTopic = config.kafkaConsumedTopic
-    let producedTopic = config.kafkaProducedTopic
-    // const consumedTopic = "fhir-logged";
-    // const producedTopic = "hedis-measures";
-    
+    let producedTopic = config.kafkaProducedTopic    
     await consumer.subscribe({ topic: consumedTopic, fromBeginning: false })
     
     //Runs each time a message is recieved
     await consumer.run({
         eachMessage: async ({ topic, partition, message }) => {
-            console.log(">>>>>>>>> Message Recieved")
             let fhirJson = message.value.toString();
             let patients = JSON.parse(fhirJson);
             let data = [];
             evalData(patients,data)
             if (data != null) {
-                console.log(">>>>>>>>>> Sending message")
                 producer.send(
                     {
                         topic: producedTopic,
