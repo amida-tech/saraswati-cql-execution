@@ -61,6 +61,7 @@ spec:
             steps {
                 echo 'Testing?'
                 container('node') {
+                    sh 'git clone https://github.com/amida-tech/ncqa-cql.git private'
                     sh 'yarn test'
                 }
             }
@@ -79,7 +80,7 @@ spec:
         }
         stage('Build Develop with Kaniko') {
             when { 
-                expression {env.GIT_BRANCH != 'master'} 
+                expression {env.GIT_BRANCH == 'develop'} 
             }
             steps {
                 container(name: 'kaniko', shell: '/busybox/sh') {
