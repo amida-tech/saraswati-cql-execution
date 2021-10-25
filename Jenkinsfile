@@ -67,7 +67,12 @@ spec:
                             branches: [
                                 [name: '*/develop']
                             ], 
-                            extensions: [], 
+                            extensions: [
+                                [
+                                    $class: 'RelativeTargetDirectory', 
+                                    relativeTargetDir: 'private'
+                                ]
+                            ], 
                             userRemoteConfigs: [
                                 [
                                     credentialsId: 'KEITH-GITHUB', 
