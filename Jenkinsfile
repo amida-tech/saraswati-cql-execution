@@ -61,7 +61,21 @@ spec:
             steps {
                 echo 'Testing?'
                 container('node') {
-                    sh 'git clone https://github.com/amida-tech/ncqa-cql.git private'
+                    checkout(
+                        [
+                            $class: 'GitSCM', 
+                            branches: [
+                                [name: '*/develop']
+                            ], 
+                            extensions: [], 
+                            userRemoteConfigs: [
+                                [
+                                    credentialsId: 'KEITH-GITHUB', 
+                                    url: 'https://github.com/amida-tech/ncqa-cql.git'
+                                ]
+                            ]
+                        ]
+                    )
                     sh 'yarn test'
                 }
             }
