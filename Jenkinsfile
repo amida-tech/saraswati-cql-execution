@@ -37,6 +37,7 @@ spec:
     }
     environment {
         JENKINS=true
+        KAFKA_BROKERS=["localhost:9092", "whatever:8211"]
     }
 
     stages {
