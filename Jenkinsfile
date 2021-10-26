@@ -82,7 +82,21 @@ spec:
                             ]
                         ]
                     )
-                    sh 'yarn test'
+                    sh 'yarn test:jenkins'
+                    publishCoverage adapters: 
+                        [
+                            istanbulCoberturaAdapter(
+                                path: 'coverage/cobertura-coverage.xml', 
+                                thresholds: [
+                                    [
+                                        thresholdTarget: 'File', 
+                                        unhealthyThreshold: 90.0, 
+                                        unstableThreshold: 85.0
+                                    ]
+                                ]
+                            )
+                        ], 
+                        sourceFileResolver: sourceFiles('NEVER_STORE')
                 }
             }
         }
