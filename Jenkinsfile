@@ -50,7 +50,7 @@ spec:
                 }
             }
         }
-        stage('Building for Jenkins') {
+        stage('Build') {
             steps {
                 echo 'Building..'
                 container('node') {
@@ -58,9 +58,9 @@ spec:
                 }
             }
         }
-        stage('Testing for Jenkins') {
+        stage('Test') {
             steps {
-                echo 'Testing?'
+                echo 'Testing'
                 container('node') {
                     checkout(
                         [
@@ -89,7 +89,7 @@ spec:
                                 path: 'coverage/cobertura-coverage.xml', 
                                 thresholds: [
                                     [
-                                        thresholdTarget: 'File', 
+                                        thresholdTarget: 'Line', 
                                         unhealthyThreshold: 90.0, 
                                         unstableThreshold: 85.0
                                     ]
