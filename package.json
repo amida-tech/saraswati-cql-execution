@@ -118,6 +118,7 @@
     "watch:test-data": "cd ./test/generator && ./gradlew watchTestData && cd ..",
     "test": "mocha --reporter spec --recursive",
     "test:kafka": "mocha ./test/kafka/*-test.js --timeout 10000",
+    "test:seed": "mocha ./test/kafka/manual-kafka-seed.js --timeout 10000",
     "test:nyc": "nyc --reporter=html npx mocha --reporter spec --recursive",
     "test:watch": "mocha --reporter spec --recursive --watch",
     "lint": "eslint .",
