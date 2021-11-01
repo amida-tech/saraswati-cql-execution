@@ -6,9 +6,6 @@ if (process.env.NODE_ENV === 'test') {
 } else {
   dotenv.config();
 }
-// const what = dotenv.config();
-// console.log("+++++++++++" + JSON.stringify(what));
-// console.log("-----------" + JSON.stringify(process.env));
 
 const envVarsSchema = Joi.object({
   NODE_ENV: Joi.string()
