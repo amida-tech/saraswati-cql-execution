@@ -62,4 +62,20 @@ describe('It tests KafkaJS', () => {
       should(consumedMessages[0].message).equal(testData);
     });
   });
+
+  describe('Tests Kafka 2', () => {
+    it('Consumes a topic and produces a measurement', async () => {
+      const consumedMessages = [];
+      await consumer.connect();
+      await consumer.subscribe({ topic: testGroup, fromBeginning: true });
+      await consumer.run({
+        eachMessage: async({ topic, partition, message }) => {
+          consumedMessages.push({ topic, partition, message: message.value.toString()});
+        }
+      });
+      await waitFor(() => consumedMessages.length === 1);
+
+      should(consumedMessages[0].message).equal(testData);
+    });
+  });
 });
