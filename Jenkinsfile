@@ -68,6 +68,12 @@ spec:
                             branches: [
                                 [name: '*/develop']
                             ], 
+                            extensions: [
+                                [
+                                    $class: 'RelativeTargetDirectory', 
+                                    relativeTargetDir: 'ncqa-cql'
+                                ]
+                            ], 
                             userRemoteConfigs: [
                                 [
                                     credentialsId: 'KEITH-GITHUB', 
@@ -76,12 +82,11 @@ spec:
                             ]
                         ]
                     )
-
                     sh 'cd ncqa-cql'
                     sh 'cp -r private ../private'
                     sh 'cd ../'
                     sh 'yarn test:jenkins'
-                    
+
                     publishCoverage adapters: 
                         [
                             istanbulCoberturaAdapter(
