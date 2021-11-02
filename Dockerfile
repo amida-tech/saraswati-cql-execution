@@ -14,6 +14,8 @@ COPY ./exec-files/ /app/exec-files
 COPY ./json-elm/ /app/json-elm
 COPY ./src/ /app/src
 COPY ./processor.js .
+COPY ./processor-kafka.js .
+# You may have an easier time just copying everything... or creating a dev container to do this.
 
 VOLUME [ "/app/data/patients" ]
 
