@@ -71,7 +71,7 @@ spec:
                             extensions: [
                                 [
                                     $class: 'RelativeTargetDirectory', 
-                                    relativeTargetDir: 'private'
+                                    relativeTargetDir: 'ncqa-cql'
                                 ]
                             ], 
                             userRemoteConfigs: [
@@ -82,7 +82,10 @@ spec:
                             ]
                         ]
                     )
+
+                    sh 'cp -a ncqa-cql/private/. private'
                     sh 'yarn test:jenkins'
+
                     publishCoverage adapters: 
                         [
                             istanbulCoberturaAdapter(
