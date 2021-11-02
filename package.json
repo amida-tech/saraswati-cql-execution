@@ -83,7 +83,7 @@
     "body-parser": "^1.19.0",
     "cql-exec-fhir": "^2.0.0",
     "cql-execution": "^2.3.2",
-    "dotenv": "^8.2.0",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-actuator": "^1.7.1",
     "joi": "^17.4.0",
@@ -107,8 +107,8 @@
     "lib": "lib"
   },
   "scripts": {
-    "start": "node processor.js",
-    "kafka": "node processor-kafka.js",
+    "start": "node processor-kafka.js",
+    "localread": "node processor.js",
     "prepublish": "npm run build --scripts-prepend-node-path && npm run build:browserify --scripts-prepend-node-path",
     "build": "babel src --out-dir lib",
     "build:browserify": "node ./bin/browserify.js",
@@ -118,6 +118,7 @@
     "watch:test-data": "cd ./test/generator && ./gradlew watchTestData && cd ..",
     "test": "mocha --reporter spec --recursive",
     "test:kafka": "mocha ./test/kafka/*-test.js --timeout 10000",
+    "test:seed": "mocha ./test/kafka/manual-kafka-seed.js --timeout 10000",
     "test:nyc": "nyc --reporter=html npx mocha --reporter spec --recursive",
     "test:watch": "mocha --reporter spec --recursive --watch",
     "lint": "eslint .",
