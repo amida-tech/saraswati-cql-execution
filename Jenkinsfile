@@ -83,12 +83,7 @@ spec:
                         ]
                     )
 
-                    //sh 'mkdir private'
-                    //sh 'cd ncqa-cql'
                     sh 'cp -a ncqa-cql/private/. private'
-                    //sh 'ls'
-                    //sh 'cd ../'
-                    //sh 'ls'
                     sh 'yarn test:jenkins'
 
                     publishCoverage adapters: 
