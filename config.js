@@ -6,9 +6,6 @@ if (process.env.NODE_ENV === 'test') {
 } else {
   dotenv.config();
 }
-// const what = dotenv.config();
-// console.log("+++++++++++" + JSON.stringify(what));
-// console.log("-----------" + JSON.stringify(process.env));
 
 const envVarsSchema = Joi.object({
   NODE_ENV: Joi.string()
@@ -55,7 +52,10 @@ const envVarsSchema = Joi.object({
     .description('The Kafka topic produced.'),
   MEASUREMENT_YEAR: Joi.string()
     .default('2022')
-    .description('The year for which the measure is evaluated')
+    .description('The year for which the measure is evaluated'),
+  JENKINS: Joi.boolean()
+    .default(false)
+    .description('If this is running in Jenkins or not')
 }).unknown();
 
 const { error, value: envVars } = envVarsSchema.validate(process.env, {convert: true});
@@ -86,7 +86,8 @@ const config = {
   kafkaGroupId: envVars.KAFKA_GROUP_ID,
   kafkaConsumedTopic: envVars.KAFKA_CONSUMED_TOPIC,
   kafkaProducedTopic: envVars.KAFKA_PRODUCED_TOPIC,
-  measurementYear: envVars.MEASUREMENT_YEAR
+  measurementYear: envVars.MEASUREMENT_YEAR,
+  jenkins: envVars.JENKINS
 };
 
 module.exports = config;
