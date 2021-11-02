@@ -6,10 +6,17 @@ const config = require('../../config');
 const waitFor = require('kafkajs/src/utils/waitFor');
 const { v4: uuidv4 } = require('uuid');
 const should = require('should');
+const inboundContractData = require('../../contract/examples/inbound.json');
+const outboundContractData = require('../../contract/examples/inbound.json');
+const { doesNotThrow } = require('should');
+const {evalData} =  require('../../processor-kafka');
+
+const inbound = inboundContractData[0].entry[0];
 
 describe('It tests KafkaJS', () => {
   const testGroup = uuidv4(); // You want these to be different each time so tests don't collide.
   const testData = uuidv4();
+
 
   const kafka = new Kafka({
     clientId: testGroup,
@@ -27,7 +34,7 @@ describe('It tests KafkaJS', () => {
     await consumer.disconnect();
     await admin.connect();
     await admin.deleteTopics({
-      topics: [testGroup],
+      topics: [testGroup, "jsonTest"],
       timeout: 10000
     });
     await admin.disconnect();
@@ -41,6 +48,12 @@ describe('It tests KafkaJS', () => {
       topic: testGroup,
       messages: [
         { value: testData }
+      ],
+    });
+    await producer.send({
+      topic: "jsonTest",
+      messages: [
+        { value: JSON.stringify(inbound) }
       ],
     });
   
@@ -64,18 +77,31 @@ describe('It tests KafkaJS', () => {
   });
 
   describe('Tests Kafka 2', () => {
-    it('Consumes a topic and produces a measurement', async () => {
+    it('Consumes a topic and produces an outbound message', async () => {
+
+      const outbound = outboundContractData
       const consumedMessages = [];
       await consumer.connect();
-      await consumer.subscribe({ topic: testGroup, fromBeginning: true });
+      console.log(outbound);
+      console.log(">>>>>>>>>> 5");
+      await consumer.subscribe({ topic: "jsonTest", fromBeginning: true });
+      console.log(">>>>>>>>>> 6");
       await consumer.run({
         eachMessage: async({ topic, partition, message }) => {
-          consumedMessages.push({ topic, partition, message: message.value.toString()});
+          console.log(">>>>>>>>>> 7");
+          if (topic === "jsonTest"){
+            consumedMessages.push({ topic, partition, message: message.value.toString()});
+          }
+          console.log(consumedMessages); 
         }
       });
+      console.log(">>>>>>>>>> 8");
       await waitFor(() => consumedMessages.length === 1);
-
-      should(consumedMessages[0].message).equal(testData);
+        let data = []
+        console.log(evalData(consumedMessages[0].message, data));
+      should(consumedMessages[0].message).equal(outbound.toString);
+      await consumer.disconnect();
+      await done();
     });
   });
 });
