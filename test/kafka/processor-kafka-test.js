@@ -8,6 +8,11 @@ const { v4: uuidv4 } = require('uuid');
 const should = require('should');
 
 describe('It tests KafkaJS', () => {
+  if (config.jenkins) {
+    //Kafka doesn't run in Jenkins, so we want to skip these tests
+    return;
+  }
+
   const testGroup = uuidv4(); // You want these to be different each time so tests don't collide.
   const testData = uuidv4();
 
