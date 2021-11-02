@@ -83,9 +83,9 @@ spec:
                         ]
                     )
 
-                    sh 'mkdir private'
+                    //sh 'mkdir private'
                     //sh 'cd ncqa-cql'
-                    sh 'cp -a ncqa-cql/private/. ../private'
+                    sh 'cp -a ncqa-cql/private/. private'
                     //sh 'ls'
                     //sh 'cd ../'
                     //sh 'ls'
