@@ -71,7 +71,7 @@ spec:
                             extensions: [
                                 [
                                     $class: 'RelativeTargetDirectory', 
-                                    relativeTargetDir: 'private'
+                                    relativeTargetDir: 'ncqaTemp'
                                 ]
                             ], 
                             userRemoteConfigs: [
@@ -82,6 +82,7 @@ spec:
                             ]
                         ]
                     )
+                    sh 'cp -R ncqaTemp/private/* /private'
                     sh 'yarn test:jenkins'
                     publishCoverage adapters: 
                         [
