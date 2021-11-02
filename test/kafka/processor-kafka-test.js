@@ -9,7 +9,6 @@ const should = require('should');
 const inboundContractData = require('../../contract/examples/inbound.json');
 const outboundContractData = require('../../contract/examples/inbound.json');
 const { doesNotThrow } = require('should');
-const {evalData} =  require('../../processor-kafka');
 
 const inbound = inboundContractData[0].entry[0];
 
@@ -92,13 +91,13 @@ describe('It tests KafkaJS', () => {
           if (topic === "jsonTest"){
             consumedMessages.push({ topic, partition, message: message.value.toString()});
           }
-          console.log(consumedMessages); 
         }
       });
       console.log(">>>>>>>>>> 8");
       await waitFor(() => consumedMessages.length === 1);
         let data = []
-        console.log(evalData(consumedMessages[0].message, data));
+        evalData(consumedMessages[0].message, data);
+        console.log(data[0]);
       should(consumedMessages[0].message).equal(outbound.toString);
       await consumer.disconnect();
       await done();
