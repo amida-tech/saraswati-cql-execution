@@ -85,7 +85,7 @@ spec:
 
                     sh 'mkdir private'
                     sh 'cd ncqa-cql'
-                    sh 'cp -r private ../private'
+                    sh 'cp -a private/* ../private'
                     sh 'cd ../'
                     sh 'yarn test:jenkins'
 
