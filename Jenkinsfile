@@ -68,12 +68,6 @@ spec:
                             branches: [
                                 [name: '*/develop']
                             ], 
-                            extensions: [
-                                [
-                                    $class: 'RelativeTargetDirectory', 
-                                    relativeTargetDir: 'ncqaTemp'
-                                ]
-                            ], 
                             userRemoteConfigs: [
                                 [
                                     credentialsId: 'KEITH-GITHUB', 
@@ -82,8 +76,12 @@ spec:
                             ]
                         ]
                     )
-                    sh 'cp -r ncqaTemp/private/. /private'
+
+                    sh 'cd ncqaTemp'
+                    sh 'cp -r private ../private'
+                    sh 'cd ../'
                     sh 'yarn test:jenkins'
+                    
                     publishCoverage adapters: 
                         [
                             istanbulCoberturaAdapter(
