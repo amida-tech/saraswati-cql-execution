@@ -82,7 +82,7 @@ spec:
                             ]
                         ]
                     )
-                    sh 'cp -R ncqaTemp/private/* /private'
+                    sh 'cp -r ncqaTemp/private/. /private'
                     sh 'yarn test:jenkins'
                     publishCoverage adapters: 
                         [
