@@ -77,7 +77,7 @@ spec:
                         ]
                     )
 
-                    sh 'cd ncqaTemp'
+                    sh 'cd ncqa-cql'
                     sh 'cp -r private ../private'
                     sh 'cd ../'
                     sh 'yarn test:jenkins'
