@@ -5,26 +5,6 @@ const config = require('../../config');
 const waitFor = require('kafkajs/src/utils/waitFor');
 const { v4: uuidv4 } = require('uuid');
 const should = require('should');
-const inboundContractData = require('../../contract/examples/inbound.json');
-const outboundContractData = require('../../contract/examples/outbound.json');
-const evaluator = require('../../processor-kafka');
-const moment = require('moment');
-
-
-const updateTimestamp = moment().unix(1)
-
-describe('Evalutaor Test', () => {
-  it('Evaluates data', async () => {
-    let data = []
-    const evalData = inboundContractData;
-    let outboundJson = outboundContractData;
-      evaluator.evalData(evalData, data);
-      fixTimestamp(data);
-      fixTimestamp(outboundJson);
-
-      should(JSON.stringify(data)).equal(JSON.stringify(outboundJson));
-  });
-});
 
 describe('It tests KafkaJS', () => {
   if (config.jenkins) {
@@ -87,9 +67,3 @@ describe('It tests KafkaJS', () => {
     });
   });
 });
-
-function fixTimestamp(inputJson){
-    inputJson.forEach(entry => {
-      entry.timeStamp = updateTimestamp;
-    })
-}
