@@ -1,4 +1,3 @@
-// const consumer = require('../processor-kafka');
 const { Kafka } = require('kafkajs');
 const logger = require('../../src/winston');
 const kafkaLogger = require('../../src/kafka-winston-config');
@@ -10,7 +9,6 @@ const inboundContractData = require('../../contract/examples/inbound.json');
 const outboundContractData = require('../../contract/examples/outbound.json');
 const evaluator = require('../../processor-kafka');
 const moment = require('moment');
-const jsonl = require('jsonl');
 
 
 const updateTimestamp = moment().unix(1)
