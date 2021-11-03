@@ -9,8 +9,8 @@ const should = require('should');
 const inboundContractData = require('../../contract/examples/inbound.json');
 const outboundContractData = require('../../contract/examples/inbound.json');
 const { doesNotThrow } = require('should');
-
-const inbound = inboundContractData[0].entry[0];
+const evaluator = require('../../processor-kafka');
+const { executeA1c } = require('../../exec-files/exec-cdc_hba1c-lessThanEight');
 
 describe('It tests KafkaJS', () => {
   if (config.jenkins) {
@@ -39,7 +39,7 @@ describe('It tests KafkaJS', () => {
     await admin.connect();
     await admin.deleteTopics({
       topics: [testGroup, "jsonTest"],
-      timeout: 10000
+      timeout: 30000
     });
     await admin.disconnect();
   });
@@ -54,12 +54,23 @@ describe('It tests KafkaJS', () => {
         { value: testData }
       ],
     });
-    await producer.send({
-      topic: "jsonTest",
-      messages: [
-        { value: JSON.stringify(inbound) }
-      ],
-    });
+
+    let completed = false;
+
+    while (!completed) {
+      inboundContractData[0].entry.forEach(
+        entry => {
+          producer.send({
+            topic: "jsonTest",
+            messages: [
+              { value: JSON.stringify(entry) }
+            ],
+          });
+        }
+      )
+      completed = true;
+    }
+
   
     await producer.disconnect();
   });
@@ -81,29 +92,39 @@ describe('It tests KafkaJS', () => {
   });
 
   describe('Tests Kafka 2', () => {
-    it('Consumes a topic and produces an outbound message', async () => {
+    it('Consumes valid fhir bundle and produces a proccesed outbound message', async () => {
 
       const outbound = outboundContractData
       const consumedMessages = [];
       await consumer.connect();
-      console.log(outbound);
-      console.log(">>>>>>>>>> 5");
       await consumer.subscribe({ topic: "jsonTest", fromBeginning: true });
-      console.log(">>>>>>>>>> 6");
       await consumer.run({
         eachMessage: async({ topic, partition, message }) => {
-          console.log(">>>>>>>>>> 7");
           if (topic === "jsonTest"){
+            console.log(">>>>>>>>>> 7")
             consumedMessages.push({ topic, partition, message: message.value.toString()});
+
           }
         }
       });
       console.log(">>>>>>>>>> 8");
-      await waitFor(() => consumedMessages.length === 1);
+      await waitFor(() => consumedMessages.length > 1);
+      console.log(">>>>>>>>>> 9")
         let data = []
-        evalData(consumedMessages[0].message, data);
-        console.log(data[0]);
-      should(consumedMessages[0].message).equal(outbound.toString);
+        console.log(consumedMessages)
+        const evalMessage = consumedMessages[1].message;
+        console.log(">>>>>>>>>> 10")
+        console.log(evalMessage)
+        console.log(">>>>>>>>>> 11")
+        try{
+        data.push(executeA1c(evalMessage.resource))}
+        catch (error) {
+          console.error(error)
+        }
+        // evaluator.evalData([evalMessage], data);
+        console.log(">>>>>>>>>> data")
+        console.log(data)
+      should(data).equal(outbound.toString);
       await consumer.disconnect();
       await done();
     });
