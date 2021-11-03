@@ -116,7 +116,7 @@
     "build:spec-test-data": "node test/spec-tests/generate-cql.js && cd ./test/generator && ./gradlew generateSpecTestData && cd ..",
     "build:all": "npm run build --scripts-prepend-node-path && npm run build:browserify --scripts-prepend-node-path && npm run build:test-data --scripts-prepend-node-path && npm run build:spec-test-data --scripts-prepend-node-path",
     "watch:test-data": "cd ./test/generator && ./gradlew watchTestData && cd ..",
-    "test": "mocha --reporter spec --recursive",
+    "test": "mocha --reporter spec --recursive --timeout 15000",
     "test:kafka": "mocha ./test/kafka/*-test.js --timeout 15000",
     "test:seed": "mocha ./test/kafka/manual-kafka-seed.js --timeout 10000",
     "test:nyc": "nyc --reporter=html npx mocha --reporter spec --recursive",
