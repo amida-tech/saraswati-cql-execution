@@ -18,6 +18,8 @@ const NCQA_Medication = require('../private/libraries/NCQA_Medication-1.0.0.json
 const NCQA_Immunization = require('../private/libraries/NCQA_Immunization-1.0.0.json');
 const NCQA_Status = require('../private/libraries/NCQA_Status-1.0.0.json');
 const NCQA_Terminology = require('../private/libraries/NCQA_Terminology-1.0.0.json');
+const NCQA_PalliativeCare = require('../private/libraries/NCQA_PalliativeCare-1.0.0.json');
+const NCQA_AdvancedFrailty = require('../private/libraries/NCQA_AdvancedIllnessandFrailty-1.0.0.json');
 const moment = require('moment');
 
 const removeArrayValues = patient => {
@@ -50,14 +52,16 @@ const execute = (measure, patients, codeservice) => {
     Diabetes_Library: diabetes_library,
     FHIRHelpers401: fhirhelpers401,
     CQLBase: cql_base,
-    NCQAClaims: NCQA_Claims,
+    CQLClaims: NCQA_Claims,
     CQLFhirBase: cql_fhirbase,
     CQLHealthPlanEnrollment: cql_healthplanEnrollmentbase,
     CQLImmunization: NCQA_Immunization,
-    NCQAMedication: NCQA_Medication,
+    CQLMedication: NCQA_Medication,
     CQLStatus: NCQA_Status,
     CQLTerminology: NCQA_Terminology,
-    CQLHospice: NCQA_Hospice
+    CQLHospice: NCQA_Hospice,
+    CQLPalliativeCare: NCQA_PalliativeCare,
+    CQLAdvancedFrailty: NCQA_AdvancedFrailty
   };
 
   const lib = new cql.Library(measure, new cql.Repository(includedLibs));
