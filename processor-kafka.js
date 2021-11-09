@@ -11,6 +11,7 @@ const { executePreventable } = require('./exec-files/exec-preventable-complicati
 const { executeChildWellVisit } = require('./exec-files/exec-childhood-well-visit');
 const { executeReadmission } = require('./exec-files/exec-readmission');
 const { executeDepressionRemission } = require('./exec-files/exec-drre');
+const { executeColorectalCancer } = require('./exec-files/exec-colorectal-cancer');
 
 const kafka = new Kafka({
   clientId: 'cql-execution',
@@ -67,6 +68,7 @@ function evalData(patients, data){
     workingArray.push(executeChildWellVisit(element));
     workingArray.push(executeReadmission(element));
     workingArray.push(executeDepressionRemission(element));
+    workingArray.push(executeColorectalCancer(element));
 
     workingArray.forEach(score => {
       if (score.Denominator != 0){
