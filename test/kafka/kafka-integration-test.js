@@ -32,7 +32,7 @@ describe('It tests KafkaJS', () => {
     await consumer.disconnect();
     await admin.connect();
     await admin.deleteTopics({
-      topics: [testGroup, "jsonTest"],
+      topics: [testGroup],
       timeout: 10000
     });
     await admin.disconnect();
