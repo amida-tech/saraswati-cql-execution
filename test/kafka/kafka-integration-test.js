@@ -1,4 +1,3 @@
-// const consumer = require('../processor-kafka');
 const { Kafka } = require('kafkajs');
 const logger = require('../../src/winston');
 const kafkaLogger = require('../../src/kafka-winston-config');
@@ -15,6 +14,7 @@ describe('It tests KafkaJS', () => {
 
   const testGroup = uuidv4(); // You want these to be different each time so tests don't collide.
   const testData = uuidv4();
+
 
   const kafka = new Kafka({
     clientId: testGroup,
@@ -47,8 +47,7 @@ describe('It tests KafkaJS', () => {
       messages: [
         { value: testData }
       ],
-    });
-  
+    });  
     await producer.disconnect();
   });
   

@@ -77,3 +77,9 @@ function evalData(patients, data){
 }
 
 runner();
+
+const evaluator = {
+    evalData: evalData,
+}
+
+module.exports = evaluator;
