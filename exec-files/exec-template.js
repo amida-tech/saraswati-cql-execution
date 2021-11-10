@@ -1,6 +1,7 @@
 var fs = require('fs');
 const config = require('../config');
 const cqlfhir = require('cql-exec-fhir');
+const cqlvsac = require('cql-exec-vsac');
 var jsonl = require('jsonl');
 var { cloneDeep } = require('lodash');
 const { v4: uuidv4 } = require('uuid');

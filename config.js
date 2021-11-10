@@ -55,7 +55,16 @@ const envVarsSchema = Joi.object({
     .description('The year for which the measure is evaluated'),
   JENKINS: Joi.boolean()
     .default(false)
-    .description('If this is running in Jenkins or not')
+    .description('If this is running in Jenkins or not'),
+  MEASUREMENT_DIRECTORY: Joi.string()
+    .default('private\\measurements\\2022')
+    .description('Location of the measure(s). Can be a directory or file.'),
+  LIBRARIES_DIRECTORY: Joi.string()
+    .default('private\\libraries')
+    .description('Location of the libraries. Directory only.'),
+  VALUESETS_DIRECTORY: Joi.string()
+    .default('private\\valuesets\\2022')
+    .description('Location of the value sets. Directory only.'),
 }).unknown();
 
 const { error, value: envVars } = envVarsSchema.validate(process.env, {convert: true});
@@ -87,6 +96,9 @@ const config = {
   kafkaConsumedTopic: envVars.KAFKA_CONSUMED_TOPIC,
   kafkaProducedTopic: envVars.KAFKA_PRODUCED_TOPIC,
   measurementYear: envVars.MEASUREMENT_YEAR,
+  measurementDirectory: envVars.MEASUREMENT_DIRECTORY,
+  librariesDirectory: envVars.LIBRARIES_DIRECTORY,
+  valuesetsDirectory: envVars.VALUESETS_DIRECTORY,
   jenkins: envVars.JENKINS
 };
 
