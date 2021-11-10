@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const dotenv = require('dotenv');
 const fs = require('fs');
+const path = require('path');
 
 if (process.env.NODE_ENV === 'test') {
   dotenv.config({ path: '.env.test' });
@@ -58,14 +59,17 @@ const envVarsSchema = Joi.object({
     .default(false)
     .description('If this is running in Jenkins or not'),
   MEASUREMENT_DIRECTORY: Joi.string()
-    .default('private\\measurements\\2022\\')
+    .default(path.join('private', 'measurements', '2022'))
     .description('Location of the measure(s). Can be a directory or file.'),
   LIBRARIES_DIRECTORY: Joi.string()
-    .default('private\\libraries\\')
+    .default(path.join('private', 'libraries'))
     .description('Location of the libraries. Directory only.'),
   VALUESETS_DIRECTORY: Joi.string()
-    .default('private\\valuesets\\2022\\')
+    .default(path.join('private', 'valuesets', '2022'))
     .description('Location of the value sets. Directory only.'),
+  UMLS_API_KEY: Joi.string()
+    .description('The UMLS API Key for the VSAC.')
+    .required()
 }).unknown();
 
 const { error, value: envVars } = envVarsSchema.validate(process.env, {convert: true});

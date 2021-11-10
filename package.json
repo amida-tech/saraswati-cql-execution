@@ -94,6 +94,7 @@
     "minimist": "^1.2.5",
     "moment": "^2.27.0",
     "node-watch": "^0.7.1",
+    "promisify": "^0.0.3",
     "ucum": "^0.0.7",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
