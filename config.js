@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const dotenv = require('dotenv');
+const fs = require('fs');
 
 if (process.env.NODE_ENV === 'test') {
   dotenv.config({ path: '.env.test' });
@@ -57,20 +58,38 @@ const envVarsSchema = Joi.object({
     .default(false)
     .description('If this is running in Jenkins or not'),
   MEASUREMENT_DIRECTORY: Joi.string()
-    .default('private\\measurements\\2022')
+    .default('private\\measurements\\2022\\')
     .description('Location of the measure(s). Can be a directory or file.'),
   LIBRARIES_DIRECTORY: Joi.string()
-    .default('private\\libraries')
+    .default('private\\libraries\\')
     .description('Location of the libraries. Directory only.'),
   VALUESETS_DIRECTORY: Joi.string()
-    .default('private\\valuesets\\2022')
+    .default('private\\valuesets\\2022\\')
     .description('Location of the value sets. Directory only.'),
 }).unknown();
 
 const { error, value: envVars } = envVarsSchema.validate(process.env, {convert: true});
 if (error) {
-  throw new Error(`Config validation error: ${error.message}`);
+  throw new Error(`Config validation error: ${error}`);
 }
+
+fs.access(envVars.MEASUREMENT_DIRECTORY, function(errorMeasuresDir) {
+  if(errorMeasuresDir) {
+    throw new Error(`Configuration validation error: ${errorMeasuresDir}`);
+  }
+});
+
+fs.access(envVars.LIBRARIES_DIRECTORY, function(errorLibrariesDir) {
+  if(errorLibrariesDir) {
+    throw new Error(`Configuration validation error: ${errorLibrariesDir}`);
+  }
+});
+
+fs.access(envVars.VALUESETS_DIRECTORY, function(errorValuesetsDir) {
+  if(errorValuesetsDir) {
+    throw new Error(`Configuration validation error: ${errorValuesetsDir}`);
+  }
+});
 
 let arrayDelimiter = ' ';
 if (envVars.KAFKA_BROKERS.includes(', ')) {
