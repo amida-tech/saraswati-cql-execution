@@ -58,18 +58,17 @@ const envVarsSchema = Joi.object({
   JENKINS: Joi.boolean()
     .default(false)
     .description('If this is running in Jenkins or not'),
-  MEASUREMENT_DIRECTORY: Joi.string()
+  MEASUREMENT_FILE: Joi.string()
     .default(path.join('private', 'measurements', '2022'))
-    .description('Location of the measure(s). Can be a directory or file.'),
+    .description('Location of the measure. File only.'),
   LIBRARIES_DIRECTORY: Joi.string()
     .default(path.join('private', 'libraries'))
     .description('Location of the libraries. Directory only.'),
   VALUESETS_DIRECTORY: Joi.string()
     .default(path.join('private', 'valuesets', '2022'))
     .description('Location of the value sets. Directory only.'),
-  UMLS_API_KEY: Joi.string()
-    .description('The UMLS API Key for the VSAC.')
-    .required()
+  MEASUREMENT_DEV_DATA: Joi.string()
+    .description('The directory to watch while running "localread," such as "data/patients/diabetes". Only used for development.')
 }).unknown();
 
 const { error, value: envVars } = envVarsSchema.validate(process.env, {convert: true});
@@ -77,9 +76,9 @@ if (error) {
   throw new Error(`Config validation error: ${error}`);
 }
 
-fs.access(envVars.MEASUREMENT_DIRECTORY, function(errorMeasuresDir) {
-  if(errorMeasuresDir) {
-    throw new Error(`Configuration validation error: ${errorMeasuresDir}`);
+fs.access(envVars.MEASUREMENT_FILE, function(errorMeasuresFile) {
+  if(errorMeasuresFile) {
+    throw new Error(`Configuration validation error: ${errorMeasuresFile}`);
   }
 });
 
@@ -119,9 +118,10 @@ const config = {
   kafkaConsumedTopic: envVars.KAFKA_CONSUMED_TOPIC,
   kafkaProducedTopic: envVars.KAFKA_PRODUCED_TOPIC,
   measurementYear: envVars.MEASUREMENT_YEAR,
-  measurementDirectory: envVars.MEASUREMENT_DIRECTORY,
+  measurementFile: envVars.MEASUREMENT_FILE,
   librariesDirectory: envVars.LIBRARIES_DIRECTORY,
   valuesetsDirectory: envVars.VALUESETS_DIRECTORY,
+  measurementDevData: envVars.MEASUREMENT_DEV_DATA,
   jenkins: envVars.JENKINS
 };
 

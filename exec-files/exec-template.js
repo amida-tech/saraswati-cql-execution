@@ -4,7 +4,6 @@ const promisify = require('util').promisify;
 const readdirp = promisify(fs.readdir);
 
 const cqlfhir = require('cql-exec-fhir');
-const cqlvsac = require('cql-exec-vsac');
 var jsonl = require('jsonl');
 const moment = require('moment');
 var { cloneDeep } = require('lodash');
@@ -15,52 +14,91 @@ const codes = require('../src/cql-code-service');
 const cql = require('../src/cql');
 const logger = require('../src/winston');
 
-const measures = [];
+let measure = {};
 const libraries = {};
-const valuesets = [];
-const engineLibraries = [];
+const valueSets = {};
+let engineLibraries;
 let codeService;
+const messageListener = new cql.ConsoleMessageListener();
+const parameters = {
+  'Measurement Period' : new cql.Interval(
+    new cql.DateTime(Number(config.measurementYear), 1, 1, 0, 0, 0, 0),
+    new cql.DateTime(Number(config.measurementYear) + 1, 1, 1, 0, 0, 0, 0),
+    true,
+    false
+  )
+};
+const patientSource = cqlfhir.PatientSource.FHIRv401();
 
 logger.info('Exec Template started.');
 
-async function jsonDirectoryScan(directory, results) {
-  let files = await readdirp(directory);
-  for(let file of files) {
-    const readFile = fs.readFileSync(path.join(__dirname, '..', directory, file));
-    results.push(JSON.parse(readFile, 'utf-8'));
-  }
+async function measurementFileScan() {
+  measure = JSON.parse(
+    fs.readFileSync(path.join(__dirname, '..', config.measurementFile)),
+    'utf-8');
 }
 
 async function librariesDirectoryScan() {
   let files = await readdirp(config.librariesDirectory);
   for(let file of files) {
-    const libraryFile = require(path.join('..', config.librariesDirectory, file));
-    libraries[file.replace(/[-.]/g,'')] = libraryFile;
+    if (file.endsWith('.json')) {
+      const libraryFile = require(path.join('..', config.librariesDirectory, file));
+      libraries[file.replace(/[-.]/g,'')] = libraryFile;
+    }
   }
 }
 
-// async function checkValueset() {
-//   await codeService.(valuesets);
-//   logger.info('CodeService valuesets finished.');
-//   console.log(codeService);
-// }
+async function valueSetsDirectoryCompile() {
+  let files = await readdirp(config.valuesetsDirectory);
+  for(let file of files) {
+    if (!file.endsWith('.json')) {
+      continue;
+    }
 
-jsonDirectoryScan(config.measurementDirectory, measures).then(() => {
-  logger.info('Measurement files located, count: ' + measures.length + '.');
+    const vsFile = JSON.parse(fs.readFileSync(path.join(__dirname, '..', config.valuesetsDirectory, file)));
+    if (!vsFile.expansion || !vsFile.expansion.contains) {
+      throw new Error('No "expansion.contains" found in ' + file + '.');
+    }
+
+    const contains = vsFile.expansion.contains.map(container => {
+      delete container.display;
+      return container;
+    });
+
+    let title;
+    if (vsFile.title) {
+      title = vsFile.title;
+    } else {
+      logger.warn('No "title" was found. Please manually update.');
+      title = 'No Title Found';
+    }
+    
+    let oidKey;
+    if (vsFile.url) {
+      oidKey = vsFile.url;
+    } else {
+      logger.warn('Using filename for oidKey.');
+      oidKey = 'http://www.ncqa.org/fhir/valueset/' + file.slice(0,-5);
+    }
+
+    valueSets[oidKey] = {
+      [title]: contains
+    };
+  }
+}
+
+measurementFileScan().then(() => {
+  logger.info('Measurement file located: ' + config.measurementFile + '.');
 });
 
 librariesDirectoryScan().then(() => {
   logger.info('Library files located, count: ' + Object.keys(libraries).length + '.');
-  measures.forEach(measure => {
-    engineLibraries.push(new cql.Library(measure, new cql.Repository(libraries)));
-  });
+  engineLibraries = new cql.Library(measure, new cql.Repository(libraries));
 });
 
-jsonDirectoryScan(config.valuesetsDirectory, valuesets).then(() => {
-  logger.info('Valueset files located, count: ' + valuesets.length + '.');
-  // codeService = new cqlvsac.CodeService(path.join(__dirname, 'vsac_cache'), true);
-}).then(() => {
-  // checkValueset(); 
+valueSetsDirectoryCompile().then(() => {
+  logger.info('Value set files located, count: ' + Object.keys(valueSets).length + '.');
+  codeService = new codes.CodeService(valueSets);
 });
 
 const removeArrayValues = patient => {
@@ -88,21 +126,10 @@ const cleanData = patientResults => {
 };
 
 const execute = (measure, patients, codeservice) => {
-
   const lib = new cql.Library(measure, new cql.Repository(libraries));
   const cservice = new codes.CodeService(codeservice);
-  const messageListener = new cql.ConsoleMessageListener();
-  const parameters = {
-    'Measurement Period' : new cql.Interval(
-      new cql.DateTime(Number(config.measurementYear), 1, 1, 0, 0, 0, 0),
-      new cql.DateTime(Number(config.measurementYear) + 1, 1, 1, 0, 0, 0, 0),
-      true,
-      false
-    )
-  };
 
   const executor = new cql.Executor(lib, cservice, parameters, messageListener);
-  const patientSource = cqlfhir.PatientSource.FHIRv401();
   patientSource.loadBundles(patients);
 
   const result = executor.exec(patientSource);
@@ -128,4 +155,18 @@ const execute = (measure, patients, codeservice) => {
   return cleanedPatientResults;
 };
 
-module.exports = { execute, cleanData };
+const executeNew = (patients) => {
+  const executor = new cql.Executor(engineLibraries, codeService, parameters, messageListener);
+  patientSource.loadBundles(patients);
+
+  const result = executor.exec(patientSource);
+  console.log(result.patientResults); // eslint-disable-line no-console
+  console.log(result.unfilteredResults); // eslint-disable-line no-console
+
+  const cleanedPatientResults = cleanData(result.patientResults);
+  cleanedPatientResults.timeStamp = moment().format();
+
+  return cleanedPatientResults;
+};
+
+module.exports = { execute, executeNew, cleanData };
