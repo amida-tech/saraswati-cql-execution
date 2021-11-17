@@ -18,14 +18,18 @@ const watcher = dir =>
       if (err) {
         logger.info('File does not exists.');
       } else {
+        let send = false;
         fs.readFile('.' + path.normalize('/' + filename), function (fileReadErr, data) {
           if (fileReadErr) throw fileReadErr;
           let patients = JSON.parse(data);
           if (patients) {
             if (filename.startsWith(config.measurementDevData)) {
               data = execute(patients);
-            } 
-            if (data) {
+              send = true;
+            } else {
+              logger.info('Wrong folder changed.');
+            }
+            if (send) {
               axios.post(connectionUrl, data).then(
                 response => {
                   var result = response.data;
