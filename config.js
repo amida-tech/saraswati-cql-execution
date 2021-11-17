@@ -59,14 +59,14 @@ const envVarsSchema = Joi.object({
     .default(false)
     .description('If this is running in Jenkins or not'),
   MEASUREMENT_FILE: Joi.string()
-    .default(path.join('private', 'measurements', '2022'))
-    .description('Location of the measure. File only.'),
+    .description('Location of the measure. File only.')
+    .required(),
   LIBRARIES_DIRECTORY: Joi.string()
-    .default(path.join('private', 'libraries'))
-    .description('Location of the libraries. Directory only.'),
+    .description('Location of the libraries. Directory only.')
+    .required(),
   VALUESETS_DIRECTORY: Joi.string()
-    .default(path.join('private', 'valuesets', '2022'))
-    .description('Location of the value sets. Directory only.'),
+    .description('Location of the value sets. Directory only.')
+    .required(),
   MEASUREMENT_DEV_DATA: Joi.string()
     .description('The directory to watch while running "localread," such as "data/patients/diabetes". Only used for development.')
 }).unknown();
