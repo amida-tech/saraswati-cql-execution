@@ -28,7 +28,7 @@ const parameters = {
 };
 const patientSource = cqlfhir.PatientSource.FHIRv401();
 
-logger.info('Exec Template started.');
+logger.info('Exec config building.');
 
 async function measurementFileScan() {
   measure = JSON.parse(

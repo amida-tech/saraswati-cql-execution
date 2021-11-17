@@ -73,7 +73,7 @@ const envVarsSchema = Joi.object({
 
 const { error, value: envVars } = envVarsSchema.validate(process.env, {convert: true});
 if (error) {
-  throw new Error(`Config validation error: ${error}`);
+  throw new Error(`Config validation error: ${error.message}`);
 }
 
 fs.access(envVars.MEASUREMENT_FILE, function(errorMeasuresFile) {
