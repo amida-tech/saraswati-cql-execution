@@ -179,8 +179,6 @@ class Context {
   supportLibraryLocalIds(lib, localIdResults) {
     // Set library identifier name as the key and the object of localIds with their results as the value
     // if it already exists then we need to merge the results instead of overwriting
-    console.log("JAMES");
-    console.log(lib);
     if (localIdResults[lib.library.source.library.identifier.id] != null) {
       this.mergeLibraryLocalIdResults(
         localIdResults,
