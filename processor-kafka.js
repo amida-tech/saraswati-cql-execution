@@ -1,16 +1,6 @@
 const { Kafka } = require('kafkajs');
 const config = require('./config');
-
-const { executeDiabetes } = require('./exec-files/exec-cdc_diabetes-bp');
-const { executeA1c } = require('./exec-files/exec-cdc_hba1c-lessThanEight');
-const { executeImmunization } = require('./exec-files/exec-childhood-immunization-status');
-const { executeDepression } = require('./exec-files/exec-depression-screening');
-const { executeAsthma } = require('./exec-files/exec-medication-management-for-people-with-asthma');
-const { executePPC } = require('./exec-files/exec-prenatal-postpartum-care');
-const { executePreventable } = require('./exec-files/exec-preventable-complications');
-const { executeChildWellVisit } = require('./exec-files/exec-childhood-well-visit');
-const { executeReadmission } = require('./exec-files/exec-readmission');
-const { executeDepressionRemission } = require('./exec-files/exec-drre');
+const { execute } = require('./exec-files/exec-config');
 
 const kafka = new Kafka({
   clientId: 'cql-execution',
@@ -56,30 +46,17 @@ async function runner() {
 // This function contains all of the business logic for the evaluation.
 function evalData(patients, data){
   patients.forEach(element => {
-    let workingArray = [];
-    workingArray.push(executeA1c(element));
-    workingArray.push(executeAsthma(element));
-    workingArray.push(executeDepression(element));
-    workingArray.push(executeDiabetes(element));
-    workingArray.push(executeImmunization(element));
-    workingArray.push(executePPC(element));
-    workingArray.push(executePreventable(element));
-    workingArray.push(executeChildWellVisit(element));
-    workingArray.push(executeReadmission(element));
-    workingArray.push(executeDepressionRemission(element));
-
-    workingArray.forEach(score => {
-      if (score.Denominator != 0){
-        data.push(score);
-      }
-    });
+    const results = execute(element);
+    if (results.Denominator != 0){
+      data.push(results);
+    }
   });
 }
 
 runner();
 
 const evaluator = {
-    evalData: evalData,
-}
+  evalData: evalData,
+};
 
 module.exports = evaluator;

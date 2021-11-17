@@ -8,7 +8,7 @@ const config = require('./config');
 const path = require('path');
 const fs = require('fs');
 
-const { executeNew } = require('./exec-files/exec-template');
+const { execute } = require('./exec-files/exec-config');
 const connectionUrl = `http://${config.host}:${config.port}/cql_service_connector`;
 
 const watcher = dir =>
@@ -23,7 +23,7 @@ const watcher = dir =>
           let patients = JSON.parse(data);
           if (patients) {
             if (filename.startsWith(config.measurementDevData)) {
-              data = executeNew(patients);
+              data = execute(patients);
             } 
             if (data) {
               axios.post(connectionUrl, data).then(

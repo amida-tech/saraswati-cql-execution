@@ -4,10 +4,8 @@ const promisify = require('util').promisify;
 const readdirp = promisify(fs.readdir);
 
 const cqlfhir = require('cql-exec-fhir');
-var jsonl = require('jsonl');
 const moment = require('moment');
 var { cloneDeep } = require('lodash');
-const { v4: uuidv4 } = require('uuid');
 
 const config = require('../config');
 const codes = require('../src/cql-code-service');
@@ -125,37 +123,7 @@ const cleanData = patientResults => {
   return clonedPatientResults;
 };
 
-const execute = (measure, patients, codeservice) => {
-  const lib = new cql.Library(measure, new cql.Repository(libraries));
-  const cservice = new codes.CodeService(codeservice);
-
-  const executor = new cql.Executor(lib, cservice, parameters, messageListener);
-  patientSource.loadBundles(patients);
-
-  const result = executor.exec(patientSource);
-  console.log(result.patientResults); // eslint-disable-line no-console
-  console.log(result.unfilteredResults); // eslint-disable-line no-console
-
-  const cleanedPatientResults = cleanData(result.patientResults);
-  cleanedPatientResults.timeStamp = moment().format();
-
-  const convertToJSONL = err => {
-    if (err) {
-      console.error(err);
-    } else {
-      fs.createReadStream('./exec-files/results.json')
-        .pipe(jsonl())
-        .pipe(fs.createWriteStream(`./exec-files/results-${uuidv4()}.jsonl`));
-    }
-  };
-
-  // fs.writeFile('./exec-files/results.json', JSON.stringify(cleanedPatientResults), err =>
-  //   convertToJSONL(err)
-  // );
-  return cleanedPatientResults;
-};
-
-const executeNew = (patients) => {
+const execute = (patients) => {
   const executor = new cql.Executor(engineLibraries, codeService, parameters, messageListener);
   patientSource.loadBundles(patients);
 
@@ -169,4 +137,4 @@ const executeNew = (patients) => {
   return cleanedPatientResults;
 };
 
-module.exports = { execute, executeNew, cleanData };
+module.exports = { execute, cleanData };
