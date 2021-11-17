@@ -76,7 +76,7 @@ async function valueSetsDirectoryCompile() {
       oidKey = vsFile.url;
     } else {
       logger.warn('Using filename for oidKey.');
-      oidKey = 'http://www.ncqa.org/fhir/valueset/' + file.slice(0,-5);
+      oidKey = 'https://www.ncqa.org/fhir/valueset/' + file.slice(0,-5);
     }
 
     valueSets[oidKey] = {
