@@ -49,42 +49,51 @@ async function librariesDirectoryScan() {
 async function valueSetsDirectoryCompile() {
   let files = await readdirp(config.valuesetsDirectory);
   for(let file of files) {
-    if (!file.endsWith('.json')) {
-      continue;
+    if (file.endsWith('.json')) {
+      valueSetJSONCompile(file);
     }
 
-    const vsFile = JSON.parse(fs.readFileSync(path.join(__dirname, '..', config.valuesetsDirectory, file)));
-    if (!vsFile.expansion || !vsFile.expansion.contains) {
-      throw new Error('No "expansion.contains" found in ' + file + '.');
+    if (file.endsWith('.js')) {
+      valueSetJavaScriptCompile(file);
     }
-
-    const contains = vsFile.expansion.contains.map(container => {
-      delete container.display;
-      return container;
-    });
-
-    let title;
-    if (vsFile.title) {
-      title = vsFile.title;
-    } else {
-      logger.warn('No "title" was found. Please manually update.');
-      title = 'No Title Found';
-    }
-    
-    let oidKey;
-    if (vsFile.url) {
-      oidKey = vsFile.url;
-    } else {
-      logger.warn('Using filename for oidKey.');
-      oidKey = 'https://www.ncqa.org/fhir/valueset/' + file.slice(0,-5);
-    }
-
-    valueSets[oidKey] = {
-      [title]: contains
-    };
   }
 }
 
+function valueSetJSONCompile(file) {
+  const vsFile = JSON.parse(fs.readFileSync(path.join(__dirname, '..', config.valuesetsDirectory, file)));
+  if (!vsFile.expansion || !vsFile.expansion.contains) {
+    throw new Error('No "expansion.contains" found in ' + file + '.');
+  }
+
+  const contains = vsFile.expansion.contains.map(container => {
+    delete container.display;
+    return container;
+  });
+
+  let title;
+  if (vsFile.title) {
+    title = vsFile.title;
+  } else {
+    logger.warn('No "title" was found. Please manually update.');
+    title = 'No Title Found';
+  }
+  
+  let oidKey;
+  if (vsFile.url) {
+    oidKey = vsFile.url;
+  } else {
+    logger.warn('Using filename for oidKey.');
+    oidKey = 'https://www.ncqa.org/fhir/valueset/' + file.slice(0,-5);
+  }
+
+  valueSets[oidKey] = {
+    [title]: contains
+  };
+}
+
+function valueSetJavaScriptCompile(file) {
+  Object.assign(valueSets, require(path.join(__dirname, '..', config.valuesetsDirectory, file)));
+}
 measurementFileScan().then(() => {
   logger.info('Measurement file located: ' + config.measurementFile + '.');
 });
