@@ -314,3 +314,9 @@ For a container to container approach, try:
 `docker run -d --pull=always --name=redpanda-1 --network=rp -p 9092:9092 docker.vectorized.io/vectorized/redpanda:latest redpanda start --overprovisioned --smp 1  --memory 1G --reserve-memory 0M --node-id 0 --check=false --kafka-addr "PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092" --advertise-kafka-addr "PLAINTEXT://redpanda:29092,OUTSIDE://redpanda-1:9092"`
 
 Drop `--kafka-addr "PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092" --advertise-kafka-addr "PLAINTEXT://redpanda:29092,OUTSIDE://redpanda-1:9092"` to connect via localhost.
+
+# Environmental Variables
+`MEASUREMENT_FILE`: The actual measurement file you want to run. For example, `MEASUREMENT_FILE=private\CISE_HEDIS_MY2022-1.0.0\elm\CISE_HEDIS_MY2022-1.0.0.json`
+`LIBRARIES_DIRECTORY`: The directory of the required libraries for the `MEASUREMENT_FILE`. For example, `LIBRARIES_DIRECTORY=private\CISE_HEDIS_MY2022-1.0.0\libraryElm\`
+`VALUESETS_DIRECTORY`: The directory of the required value sets for the MEASUREMENT_FILE. For example, `VALUESETS_DIRECTORY=private\CISE_HEDIS_MY2022-1.0.0\valuesets\`
+`MEASUREMENT_DEV_DATA`: Only for development purposes. This is the folder you want to watch with processor.js. For example `data\patients\immunization`.

@@ -1,6 +1,6 @@
 
 const should = require('should');
-const { cleanData } = require('../../exec-files/exec-template');
+const { cleanData } = require('../../exec-files/exec-config');
 const cisData = require('../data/cisData.json');
 const cisResults = require('../data/cisResults.json');
 const hba1cData = require('../data/hba1cData.json');

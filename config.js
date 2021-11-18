@@ -1,5 +1,7 @@
 const Joi = require('joi');
 const dotenv = require('dotenv');
+const fs = require('fs');
+const path = require('path');
 
 if (process.env.NODE_ENV === 'test') {
   dotenv.config({ path: '.env.test' });
@@ -55,13 +57,42 @@ const envVarsSchema = Joi.object({
     .description('The year for which the measure is evaluated'),
   JENKINS: Joi.boolean()
     .default(false)
-    .description('If this is running in Jenkins or not')
+    .description('If this is running in Jenkins or not'),
+  MEASUREMENT_FILE: Joi.string()
+    .description('Location of the measure. File only.')
+    .required(),
+  LIBRARIES_DIRECTORY: Joi.string()
+    .description('Location of the libraries. Directory only.')
+    .required(),
+  VALUESETS_DIRECTORY: Joi.string()
+    .description('Location of the value sets. Directory only.')
+    .required(),
+  MEASUREMENT_DEV_DATA: Joi.string()
+    .description('The directory to watch while running "localread," such as "data/patients/diabetes". Only used for development.')
 }).unknown();
 
 const { error, value: envVars } = envVarsSchema.validate(process.env, {convert: true});
 if (error) {
   throw new Error(`Config validation error: ${error.message}`);
 }
+
+fs.access(envVars.MEASUREMENT_FILE, function(errorMeasuresFile) {
+  if(errorMeasuresFile) {
+    throw new Error(`Configuration validation error: ${errorMeasuresFile}`);
+  }
+});
+
+fs.access(envVars.LIBRARIES_DIRECTORY, function(errorLibrariesDir) {
+  if(errorLibrariesDir) {
+    throw new Error(`Configuration validation error: ${errorLibrariesDir}`);
+  }
+});
+
+fs.access(envVars.VALUESETS_DIRECTORY, function(errorValuesetsDir) {
+  if(errorValuesetsDir) {
+    throw new Error(`Configuration validation error: ${errorValuesetsDir}`);
+  }
+});
 
 let arrayDelimiter = ' ';
 if (envVars.KAFKA_BROKERS.includes(', ')) {
@@ -87,6 +118,10 @@ const config = {
   kafkaConsumedTopic: envVars.KAFKA_CONSUMED_TOPIC,
   kafkaProducedTopic: envVars.KAFKA_PRODUCED_TOPIC,
   measurementYear: envVars.MEASUREMENT_YEAR,
+  measurementFile: envVars.MEASUREMENT_FILE,
+  librariesDirectory: envVars.LIBRARIES_DIRECTORY,
+  valuesetsDirectory: envVars.VALUESETS_DIRECTORY,
+  measurementDevData: envVars.MEASUREMENT_DEV_DATA,
   jenkins: envVars.JENKINS
 };
 
