@@ -147,15 +147,22 @@ const cleanData = patientResults => {
 const execute = (patients) => {
   const executor = new cql.Executor(engineLibraries, codeService, parameters, messageListener);
   patientSource.loadBundles(patients);
-
   const result = executor.exec(patientSource);
   console.log(result.patientResults); // eslint-disable-line no-console
   console.log(result.unfilteredResults); // eslint-disable-line no-console
-
   const cleanedPatientResults = cleanData(result.patientResults);
   cleanedPatientResults.timeStamp = moment().format();
 
   return cleanedPatientResults;
 };
 
-module.exports = { execute, cleanData };
+const evalData = (patients, data) => {
+  patients.forEach(element => {
+    const results = execute(element);
+    if (results.Denominator != 0){
+      data.push(results);
+    }
+  });
+};
+
+module.exports = { execute, cleanData, evalData };
