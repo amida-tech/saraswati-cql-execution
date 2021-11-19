@@ -38,7 +38,6 @@ spec:
     environment {
         JENKINS=true
         KAFKA_BROKERS="localhost:9092"
-        NODE_ENV="test"
     }
 
     stages {
@@ -60,8 +59,12 @@ spec:
             }
         }
         stage('Test') {
+            environment {
+                NODE_ENV="test"
+            }
             steps {
                 echo 'Testing'
+                
                 container('node') {
                     checkout(
                         [
