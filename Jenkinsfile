@@ -61,6 +61,9 @@ spec:
         stage('Test') {
             steps {
                 echo 'Testing'
+                environment {
+                    NODE_ENV="test"
+                }
                 container('node') {
                     checkout(
                         [
