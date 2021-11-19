@@ -1,7 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const promisify = require('util').promisify;
-const readdirp = promisify(fs.readdir);
 
 const cqlfhir = require('cql-exec-fhir');
 const moment = require('moment');
@@ -30,25 +28,33 @@ const patientSource = cqlfhir.PatientSource.FHIRv401();
 
 logger.info('Exec config building.');
 
-async function measurementFileScan() {
+function measurementFileScan() {
   measure = JSON.parse(
     fs.readFileSync(path.join(__dirname, '..', config.measurementFile)),
     'utf-8');
+  logger.info('Measurement file located: ' + config.measurementFile + '.');
 }
 
-async function librariesDirectoryScan() {
-  let files = await readdirp(config.librariesDirectory);
+// You must run the measurementFileScan before this.
+function librariesDirectoryScan() {
+  let files = fs.readdirSync(config.librariesDirectory);
   for(let file of files) {
     if (file.endsWith('.json')) {
       const libraryFile = require(path.join('..', config.librariesDirectory, file));
       libraries[file.replace(/[-.]/g,'')] = libraryFile;
     }
   }
+  logger.info('Library files located, count: ' + Object.keys(libraries).length + '.');
+  engineLibraries = new cql.Library(measure, new cql.Repository(libraries));
 }
 
-async function valueSetsDirectoryCompile() {
-  let files = await readdirp(config.valuesetsDirectory);
-  for(let file of files) {
+// We can speed this up slightly by running it asynchronously. But it's not an issue right now.
+function valueSetsDirectoryCompile() {
+  let files = fs.lstatSync(config.valuesetsDirectory).isDirectory() ?
+    fs.readdirSync(config.valuesetsDirectory) :
+    [config.valuesetsDirectory];
+
+  for (let file of files) {
     if (file.endsWith('.json')) {
       valueSetJSONCompile(file);
     }
@@ -57,6 +63,8 @@ async function valueSetsDirectoryCompile() {
       valueSetJavaScriptCompile(file);
     }
   }
+  logger.info('Value set files located, count: ' + Object.keys(valueSets).length + '.');
+  codeService = new codes.CodeService(valueSets);
 }
 
 function valueSetJSONCompile(file) {
@@ -91,22 +99,26 @@ function valueSetJSONCompile(file) {
   };
 }
 
+// Uncommon for .js files to be in the same folders as .json files. However,
+// will check all likely locations.
 function valueSetJavaScriptCompile(file) {
-  Object.assign(valueSets, require(path.join(__dirname, '..', config.valuesetsDirectory, file)));
+  let filePath;
+  if (fs.existsSync(path.join(__dirname, '..', file))) {
+    filePath = path.join(__dirname, '..', file);
+  } else if (fs.existsSync(path.join(__dirname, '..', config.valuesetsDirectory, file))) {
+    filePath = path.join(__dirname, '..', config.valuesetsDirectory, file);
+  } else {
+    logger.warn('Was unable to find location of ' + file + '. Skipping addition.');
+    return;
+  }
+  Object.assign(valueSets, require(filePath));
 }
-measurementFileScan().then(() => {
-  logger.info('Measurement file located: ' + config.measurementFile + '.');
-});
 
-librariesDirectoryScan().then(() => {
-  logger.info('Library files located, count: ' + Object.keys(libraries).length + '.');
-  engineLibraries = new cql.Library(measure, new cql.Repository(libraries));
-});
+measurementFileScan();
 
-valueSetsDirectoryCompile().then(() => {
-  logger.info('Value set files located, count: ' + Object.keys(valueSets).length + '.');
-  codeService = new codes.CodeService(valueSets);
-});
+librariesDirectoryScan();
+
+valueSetsDirectoryCompile();
 
 const removeArrayValues = patient => {
   const clonedPatient = cloneDeep(patient);
