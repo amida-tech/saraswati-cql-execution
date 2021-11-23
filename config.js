@@ -2,7 +2,7 @@ const Joi = require('joi');
 const dotenv = require('dotenv');
 const fs = require('fs');
 
-if (process.env.NODE_ENV.trim() === 'test') {
+if (process.env.NODE_ENV && process.env.NODE_ENV === 'test') {
   dotenv.config({ path: '.env.test' });
 } else {
   dotenv.config();

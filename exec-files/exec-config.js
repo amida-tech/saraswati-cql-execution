@@ -6,8 +6,8 @@ const moment = require('moment');
 var { cloneDeep } = require('lodash');
 
 const config = require('../config');
-const codes = require('../src/cql-code-service');
-const cql = require('../src/cql');
+const codes = require('cql-execution/lib/cql-code-service');
+const cql = require('cql-execution/lib/cql');
 const logger = require('../src/winston');
 
 let measure = {};
