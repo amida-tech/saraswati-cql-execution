@@ -10,8 +10,6 @@ describe('Contract Kafka Processor Test', () => {
     let data = [];
     const inboundJson = inboundContractData;
     let outboundJson = outboundContractData;
-    console.log("JAMES")
-    console.log(process.env);
     evalData(inboundJson, data);
     fixTimestamp(data);
     fixTimestamp(outboundJson);
