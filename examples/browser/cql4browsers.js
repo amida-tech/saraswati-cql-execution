@@ -9,7 +9,7 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-window.cql = require('../../lib/cql');
+window.cql = require('cql-execution/lib/cql');
 
 window.executeSimpleELM = function (
   elm,
