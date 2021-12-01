@@ -56,7 +56,8 @@ function valueSetsDirectoryCompile() {
 
   for (let file of files) {
     if (file.endsWith('.json')) {
-      valueSetJSONCompile(file);
+      const filepath = fs.readFileSync(path.join(__dirname, '..', config.valuesetsDirectory, file));
+      valueSetJSONCompile(filepath);
     }
 
     if (file.endsWith('.js')) {
@@ -67,10 +68,10 @@ function valueSetsDirectoryCompile() {
   codeService = new codes.CodeService(valueSets);
 }
 
-function valueSetJSONCompile(file) {
-  const vsFile = JSON.parse(fs.readFileSync(path.join(__dirname, '..', config.valuesetsDirectory, file)));
+function valueSetJSONCompile(filepath) {
+  const vsFile = JSON.parse(filepath);
   if (!vsFile.expansion || !vsFile.expansion.contains) {
-    logger.error('No "expansion.contains" found in ' + file + ', skipping.');
+    logger.error('No "expansion.contains" found in ' + filepath + ', skipping.');
     return;
   }
 
@@ -92,7 +93,7 @@ function valueSetJSONCompile(file) {
     oidKey = vsFile.url;
   } else {
     logger.warn('Using filename for oidKey.');
-    oidKey = 'https://www.ncqa.org/fhir/valueset/' + file.slice(0,-5);
+    oidKey = 'https://www.ncqa.org/fhir/valueset/' + path.basename(filepath).slice(0,-5);
   }
 
   valueSets[oidKey] = {
@@ -166,4 +167,4 @@ const evalData = (patients, data) => {
   });
 };
 
-module.exports = { execute, cleanData, evalData };
+module.exports = { execute, cleanData, evalData, valueSetJSONCompile };
