@@ -1,7 +1,7 @@
 const should = require('should');
-const inboundContractData = require('../../contract/examples/inbound.json');
-const outboundContractData = require('../../contract/examples/outbound.json');
-const { evalData } = require('../../exec-files/exec-config');
+const inboundContractData = require('../contract/examples/inbound.json');
+const outboundContractData = require('../contract/examples/outbound.json');
+const { evalData } = require('../exec-files/exec-config');
 const moment = require('moment');
 const updateTimestamp = moment().unix(1);
 
