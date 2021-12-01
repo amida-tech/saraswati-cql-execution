@@ -61,6 +61,10 @@ spec:
         stage('Test') {
             environment {
                 NODE_ENV="test"
+                MEASUREMENT_FILE="private/CISE_HEDIS_MY2022-1.0.0/elm/CISE_HEDIS_MY2022-1.0.0.json"
+                LIBRARIES_DIRECTORY="private/CISE_HEDIS_MY2022-1.0.0/libraryElm/"
+                VALUESETS_DIRECTORY="private/CISE_HEDIS_MY2022-1.0.0/valuesets/"
+                MEASUREMENT_DEV_DATA="data/patients/immunization"
             }
             steps {
                 echo 'Testing'
