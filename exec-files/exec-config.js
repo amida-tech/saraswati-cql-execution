@@ -70,7 +70,8 @@ function valueSetsDirectoryCompile() {
 function valueSetJSONCompile(file) {
   const vsFile = JSON.parse(fs.readFileSync(path.join(__dirname, '..', config.valuesetsDirectory, file)));
   if (!vsFile.expansion || !vsFile.expansion.contains) {
-    throw new Error('No "expansion.contains" found in ' + file + '.');
+    logger.error('No "expansion.contains" found in ' + file + ', skipping.');
+    return;
   }
 
   const contains = vsFile.expansion.contains.map(container => {

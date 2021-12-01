@@ -1,7 +1,7 @@
 [
   {
     "resourceType": "Bundle",
-    "id": "tests-numer-EXM165-FHIR3-bundle",
+    "id": "tests-numer-EXM165-FHIR3-bundle?",
     "type": "transaction",
     "entry": [
       {
