@@ -61,7 +61,6 @@
     "localread": "node processor.js",
     "build": "babel src --out-dir lib",
     "build:all": "npm run build --scripts-prepend-node-path",
-    "watch:test-data": "cd ./test/generator && ./gradlew watchTestData && cd ..",
     "test": "mocha --reporter spec --recursive --timeout 15000",
     "test:integration": "mocha ./integration-test/*-test.js --timeout 15000",
     "test:seed": "mocha ./test/kafka/manual-kafka-seed.js --timeout 10000",

@@ -1,7 +1,7 @@
-[ 
+[
   {
     "resourceType": "Bundle",
-    "id": "tests-numer-EXM165-FHIR3-bundle?",
+    "id": "tests-numer-EXM165-FHIR3-bundles",
     "type": "transaction",
     "entry": [
       {
@@ -87,17 +87,17 @@
           ],
           "status": "finished",
           "class": {
-            "code": "Z39",
-            "system": "ICD10CM",
-            "version": "2021"
+            "code": "185460008",
+            "system": "http://snomed.info/sct",
+            "version": "2020-09"
           },
           "type": [
             {
               "coding": [
                 {
-                  "code": "Z39",
-                  "system": "ICD10CM",
-                  "version": "2021"
+                  "code": "185460008",
+                  "system": "http://snomed.info/sct",
+                  "version": "2020-09"
                 }
               ]
             }
@@ -107,9 +107,9 @@
           },
           "participant": [
             {
-              "period": { 
-                "start": "2020-02-02T16:00:00+10:00",
-                "end": "2020-02-02T16:30:00+10:00"
+              "period": {
+                "start": "2019-01-17T16:00:00+10:00",
+                "end": "2019-01-17T16:30:00+10:00"
               },
               "individual": {
                 "reference": "Practitioner/example",
@@ -118,15 +118,15 @@
             }
           ],
           "period": {
-            "start": "2020-02-10T16:00:00+10:00",
-            "end": "2020-02-10T16:30:00+10:00"
+            "start": "2020-01-17T16:00:00+10:00",
+            "end": "2020-01-17T16:30:00+10:00"
           },
           "location": [
-            { 
-              "location": { 
+            {
+              "location": {
                 "reference": "#home",
                 "display": "Client's home"
-              }, 
+              },
               "status": "completed",
               "period": {
                 "start": "2015-01-17T16:00:00+10:00",
@@ -363,19 +363,19 @@
           "code": {
             "coding": [
               {
-                  "code": "O10.32",
-                  "system": "ICD10CM",
-                  "version": "2021-03"
-                }
+                "code": "310306005",
+                "system": "http://snomed.info/sct",
+                "version": "2020-09"
+              }
             ],
             "id": "DTaP Vaccine Administered"
           },
           "patient": {
             "reference": "Patient/numer-EXM165-FHIR3"
           },
-          "performedPeriod": { 
-            "start": "2020-10-31T09:30:10+01:00",
-            "end": "2020-10-31T10:30:10+01:00"
+          "performedPeriod": {
+            "start": "2020-01-10T09:30:10+01:00",
+            "end": "2020-01-10T10:30:10+01:00"
           },
           "performer": [
             {
@@ -565,9 +565,9 @@
           "code": {
             "coding": [
               {
-                "code": "O10.22",
-                "system": "ICD10CM",
-                "version": "2021-03"
+                "code": "310307001",
+                "system": "http://snomed.info/sct",
+                "version": "2020-09"
               }
             ],
             "id": "DTaP Vaccine Administered"
@@ -576,8 +576,8 @@
             "reference": "Patient/numer-EXM165-FHIR3"
           },
           "performedPeriod": {
-            "start": "2020-01-31T09:30:10+01:00",
-            "end": "2020-01-31T10:30:10+01:00"
+            "start": "2020-02-10T09:30:10+01:00",
+            "end": "2020-02-10T10:30:10+01:00"
           },
           "performer": [
             {
@@ -1306,150 +1306,9 @@
         }
       },
       {
-        "resource": { 
-          "resourceType": "Procedure",
-          "id": "ipv-proc-2",
-          "status": "completed",
-          "code": {
-            "coding": [
-              {
-                "code": "59400", 
-                "system": "CPT",
-                "version": "2019-10-01"
-              }
-            ],
-            "id": "Inactivated Polio Vaccine (IPV) Administered"
-          },
-          "patient": {
-            "reference": "Patient/numer-EXM165-FHIR3"
-          },
-          "performedPeriod": {
-            "start": "2019-04-27T09:30:10+01:00",
-            "end": "2019-05-29T10:30:10+01:00"
-          },
-          "performer": [
-            {
-              "function": {
-                "coding": [
-                  {
-                    "system": "urn:oid:2.16.840.1.113883.2.4.15.111",
-                    "code": "01.000",
-                    "display": "Arts"
-                  }
-                ],
-                "text": "Care role"
-              },
-              "actor": {
-                "reference": "Practitioner/f005",
-                "display": "A. Langeveld"
-              }
-            }
-          ],
-          "reasonCode": [
-            {
-              "text": "ensure breathing during surgery"
-            }
-          ],
-          "bodySite": [
-            {
-              "coding": [
-                {
-                  "system": "http://snomed.info/sct",
-                  "code": "83030008",
-                  "display": "Retropharyngeal area"
-                }
-              ]
-            }
-          ],
-          "outcome": {
-            "text": "removal of the retropharyngeal abscess"
-          },
-          "report": [
-            {
-              "reference": "DiagnosticReport/f001"
-            }
-          ],
-          "followUp": [
-            {
-              "text": "described in care plan"
-            }
-          ]
-        }
-      },
-      {
-        "resource": {
-          "resourceType": "Encounter",
-          "id": "prenatal-visit",
-          "contained": [
-            {
-              "resourceType": "location",
-              "id": "home",
-              "description": "Client's home",
-              "mode": "kind"
-            }
-          ],
-          "status": "finished",
-          "class": {
-            "code": "99201",
-            "system": "CPT",
-            "version": "2019-10-01"
-          },
-          "type": [
-            {
-              "coding": [
-                {
-                  "system": "http://snomed.info/sct",
-                  "code": "17629007",
-                  "display": "Stand Alone Prenatal Visits"
-                }
-              ]
-            }
-          ],
-          "subject": {
-            "reference": "Patient/numer-EXM165-FHIR3"
-          },
-          "participant": [
-            {
-              "period": {
-                "start": "2019-01-17T16:00:00+10:00",
-                "end": "2019-01-17T16:30:00+10:00"
-              },
-              "individual": {
-                "reference": "Practitioner/example",
-                "display": "Dr Adam Careful"
-              }
-            }
-          ],
-          "period": {  
-            "start": "2019-04-27T16:00:00+10:00",
-            "end": "2019-04-27T16:30:00+10:00"
-          }, 
-          "diagnosis": [
-            { 
-              "condition": {
-                "reference": "Condition/pregnancy-condition"
-              }
-            }
-          ],
-          "location": [
-            {
-              "location": {
-                "reference": "#home",
-                "display": "Client's home"
-              },
-              "status": "completed",
-              "period": {
-                "start": "2015-01-17T16:00:00+10:00",
-                "end": "2015-01-17T16:30:00+10:00"
-              }
-            }
-          ]
-        }
-      },
-      { 
         "resource": {
           "resourceType": "Condition",
-          "id": "pregnancy-condition",
+          "id": "hep-b-condition",
           "identifier": [
             {
               "system": "urn:ietf:rfc:3986",
@@ -1499,9 +1358,10 @@
           "code": {
             "coding": [
               {
-                "code": "009.00",
-                "system": "ICD10CM",
-                "version": "2020-10-19AA"
+                "code": "1116000",
+                "system": "http://snomed.info/sct",
+                "version": "2020-09",
+                "display": "Hepatitis B"
               }
             ]
           },
@@ -3652,199 +3512,7 @@
             ]
           }
         }
-      },
-      {
-        "resource": { 
-        "resourceType": "Coverage",
-        "id": "9876B1",
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">A human-readable rendering of the coverage</div>"
-        },
-        "identifier": [
-          {
-            "system": "http://benefitsinc.com/certificate",
-            "value": "12345"
-          }
-        ],
-        "status": "active",
-        "type": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-              "code": "EHCPOL",
-              "display": "extended healthcare"
-            }
-          ]
-        },
-        "policyHolder": {
-          "reference": "http://benefitsinc.com/FHIR/Organization/CBI35"
-        },
-        "subscriber": {
-          "reference": "Patient/numer-EXM165-FHIR3"
-        },
-        "beneficiary": {
-          "reference": "Patient/numer-EXM165-FHIR3"
-        },
-        "dependent": "0",
-        "relationship": {
-          "coding": [
-            {
-              "code": "self"
-            }
-          ]
-        }, 
-        "period": {
-          "start": "2019-04-27",
-          "end": "2029-06-01"
-        },
-        "payor": [
-          {
-            "reference": "Organization/2"
-          }
-        ], 
-        "class": [
-          {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
-                  "code": "group"
-                }
-              ]
-            },
-            "value": "CB135",
-            "name": "Corporate Baker's Inc. Local #35"
-          },
-          {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
-                  "code": "subgroup"
-                }
-              ]
-            },
-            "value": "123",
-            "name": "Trainee Part-time Benefits"
-          },
-          {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
-                  "code": "plan"
-                }
-              ]
-            },
-            "value": "B37FC",
-            "name": "Full Coverage: Medical, Dental, Pharmacy, Vision, EHC"
-          },
-          {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
-                  "code": "subplan"
-                }
-              ]
-            },
-            "value": "P7",
-            "name": "Includes afterlife benefits"
-          },
-          {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
-                  "code": "class"
-                }
-              ]
-            },
-            "value": "SILVER",
-            "name": "Silver: Family Plan spouse only"
-          },
-          {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
-                  "code": "subclass"
-                }
-              ]
-            },
-            "value": "Tier2",
-            "name": "Low deductable, max $20 copay"
-          },
-          {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
-                  "code": "sequence"
-                }
-              ]
-            },
-            "value": "9"
-          },
-          {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
-                  "code": "rxid"
-                }
-              ]
-            },
-            "value": "MDF12345"
-          },
-          {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
-                  "code": "rxbin"
-                }
-              ]
-            },
-            "value": "987654"
-          },
-          {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
-                  "code": "rxgroup"
-                }
-              ]
-            },
-            "value": "M35PT"
-          },
-          {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
-                  "code": "rxpcn"
-                }
-              ]
-            },
-            "value": "234516"
-          },
-          {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
-                  "code": "sequence"
-                }
-              ]
-            },
-            "value": "9"
-          }
-        ]
       }
-    }
     ]
   }
 ]

@@ -5,7 +5,7 @@ Depression Screening and Follow-Up for Adolescents and Adults (DSF)
 library depression_screening_and_followup version '1.0.0'
 
 using FHIR version '4.0.0'
-include FHIRHelpers version '4.0.0' called FHIRHelpers
+include FHIRHelpers version '4.0.1' called FHIRHelpers
 
 /*
 Measure Description

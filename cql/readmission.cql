@@ -1,7 +1,7 @@
 library readmission version '1'
 
 using FHIR version '4.0.0'
-include FHIRHelpers version '4.0.0' called FHIRHelpers
+include FHIRHelpers version '4.0.1' called FHIRHelpers
 
 codesystem "SNOMEDCT": 'urn:oid:2.16.840.1.113883.6.96' version 'urn:hl7:version:2017-09'
 codesystem "ICD10PCS": 'urn:oid:2.16.840.1.113883.6.4' version 'urn:hl7:version:2021'
