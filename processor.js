@@ -23,6 +23,7 @@ const watcher = dir =>
           if (fileReadErr) throw fileReadErr;
           let patients = JSON.parse(data);
           if (patients) {
+            console.log(config.measurementDevData);
             if (filename.startsWith(config.measurementDevData)) {
               data = execute(patients);
               send = true;
