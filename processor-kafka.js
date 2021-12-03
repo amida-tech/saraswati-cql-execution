@@ -1,6 +1,6 @@
 const { Kafka } = require('kafkajs');
 const config = require('./config');
-const { execute } = require('./exec-files/exec-config');
+const { evalData } = require('./exec-files/exec-config');
 
 const kafka = new Kafka({
   clientId: 'cql-execution',
@@ -26,7 +26,7 @@ async function runner() {
       let patients = JSON.parse(fhirJson);
       let data = [];
       evalData(patients,data);
-      if (data != null) {
+      if (data.length > 0) {
         producer.send(
           {
             topic: producedTopic,
@@ -43,20 +43,4 @@ async function runner() {
   });
 }
 
-// This function contains all of the business logic for the evaluation.
-function evalData(patients, data){
-  patients.forEach(element => {
-    const results = execute(element);
-    if (results.Denominator != 0){
-      data.push(results);
-    }
-  });
-}
-
 runner();
-
-const evaluator = {
-  evalData: evalData,
-};
-
-module.exports = evaluator;
