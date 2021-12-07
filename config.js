@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const dotenv = require('dotenv');
-const fs = require('fs');
+const util = require('./src/config-util');
 
 dotenv.config();
 
@@ -71,30 +71,8 @@ if (error) {
   throw new Error(`Config validation error: ${error.message}`);
 }
 
-fs.access(envVars.MEASUREMENT_FILE, function(errorMeasuresFile) {
-  if(errorMeasuresFile) {
-    throw new Error(`Configuration validation error: ${errorMeasuresFile}`);
-  }
-});
-
-fs.access(envVars.LIBRARIES_DIRECTORY, function(errorLibrariesDir) {
-  if(errorLibrariesDir) {
-    throw new Error(`Configuration validation error: ${errorLibrariesDir}`);
-  }
-});
-
-fs.access(envVars.VALUESETS_DIRECTORY, function(errorValuesetsDir) {
-  if(errorValuesetsDir) {
-    throw new Error(`Configuration validation error: ${errorValuesetsDir}`);
-  }
-});
-
-let arrayDelimiter = ' ';
-if (envVars.KAFKA_BROKERS.includes(', ')) {
-  arrayDelimiter = ', ';
-} else if (envVars.KAFKA_BROKERS.includes(',')) {
-  arrayDelimiter = ',';
-}
+util.measurementAccessCheck(envVars);
+const arrayDelimiter = util.getDelimiter(envVars.KAFKA_BROKERS);
 
 const config = {
   env: envVars.NODE_ENV,

@@ -10,9 +10,9 @@ const codes = require('cql-execution/lib/cql-code-service');
 const cql = require('cql-execution/lib/cql');
 const logger = require('../src/winston');
 
-let measure = {};
-const libraries = {};
-const valueSets = {};
+let measure;
+let libraries;
+let valueSets;
 let engineLibraries;
 let codeService;
 const messageListener = new cql.ConsoleMessageListener();
@@ -56,8 +56,7 @@ function valueSetsDirectoryCompile() {
 
   for (let file of files) {
     if (file.endsWith('.json')) {
-      const filepath = fs.readFileSync(path.join(__dirname, '..', config.valuesetsDirectory, file));
-      valueSetJSONCompile(filepath);
+      valueSetJSONCompile(file);
     }
 
     if (file.endsWith('.js')) {
@@ -68,10 +67,10 @@ function valueSetsDirectoryCompile() {
   codeService = new codes.CodeService(valueSets);
 }
 
-function valueSetJSONCompile(filepath) {
-  const vsFile = JSON.parse(filepath);
+function valueSetJSONCompile(file) {
+  const vsFile = JSON.parse(fs.readFileSync(path.join(__dirname, '..', config.valuesetsDirectory, file)));
   if (!vsFile.expansion || !vsFile.expansion.contains) {
-    logger.error('No "expansion.contains" found in ' + filepath + ', skipping.');
+    logger.error('No "expansion.contains" found in ' + file + ', skipping.');
     return;
   }
 
@@ -93,7 +92,7 @@ function valueSetJSONCompile(filepath) {
     oidKey = vsFile.url;
   } else {
     logger.warn('Using filename for oidKey.');
-    oidKey = 'https://www.ncqa.org/fhir/valueset/' + path.basename(filepath).slice(0,-5);
+    oidKey = 'https://www.ncqa.org/fhir/valueset/' + file.slice(0,-5);
   }
 
   valueSets[oidKey] = {
@@ -116,11 +115,16 @@ function valueSetJavaScriptCompile(file) {
   Object.assign(valueSets, require(filePath));
 }
 
-measurementFileScan();
+function initialize() {
+  measure = {};
+  libraries = {};
+  valueSets = {};
+  measurementFileScan();
+  librariesDirectoryScan();
+  valueSetsDirectoryCompile();
+}
 
-librariesDirectoryScan();
-
-valueSetsDirectoryCompile();
+initialize();
 
 const removeArrayValues = patient => {
   const clonedPatient = cloneDeep(patient);
@@ -167,4 +171,4 @@ const evalData = (patients, data) => {
   });
 };
 
-module.exports = { execute, cleanData, evalData, valueSetJSONCompile };
+module.exports = { execute, cleanData, evalData, initialize, valueSetJSONCompile };
