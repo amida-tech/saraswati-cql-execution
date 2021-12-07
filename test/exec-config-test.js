@@ -36,8 +36,15 @@ describe('exec-config tests', () => {
       should(Object.keys(execConfig.__get__('valueSets')).length).equal(0);
     });
 
-    it('', () => {
-      
+    it('should use default title filename for the oidKey', () => {
+      config.valuesetsDirectory = 'test/valuesets';
+      execConfig.__set__('valueSets', {});
+      execConfig.valueSetJSONCompile('exec-config-no-title-or-url.json');
+      const results = execConfig.__get__('valueSets');
+      should(Object.keys(results)[0])
+        .equal('https://www.ncqa.org/fhir/valueset/exec-config-no-title-or-url');
+      should(Object.keys(results['https://www.ncqa.org/fhir/valueset/exec-config-no-title-or-url'])[0])
+        .equal('No Title Found');
     });
   });
 });
