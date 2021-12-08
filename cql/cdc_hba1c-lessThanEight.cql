@@ -1,7 +1,7 @@
 library cdc_hba1c_lessThanEight version '1'
 
 using FHIR version '4.0.0'
-include FHIRHelpers version '4.0.0' called FHIRHelpers
+include FHIRHelpers version '4.0.1' called FHIRHelpers
 include Diabetes_Library version '4.0.0' called Diabetes_Library
 
 codesystem "SNOMED-CT": 'http://snomed.info/sct' version '20200301'

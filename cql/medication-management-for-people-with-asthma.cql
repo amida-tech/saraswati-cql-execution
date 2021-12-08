@@ -1,7 +1,7 @@
 library medication_management_for_people_with_asthma version '1'
 
 using FHIR version '4.0.0'
-include FHIRHelpers version '4.0.0' called FHIRHelpers
+include FHIRHelpers version '4.0.1' called FHIRHelpers
 
 codesystem "SNOMED-CT": '2.16.840.1.113883.6.96' version '20200301'
 

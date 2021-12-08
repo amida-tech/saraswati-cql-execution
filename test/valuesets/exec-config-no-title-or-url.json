@@ -1,0 +1,28 @@
+{
+  "resourceType": "ValueSet",
+  "id": "42",
+  "meta": {
+    "lastUpdated": "2021-08-30T00:59:16.573-04:00"
+  },
+  "identifier": [
+    {
+      "value": "X.Y"
+    }
+  ],
+  "version": "2021-08-02",
+  "name": "Count_Choculitis",
+  "status": "active",
+  "expansion": {
+    "timestamp": "2021-09-03T17:32:49-04:00",
+    "total": 1,
+    "offset": 0,
+    "contains": [
+      {
+        "system": "http://snomed.info/sct",
+        "version": "2021.03.what",
+        "code": "5555542",
+        "display": "It's delicious!"
+      }
+    ]
+  }
+}

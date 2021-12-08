@@ -6,13 +6,13 @@ const moment = require('moment');
 var { cloneDeep } = require('lodash');
 
 const config = require('../config');
-const codes = require('../src/cql-code-service');
-const cql = require('../src/cql');
+const codes = require('cql-execution/lib/cql-code-service');
+const cql = require('cql-execution/lib/cql');
 const logger = require('../src/winston');
 
-let measure = {};
-const libraries = {};
-const valueSets = {};
+let measure;
+let libraries;
+let valueSets;
 let engineLibraries;
 let codeService;
 const messageListener = new cql.ConsoleMessageListener();
@@ -70,7 +70,8 @@ function valueSetsDirectoryCompile() {
 function valueSetJSONCompile(file) {
   const vsFile = JSON.parse(fs.readFileSync(path.join(__dirname, '..', config.valuesetsDirectory, file)));
   if (!vsFile.expansion || !vsFile.expansion.contains) {
-    throw new Error('No "expansion.contains" found in ' + file + '.');
+    logger.error('No "expansion.contains" found in ' + file + ', skipping.');
+    return;
   }
 
   const contains = vsFile.expansion.contains.map(container => {
@@ -114,11 +115,16 @@ function valueSetJavaScriptCompile(file) {
   Object.assign(valueSets, require(filePath));
 }
 
-measurementFileScan();
+function initialize() {
+  measure = {};
+  libraries = {};
+  valueSets = {};
+  measurementFileScan();
+  librariesDirectoryScan();
+  valueSetsDirectoryCompile();
+}
 
-librariesDirectoryScan();
-
-valueSetsDirectoryCompile();
+initialize();
 
 const removeArrayValues = patient => {
   const clonedPatient = cloneDeep(patient);
@@ -165,4 +171,4 @@ const evalData = (patients, data) => {
   });
 };
 
-module.exports = { execute, cleanData, evalData };
+module.exports = { execute, cleanData, evalData, initialize, valueSetJSONCompile };

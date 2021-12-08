@@ -1,7 +1,7 @@
 [
     {
       "resourceType": "Bundle",
-      "id": "tests-numer-EXAMPLE1-FHIR4-bundle",
+      "id": "tests-numer-EXAMPLE1-FHIR4-bundle?",
       "type": "transaction",
       "entry": [
         {
