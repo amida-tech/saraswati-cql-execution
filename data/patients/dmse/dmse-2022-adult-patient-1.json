@@ -395,16 +395,114 @@
             }
           ],
           "subject": {
-            "reference": "urn:uuid:96dcbd62-e4c6-a555-a663-77d08ad3c3b5",
-            "display": "Mr. Young120 Murphy561"
+            "reference": "Patient/patient-1",
+            "display": "Jill Doe"
           },
           "period": {
             "start": "2022-01-12T19:57:22-04:00",
             "end": "2022-02-01T20:12:22-04:00"
+          }
+        },
+        "request": {
+          "method": "POST",
+          "url": "Encounter"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:encounter-2",
+        "resource": {
+          "resourceType": "Encounter",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"
+            ]
           },
-          "serviceProvider": {
-            "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
-            "display": "LEXINGTON EYE ASSOCIATES, INC"
+          "id": "encounter-2",
+          "status": "finished",
+          "class": {
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            "code": "AMB"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "https://www.nubc.org/CodeSystem/RevenueCodes",
+                  "version": "2012.05",
+                  "code": "0904",
+                  "display": "Activity therapy"
+                }
+              ],
+              "text": "Activity therapy"
+            }
+          ],
+          "diagnosis": [
+            {
+              "condition": {
+                "reference": "Condition/condition-2",
+                "display": "The patient has major depression"
+              },
+              "rank": 1
+            }
+          ],
+          "subject": {
+            "reference": "Patient/patient-1",
+            "display": "Jill Doe"
+          },
+          "period": {
+            "start": "2022-06-12T19:57:22-04:00",
+            "end": "2022-07-01T20:12:22-04:700"
+          }
+        },
+        "request": {
+          "method": "POST",
+          "url": "Encounter"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:encounter-3",
+        "resource": {
+          "resourceType": "Encounter",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"
+            ]
+          },
+          "id": "encounter-3",
+          "status": "finished",
+          "class": {
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            "code": "AMB"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "https://www.nubc.org/CodeSystem/RevenueCodes",
+                  "version": "2012.05",
+                  "code": "0904",
+                  "display": "Activity therapy"
+                }
+              ],
+              "text": "Activity therapy"
+            }
+          ],
+          "diagnosis": [
+            {
+              "condition": {
+                "reference": "Condition/condition-3",
+                "display": "The patient has major depression"
+              },
+              "rank": 1
+            }
+          ],
+          "subject": {
+            "reference": "Patient/patient-1",
+            "display": "Jill Doe"
+          },
+          "period": {
+            "start": "2022-09-02T19:57:22-04:00",
+            "end": "2022-10-09T20:12:22-04:700"
           }
         },
         "request": {
@@ -467,20 +565,9 @@
               }
             ]
           },
-          "bodySite": [
-            {
-              "coding": [
-                {
-                  "system": "http://snomed.info/sct",
-                  "code": "38266002",
-                  "display": "Entire body as a whole"
-                }
-              ]
-            }
-          ],
           "subject": {
             "reference": "Patient/patient-1",
-            "display": "Roel"
+            "display": "Jill Doe"
           },
           "encounter": {
             "reference": "encounter-1"
@@ -503,7 +590,7 @@
           "id": "condition-2",
           "identifier": [
             {
-              "value": "12345"
+              "value": "88888"
             }
           ],
           "clinicalStatus": {
@@ -527,12 +614,8 @@
               "coding": [
                 {
                   "system": "http://snomed.info/sct",
-                  "code": "55607006",
-                  "display": "Problem"
-                },
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
-                  "code": "problem-list-item"
+                  "code": "320751009",
+                  "display": "Major depression, melancholic type"
                 }
               ]
             }
@@ -550,33 +633,21 @@
             "coding": [
               {
                 "system": "http://snomed.info/sct",
-                "version": "2021.03.20AB",
-                "code": "192080009",
-                "display": "Chronic depression"
+                  "code": "14183003",
+                  "display": "Chronic major depressive disorder, single episode"
               }
             ]
           },
-          "bodySite": [
-            {
-              "coding": [
-                {
-                  "system": "http://snomed.info/sct",
-                  "code": "38266002",
-                  "display": "Entire body as a whole"
-                }
-              ]
-            }
-          ],
           "subject": {
             "reference": "Patient/patient-1",
-            "display": "Roel"
+            "display": "Jill Doe"
           },
           "encounter": {
-            "reference": "encounter-1"
+            "reference": "encounter-2"
           },
-          "onsetDateTime": "2021-04-02",
-          "abatementDateTime": "2021-04-09",
-          "recordedDate": "2021-04-02",
+          "onsetDateTime": "2022-06-12",
+          "abatementDateTime": "2022-07-01",
+          "recordedDate": "2022-06-12",
           "recorder": {
             "reference": "Practitioner/f201"
           },
@@ -640,32 +711,21 @@
               {
                 "system": "http://snomed.info/sct",
                 "version": "2021.03.20AB",
-                "code": "191692007",
-                "display": "Active disintegrative psychoses"
+                "code": "78667006",
+                "display": "Dysthymia"
               }
             ]
           },
-          "bodySite": [
-            {
-              "coding": [
-                {
-                  "system": "http://snomed.info/sct",
-                  "code": "38266002",
-                  "display": "Entire body as a whole"
-                }
-              ]
-            }
-          ],
           "subject": {
             "reference": "Patient/patient-1",
-            "display": "Roel"
+            "display": "Jill Doe"
           },
           "encounter": {
-            "reference": "encounter-1"
+            "reference": "encounter-3"
           },
-          "onsetDateTime": "2021-04-02",
-          "abatementDateTime": "2021-04-09",
-          "recordedDate": "2021-04-02",
+          "onsetDateTime": "2021-09-02",
+          "abatementDateTime": "2021-10-09",
+          "recordedDate": "2021-09-02",
           "recorder": {
             "reference": "Practitioner/f201"
           },
