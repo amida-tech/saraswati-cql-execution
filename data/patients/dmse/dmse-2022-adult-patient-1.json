@@ -66,7 +66,7 @@
             }
           ],
           "gender": "female",
-          "birthDate": "2000-07-29"
+          "birthDate": "2004-04-29"
         },
         "request": {
           "method": "PUT",
@@ -294,9 +294,9 @@
           "code": {
             "coding": [
               {
-                "system": "http://snomed.info/sct",
-                "code": "320751009",
-                "display": "63412003"
+                "system": "http://loinc.org",
+                "code": "89204-2",
+                "display": "Patient Health Questionnaire-9: Modified for Teens total score [Reported.PHQ.Teen]"
               }
             ]
           },
@@ -306,7 +306,7 @@
           "encounter": {
             "reference": "Encounter/encounter-1"
           },
-          "effectiveDateTime": "2022-03-01",
+          "effectiveDateTime": "2022-01-12",
           "valueInteger": 10
         },
         "request": {
@@ -347,9 +347,52 @@
             "reference": "Patient/patient-1"
           },
           "encounter": {
-            "reference": "Encounter/encounter-1"
+            "reference": "Encounter/encounter-2"
           },
-          "effectiveDateTime": "2022-03-28",
+          "effectiveDateTime": "2022-06-12",
+          "valueInteger": 200
+        },
+        "request": {
+          "method": "POST",
+          "url": "Observation"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:observation-3",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "observation-3",
+          "text": {
+            "status": "generated"
+          },
+          "status": "final",
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "therapy",
+                  "display": "Therapy"
+                }
+              ]
+            }
+          ],
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "44261-6",
+                "display": "Patient Health Questionnaire 9 item (PHQ-9) total score [Reported]"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/patient-1"
+          },
+          "encounter": {
+            "reference": "Encounter/encounter-3"
+          },
+          "effectiveDateTime": "2022-09-02",
           "valueInteger": 200
         },
         "request": {
