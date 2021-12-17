@@ -15,7 +15,7 @@
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName",
-              "valueString": "Kristian973 Lowe577"
+              "valueString": "Kristian973 Lowe"
             },
             {
               "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
@@ -959,12 +959,12 @@
         "fullUrl": "urn:uuid:aab-encounter-1",
         "resource": {
           "resourceType": "Encounter",
-          "id": "example",
+          "id": "aab-encounter-1",
           "text": {
             "status": "generated",
             "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Encounter with patient @example</div>"
           },
-          "status": "in-progress",
+          "status": "finished",
           "class": {
             "system": "http://hl7.org/fhir/v3/ActCode",
             "code": "IMP",
