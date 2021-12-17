@@ -2,7 +2,7 @@
 
 <!-- If there is no Jira ticket for this PR, say why not. -->
 
-- [SAR-###](https://jira.amida-tech.com/browse/SAR-###)
+- [SAR-###](https://amida.atlassian.net/browse/SAR-###)
 
 # Other Repos' PR(s) Intended to Work With This PR
 
