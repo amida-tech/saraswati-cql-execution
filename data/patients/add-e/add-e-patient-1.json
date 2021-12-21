@@ -1,4 +1,4 @@
-[
+[ 
   {
     "resourceType": "Bundle",
     "type": "transaction",
@@ -416,8 +416,8 @@
             ]
           },
           "period": {
-            "start": "2020-07-23",
-            "end": "2021-07-23"
+            "start": "2022-07-23",
+            "end": "2023-07-23"
           },
           "payor": [
             {
@@ -567,47 +567,6 @@
         }
       },
       {
-        "resource": {
-          "resourceType": "Condition",
-          "meta": {
-            "profile": ["http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-condition"]
-          },
-          "id": "cou-condition-1",
-          "clinicalStatus": {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-                "code": "active"
-              }
-            ]
-          },
-          "verificationStatus": {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
-                "code": "confirmed"
-              }
-            ]
-          },
-          "code": {
-            "coding": [
-              {
-                "system": "http://snomed.info/sct",
-                "version": "2021.03.20AB",
-                "code": "471863000",
-                "display": "Disorder of myocardium due to sickle cell hemoglobinopathy"
-              }
-            ],
-            "text": "Sickle Cell Anemia and HB S Disease"
-          },
-          "onsetDateTime": "2022-01-01",
-          "abatementDateTime": "2022-02-01",
-          "subject": {
-            "reference": "urn:uuid:add-e-patient-1"
-          }
-        }
-      },
-      {
         "fullUrl": "urn:uuid:cou-claim-1",
         "resource": {
           "resourceType": "Claim",
@@ -707,7 +666,7 @@
               },
               "servicedDate": "2021-12-16",
               "quantity": {
-                "value": 30,
+                "value": 210,
                 "unit": "TAB",
                 "system": "http://unitsofmeasure.org",
                 "code": "TAB"
@@ -722,35 +681,6 @@
               },
               "location": {
                 "reference": "urn:uuid:453bcdfa-a6f9-e98d-01b3-0ad1079cbabc"
-              }
-            },
-            {
-              "sequence": 2,
-              "careTeamSequence": [1],
-              "productOrService": {
-                "coding": [
-                  {
-                    "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                    "version": "2021.03.01.20AB",
-                    "code": "1542997",
-                    "display": "168 HR buprenorphine 0.0075 MG/HR Transdermal System"
-                  }
-                ]
-              },
-              "servicedDate": "2022-05-16",
-              "quantity": {
-                "value": 30,
-                "unit": "TAB",
-                "system": "http://unitsofmeasure.org",
-                "code": "TAB"
-              },
-              "unitPrice": {
-                "value": 750.00,
-                "currency": "USD"
-              },
-              "net": {
-                "value": 750.00,
-                "currency": "USD"
               }
             }
           ]
@@ -884,315 +814,9 @@
                   }
                 ]
               },
-              "servicedDate": "2021-11-26",
-              "quantity": {
-                "value": 30,
-                "unit": "TAB",
-                "system": "http://unitsofmeasure.org",
-                "code": "TAB"
-              },
-              "unitPrice": {
-                "value": 135.57,
-                "currency": "USD"
-              },
-              "net": {
-                "value": 135.57,
-                "currency": "USD"
-              },
-              "location": {
-                "reference": "urn:uuid:453bcdfa-a6f9-e98d-01b3-0ad1079cbabc"
-              }
-            },
-            {
-              "sequence": 2,
-              "careTeamSequence": [1],
-              "productOrService": {
-                "coding": [
-                  {
-                    "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                    "version": "2021.03.01.20AB",
-                    "code": "1542997",
-                    "display": "168 HR buprenorphine 0.0075 MG/HR Transdermal System"
-                  }
-                ]
-              },
-              "servicedDate": "2022-05-16",
-              "quantity": {
-                "value": 30,
-                "unit": "TAB",
-                "system": "http://unitsofmeasure.org",
-                "code": "TAB"
-              },
-              "unitPrice": {
-                "value": 750.00,
-                "currency": "USD"
-              },
-              "net": {
-                "value": 750.00,
-                "currency": "USD"
-              }
-            }
-          ]
-        },
-        "request": {
-          "method": "POST",
-          "url": "Immunization"
-        }
-      },
-      {
-        "fullUrl": "urn:uuid:cou-claim-3",
-        "resource": {
-          "resourceType": "Claim",
-          "id": "urn:uuid:cou-claim-3",
-          "identifier": [
-            {
-              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-              "value": "2118728"
-            }
-          ],
-          "status": "active",
-          "type": {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
-                "code": "pharmacy"
-              }
-            ]
-          },
-          "use": "claim",
-          "patient": {
-            "reference": "urn:uuid:add-e-patient-1"
-          },
-          "created": "2022-05-16",
-          "insurer": {
-            "reference": "Organization/2"
-          },
-          "provider": {
-            "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861"
-          },
-          "priority": {
-            "coding": [
-              {
-                "code": "normal"
-              }
-            ]
-          },
-          "payee": {
-            "type": {
-              "coding": [
-                {
-                  "code": "provider"
-                }
-              ]
-            }
-          },
-          "careTeam": [
-            {
-              "sequence": 1,
-              "provider": {
-                "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe"
-              }
-            }
-          ],
-          "diagnosis": [
-            {
-              "sequence": 1,
-              "diagnosisCodeableConcept": {
-                "text": "Nonacute Inpatient Stay",
-                "coding": [
-                  {
-                    "code": "112690009",
-                    "system": "http://snomed.info/sct",
-                    "version": "2020-09",
-                    "display": "Nonacute Inpatient Stay"
-                  }
-                ]
-              }
-            }
-          ],
-          "insurance": [
-            {
-              "sequence": 1,
-              "focal": true,
-              "identifier": {
-                "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                "value": "2118728"
-              },
-              "coverage": {
-                "reference": "Coverage/cou-coverage-1"
-              }
-            }
-          ],
-          "item": [
-            {
-              "sequence": 1,
-              "careTeamSequence": [1],
-              "productOrService": {
-                "coding": [
-                  {
-                    "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                    "version": "2021.03.01.20AB",
-                    "code": "884385",
-                    "display": "dextroamphetamine sulfate 10 MG Oral Tablet"
-                  }
-                ]
-              },
-              "servicedDate": "2022-05-16",
-              "quantity": {
-                "value": 30,
-                "unit": "TAB",
-                "system": "http://unitsofmeasure.org",
-                "code": "TAB"
-              },
-              "unitPrice": {
-                "value": 135.57,
-                "currency": "USD"
-              },
-              "net": {
-                "value": 135.57,
-                "currency": "USD"
-              },
-              "location": {
-                "reference": "urn:uuid:453bcdfa-a6f9-e98d-01b3-0ad1079cbabc"
-              }
-            },
-            {
-              "sequence": 2,
-              "careTeamSequence": [1],
-              "productOrService": {
-                "coding": [
-                  {
-                    "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                    "version": "2021.03.01.20AB",
-                    "code": "1542997",
-                    "display": "168 HR buprenorphine 0.0075 MG/HR Transdermal System"
-                  }
-                ]
-              },
-              "servicedDate": "2022-05-16",
-              "quantity": {
-                "value": 30,
-                "unit": "TAB",
-                "system": "http://unitsofmeasure.org",
-                "code": "TAB"
-              },
-              "unitPrice": {
-                "value": 750.00,
-                "currency": "USD"
-              },
-              "net": {
-                "value": 750.00,
-                "currency": "USD"
-              }
-            }
-          ]
-        },
-        "request": {
-          "method": "POST",
-          "url": "Immunization"
-        }
-      },
-      {
-        "fullUrl": "urn:uuid:cou-claim-4",
-        "resource": {
-          "resourceType": "Claim",
-          "id": "urn:uuid:cou-claim-4",
-          "identifier": [
-            {
-              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-              "value": "2118728"
-            }
-          ],
-          "status": "active",
-          "type": {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
-                "code": "pharmacy"
-              }
-            ]
-          },
-          "use": "claim",
-          "patient": {
-            "reference": "urn:uuid:add-e-patient-1"
-          },
-          "created": "2022-05-16",
-          "insurer": {
-            "reference": "Organization/2"
-          },
-          "provider": {
-            "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861"
-          },
-          "priority": {
-            "coding": [
-              {
-                "code": "normal"
-              }
-            ]
-          },
-          "payee": {
-            "type": {
-              "coding": [
-                {
-                  "code": "provider"
-                }
-              ]
-            }
-          },
-          "careTeam": [
-            {
-              "sequence": 1,
-              "provider": {
-                "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe"
-              }
-            }
-          ],
-          "diagnosis": [
-            {
-              "sequence": 1,
-              "diagnosisCodeableConcept": {
-                "text": "Nonacute Inpatient Stay",
-                "coding": [
-                  {
-                    "code": "112690009",
-                    "system": "http://snomed.info/sct",
-                    "version": "2020-09",
-                    "display": "Nonacute Inpatient Stay"
-                  }
-                ]
-              }
-            }
-          ],
-          "insurance": [
-            {
-              "sequence": 1,
-              "focal": true,
-              "identifier": {
-                "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                "value": "2118728"
-              },
-              "coverage": {
-                "reference": "Coverage/cou-coverage-1"
-              }
-            }
-          ],
-          "item": [
-            {
-              "sequence": 1,
-              "careTeamSequence": [1],
-              "productOrService": {
-                "coding": [
-                  {
-                    "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                    "version": "2021.03.01.20AB",
-                    "code": "884385",
-                    "display": "dextroamphetamine sulfate 10 MG Oral Tablet"
-                  }
-                ]
-              },
               "servicedPeriod": {
-                "start": "2022-01-16",
-                "end": "2022-11-16"
+                "start": "2021-11-16",
+                "end": "2021-11-26"
               },
               "quantity": {
                 "value": 30,
@@ -1211,35 +835,6 @@
               "location": {
                 "reference": "urn:uuid:453bcdfa-a6f9-e98d-01b3-0ad1079cbabc"
               }
-            },
-            {
-              "sequence": 2,
-              "careTeamSequence": [1],
-              "productOrService": {
-                "coding": [
-                  {
-                    "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                    "version": "2021.03.01.20AB",
-                    "code": "1542997",
-                    "display": "168 HR buprenorphine 0.0075 MG/HR Transdermal System"
-                  }
-                ]
-              },
-              "servicedDate": "2022-08-16",
-              "quantity": {
-                "value": 30,
-                "unit": "TAB",
-                "system": "http://unitsofmeasure.org",
-                "code": "TAB"
-              },
-              "unitPrice": {
-                "value": 750.00,
-                "currency": "USD"
-              },
-              "net": {
-                "value": 750.00,
-                "currency": "USD"
-              }
             }
           ]
         },
@@ -1249,498 +844,363 @@
         }
       },
       {
-        "fullUrl": "urn:uuid:cou-claimResponse-1",
+        "fullUrl": "urn:uuid:add-e-condition-1",
         "resource": {
-          "resourceType": "ClaimResponse",
-          "id": "R3503",
+          "resourceType": "Condition",
+          "id": "example",
           "text": {
             "status": "generated",
-            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">A human-readable rendering of the ClaimResponse to Claim Oral Average with additional items</div>"
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Severe burn of left ear (Date: 24-May 2012)</div>"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "confirmed"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "encounter-diagnosis",
+                  "display": "Encounter Diagnosis"
+                },
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "439401001",
+                  "display": "Diagnosis"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "24484000",
+                "display": "Severe"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "version": "2021.03.20AB",
+                "code": "735676003",
+                "display": "Narcolepsy type 1"
+              }
+            ],
+            "text": "Narcolepsy"
+          },
+          "subject": {
+            "reference": "Patient/example"
+          },
+          "onsetDateTime": "2022-05-24"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:add-e-encounter-1",
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "add-e-encounter-1",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f201</p><p><b>identifier</b>: Encounter_Roel_20130404 (TEMP)</p><p><b>status</b>: finished</p><p><b>class</b>: ambulatory (Details: http://terminology.hl7.org/CodeSystem/v3-ActCode code AMB = 'ambulatory', stated as 'ambulatory')</p><p><b>type</b>: Consultation <span>(Details : {SNOMED CT code '11429006' = 'Consultation', given as 'Consultation'})</span></p><p><b>priority</b>: Normal <span>(Details : {SNOMED CT code '17621005' = 'Normal', given as 'Normal'})</span></p><p><b>subject</b>: <a>Roel</a></p><h3>Participants</h3><table><tr><td>-</td><td><b>Individual</b></td></tr><tr><td>*</td><td><a>Practitioner/f201</a></td></tr></table><p><b>reasonCode</b>: The patient had fever peaks over the last couple of days. He is worried about these peaks. <span>(Details )</span></p><p><b>serviceProvider</b>: <a>Organization/f201</a></p></div>"
           },
           "identifier": [
             {
-              "system": "http://www.BenefitsInc.com/fhir/remittance",
-              "value": "R3503"
+              "use": "temp",
+              "value": "Encounter_Roel_20130404"
             }
           ],
-          "status": "active",
-          "type": {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
-                "code": "pharmacy"
-              }
-            ]
+          "status": "finished",
+          "period": {
+            "start": "2022-06-22",
+            "end": "2022-06-23"
           },
-          "use": "claim",
-          "patient": {
-            "reference": "urn:uuid:add-e-patient-1"
+          "class": {
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            "code": "VR",
+            "display": "virtual"
           },
-          "created": "2020-08-16",
-          "insurer": {
-            "identifier": {
-              "system": "http://www.jurisdiction.org/insurers",
-              "value": "555123"
-            }
-          },
-          "requestor": {
-            "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861"
-          },
-          "request": {
-            "reference": "urn:uuid:cou-claim-1"
-          },
-          "outcome": "complete",
-          "disposition": "Claim settled as per contract.",
-          "payeeType": {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/payeetype",
-                "code": "provider"
-              }
-            ]
-          },
-          "item": [
+          "type": [
             {
-              "itemSequence": 1,
-              "adjudication": [
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "eligible"
-                      }
-                    ]
-                  },
-                  "amount": {
-                    "value": 135.57,
-                    "currency": "USD"
-                  }
-                },
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "eligpercent"
-                      }
-                    ]
-                  },
-                  "value": 80.00
-                },
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "benefit"
-                      }
-                    ]
-                  },
-                  "amount": {
-                    "value": 108.45,
-                    "currency": "USD"
-                  }
-                }
-              ]
-            },
-            {
-              "itemSequence": 2,
-              "adjudication": [
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "eligible"
-                      }
-                    ]
-                  },
-                  "amount": {
-                    "value": 750.00,
-                    "currency": "USD"
-                  }
-                },
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "eligpercent"
-                      }
-                    ]
-                  },
-                  "value": 80.00
-                },
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "benefit"
-                      }
-                    ]
-                  },
-                  "amount": {
-                    "value": 600.00,
-                    "currency": "USD"
-                  }
-                }
-              ],
-              "detail": [
-                {
-                  "detailSequence": 1,
-                  "adjudication": [
-                    {
-                      "category": {
-                        "coding": [
-                          {
-                            "code": "eligible"
-                          }
-                        ]
-                      },
-                      "amount": {
-                        "value": 750.00,
-                        "currency": "USD"
-                      }
-                    },
-                    {
-                      "category": {
-                        "coding": [
-                          {
-                            "code": "eligpercent"
-                          }
-                        ]
-                      },
-                      "value": 80.00
-                    },
-                    {
-                      "category": {
-                        "coding": [
-                          {
-                            "code": "benefit"
-                          }
-                        ]
-                      },
-                      "amount": {
-                        "value": 600.00,
-                        "currency": "USD"
-                      }
-                    }
-                  ]
-                },
-                {
-                  "detailSequence": 2,
-                  "adjudication": [
-                    {
-                      "category": {
-                        "coding": [
-                          {
-                            "code": "eligible"
-                          }
-                        ]
-                      },
-                      "amount": {
-                        "value": 0.00,
-                        "currency": "USD"
-                      }
-                    },
-                    {
-                      "category": {
-                        "coding": [
-                          {
-                            "code": "benefit"
-                          }
-                        ]
-                      },
-                      "amount": {
-                        "value": 0.00,
-                        "currency": "USD"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "addItem": [
-            {
-              "itemSequence": [
-                1
-              ],
-              "productOrService": {
-                "coding": [
-                  {
-                    "system": "http://example.org/fhir/oralservicecodes",
-                    "code": "1101"
-                  }
-                ]
-              },
-              "servicedDate": "2022-05-16",
-              "modifier": [
-                {
-                  "coding": [
-                    {
-                      "system": "http://example.org/fhir/modifiers",
-                      "code": "x",
-                      "display": "None"
-                    }
-                  ]
-                }
-              ],
-              "net": {
-                "value": 135.57,
-                "currency": "USD"
-              },
-              "noteNumber": [
-                101
-              ],
-              "adjudication": [
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "eligible"
-                      }
-                    ]
-                  },
-                  "amount": {
-                    "value": 100.00,
-                    "currency": "USD"
-                  }
-                },
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "copay"
-                      }
-                    ]
-                  },
-                  "amount": {
-                    "value": 10.00,
-                    "currency": "USD"
-                  }
-                },
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "eligpercent"
-                      }
-                    ]
-                  },
-                  "value": 80.00
-                },
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "benefit"
-                      }
-                    ]
-                  },
-                  "reason": {
-                    "coding": [
-                      {
-                        "system": "http://terminology.hl7.org/CodeSystem/adjudication-reason",
-                        "code": "ar002",
-                        "display": "Plan Limit Reached"
-                      }
-                    ]
-                  },
-                  "amount": {
-                    "value": 72.00,
-                    "currency": "USD"
-                  }
-                }
-              ]
-            },
-            {
-              "itemSequence": [
-                1
-              ],
-              "productOrService": {
-                "coding": [
-                  {
-                    "system": "http://example.org/fhir/oralservicecodes",
-                    "code": "2141",
-                    "display": "Radiograph, bytewing"
-                  }
-                ]
-              },
-              "net": {
-                "value": 35.57,
-                "currency": "USD"
-              },
-              "adjudication": [
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "eligible"
-                      }
-                    ]
-                  },
-                  "amount": {
-                    "value": 35.57,
-                    "currency": "USD"
-                  }
-                },
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "eligpercent"
-                      }
-                    ]
-                  },
-                  "value": 80.00
-                },
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "benefit"
-                      }
-                    ]
-                  },
-                  "amount": {
-                    "value": 28.47,
-                    "currency": "USD"
-                  }
-                }
-              ]
-            },
-            {
-              "itemSequence": [
-                3
-              ],
-              "detailSequence": [
-                2
-              ],
-              "productOrService": {
-                "coding": [
-                  {
-                    "system": "http://example.org/fhir/oralservicecodes",
-                    "code": "expense"
-                  }
-                ]
-              },
-              "modifier": [
-                {
-                  "coding": [
-                    {
-                      "system": "http://example.org/fhir/modifiers",
-                      "code": "x",
-                      "display": "None"
-                    }
-                  ]
-                }
-              ],
-              "net": {
-                "value": 350.00,
-                "currency": "USD"
-              },
-              "noteNumber": [
-                101
-              ],
-              "adjudication": [
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "eligible"
-                      }
-                    ]
-                  },
-                  "amount": {
-                    "value": 350.00,
-                    "currency": "USD"
-                  }
-                },
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "eligpercent"
-                      }
-                    ]
-                  },
-                  "value": 80.00
-                },
-                {
-                  "category": {
-                    "coding": [
-                      {
-                        "code": "benefit"
-                      }
-                    ]
-                  },
-                  "amount": {
-                    "value": 270.00,
-                    "currency": "USD"
-                  }
-                }
-              ]
-            }
-          ],
-          "total": [
-            {
-              "category": {
-                "coding": [
-                  {
-                    "code": "submitted"
-                  }
-                ]
-              },
-              "amount": {
-                "value": 1340.57,
-                "currency": "USD"
-              }
-            },
-            {
-              "category": {
-                "coding": [
-                  {
-                    "code": "benefit"
-                  }
-                ]
-              },
-              "amount": {
-                "value": 1054.47,
-                "currency": "USD"
-              }
-            }
-          ],
-          "payment": {
-            "type": {
               "coding": [
                 {
-                  "system": "http://terminology.hl7.org/CodeSystem/ex-paymenttype",
-                  "code": "complete"
+                  "system": "http://www.ama-assn.org/go/cpt",
+                  "version": "2021.5.21AA",
+                  "code": "90791",
+                  "display": "Psychiatric diagnostic evaluation"
                 }
               ]
-            },
-            "date": "2014-08-31",
-            "amount": {
-              "value": 100.47,
-              "currency": "USD"
-            },
-            "identifier": {
-              "system": "http://www.BenefitsInc.com/fhir/paymentidentifier",
-              "value": "201408-2-15507"
             }
+          ],
+          "priority": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "17621005",
+                "display": "Normal"
+              }
+            ]
           },
-          "processNote": [
+          "subject": {
+            "reference": "Patient/add-e-patient-1",
+            "display": "Roel"
+          },
+          "participant": [
             {
-              "number": 101,
-              "type": "print",
-              "text": "Package codes are not permitted. Codes replaced by Insurer.",
-              "language": {
-                "coding": [
-                  {
-                    "system": "urn:ietf:bcp:47",
-                    "code": "en-CA"
-                  }
-                ]
+              "individual": {
+                "reference": "Practitioner/f201"
               }
             }
-          ]
+          ],
+          "reasonCode": [
+            {
+              "text": "The patient had fever peaks over the last couple of days. He is worried about these peaks."
+            }
+          ],
+          "serviceProvider": {
+            "reference": "Organization/f201"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:add-e-encounter-2",
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "add-e-encounter-2",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f201</p><p><b>identifier</b>: Encounter_Roel_20130404 (TEMP)</p><p><b>status</b>: finished</p><p><b>class</b>: ambulatory (Details: http://terminology.hl7.org/CodeSystem/v3-ActCode code AMB = 'ambulatory', stated as 'ambulatory')</p><p><b>type</b>: Consultation <span>(Details : {SNOMED CT code '11429006' = 'Consultation', given as 'Consultation'})</span></p><p><b>priority</b>: Normal <span>(Details : {SNOMED CT code '17621005' = 'Normal', given as 'Normal'})</span></p><p><b>subject</b>: <a>Roel</a></p><h3>Participants</h3><table><tr><td>-</td><td><b>Individual</b></td></tr><tr><td>*</td><td><a>Practitioner/f201</a></td></tr></table><p><b>reasonCode</b>: The patient had fever peaks over the last couple of days. He is worried about these peaks. <span>(Details )</span></p><p><b>serviceProvider</b>: <a>Organization/f201</a></p></div>"
+          },
+          "identifier": [
+            {
+              "use": "temp",
+              "value": "Encounter_Roel_20130404"
+            }
+          ],
+          "status": "finished",
+          "period": {
+            "start": "2022-06-22",
+            "end": "2022-06-23"
+          },
+          "class": {
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            "code": "VR",
+            "display": "virtual"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://www.ama-assn.org/go/cpt",
+                  "version": "2021.5.21AA",
+                  "code": "99423",
+                  "display": "Online digital evaluation and management service, for an established patient, for up to 7 days, cumulative time during the 7 days; 21 or more minutes"
+                }
+              ]
+            }
+          ],
+          "priority": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "17621005",
+                "display": "Normal"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/add-e-patient-1",
+            "display": "Roel"
+          },
+          "participant": [
+            {
+              "individual": {
+                "reference": "Practitioner/f201"
+              }
+            }
+          ],
+          "reasonCode": [
+            {
+              "text": "The patient had fever peaks over the last couple of days. He is worried about these peaks."
+            }
+          ],
+          "serviceProvider": {
+            "reference": "Organization/f201"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:add-e-encounter-3",
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "add-e-encounter-3",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f201</p><p><b>identifier</b>: Encounter_Roel_20130404 (TEMP)</p><p><b>status</b>: finished</p><p><b>class</b>: ambulatory (Details: http://terminology.hl7.org/CodeSystem/v3-ActCode code AMB = 'ambulatory', stated as 'ambulatory')</p><p><b>type</b>: Consultation <span>(Details : {SNOMED CT code '11429006' = 'Consultation', given as 'Consultation'})</span></p><p><b>priority</b>: Normal <span>(Details : {SNOMED CT code '17621005' = 'Normal', given as 'Normal'})</span></p><p><b>subject</b>: <a>Roel</a></p><h3>Participants</h3><table><tr><td>-</td><td><b>Individual</b></td></tr><tr><td>*</td><td><a>Practitioner/f201</a></td></tr></table><p><b>reasonCode</b>: The patient had fever peaks over the last couple of days. He is worried about these peaks. <span>(Details )</span></p><p><b>serviceProvider</b>: <a>Organization/f201</a></p></div>"
+          },
+          "identifier": [
+            {
+              "use": "temp",
+              "value": "Encounter_Roel_20130404"
+            }
+          ],
+          "status": "finished",
+          "period": {
+            "start": "2022-08-15",
+            "end": "2022-08-16"
+          },
+          "class": {
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            "code": "VR",
+            "display": "virtual"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://www.ama-assn.org/go/cpt",
+                  "version": "2021.5.21AA",
+                  "code": "99423",
+                  "display": "Online digital evaluation and management service, for an established patient, for up to 7 days, cumulative time during the 7 days; 21 or more minutes"
+                }
+              ]
+            }
+          ],
+          "priority": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "17621005",
+                "display": "Normal"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/add-e-patient-1",
+            "display": "Roel"
+          },
+          "participant": [
+            {
+              "individual": {
+                "reference": "Practitioner/f201"
+              }
+            }
+          ],
+          "reasonCode": [
+            {
+              "text": "The patient had fever peaks over the last couple of days. He is worried about these peaks."
+            }
+          ],
+          "serviceProvider": {
+            "reference": "Organization/f201"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:add-e-observation-1",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "add-e-observation-1",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example</p><p><b>status</b>: final</p><p><b>category</b>: Vital Signs <span>(Details : {http://terminology.hl7.org/CodeSystem/observation-category code 'vital-signs' = 'Vital Signs', given as 'Vital Signs'})</span></p><p><b>code</b>: Body Weight <span>(Details : {LOINC code '29463-7' = 'Body weight', given as 'Body Weight'}; {LOINC code '3141-9' = 'Body weight Measured', given as 'Body weight Measured'}; {SNOMED CT code '27113001' = 'Body weight', given as 'Body weight'}; {http://acme.org/devices/clinical-codes code 'body-weight' = 'body-weight', given as 'Body Weight'})</span></p><p><b>subject</b>: <a>Patient/example</a></p><p><b>encounter</b>: <a>Encounter/example</a></p><p><b>effective</b>: 28/03/2016</p><p><b>value</b>: 185 lbs<span> (Details: UCUM code [lb_av] = 'lb_av')</span></p></div>"
+          },
+          "status": "final",
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "vital-signs",
+                  "display": "Vital Signs"
+                }
+              ]
+            }
+          ],
+          "code": {
+            "coding": [
+              {
+                "system": "http://www.ama-assn.org/go/cpt",
+                "version": "2021.5.21AA",
+                "code": "96158",
+                "display": "Health behavior intervention, individual, face-to-face; initial 30 minutes"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/example"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "effectiveDateTime": "2022-01-08",
+          "valueQuantity": {
+            "value": 185,
+            "unit": "lbs",
+            "system": "http://unitsofmeasure.org",
+            "code": "[lb_av]"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:add-e-observation-2",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "add-e-observation-2",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example</p><p><b>status</b>: final</p><p><b>category</b>: Vital Signs <span>(Details : {http://terminology.hl7.org/CodeSystem/observation-category code 'vital-signs' = 'Vital Signs', given as 'Vital Signs'})</span></p><p><b>code</b>: Body Weight <span>(Details : {LOINC code '29463-7' = 'Body weight', given as 'Body Weight'}; {LOINC code '3141-9' = 'Body weight Measured', given as 'Body weight Measured'}; {SNOMED CT code '27113001' = 'Body weight', given as 'Body weight'}; {http://acme.org/devices/clinical-codes code 'body-weight' = 'body-weight', given as 'Body Weight'})</span></p><p><b>subject</b>: <a>Patient/example</a></p><p><b>encounter</b>: <a>Encounter/example</a></p><p><b>effective</b>: 28/03/2016</p><p><b>value</b>: 185 lbs<span> (Details: UCUM code [lb_av] = 'lb_av')</span></p></div>"
+          },
+          "status": "final",
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "vital-signs",
+                  "display": "Vital Signs"
+                }
+              ]
+            }
+          ],
+          "code": {
+            "coding": [
+              {
+                "system": "http://www.ama-assn.org/go/cpt",
+                "version": "2021.5.21AA",
+                "code": "96158",
+                "display": "Health behavior intervention, individual, face-to-face; initial 30 minutes"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/example"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "effectiveDateTime": "2022-04-28",
+          "valueQuantity": {
+            "value": 185,
+            "unit": "lbs",
+            "system": "http://unitsofmeasure.org",
+            "code": "[lb_av]"
+          }
         }
       }
     ]
