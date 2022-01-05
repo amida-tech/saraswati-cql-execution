@@ -79,17 +79,17 @@
           "id": "encounter-1",
           "status": "finished",
           "class": {
-            "code": "Z39",
-            "system": "ICD10CM",
-            "version": "2021"
+            "system": "http://hl7.org/fhir/v3/ActCode",
+            "code": "IMP",
+            "display": "inpatient encounter"
           },
           "type": [
             {
               "coding": [
                 {
-                  "code": "177158008",
-                  "system": "ICD10CM",
-                  "version": "2021"
+                  "system": "https://www.nubc.org/CodeSystem/RevenueCodes",
+                  "code": "0125",
+                  "display": "Hospice"
                 }
               ]
             }
@@ -100,8 +100,8 @@
           "participant": [
             {
               "period": { 
-                "start": "2021-02-02T16:00:00+10:00",
-                "end": "2021-02-02T16:30:00+10:00"
+                "start": "2021-09-12T16:00:00+10:00",
+                "end": "2021-09-13T16:30:00+10:00"
               },
               "individual": {
                 "reference": "Practitioner/example",
@@ -109,9 +109,9 @@
               }
             }
           ],
-          "period": {
-            "start": "2021-02-10T16:00:00+10:00",
-            "end": "2021-02-10T16:30:00+10:00"
+          "period": { 
+            "start": "2021-09-12T16:00:00+10:00",
+            "end": "2021-09-13T16:30:00+10:00"
           }
         }
       },
@@ -123,11 +123,41 @@
           "code": {
             "coding": [
               {
-                  "code": "177158008",
-                  "system": "http://snomed.info/sct",
-                  "version": "2021.03.20AB",
-                  "display": "Assisted breech delivery"
-                }
+                "code": "177158008",
+                "system": "http://snomed.info/sct",
+                "display": "Assisted breech delivery"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/patient-1"
+          },
+          "encounter": {
+            "reference": "Encounter/encounter-1"
+          },
+          "performedDateTime": "2021-09-13T10:30:10+01:00",
+          "performer": [
+            {
+              "actor": {
+                "reference": "Practitioner/f005",
+                "display": "A. Langeveld"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "procedure-hospice",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "system": "https://www.nubc.org/CodeSystem/RevenueCodes",
+                "code": "0125",
+                "display": "Hospice"
+              }
             ]
           },
           "subject": {
@@ -162,8 +192,9 @@
               "coding": [
                 {
                   "system": "https://www.nubc.org/CodeSystem/RevenueCodes",
-                "code": "0517",
-                "display": "Family practice clinic"
+                  "version": "2012.05",
+                  "code": "0125",
+                  "display": "Hospice"
                 }
               ]
             }
