@@ -79,16 +79,16 @@
           "id": "encounter-1",
           "status": "finished",
           "class": {
-            "system": "http://hl7.org/fhir/v3/ActCode",
-            "code": "IMP",
-            "display": "inpatient encounter"
+            "system": "https://www.nubc.org/CodeSystem/RevenueCodes",
+            "code": "0155",
+            "display": "Hospice"
           },
           "type": [
             {
               "coding": [
                 {
                   "system": "https://www.nubc.org/CodeSystem/RevenueCodes",
-                  "code": "0125",
+                  "code": "0155",
                   "display": "Hospice"
                 }
               ]
@@ -109,7 +109,7 @@
               }
             }
           ],
-          "period": { 
+          "performedPeriod": { 
             "start": "2021-09-12T16:00:00+10:00",
             "end": "2021-09-13T16:30:00+10:00"
           }
@@ -148,37 +148,6 @@
       },
       {
         "resource": {
-          "resourceType": "Procedure",
-          "id": "procedure-hospice",
-          "status": "completed",
-          "code": {
-            "coding": [
-              {
-                "system": "https://www.nubc.org/CodeSystem/RevenueCodes",
-                "code": "0125",
-                "display": "Hospice"
-              }
-            ]
-          },
-          "subject": {
-            "reference": "Patient/patient-1"
-          },
-          "encounter": {
-            "reference": "Encounter/encounter-1"
-          },
-          "performedDateTime": "2021-09-13T10:30:10+01:00",
-          "performer": [
-            {
-              "actor": {
-                "reference": "Practitioner/f005",
-                "display": "A. Langeveld"
-              }
-            }
-          ]
-        }
-      },
-      {
-        "resource": {
           "resourceType": "Encounter",
           "id": "encounter-2",
           "status": "finished",
@@ -192,9 +161,8 @@
               "coding": [
                 {
                   "system": "https://www.nubc.org/CodeSystem/RevenueCodes",
-                  "version": "2012.05",
-                  "code": "0125",
-                  "display": "Hospice"
+                "code": "0517",
+                "display": "Family practice clinic"
                 }
               ]
             }
