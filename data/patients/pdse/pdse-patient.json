@@ -161,9 +161,9 @@
             {
               "coding": [
                 {
-                  "system": "http://snomed.info/sct",
-                  "code": "17629007",
-                  "display": "Stand Alone Prenatal Visits"
+                  "system": "https://www.nubc.org/CodeSystem/RevenueCodes",
+                "code": "0517",
+                "display": "Family practice clinic"
                 }
               ]
             }
@@ -174,8 +174,8 @@
           "participant": [
             {
               "period": {
-                "start": "2019-01-17T16:00:00+10:00",
-                "end": "2019-01-17T16:30:00+10:00"
+                "start": "2021-11-02T16:00:00+10:00",
+                "end": "2021-11-02T16:30:00+10:00"
               },
               "individual": {
                 "reference": "Practitioner/example",
@@ -184,13 +184,13 @@
             }
           ],
           "period": {  
-            "start": "2019-04-27T16:00:00+10:00",
-            "end": "2019-04-27T16:30:00+10:00"
+            "start": "2021-11-02T16:00:00+10:00",
+            "end": "2021-11-02T16:30:00+10:00"
           }, 
           "diagnosis": [
             { 
               "condition": {
-                "reference": "Condition/pregnancy-condition"
+                "reference": "Condition/condition-1"
               }
             }
           ]
@@ -199,7 +199,7 @@
       { 
         "resource": {
           "resourceType": "Condition",
-          "id": "pregnancy-condition",
+          "id": "condition-1",
           "identifier": [
             {
               "system": "urn:ietf:rfc:3986",
@@ -249,32 +249,20 @@
           "code": {
             "coding": [
               {
-                "code": "009.00",
-                "system": "ICD10CM",
-                "version": "2020-10-19AA"
+                "system": "http://snomed.info/sct",
+                "code": "712823008",
+                "display": "Acute depression"
               }
             ]
           },
-          "bodySite": [
-            {
-              "coding": [
-                {
-                  "system": "http://snomed.info/sct",
-                  "code": "38266002",
-                  "display": "Entire body as a whole"
-                }
-              ]
-            }
-          ],
           "subject": {
             "reference": "Patient/patient-1"
           },
           "encounter": {
-            "reference": "Encounter/example"
+            "reference": "Encounter/encounter-2"
           },
-          "onsetDateTime": "2020-04-02",
-          "abatementString": "around April 9, 2020",
-          "recordedDate": "2020-04-04",
+          "onsetDateTime": "2021-11-01",
+          "recordedDate": "2021-11-01",
           "recorder": {
             "reference": "Practitioner/f201"
           },
