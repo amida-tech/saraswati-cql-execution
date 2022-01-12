@@ -1,0 +1,675 @@
+[
+  {
+    "resourceType": "Bundle",
+    "id": "tests-numer-EXAMPLE1-FHIR4-bundle?",
+    "type": "transaction",
+    "entry": [
+      {
+        "resource": {
+          "resourceType": "Patient",
+          "id": "numer-EXAMPLE1-FHIR4",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+            ]
+          },
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+              "extension": [
+                {
+                  "url": "ombCategory",
+                  "valueCoding": {
+                    "system": "urn:oid:2.16.840.1.113883.6.238",
+                    "code": "2054-5",
+                    "display": "Black or African American"
+                  }
+                }
+              ]
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+              "extension": [
+                {
+                  "url": "ombCategory",
+                  "valueCoding": {
+                    "system": "urn:oid:2.16.840.1.113883.6.238",
+                    "code": "2186-5",
+                    "display": "Not Hispanic or Latino"
+                  }
+                }
+              ]
+            }
+          ],
+          "identifier": [
+            {
+              "use": "usual",
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                    "code": "MR",
+                    "display": "Medical Record Number"
+                  }
+                ]
+              },
+              "system": "http://hospital.smarthealthit.org",
+              "value": "999999993"
+            }
+          ],
+          "name": [
+            {
+              "family": "Doe",
+              "given": [
+                "Jill"
+              ]
+            }
+          ],
+          "gender": "female",
+          "birthDate": "2000-07-29"
+        },
+        "request": {
+          "method": "PUT",
+          "url": "Patient/numer-EXAMPLE1-FHIR4"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:2784d4f5-0262-7192-d627-5e6ba0535c77",
+        "resource": {
+          "resourceType": "Observation",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-observation"
+            ]
+          },
+          "id": "2784d4f5-0262-7192-d627-5e6ba0535c77",
+          "status": "final",
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "laboratory",
+                  "display": "laboratory"
+                }
+              ]
+            }
+          ],
+          "code": {
+            "coding": [
+              {
+                "system": "CPT",
+                "code": "99217",
+                "display": "Emergency Department Observation"
+              }
+            ],
+            "text": "Emergency Department Observation"
+          },
+          "subject": {
+            "reference": "urn:uuid:440487f4-1137-f542-8127-dc98e392d21e"
+          },
+          "encounter": {
+            "reference": "urn:uuid:9ff13252-9299-44f4-773a-19db01af425b"
+          },
+          "effectiveDateTime": "2022-03-14T02:18:59-04:00",
+          "issued": "2022-03-10T02:18:59.128-04:00",
+          "valueQuantity": {
+            "value": 7.53,
+            "unit": "%",
+            "system": "http://unitsofmeasure.org",
+            "code": "%"
+          }
+        },
+        "request": {
+          "method": "POST",
+          "url": "Observation"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:f0010",
+        "resource": {
+          "resourceType": "Condition",
+          "id": "f0010",
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "version": "2021.03.20AB",
+                "code": "280982009",
+                "display": "Abuse of laxatives"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/numer-EXAMPLE1-FHIR4",
+            "display": "Jane Doe"
+          },
+          "onsetDateTime": "2022-11-11",
+          "recordedDate": "2022-11-11"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:ee0001",
+        "resource": {
+          "resourceType": "Encounter",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"
+            ]
+          },
+          "id": "ee0001",
+          "status": "finished",
+          "class": {
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            "code": "AMB"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "version": "2021.03.20AB",
+                  "code": "23835007",
+                  "display": "Electroconvulsive therapy"
+                }
+              ],
+              "text": "Emergency Department visit"
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXAMPLE1-FHIR4",
+            "display": "Jill Doe"
+          },
+          "diagnosis": [
+            {
+              "condition": {
+                "reference": "Condition/f0010"
+              },
+              "use": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/diagnosis-role",
+                    "code": "CC",
+                    "display": "Chief complaint"
+                  }
+                ]
+              },
+              "rank": 1
+            }
+          ],
+          "period": {
+            "start": "2022-11-13",
+            "end": "2022-11-13"
+          },
+          "serviceProvider": {
+            "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
+            "display": "LEXINGTON EYE ASSOCIATES, INC"
+          }
+        },
+        "request": {
+          "method": "POST",
+          "url": "Encounter"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:ee0002",
+        "resource": {
+          "resourceType": "Encounter",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"
+            ]
+          },
+          "id": "ee0002",
+          "status": "finished",
+          "class": {
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            "code": "AMB"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "version": "2021.03.20AB",
+                  "code": "23835007",
+                  "display": "Electroconvulsive therapy"
+                }
+              ],
+              "text": "Emergency Department visit"
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXAMPLE1-FHIR4",
+            "display": "Jill Doe"
+          },
+          "diagnosis": [
+            {
+              "condition": {
+                "reference": "Condition/f0010"
+              },
+              "use": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/diagnosis-role",
+                    "code": "CC",
+                    "display": "Chief complaint"
+                  }
+                ]
+              },
+              "rank": 1
+            }
+          ],
+          "period": {
+            "start": "2022-11-16",
+            "end": "2022-11-16"
+          },
+          "serviceProvider": {
+            "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
+            "display": "LEXINGTON EYE ASSOCIATES, INC"
+          }
+        },
+        "request": {
+          "method": "POST",
+          "url": "Encounter"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:ee0003",
+        "resource": {
+          "resourceType": "Encounter",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/qicore/StructureDefinition/qicore-encounter"
+            ]
+          },
+          "id": "ee0003",
+          "status": "finished",
+          "class": {
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            "code": "AMB"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "version": "2021.03.20AB",
+                  "code": "23835007",
+                  "display": "Electroconvulsive therapy"
+                }
+              ],
+              "text": "Emergency Department visit"
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXAMPLE1-FHIR4",
+            "display": "Jill Doe"
+          },
+          "diagnosis": [
+            {
+              "condition": {
+                "reference": "Condition/f0010"
+              },
+              "use": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/diagnosis-role",
+                    "code": "CC",
+                    "display": "Chief complaint"
+                  }
+                ]
+              },
+              "rank": 1
+            }
+          ],
+          "period": {
+            "start": "2022-11-29",
+            "end": "2022-11-29"
+          },
+          "serviceProvider": {
+            "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861",
+            "display": "LEXINGTON EYE ASSOCIATES, INC"
+          }
+        },
+        "request": {
+          "method": "POST",
+          "url": "Encounter"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:fum-coverage-1",
+        "resource": {
+          "resourceType": "Coverage",
+          "id": "fum-coverage-1",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">A human-readable rendering of the coverage</div>"
+          },
+          "identifier": [
+            {
+              "system": "http://benefitsinc.com/certificate",
+              "value": "12345"
+            }
+          ],
+          "status": "active",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "RETIRE",
+                "display": "retiree health program"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MENTPOL",
+                "display": "mental health policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "DRUGPOL",
+                "display": "Drug Policy"
+              }
+            ]
+          },
+          "policyHolder": {
+            "reference": "http://benefitsinc.com/FHIR/Organization/CBI35"
+          },
+          "subscriber": {
+            "reference": "Patient/numer-EXAMPLE1-FHIR4"
+          },
+          "beneficiary": {
+            "reference": "Patient/numer-EXAMPLE1-FHIR4"
+          },
+          "dependent": "0",
+          "relationship": {
+            "coding": [
+              {
+                "code": "self"
+              }
+            ]
+          },
+          "period": {
+            "start": "2022-07-23",
+            "end": "2023-07-23"
+          },
+          "payor": [
+            {
+              "reference": "Organization/2"
+            }
+          ],
+          "class": [
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "group"
+                  }
+                ]
+              },
+              "value": "CB135",
+              "name": "Corporate Baker's Inc. Local #35"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "subgroup"
+                  }
+                ]
+              },
+              "value": "123",
+              "name": "Trainee Part-time Benefits"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "plan"
+                  }
+                ]
+              },
+              "value": "B37FC",
+              "name": "Full Coverage: Medical, Dental, Pharmacy, Vision, EHC"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "subplan"
+                  }
+                ]
+              },
+              "value": "P7",
+              "name": "Includes afterlife benefits"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "class"
+                  }
+                ]
+              },
+              "value": "SILVER",
+              "name": "Silver: Family Plan spouse only"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "subclass"
+                  }
+                ]
+              },
+              "value": "Tier2",
+              "name": "Low deductable, max $20 copay"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "sequence"
+                  }
+                ]
+              },
+              "value": "9"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "rxid"
+                  }
+                ]
+              },
+              "value": "MDF12345"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "rxbin"
+                  }
+                ]
+              },
+              "value": "987654"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "rxgroup"
+                  }
+                ]
+              },
+              "value": "M35PT"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "rxpcn"
+                  }
+                ]
+              },
+              "value": "234516"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "sequence"
+                  }
+                ]
+              },
+              "value": "9"
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:981b42b3-eb5b-7b9c-7bda-97999d594d712",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "claim1",
+          "identifier": [
+            {
+              "system": "http://happyvalley.com/claim",
+              "value": "12345"
+            }
+          ],
+          "status": "active",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "professional"
+              }
+            ]
+          },
+          "use": "claim",
+          "patient": {
+            "reference": "Patient/numer-EXAMPLE1-FHIR4"
+          },
+          "created": "2022-11-11",
+          "insurer": {
+            "reference": "Organization/2"
+          },
+          "provider": {
+            "reference": "Organization/1"
+          },
+          "priority": {
+            "coding": [
+              {
+                "code": "normal"
+              }
+            ]
+          },
+          "payee": {
+            "type": {
+              "coding": [
+                {
+                  "code": "provider"
+                }
+              ]
+            }
+          },
+          "careTeam": [
+            {
+              "sequence": 1,
+              "provider": {
+                "reference": "Practitioner/example"
+              }
+            }
+          ],
+          "diagnosis": [
+            {
+              "sequence": 1,
+              "diagnosisCodeableConcept": {
+                "text": "Mental Illness",
+                "coding": [
+                  {
+                    "code": "191586008",
+                    "system": "http://snomed.info/sct",
+                    "version": "2021.03.20AB",
+                    "display": "Single manic episode, severe, with psychosis"
+                  }
+                ]
+              }
+            }
+          ],
+          "procedure": [
+            {
+              "sequence": 1,
+              "procedureCodeableConcept": {
+                "text": "Emergency department patient visit",
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "version": "2021.03.20AB",
+                    "code": "4525004",
+                    "display": "Emergency department patient visit"
+                  }
+                ]
+              }
+            }
+          ],
+          "insurance": [
+            {
+              "sequence": 1,
+              "focal": true,
+              "identifier": {
+                "system": "http://happyvalley.com/claim",
+                "value": "12345"
+              },
+              "coverage": {
+                "reference": "Coverage/fum-coverage-1"
+              }
+            }
+          ],
+          "item": [
+            {
+              "sequence": 1,
+              "careTeamSequence": [
+                1
+              ],
+              "productOrService": {
+                "coding": [
+                  {
+                    "code": "1200"
+                  }
+                ]
+              },
+              "servicedDate": "2022-11-11",
+              "unitPrice": {
+                "value": 135.57,
+                "currency": "USD"
+              },
+              "net": {
+                "value": 135.57,
+                "currency": "USD"
+              }
+            }
+          ]
+        },
+        "request": {
+          "method": "POST",
+          "url": "Claim"
+        }
+      }
+    ]
+  }
+]
