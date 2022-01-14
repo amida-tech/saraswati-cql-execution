@@ -734,20 +734,6 @@
               }
             ]
           },
-          "diagnosis": [
-            {
-              "diagnosisCodeableConcept": {
-                "coding": [
-                  {
-                    "system": "http://snomed.info/sct",
-                    "version": "2021.03.20AB",
-                    "code": "166160000",
-                    "display": "Prostate specific antigen abnormal"
-                  }
-                ]
-              }
-            }
-          ],
           "item": [
             {
               "sequence": 1,
@@ -832,68 +818,6 @@
               "servicedPeriod": {
                 "start": "2022-08-16",
                 "end": "2022-08-17"
-              }
-            }
-          ],
-          "total": [
-            {
-              "category": {
-                "coding": [
-                  {
-                    "code": "submitted"
-                  }
-                ]
-              },
-              "amount": {
-                "value": 1340.57,
-                "currency": "USD"
-              }
-            },
-            {
-              "category": {
-                "coding": [
-                  {
-                    "code": "benefit"
-                  }
-                ]
-              },
-              "amount": {
-                "value": 1054.47,
-                "currency": "USD"
-              }
-            }
-          ],
-          "payment": {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/ex-paymenttype",
-                  "code": "complete"
-                }
-              ]
-            },
-            "date": "2022-08-31",
-            "amount": {
-              "value": 100.47,
-              "currency": "USD"
-            },
-            "identifier": {
-              "system": "http://www.BenefitsInc.com/fhir/paymentidentifier",
-              "value": "201408-2-15507"
-            }
-          },
-          "processNote": [
-            {
-              "number": 101,
-              "type": "print",
-              "text": "Package codes are not permitted. Codes replaced by Insurer.",
-              "language": {
-                "coding": [
-                  {
-                    "system": "urn:ietf:bcp:47",
-                    "code": "en-CA"
-                  }
-                ]
               }
             }
           ]
