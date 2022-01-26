@@ -12,6 +12,7 @@ if(parseArgs['file'] === undefined) {
 
 const directory = path.join(path.dirname(parseArgs['file']), '..');
 console.log('Directory to search for libraries and valuesets: ' + directory);
+const outputPath = path.join(directory, 'cql', 'Amida_' + path.basename(parseArgs['file']));
 
 fs.stat(parseArgs['file'], function(readErr, stat) {
   if (readErr) {
@@ -34,6 +35,7 @@ async function processLines() {
   let compiledCodes = {}; // A precompiled list of codes to append.
   let codesToUnion = [];
   let cqlFile = '';
+  let appendLineCheck = true;
 
   for await (const line of rl) {
     if (line.startsWith('valueset')) { // If so, compile codes for entry later. This does not format them for CQL.
@@ -51,22 +53,40 @@ async function processLines() {
         delete container.version;
         return container;
       });
-
     }
 
-    if (line.startsWith('  FHIRBase."VS Cast Function"')) {
+    if (line.includes('FHIRBase."VS Cast Function"')) {
       codesToUnion.push(line.substring(line.indexOf('( "') + 3, line.indexOf('" )')));
-      // Compile the codes you'll need but do not write yet.
-    }
-    if (line.startsWith('    union FHIRBase."VS Cast Function"')) {
-      codesToUnion.push(line.substring(line.indexOf('( "') + 3, line.indexOf('" )')));
-      // Append more codes to the existing list.
+      appendLineCheck = false;
     } else {
+      appendLineCheck = true;
+    }
+
+    if (appendLineCheck) {
+      if (codesToUnion.length > 0) {
+        cqlFile += `\n  List {\n    System.Code {\n`
+        let cqlAppend = '';
+        for (const condition in codesToUnion) {
+          compiledCodes[codesToUnion[condition]].forEach(codeEntry => {
+            cqlAppend += `      code: \'${codeEntry.code}\',\n`
+            cqlAppend += `      system: \'${codeEntry.system}\'\n`
+            cqlAppend += '    }, System.Code {\n'
+          });
+        }
+
+        cqlFile += cqlAppend.slice(0, -18) + `  }\n}\n`;
+        codesToUnion = [];
+      } else { 
       cqlFile += `\n${line}`;
-      // Write the codes.
-      codesToUnion = [];
+      } 
     }
   }
-  
-  console.log(cqlFile);
+
+  try {
+    fs.writeFileSync(outputPath, cqlFile);
+  } catch (writeErr) {
+    console.error('\x1b[31m', 
+      '\tError: Unable to write to directory:' + writeErr + '.',
+      '\x1b[0m');
+  }
 }
