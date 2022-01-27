@@ -6,18 +6,19 @@ const readline = require('readline');
 const path = require('path');
 
 if(parseArgs['file'] === undefined) {
-  console.log('Please define a file path to read. Usage: "--file=<directory>".');
+  console.error('\x1b[31m', 
+    '\nError: Please define a file path to read. Usage: "--file=<directory>".',
+    '\x1b[0m');
   process.exit();
 }
 
 const directory = path.join(path.dirname(parseArgs['file']), '..');
-console.log('Directory to search for libraries and valuesets: ' + directory);
-const outputPath = path.join(directory, 'cql', 'Amida_' + path.basename(parseArgs['file']));
+console.log('\nInfo: Directory to search for libraries and valuesets: ' + directory);
 
 fs.stat(parseArgs['file'], function(readErr, stat) {
   if (readErr) {
     console.error('\x1b[31m', 
-      '\tError: Unable to read file:' + readErr + '.',
+      '\n' + readErr + '.',
       '\x1b[0m');
     process.exit();
   }
@@ -39,20 +40,7 @@ async function processLines() {
 
   for await (const line of rl) {
     if (line.startsWith('valueset')) { // If so, compile codes for entry later. This does not format them for CQL.
-      const valuesetName = line.split('"')[1];
-      const valuesetFile = line.split('/').pop().slice(0, -1) + '.json';
-      let valuesetJson = JSON.parse(fs.readFileSync(path.join(directory, 'valuesets', valuesetFile)));
-      if (!valuesetJson?.expansion?.contains) {
-        console.error('\x1b[31m', 
-          '\tError: No "expansion.contains" found. Aborting.',
-          '\x1b[0m');
-        process.exit();
-      }
-      compiledCodes[valuesetName] = valuesetJson.expansion.contains.map(container => {
-        delete container.display;
-        delete container.version;
-        return container;
-      });
+      processValueset(compiledCodes, line);
     }
 
     if (line.includes('FHIRBase."VS Cast Function"')) {
@@ -64,17 +52,7 @@ async function processLines() {
 
     if (appendLineCheck) {
       if (codesToUnion.length > 0) {
-        cqlFile += `\n  List {\n    System.Code {\n`
-        let cqlAppend = '';
-        for (const condition in codesToUnion) {
-          compiledCodes[codesToUnion[condition]].forEach(codeEntry => {
-            cqlAppend += `      code: \'${codeEntry.code}\',\n`
-            cqlAppend += `      system: \'${codeEntry.system}\'\n`
-            cqlAppend += '    }, System.Code {\n'
-          });
-        }
-
-        cqlFile += cqlAppend.slice(0, -18) + `  }\n}\n`;
+        cqlFile += `\n  List {\n    System.Code {\n` + processCqlAppend(compiledCodes, codesToUnion);
         codesToUnion = [];
       } else { 
       cqlFile += `\n${line}`;
@@ -82,11 +60,46 @@ async function processLines() {
     }
   }
 
+  const outputPath = path.join(directory, 'cql', 'Amida_' + path.basename(parseArgs['file']));
+
   try {
     fs.writeFileSync(outputPath, cqlFile);
   } catch (writeErr) {
     console.error('\x1b[31m', 
-      '\tError: Unable to write to directory:' + writeErr + '.',
+      '\nError: Unable to write to directory:' + writeErr + '.',
       '\x1b[0m');
+    process.exit();
   }
+  console.log('\x1b[32m', 
+    '\nSuccess: Please check the created file at: ' + outputPath,
+    '\x1b[0m');
+}
+
+function processValueset(compiledCodes, line) {
+  const valuesetName = line.split('"')[1];
+  const valuesetFile = line.split('/').pop().slice(0, -1) + '.json';
+  let valuesetJson = JSON.parse(fs.readFileSync(path.join(directory, 'valuesets', valuesetFile)));
+  if (!valuesetJson?.expansion?.contains) {
+    console.error('\x1b[31m', 
+      '\nError: No "expansion.contains" found. Aborting.',
+      '\x1b[0m');
+    process.exit();
+  }
+  compiledCodes[valuesetName] = valuesetJson.expansion.contains.map(container => {
+    delete container.display;
+    delete container.version;
+    return container;
+  });
+}
+
+function processCqlAppend(compiledCodes, codesToUnion) {
+  let cqlAppend = '';
+  for (const condition in codesToUnion) {
+    compiledCodes[codesToUnion[condition]].forEach(codeEntry => {
+      cqlAppend += `      code: \'${codeEntry.code}\',\n`
+      cqlAppend += `      system: \'${codeEntry.system}\'\n`
+      cqlAppend += '    }, System.Code {\n'
+    });
+  }
+  return cqlAppend.slice(0, -18) + ` }\n}\n`;
 }
