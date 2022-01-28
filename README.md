@@ -320,3 +320,23 @@ Drop `--kafka-addr "PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092" --advertis
 `LIBRARIES_DIRECTORY`: The directory of the required libraries for the `MEASUREMENT_FILE`. For example, `LIBRARIES_DIRECTORY=private\CISE_HEDIS_MY2022-1.0.0\libraryElm\`
 `VALUESETS_DIRECTORY`: The directory of the required value sets for the MEASUREMENT_FILE. For example, `VALUESETS_DIRECTORY=private\CISE_HEDIS_MY2022-1.0.0\valuesets\`
 `MEASUREMENT_DEV_DATA`: Only for development purposes. This is the folder you want to watch with processor.js. For example `data\patients\immunization`.
+
+# Valueset CQL Generation
+
+For AAB, CWP and URI, the following process can rewrite the CQL to be faster. The script can be run by pointing it at the file inside the private folder you want to convert. For example...
+`node vset-cql-generator.js --file=C:\Users\James\workspaces\saraswati-cql-execution\private\AAB_HEDIS_MY2022-1.0.0\cql\AAB_HEDIS_MY2022-1.0.0.cql`
+
+Do not move the CQL file from its location in the private folder. It also checks value set files the neighboring folders. When finished, it will inform you of the created script and its location.
+
+Copy this file into the libraryCql folder neighboring the cql folder. To run the cql-to-elm transformation, navigate to the following folder inside the `clinical_quality_language` repo:
+`clinical_quality_language\Src\java\cql-to-elm\build\install\cql-to-elm\bin>cql-to-elm`
+
+Then run this CLI command, changing the folders to your local spots:
+`cql-to-elm --format=JSON --input saraswati-cql-execution\private\AAB_HEDIS_MY2022-1.0.0\libraryCql\Amida_AAB_HEDIS_MY2022-1.0.0.cql --output saraswati-cql-execution\private\AAB_HEDIS_MY2022-1.0.0\elm\Amida_AAB_HEDIS_MY2022-1.0.0.json`
+
+Finally, in saraswati-cql-execution, change the `.env` features to this:
+
+`MEASUREMENT_FILE=private\AAB_HEDIS_MY2022-1.0.0\elm\Amida_AAB_HEDIS_MY2022-1.0.0.json`
+`LIBRARIES_DIRECTORY=private\AAB_HEDIS_MY2022-1.0.0\libraryElm\`
+`VALUESETS_DIRECTORY=private\AAB_HEDIS_MY2022-1.0.0\valuesets\`
+`MEASUREMENT_DEV_DATA=data\patients\aab`
