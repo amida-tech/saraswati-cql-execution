@@ -64,7 +64,7 @@
     "build:all": "npm run build --scripts-prepend-node-path",
     "test": "mocha --reporter spec --recursive --timeout 15000",
     "test:integration": "mocha ./integration-test/*-test.js --timeout 15000",
-    "test:seed": "mocha ./test/kafka/manual-kafka-seed.js --timeout 10000",
+    "test:seed": "mocha ./integration-test/manual-kafka-seed.js --timeout 10000",
     "test:nyc": "set NODE_ENV=test&& nyc --reporter=html npx mocha --reporter spec --recursive --timeout 10000",
     "test:jenkins": "set NODE_ENV=test&& nyc --reporter=cobertura npx mocha --reporter spec --recursive --timeout 10000",
     "test:watch": "mocha --reporter spec --recursive --watch",
