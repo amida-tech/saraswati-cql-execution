@@ -48,7 +48,7 @@ const watcher = dir =>
     });
   });
 
-watcher(config.directory);
+watcher(path.join('data', 'patients'));
 
 module.exports = { watcher };
 

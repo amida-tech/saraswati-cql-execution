@@ -4,7 +4,7 @@ const { evalData } = require('./exec-files/exec-config');
 
 const kafka = new Kafka({
   clientId: 'cql-execution',
-  brokers: [config.kafkaBroker, 'broker:29093']
+  brokers: config.kafkaBrokers
 });
 
 const consumer = kafka.consumer({ groupId: 'hedis-measures' });

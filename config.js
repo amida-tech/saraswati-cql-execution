@@ -17,15 +17,11 @@ const envVarsSchema = Joi.object({
   SARASWATI_REPORTS_PORT: Joi.number()
     .default(5000)
     .description('Port to make post call to saraswati-reports, defaults to 5000'),
-  DIR: Joi.string()
-    .description('Directory to monitor'),
   ACTUATOR_PORT: Joi.string()
     .default('5001')
     .description('Port used for actuator endpoint'),
   KAFKA_BROKERS: Joi.string()
     .description('The Kafka queue server addresses to connect to. We will parse the entry afterwards.'),
-  KAFKA_BROKER: Joi.string()
-    .description('The Kafka primary queue server address to connect to.'),
   KAFKA_USERNAME: Joi.string()
     .default('username1')
     .description('The SASL username for accessing the Kafka queue.'),
@@ -84,7 +80,6 @@ const config = {
   directory: envVars.DIR,
   actuatorPort: envVars.ACTUATOR_PORT,
   kafkaBrokers: envVars.KAFKA_BROKERS.replace(/[["'\]]/g, '').split(arrayDelimiter),
-  kafkaBroker: envVars.KAFKA_BROKER,
   kafkaUsername: envVars.KAFKA_USERNAME,
   kafkaPassword: envVars.KAFKA_PASSWORD,
   kafkaProtocol: envVars.KAFKA_PROTOCOL,
