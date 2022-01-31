@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const dotenv = require('dotenv');
 const util = require('./src/config-util');
+const path = require('path');
 
 dotenv.config();
 
@@ -68,6 +69,10 @@ const { error, value: envVars } = envVarsSchema.validate(process.env, {convert: 
 if (error) {
   throw new Error(`Config validation error: ${error.message}`);
 }
+
+envVars.MEASUREMENT_FILE = envVars.MEASUREMENT_FILE.split(/[\\|/]/).join(path.sep);
+envVars.LIBRARIES_DIRECTORY = envVars.LIBRARIES_DIRECTORY.split(/[\\|/]/).join(path.sep);
+envVars.VALUESETS_DIRECTORY = envVars.VALUESETS_DIRECTORY.split(/[\\|/]/).join(path.sep);
 
 util.measurementAccessCheck(envVars);
 const arrayDelimiter = util.getDelimiter(envVars.KAFKA_BROKERS);

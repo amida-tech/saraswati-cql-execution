@@ -15,3 +15,5 @@ private
 .gitconfig
 .yarnrc
 .vscode-server
+.npm
+.cache
