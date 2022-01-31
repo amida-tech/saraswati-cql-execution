@@ -12,7 +12,7 @@ const oldConfig = Object.assign({}, config);
 
 describe('exec-config tests', () => {
   beforeEach(() => {
-    config.measurementDevData = oldConfig.measurementDevData;
+    config.measurementType = oldConfig.measurementType;
     config.measurementFile = oldConfig.measurementFile;
     config.librariesDirectory = oldConfig.librariesDirectory;
     config.valuesetsDirectory = oldConfig.valuesetsDirectory;

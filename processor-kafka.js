@@ -22,11 +22,9 @@ async function runner() {
   //Runs each time a message is recieved
   await consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
-      let fhirJson = message.value.toString();
-      let patients = JSON.parse(fhirJson);
-      let data = [];
-      evalData(patients,data);
-      if (data.length > 0) {
+      const fhirJson = message.value.toString();
+      const data = evalData(JSON.parse(fhirJson));
+      if (data !== undefined) {
         producer.send(
           {
             topic: producedTopic,

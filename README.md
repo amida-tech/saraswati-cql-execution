@@ -319,7 +319,8 @@ Drop `--kafka-addr "PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092" --advertis
 `MEASUREMENT_FILE`: The actual measurement file you want to run. For example, `MEASUREMENT_FILE=private\CISE_HEDIS_MY2022-1.0.0\elm\CISE_HEDIS_MY2022-1.0.0.json`
 `LIBRARIES_DIRECTORY`: The directory of the required libraries for the `MEASUREMENT_FILE`. For example, `LIBRARIES_DIRECTORY=private\CISE_HEDIS_MY2022-1.0.0\libraryElm\`
 `VALUESETS_DIRECTORY`: The directory of the required value sets for the MEASUREMENT_FILE. For example, `VALUESETS_DIRECTORY=private\CISE_HEDIS_MY2022-1.0.0\valuesets\`
-`MEASUREMENT_DEV_DATA`: Only for development purposes. This is the folder you want to watch with processor.js. For example `data\patients\immunization`.
+`MEASUREMENT_TYPE`: The measurement type. Used to mark the resulting scores. When running `"localread"`
+   in development mode, it will check the matching `"data/patients/"` folder.
 
 # Valueset CQL Generation
 
@@ -339,4 +340,4 @@ Finally, in saraswati-cql-execution, change the `.env` features to this:
 `MEASUREMENT_FILE=private\AAB_HEDIS_MY2022-1.0.0\elm\Amida_AAB_HEDIS_MY2022-1.0.0.json`
 `LIBRARIES_DIRECTORY=private\AAB_HEDIS_MY2022-1.0.0\libraryElm\`
 `VALUESETS_DIRECTORY=private\AAB_HEDIS_MY2022-1.0.0\valuesets\`
-`MEASUREMENT_DEV_DATA=data\patients\aab`
+`MEASUREMENT_TYPE=aab`

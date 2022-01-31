@@ -62,8 +62,10 @@ const envVarsSchema = Joi.object({
   VALUESETS_DIRECTORY: Joi.string()
     .description('Location of the value sets. Directory only.')
     .required(),
-  MEASUREMENT_DEV_DATA: Joi.string()
-    .description('The directory to watch while running "localread," such as "data/patients/diabetes". Only used for development.')
+  MEASUREMENT_TYPE: Joi.string()
+    .description('The measurement type. Used to mark the resulting scores. When running `"localread"' +
+      'in development mode, it will check the matching `"data/patients/"` folder.')
+    .required()
 }).unknown();
 
 const { error, value: envVars } = envVarsSchema.validate(process.env, {convert: true});
@@ -94,7 +96,7 @@ const config = {
   measurementFile: envVars.MEASUREMENT_FILE,
   librariesDirectory: envVars.LIBRARIES_DIRECTORY,
   valuesetsDirectory: envVars.VALUESETS_DIRECTORY,
-  measurementDevData: envVars.MEASUREMENT_DEV_DATA,
+  measurementType: envVars.MEASUREMENT_TYPE,
   jenkins: envVars.JENKINS
 };
 

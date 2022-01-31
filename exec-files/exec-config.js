@@ -162,13 +162,13 @@ const execute = (patients) => {
   return cleanedPatientResults;
 };
 
-const evalData = (patients, data) => {
-  patients.forEach(element => {
-    const results = execute(element);
-    if (results.Denominator != 0){
-      data.push(results);
+const evalData = (patient) => {
+  const data = execute(patient);
+    if (data.Denominator != 0){
+      data['measurementType'] = config.measurementType;
+      return data;
     }
-  });
+  return undefined;
 };
 
 module.exports = { execute, cleanData, evalData, initialize, valueSetJSONCompile };
