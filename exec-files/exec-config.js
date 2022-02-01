@@ -165,6 +165,7 @@ const execute = (patients) => {
 const evalData = (patient) => {
   const data = execute(patient);
     if (data.Denominator != 0){
+      data['memberId'] = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
       data['measurementType'] = config.measurementType;
       return data;
     }

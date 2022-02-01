@@ -25,6 +25,7 @@ const watcher = dir =>
           if (patient) {
             if (filename.startsWith(path.join('data', 'patients', config.measurementType))) {
               data = execute(patient);
+              data['memberId'] = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
               data['measurementType'] = config.measurementType;
               send = true;
             } else {
