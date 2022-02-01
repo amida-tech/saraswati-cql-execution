@@ -70,6 +70,7 @@ if (error) {
   throw new Error(`Config validation error: ${error.message}`);
 }
 
+// cross-env doesn't seem to be handling this. Open to ideas to improve. 
 envVars.MEASUREMENT_FILE = envVars.MEASUREMENT_FILE.split(/[\\|/]/).join(path.sep);
 envVars.LIBRARIES_DIRECTORY = envVars.LIBRARIES_DIRECTORY.split(/[\\|/]/).join(path.sep);
 envVars.VALUESETS_DIRECTORY = envVars.VALUESETS_DIRECTORY.split(/[\\|/]/).join(path.sep);

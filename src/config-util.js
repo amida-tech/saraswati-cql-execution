@@ -1,6 +1,7 @@
 const fs = require('fs');
 
 function measurementAccessCheck(envVars) {
+  console.log(envVars.MEASUREMENT_FILE);
   if(!fs.existsSync(envVars.MEASUREMENT_FILE)) {
     throw new Error(`Configuration validation error on Measures File: ${envVars.MEASUREMENT_FILE}`);
   }

@@ -26,7 +26,6 @@ const watcher = dir =>
             if (filename.startsWith(path.join('data', 'patients', config.measurementType))) {
               data = execute(patient);
               data['measurementType'] = config.measurementType;
-              console.log(JSON.stringify(data));
               send = true;
             } else {
               logger.info('Wrong folder changed.');

@@ -7,7 +7,7 @@ const kafka = new Kafka({
   brokers: config.kafkaBrokers
 });
 
-const consumer = kafka.consumer({ groupId: 'hedis-measures' });
+const consumer = kafka.consumer({ groupId: config.kafkaConsumedTopic });
 
 const producer = kafka.producer();
 
