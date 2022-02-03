@@ -2,7 +2,6 @@ const { Kafka } = require('kafkajs');
 const kafkaLogger = require('../src/kafka-winston-config');
 const config = require('../config');
 const { v4: uuidv4 } = require('uuid');
-// const testJson = require('../data/patients/aab/bronchitis-patient-1.json');
 const testJson = require('../data/patients/drre/drre-patient.json');
 
 describe('Setups Kafka for Manual Test', () => {
