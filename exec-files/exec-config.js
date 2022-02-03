@@ -126,17 +126,6 @@ function initialize() {
 
 initialize();
 
-const removeArrayValues = patient => {
-  const clonedPatient = cloneDeep(patient);
-  Object.entries(clonedPatient).forEach(([propertyKey, propertyValue]) => {
-    // remove property values that are arrays - the data pipeline doesn't need them
-    if (Array.isArray(propertyValue)) {
-      delete patient[propertyKey];
-    }
-  });
-  return patient;
-};
-
 const cleanData = patientResults => {
   const clonedPatientResults = cloneDeep(patientResults);
   Object.entries(clonedPatientResults).forEach(([patientKey, patientValue]) => {
