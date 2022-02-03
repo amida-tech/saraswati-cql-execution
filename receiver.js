@@ -7,11 +7,8 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post('/cql_service_connector', function(req, res, next){
-
-    console.log(JSON.stringify(req.body));
-    // console.log(req.body);
+    console.log(req.body);
     res.end("ok")
-
 });
 
 app.listen(5000, 'localhost');
