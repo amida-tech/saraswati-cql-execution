@@ -16,9 +16,3 @@ describe('Contract Kafka Processor Test', () => {
     should(JSON.stringify(data)).equal(JSON.stringify(outboundJson));
   });
 });
-
-function fixTimestamp(inputJson){
-  inputJson.forEach(entry => {
-    entry.timeStamp = updateTimestamp;
-  });
-}
