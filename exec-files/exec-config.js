@@ -144,8 +144,6 @@ const cleanData = patientResults => {
     // remove Patient data - not needed
     delete patient.Patient;
     patient.id = patientKey;
-
-    removeArrayValues(patient);
   });
   return clonedPatientResults;
 };
