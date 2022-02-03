@@ -25,17 +25,16 @@ async function runner() {
       const fhirJson = message.value.toString();
       const data = evalData(JSON.parse(fhirJson));
       if (data !== undefined) {
+        var dataString = JSON.stringify(data);
         producer.send(
           {
             topic: producedTopic,
             messages: [
-              {value: JSON.stringify(data)},
+              {value: dataString},
             ],
           }
         );
-        console.log({
-          value: message.value.toString(),
-        });
+        console.log(dataString);
       }
     },
   });
