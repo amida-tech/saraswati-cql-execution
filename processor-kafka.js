@@ -4,10 +4,10 @@ const { evalData } = require('./exec-files/exec-config');
 
 const kafka = new Kafka({
   clientId: 'cql-execution',
-  brokers: [config.kafkaBroker, 'broker:29093']
+  brokers: config.kafkaBrokers
 });
 
-const consumer = kafka.consumer({ groupId: 'hedis-measures' });
+const consumer = kafka.consumer({ groupId: config.kafkaConsumedTopic });
 
 const producer = kafka.producer();
 
@@ -22,22 +22,19 @@ async function runner() {
   //Runs each time a message is recieved
   await consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
-      let fhirJson = message.value.toString();
-      let patients = JSON.parse(fhirJson);
-      let data = [];
-      evalData(patients,data);
-      if (data.length > 0) {
+      const fhirJson = message.value.toString();
+      const data = evalData(JSON.parse(fhirJson));
+      if (data !== undefined) {
+        var dataString = JSON.stringify(data);
         producer.send(
           {
             topic: producedTopic,
             messages: [
-              {value: JSON.stringify(data)},
+              {value: dataString},
             ],
           }
         );
-        console.log({
-          value: message.value.toString(),
-        });
+        console.log(dataString);
       }
     },
   });

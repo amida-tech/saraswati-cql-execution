@@ -315,11 +315,18 @@ For a container to container approach, try:
 
 Drop `--kafka-addr "PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092" --advertise-kafka-addr "PLAINTEXT://redpanda:29092,OUTSIDE://redpanda-1:9092"` to connect via localhost.
 
+To run `saraswati-cql-execution`, build with: 
+`docker build -t saraswati-cql-execution .` 
+
+Then run the following, but with desired environmental variables:
+`docker run --mount type=bind,source=<directory to>\private,target=/app/private -e MEASUREMENT_FILE=private/DRRE_HEDIS_MY2022-1.0.0/elm/DRRE_HEDIS_MY2022-1.0.0.json -e MEASUREMENT_TYPE=drre -e LIRARIES_DIRECTORY=private/DRRE_HEDIS_MY2022-1.0.0/libraryElm/ -e VALUESETS_DIRECTORY=private/DRRE_HEDIS_MY2022-1.0.0/valuesets/ -e KAFKA_BROKERS=["redpanda1:29092", "redpanda1:29093"] -e KAFKA_CONSUMED_TOPIC=fhir-logged -e KAFKA_PRODUCED_TOPIC=hedis-measures saraswati-cql-execution`
+
 # Environmental Variables
 `MEASUREMENT_FILE`: The actual measurement file you want to run. For example, `MEASUREMENT_FILE=private\CISE_HEDIS_MY2022-1.0.0\elm\CISE_HEDIS_MY2022-1.0.0.json`
 `LIBRARIES_DIRECTORY`: The directory of the required libraries for the `MEASUREMENT_FILE`. For example, `LIBRARIES_DIRECTORY=private\CISE_HEDIS_MY2022-1.0.0\libraryElm\`
 `VALUESETS_DIRECTORY`: The directory of the required value sets for the MEASUREMENT_FILE. For example, `VALUESETS_DIRECTORY=private\CISE_HEDIS_MY2022-1.0.0\valuesets\`
-`MEASUREMENT_DEV_DATA`: Only for development purposes. This is the folder you want to watch with processor.js. For example `data\patients\immunization`.
+`MEASUREMENT_TYPE`: The measurement type. Used to mark the resulting scores. When running `"localread"`
+   in development mode, it will check the matching `"data/patients/"` folder.
 
 # Valueset CQL Generation
 
@@ -339,4 +346,4 @@ Finally, in saraswati-cql-execution, change the `.env` features to this:
 `MEASUREMENT_FILE=private\AAB_HEDIS_MY2022-1.0.0\elm\Amida_AAB_HEDIS_MY2022-1.0.0.json`
 `LIBRARIES_DIRECTORY=private\AAB_HEDIS_MY2022-1.0.0\libraryElm\`
 `VALUESETS_DIRECTORY=private\AAB_HEDIS_MY2022-1.0.0\valuesets\`
-`MEASUREMENT_DEV_DATA=data\patients\aab`
+`MEASUREMENT_TYPE=aab`

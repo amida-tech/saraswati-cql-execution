@@ -126,17 +126,6 @@ function initialize() {
 
 initialize();
 
-const removeArrayValues = patient => {
-  const clonedPatient = cloneDeep(patient);
-  Object.entries(clonedPatient).forEach(([propertyKey, propertyValue]) => {
-    // remove property values that are arrays - the data pipeline doesn't need them
-    if (Array.isArray(propertyValue)) {
-      delete patient[propertyKey];
-    }
-  });
-  return patient;
-};
-
 const cleanData = patientResults => {
   const clonedPatientResults = cloneDeep(patientResults);
   Object.entries(clonedPatientResults).forEach(([patientKey, patientValue]) => {
@@ -144,8 +133,6 @@ const cleanData = patientResults => {
     // remove Patient data - not needed
     delete patient.Patient;
     patient.id = patientKey;
-
-    removeArrayValues(patient);
   });
   return clonedPatientResults;
 };
@@ -162,13 +149,14 @@ const execute = (patients) => {
   return cleanedPatientResults;
 };
 
-const evalData = (patients, data) => {
-  patients.forEach(element => {
-    const results = execute(element);
-    if (results.Denominator != 0){
-      data.push(results);
+const evalData = (patient) => {
+  const data = execute(patient);
+    if (data.Denominator != 0){
+      data['memberId'] = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
+      data['measurementType'] = config.measurementType;
+      return data;
     }
-  });
+  return undefined;
 };
 
 module.exports = { execute, cleanData, evalData, initialize, valueSetJSONCompile };

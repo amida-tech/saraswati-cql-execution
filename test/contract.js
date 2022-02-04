@@ -7,19 +7,12 @@ const updateTimestamp = moment().unix(1);
 
 describe('Contract Kafka Processor Test', () => {
   it('Evaluates known input data and compares to known output data', async () => {
-    let data = [];
     const inboundJson = inboundContractData;
     let outboundJson = outboundContractData;
-    evalData(inboundJson, data);
-    fixTimestamp(data);
-    fixTimestamp(outboundJson);
+    const data = evalData(inboundJson);
+    data.timeStamp = updateTimestamp;
+    outboundJson.timeStamp = updateTimestamp;
 
     should(JSON.stringify(data)).equal(JSON.stringify(outboundJson));
   });
 });
-
-function fixTimestamp(inputJson){
-  inputJson.forEach(entry => {
-    entry.timeStamp = updateTimestamp;
-  });
-}

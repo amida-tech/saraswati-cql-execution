@@ -1,7 +1,7 @@
 const { Kafka } = require('kafkajs');
-const logger = require('../../src/winston');
-const kafkaLogger = require('../../src/kafka-winston-config');
-const config = require('../../config');
+const logger = require('../src/winston');
+const kafkaLogger = require('../src/kafka-winston-config');
+const config = require('../config');
 const waitFor = require('kafkajs/src/utils/waitFor');
 const { v4: uuidv4 } = require('uuid');
 const should = require('should');

@@ -21,10 +21,12 @@ const watcher = dir =>
         let send = false;
         fs.readFile('.' + path.normalize('/' + filename), function (fileReadErr, data) {
           if (fileReadErr) throw fileReadErr;
-          let patients = JSON.parse(data);
-          if (patients) {
-            if (filename.startsWith(path.join(config.measurementDevData))) {
-              data = execute(patients);
+          let patient = JSON.parse(data);
+          if (patient) {
+            if (filename.startsWith(path.join('data', 'patients', config.measurementType))) {
+              data = execute(patient);
+              data['memberId'] = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
+              data['measurementType'] = config.measurementType;
               send = true;
             } else {
               logger.info('Wrong folder changed.');
@@ -46,7 +48,7 @@ const watcher = dir =>
     });
   });
 
-watcher(config.directory);
+watcher(path.join('data', 'patients'));
 
 module.exports = { watcher };
 

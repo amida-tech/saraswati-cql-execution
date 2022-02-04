@@ -1,8 +1,8 @@
 const { Kafka } = require('kafkajs');
-const kafkaLogger = require('../../src/kafka-winston-config');
-const config = require('../../config');
+const kafkaLogger = require('../src/kafka-winston-config');
+const config = require('../config');
 const { v4: uuidv4 } = require('uuid');
-const testJson = require('../../data/patients/immunization/external-childhood-immunization-status-patients.json');
+const testJson = require('../data/patients/drre/drre-patient.json');
 
 describe('Setups Kafka for Manual Test', () => {
   const testGroup = uuidv4(); // You want these to be different each time so tests don't collide.
@@ -18,7 +18,7 @@ describe('Setups Kafka for Manual Test', () => {
   describe('Manual Test for Kafka', async () => {
     await producer.connect();
     await producer.send({
-      topic: 'fhir-logged',
+      topic: config.kafkaConsumedTopic,
       groupId: 'hedis-measures',
       messages: [
         { value: JSON.stringify(testJson) }
