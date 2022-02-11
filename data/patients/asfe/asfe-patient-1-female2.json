@@ -15,7 +15,7 @@
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName",
-              "valueString": "redPotatoes tomatoes"
+              "valueString": "RedPotatoes Tomatoes334"
             },
             {
               "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
@@ -99,8 +99,8 @@
           "name": [
             {
               "use": "official",
-              "family": "potatoes",
-              "given": ["RedTomatoes"],
+              "family": "RedPotatoes",
+              "given": ["Tomatoes"],
               "prefix": ["Mr."]
             }
           ],
@@ -204,10 +204,10 @@
             "reference": "http://benefitsinc.com/FHIR/Organization/CBI35"
           },
           "subscriber": {
-            "reference": "Patient/4"
+            "reference": "asfe-patient-1"
           },
           "beneficiary": {
-            "reference": "Patient/4"
+            "reference": "asfe-patient-1"
           },
           "dependent": "0",
           "relationship": {
@@ -402,10 +402,10 @@
             "reference": "http://benefitsinc.com/FHIR/Organization/CBI35"
           },
           "subscriber": {
-            "reference": "Patient/4"
+            "reference": "asfe-patient-1"
           },
           "beneficiary": {
-            "reference": "Patient/4"
+            "reference": "asfe-patient-1"
           },
           "dependent": "0",
           "relationship": {
