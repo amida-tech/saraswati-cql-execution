@@ -15,7 +15,7 @@
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName",
-              "valueString": "redPotatoes tomatoes"
+              "valueString": "Rouge Potato"
             },
             {
               "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
@@ -99,8 +99,8 @@
           "name": [
             {
               "use": "official",
-              "family": "potatoes",
-              "given": ["RedTomatoes"],
+              "family": "Potato",
+              "given": ["Rouge"],
               "prefix": ["Mr."]
             }
           ],
@@ -111,7 +111,7 @@
               "use": "home"
             }
           ],
-          "gender": "female",
+          "gender": "male",
           "birthDate": "1950-07-29",
           "address": [
             {
