@@ -46,9 +46,6 @@ spec:
                 expression {env.GIT_BRANCH == 'jenkins-test'} 
             }
             steps {
-                echo 'YES'
-            }
-            steps {
                 echo 'Installing..'
                 container('node') {
                     echo 'Pulling...' + env.BRANCH_NAME
