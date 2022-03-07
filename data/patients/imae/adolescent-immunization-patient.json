@@ -1,0 +1,4037 @@
+[
+  {
+    "resourceType": "Bundle",
+    "id": "tests-numer-EXM165-FHIR3-bundle",
+    "type": "transaction",
+    "entry": [
+      {
+        "resource": {
+          "resourceType": "Patient",
+          "id": "numer-EXM165-FHIR3",
+          "meta": {
+            "profile": ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"]
+          },
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+              "extension": [
+                {
+                  "url": "ombCategory",
+                  "valueCoding": {
+                    "system": "urn:oid:2.16.840.1.113883.6.238",
+                    "code": "2054-5",
+                    "display": "Black or African American"
+                  }
+                }
+              ]
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+              "extension": [
+                {
+                  "url": "ombCategory",
+                  "valueCoding": {
+                    "system": "urn:oid:2.16.840.1.113883.6.238",
+                    "code": "2186-5",
+                    "display": "Not Hispanic or Latino"
+                  }
+                }
+              ]
+            }
+          ],
+          "identifier": [
+            {
+              "use": "usual",
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                    "code": "MR",
+                    "display": "Medical Record Number"
+                  }
+                ]
+              },
+              "system": "http://hospital.smarthealthit.org",
+              "value": "999999993"
+            }
+          ],
+          "name": [
+            {
+              "family": "Doe",
+              "given": ["Jill"]
+            }
+          ],
+          "gender": "female",
+          "birthDate": "2009-11-15"
+        },
+        "request": {
+          "method": "PUT",
+          "url": "Patient/numer-EXM165-FHIR3"
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "ana",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "active"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "428281000124107",
+                  "display": "Anaphylaxis Due to Diphtheria, Tetanus or Pertussis Vaccine"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "428281000124107",
+                "display": "Anaphylaxis Due to Diphtheria, Tetanus or Pertussis Vaccine",
+                "version": "2021.03.20AB"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2022-01-01",
+          "abatementString": "around January 1, 2022",
+          "recordedDate": "2022-01-01",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "Encephalitis-vac",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "active"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "192711008",
+                  "display": "Encephalitis Due to Diphtheria, Tetanus or Pertussis Vaccine"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "192711008",
+                "display": "Encephalitis Due to Diphtheria, Tetanus or Pertussis Vaccine",
+                "version": "2021.03.20AB"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2022-01-01",
+          "abatementString": "around January 1, 2022",
+          "recordedDate": "2022-01-01",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "Measles-condition",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "active"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "240483006",
+                  "display": "Measles"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "240483006",
+                "display": "Measles",
+                "version": "2021.03.20AB"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2022-01-01",
+          "abatementString": "around January 1, 2022",
+          "recordedDate": "2022-01-01",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "Mumps-condition",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "active"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "161420006",
+                  "display": "Mumps"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "161420006",
+                "display": "Mumps",
+                "version": "2021.03.20AB"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2022-01-01",
+          "abatementString": "around January 1, 2022",
+          "recordedDate": "2022-01-01",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "Rubella-condition",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "active"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "19431000",
+                  "display": "Rubella"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "19431000",
+                "display": "Rubella",
+                "version": "2021.03.20AB"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2022-01-01",
+          "abatementString": "around January 1, 2022",
+          "recordedDate": "2022-01-01",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "anaphylaxis-condition",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "active"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "433621000124101",
+                  "display": "Anaphylaxis due to Haemophilus influenzae type b vaccine (disorder)"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "433621000124101",
+                "display": "Anaphylaxis due to Haemophilus influenzae type b vaccine (disorder)",
+                "version": "2021.03.20AB"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2022-01-01",
+          "abatementString": "around January 1, 2022",
+          "recordedDate": "2022-01-01",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "anaphylaxis-hep-b-condition",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "active"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "428321000124101",
+                  "display": "Anaphylaxis due to Hepatitis B vaccine (disorder)"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "428321000124101",
+                "display": "Anaphylaxis due to Hepatitis B vaccine (disorder)",
+                "version": "2021.03.20AB"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2022-01-01",
+          "abatementString": "around January 1, 2022",
+          "recordedDate": "2022-01-01",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "Anaphylaxis-meningococcal-condition",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "active"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "24059009",
+                  "display": "Varicella Zoster"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "428301000124106",
+                "display": "Anaphylaxis due to meningococcal vaccine (disorder)",
+                "version": "2021.03.20AB"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2022-01-01",
+          "abatementString": "around January 1, 2022",
+          "recordedDate": "2022-01-01",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "Hepatitis-A-condition",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "active"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "18917003",
+                  "display": "Hepatitis A"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "18917003",
+                "display": "Hepatitis A",
+                "version": "2021.03.20AB"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2022-01-01",
+          "abatementString": "around January 1, 2022",
+          "recordedDate": "2022-01-01",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "Anaphylaxis-rotavirus-vaccine-condition",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "active"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "428331000124103",
+                  "display": "Anaphylaxis due to rotavirus vaccine (disorder)"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "428331000124103",
+                "display": "Anaphylaxis due to rotavirus vaccine (disorder)",
+                "version": "2021.03.20AB"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2022-01-01",
+          "abatementString": "around January 1, 2022",
+          "recordedDate": "2022-01-01",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Coverage",
+          "id": "9876B1",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">A human-readable rendering of the coverage</div>"
+          },
+          "identifier": [
+            {
+              "system": "http://benefitsinc.com/certificate",
+              "value": "12345"
+            }
+          ],
+          "status": "active",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MCPOL",
+                "display": "managed care policy"
+              }
+            ]
+          },
+          "policyHolder": {
+            "reference": "http://benefitsinc.com/FHIR/Organization/CBI35"
+          },
+          "subscriber": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "beneficiary": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "dependent": "0",
+          "relationship": {
+            "coding": [
+              {
+                "code": "self"
+              }
+            ]
+          },
+          "period": {
+            "start": "2020-11-15",
+            "end": "2022-12-01"
+          },
+          "payor": [
+            {
+              "reference": "Organization/2"
+            }
+          ],
+          "class": [
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "group"
+                  }
+                ]
+              },
+              "value": "CB135",
+              "name": "Corporate Baker's Inc. Local #35"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "subgroup"
+                  }
+                ]
+              },
+              "value": "123",
+              "name": "Trainee Part-time Benefits"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "plan"
+                  }
+                ]
+              },
+              "value": "B37FC",
+              "name": "Full Coverage: Medical, Dental, Pharmacy, Vision, EHC"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "subplan"
+                  }
+                ]
+              },
+              "value": "P7",
+              "name": "Includes afterlife benefits"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "class"
+                  }
+                ]
+              },
+              "value": "SILVER",
+              "name": "Silver: Family Plan spouse only"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "subclass"
+                  }
+                ]
+              },
+              "value": "Tier2",
+              "name": "Low deductable, max $20 copay"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "sequence"
+                  }
+                ]
+              },
+              "value": "9"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "rxid"
+                  }
+                ]
+              },
+              "value": "MDF12345"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "rxbin"
+                  }
+                ]
+              },
+              "value": "987654"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "rxgroup"
+                  }
+                ]
+              },
+              "value": "M35PT"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "rxpcn"
+                  }
+                ]
+              },
+              "value": "234516"
+            },
+            {
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                    "code": "sequence"
+                  }
+                ]
+              },
+              "value": "9"
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "Severe Combined Immunodeficiency Condition",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "confirmed"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "55607006",
+                  "display": "Problem"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "code": "44940001",
+                "system": "http://snomed.info/sct",
+                "version": "2021.03.20AB",
+                "display": "Severe Combined Immunodeficiency"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2022-04-02",
+          "abatementString": "around April 9, 2022",
+          "recordedDate": "2022-04-04",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Immunization",
+          "id": "DTaP-Immunization",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1234"
+            }
+          ],
+          "status": "completed",
+          "vaccineCode": {
+            "coding": [
+              {
+                "code": "50",
+                "system": "http://hl7.org/fhir/sid/cvx",
+                "version": "2021.07.27"
+              }
+            ],
+            "id": "DTaP Immunization"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "occurrenceDateTime": "2022-01-15",
+          "primarySource": true,
+          "location": {
+            "reference": "Location/1"
+          },
+          "manufacturer": {
+            "reference": "Organization/hl7"
+          },
+          "lotNumber": "AAJN11K",
+          "expirationDate": "2022-02-15",
+          "site": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActSite",
+                "code": "LA",
+                "display": "left arm"
+              }
+            ]
+          },
+          "route": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "IM",
+                "display": "Injection, intramuscular"
+              }
+            ]
+          },
+          "doseQuantity": {
+            "value": 5,
+            "system": "http://unitsofmeasure.org",
+            "code": "mg"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "OP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            },
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "AP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            }
+          ],
+          "note": [
+            {
+              "id": "Notes on adminstration of vaccine"
+            }
+          ],
+          "reasonCode": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "428281000124107",
+                  "display": "Anaphylaxis Due to Diphtheria, Tetanus or Pertussis Vaccine",
+                  "version": "2021.03.20AB"
+                }
+              ]
+            }
+          ],
+          "isSubpotent": true,
+          "education": [
+            {
+              "documentType": "253088698300010311120702",
+              "publicationDate": "2012-07-02",
+              "presentationDate": "2013-01-10"
+            }
+          ],
+          "programEligibility": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/immunization-program-eligibility",
+                  "code": "ineligible"
+                }
+              ]
+            }
+          ],
+          "fundingSource": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-funding-source",
+                "code": "private"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Immunization",
+          "id": "DTaP-Immunization",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1234"
+            }
+          ],
+          "status": "completed",
+          "vaccineCode": {
+            "coding": [
+              {
+                "code": "50",
+                "system": "http://hl7.org/fhir/sid/cvx",
+                "version": "2021.07.27"
+              }
+            ],
+            "id": "DTaP Immunization"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "occurrenceDateTime": "2022-01-15",
+          "primarySource": true,
+          "location": {
+            "reference": "Location/1"
+          },
+          "manufacturer": {
+            "reference": "Organization/hl7"
+          },
+          "lotNumber": "AAJN11K",
+          "expirationDate": "2022-02-15",
+          "site": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActSite",
+                "code": "LA",
+                "display": "left arm"
+              }
+            ]
+          },
+          "route": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "IM",
+                "display": "Injection, intramuscular"
+              }
+            ]
+          },
+          "doseQuantity": {
+            "value": 5,
+            "system": "http://unitsofmeasure.org",
+            "code": "mg"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "OP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            },
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "AP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            }
+          ],
+          "note": [
+            {
+              "id": "Notes on adminstration of vaccine"
+            }
+          ],
+          "reasonCode": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "428281000124107",
+                  "display": "Anaphylaxis Due to Diphtheria, Tetanus or Pertussis Vaccine",
+                  "version": "2021.03.20AB"
+                }
+              ]
+            }
+          ],
+          "isSubpotent": true,
+          "education": [
+            {
+              "documentType": "253088698300010311120702",
+              "publicationDate": "2012-07-02",
+              "presentationDate": "2013-01-10"
+            }
+          ],
+          "programEligibility": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/immunization-program-eligibility",
+                  "code": "ineligible"
+                }
+              ]
+            }
+          ],
+          "fundingSource": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-funding-source",
+                "code": "private"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Immunization",
+          "id": "flu-imm-1",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1234"
+            }
+          ],
+          "status": "completed",
+          "vaccineCode": {
+            "coding": [
+              {
+                "code": "137",
+                "system": "http://hl7.org/fhir/sid/cvx",
+                "version": "2021.07.27"
+              }
+            ],
+            "id": "Influenza Vaccine"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "occurrenceDateTime": "2022-01-10",
+          "primarySource": true,
+          "location": {
+            "reference": "Location/1"
+          },
+          "manufacturer": {
+            "reference": "Organization/hl7"
+          },
+          "lotNumber": "AAJN11K",
+          "expirationDate": "2025-02-15",
+          "site": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActSite",
+                "code": "LA",
+                "display": "left arm"
+              }
+            ]
+          },
+          "route": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "IM",
+                "display": "Injection, intramuscular"
+              }
+            ]
+          },
+          "doseQuantity": {
+            "value": 5,
+            "system": "http://unitsofmeasure.org",
+            "code": "mg"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "OP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            },
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "AP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            }
+          ],
+          "note": [
+            {
+              "id": "Notes on adminstration of vaccine"
+            }
+          ],
+          "reasonCode": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "429060002"
+                }
+              ]
+            }
+          ],
+          "isSubpotent": true,
+          "education": [
+            {
+              "documentType": "253088698300010311120702",
+              "publicationDate": "2012-07-02",
+              "presentationDate": "2013-01-10"
+            }
+          ],
+          "programEligibility": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/immunization-program-eligibility",
+                  "code": "ineligible"
+                }
+              ]
+            }
+          ],
+          "fundingSource": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-funding-source",
+                "code": "private"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Immunization",
+          "id": "flu-imm-1",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1234"
+            }
+          ],
+          "status": "completed",
+          "vaccineCode": {
+            "coding": [
+              {
+                "code": "165",
+                "system": "http://hl7.org/fhir/sid/cvx",
+                "version": "2021.07.27"
+              }
+            ],
+            "id": "Influenza Vaccine"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "occurrenceDateTime": "2022-08-20",
+          "primarySource": true,
+          "location": {
+            "reference": "Location/1"
+          },
+          "manufacturer": {
+            "reference": "Organization/hl7"
+          },
+          "lotNumber": "AAJN11K",
+          "expirationDate": "2025-02-15",
+          "site": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActSite",
+                "code": "LA",
+                "display": "left arm"
+              }
+            ]
+          },
+          "route": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "IM",
+                "display": "Injection, intramuscular"
+              }
+            ]
+          },
+          "doseQuantity": {
+            "value": 5,
+            "system": "http://unitsofmeasure.org",
+            "code": "mg"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "OP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            },
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "AP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            }
+          ],
+          "note": [
+            {
+              "id": "Notes on adminstration of vaccine"
+            }
+          ],
+          "reasonCode": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "429060002"
+                }
+              ]
+            }
+          ],
+          "isSubpotent": true,
+          "education": [
+            {
+              "documentType": "253088698300010311120702",
+              "publicationDate": "2012-07-02",
+              "presentationDate": "2013-01-10"
+            }
+          ],
+          "programEligibility": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/immunization-program-eligibility",
+                  "code": "ineligible"
+                }
+              ]
+            }
+          ],
+          "fundingSource": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-funding-source",
+                "code": "private"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "flu-proc-1",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "code": "90655",
+                "system": "CPT",
+                "version": "2021"
+              }
+            ],
+            "id": "Influenza Vaccine Administered"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "performedPeriod": {
+            "start": "2020-01-10T09:30:10+01:00",
+            "end": "2020-01-10T10:30:10+01:00"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "urn:oid:2.16.840.1.113883.2.4.15.111",
+                    "code": "01.000",
+                    "display": "Arts"
+                  }
+                ],
+                "text": "Care role"
+              },
+              "actor": {
+                "reference": "Practitioner/f005",
+                "display": "A. Langeveld"
+              }
+            }
+          ],
+          "reasonCode": [
+            {
+              "text": "ensure breathing during surgery"
+            }
+          ],
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "83030008",
+                  "display": "Retropharyngeal area"
+                }
+              ]
+            }
+          ],
+          "outcome": {
+            "text": "removal of the retropharyngeal abscess"
+          },
+          "report": [
+            {
+              "reference": "DiagnosticReport/f001"
+            }
+          ],
+          "followUp": [
+            {
+              "text": "described in care plan"
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "flu-proc-2",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "code": "86198006",
+                "system": "http://snomed.info/sct",
+                "version": "2020-09"
+              }
+            ],
+            "id": "Influenza Vaccine Administered"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "performedPeriod": {
+            "start": "2020-02-10T09:30:10+01:00",
+            "end": "2020-02-10T10:30:10+01:00"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "urn:oid:2.16.840.1.113883.2.4.15.111",
+                    "code": "01.000",
+                    "display": "Arts"
+                  }
+                ],
+                "text": "Care role"
+              },
+              "actor": {
+                "reference": "Practitioner/f005",
+                "display": "A. Langeveld"
+              }
+            }
+          ],
+          "reasonCode": [
+            {
+              "text": "ensure breathing during surgery"
+            }
+          ],
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "83030008",
+                  "display": "Retropharyngeal area"
+                }
+              ]
+            }
+          ],
+          "outcome": {
+            "text": "removal of the retropharyngeal abscess"
+          },
+          "report": [
+            {
+              "reference": "DiagnosticReport/f001"
+            }
+          ],
+          "followUp": [
+            {
+              "text": "described in care plan"
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "hospice-proc-2",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "code": "170935008",
+                "system": "http://snomed.info/sct",
+                "version": "2021.03.20AB",
+                "display": "Full care by hospice"
+              }
+            ],
+            "id": "Full care by hospice"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "performedPeriod": {
+            "start": "2022-02-10T09:30:10+01:00",
+            "end": "2022-02-10T10:30:10+01:00"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "urn:oid:2.16.840.1.113883.2.4.15.111",
+                    "code": "01.000",
+                    "display": "Arts"
+                  }
+                ],
+                "text": "Care role"
+              },
+              "actor": {
+                "reference": "Practitioner/f005",
+                "display": "A. Langeveld"
+              }
+            }
+          ],
+          "reasonCode": [
+            {
+              "text": "ensure breathing during surgery"
+            }
+          ],
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "83030008",
+                  "display": "Retropharyngeal area"
+                }
+              ]
+            }
+          ],
+          "outcome": {
+            "text": "removal of the retropharyngeal abscess"
+          },
+          "report": [
+            {
+              "reference": "DiagnosticReport/f001"
+            }
+          ],
+          "followUp": [
+            {
+              "text": "described in care plan"
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Observation",
+          "id": "hep-a-obs",
+          "meta": {
+            "profile": ["http://hl7.org/fhir/StructureDefinition/vitalsigns"]
+          },
+          "text": {
+            "status": "generated"
+          },
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3981",
+              "value": "urn:uuid:187e0c12-8dd2-67e2-99b2-bf273c878282"
+            }
+          ],
+          "basedOn": [
+            {
+              "identifier": {
+                "system": "https://acme.org/identifiers",
+                "value": "1234"
+              }
+            }
+          ],
+          "status": "final",
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "vital-signs",
+                  "display": "Vital Signs"
+                }
+              ]
+            }
+          ],
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "32019-4",
+                "version": "2.68",
+                "display": "Anti Hepatitis A IgG Antigen Test"
+              }
+            ],
+            "text": "Blood pressure systolic & diastolic"
+          },
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "code": "441773004",
+                "system": "http://snomed.info/sct",
+                "version": "2020-09",
+                "display": "Positive Finding"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "effectiveDateTime": "2020-10-28T19:57:22-04:00",
+          "performer": [
+            {
+              "reference": "Practitioner/example"
+            }
+          ],
+          "interpretation": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                  "code": "L",
+                  "display": "low"
+                }
+              ],
+              "text": "Below low normal"
+            }
+          ],
+          "bodySite": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "368209003",
+                "display": "Right arm"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "Disorders of the Immune System Conditon",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "confirmed"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "55607006",
+                  "display": "Problem"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "402355000",
+                "version": "2021.03.20AB",
+                "display": "Disorders of the Immune System"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2022-04-02",
+          "abatementString": "around April 9, 2022",
+          "recordedDate": "2022-04-04",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "Anaphylaxis due to human papillomavirus vaccine (disorder)",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "confirmed"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "55607006",
+                  "display": "Problem"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "428241000124101",
+                "version": "2021.03.20AB",
+                "display": "Anaphylaxis due to human papillomavirus vaccine (disorder)"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2022-04-02",
+          "abatementString": "around April 9, 2022",
+          "recordedDate": "2022-04-04",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "HIV-condition",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "active"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "55607006",
+                  "display": "Problem"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "421695000",
+                "version": "2021.03.20AB",
+                "display": "HIV"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2022-05-02",
+          "abatementString": "around May 2, 2022",
+          "recordedDate": "2022-05-04",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "Malignant Neoplasm of Lymphatic Tissue Condition",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "active"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "55607006",
+                  "display": "Problem"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "code": "413389003",
+                "system": "http://snomed.info/sct",
+                "version": "2021.03.20AB",
+                "display": "Malignant Neoplasm of Lymphatic Tissue"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2022-04-02",
+          "abatementString": "around April 2, 2022",
+          "recordedDate": "2022-04-04",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Immunization",
+          "id": "pc-imm-1",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1257"
+            }
+          ],
+          "status": "completed",
+          "vaccineCode": {
+            "coding": [
+              {
+                "code": "133",
+                "system": "CVX",
+                "version": "2020-12"
+              }
+            ],
+            "id": "Pneumococcal Conjugate Vaccine"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "occurrenceDateTime": "2020-01-10",
+          "primarySource": true,
+          "location": {
+            "reference": "Location/1"
+          },
+          "manufacturer": {
+            "reference": "Organization/hl7"
+          },
+          "lotNumber": "AAJN11K",
+          "expirationDate": "2025-02-15",
+          "site": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActSite",
+                "code": "LA",
+                "display": "left arm"
+              }
+            ]
+          },
+          "route": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "IM",
+                "display": "Injection, intramuscular"
+              }
+            ]
+          },
+          "doseQuantity": {
+            "value": 5,
+            "system": "http://unitsofmeasure.org",
+            "code": "mg"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "OP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            },
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "AP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            }
+          ],
+          "note": [
+            {
+              "id": "Notes on adminstration of vaccine"
+            }
+          ],
+          "reasonCode": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "429060002"
+                }
+              ]
+            }
+          ],
+          "isSubpotent": true,
+          "education": [
+            {
+              "documentType": "253088698300010311120702",
+              "publicationDate": "2012-07-02",
+              "presentationDate": "2013-01-10"
+            }
+          ],
+          "programEligibility": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/immunization-program-eligibility",
+                  "code": "ineligible"
+                }
+              ]
+            }
+          ],
+          "fundingSource": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-funding-source",
+                "code": "private"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Immunization",
+          "id": "pc-imm-2",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1235"
+            }
+          ],
+          "status": "completed",
+          "vaccineCode": {
+            "coding": [
+              {
+                "code": "133",
+                "system": "CVX",
+                "version": "2020-12"
+              }
+            ],
+            "id": "Pneumococcal Conjugate Vaccine"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "occurrenceDateTime": "2020-02-10",
+          "primarySource": true,
+          "location": {
+            "reference": "Location/1"
+          },
+          "manufacturer": {
+            "reference": "Organization/hl7"
+          },
+          "lotNumber": "AAJN11K",
+          "expirationDate": "2025-02-15",
+          "site": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActSite",
+                "code": "LA",
+                "display": "left arm"
+              }
+            ]
+          },
+          "route": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "IM",
+                "display": "Injection, intramuscular"
+              }
+            ]
+          },
+          "doseQuantity": {
+            "value": 5,
+            "system": "http://unitsofmeasure.org",
+            "code": "mg"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "OP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            },
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "AP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            }
+          ],
+          "note": [
+            {
+              "id": "Notes on adminstration of vaccine"
+            }
+          ],
+          "reasonCode": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "429060002"
+                }
+              ]
+            }
+          ],
+          "isSubpotent": true,
+          "education": [
+            {
+              "documentType": "253088698300010311120702",
+              "publicationDate": "2012-07-02",
+              "presentationDate": "2013-01-10"
+            }
+          ],
+          "programEligibility": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/immunization-program-eligibility",
+                  "code": "ineligible"
+                }
+              ]
+            }
+          ],
+          "fundingSource": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-funding-source",
+                "code": "private"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Immunization",
+          "id": "menengoccal-imm-2",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1235"
+            }
+          ],
+          "status": "completed",
+          "vaccineCode": {
+            "coding": [
+              {
+                "code": "147",
+                "system": "http://hl7.org/fhir/sid/cvx",
+                "version": "2021.07.27",
+                "display": "Meningococcal, MCV4, unspecified conjugate formulation(groups A, C, Y and W-135)"
+              }
+            ],
+            "id": "Pneumococcal Conjugate Vaccine"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "occurrenceDateTime": "2021-02-10",
+          "primarySource": true,
+          "location": {
+            "reference": "Location/1"
+          },
+          "manufacturer": {
+            "reference": "Organization/hl7"
+          },
+          "lotNumber": "AAJN11K",
+          "expirationDate": "2025-02-15",
+          "site": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActSite",
+                "code": "LA",
+                "display": "left arm"
+              }
+            ]
+          },
+          "route": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "IM",
+                "display": "Injection, intramuscular"
+              }
+            ]
+          },
+          "doseQuantity": {
+            "value": 5,
+            "system": "http://unitsofmeasure.org",
+            "code": "mg"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "OP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            },
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "AP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            }
+          ],
+          "note": [
+            {
+              "id": "Notes on adminstration of vaccine"
+            }
+          ],
+          "reasonCode": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "429060002"
+                }
+              ]
+            }
+          ],
+          "isSubpotent": true,
+          "education": [
+            {
+              "documentType": "253088698300010311120702",
+              "publicationDate": "2012-07-02",
+              "presentationDate": "2013-01-10"
+            }
+          ],
+          "programEligibility": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/immunization-program-eligibility",
+                  "code": "ineligible"
+                }
+              ]
+            }
+          ],
+          "fundingSource": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-funding-source",
+                "code": "private"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Immunization",
+          "id": "tdap-imm-2",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1235"
+            }
+          ],
+          "status": "completed",
+          "vaccineCode": {
+            "coding": [
+              {
+                "code": "115",
+                "system": "http://hl7.org/fhir/sid/cvx",
+                "version": "2021.07.27"
+              }
+            ],
+            "id": "Pneumococcal Conjugate Vaccine"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "occurrenceDateTime": "2021-02-10",
+          "primarySource": true,
+          "location": {
+            "reference": "Location/1"
+          },
+          "manufacturer": {
+            "reference": "Organization/hl7"
+          },
+          "lotNumber": "AAJN11K",
+          "expirationDate": "2025-02-15",
+          "site": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActSite",
+                "code": "LA",
+                "display": "left arm"
+              }
+            ]
+          },
+          "route": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "IM",
+                "display": "Injection, intramuscular"
+              }
+            ]
+          },
+          "doseQuantity": {
+            "value": 5,
+            "system": "http://unitsofmeasure.org",
+            "code": "mg"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "OP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            },
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "AP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            }
+          ],
+          "note": [
+            {
+              "id": "Notes on adminstration of vaccine"
+            }
+          ],
+          "reasonCode": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "429060002"
+                }
+              ]
+            }
+          ],
+          "isSubpotent": true,
+          "education": [
+            {
+              "documentType": "253088698300010311120702",
+              "publicationDate": "2012-07-02",
+              "presentationDate": "2013-01-10"
+            }
+          ],
+          "programEligibility": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/immunization-program-eligibility",
+                  "code": "ineligible"
+                }
+              ]
+            }
+          ],
+          "fundingSource": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-funding-source",
+                "code": "private"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "pc-proc-3",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "code": "90670",
+                "system": "CPT",
+                "version": "2021"
+              }
+            ],
+            "id": "Pneumococcal Conjugate Vaccine Administered"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "performedPeriod": {
+            "start": "2020-03-10T09:30:10+01:00",
+            "end": "2020-03-10T10:30:10+01:00"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "urn:oid:2.16.840.1.113883.2.4.15.111",
+                    "code": "01.000",
+                    "display": "Arts"
+                  }
+                ],
+                "text": "Care role"
+              },
+              "actor": {
+                "reference": "Practitioner/f005",
+                "display": "A. Langeveld"
+              }
+            }
+          ],
+          "reasonCode": [
+            {
+              "text": "ensure breathing during surgery"
+            }
+          ],
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "83030008",
+                  "display": "Retropharyngeal area"
+                }
+              ]
+            }
+          ],
+          "outcome": {
+            "text": "removal of the retropharyngeal abscess"
+          },
+          "report": [
+            {
+              "reference": "DiagnosticReport/f001"
+            }
+          ],
+          "followUp": [
+            {
+              "text": "described in care plan"
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "pc-proc-4",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "code": "434751000124102",
+                "system": "http://snomed.info/sct",
+                "version": "2020-09"
+              }
+            ],
+            "id": "Pneumococcal Conjugate Vaccine Administered"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "performedPeriod": {
+            "start": "2020-04-10T09:30:10+01:00",
+            "end": "2020-04-10T10:30:10+01:00"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "urn:oid:2.16.840.1.113883.2.4.15.111",
+                    "code": "01.000",
+                    "display": "Arts"
+                  }
+                ],
+                "text": "Care role"
+              },
+              "actor": {
+                "reference": "Practitioner/f005",
+                "display": "A. Langeveld"
+              }
+            }
+          ],
+          "reasonCode": [
+            {
+              "text": "ensure breathing during surgery"
+            }
+          ],
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "83030008",
+                  "display": "Retropharyngeal area"
+                }
+              ]
+            }
+          ],
+          "outcome": {
+            "text": "removal of the retropharyngeal abscess"
+          },
+          "report": [
+            {
+              "reference": "DiagnosticReport/f001"
+            }
+          ],
+          "followUp": [
+            {
+              "text": "described in care plan"
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "Intussusception-condition",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "active"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "55607006",
+                  "display": "Problem"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "code": "64976006",
+                "system": "http://snomed.info/sct",
+                "version": "2021.03.20AB",
+                "display": "Intussusception"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2020-04-02",
+          "abatementString": "around April 9, 2020",
+          "recordedDate": "2020-04-04",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Immunization",
+          "id": "rota-2-dose-imm-1",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1234"
+            }
+          ],
+          "status": "completed",
+          "vaccineCode": {
+            "coding": [
+              {
+                "code": "119",
+                "system": "CVX",
+                "version": "2020-12"
+              }
+            ],
+            "id": "Rotavirus 2 dose Vaccine"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "occurrenceDateTime": "2020-01-10",
+          "primarySource": true,
+          "location": {
+            "reference": "Location/1"
+          },
+          "manufacturer": {
+            "reference": "Organization/hl7"
+          },
+          "lotNumber": "AAJN11K",
+          "expirationDate": "2025-02-15",
+          "site": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActSite",
+                "code": "LA",
+                "display": "left arm"
+              }
+            ]
+          },
+          "route": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "IM",
+                "display": "Injection, intramuscular"
+              }
+            ]
+          },
+          "doseQuantity": {
+            "value": 5,
+            "system": "http://unitsofmeasure.org",
+            "code": "mg"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "OP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            },
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "AP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            }
+          ],
+          "note": [
+            {
+              "id": "Notes on adminstration of vaccine"
+            }
+          ],
+          "reasonCode": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "429060002"
+                }
+              ]
+            }
+          ],
+          "isSubpotent": true,
+          "education": [
+            {
+              "documentType": "253088698300010311120702",
+              "publicationDate": "2012-07-02",
+              "presentationDate": "2013-01-10"
+            }
+          ],
+          "programEligibility": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/immunization-program-eligibility",
+                  "code": "ineligible"
+                }
+              ]
+            }
+          ],
+          "fundingSource": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-funding-source",
+                "code": "private"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "rota-2-dose-proc-1",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "code": "434741000124104",
+                "system": "http://snomed.info/sct",
+                "version": "2020-09"
+              }
+            ],
+            "id": "Rotavirus 2 dose Vaccine Administered"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "performedPeriod": {
+            "start": "2020-01-12T09:30:10+01:00",
+            "end": "2020-01-12T10:30:10+01:00"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "urn:oid:2.16.840.1.113883.2.4.15.111",
+                    "code": "01.000",
+                    "display": "Arts"
+                  }
+                ],
+                "text": "Care role"
+              },
+              "actor": {
+                "reference": "Practitioner/f005",
+                "display": "A. Langeveld"
+              }
+            }
+          ],
+          "reasonCode": [
+            {
+              "text": "ensure breathing during surgery"
+            }
+          ],
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "83030008",
+                  "display": "Retropharyngeal area"
+                }
+              ]
+            }
+          ],
+          "outcome": {
+            "text": "removal of the retropharyngeal abscess"
+          },
+          "report": [
+            {
+              "reference": "DiagnosticReport/f001"
+            }
+          ],
+          "followUp": [
+            {
+              "text": "described in care plan"
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Immunization",
+          "id": "rota-3-dose-imm-1",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1234"
+            }
+          ],
+          "status": "completed",
+          "vaccineCode": {
+            "coding": [
+              {
+                "code": "122",
+                "system": "CVX",
+                "version": "2020-12"
+              }
+            ],
+            "id": "Rotavirus 3 dose Vaccine"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "occurrenceDateTime": "2020-01-19",
+          "primarySource": true,
+          "location": {
+            "reference": "Location/1"
+          },
+          "manufacturer": {
+            "reference": "Organization/hl7"
+          },
+          "lotNumber": "AAJN11K",
+          "expirationDate": "2025-02-15",
+          "site": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActSite",
+                "code": "LA",
+                "display": "left arm"
+              }
+            ]
+          },
+          "route": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "IM",
+                "display": "Injection, intramuscular"
+              }
+            ]
+          },
+          "doseQuantity": {
+            "value": 5,
+            "system": "http://unitsofmeasure.org",
+            "code": "mg"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "OP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            },
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "AP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            }
+          ],
+          "note": [
+            {
+              "id": "Notes on adminstration of vaccine"
+            }
+          ],
+          "reasonCode": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "429060002"
+                }
+              ]
+            }
+          ],
+          "isSubpotent": true,
+          "education": [
+            {
+              "documentType": "253088698300010311120702",
+              "publicationDate": "2012-07-02",
+              "presentationDate": "2013-01-10"
+            }
+          ],
+          "programEligibility": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/immunization-program-eligibility",
+                  "code": "ineligible"
+                }
+              ]
+            }
+          ],
+          "fundingSource": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-funding-source",
+                "code": "private"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "rota-3-dose-proc-1",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "code": "434731000124109",
+                "system": "http://snomed.info/sct",
+                "version": "2020-09"
+              }
+            ],
+            "id": "Rotavirus 3 dose Vaccine Administered"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "performedPeriod": {
+            "start": "2020-01-16T09:30:10+01:00",
+            "end": "2020-01-16T10:30:10+01:00"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "urn:oid:2.16.840.1.113883.2.4.15.111",
+                    "code": "01.000",
+                    "display": "Arts"
+                  }
+                ],
+                "text": "Care role"
+              },
+              "actor": {
+                "reference": "Practitioner/f005",
+                "display": "A. Langeveld"
+              }
+            }
+          ],
+          "reasonCode": [
+            {
+              "text": "ensure breathing during surgery"
+            }
+          ],
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "83030008",
+                  "display": "Retropharyngeal area"
+                }
+              ]
+            }
+          ],
+          "outcome": {
+            "text": "removal of the retropharyngeal abscess"
+          },
+          "report": [
+            {
+              "reference": "DiagnosticReport/f001"
+            }
+          ],
+          "followUp": [
+            {
+              "text": "described in care plan"
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "rota-3-dose-proc-2",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "code": "434731000124109",
+                "system": "http://snomed.info/sct",
+                "version": "2020-09"
+              }
+            ],
+            "id": "Rotavirus 3 dose Vaccine Administered"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "performedPeriod": {
+            "start": "2020-01-17T09:30:10+01:00",
+            "end": "2020-01-17T10:30:10+01:00"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "urn:oid:2.16.840.1.113883.2.4.15.111",
+                    "code": "01.000",
+                    "display": "Arts"
+                  }
+                ],
+                "text": "Care role"
+              },
+              "actor": {
+                "reference": "Practitioner/f005",
+                "display": "A. Langeveld"
+              }
+            }
+          ],
+          "reasonCode": [
+            {
+              "text": "ensure breathing during surgery"
+            }
+          ],
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "83030008",
+                  "display": "Retropharyngeal area"
+                }
+              ]
+            }
+          ],
+          "outcome": {
+            "text": "removal of the retropharyngeal abscess"
+          },
+          "report": [
+            {
+              "reference": "DiagnosticReport/f001"
+            }
+          ],
+          "followUp": [
+            {
+              "text": "described in care plan"
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Observation",
+          "id": "measles-obs",
+          "meta": {
+            "profile": ["http://hl7.org/fhir/StructureDefinition/vitalsigns"]
+          },
+          "text": {
+            "status": "generated"
+          },
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3981",
+              "value": "urn:uuid:187e0c12-8dd2-67e2-99b2-bf273c878282"
+            }
+          ],
+          "basedOn": [
+            {
+              "identifier": {
+                "system": "https://acme.org/identifiers",
+                "value": "1234"
+              }
+            }
+          ],
+          "status": "final",
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "vital-signs",
+                  "display": "Vital Signs"
+                }
+              ]
+            }
+          ],
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "21500-4",
+                "version": "2.68",
+                "display": "Measles Antibody Test (IgG Antibody Titer)"
+              }
+            ],
+            "text": "Blood pressure systolic & diastolic"
+          },
+          "valueQuantity": {
+            "value": 1.3,
+            "unit": "mm[Hg]"
+          },
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "effectiveDateTime": "2020-10-28T19:57:22-04:00",
+          "performer": [
+            {
+              "reference": "Practitioner/example"
+            }
+          ],
+          "interpretation": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                  "code": "L",
+                  "display": "low"
+                }
+              ],
+              "text": "Below low normal"
+            }
+          ],
+          "bodySite": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "368209003",
+                "display": "Right arm"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Condition",
+          "id": "mumps-condition",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1251"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "resolved"
+              }
+            ]
+          },
+          "verificationStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                "code": "confirmed"
+              }
+            ]
+          },
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "55607006",
+                  "display": "Problem"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                  "code": "problem-list-item"
+                }
+              ]
+            }
+          ],
+          "severity": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "code": "105821000119107",
+                "system": "http://snomed.info/sct",
+                "version": "2020-09",
+                "display": "Mumps"
+              }
+            ]
+          },
+          "bodySite": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "38266002",
+                  "display": "Entire body as a whole"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "onsetDateTime": "2020-04-02",
+          "abatementString": "around April 9, 2020",
+          "recordedDate": "2020-04-04",
+          "recorder": {
+            "reference": "Practitioner/f201"
+          },
+          "asserter": {
+            "reference": "Practitioner/f201"
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Observation",
+          "id": "rubella-obs",
+          "meta": {
+            "profile": ["http://hl7.org/fhir/StructureDefinition/vitalsigns"]
+          },
+          "text": {
+            "status": "generated"
+          },
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3981",
+              "value": "urn:uuid:187e0c12-8dd2-67e2-99b2-bf273c878282"
+            }
+          ],
+          "basedOn": [
+            {
+              "identifier": {
+                "system": "https://acme.org/identifiers",
+                "value": "1234"
+              }
+            }
+          ],
+          "status": "final",
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "vital-signs",
+                  "display": "Vital Signs"
+                }
+              ]
+            }
+          ],
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "25514-1",
+                "version": "2.68",
+                "display": "Rubella Antibody Test (IgG Antibody presence)"
+              }
+            ]
+          },
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "code": "441773004",
+                "system": "http://snomed.info/sct",
+                "version": "2020-09",
+                "display": "Positive Finding"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "effectiveDateTime": "2020-10-28T19:57:22-04:00",
+          "performer": [
+            {
+              "reference": "Practitioner/example"
+            }
+          ],
+          "interpretation": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                  "code": "L",
+                  "display": "low"
+                }
+              ],
+              "text": "Below low normal"
+            }
+          ],
+          "bodySite": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "368209003",
+                "display": "Right arm"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "Immunization",
+          "id": "mmr-imm-1",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:oid:1.3.6.1.4.1.21367.2005.3.7.1234"
+            }
+          ],
+          "status": "completed",
+          "vaccineCode": {
+            "coding": [
+              {
+                "code": "03",
+                "system": "CVX",
+                "version": "2020-12"
+              }
+            ],
+            "id": "MMR Vaccine"
+          },
+          "patient": {
+            "reference": "Patient/numer-EXM165-FHIR3"
+          },
+          "encounter": {
+            "reference": "Encounter/example"
+          },
+          "occurrenceDateTime": "2020-01-10",
+          "primarySource": true,
+          "location": {
+            "reference": "Location/1"
+          },
+          "manufacturer": {
+            "reference": "Organization/hl7"
+          },
+          "lotNumber": "AAJN11K",
+          "expirationDate": "2025-02-15",
+          "site": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActSite",
+                "code": "LA",
+                "display": "left arm"
+              }
+            ]
+          },
+          "route": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "IM",
+                "display": "Injection, intramuscular"
+              }
+            ]
+          },
+          "doseQuantity": {
+            "value": 5,
+            "system": "http://unitsofmeasure.org",
+            "code": "mg"
+          },
+          "performer": [
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "OP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            },
+            {
+              "function": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                    "code": "AP"
+                  }
+                ]
+              },
+              "actor": {
+                "reference": "Practitioner/example"
+              }
+            }
+          ],
+          "note": [
+            {
+              "id": "Notes on adminstration of vaccine"
+            }
+          ],
+          "reasonCode": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "429060002"
+                }
+              ]
+            }
+          ],
+          "isSubpotent": true,
+          "education": [
+            {
+              "documentType": "253088698300010311120702",
+              "publicationDate": "2012-07-02",
+              "presentationDate": "2013-01-10"
+            }
+          ],
+          "programEligibility": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/immunization-program-eligibility",
+                  "code": "ineligible"
+                }
+              ]
+            }
+          ],
+          "fundingSource": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-funding-source",
+                "code": "private"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+]

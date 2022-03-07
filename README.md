@@ -314,3 +314,36 @@ For a container to container approach, try:
 `docker run -d --pull=always --name=redpanda-1 --network=rp -p 9092:9092 docker.vectorized.io/vectorized/redpanda:latest redpanda start --overprovisioned --smp 1  --memory 1G --reserve-memory 0M --node-id 0 --check=false --kafka-addr "PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092" --advertise-kafka-addr "PLAINTEXT://redpanda:29092,OUTSIDE://redpanda-1:9092"`
 
 Drop `--kafka-addr "PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092" --advertise-kafka-addr "PLAINTEXT://redpanda:29092,OUTSIDE://redpanda-1:9092"` to connect via localhost.
+
+To run `saraswati-cql-execution`, build with: 
+`docker build -t saraswati-cql-execution .` 
+
+Then run the following, but with desired environmental variables:
+`docker run --mount type=bind,source=<directory to>\private,target=/app/private -e MEASUREMENT_FILE=private/DRRE_HEDIS_MY2022-1.0.0/elm/DRRE_HEDIS_MY2022-1.0.0.json -e MEASUREMENT_TYPE=drre -e LIRARIES_DIRECTORY=private/DRRE_HEDIS_MY2022-1.0.0/libraryElm/ -e VALUESETS_DIRECTORY=private/DRRE_HEDIS_MY2022-1.0.0/valuesets/ -e KAFKA_BROKERS=["redpanda1:29092", "redpanda1:29093"] -e KAFKA_CONSUMED_TOPIC=fhir-logged -e KAFKA_PRODUCED_TOPIC=hedis-measures saraswati-cql-execution`
+
+# Environmental Variables
+`MEASUREMENT_FILE`: The actual measurement file you want to run. For example, `MEASUREMENT_FILE=private\CISE_HEDIS_MY2022-1.0.0\elm\CISE_HEDIS_MY2022-1.0.0.json`
+`LIBRARIES_DIRECTORY`: The directory of the required libraries for the `MEASUREMENT_FILE`. For example, `LIBRARIES_DIRECTORY=private\CISE_HEDIS_MY2022-1.0.0\libraryElm\`
+`VALUESETS_DIRECTORY`: The directory of the required value sets for the MEASUREMENT_FILE. For example, `VALUESETS_DIRECTORY=private\CISE_HEDIS_MY2022-1.0.0\valuesets\`
+`MEASUREMENT_TYPE`: The measurement type. Used to mark the resulting scores. When running `"localread"`
+   in development mode, it will check the matching `"data/patients/"` folder.
+
+# Valueset CQL Generation
+
+For AAB, CWP and URI, the following process can rewrite the CQL to be faster. The script can be run by pointing it at the file inside the private folder you want to convert. For example...
+`node vset-cql-generator.js --file=C:\Users\James\workspaces\saraswati-cql-execution\private\AAB_HEDIS_MY2022-1.0.0\cql\AAB_HEDIS_MY2022-1.0.0.cql`
+
+Do not move the CQL file from its location in the private folder. It also checks value set files the neighboring folders. When finished, it will inform you of the created script and its location.
+
+Copy this file into the libraryCql folder neighboring the cql folder. To run the cql-to-elm transformation, navigate to the following folder inside the `clinical_quality_language` repo:
+`clinical_quality_language\Src\java\cql-to-elm\build\install\cql-to-elm\bin>cql-to-elm`
+
+Then run this CLI command, changing the folders to your local spots:
+`cql-to-elm --format=JSON --input saraswati-cql-execution\private\AAB_HEDIS_MY2022-1.0.0\libraryCql\Amida_AAB_HEDIS_MY2022-1.0.0.cql --output saraswati-cql-execution\private\AAB_HEDIS_MY2022-1.0.0\elm\Amida_AAB_HEDIS_MY2022-1.0.0.json`
+
+Finally, in saraswati-cql-execution, change the `.env` features to this:
+
+`MEASUREMENT_FILE=private\AAB_HEDIS_MY2022-1.0.0\elm\Amida_AAB_HEDIS_MY2022-1.0.0.json`
+`LIBRARIES_DIRECTORY=private\AAB_HEDIS_MY2022-1.0.0\libraryElm\`
+`VALUESETS_DIRECTORY=private\AAB_HEDIS_MY2022-1.0.0\valuesets\`
+`MEASUREMENT_TYPE=aab`

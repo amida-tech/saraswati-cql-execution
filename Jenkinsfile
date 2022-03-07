@@ -37,6 +37,7 @@ spec:
     }
     environment {
         JENKINS=true
+        KAFKA_BROKERS="localhost:9092"
     }
 
     stages {
@@ -58,10 +59,54 @@ spec:
             }
         }
         stage('Test') {
+            environment {
+                NODE_ENV="test"
+                MEASUREMENT_FILE="private/DRRE_HEDIS_MY2022-1.0.0/elm/DRRE_HEDIS_MY2022-1.0.0.json"
+                LIBRARIES_DIRECTORY="private/DRRE_HEDIS_MY2022-1.0.0/libraryElm/"
+                VALUESETS_DIRECTORY="private/DRRE_HEDIS_MY2022-1.0.0/valuesets/"
+                MEASUREMENT_TYPE="drre"
+            }
             steps {
-                echo 'Testing?'
+                echo 'Testing'
+                
                 container('node') {
-                    sh 'yarn test'
+                    checkout(
+                        [
+                            $class: 'GitSCM', 
+                            branches: [
+                                [name: '*/develop']
+                            ], 
+                            extensions: [
+                                [
+                                    $class: 'RelativeTargetDirectory', 
+                                    relativeTargetDir: 'private'
+                                ]
+                            ], 
+                            userRemoteConfigs: [
+                                [
+                                    credentialsId: 'KEITH-GITHUB', 
+                                    url: 'https://github.com/amida-tech/ncqa-cql.git'
+                                ]
+                            ]
+                        ]
+                    )
+
+                    sh 'yarn test:jenkins'
+
+                    publishCoverage adapters: 
+                        [
+                            istanbulCoberturaAdapter(
+                                path: 'coverage/cobertura-coverage.xml', 
+                                thresholds: [
+                                    [
+                                        thresholdTarget: 'Line', 
+                                        unhealthyThreshold: 90.0, 
+                                        unstableThreshold: 85.0
+                                    ]
+                                ]
+                            )
+                        ], 
+                        sourceFileResolver: sourceFiles('NEVER_STORE')
                 }
             }
         }
@@ -79,7 +124,7 @@ spec:
         }
         stage('Build Develop with Kaniko') {
             when { 
-                expression {env.GIT_BRANCH != 'master'} 
+                expression {env.GIT_BRANCH == 'develop'} 
             }
             steps {
                 container(name: 'kaniko', shell: '/busybox/sh') {

@@ -1,90 +1,41 @@
 {
-  "name": "cql-execution",
-  "version": "2.3.2",
-  "description": "An execution framework for the Clinical Quality Language (CQL)",
+  "name": "saraswati-cql-execution",
+  "version": "0.9.0",
+  "description": "An execution framework to run Clinical Quality Language (CQL) integrated within Saraswati",
   "keywords": [
     "CQL",
     "HL7",
     "MITRE",
     "CQM"
   ],
-  "bugs": {
-    "url": "https://github.com/cqframework/clinical_quality_language/issues"
-  },
-  "contributors": [
-    {
-      "name": "Chris Moesel",
-      "email": "cmoesel@mitre.org"
-    },
-    {
-      "name": "Rob Dingwell",
-      "email": "bobd@mitre.org"
-    },
-    {
-      "name": "Jason Walonoski",
-      "email": "jwalonoski@mitre.org"
-    },
-    {
-      "name": "Luke Osborne",
-      "email": "lwosborne@mitre.org"
-    },
-    {
-      "name": "Kristian Mulcahy",
-      "email": "kmulcahy@mitre.org"
-    },
-    {
-      "name": "James Bradley",
-      "email": "jhbradley@mitre.org"
-    },
-    {
-      "name": "Chris Hossenlopp",
-      "email": "hossenlopp@mitre.org"
-    },
-    {
-      "name": "Chris Tohline",
-      "email": "ctohline@mitre.org"
-    },
-    {
-      "name": "Adam Holmes",
-      "email": "aholmes@mitre.org"
-    },
-    {
-      "name": "Pete Krautscheid",
-      "email": "krautscheid@mitre.org"
-    },
-    {
-      "name": "Dylan Mahalingam",
-      "email": "kmahalingam@mitre.org"
-    }
-  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/cqframework/cql-execution.git"
+    "url": "https://github.com/amida-tech/saraswati-cql-execution.git"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.4",
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
-    "browserify": "^16.5.1",
-    "coveralls": "^3.1.0",
+    "coveralls": "^3.1.1",
     "cross-env": "^7.0.3",
-    "eslint": "^7.4.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^6.11.0",
     "mocha": "^8.4.0",
     "nyc": "^15.1.0",
     "prettier": "^2.1.1",
+    "rewire": "^5.0.0",
     "should": "^13.2.3",
     "test-console": "^2.0.0",
     "xml-js": "^1.6.11"
   },
   "dependencies": {
     "@lhncbc/ucum-lhc": "^4.1.3",
-    "axios": "^0.21.1",
-    "body-parser": "^1.19.0",
-    "cql-exec-fhir": "^2.0.0",
-    "cql-execution": "^2.3.2",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "axios": "^0.21.4",
+    "body-parser": "^1.19.1",
+    "cql-exec-fhir": "^2.0.1",
+    "cql-execution": "^2.3.3",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
     "express-actuator": "^1.7.1",
     "joi": "^17.4.0",
     "jsonl": "^1.1.2",
@@ -92,12 +43,12 @@
     "luxon": "^1.25.0",
     "minimist": "^1.2.5",
     "moment": "^2.27.0",
-    "node-watch": "^0.7.1",
+    "node-watch": "^0.7.3",
     "ucum": "^0.0.7",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
     "winston-json-formatter": "^0.10.0",
-    "yarn": "^1.22.10"
+    "yarn": "^1.22.17"
   },
   "resolutions": {
     "glob-parent": "^5.1.2"
@@ -107,18 +58,15 @@
     "lib": "lib"
   },
   "scripts": {
-    "start": "node processor.js",
-    "kafka": "node processor-kafka.js",
-    "prepublish": "npm run build --scripts-prepend-node-path && npm run build:browserify --scripts-prepend-node-path",
+    "start": "node processor-kafka.js",
+    "localread": "node processor.js",
     "build": "babel src --out-dir lib",
-    "build:browserify": "node ./bin/browserify.js",
-    "build:test-data": "cd ./test/generator && ./gradlew generateTestData && cd ..",
-    "build:spec-test-data": "node test/spec-tests/generate-cql.js && cd ./test/generator && ./gradlew generateSpecTestData && cd ..",
-    "build:all": "npm run build --scripts-prepend-node-path && npm run build:browserify --scripts-prepend-node-path && npm run build:test-data --scripts-prepend-node-path && npm run build:spec-test-data --scripts-prepend-node-path",
-    "watch:test-data": "cd ./test/generator && ./gradlew watchTestData && cd ..",
-    "test": "mocha --reporter spec --recursive",
-    "test:kafka": "mocha ./test/kafka/*-test.js --timeout 10000",
-    "test:nyc": "nyc --reporter=html npx mocha --reporter spec --recursive",
+    "build:all": "npm run build --scripts-prepend-node-path",
+    "test": "mocha --reporter spec --recursive --timeout 15000",
+    "test:integration": "mocha ./integration-test/*-test.js --timeout 15000",
+    "test:seed": "mocha ./integration-test/manual-kafka-seed.js --timeout 10000",
+    "test:nyc": "set NODE_ENV=test&& nyc --reporter=html npx mocha --reporter spec --recursive --timeout 10000",
+    "test:jenkins": "set NODE_ENV=test&& nyc --reporter=cobertura npx mocha --reporter spec --recursive --timeout 10000",
     "test:watch": "mocha --reporter spec --recursive --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

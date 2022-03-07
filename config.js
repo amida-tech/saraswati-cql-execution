@@ -1,11 +1,9 @@
 const Joi = require('joi');
 const dotenv = require('dotenv');
+const util = require('./src/config-util');
+const path = require('path');
 
-if (process.env.NODE_ENV === 'test') {
-  dotenv.config({ path: '.env.test' });
-} else {
-  dotenv.config();
-}
+dotenv.config();
 
 const envVarsSchema = Joi.object({
   NODE_ENV: Joi.string()
@@ -20,8 +18,6 @@ const envVarsSchema = Joi.object({
   SARASWATI_REPORTS_PORT: Joi.number()
     .default(5000)
     .description('Port to make post call to saraswati-reports, defaults to 5000'),
-  DIR: Joi.string()
-    .description('Directory to monitor'),
   ACTUATOR_PORT: Joi.string()
     .default('5001')
     .description('Port used for actuator endpoint'),
@@ -50,7 +46,23 @@ const envVarsSchema = Joi.object({
     .description('The Kafka topic produced.'),
   MEASUREMENT_YEAR: Joi.string()
     .default('2022')
-    .description('The year for which the measure is evaluated')
+    .description('The year for which the measure is evaluated'),
+  JENKINS: Joi.boolean()
+    .default(false)
+    .description('If this is running in Jenkins or not'),
+  MEASUREMENT_FILE: Joi.string()
+    .description('Location of the measure. File only.')
+    .required(),
+  LIBRARIES_DIRECTORY: Joi.string()
+    .description('Location of the libraries. Directory only.')
+    .required(),
+  VALUESETS_DIRECTORY: Joi.string()
+    .description('Location of the value sets. Directory only.')
+    .required(),
+  MEASUREMENT_TYPE: Joi.string()
+    .description('The measurement type. Used to mark the resulting scores. When running `"localread"' +
+      'in development mode, it will check the matching `"data/patients/"` folder.')
+    .required()
 }).unknown();
 
 const { error, value: envVars } = envVarsSchema.validate(process.env, {convert: true});
@@ -58,12 +70,13 @@ if (error) {
   throw new Error(`Config validation error: ${error.message}`);
 }
 
-let arrayDelimiter = ' ';
-if (envVars.KAFKA_BROKERS.includes(', ')) {
-  arrayDelimiter = ', ';
-} else if (envVars.KAFKA_BROKERS.includes(',')) {
-  arrayDelimiter = ',';
-}
+// cross-env doesn't seem to be handling this. Open to ideas to improve. 
+envVars.MEASUREMENT_FILE = envVars.MEASUREMENT_FILE.split(/[\\|/]/).join(path.sep);
+envVars.LIBRARIES_DIRECTORY = envVars.LIBRARIES_DIRECTORY.split(/[\\|/]/).join(path.sep);
+envVars.VALUESETS_DIRECTORY = envVars.VALUESETS_DIRECTORY.split(/[\\|/]/).join(path.sep);
+
+util.measurementAccessCheck(envVars);
+const arrayDelimiter = util.getDelimiter(envVars.KAFKA_BROKERS);
 
 const config = {
   env: envVars.NODE_ENV,
@@ -80,7 +93,12 @@ const config = {
   kafkaGroupId: envVars.KAFKA_GROUP_ID,
   kafkaConsumedTopic: envVars.KAFKA_CONSUMED_TOPIC,
   kafkaProducedTopic: envVars.KAFKA_PRODUCED_TOPIC,
-  measurementYear: envVars.MEASUREMENT_YEAR
+  measurementYear: envVars.MEASUREMENT_YEAR,
+  measurementFile: envVars.MEASUREMENT_FILE,
+  librariesDirectory: envVars.LIBRARIES_DIRECTORY,
+  valuesetsDirectory: envVars.VALUESETS_DIRECTORY,
+  measurementType: envVars.MEASUREMENT_TYPE,
+  jenkins: envVars.JENKINS
 };
 
 module.exports = config;

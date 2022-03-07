@@ -8,64 +8,30 @@ const config = require('./config');
 const path = require('path');
 const fs = require('fs');
 
-const { executeDiabetes } = require('./exec-files/exec-cdc_diabetes-bp');
-const { executeA1c } = require('./exec-files/exec-cdc_hba1c-lessThanEight');
-const { executeImmunization } = require('./exec-files/exec-childhood-immunization-status');
-const { executeNEWImmunization } = require('./exec-files/exec-new-cis');
-const { executeDepression } = require('./exec-files/exec-depression-screening');
-const { executeAsthma } = require('./exec-files/exec-medication-management-for-people-with-asthma');
-const { executePPC } = require('./exec-files/exec-prenatal-postpartum-care');
-const { executePreventable } = require('./exec-files/exec-preventable-complications');
-const { executeChildWellVisit } = require('./exec-files/exec-childhood-well-visit');
-const { executeReadmission } = require('./exec-files/exec-readmission');
-const { executeOpioids } = require('./exec-files/exec-opioids');
+const { execute } = require('./exec-files/exec-config');
 const connectionUrl = `http://${config.host}:${config.port}/cql_service_connector`;
-
-const a1cPath = path.normalize('data/patients/a1c');
-const asthmaPath = path.normalize('data/patients/asthma');
-const depressionPath = path.normalize('data/patients/depression');
-const diabetesPath = path.normalize('data/patients/diabetes');
-const immunizationPath = path.normalize('data/patients/immunization');
-const ppcPath = path.normalize('data/patients/ppc');
-const preventablePath = path.normalize('data/patients/preventable');
-const childWellVisitPath = path.normalize('data/patients/child-well-care');
-const readmissionPath = path.normalize('data/patients/readmission');
-const opioidsPath = path.normalize('data/patients/opioids');
 
 const watcher = dir =>
   watch(dir, (options = { recursive: true, filter: /\.json$/ }), function (event, filename) {
     logger.info(filename, event); // to know which file was processed
     fs.access('.' + path.normalize('/' + filename), (err) => {
-      if (err){
+      if (err) {
         logger.info('File does not exists.');
       } else {
-        fs.readFile('.' + path.normalize('/' + filename), function (err, data) {
-          if (err) throw err;
-          let patients = JSON.parse(data);
-          if (patients) {
-            let data;
-            if (filename.startsWith(a1cPath)) {
-              data = executeA1c(patients);
-            } else if (filename.startsWith(asthmaPath)) {
-              data = executeAsthma(patients);
-            } else if (filename.startsWith(depressionPath)) {
-              data = executeDepression(patients);
-            } else if (filename.startsWith(diabetesPath)) {
-              data = executeDiabetes(patients);
-            } else if (filename.startsWith(immunizationPath)) {
-              data = executeNEWImmunization(patients);
-            } else if (filename.startsWith(ppcPath)) {
-              data = executePPC(patients);
-            } else if (filename.startsWith(preventablePath)) {
-              data = executePreventable(patients);
-            } else if (filename.startsWith(childWellVisitPath)) {
-              data = executeChildWellVisit(patients);
-            } else if (filename.startsWith(readmissionPath)) {
-              data = executeReadmission(patients);
-            } else if (filename.startsWith(opioidsPath)) {
-              data = executeOpioids(patients);
+        let send = false;
+        fs.readFile('.' + path.normalize('/' + filename), function (fileReadErr, data) {
+          if (fileReadErr) throw fileReadErr;
+          let patient = JSON.parse(data);
+          if (patient) {
+            if (filename.startsWith(path.join('data', 'patients', config.measurementType))) {
+              data = execute(patient);
+              data['memberId'] = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
+              data['measurementType'] = config.measurementType;
+              send = true;
+            } else {
+              logger.info('Wrong folder changed.');
             }
-            if (data) {
+            if (send) {
               axios.post(connectionUrl, data).then(
                 response => {
                   var result = response.data;
@@ -82,7 +48,7 @@ const watcher = dir =>
     });
   });
 
-watcher(config.directory);
+watcher(path.join('data', 'patients'));
 
 module.exports = { watcher };
 

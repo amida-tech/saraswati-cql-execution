@@ -1,0 +1,22 @@
+{
+    "resourceType": "ValueSet",
+    "id": "7",
+    "meta": {
+      "lastUpdated": "2021-08-30T01:41:57.171-04:00"
+    },
+    "url": "https://www.ncqa.org/fhir/valueset/XXX.XX",
+    "identifier": [
+      {
+        "value": "XXX.XX"
+      }
+    ],
+    "version": "2021-08-02",
+    "name": "Boo_Berriberculosis",
+    "title": "Boo Berriberculosis",
+    "status": "active",
+    "expansion": {
+      "timestamp": "2021-09-03T17:08:07-04:00",
+      "total": 0,
+      "offset": 0
+    }
+  }

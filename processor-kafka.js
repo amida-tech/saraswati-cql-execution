@@ -1,8 +1,43 @@
-// const consumer = require('../processor-kafka');
-// const { Kafka } = require('kafkajs');
+const { Kafka } = require('kafkajs');
+const config = require('./config');
+const { evalData } = require('./exec-files/exec-config');
 
-// See `processor-kafka-test.js` for working example. Steps for Henry:
-// 1. Start a consumer and listen to the topic from the config. 
-// 2. Run the measurements against each result, accumulating an object with all the measurements.
-// 3. Push this created object to its own produced topic. You will need producer for this.
-// That's it.
+const kafka = new Kafka({
+  clientId: 'cql-execution',
+  brokers: config.kafkaBrokers
+});
+
+const consumer = kafka.consumer({ groupId: config.kafkaConsumedTopic });
+
+const producer = kafka.producer();
+
+async function runner() {
+  await consumer.connect();
+  await producer.connect();
+
+  let consumedTopic = config.kafkaConsumedTopic;
+  let producedTopic = config.kafkaProducedTopic;
+  await consumer.subscribe({ topic: consumedTopic, fromBeginning: false });
+    
+  //Runs each time a message is recieved
+  await consumer.run({
+    eachMessage: async ({ topic, partition, message }) => {
+      const fhirJson = message.value.toString();
+      const data = evalData(JSON.parse(fhirJson));
+      if (data !== undefined) {
+        var dataString = JSON.stringify(data);
+        producer.send(
+          {
+            topic: producedTopic,
+            messages: [
+              {value: dataString},
+            ],
+          }
+        );
+        console.log(dataString);
+      }
+    },
+  });
+}
+
+runner();

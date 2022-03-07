@@ -12,3 +12,8 @@ exec-files/*.jsonl
 .env
 private
 /test/generator/*
+.gitconfig
+.yarnrc
+.vscode-server
+.npm
+.cache
