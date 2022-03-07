@@ -42,6 +42,12 @@ spec:
 
     stages {
         stage('Install Dependencies') {
+            when { 
+                expression {env.GIT_BRANCH == 'jenkins-test'} 
+            }
+            steps {
+                echo 'YES'
+            }
             steps {
                 echo 'Installing..'
                 container('node') {
