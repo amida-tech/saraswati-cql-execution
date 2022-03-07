@@ -43,7 +43,7 @@ spec:
     stages {
         stage('Install Dependencies') {
             when { 
-                expression {env.GIT_BRANCH == 'jenkins-test'} 
+                expression {env.GIT_BRANCH == 'jenkins-test1'} 
             }
             steps {
                 echo 'Installing..'
