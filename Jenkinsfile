@@ -45,6 +45,7 @@ spec:
             steps {
                 echo 'Installing..'
                 container('node') {
+                    echo 'Pulling...' + env.BRANCH_NAME
                     sh 'apk add openjdk11'
                     sh 'yarn install'
                 }
