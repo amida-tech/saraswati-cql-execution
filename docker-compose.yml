@@ -1,0 +1,26 @@
+version: "3"
+services:
+    fum-cql-execution:
+        build: .
+        image: amidatech/saraswati-cql-execution
+        container_name: saraswati-cql-execution-fum
+        environment:
+            KAFKA_GROUP_ID: fum-consumer
+            MEASUREMENT_FILE: private/FUM_HEDIS_MY2022-1.0.0/elm/FUM_HEDIS_MY2022-1.0.0.json
+            LIBRARIES_DIRECTORY: private/FUM_HEDIS_MY2022-1.0.0/libraryElm/
+            VALUESETS_DIRECTORY: private/FUM_HEDIS_MY2022-1.0.0/valuesets/
+            MEASUREMENT_TYPE: fum
+    drre-cql-execution:
+        build: .
+        image: amidatech/saraswati-cql-execution
+        container_name: saraswati-cql-execution-drre
+        environment:
+            KAFKA_GROUP_ID: drre-consumer
+            MEASUREMENT_FILE: private/DRRE_HEDIS_MY2022-1.0.0/elm/DRRE_HEDIS_MY2022-1.0.0.json
+            LIBRARIES_DIRECTORY: private/DRRE_HEDIS_MY2022-1.0.0/libraryElm/
+            VALUESETS_DIRECTORY: private/DRRE_HEDIS_MY2022-1.0.0/valuesets/
+            MEASUREMENT_TYPE: drre
+networks:
+  default:
+    external: true
+    name: cp-all-in-one-community_default

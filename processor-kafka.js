@@ -7,7 +7,7 @@ const kafka = new Kafka({
   brokers: config.kafkaBrokers
 });
 
-const consumer = kafka.consumer({ groupId: config.kafkaConsumedTopic });
+const consumer = kafka.consumer({ groupId: config.kafkaGroupId });
 
 const producer = kafka.producer();
 
