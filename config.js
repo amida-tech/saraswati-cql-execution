@@ -22,6 +22,7 @@ const envVarsSchema = Joi.object({
     .default('5001')
     .description('Port used for actuator endpoint'),
   KAFKA_BROKERS: Joi.string()
+    .default('redpanda1:9092')
     .description('The Kafka queue server addresses to connect to. We will parse the entry afterwards.'),
   KAFKA_USERNAME: Joi.string()
     .default('username1')
