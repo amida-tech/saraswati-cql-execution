@@ -339,7 +339,7 @@ Copy this file into the libraryCql folder neighboring the cql folder. To run the
 `clinical_quality_language\Src\java\cql-to-elm\build\install\cql-to-elm\bin>cql-to-elm`
 
 Then run this CLI command, changing the folders to your local spots:
-`cql-to-elm --format=JSON --input saraswati-cql-execution\private\AAB_HEDIS_MY2022-1.0.0\libraryCql\Amida_AAB_HEDIS_MY2022-1.0.0.cql --output saraswati-cql-execution\private\AAB_HEDIS_MY2022-1.0.0\elm\Amida_AAB_HEDIS_MY2022-1.0.0.json`
+`cql-to-elm --format=JSON --input saraswati-cql-execution\private\1.1.0\AAB_HEDIS_MY2022-1.0.0\libraryCql\Amida_AAB_HEDIS_MY2022-1.1.0.cql --output saraswati-cql-execution\private\1.1.0\AAB_HEDIS_MY2022-1.1.0\elm\Amida_AAB_HEDIS_MY2022-1.1.0.json`
 
 Finally, in saraswati-cql-execution, change the `.env` features to this:
 
