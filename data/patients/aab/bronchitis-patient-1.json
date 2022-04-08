@@ -1,4 +1,4 @@
-[
+[ 
   {
     "resourceType": "Bundle",
     "type": "transaction",
@@ -523,7 +523,7 @@
         "fullUrl": "urn:uuid:aab-prof-claim",
         "resource": {
           "resourceType": "Claim",
-          "id": "urn:uuid:aab-prof-claim",
+          "id": "aab-prof-claim",
           "identifier": [
             {
               "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
@@ -800,6 +800,74 @@
         "request": {
           "method": "POST",
           "url": "Immunization"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:psa-claimResponse",
+        "resource": {
+          "resourceType": "ClaimResponse",
+          "id": "psa-claimResponse",
+          "status": "active",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "pharmacy"
+              }
+            ]
+          },
+          "use": "claim",
+          "patient": {
+            "reference": "urn:uuid:aab-patient-1"
+          },
+          "created": "2021-08-16",
+          "outcome": "complete",
+          "disposition": "Claim settled as per contract.",
+          "request": {
+            "reference": "Claim/urn:uuid:aab-pharm-claim-1"
+          },
+          "item": [
+            {
+              "itemSequence": 1,
+              "servicedPeriod": {
+                "start": "2021-08-16",
+                "end": "2021-08-17"
+              },
+              "adjudication": [
+                {
+                  "category": {
+                    "coding": [
+                      {
+                        "code": "benefit"
+                      }
+                    ]
+                  },
+                  "amount": {
+                    "value": 108.45, 
+                    "currency": "USD"
+                  }
+                }
+              ]
+            }
+          ],
+          "addItem": [
+            {
+              "productOrService": {
+                "coding": [
+                  {
+                    "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                    "version": "2021.03.01.20AB",
+                    "code": "242816",
+                    "display": "100 ML gentamicin 1 MG/ML Injection"
+                  }
+                ]
+              },
+              "servicedPeriod": {
+                "start": "2021-08-16",
+                "end": "2021-08-17"
+              }
+            }
+          ]
         }
       },
       {
