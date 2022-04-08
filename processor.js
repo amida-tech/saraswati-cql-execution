@@ -27,7 +27,7 @@ const watcher = dir =>
               data = execute(patient);
               data['memberId'] = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
               data['measurementType'] = config.measurementType;
-              // send = true;
+              send = true;
             } else {
               logger.info('Wrong folder changed.');
             }
