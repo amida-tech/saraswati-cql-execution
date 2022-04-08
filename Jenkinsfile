@@ -61,9 +61,9 @@ spec:
         stage('Test') {
             environment {
                 NODE_ENV="test"
-                MEASUREMENT_FILE="private/DRRE_HEDIS_MY2022-1.0.0/elm/DRRE_HEDIS_MY2022-1.0.0.json"
-                LIBRARIES_DIRECTORY="private/DRRE_HEDIS_MY2022-1.0.0/libraryElm/"
-                VALUESETS_DIRECTORY="private/DRRE_HEDIS_MY2022-1.0.0/valuesets/"
+                MEASUREMENT_FILE="private/2022/1.1.0/DRRE_HEDIS_MY2022-1.1.0/elm/DRRE_HEDIS_MY2022-1.1.0.json"
+                LIBRARIES_DIRECTORY="private/2022/1.1.0/DRRE_HEDIS_MY2022-1.1.0/libraryElm/"
+                VALUESETS_DIRECTORY="private/2022/1.1.0/DRRE_HEDIS_MY2022-1.1.0/valuesets/"
                 MEASUREMENT_TYPE="drre"
             }
             steps {
@@ -112,7 +112,7 @@ spec:
         }
         stage('Build Production with Kaniko') {
             when { 
-                expression {env.GIT_BRANCH == 'master'} 
+                expression {env.GIT_BRANCH == 'origin/main'} 
             }
             steps {
                 container(name: 'kaniko', shell: '/busybox/sh') {
@@ -124,7 +124,7 @@ spec:
         }
         stage('Build Develop with Kaniko') {
             when { 
-                expression {env.GIT_BRANCH == 'develop'} 
+                expression {env.GIT_BRANCH == 'origin/develop'} 
             }
             steps {
                 container(name: 'kaniko', shell: '/busybox/sh') {
