@@ -1,6 +1,21 @@
 [![Build Status](https://travis-ci.org/cqframework/cql-execution.svg?branch=master)](https://travis-ci.org/cqframework/cql-execution)
 [![codecov](https://codecov.io/gh/cqframework/cql-execution/branch/master/graph/badge.svg)](https://codecov.io/gh/cqframework/cql-execution)
 
+# Saraswati CQL Execution
+## Missing Medication Codes (Updated: 3/16/2021)
+CQL files that require medication codes are don't include all of the necessary codes that are required by the HEDIS spec. This is because we are planning on creating a medication service that programmatically pulls all of the medication associated with a HEDIS measure at some point in the future (James Z/Mike have talked about this).
+
+## Using VSAC URNs instead of the HEDIS specified URNs (Updated: 3/16/2021)
+Any valuesets that are listed in CQL files and are NOT commented out are using a valueset URN (and therefore a list of codes in the `data/codes` directory) from VSAC; Long term, we want to be using the valueset URNs (and therefore codes associated with those URNs) from the valuesets listed in the HEDIS excel sheet that a few of us have licesnses to; however, we can't currently grab data from that excel sheet (programmatically or otherwise) due to some licensing issues. However,  Mike is a part of a HEDIS user group and thinks he may have access to the excel sheet, but hasn't looked into it yet.
+
+## Generating ValueSet Codes from HEDISⓇ Measures.
+As of September 2021, we received measurements from HEDIS that came with ValueSet codes. To generate these codes quickly, use the following command in this repo:
+`node code-generator.js --dir=<directory that contains the files> --name=<output name of .js>`
+The script will then generate the needed codes for you. The created file will be in the same directory you indicated, so be sure to move it to `/data/codes` after checking there are no issues and run a test there.
+
+## Running Third Party CQL files
+In order to run third party CQL files, please refere to [Third Party CQL Repository](https://github.com/amida-tech/ncqa-cql). From that repository choose which CQL files you would like to execute and placed them under the `private` folder under this repository. If there is not `private` folder, create one. Furthermore, follow the instructions below on how to generate ValueSet Codes from HEDIS measures.
+
 # CQL Execution Framework
 
 The CQL Execution Framework provides a JavaScript library for executing CQL artifacts expressed as
@@ -29,6 +44,32 @@ Implementors interested in using the National Library of Medicine's Value Set Au
 The [cql-exec-examples](https://github.com/cqframework/cql-exec-examples) project provides examples
 of how `cql-execution`, `cql-exec-fhir`, and `cql-exec-vsac` can be used together.
 
+# Current Limitations
+
+This library supports operations defined in CQL 1.4 and 1.5, but is not yet a complete implementation.
+Implementors should be aware of the following limitations and gaps in `cql-execution`:
+
+* Direct support for specific data models is not provided by this library (see above for details).
+* `PatientSource`, `CodeService`, and `Results` APIs are still evolving and subject to change.
+* Since this library uses the JavaScript `Number` class for both CQL `Integer` and CQL `Decimal`,
+  it may display the following limitations related to numbers and math:
+  * Reduced precision compared to that which is specified by the CQL specification
+  * Issues typically associated with floating point arithmetic
+  * Decimals without a decimal portion (e.g., `2.0`) may be treated as CQL `Integer`s
+* The following STU (non-normative) features introduced in CQL 1.5 are not yet supported:
+  * `Long` datatype
+  * Fluent functions
+  * Retrieve search paths
+  * Retrieve includes
+* In addition the following features defined prior to CQL 1.5 are also not yet supported:
+  * Related context retrieves
+  * Unfiltered context retrieves
+  * Unfiltered context references to other libraries
+  * External functions
+
+The above is a partial list covering the most significant limitations. For more details, see the
+[CQL_Execution_Features.xlsx](CQL_Execution_Features.xlsx) spreadsheet.
+
 # Project Configuration
 
 To use this project, you should perform the following steps:
@@ -46,7 +87,7 @@ the unit tests) before expecting it to work! For a working example, see `example
 There are several steps involved to execute CQL.  First, you must create a JSON representation of
 the ELM. For the easiest integration, we will generate a JSON file using cql-to-elm:
 
-1. Install the [Java 8 SDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+1. Install the [Java 11 SDK](https://adoptopenjdk.net/)
 2. Clone the [clinical_quality_language](https://github.com/cqframework/clinical_quality_language)
    repository to a location of your choice
 3. `cd ${path_to_clinical_quality_language}/Src/java` (replacing
@@ -262,3 +303,47 @@ otherwise Travis CI will fail. To generate this file, run:
 ```
 yarn build:all
 ```
+
+# Testing
+To test locally you can create a Redpanda instance here:
+`docker run -d --pull=always --name=redpanda-1 --rm -p 9092:9092 -p 9644:9644 docker.vectorized.io/vectorized/redpanda:latest redpanda start --overprovisioned --smp 1 --memory 1G --reserve-memory 0M --node-id 0 --check=false`
+
+For a container to container approach, try:
+`docker network create -d bridge rp`
+
+`docker run -d --pull=always --name=redpanda-1 --network=rp -p 9092:9092 docker.vectorized.io/vectorized/redpanda:latest redpanda start --overprovisioned --smp 1  --memory 1G --reserve-memory 0M --node-id 0 --check=false --kafka-addr "PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092" --advertise-kafka-addr "PLAINTEXT://redpanda:29092,OUTSIDE://redpanda-1:9092"`
+
+Drop `--kafka-addr "PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092" --advertise-kafka-addr "PLAINTEXT://redpanda:29092,OUTSIDE://redpanda-1:9092"` to connect via localhost.
+
+To run `saraswati-cql-execution`, build with: 
+`docker build -t saraswati-cql-execution .` 
+
+Then run the following, but with desired environmental variables:
+`docker run --mount type=bind,source=<directory to>\private,target=/app/private -e MEASUREMENT_FILE=private/DRRE_HEDIS_MY2022-1.0.0/elm/DRRE_HEDIS_MY2022-1.0.0.json -e MEASUREMENT_TYPE=drre -e LIRARIES_DIRECTORY=private/DRRE_HEDIS_MY2022-1.0.0/libraryElm/ -e VALUESETS_DIRECTORY=private/DRRE_HEDIS_MY2022-1.0.0/valuesets/ -e KAFKA_BROKERS=["redpanda1:29092", "redpanda1:29093"] -e KAFKA_CONSUMED_TOPIC=fhir-logged -e KAFKA_PRODUCED_TOPIC=hedis-measures saraswati-cql-execution`
+
+# Environmental Variables
+`MEASUREMENT_FILE`: The actual measurement file you want to run. For example, `MEASUREMENT_FILE=private\CISE_HEDIS_MY2022-1.0.0\elm\CISE_HEDIS_MY2022-1.0.0.json`
+`LIBRARIES_DIRECTORY`: The directory of the required libraries for the `MEASUREMENT_FILE`. For example, `LIBRARIES_DIRECTORY=private\CISE_HEDIS_MY2022-1.0.0\libraryElm\`
+`VALUESETS_DIRECTORY`: The directory of the required value sets for the MEASUREMENT_FILE. For example, `VALUESETS_DIRECTORY=private\CISE_HEDIS_MY2022-1.0.0\valuesets\`
+`MEASUREMENT_TYPE`: The measurement type. Used to mark the resulting scores. When running `"localread"`
+   in development mode, it will check the matching `"data/patients/"` folder.
+
+# Valueset CQL Generation
+
+For AAB, CWP and URI, the following process can rewrite the CQL to be faster. The script can be run by pointing it at the file inside the private folder you want to convert. For example...
+`node vset-cql-generator.js --file=C:\Users\James\workspaces\saraswati-cql-execution\private\AAB_HEDIS_MY2022-1.0.0\cql\AAB_HEDIS_MY2022-1.0.0.cql`
+
+Do not move the CQL file from its location in the private folder. It also checks value set files the neighboring folders. When finished, it will inform you of the created script and its location.
+
+Copy this file into the libraryCql folder neighboring the cql folder. To run the cql-to-elm transformation, navigate to the following folder inside the `clinical_quality_language` repo:
+`clinical_quality_language\Src\java\cql-to-elm\build\install\cql-to-elm\bin`
+
+Then run this CLI command, changing the folders to your local spots:
+`cql-to-elm --format=JSON --compatibility-level=1.4 --input saraswati-cql-execution\private\1.1.0\AAB_HEDIS_MY2022-1.0.0\libraryCql\Amida_AAB_HEDIS_MY2022-1.1.0.cql --output saraswati-cql-execution\private\1.1.0\AAB_HEDIS_MY2022-1.1.0\elm\Amida_AAB_HEDIS_MY2022-1.1.0.json`
+
+Finally, in saraswati-cql-execution, change the `.env` features to this:
+
+`MEASUREMENT_FILE=private\AAB_HEDIS_MY2022-1.0.0\elm\Amida_AAB_HEDIS_MY2022-1.0.0.json`
+`LIBRARIES_DIRECTORY=private\AAB_HEDIS_MY2022-1.0.0\libraryElm\`
+`VALUESETS_DIRECTORY=private\AAB_HEDIS_MY2022-1.0.0\valuesets\`
+`MEASUREMENT_TYPE=aab`

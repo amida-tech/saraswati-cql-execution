@@ -1,0 +1,688 @@
+{
+   "library" : {
+      "annotation" : [ {
+         "translatorOptions" : "",
+         "type" : "CqlToElmInfo"
+      }, {
+         "libraryId" : "Diabetes_Library",
+         "libraryVersion" : "4.0.0",
+         "startLine" : 174,
+         "startChar" : 60,
+         "endLine" : 174,
+         "endChar" : 65,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "Diabetes_Library",
+         "libraryVersion" : "4.0.0",
+         "startLine" : 242,
+         "startChar" : 60,
+         "endLine" : 242,
+         "endChar" : 65,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "Diabetes_Library",
+         "libraryVersion" : "4.0.0",
+         "startLine" : 243,
+         "startChar" : 59,
+         "endLine" : 243,
+         "endChar" : 64,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "Diabetes_Library",
+         "libraryVersion" : "4.0.0",
+         "startLine" : 248,
+         "startChar" : 85,
+         "endLine" : 248,
+         "endChar" : 90,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      }, {
+         "libraryId" : "Diabetes_Library",
+         "libraryVersion" : "4.0.0",
+         "startLine" : 274,
+         "startChar" : 10,
+         "endLine" : 274,
+         "endChar" : 50,
+         "message" : "List-valued expression was demoted to a singleton.",
+         "errorType" : "semantic",
+         "errorSeverity" : "warning",
+         "type" : "CqlToElmError"
+      } ],
+      "identifier" : {
+         "id" : "cdc_hba1c_lessThanEight",
+         "version" : "1"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localIdentifier" : "FHIR",
+            "uri" : "http://hl7.org/fhir",
+            "version" : "4.0.0"
+         } ]
+      },
+      "includes" : {
+         "def" : [ {
+            "localIdentifier" : "FHIRHelpers",
+            "path" : "FHIRHelpers",
+            "version" : "4.0.1"
+         }, {
+            "localIdentifier" : "Diabetes_Library",
+            "path" : "Diabetes_Library",
+            "version" : "4.0.0"
+         } ]
+      },
+      "codeSystems" : {
+         "def" : [ {
+            "name" : "SNOMED-CT",
+            "id" : "http://snomed.info/sct",
+            "version" : "20200301",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "valueSets" : {
+         "def" : [ {
+            "name" : "HbA1c Lab Test",
+            "id" : "2.16.840.1.113883.3.464.1003.198.11.1024",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
+         }, {
+            "name" : "Unfiltered"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Patient",
+            "context" : "Patient",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "dataType" : "{http://hl7.org/fhir}Patient",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "name" : "Initial Population",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Initial Population",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Telehealth Modifier Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Telehealth Modifier Encounter",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Telehealth POS Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Telehealth POS Encounter",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Acute Inpatient Encounter",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Acute Inpatient Encounter",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Acute Inpatient Encounter Without Telehealth",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Acute Inpatient Encounter Without Telehealth",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Acute Inpatient Discharge With Diabetes",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Acute Inpatient Discharge With Diabetes",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Claim with Acute Inpatient",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Claim with Acute Inpatient",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Acute Inpatient Discharge On Discharge Claim",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Acute Inpatient Discharge On Discharge Claim",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Nonacute Diabetes Discharges-List",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Nonacute Diabetes Discharges-List",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Claim with Nonacute Inpatient Stay",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Claim with Nonacute Inpatient Stay",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Nonacute Diabetes Discharges On Claim",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Nonacute Diabetes Discharges On Claim",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Outpatient Visit",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Outpatient Visit",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Observation Visit",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Observation Visit",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Telehealth POS With Diabetes",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Telehealth POS With Diabetes",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Telehealth Modifier With Diabetes",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Telehealth Modifier With Diabetes",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Telephone Visit",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Telephone Visit",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Online Assessment",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Online Assessment",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Emergency Department Visits",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Emergency Department Visits",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Out Tele Online Union",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Out Tele Online Union",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Out Visits Deduplicated Dates",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Out Visits Deduplicated Dates",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "At Least 2 Remote or Nonacute Inpatient Encounters With Diabetes",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Diabetes Diagnosis By Medication",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Diabetes Diagnosis By Medication",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Frailty",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Frailty",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Acute Inpatient With Advanced Illness",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Acute Inpatient With Advanced Illness",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Acute Inpatient Discharge With Advanced Illness",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Acute Inpatient Discharge With Advanced Illness",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Outpatient Advanced Illness",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Outpatient Advanced Illness",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Observation Advanced Illness",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Observation Advanced Illness",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "ED Advanced Illness",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "ED Advanced Illness",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Nonacute AI",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Nonacute AI",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Nonacute AI Discharge",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Nonacute AI Discharge",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "At Least Two Out/Obs/ED Advaned Illness",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "At Least Two Out/Obs/ED Advaned Illness",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Taking Dementia Medication",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Taking Dementia Medication",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Is Living Long Term in Institution",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Is Living Long Term in Institution",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Diabetes Exclusions",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Diabetes Exclusions",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Diabetes Condition",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Diabetes Condition",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Diabetes Condition Numerator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Diabetes Condition Numerator",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "Diabetes Condition Denominator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Diabetes Condition Denominator",
+               "libraryName" : "Diabetes_Library",
+               "type" : "ExpressionRef"
+            }
+         }, {
+            "name" : "HbA1c < 8",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Exists",
+               "operand" : {
+                  "type" : "ToList",
+                  "operand" : {
+                     "type" : "Last",
+                     "source" : {
+                        "type" : "Query",
+                        "source" : [ {
+                           "alias" : "O",
+                           "expression" : {
+                              "dataType" : "{http://hl7.org/fhir}Observation",
+                              "codeProperty" : "code",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "HbA1c Lab Test",
+                                 "type" : "ValueSetRef"
+                              }
+                           }
+                        } ],
+                        "relationship" : [ ],
+                        "where" : {
+                           "type" : "And",
+                           "operand" : [ {
+                              "type" : "Greater",
+                              "operand" : [ {
+                                 "path" : "value",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "value",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "value",
+                                       "scope" : "O",
+                                       "type" : "Property"
+                                    }
+                                 }
+                              }, {
+                                 "type" : "ToDecimal",
+                                 "operand" : {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "8",
+                                    "type" : "Literal"
+                                 }
+                              } ]
+                           }, {
+                              "type" : "In",
+                              "operand" : [ {
+                                 "name" : "ToDateTime",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "type" : "Coalesce",
+                                    "operand" : [ {
+                                       "asType" : "{http://hl7.org/fhir}dateTime",
+                                       "type" : "As",
+                                       "operand" : {
+                                          "path" : "effective",
+                                          "scope" : "O",
+                                          "type" : "Property"
+                                       }
+                                    }, {
+                                       "path" : "start",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "path" : "effective",
+                                          "scope" : "O",
+                                          "type" : "Property"
+                                       }
+                                    } ]
+                                 } ]
+                              }, {
+                                 "name" : "Measurement Period",
+                                 "libraryName" : "Diabetes_Library",
+                                 "type" : "ParameterRef"
+                              } ]
+                           } ]
+                        }
+                     }
+                  }
+               }
+            }
+         }, {
+            "name" : "Numerator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "And",
+                        "operand" : [ {
+                           "name" : "HbA1c < 8",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "name" : "Diabetes Condition Numerator",
+                           "type" : "ExpressionRef"
+                        } ]
+                     }, {
+                        "name" : "Initial Population",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }, {
+                     "type" : "Not",
+                     "operand" : {
+                        "name" : "Diabetes Exclusions",
+                        "type" : "ExpressionRef"
+                     }
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Denominator",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "comparand" : {
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "And",
+                     "operand" : [ {
+                        "name" : "Initial Population",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "Diabetes Condition Denominator",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }, {
+                     "type" : "Not",
+                     "operand" : {
+                        "name" : "Diabetes Exclusions",
+                        "type" : "ExpressionRef"
+                     }
+                  } ]
+               },
+               "caseItem" : [ {
+                  "when" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "value" : "true",
+                     "type" : "Literal"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "1",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "Denominator Count",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Sum",
+               "source" : {
+                  "name" : "Denominator",
+                  "type" : "ExpressionRef"
+               }
+            }
+         }, {
+            "name" : "Numerator Count",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Sum",
+               "source" : {
+                  "name" : "Numerator",
+                  "type" : "ExpressionRef"
+               }
+            }
+         }, {
+            "name" : "CDC Measure Score",
+            "context" : "Unfiltered",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Divide",
+               "operand" : [ {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "name" : "Numerator",
+                        "type" : "ExpressionRef"
+                     }
+                  }
+               }, {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "type" : "Sum",
+                     "source" : {
+                        "name" : "Denominator",
+                        "type" : "ExpressionRef"
+                     }
+                  }
+               } ]
+            }
+         } ]
+      }
+   }
+}
+
