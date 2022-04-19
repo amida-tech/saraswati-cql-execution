@@ -331,7 +331,7 @@ Then run the following, but with desired environmental variables:
 # Valueset CQL Generation
 
 For AAB, CWP and URI, the following process can rewrite the CQL to be faster. The script can be run by pointing it at the file inside the private folder you want to convert. For example...
-`node vset-cql-generator.js --file=C:\Users\James\workspaces\saraswati-cql-execution\private\AAB_HEDIS_MY2022-1.0.0\cql\AAB_HEDIS_MY2022-1.0.0.cql`
+`node vset-cql-generator.js --file=C:\Users\James\workspaces\saraswati-cql-execution\private\1.1.0\AAB_HEDIS_MY2022-1.1.0\cql\AAB_HEDIS_MY2022-1.1.0.cql`
 
 Do not move the CQL file from its location in the private folder. It also checks value set files the neighboring folders. When finished, it will inform you of the created script and its location.
 
