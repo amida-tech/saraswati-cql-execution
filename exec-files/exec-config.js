@@ -149,13 +149,108 @@ const execute = (patients) => {
   return cleanedPatientResults;
 };
 
+const getIdentifier = (element) => {
+ let id = '';
+  if (element.fullUrl) {
+    id = element.fullUrl;
+  } else if (element.resource && element.resource.id) {
+    id = element.resource.id;
+  } else if (element.resource && element.resource.reference) {
+    id = element.resource.reference;
+  } else if (element.id) {
+    id = element.id;
+  } else if (element.reference) {
+    id = element.reference;
+  }
+  return id;
+};
+
+const addToArray = (arrayToCheck, objectToAdd) => {
+  let addValue = true;
+  for (let i = 0; i < arrayToCheck.length; i += 1) {
+    const item = arrayToCheck[i];
+    let itemId = getIdentifier(item);
+    let objectId = getIdentifier(objectToAdd);
+
+    if (itemId === objectId) {
+      addValue = false;
+      break;
+    }
+  }
+
+  if (addValue) {
+    arrayToCheck.push(objectToAdd);
+  }
+};
+
+const addArrayToArray = (arrayToCheck, arrayToAdd) => {
+  arrayToAdd.forEach((element) => {
+    if (element.actor) {
+      addToArray(arrayToCheck, element.actor);
+    } else if (element.individual) {
+      addToArray(arrayToCheck, element.individual);
+    } else if (element.provider) {
+      addToArray(arrayToCheck, element.provider);
+    } else if (element.reference) {
+      addToArray(arrayToCheck, element);
+    }
+  });
+};
+
+const createProviderList = (entryList) => {
+  let providers = [];
+  entryList.forEach((entry) => {
+    const fhirResource = entry.resource;
+    const resourceType = fhirResource.resourceType;
+    if (resourceType === 'Practitioner' ||
+        resourceType === 'PractitionerRole' ||
+        resourceType === 'Organization') {
+      addToArray(providers, entry);
+    } else if (resourceType === 'Encounter') {
+      if (fhirResource.serviceProvider) {
+        addToArray(providers, fhirResource.serviceProvider);
+      }
+      if (fhirResource.participant) {
+        addArrayToArray(providers, fhirResource.participant);
+      }
+    } else if (resourceType === 'Claim') {
+      if (fhirResource.provider) {
+        addToArray(providers, fhirResource.provider);
+      }
+      if (fhirResource.careTeam) {
+        addArrayToArray(providers, fhirResource.careTeam);
+      }
+    } else if (resourceType === 'Observation') {
+      if (fhirResource.provider) {
+        addToArray(providers, fhirResource.provider);
+      }
+      if (fhirResource.performer) {
+        addArrayToArray(providers, fhirResource.performer);
+      }
+    } else if (resourceType === 'Immunization' && fhirResource.performer) {
+      addArrayToArray(providers, fhirResource.performer);
+    } else if (resourceType === 'Procedure' && fhirResource.performer) {
+      addArrayToArray(providers, fhirResource.performer);
+    } else if (resourceType === 'MedicationDispense' && fhirResource.performer) {
+      addArrayToArray(providers, fhirResource.performer);
+    } else if (resourceType === 'Condition' && fhirResource.recorder) {
+      addToArray(providers, fhirResource.recorder);
+    }
+  });
+
+  return providers;
+};
+
 const evalData = (patient) => {
   const data = execute(patient);
-    if (data.Denominator != 0){
-      data['memberId'] = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
-      data['measurementType'] = config.measurementType;
-      return data;
-    }
+  if (data.Denominator != 0) {
+    const memberId = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp')
+    data['memberId'] = memberId;
+    data['measurementType'] = config.measurementType;
+    data['coverage'] = data[memberId]['Member Coverage'];
+    data['providers'] = createProviderList(patient[0].entry);
+    return data;
+  }
   return undefined;
 };
 
