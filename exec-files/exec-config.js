@@ -10,6 +10,8 @@ const codes = require('cql-execution/lib/cql-code-service');
 const cql = require('cql-execution/lib/cql');
 const logger = require('../src/winston');
 
+const { createProviderList } = require('../src/utilities/providerUtil');
+
 let measure;
 let libraries;
 let valueSets;
@@ -151,11 +153,14 @@ const execute = (patients) => {
 
 const evalData = (patient) => {
   const data = execute(patient);
-    if (data.Denominator != 0){
-      data['memberId'] = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
-      data['measurementType'] = config.measurementType;
-      return data;
-    }
+  if (data.Denominator != 0) {
+    const memberId = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp')
+    data['memberId'] = memberId;
+    data['measurementType'] = config.measurementType;
+    data['coverage'] = data[memberId]['Member Coverage'];
+    data['providers'] = createProviderList(patient);
+    return data;
+  }
   return undefined;
 };
 
