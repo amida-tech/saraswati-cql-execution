@@ -21,7 +21,7 @@ async function runner() {
     
   //Runs each time a message is recieved
   await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
+    eachMessage: async ({ message }) => {
       const fhirJson = message.value.toString();
       const data = evalData(JSON.parse(fhirJson));
       if (data !== undefined) {
