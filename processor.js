@@ -12,7 +12,7 @@ const { evalData } = require('./exec-files/exec-config');
 const connectionUrl = `http://${config.host}:${config.port}/cql_service_connector`;
 
 const watcher = dir =>
-  watch(dir, (options = { recursive: true, filter: /\.json$/ }), function (event, filename) {
+  watch(dir, { recursive: true, filter: /\.json$/ }, function (event, filename) {
     logger.info(filename, event); // to know which file was processed
     fs.access('.' + path.normalize('/' + filename), (err) => {
       if (err) {
@@ -33,10 +33,10 @@ const watcher = dir =>
               axios.post(connectionUrl, data).then(
                 response => {
                   var result = response.data;
-                  // logger.info(result);
+                  logger.info(result);
                 },
                 error => {
-                  // logger.error(error);
+                  logger.error(error);
                 }
               );
             }

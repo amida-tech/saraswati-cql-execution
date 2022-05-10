@@ -151,13 +151,37 @@ const execute = (patients) => {
   return cleanedPatientResults;
 };
 
+const hasDenominator = (patientData) => {
+  const denominatorFields = Object.keys(patientData).filter(
+    (patientField) => patientField.startsWith('Denominator')
+  );
+
+  for (const field of denominatorFields) {
+    const fieldValue = patientData[field];
+    let value = 0;
+    if (Array.isArray(fieldValue)) {
+      value = fieldValue.length;
+    } else {
+      value = fieldValue === true ? 1 : 0;
+    }
+
+    if (value > 0) {
+      return true;
+    }
+  }
+  return false;
+};
+
 const evalData = (patient) => {
   const data = execute(patient);
-  if (data.Denominator != 0) {
-    const memberId = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp')
+
+  const memberId = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
+  const patientData = data[memberId];
+
+  if (hasDenominator(patientData)) {
     data['memberId'] = memberId;
     data['measurementType'] = config.measurementType;
-    data['coverage'] = data[memberId]['Member Coverage'];
+    data['coverage'] = patientData['Member Coverage'];
     data['providers'] = createProviderList(patient);
     return data;
   }
