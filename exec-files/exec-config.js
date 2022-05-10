@@ -156,8 +156,8 @@ const hasDenominator = (patientData) => {
     (patientField) => patientField.startsWith('Denominator')
   );
 
-  for (let i = 0; i < denominatorFields.length; i += 1) {
-    const fieldValue = patientData[denominatorFields[i]];
+  for (field of denominatorFields) {
+    const fieldValue = patientData[field];
     let value = 0;
     if (Array.isArray(fieldValue)) {
       value = fieldValue.length;
