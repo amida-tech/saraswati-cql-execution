@@ -8,11 +8,11 @@ const config = require('./config');
 const path = require('path');
 const fs = require('fs');
 
-const { execute } = require('./exec-files/exec-config');
+const { evalData } = require('./exec-files/exec-config');
 const connectionUrl = `http://${config.host}:${config.port}/cql_service_connector`;
 
 const watcher = dir =>
-  watch(dir, (options = { recursive: true, filter: /\.json$/ }), function (event, filename) {
+  watch(dir, { recursive: true, filter: /\.json$/ }, function (event, filename) {
     logger.info(filename, event); // to know which file was processed
     fs.access('.' + path.normalize('/' + filename), (err) => {
       if (err) {
@@ -24,9 +24,7 @@ const watcher = dir =>
           let patient = JSON.parse(data);
           if (patient) {
             if (filename.startsWith(path.join('data', 'patients', config.measurementType))) {
-              data = execute(patient);
-              data['memberId'] = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
-              data['measurementType'] = config.measurementType;
+              data = evalData(patient);
               send = true;
             } else {
               logger.info('Wrong folder changed.');
