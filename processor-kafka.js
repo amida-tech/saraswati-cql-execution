@@ -1,4 +1,5 @@
 const { Kafka } = require('kafkajs');
+const logger = require('./src/winston');
 const config = require('./config');
 const { evalData } = require('./exec-files/exec-config');
 
@@ -22,6 +23,7 @@ async function runner() {
   //Runs each time a message is recieved
   await consumer.run({
     eachMessage: async ({ message }) => {
+      logger.info(`Recieved Kafka message for group: ${config.kafkaGroupId}`);
       const fhirJson = message.value.toString();
       const data = evalData(JSON.parse(fhirJson));
       if (data !== undefined) {
@@ -34,7 +36,9 @@ async function runner() {
             ],
           }
         );
-        console.log(dataString);
+        logger.info(`Sent Kafka message to topic: ${producedTopic}`);
+      } else {
+        logger.info('No message sent');
       }
     },
   });

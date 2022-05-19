@@ -6,9 +6,9 @@ services:
         container_name: saraswati-cql-execution-aab
         environment:
             KAFKA_GROUP_ID: aab-consumer
-            MEASUREMENT_FILE: private/AAB_HEDIS_MY2022-1.0.0/elm/AAB_HEDIS_MY2022-1.0.0.json
-            LIBRARIES_DIRECTORY: private/AAB_HEDIS_MY2022-1.0.0/libraryElm/
-            VALUESETS_DIRECTORY: private/AAB_HEDIS_MY2022-1.0.0/valuesets/
+            MEASUREMENT_FILE: private/2022/1.1.0/AAB_HEDIS_MY2022-1.1.0/elm/Amida_AAB_HEDIS_MY2022-1.1.0.json
+            LIBRARIES_DIRECTORY: private/2022/1.1.0/AAB_HEDIS_MY2022-1.1.0/libraryElm/
+            VALUESETS_DIRECTORY: private/2022/1.1.0/AAB_HEDIS_MY2022-1.1.0/valuesets/
             MEASUREMENT_TYPE: aab
     drre-cql-execution:
         build: .
@@ -16,9 +16,9 @@ services:
         container_name: saraswati-cql-execution-drre
         environment:
             KAFKA_GROUP_ID: drre-consumer
-            MEASUREMENT_FILE: private/DRRE_HEDIS_MY2022-1.0.0/elm/DRRE_HEDIS_MY2022-1.0.0.json
-            LIBRARIES_DIRECTORY: private/DRRE_HEDIS_MY2022-1.0.0/libraryElm/
-            VALUESETS_DIRECTORY: private/DRRE_HEDIS_MY2022-1.0.0/valuesets/
+            MEASUREMENT_FILE: private/2022/1.1.0/DRRE_HEDIS_MY2022-1.1.0/elm/DRRE_HEDIS_MY2022-1.1.0.json
+            LIBRARIES_DIRECTORY: private/2022/1.1.0/DRRE_HEDIS_MY2022-1.1.0/libraryElm/
+            VALUESETS_DIRECTORY: private/2022/1.1.0/DRRE_HEDIS_MY2022-1.1.0/valuesets/
             MEASUREMENT_TYPE: drre
     aise-cql-execution:
         build: .
@@ -26,9 +26,9 @@ services:
         container_name: saraswati-cql-execution-aise
         environment:
             KAFKA_GROUP_ID: aise-consumer
-            MEASUREMENT_FILE: private/AISE_HEDIS_MY2022-1.0.0/elm/AISE_HEDIS_MY2022-1.0.0.json
-            LIBRARIES_DIRECTORY: private/AISE_HEDIS_MY2022-1.0.0/libraryElm/
-            VALUESETS_DIRECTORY: private/AISE_HEDIS_MY2022-1.0.0/valuesets/
+            MEASUREMENT_FILE: private/2022/1.1.0/AISE_HEDIS_MY2022-1.1.0/elm/AISE_HEDIS_MY2022-1.1.0.json
+            LIBRARIES_DIRECTORY: private/2022/1.1.0/AISE_HEDIS_MY2022-1.1.0/libraryElm/
+            VALUESETS_DIRECTORY: private/2022/1.1.0/AISE_HEDIS_MY2022-1.1.0/valuesets/
             MEASUREMENT_TYPE: aise
     imae-cql-execution:
         build: .
@@ -36,9 +36,9 @@ services:
         container_name: saraswati-cql-execution-imae
         environment:
             KAFKA_GROUP_ID: imae-consumer
-            MEASUREMENT_FILE: private/IMAE_HEDIS_MY2022-1.0.0/elm/IMAE_HEDIS_MY2022-1.0.0.json
-            LIBRARIES_DIRECTORY: private/IMAE_HEDIS_MY2022-1.0.0/libraryElm/
-            VALUESETS_DIRECTORY: private/IMAE_HEDIS_MY2022-1.0.0/valuesets/
+            MEASUREMENT_FILE: private/2022/1.1.0/IMAE_HEDIS_MY2022-1.1.0/elm/IMAE_HEDIS_MY2022-1.1.0.json
+            LIBRARIES_DIRECTORY: private/2022/1.1.0/IMAE_HEDIS_MY2022-1.1.0/libraryElm/
+            VALUESETS_DIRECTORY: private/2022/1.1.0/IMAE_HEDIS_MY2022-1.1.0/valuesets/
             MEASUREMENT_TYPE: imae
 networks:
   default:
