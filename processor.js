@@ -33,10 +33,10 @@ const watcher = dir =>
               axios.post(connectionUrl, data).then(
                 response => {
                   var result = response.data;
-                  logger.info(result);
+                  // logger.info(result);
                 },
                 error => {
-                  logger.error(error);
+                  // logger.error(error);
                 }
               );
             }

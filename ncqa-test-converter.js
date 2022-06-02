@@ -3,7 +3,7 @@ const fs = require('fs');
 const readline = require('readline');
 const path = require('path');
 
-const memberId = 95041;
+const memberId = 95048;
 
 if(parseArgs['testDirectory'] === undefined) {
   console.error('\x1b[31m', 
@@ -79,7 +79,7 @@ async function readMembershipEnrollment(testDirectory) {
       enrollment.cdbIntensive =       extractValue(text, 39, 1);
       enrollment.cdbOutpatient =      extractValue(text, 40, 1);
       enrollment.payor =              extractValue(text, 41, 3);
-      enrollment.employeeFlag =       extractValue(text, 44, 1);
+      enrollment.healthPlanFlag =     extractValue(text, 44, 1);
       enrollment.indicator =          extractValue(text, 45, 10);
 
       membershipEnrollment.push(enrollment);
@@ -243,9 +243,17 @@ async function readDiagnosis(testDirectory) {
   return diagnosisList;
 }
 
+const convertDateString = (ncqaDateString) => {
+  const year = ncqaDateString.toString().substr(0, 4);
+  const month = ncqaDateString.toString().substr(4, 2);
+  const day = ncqaDateString.toString().substr(6, 2);
+
+  return `${year}-${month}-${day}`;
+}
+
 const createPatientFhirObject = (generalMembership) => {
   const patient = { resourceType: 'Patient'};
-  patient.id = generalMembership.memberId;
+  patient.id = `${generalMembership.memberId}-patient`;
   patient.name = [{
     family: generalMembership.memberLastName,
     given: [generalMembership.memberFirstName],
@@ -267,14 +275,268 @@ const createPatientFhirObject = (generalMembership) => {
     state: generalMembership.state,
     postalCode: generalMembership.zipCode,
   }];
-  const birthDate = generalMembership.dateOfBirth;
-  const year = birthDate.toString().substr(0, 4);
-  const month = birthDate.toString().substr(4, 2);
-  const day = birthDate.toString().substr(6, 2);
 
-  patient.birthDate = `${year}-${month}-${day}`;
+  patient.birthDate = convertDateString(generalMembership.dateOfBirth);
 
   return patient;
+}
+
+const createCoverageObjects = (membershipEnrollment) => {
+  const coverage = [];
+  let count = 1;
+  
+  membershipEnrollment.forEach((enrollment) => {
+    const coverageId = `${enrollment.memberId}-coverage-${count}`;
+
+    const resource = {
+      resourceType: "Coverage",
+      id: coverageId,
+      type: { coding: [] },
+      patient: { reference: `urn:uuid:${enrollment.memberId}-patient` },
+      payor: [ { reference: enrollment.payor } ],
+      period: {
+        start: convertDateString(enrollment.startDate),
+        end: convertDateString(enrollment.disenrollmentDate),
+      }
+    };
+
+    if (enrollment.drugBenefit === 'Y') {
+      resource.type.coding.push({
+        system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
+        code: 'DRUGPOL',
+        display: 'Drug Policy',
+      });
+    }
+
+    if (enrollment.mhbInpatient === 'Y' || enrollment.mhbIntensive === 'Y' || enrollment.mhbOutpatient === 'Y') {
+      resource.type.coding.push({
+        system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
+        code: 'MENTPOL',
+        display: 'Mental Health Policy',
+      });
+    }
+
+    if (enrollment.cdbInpatient === 'Y' || enrollment.cdbIntensive === 'Y' || enrollment.cdbOutpatient === 'Y') {
+      resource.type.coding.push({
+        system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
+        code: 'SUBPOL',
+        display: 'Substance Abuse Policy',
+      });
+    }
+
+    if (enrollment.healthPlanFlag === 'Y') {
+      resource.type.coding.push({
+        system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
+        code: 'MCPOL',
+        display: 'Managed Care Policy',
+      });
+    }
+
+    coverage.push({
+      fullUrl: `urn:uuid:${coverageId}`,
+      resource,
+    });
+
+    count += 1;
+  });
+
+  return coverage;
+}
+
+const createProfessionalClaimObjects = (visit) => {
+  const visitList = [];
+  visit.forEach((profClaim) => {
+    const claimId = `${profClaim.memberId}-prof-claim-${profClaim.claimId}`;
+    const resource = {
+      resourceType: 'Claim',
+      id: claimId,
+      type: {
+        coding: [
+          {
+            system: 'http://terminology.hl7.org/CodeSystem/claim-type',
+            code: 'professional',
+          }
+        ]
+      },
+      patient: { reference: `urn:uuid:${profClaim.memberId}-patient` },
+      provider: { reference: profClaim.providerId },
+      diagnosis: [ { diagnosisCodeableConcept: { coding: [] } } ],
+      item: [{
+        servicedDate: convertDateString(profClaim.dateOfService),
+      }],
+    }
+
+    if (profClaim.cpt) {
+      resource.procedure = [{
+        procedureCodeableConcept: {
+          coding: [{
+            system: 'http://www.ama-assn.org/go/cpt',
+            code: profClaim.cpt,
+          }],
+        },
+      }]
+    }
+
+    profClaim.icdDiagnosis.forEach((diagnosis) => {
+      if (diagnosis) {
+        resource.diagnosis[0].diagnosisCodeableConcept.coding.push({
+          code: diagnosis,
+        });
+      }
+    })
+    
+
+    visitList.push({
+      fullUrl: `urn:uuid:${claimId}`,
+      resource,
+    });
+  });
+
+  return visitList;
+};
+
+const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
+  const pharmacyClaimList = [];
+  let claimCount = 1
+  let claimResponseCount = 1;
+  pharmacyClinical.forEach((pharmClinic) => {
+    const claimId = `${pharmClinic.memberId}-pharm-claim-${claimCount}`;
+    const resource = {
+      resourceType: 'Claim',
+      id: claimId,
+      type: {
+        coding: [
+          {
+            system: 'http://terminology.hl7.org/CodeSystem/claim-type',
+            code: 'pharmacy',
+          }
+        ]
+      },
+      patient: { reference: `urn:uuid:${pharmClinic.memberId}-patient` },
+      diagnosis: [
+        {
+          sequence: 1,
+          diagnosisCodeableConcept: {
+            coding: [
+              {
+                code: 112690009,
+              }
+            ]
+          }
+        }
+      ],
+      item: [{
+        sequence: 1,
+        servicedPeriod: {
+          start: convertDateString(pharmClinic.startDate),
+          end: convertDateString(pharmClinic.endDate),
+        },
+        productOrService: {
+          coding: [
+            {
+              code: pharmClinic.drugCode,
+            }
+          ]
+        },
+      }],
+    }
+    pharmacyClaimList.push({
+      fullUrl: `urn:uuid:${claimId}`,
+      resource,
+    });
+    claimCount += 1;
+  });
+
+  pharmacy.forEach((pharm) => {
+    const claimId = `${pharm.memberId}-pharm-claim-${claimCount}`;
+    const resource = {
+      resourceType: 'Claim',
+      id: claimId,
+      type: {
+        coding: [
+          {
+            system: 'http://terminology.hl7.org/CodeSystem/claim-type',
+            code: 'pharmacy',
+          }
+        ]
+      },
+      patient: { reference: `urn:uuid:${pharm.memberId}-patient` },
+      item: [{
+        sequence: 1,
+        servicedDate: convertDateString(pharm.serviceDate),
+        productOrService: {
+          coding: [
+            {
+              code: pharm.ndcDrugCode,
+            }
+          ]
+        },
+      }],
+    }
+    pharmacyClaimList.push({
+      fullUrl: `urn:uuid:${claimId}`,
+      resource,
+    });
+    claimCount += 1;
+
+    if (pharm.claimStatus == 1) {
+      const claimResponseId = `${pharm.memberId}-claimResponse-${claimResponseCount}`;
+      const responseResource = {
+        resourceType: 'ClaimResponse',
+        id: claimResponseId,
+        type: {
+          coding: [
+            {
+              system: 'http://terminology.hl7.org/CodeSystem/claim-type',
+              code: 'pharmacy',
+            }
+          ]
+        },
+        outcome: 'complete',
+        patient: { reference: `urn:uuid:${pharm.memberId}-patient` },
+        request: {
+          reference: `Claim/urn:uuid:${claimId}`,
+        },
+        item: [{
+          sequence: 1,
+          servicedDate: convertDateString(pharm.serviceDate),
+          adjudication: [
+            {
+              category: {
+                coding: [
+                  {
+                    code: 'benefit'
+                  }
+                ]
+              },
+              amount: {
+                value: 108.45,
+              }
+            }
+          ]
+        }],
+        addItem: [
+          {
+            productOrService: {
+              coding: [
+                {
+                  code: pharm.ndcDrugCode,
+                }
+              ]
+            },
+            servicedDate: convertDateString(pharm.serviceDate),
+          }
+        ],
+      }
+      pharmacyClaimList.push({
+        fullUrl: `urn:uuid:${claimResponseId}`,
+        resource: responseResource,
+      });
+      claimResponseCount += 1;
+    }
+  });
+
+  return pharmacyClaimList;
 }
 
 const createFhirJson = (memberInfo) => {
@@ -284,13 +546,21 @@ const createFhirJson = (memberInfo) => {
   
   const patient = createPatientFhirObject(memberInfo.generalMembership);
 
-  fhirObject.entry = [];
-  fhirObject.entry.push({
-    fullUrl: `urn:uuid:${memberInfo.generalMembership.memberId}`,
+  fhirObject.entry = [{
+    fullUrl: `urn:uuid:${memberInfo.generalMembership.memberId}-patient`,
     resource: patient,
-  });
+  }];
 
-  console.log(JSON.stringify(fhirObject, null, '  '));
+  const coverage = createCoverageObjects(memberInfo.membershipEnrollment);
+  coverage.forEach((cov) => fhirObject.entry.push(cov));
+
+  const visits = createProfessionalClaimObjects(memberInfo.visit);
+  visits.forEach((visit) => fhirObject.entry.push(visit));
+
+  const clincalPharm = createPharmacyClaims(memberInfo.pharmacyClinical, memberInfo.pharmacy);
+  clincalPharm.forEach((item) => fhirObject.entry.push(item));
+
+  console.log(JSON.stringify([fhirObject], null, '  '));
 }
 
 const processTestDeck = async (testDirectory) => {
