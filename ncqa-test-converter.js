@@ -3,7 +3,7 @@ const fs = require('fs');
 const readline = require('readline');
 const path = require('path');
 
-const memberId = 95048;
+const memberId = 97876;
 
 if(parseArgs['testDirectory'] === undefined) {
   console.error('\x1b[31m', 
@@ -292,7 +292,7 @@ const createCoverageObjects = (membershipEnrollment) => {
       resourceType: "Coverage",
       id: coverageId,
       type: { coding: [] },
-      patient: { reference: `urn:uuid:${enrollment.memberId}-patient` },
+      patient: { reference: `Patient/${enrollment.memberId}-patient` },
       payor: [ { reference: enrollment.payor } ],
       period: {
         start: convertDateString(enrollment.startDate),
@@ -324,7 +324,7 @@ const createCoverageObjects = (membershipEnrollment) => {
       });
     }
 
-    if (enrollment.healthPlanFlag === 'Y') {
+    if (!enrollment.payor.startsWith('SN')) {
       resource.type.coding.push({
         system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
         code: 'MCPOL',
@@ -358,23 +358,57 @@ const createProfessionalClaimObjects = (visit) => {
           }
         ]
       },
-      patient: { reference: `urn:uuid:${profClaim.memberId}-patient` },
+      patient: { reference: `Patient/${profClaim.memberId}-patient` },
       provider: { reference: profClaim.providerId },
       diagnosis: [ { diagnosisCodeableConcept: { coding: [] } } ],
-      item: [{
-        servicedDate: convertDateString(profClaim.dateOfService),
-      }],
+      procedure: [],
+      item: [],
     }
 
+    let procCount = 1;
     if (profClaim.cpt) {
-      resource.procedure = [{
+      resource.procedure.push({
         procedureCodeableConcept: {
           coding: [{
             system: 'http://www.ama-assn.org/go/cpt',
             code: profClaim.cpt,
           }],
         },
-      }]
+      });
+      resource.item.push({
+        sequence: procCount,
+        servicedDate: convertDateString(profClaim.dateOfService),
+        productOrService: {
+          coding: [
+            {
+              code: profClaim.cpt,
+            }
+          ]
+        }
+      });
+      procCount += 1;
+    }
+    
+    if (profClaim.hcpcs) {
+      resource.procedure.push({
+        procedureCodeableConcept: {
+          coding: [{
+            system: 'https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets',
+            code: profClaim.hcpcs,
+          }],
+        },
+      });
+      resource.item.push({
+        sequence: procCount,
+        servicedDate: convertDateString(profClaim.dateOfService),
+        productOrService: {
+          coding: [
+            {
+              code: profClaim.hcpcs,
+            }
+          ]
+        }
+      });
     }
 
     profClaim.icdDiagnosis.forEach((diagnosis) => {
@@ -390,6 +424,61 @@ const createProfessionalClaimObjects = (visit) => {
       fullUrl: `urn:uuid:${claimId}`,
       resource,
     });
+
+    if (profClaim.claimStatus == 1 && profClaim.cpt) {
+      const claimResponseId = `${profClaim.memberId}-prof-claimResponse-${profClaim.claimId}`;
+      const responseResource = {
+        resourceType: 'ClaimResponse',
+        id: claimResponseId,
+        type: {
+          coding: [
+            {
+              system: 'http://terminology.hl7.org/CodeSystem/claim-type',
+              code: 'professional',
+            }
+          ]
+        },
+        outcome: 'complete',
+        patient: { reference: `Patient/${profClaim.memberId}-patient` },
+        request: {
+          reference: `Claim/${claimId}`,
+        },
+        item: [{
+          itemSequence: 1,
+          servicedDate: convertDateString(profClaim.dateOfService),
+          adjudication: [
+            {
+              category: {
+                coding: [
+                  {
+                    code: 'benefit'
+                  }
+                ]
+              },
+              amount: {
+                value: 108.45,
+              }
+            }
+          ]
+        }],
+        addItem: [
+          {
+            productOrService: {
+              coding: [
+                {
+                  code: profClaim.cpt,
+                }
+              ]
+            },
+            servicedDate: convertDateString(profClaim.dateOfService),
+          }
+        ],
+      }
+      visitList.push({
+        fullUrl: `urn:uuid:${claimResponseId}`,
+        resource: responseResource,
+      });
+    }
   });
 
   return visitList;
@@ -412,7 +501,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
           }
         ]
       },
-      patient: { reference: `urn:uuid:${pharmClinic.memberId}-patient` },
+      patient: { reference: `Patient/${pharmClinic.memberId}-patient` },
       diagnosis: [
         {
           sequence: 1,
@@ -460,7 +549,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
           }
         ]
       },
-      patient: { reference: `urn:uuid:${pharm.memberId}-patient` },
+      patient: { reference: `Patient/${pharm.memberId}-patient` },
       item: [{
         sequence: 1,
         servicedDate: convertDateString(pharm.serviceDate),
@@ -480,7 +569,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
     claimCount += 1;
 
     if (pharm.claimStatus == 1) {
-      const claimResponseId = `${pharm.memberId}-claimResponse-${claimResponseCount}`;
+      const claimResponseId = `${pharm.memberId}-pharm-claimResponse-${claimResponseCount}`;
       const responseResource = {
         resourceType: 'ClaimResponse',
         id: claimResponseId,
@@ -493,12 +582,12 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
           ]
         },
         outcome: 'complete',
-        patient: { reference: `urn:uuid:${pharm.memberId}-patient` },
+        patient: { reference: `Patient/${pharm.memberId}-patient` },
         request: {
-          reference: `Claim/urn:uuid:${claimId}`,
+          reference: `Claim/${claimId}`,
         },
         item: [{
-          sequence: 1,
+          itemSequence: 1,
           servicedDate: convertDateString(pharm.serviceDate),
           adjudication: [
             {
