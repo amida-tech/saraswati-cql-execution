@@ -3,7 +3,7 @@ const fs = require('fs');
 const readline = require('readline');
 const path = require('path');
 
-const memberId = 97876;
+const memberId = 105264;
 
 if(parseArgs['testDirectory'] === undefined) {
   console.error('\x1b[31m', 
@@ -21,6 +21,27 @@ const readFile = async (file) => {
     input: fs.createReadStream(file),
     crlfDelay: Infinity
   });
+}
+
+const getSystem = (value) => {
+  switch(value) {
+    case 'S':
+      return 'http://snomed.info/sct';
+    case '9':
+      return 'http://hl7.org/fhir/sid/icd-9-cm';
+    case 'X':
+      return 'http://hl7.org/fhir/sid/icd-10-cm';
+    case 'C':
+      return 'http://www.ama-assn.org/go/cpt';
+    case 'H':
+      return 'https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets';
+    case 'L':
+      return 'L unknown';
+    case 'D':
+      return 'D unknown';
+    default:
+      return 'NA';
+  }
 }
 
 async function readGeneralMembership(testDirectory) {
@@ -243,6 +264,32 @@ async function readDiagnosis(testDirectory) {
   return diagnosisList;
 }
 
+async function readObservation(testDirectory) {
+  const observationList = [];
+
+  const fileLines = await readFile(`${testDirectory}/obs.txt`);
+  for await (const text of fileLines) {
+    if (text.startsWith(memberId)) {
+      observationList.push(
+        {
+          memberId:         extractValue(text, 1, 16),
+          observationDate:  extractValue(text, 17, 8),
+          test:             extractValue(text, 25, 20),
+          testCodeFlag:     extractValue(text, 45, 1), 
+          value:            extractValue(text, 46, 20),
+          units:            extractValue(text, 66, 10),
+          endDate:          extractValue(text, 76, 8),
+          status:           extractValue(text, 84, 1),
+          resultValueFlag:  extractValue(text, 85, 1),
+          type:             extractValue(text, 86, 1),
+        }
+      );
+    }
+  }
+
+  return observationList;
+}
+
 const convertDateString = (ncqaDateString) => {
   const year = ncqaDateString.toString().substr(0, 4);
   const month = ncqaDateString.toString().substr(4, 2);
@@ -343,8 +390,9 @@ const createCoverageObjects = (membershipEnrollment) => {
   return coverage;
 }
 
-const createProfessionalClaimObjects = (visit) => {
+const createProfessionalClaimObjects = (visit, visitEncounter, diagnosis) => {
   const visitList = [];
+  var count = 0;
   visit.forEach((profClaim) => {
     const claimId = `${profClaim.memberId}-prof-claim-${profClaim.claimId}`;
     const resource = {
@@ -360,22 +408,19 @@ const createProfessionalClaimObjects = (visit) => {
       },
       patient: { reference: `Patient/${profClaim.memberId}-patient` },
       provider: { reference: profClaim.providerId },
-      diagnosis: [ { diagnosisCodeableConcept: { coding: [] } } ],
-      procedure: [],
-      item: [],
     }
 
     let procCount = 1;
     if (profClaim.cpt) {
-      resource.procedure.push({
+      resource.procedure = [{
         procedureCodeableConcept: {
           coding: [{
             system: 'http://www.ama-assn.org/go/cpt',
             code: profClaim.cpt,
           }],
         },
-      });
-      resource.item.push({
+      }];
+      resource.item = [{
         sequence: procCount,
         servicedDate: convertDateString(profClaim.dateOfService),
         productOrService: {
@@ -385,11 +430,15 @@ const createProfessionalClaimObjects = (visit) => {
             }
           ]
         }
-      });
+      }];
       procCount += 1;
     }
-    
+    console.log(`HCPCS = ${profClaim.hcpcs}`)
     if (profClaim.hcpcs) {
+      if (resource.procedure === undefined) {
+        resource.procedure = [];
+        resource.item = [];
+      }
       resource.procedure.push({
         procedureCodeableConcept: {
           coding: [{
@@ -413,12 +462,18 @@ const createProfessionalClaimObjects = (visit) => {
 
     profClaim.icdDiagnosis.forEach((diagnosis) => {
       if (diagnosis) {
+        if (resource.diagnosis === undefined) {
+          resource.diagnosis = [ { diagnosisCodeableConcept: { coding: [] } } ];
+        }
         resource.diagnosis[0].diagnosisCodeableConcept.coding.push({
           code: diagnosis,
         });
       }
-    })
+    });
     
+    if (count < profClaim.claimId) {
+      count = profClaim.claimId;
+    }
 
     visitList.push({
       fullUrl: `urn:uuid:${claimId}`,
@@ -479,6 +534,78 @@ const createProfessionalClaimObjects = (visit) => {
         resource: responseResource,
       });
     }
+  });
+
+  const visitEncounterList = [];
+  visitEncounter.forEach((profClaim) => {
+    count += 1;
+    const claimId = `${profClaim.memberId}-prof-claim-${count}`;
+    const resource = {
+      resourceType: 'Claim',
+      id: claimId,
+      type: {
+        coding: [
+          {
+            system: 'http://terminology.hl7.org/CodeSystem/claim-type',
+            code: 'professional',
+          }
+        ]
+      },
+      created: convertDateString(profClaim.serviceDate),
+      patient: { reference: `Patient/${profClaim.memberId}-patient` },
+      provider: { reference: profClaim.providerId },
+      procedure: [
+        {
+          procedureCodeableConcept: {
+            coding: [{
+              system: getSystem(profClaim.codeFlag),
+              code: profClaim.activityType,
+            }],
+          },
+        }
+      ],
+      item: [
+        {
+          sequence: 1,
+          servicedDate: convertDateString(profClaim.serviceDate),
+          productOrService: {
+            coding: [
+              {
+                system: getSystem(profClaim.codeFlag),
+                code: profClaim.activityType,
+              }
+            ]
+          }
+        }
+      ]
+    }
+    visitEncounterList.push(resource);
+  });
+
+  diagnosis.forEach((diag) => {
+    for (const evisit of visitEncounterList) {
+      if (evisit.created === convertDateString(diag.startDate)) {
+        evisit.diagnosis = [
+          {
+            diagnosisCodeableConcept: {
+              coding: [
+                {
+                  system: getSystem(diag.diagnosisFlag),
+                  code: diag.diagnosisCode,
+                }
+              ]
+            }
+          }
+        ];
+      }
+    }
+  });
+
+  visitEncounterList.forEach((fullEncounter) => {
+    visitList.push({
+      fullUrl: `urn:uuid:${fullEncounter.id}`,
+      resource: fullEncounter,
+    });
   });
 
   return visitList;
@@ -628,6 +755,66 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
   return pharmacyClaimList;
 }
 
+const createObservations = (observations) => {
+  const fhirObsList = [];
+  let count = 1;
+  
+  observations.forEach((observation) => {
+    const encounterId = `${observation.memberId}-encounter-${count}`;
+    const encResource = {
+      resourceType: 'Encounter',
+      id: encounterId,
+      period: {
+        start: convertDateString(observation.observationDate),
+        end: convertDateString(observation.endDate),
+      },
+      type: [
+        {
+          coding: [
+            {
+              system: getSystem(observation.testCodeFlag),
+              code: observation.test,
+            }
+          ]
+        }
+      ]
+    }
+
+    fhirObsList.push({
+      fullUrl: `urn:uuid:${encounterId}`,
+      resource: encResource,
+    });
+
+
+    const procedureId = `${observation.memberId}-procedure-${count}`;
+    const procResource = {
+      resourceType: 'Procedure',
+      id: encounterId,
+      performedPeriod: {
+        start: convertDateString(observation.observationDate),
+        end: convertDateString(observation.endDate),
+      },
+      type: [
+        {
+          coding: [
+            {
+              system: getSystem(observation.testCodeFlag),
+              code: observation.test,
+            }
+          ]
+        }
+      ]
+    }
+
+    fhirObsList.push({
+      fullUrl: `urn:uuid:${procedureId}`,
+      resource: procResource,
+    });
+  });
+
+  return fhirObsList;
+}
+
 const createFhirJson = (memberInfo) => {
   const fhirObject = {};
   fhirObject.resourceType = 'Bundle';
@@ -643,11 +830,14 @@ const createFhirJson = (memberInfo) => {
   const coverage = createCoverageObjects(memberInfo.membershipEnrollment);
   coverage.forEach((cov) => fhirObject.entry.push(cov));
 
-  const visits = createProfessionalClaimObjects(memberInfo.visit);
+  const visits = createProfessionalClaimObjects(memberInfo.visit, memberInfo.visitEncounter, memberInfo.diagnosis);
   visits.forEach((visit) => fhirObject.entry.push(visit));
 
   const clincalPharm = createPharmacyClaims(memberInfo.pharmacyClinical, memberInfo.pharmacy);
   clincalPharm.forEach((item) => fhirObject.entry.push(item));
+
+  const observations = createObservations(memberInfo.observation);
+  observations.forEach((item) => fhirObject.entry.push(item));
 
   console.log(JSON.stringify([fhirObject], null, '  '));
 }
@@ -661,6 +851,7 @@ const processTestDeck = async (testDirectory) => {
   memberInfo.pharmacy = await readPharmacy(testDirectory);
   memberInfo.pharmacyClinical = await readPharmacyClinical(testDirectory);
   memberInfo.diagnosis = await readDiagnosis(testDirectory);
+  memberInfo.observation = await readObservation(testDirectory);
 
   createFhirJson(memberInfo);
 
