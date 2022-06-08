@@ -27,4 +27,20 @@ describe('Setups Kafka for Manual Test', () => {
   
     await producer.disconnect();
   });
+
+  describe('Test Deck for AAB', async () => {
+    await producer.connect();
+    var files = fs.readdirSync('../private/2022/test-deck-json/aab');
+    files.forEach((fileJson) => {
+      await producer.send({
+        topic: config.kafkaConsumedTopic,
+        groupId: 'hedis-measures',
+        messages: [
+          { value: JSON.stringify(fileJson) }
+        ],
+      });
+    });
+  
+    await producer.disconnect();
+  })
 });

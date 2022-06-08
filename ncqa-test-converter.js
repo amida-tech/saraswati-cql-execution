@@ -3,7 +3,7 @@ const fs = require('fs');
 const readline = require('readline');
 const path = require('path');
 
-const memberId = 105264;
+//const memberId = 105264;
 
 if(parseArgs['testDirectory'] === undefined) {
   console.error('\x1b[31m', 
@@ -44,250 +44,241 @@ const getSystem = (value) => {
   }
 }
 
-async function readGeneralMembership(testDirectory) {
-  const generalMembership = {};
-
+async function initMembers(testDirectory) {
+  const memberObject = {};
   const fileLines = await readFile(`${testDirectory}/member-gm.txt`);
   for await (const text of fileLines) {
-    if (text.startsWith(memberId)) {
-      generalMembership.memberId =              extractValue(text, 1, 16);
-      generalMembership.gender =                extractValue(text, 17, 1);
-      generalMembership.dateOfBirth =           extractValue(text, 18, 8);
-      generalMembership.memberLastName =        extractValue(text, 26, 20);
-      generalMembership.memberFirstName =       extractValue(text, 46, 20);
-      generalMembership.subscriberId =          extractValue(text, 67, 16);
-      generalMembership.mailingAddressOne =     extractValue(text, 83, 50);
-      generalMembership.mailingAddressTwo =     extractValue(text, 133, 50);
-      generalMembership.city =                  extractValue(text, 183, 30);
-      generalMembership.state =                 extractValue(text, 213, 2);
-      generalMembership.zipCode =               extractValue(text, 215, 5);
-      generalMembership.phoneNumber =           extractValue(text, 220, 10);
-      generalMembership.guardianFirstName =     extractValue(text, 230, 25);
-      generalMembership.guardianMiddleInitial = extractValue(text, 255, 1);
-      generalMembership.guardianLastName =      extractValue(text, 256, 25);
-      generalMembership.race =                  extractValue(text, 281, 2);
-      generalMembership.ethnicity =             extractValue(text, 283, 2);
-      generalMembership.raceDataSource =        extractValue(text, 285, 2);
-      generalMembership.ethnicityDataSource =   extractValue(text, 287, 2);
-      generalMembership.spokenLanguage =        extractValue(text, 289, 2);
-      generalMembership.spokenLanguageSource =  extractValue(text, 291, 2);
-      generalMembership.writtenLanguage =       extractValue(text, 293, 2);
-      generalMembership.writtenLanguageSource = extractValue(text, 295, 2);
-      generalMembership.otherLanguage =         extractValue(text, 297, 2);
-      generalMembership.otherLanguageSource =   extractValue(text, 299, 2);
+    const memberId = extractValue(text, 1, 16);
+    memberObject[memberId] = {
+      generalMembership: {
+        memberId:              extractValue(text, 1, 16),
+        gender:                extractValue(text, 17, 1),
+        dateOfBirth:           extractValue(text, 18, 8),
+        memberLastName:        extractValue(text, 26, 20),
+        memberFirstName:       extractValue(text, 46, 20),
+        subscriberId:          extractValue(text, 67, 16),
+        mailingAddressOne:     extractValue(text, 83, 50),
+        mailingAddressTwo:     extractValue(text, 133, 50),
+        city:                  extractValue(text, 183, 30),
+        state:                 extractValue(text, 213, 2),
+        zipCode:               extractValue(text, 215, 5),
+        phoneNumber:           extractValue(text, 220, 10),
+        guardianFirstName:     extractValue(text, 230, 25),
+        guardianMiddleInitial: extractValue(text, 255, 1),
+        guardianLastName:      extractValue(text, 256, 25),
+        race:                  extractValue(text, 281, 2),
+        ethnicity:             extractValue(text, 283, 2),
+        raceDataSource:        extractValue(text, 285, 2),
+        ethnicityDataSource:   extractValue(text, 287, 2),
+        spokenLanguage:        extractValue(text, 289, 2),
+        spokenLanguageSource:  extractValue(text, 291, 2),
+        writtenLanguage:       extractValue(text, 293, 2),
+        writtenLanguageSource: extractValue(text, 295, 2),
+        otherLanguage:         extractValue(text, 297, 2),
+        otherLanguageSource:   extractValue(text, 299, 2),
+      }
     }
   }
 
-  return generalMembership;
+  return memberObject;
 }
 
-async function readMembershipEnrollment(testDirectory) {
-  const membershipEnrollment = [];
-
+async function readMembershipEnrollment(testDirectory, memberInfo) {
   const fileLines = await readFile(`${testDirectory}/member-en.txt`);
   for await (const text of fileLines) {
-    if (text.startsWith(memberId)) {
-      const enrollment = {}
-      enrollment.memberId =           extractValue(text, 1, 16);
-      enrollment.startDate =          extractValue(text, 17, 8);
-      enrollment.disenrollmentDate =  extractValue(text, 25, 8);
-      enrollment.dentalBenefit =      extractValue(text, 33, 1);
-      enrollment.drugBenefit =        extractValue(text, 34, 1);
-      enrollment.mhbInpatient =       extractValue(text, 35, 1);
-      enrollment.mhbIntensive =       extractValue(text, 36, 1);
-      enrollment.mhbOutpatient =      extractValue(text, 37, 1);
-      enrollment.cdbInpatient =       extractValue(text, 38, 1);
-      enrollment.cdbIntensive =       extractValue(text, 39, 1);
-      enrollment.cdbOutpatient =      extractValue(text, 40, 1);
-      enrollment.payor =              extractValue(text, 41, 3);
-      enrollment.healthPlanFlag =     extractValue(text, 44, 1);
-      enrollment.indicator =          extractValue(text, 45, 10);
-
-      membershipEnrollment.push(enrollment);
+    const memberId = extractValue(text, 1, 16);
+    const currentMember = memberInfo[memberId];
+    if (currentMember.membershipEnrollment === undefined) {
+      currentMember.membershipEnrollment = [];
     }
+    currentMember.membershipEnrollment.push({
+      memberId:           extractValue(text, 1, 16),
+      startDate:          extractValue(text, 17, 8),
+      disenrollmentDate:  extractValue(text, 25, 8),
+      dentalBenefit:      extractValue(text, 33, 1),
+      drugBenefit:        extractValue(text, 34, 1),
+      mhbInpatient:       extractValue(text, 35, 1),
+      mhbIntensive:       extractValue(text, 36, 1),
+      mhbOutpatient:      extractValue(text, 37, 1),
+      cdbInpatient:       extractValue(text, 38, 1),
+      cdbIntensive:       extractValue(text, 39, 1),
+      cdbOutpatient:      extractValue(text, 40, 1),
+      payor:              extractValue(text, 41, 3),
+      healthPlanFlag:     extractValue(text, 44, 1),
+      indicator:          extractValue(text, 45, 10),
+    });
   }
-
-  return membershipEnrollment;
 }
 
-async function readVisit(testDirectory) {
-  const visitList = [];
-
+async function readVisit(testDirectory, memberInfo) {
   const fileLines = await readFile(`${testDirectory}/visit.txt`);
   for await (const text of fileLines) {
-    if (text.startsWith(memberId)) {
-      const visit = {};
-      visit.memberId =          extractValue(text, 1, 16);
-      visit.dateOfService =     extractValue(text, 17, 8);
-      visit.admissionDate =     extractValue(text, 25, 8);
-      visit.dischargeDate =     extractValue(text, 33, 8);
-      visit.cpt =               extractValue(text, 41, 5);
-      visit.cptModOne =         extractValue(text, 46, 2);
-      visit.cptModTwo =         extractValue(text, 48, 2);
-      visit.hcpcs =             extractValue(text, 50, 5);
-      visit.cptII =             extractValue(text, 55, 5);
-      visit.cptIIMod =          extractValue(text, 60, 2);
-      visit.icdDiagnosis = [];
-      visit.icdDiagnosis[0] =   extractValue(text, 62, 9);
-      visit.icdDiagnosis[1] =   extractValue(text, 71, 9);
-      visit.icdDiagnosis[2] =   extractValue(text, 80, 9);
-      visit.icdDiagnosis[3] =   extractValue(text, 89, 9);
-      visit.icdDiagnosis[4] =   extractValue(text, 98, 9);
-      visit.icdDiagnosis[5] =   extractValue(text, 107, 9);
-      visit.icdDiagnosis[6] =   extractValue(text, 116, 9);
-      visit.icdDiagnosis[7] =   extractValue(text, 125, 9);
-      visit.icdDiagnosis[8] =   extractValue(text, 134, 9);
-      visit.icdDiagnosis[9] =   extractValue(text, 143, 9);
-      visit.icdDiagnosis[10] =  extractValue(text, 152, 9);
-      visit.icdDiagnosis[11] =  extractValue(text, 161, 9);
-      visit.icdDiagnosis[12] =  extractValue(text, 170, 9);
-      visit.icdDiagnosis[13] =  extractValue(text, 179, 9);
-      visit.icdDiagnosis[14] =  extractValue(text, 188, 9);
-      visit.icdDiagnosis[15] =  extractValue(text, 197, 9);
-      visit.icdDiagnosis[16] =  extractValue(text, 206, 9);
-      visit.icdDiagnosis[17] =  extractValue(text, 215, 9);
-      visit.icdDiagnosis[18] =  extractValue(text, 224, 9);
-      visit.icdDiagnosis[19] =  extractValue(text, 233, 9);
-      visit.icdProcedure = [];
-      visit.icdProcedure[0] =   extractValue(text, 242, 8);
-      visit.icdProcedure[1] =   extractValue(text, 250, 8);
-      visit.icdProcedure[2] =   extractValue(text, 258, 8);
-      visit.icdProcedure[3] =   extractValue(text, 266, 8);
-      visit.icdProcedure[4] =   extractValue(text, 274, 8);
-      visit.icdProcedure[5] =   extractValue(text, 282, 8);
-      visit.icdIdentifier =     extractValue(text, 290, 1);
-      visit.dischargeStatus =   extractValue(text, 291, 2);
-      visit.ubRevenue =         extractValue(text, 293, 4);
-      visit.ubTypeOfBill =      extractValue(text, 297, 4);
-      visit.cmsPlaceOfService = extractValue(text, 301, 2);
-      visit.claimStatus =       extractValue(text, 303, 1);
-      visit.providerId =        extractValue(text, 304, 10);
-      visit.supplementalData =  extractValue(text, 314, 1);
-      visit.claimId =           extractValue(text, 315, 2);
-
-      visitList.push(visit);
+    const memberId = extractValue(text, 1, 16);
+    const currentMember = memberInfo[memberId];
+    if (currentMember.visit === undefined) {
+      currentMember.visit = [];
     }
-  }
+    const visit = {};
+    visit.memberId =          extractValue(text, 1, 16);
+    visit.dateOfService =     extractValue(text, 17, 8);
+    visit.admissionDate =     extractValue(text, 25, 8);
+    visit.dischargeDate =     extractValue(text, 33, 8);
+    visit.cpt =               extractValue(text, 41, 5);
+    visit.cptModOne =         extractValue(text, 46, 2);
+    visit.cptModTwo =         extractValue(text, 48, 2);
+    visit.hcpcs =             extractValue(text, 50, 5);
+    visit.cptII =             extractValue(text, 55, 5);
+    visit.cptIIMod =          extractValue(text, 60, 2);
+    visit.icdDiagnosis = [];
+    visit.icdDiagnosis[0] =   extractValue(text, 62, 9);
+    visit.icdDiagnosis[1] =   extractValue(text, 71, 9);
+    visit.icdDiagnosis[2] =   extractValue(text, 80, 9);
+    visit.icdDiagnosis[3] =   extractValue(text, 89, 9);
+    visit.icdDiagnosis[4] =   extractValue(text, 98, 9);
+    visit.icdDiagnosis[5] =   extractValue(text, 107, 9);
+    visit.icdDiagnosis[6] =   extractValue(text, 116, 9);
+    visit.icdDiagnosis[7] =   extractValue(text, 125, 9);
+    visit.icdDiagnosis[8] =   extractValue(text, 134, 9);
+    visit.icdDiagnosis[9] =   extractValue(text, 143, 9);
+    visit.icdDiagnosis[10] =  extractValue(text, 152, 9);
+    visit.icdDiagnosis[11] =  extractValue(text, 161, 9);
+    visit.icdDiagnosis[12] =  extractValue(text, 170, 9);
+    visit.icdDiagnosis[13] =  extractValue(text, 179, 9);
+    visit.icdDiagnosis[14] =  extractValue(text, 188, 9);
+    visit.icdDiagnosis[15] =  extractValue(text, 197, 9);
+    visit.icdDiagnosis[16] =  extractValue(text, 206, 9);
+    visit.icdDiagnosis[17] =  extractValue(text, 215, 9);
+    visit.icdDiagnosis[18] =  extractValue(text, 224, 9);
+    visit.icdDiagnosis[19] =  extractValue(text, 233, 9);
+    visit.icdProcedure = [];
+    visit.icdProcedure[0] =   extractValue(text, 242, 8);
+    visit.icdProcedure[1] =   extractValue(text, 250, 8);
+    visit.icdProcedure[2] =   extractValue(text, 258, 8);
+    visit.icdProcedure[3] =   extractValue(text, 266, 8);
+    visit.icdProcedure[4] =   extractValue(text, 274, 8);
+    visit.icdProcedure[5] =   extractValue(text, 282, 8);
+    visit.icdIdentifier =     extractValue(text, 290, 1);
+    visit.dischargeStatus =   extractValue(text, 291, 2);
+    visit.ubRevenue =         extractValue(text, 293, 4);
+    visit.ubTypeOfBill =      extractValue(text, 297, 4);
+    visit.cmsPlaceOfService = extractValue(text, 301, 2);
+    visit.claimStatus =       extractValue(text, 303, 1);
+    visit.providerId =        extractValue(text, 304, 10);
+    visit.supplementalData =  extractValue(text, 314, 1);
+    visit.claimId =           extractValue(text, 315, 2);
 
-  return visitList;
+    currentMember.visit.push(visit);
+  }
 }
 
-async function readVisitEncounter(testDirectory) {
-  const visitEncounterList = [];
-
+async function readVisitEncounter(testDirectory, memberInfo) {
   const fileLines = await readFile(`${testDirectory}/visit-e.txt`);
   for await (const text of fileLines) {
-    if (text.startsWith(memberId)) {
-      const visitEncounter = {};
-      visitEncounter.memberId =       extractValue(text, 1, 16);
-      visitEncounter.serviceDate =    extractValue(text, 17, 8);
-      visitEncounter.activityType =   extractValue(text, 25, 20);
-      visitEncounter.codeFlag =       extractValue(text, 45, 1);
-      visitEncounter.endDate =        extractValue(text, 46, 8);
-      visitEncounter.status =         extractValue(text, 54, 1);
-      visitEncounter.providerId =     extractValue(text, 55, 10);
-      visitEncounter.diagnosisCode =  extractValue(text, 65, 20);
-      visitEncounter.diagnosisFlag =  extractValue(text, 85, 1);
-
-      visitEncounterList.push(visitEncounter);
+    const memberId = extractValue(text, 1, 16);
+    const currentMember = memberInfo[memberId];
+    if (currentMember.visitEncounter === undefined) {
+      currentMember.visitEncounter = [];
     }
+    currentMember.visitEncounter.push ({
+      memberId:       extractValue(text, 1, 16),
+      serviceDate:    extractValue(text, 17, 8),
+      activityType:   extractValue(text, 25, 20),
+      codeFlag:       extractValue(text, 45, 1),
+      endDate:        extractValue(text, 46, 8),
+      status:         extractValue(text, 54, 1),
+      providerId:     extractValue(text, 55, 10),
+      diagnosisCode:  extractValue(text, 65, 20),
+      diagnosisFlag:  extractValue(text, 85, 1),
+    });
   }
-
-  return visitEncounterList;
 }
 
-async function readPharmacy(testDirectory) {
-  const pharmacyList = [];
-
+async function readPharmacy(testDirectory, memberInfo) {
   const fileLines = await readFile(`${testDirectory}/pharm.txt`);
   for await (const text of fileLines) {
-    if (text.startsWith(memberId)) {
-      const pharmacy = {};
-      pharmacy.memberId =           extractValue(text, 1, 16);
-      pharmacy.daysSupply =         extractValue(text, 17, 3);
-      pharmacy.serviceDate =        extractValue(text, 20, 8);
-      pharmacy.ndcDrugCode =        extractValue(text, 28, 11);
-      pharmacy.claimStatus =        extractValue(text, 39, 1);
-      pharmacy.quantityDispensed =  extractValue(text, 40, 7);
-      pharmacy.supplementalData =   extractValue(text, 47, 1);
-      pharmacy.providerNpi =        extractValue(text, 48, 10);
-      pharmacy.pharmacyNpi =        extractValue(text, 58, 10);
-      pharmacyList.push(pharmacy);
+    const memberId = extractValue(text, 1, 16);
+    const currentMember = memberInfo[memberId];
+    if (currentMember.pharmacy === undefined) {
+      currentMember.pharmacy = [];
     }
+    currentMember.pharmacy.push({
+      memberId:           extractValue(text, 1, 16),
+      daysSupply:         extractValue(text, 17, 3),
+      serviceDate:        extractValue(text, 20, 8),
+      ndcDrugCode:        extractValue(text, 28, 11),
+      claimStatus:        extractValue(text, 39, 1),
+      quantityDispensed:  extractValue(text, 40, 7),
+      supplementalData:   extractValue(text, 47, 1),
+      providerNpi:        extractValue(text, 48, 10),
+      pharmacyNpi:        extractValue(text, 58, 10),
+    });
   }
-
-  return pharmacyList;
 }
 
-async function readPharmacyClinical(testDirectory) {
-  const pharmacyClinicalList = [];
-
+async function readPharmacyClinical(testDirectory, memberInfo) {
   const fileLines = await readFile(`${testDirectory}/pharm-c.txt`);
   for await (const text of fileLines) {
-    if (text.startsWith(memberId)) {
-      const pharmacyClinical = {}
-      pharmacyClinical.memberId =           extractValue(text, 1, 16);
-      pharmacyClinical.orderedDate =        extractValue(text, 17, 8);
-      pharmacyClinical.startDate =          extractValue(text, 25, 8);
-      pharmacyClinical.drugCode =           extractValue(text, 33, 11);
-      pharmacyClinical.codeFlag =           extractValue(text, 44, 1);
-      pharmacyClinical.frequency =          extractValue(text, 45, 3);
-      pharmacyClinical.dispensedDate =      extractValue(text, 48, 8);
-      pharmacyClinical.endDate =            extractValue(text, 56, 8);
-      pharmacyClinical.active =             extractValue(text, 64, 1);
-      pharmacyClinical.yearOfImmunization = extractValue(text, 65, 4);
-      pharmacyClinical.quantity =           extractValue(text, 69, 3);
-      pharmacyClinicalList.push(pharmacyClinical);
+    const memberId = extractValue(text, 1, 16);
+    const currentMember = memberInfo[memberId];
+    if (currentMember.pharmacyClinical === undefined) {
+      currentMember.pharmacyClinical = [];
     }
+    currentMember.pharmacyClinical.push({
+      memberId:           extractValue(text, 1, 16),
+      orderedDate:        extractValue(text, 17, 8),
+      startDate:          extractValue(text, 25, 8),
+      drugCode:           extractValue(text, 33, 11),
+      codeFlag:           extractValue(text, 44, 1),
+      frequency:          extractValue(text, 45, 3),
+      dispensedDate:      extractValue(text, 48, 8),
+      endDate:            extractValue(text, 56, 8),
+      active:             extractValue(text, 64, 1),
+      yearOfImmunization: extractValue(text, 65, 4),
+      quantity:           extractValue(text, 69, 3),
+    });
   }
-
-  return pharmacyClinicalList;
 }
 
-async function readDiagnosis(testDirectory) {
-  const diagnosisList = [];
-
+async function readDiagnosis(testDirectory, memberInfo) {
   const fileLines = await readFile(`${testDirectory}/diag.txt`);
   for await (const text of fileLines) {
-    if (text.startsWith(memberId)) {
-      const diagnosis = {};
-      diagnosis.memberId =      extractValue(text, 1, 16);
-      diagnosis.startDate =     extractValue(text, 17, 8);
-      diagnosis.diagnosisCode = extractValue(text, 25, 20);
-      diagnosis.diagnosisFlag = extractValue(text, 45, 1);
-      diagnosis.endDate =       extractValue(text, 46, 8);
-      diagnosis.attribute =     extractValue(text, 54, 20);
-      diagnosisList.push(diagnosis);
+    const memberId = extractValue(text, 1, 16);
+    const currentMember = memberInfo[memberId];
+    if (currentMember.diagnosis === undefined) {
+      currentMember.diagnosis = [];
     }
+    currentMember.diagnosis.push({
+      memberId:      extractValue(text, 1, 16),
+      startDate:     extractValue(text, 17, 8),
+      diagnosisCode: extractValue(text, 25, 20),
+      diagnosisFlag: extractValue(text, 45, 1),
+      endDate:       extractValue(text, 46, 8),
+      attribute:     extractValue(text, 54, 20),
+    });
   }
-
-  return diagnosisList;
 }
 
-async function readObservation(testDirectory) {
-  const observationList = [];
-
+async function readObservation(testDirectory, memberInfo) {
   const fileLines = await readFile(`${testDirectory}/obs.txt`);
   for await (const text of fileLines) {
-    if (text.startsWith(memberId)) {
-      observationList.push(
-        {
-          memberId:         extractValue(text, 1, 16),
-          observationDate:  extractValue(text, 17, 8),
-          test:             extractValue(text, 25, 20),
-          testCodeFlag:     extractValue(text, 45, 1), 
-          value:            extractValue(text, 46, 20),
-          units:            extractValue(text, 66, 10),
-          endDate:          extractValue(text, 76, 8),
-          status:           extractValue(text, 84, 1),
-          resultValueFlag:  extractValue(text, 85, 1),
-          type:             extractValue(text, 86, 1),
-        }
-      );
+    const memberId = extractValue(text, 1, 16);
+    const currentMember = memberInfo[memberId];
+    if (currentMember.observation === undefined) {
+      currentMember.observation = [];
     }
+    currentMember.observation.push({
+      memberId:         extractValue(text, 1, 16),
+      observationDate:  extractValue(text, 17, 8),
+      test:             extractValue(text, 25, 20),
+      testCodeFlag:     extractValue(text, 45, 1), 
+      value:            extractValue(text, 46, 20),
+      units:            extractValue(text, 66, 10),
+      endDate:          extractValue(text, 76, 8),
+      status:           extractValue(text, 84, 1),
+      resultValueFlag:  extractValue(text, 85, 1),
+      type:             extractValue(text, 86, 1),
+    });
   }
-
-  return observationList;
 }
 
 const convertDateString = (ncqaDateString) => {
@@ -393,98 +384,12 @@ const createCoverageObjects = (membershipEnrollment) => {
 const createProfessionalClaimObjects = (visit, visitEncounter, diagnosis) => {
   const visitList = [];
   var count = 0;
-  visit.forEach((profClaim) => {
-    const claimId = `${profClaim.memberId}-prof-claim-${profClaim.claimId}`;
-    const resource = {
-      resourceType: 'Claim',
-      id: claimId,
-      type: {
-        coding: [
-          {
-            system: 'http://terminology.hl7.org/CodeSystem/claim-type',
-            code: 'professional',
-          }
-        ]
-      },
-      patient: { reference: `Patient/${profClaim.memberId}-patient` },
-      provider: { reference: profClaim.providerId },
-    }
-
-    let procCount = 1;
-    if (profClaim.cpt) {
-      resource.procedure = [{
-        procedureCodeableConcept: {
-          coding: [{
-            system: 'http://www.ama-assn.org/go/cpt',
-            code: profClaim.cpt,
-          }],
-        },
-      }];
-      resource.item = [{
-        sequence: procCount,
-        servicedDate: convertDateString(profClaim.dateOfService),
-        productOrService: {
-          coding: [
-            {
-              code: profClaim.cpt,
-            }
-          ]
-        }
-      }];
-      procCount += 1;
-    }
-    console.log(`HCPCS = ${profClaim.hcpcs}`)
-    if (profClaim.hcpcs) {
-      if (resource.procedure === undefined) {
-        resource.procedure = [];
-        resource.item = [];
-      }
-      resource.procedure.push({
-        procedureCodeableConcept: {
-          coding: [{
-            system: 'https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets',
-            code: profClaim.hcpcs,
-          }],
-        },
-      });
-      resource.item.push({
-        sequence: procCount,
-        servicedDate: convertDateString(profClaim.dateOfService),
-        productOrService: {
-          coding: [
-            {
-              code: profClaim.hcpcs,
-            }
-          ]
-        }
-      });
-    }
-
-    profClaim.icdDiagnosis.forEach((diagnosis) => {
-      if (diagnosis) {
-        if (resource.diagnosis === undefined) {
-          resource.diagnosis = [ { diagnosisCodeableConcept: { coding: [] } } ];
-        }
-        resource.diagnosis[0].diagnosisCodeableConcept.coding.push({
-          code: diagnosis,
-        });
-      }
-    });
-    
-    if (count < profClaim.claimId) {
-      count = profClaim.claimId;
-    }
-
-    visitList.push({
-      fullUrl: `urn:uuid:${claimId}`,
-      resource,
-    });
-
-    if (profClaim.claimStatus == 1 && profClaim.cpt) {
-      const claimResponseId = `${profClaim.memberId}-prof-claimResponse-${profClaim.claimId}`;
-      const responseResource = {
-        resourceType: 'ClaimResponse',
-        id: claimResponseId,
+  if (visit) {
+    visit.forEach((profClaim) => {
+      const claimId = `${profClaim.memberId}-prof-claim-${profClaim.claimId}`;
+      const resource = {
+        resourceType: 'Claim',
+        id: claimId,
         type: {
           coding: [
             {
@@ -493,120 +398,216 @@ const createProfessionalClaimObjects = (visit, visitEncounter, diagnosis) => {
             }
           ]
         },
-        outcome: 'complete',
         patient: { reference: `Patient/${profClaim.memberId}-patient` },
-        request: {
-          reference: `Claim/${claimId}`,
-        },
-        item: [{
-          itemSequence: 1,
-          servicedDate: convertDateString(profClaim.dateOfService),
-          adjudication: [
-            {
-              category: {
-                coding: [
-                  {
-                    code: 'benefit'
-                  }
-                ]
-              },
-              amount: {
-                value: 108.45,
-              }
-            }
-          ]
-        }],
-        addItem: [
-          {
-            productOrService: {
-              coding: [
-                {
-                  code: profClaim.cpt,
-                }
-              ]
-            },
-            servicedDate: convertDateString(profClaim.dateOfService),
-          }
-        ],
+        provider: { reference: profClaim.providerId },
       }
-      visitList.push({
-        fullUrl: `urn:uuid:${claimResponseId}`,
-        resource: responseResource,
-      });
-    }
-  });
-
-  const visitEncounterList = [];
-  visitEncounter.forEach((profClaim) => {
-    count += 1;
-    const claimId = `${profClaim.memberId}-prof-claim-${count}`;
-    const resource = {
-      resourceType: 'Claim',
-      id: claimId,
-      type: {
-        coding: [
-          {
-            system: 'http://terminology.hl7.org/CodeSystem/claim-type',
-            code: 'professional',
-          }
-        ]
-      },
-      created: convertDateString(profClaim.serviceDate),
-      patient: { reference: `Patient/${profClaim.memberId}-patient` },
-      provider: { reference: profClaim.providerId },
-      procedure: [
-        {
+  
+      let procCount = 1;
+      if (profClaim.cpt) {
+        resource.procedure = [{
           procedureCodeableConcept: {
             coding: [{
-              system: getSystem(profClaim.codeFlag),
-              code: profClaim.activityType,
+              system: 'http://www.ama-assn.org/go/cpt',
+              code: profClaim.cpt,
             }],
           },
-        }
-      ],
-      item: [
-        {
-          sequence: 1,
-          servicedDate: convertDateString(profClaim.serviceDate),
+        }];
+        resource.item = [{
+          sequence: procCount,
+          servicedDate: convertDateString(profClaim.dateOfService),
           productOrService: {
             coding: [
               {
-                system: getSystem(profClaim.codeFlag),
-                code: profClaim.activityType,
+                code: profClaim.cpt,
               }
             ]
           }
+        }];
+        procCount += 1;
+      }
+  
+      if (profClaim.hcpcs) {
+        if (resource.procedure === undefined) {
+          resource.procedure = [];
+          resource.item = [];
         }
-      ]
-    }
-    visitEncounterList.push(resource);
-  });
+        resource.procedure.push({
+          procedureCodeableConcept: {
+            coding: [{
+              system: 'https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets',
+              code: profClaim.hcpcs,
+            }],
+          },
+        });
+        resource.item.push({
+          sequence: procCount,
+          servicedDate: convertDateString(profClaim.dateOfService),
+          productOrService: {
+            coding: [
+              {
+                code: profClaim.hcpcs,
+              }
+            ]
+          }
+        });
+      }
+  
+      profClaim.icdDiagnosis.forEach((diagnosis) => {
+        if (diagnosis) {
+          if (resource.diagnosis === undefined) {
+            resource.diagnosis = [ { diagnosisCodeableConcept: { coding: [] } } ];
+          }
+          resource.diagnosis[0].diagnosisCodeableConcept.coding.push({
+            code: diagnosis,
+          });
+        }
+      });
+      
+      if (count < profClaim.claimId) {
+        count = profClaim.claimId;
+      }
+  
+      visitList.push({
+        fullUrl: `urn:uuid:${claimId}`,
+        resource,
+      });
+  
+      if (profClaim.claimStatus == 1 && profClaim.cpt) {
+        const claimResponseId = `${profClaim.memberId}-prof-claimResponse-${profClaim.claimId}`;
+        const responseResource = {
+          resourceType: 'ClaimResponse',
+          id: claimResponseId,
+          type: {
+            coding: [
+              {
+                system: 'http://terminology.hl7.org/CodeSystem/claim-type',
+                code: 'professional',
+              }
+            ]
+          },
+          outcome: 'complete',
+          patient: { reference: `Patient/${profClaim.memberId}-patient` },
+          request: {
+            reference: `Claim/${claimId}`,
+          },
+          item: [{
+            itemSequence: 1,
+            servicedDate: convertDateString(profClaim.dateOfService),
+            adjudication: [
+              {
+                category: {
+                  coding: [
+                    {
+                      code: 'benefit'
+                    }
+                  ]
+                },
+                amount: {
+                  value: 108.45,
+                }
+              }
+            ]
+          }],
+          addItem: [
+            {
+              productOrService: {
+                coding: [
+                  {
+                    code: profClaim.cpt,
+                  }
+                ]
+              },
+              servicedDate: convertDateString(profClaim.dateOfService),
+            }
+          ],
+        }
+        visitList.push({
+          fullUrl: `urn:uuid:${claimResponseId}`,
+          resource: responseResource,
+        });
+      }
+    });
 
-  diagnosis.forEach((diag) => {
-    for (const evisit of visitEncounterList) {
-      if (evisit.created === convertDateString(diag.startDate)) {
-        evisit.diagnosis = [
+  }
+
+  const visitEncounterList = [];
+  if (visitEncounter) {
+    visitEncounter.forEach((profClaim) => {
+      count += 1;
+      const claimId = `${profClaim.memberId}-prof-claim-${count}`;
+      const resource = {
+        resourceType: 'Claim',
+        id: claimId,
+        type: {
+          coding: [
+            {
+              system: 'http://terminology.hl7.org/CodeSystem/claim-type',
+              code: 'professional',
+            }
+          ]
+        },
+        created: convertDateString(profClaim.serviceDate),
+        patient: { reference: `Patient/${profClaim.memberId}-patient` },
+        provider: { reference: profClaim.providerId },
+        procedure: [
           {
-            diagnosisCodeableConcept: {
+            procedureCodeableConcept: {
+              coding: [{
+                system: getSystem(profClaim.codeFlag),
+                code: profClaim.activityType,
+              }],
+            },
+          }
+        ],
+        item: [
+          {
+            sequence: 1,
+            servicedDate: convertDateString(profClaim.serviceDate),
+            productOrService: {
               coding: [
                 {
-                  system: getSystem(diag.diagnosisFlag),
-                  code: diag.diagnosisCode,
+                  system: getSystem(profClaim.codeFlag),
+                  code: profClaim.activityType,
                 }
               ]
             }
           }
-        ];
+        ]
       }
-    }
-  });
-
-  visitEncounterList.forEach((fullEncounter) => {
-    visitList.push({
-      fullUrl: `urn:uuid:${fullEncounter.id}`,
-      resource: fullEncounter,
+      visitEncounterList.push(resource);
     });
-  });
+  }
+
+  if (diagnosis) {
+    diagnosis.forEach((diag) => {
+      for (const evisit of visitEncounterList) {
+        if (evisit.created === convertDateString(diag.startDate)) {
+          evisit.diagnosis = [
+            {
+              diagnosisCodeableConcept: {
+                coding: [
+                  {
+                    system: getSystem(diag.diagnosisFlag),
+                    code: diag.diagnosisCode,
+                  }
+                ]
+              }
+            }
+          ];
+        }
+      }
+    });
+  }
+  
+
+  if (visitEncounterList) {
+    visitEncounterList.forEach((fullEncounter) => {
+      visitList.push({
+        fullUrl: `urn:uuid:${fullEncounter.id}`,
+        resource: fullEncounter,
+      });
+    });
+  }
 
   return visitList;
 };
@@ -615,91 +616,12 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
   const pharmacyClaimList = [];
   let claimCount = 1
   let claimResponseCount = 1;
-  pharmacyClinical.forEach((pharmClinic) => {
-    const claimId = `${pharmClinic.memberId}-pharm-claim-${claimCount}`;
-    const resource = {
-      resourceType: 'Claim',
-      id: claimId,
-      type: {
-        coding: [
-          {
-            system: 'http://terminology.hl7.org/CodeSystem/claim-type',
-            code: 'pharmacy',
-          }
-        ]
-      },
-      patient: { reference: `Patient/${pharmClinic.memberId}-patient` },
-      diagnosis: [
-        {
-          sequence: 1,
-          diagnosisCodeableConcept: {
-            coding: [
-              {
-                code: 112690009,
-              }
-            ]
-          }
-        }
-      ],
-      item: [{
-        sequence: 1,
-        servicedPeriod: {
-          start: convertDateString(pharmClinic.startDate),
-          end: convertDateString(pharmClinic.endDate),
-        },
-        productOrService: {
-          coding: [
-            {
-              code: pharmClinic.drugCode,
-            }
-          ]
-        },
-      }],
-    }
-    pharmacyClaimList.push({
-      fullUrl: `urn:uuid:${claimId}`,
-      resource,
-    });
-    claimCount += 1;
-  });
-
-  pharmacy.forEach((pharm) => {
-    const claimId = `${pharm.memberId}-pharm-claim-${claimCount}`;
-    const resource = {
-      resourceType: 'Claim',
-      id: claimId,
-      type: {
-        coding: [
-          {
-            system: 'http://terminology.hl7.org/CodeSystem/claim-type',
-            code: 'pharmacy',
-          }
-        ]
-      },
-      patient: { reference: `Patient/${pharm.memberId}-patient` },
-      item: [{
-        sequence: 1,
-        servicedDate: convertDateString(pharm.serviceDate),
-        productOrService: {
-          coding: [
-            {
-              code: pharm.ndcDrugCode,
-            }
-          ]
-        },
-      }],
-    }
-    pharmacyClaimList.push({
-      fullUrl: `urn:uuid:${claimId}`,
-      resource,
-    });
-    claimCount += 1;
-
-    if (pharm.claimStatus == 1) {
-      const claimResponseId = `${pharm.memberId}-pharm-claimResponse-${claimResponseCount}`;
-      const responseResource = {
-        resourceType: 'ClaimResponse',
-        id: claimResponseId,
+  if (pharmacyClinical) {
+    pharmacyClinical.forEach((pharmClinic) => {
+      const claimId = `${pharmClinic.memberId}-pharm-claim-${claimCount}`;
+      const resource = {
+        resourceType: 'Claim',
+        id: claimId,
         type: {
           coding: [
             {
@@ -708,49 +630,132 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
             }
           ]
         },
-        outcome: 'complete',
-        patient: { reference: `Patient/${pharm.memberId}-patient` },
-        request: {
-          reference: `Claim/${claimId}`,
-        },
+        patient: { reference: `Patient/${pharmClinic.memberId}-patient` },
+        diagnosis: [
+          {
+            sequence: 1,
+            diagnosisCodeableConcept: {
+              coding: [
+                {
+                  code: 112690009,
+                }
+              ]
+            }
+          }
+        ],
         item: [{
-          itemSequence: 1,
-          servicedDate: convertDateString(pharm.serviceDate),
-          adjudication: [
+          sequence: 1,
+          servicedPeriod: {
+            start: convertDateString(pharmClinic.startDate),
+            end: convertDateString(pharmClinic.endDate),
+          },
+          productOrService: {
+            coding: [
+              {
+                code: pharmClinic.drugCode,
+              }
+            ]
+          },
+        }],
+      }
+      pharmacyClaimList.push({
+        fullUrl: `urn:uuid:${claimId}`,
+        resource,
+      });
+      claimCount += 1;
+    });
+  }
+
+  if (pharmacy) {
+    pharmacy.forEach((pharm) => {
+      const claimId = `${pharm.memberId}-pharm-claim-${claimCount}`;
+      const resource = {
+        resourceType: 'Claim',
+        id: claimId,
+        type: {
+          coding: [
             {
-              category: {
+              system: 'http://terminology.hl7.org/CodeSystem/claim-type',
+              code: 'pharmacy',
+            }
+          ]
+        },
+        patient: { reference: `Patient/${pharm.memberId}-patient` },
+        item: [{
+          sequence: 1,
+          servicedDate: convertDateString(pharm.serviceDate),
+          productOrService: {
+            coding: [
+              {
+                code: pharm.ndcDrugCode,
+              }
+            ]
+          },
+        }],
+      }
+      pharmacyClaimList.push({
+        fullUrl: `urn:uuid:${claimId}`,
+        resource,
+      });
+      claimCount += 1;
+
+      if (pharm.claimStatus == 1) {
+        const claimResponseId = `${pharm.memberId}-pharm-claimResponse-${claimResponseCount}`;
+        const responseResource = {
+          resourceType: 'ClaimResponse',
+          id: claimResponseId,
+          type: {
+            coding: [
+              {
+                system: 'http://terminology.hl7.org/CodeSystem/claim-type',
+                code: 'pharmacy',
+              }
+            ]
+          },
+          outcome: 'complete',
+          patient: { reference: `Patient/${pharm.memberId}-patient` },
+          request: {
+            reference: `Claim/${claimId}`,
+          },
+          item: [{
+            itemSequence: 1,
+            servicedDate: convertDateString(pharm.serviceDate),
+            adjudication: [
+              {
+                category: {
+                  coding: [
+                    {
+                      code: 'benefit'
+                    }
+                  ]
+                },
+                amount: {
+                  value: 108.45,
+                }
+              }
+            ]
+          }],
+          addItem: [
+            {
+              productOrService: {
                 coding: [
                   {
-                    code: 'benefit'
+                    code: pharm.ndcDrugCode,
                   }
                 ]
               },
-              amount: {
-                value: 108.45,
-              }
+              servicedDate: convertDateString(pharm.serviceDate),
             }
-          ]
-        }],
-        addItem: [
-          {
-            productOrService: {
-              coding: [
-                {
-                  code: pharm.ndcDrugCode,
-                }
-              ]
-            },
-            servicedDate: convertDateString(pharm.serviceDate),
-          }
-        ],
+          ],
+        }
+        pharmacyClaimList.push({
+          fullUrl: `urn:uuid:${claimResponseId}`,
+          resource: responseResource,
+        });
+        claimResponseCount += 1;
       }
-      pharmacyClaimList.push({
-        fullUrl: `urn:uuid:${claimResponseId}`,
-        resource: responseResource,
-      });
-      claimResponseCount += 1;
-    }
-  });
+    });
+  }
 
   return pharmacyClaimList;
 }
@@ -759,102 +764,111 @@ const createObservations = (observations) => {
   const fhirObsList = [];
   let count = 1;
   
-  observations.forEach((observation) => {
-    const encounterId = `${observation.memberId}-encounter-${count}`;
-    const encResource = {
-      resourceType: 'Encounter',
-      id: encounterId,
-      period: {
-        start: convertDateString(observation.observationDate),
-        end: convertDateString(observation.endDate),
-      },
-      type: [
-        {
-          coding: [
-            {
-              system: getSystem(observation.testCodeFlag),
-              code: observation.test,
-            }
-          ]
-        }
-      ]
-    }
-
-    fhirObsList.push({
-      fullUrl: `urn:uuid:${encounterId}`,
-      resource: encResource,
+  if (observations) {
+    observations.forEach((observation) => {
+      const encounterId = `${observation.memberId}-encounter-${count}`;
+      const encResource = {
+        resourceType: 'Encounter',
+        id: encounterId,
+        period: {
+          start: convertDateString(observation.observationDate),
+          end: convertDateString(observation.endDate),
+        },
+        type: [
+          {
+            coding: [
+              {
+                system: getSystem(observation.testCodeFlag),
+                code: observation.test,
+              }
+            ]
+          }
+        ]
+      }
+  
+      fhirObsList.push({
+        fullUrl: `urn:uuid:${encounterId}`,
+        resource: encResource,
+      });
+  
+  
+      const procedureId = `${observation.memberId}-procedure-${count}`;
+      const procResource = {
+        resourceType: 'Procedure',
+        id: encounterId,
+        performedPeriod: {
+          start: convertDateString(observation.observationDate),
+          end: convertDateString(observation.endDate),
+        },
+        type: [
+          {
+            coding: [
+              {
+                system: getSystem(observation.testCodeFlag),
+                code: observation.test,
+              }
+            ]
+          }
+        ]
+      }
+  
+      fhirObsList.push({
+        fullUrl: `urn:uuid:${procedureId}`,
+        resource: procResource,
+      });
     });
-
-
-    const procedureId = `${observation.memberId}-procedure-${count}`;
-    const procResource = {
-      resourceType: 'Procedure',
-      id: encounterId,
-      performedPeriod: {
-        start: convertDateString(observation.observationDate),
-        end: convertDateString(observation.endDate),
-      },
-      type: [
-        {
-          coding: [
-            {
-              system: getSystem(observation.testCodeFlag),
-              code: observation.test,
-            }
-          ]
-        }
-      ]
-    }
-
-    fhirObsList.push({
-      fullUrl: `urn:uuid:${procedureId}`,
-      resource: procResource,
-    });
-  });
+  }
 
   return fhirObsList;
 }
 
-const createFhirJson = (memberInfo) => {
-  const fhirObject = {};
-  fhirObject.resourceType = 'Bundle';
-  fhirObject.type = 'transaction';
+const createFhirJson = (testDirectory, allMemberInfo) => {
+  Object.keys(allMemberInfo).forEach((memberId) => {
+    const memberInfo = allMemberInfo[memberId];
+    const fhirObject = {};
+    fhirObject.resourceType = 'Bundle';
+    fhirObject.type = 'transaction';
+    
+    const patient = createPatientFhirObject(memberInfo.generalMembership);
   
-  const patient = createPatientFhirObject(memberInfo.generalMembership);
-
-  fhirObject.entry = [{
-    fullUrl: `urn:uuid:${memberInfo.generalMembership.memberId}-patient`,
-    resource: patient,
-  }];
-
-  const coverage = createCoverageObjects(memberInfo.membershipEnrollment);
-  coverage.forEach((cov) => fhirObject.entry.push(cov));
-
-  const visits = createProfessionalClaimObjects(memberInfo.visit, memberInfo.visitEncounter, memberInfo.diagnosis);
-  visits.forEach((visit) => fhirObject.entry.push(visit));
-
-  const clincalPharm = createPharmacyClaims(memberInfo.pharmacyClinical, memberInfo.pharmacy);
-  clincalPharm.forEach((item) => fhirObject.entry.push(item));
-
-  const observations = createObservations(memberInfo.observation);
-  observations.forEach((item) => fhirObject.entry.push(item));
-
-  console.log(JSON.stringify([fhirObject], null, '  '));
+    fhirObject.entry = [{
+      fullUrl: `urn:uuid:${memberInfo.generalMembership.memberId}-patient`,
+      resource: patient,
+    }];
+  
+    const coverage = createCoverageObjects(memberInfo.membershipEnrollment);
+    coverage.forEach((cov) => fhirObject.entry.push(cov));
+  
+    const visits = createProfessionalClaimObjects(memberInfo.visit, memberInfo.visitEncounter, memberInfo.diagnosis);
+    visits.forEach((visit) => fhirObject.entry.push(visit));
+  
+    const clincalPharm = createPharmacyClaims(memberInfo.pharmacyClinical, memberInfo.pharmacy);
+    clincalPharm.forEach((item) => fhirObject.entry.push(item));
+  
+    const observations = createObservations(memberInfo.observation);
+    observations.forEach((item) => fhirObject.entry.push(item));
+    try {
+      fs.mkdir(`/${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
+      fs.writeFileSync(`/${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
+    } catch (writeErr) {
+      console.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
+      process.exit();
+    }
+  });
 }
 
 const processTestDeck = async (testDirectory) => {
-  const memberInfo = {}
-  memberInfo.generalMembership = await readGeneralMembership(testDirectory);
-  memberInfo.membershipEnrollment = await readMembershipEnrollment(testDirectory);
-  memberInfo.visit = await readVisit(testDirectory);
-  memberInfo.visitEncounter = await readVisitEncounter(testDirectory);
-  memberInfo.pharmacy = await readPharmacy(testDirectory);
-  memberInfo.pharmacyClinical = await readPharmacyClinical(testDirectory);
-  memberInfo.diagnosis = await readDiagnosis(testDirectory);
-  memberInfo.observation = await readObservation(testDirectory);
+  const allMemberInfo = await initMembers(testDirectory);
+  await readMembershipEnrollment(testDirectory, allMemberInfo);
+  await readVisit(testDirectory, allMemberInfo);
+  await readVisitEncounter(testDirectory, allMemberInfo);
+  await readPharmacy(testDirectory, allMemberInfo);
+  await readPharmacyClinical(testDirectory, allMemberInfo);
+  await readDiagnosis(testDirectory, allMemberInfo);
+  await readObservation(testDirectory, allMemberInfo);
 
-  createFhirJson(memberInfo);
-
+  console.log(JSON.stringify(allMemberInfo['96002'], null, 2));
+  createFhirJson(testDirectory, allMemberInfo);
 };
 
 processTestDeck(parseArgs['testDirectory']);
