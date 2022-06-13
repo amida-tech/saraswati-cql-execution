@@ -143,8 +143,8 @@ const execute = (patients) => {
   const executor = new cql.Executor(engineLibraries, codeService, parameters, messageListener);
   patientSource.loadBundles(patients);
   const result = executor.exec(patientSource);
-  console.log(result.patientResults); // eslint-disable-line no-console
-  console.log(result.unfilteredResults); // eslint-disable-line no-console
+  // console.log(result.patientResults); // eslint-disable-line no-console
+  // console.log(result.unfilteredResults); // eslint-disable-line no-console
   const cleanedPatientResults = cleanData(result.patientResults);
   cleanedPatientResults.timeStamp = moment().format();
 
@@ -177,13 +177,20 @@ const evalData = (patient) => {
 
   const memberId = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
   const patientData = data[memberId];
-
   if (hasDenominator(patientData)) {
-    data['memberId'] = memberId;
-    data['measurementType'] = config.measurementType;
-    data['coverage'] = patientData['Member Coverage'];
-    data['providers'] = createProviderList(patient);
-    return data;
+    const entryList = Array.isArray(patient) ? patient[0].entry : patient.entry;
+    const paitientInfo = entryList.find((results) => results.resource.resourceType === 'Patient')
+    const paitientInfoNeeded = paitientInfo.resource
+    const birthDateFound = paitientInfoNeeded.birthDate
+    const genderFound = paitientInfoNeeded.gender
+      data['memberId'] = memberId;
+      data['birthDate'] = birthDateFound;
+      data['gender'] = genderFound;
+      data['measurementType'] = config.measurementType;
+      data['coverage'] = patientData['Member Coverage'];
+      data['providers'] = createProviderList(patient);
+      return data;
+    
   }
   return undefined;
 };
