@@ -567,17 +567,10 @@
         }
       },
       {
-        "fullUrl": "urn:uuid:cou-claim-1",
+        "fullUrl": "urn:uuid:108935-pharm-claim-1",
         "resource": {
           "resourceType": "Claim",
-          "id": "urn:uuid:cou-claim-1",
-          "identifier": [
-            {
-              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-              "value": "2118728"
-            }
-          ],
-          "status": "active",
+          "id": "108935-pharm-claim-1",
           "type": {
             "coding": [
               {
@@ -586,46 +579,13 @@
               }
             ]
           },
-          "use": "claim",
           "patient": {
-            "reference": "urn:uuid:add-e-patient-1"
+            "reference": "Patient/108935-patient"
           },
-          "created": "2022-05-16",
-          "insurer": {
-            "reference": "Organization/2"
-          },
-          "provider": {
-            "reference": "urn:uuid:275e5209-84ff-3ee7-bf02-d0e979877861"
-          },
-          "priority": {
-            "coding": [
-              {
-                "code": "normal"
-              }
-            ]
-          },
-          "payee": {
-            "type": {
-              "coding": [
-                {
-                  "code": "provider"
-                }
-              ]
-            }
-          },
-          "careTeam": [
-            {
-              "sequence": 1,
-              "provider": {
-                "reference": "urn:uuid:dca5e61c-59a3-3e2b-8a2e-1e02f64003fe"
-              }
-            }
-          ],
           "diagnosis": [
             {
               "sequence": 1,
               "diagnosisCodeableConcept": {
-                "text": "Nonacute Inpatient Stay",
                 "coding": [
                   {
                     "code": "112690009",
@@ -636,58 +596,59 @@
                 ]
               }
             }
-          ],
-          "insurance": [
-            {
-              "sequence": 1,
-              "focal": true,
-              "identifier": {
-                "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                "value": "2118728"
-              },
-              "coverage": {
-                "reference": "Coverage/cou-coverage-1"
-              }
-            }
-          ],
+          ], 
           "item": [
             {
               "sequence": 1,
-              "careTeamSequence": [1],
+              "servicedDate": "2021-02-05",
               "productOrService": {
                 "coding": [
                   {
                     "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                    "version": "2021.03.01.20AB",
-                    "code": "884385",
-                    "display": "dextroamphetamine sulfate 10 MG Oral Tablet"
+                    "code": "753439"
                   }
                 ]
               },
-              "servicedDate": "2021-12-16",
               "quantity": {
-                "value": 210,
-                "unit": "TAB",
-                "system": "http://unitsofmeasure.org",
-                "code": "TAB"
-              },
-              "unitPrice": {
-                "value": 135.57,
-                "currency": "USD"
-              },
-              "net": {
-                "value": 135.57,
-                "currency": "USD"
-              },
-              "location": {
-                "reference": "urn:uuid:453bcdfa-a6f9-e98d-01b3-0ad1079cbabc"
+                "value": "26"
               }
             }
           ]
-        },
-        "request": {
-          "method": "POST",
-          "url": "Immunization"
+        }
+      }, 
+      {
+        "fullUrl": "urn:uuid:108935-pharm-claim-2",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "108935-pharm-claim-2",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "pharmacy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/108935-patient"
+          },
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2021-03-06",
+              "productOrService": {
+                "coding": [
+                  {
+                    "code": "61442032301"
+                  }
+                ]
+              },
+              "unitPrice": {
+                "value": "30.00",
+                "currency": "USD"
+              }
+            }
+          ]
         }
       },
       {

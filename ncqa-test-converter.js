@@ -1,7 +1,9 @@
 const parseArgs = require('minimist')(process.argv.slice(2));
 const fs = require('fs');
 const readline = require('readline');
-const path = require('path');
+const { createCode, professionalClaimType, pharmacyClaimType,
+  paidAdjudication, convertDateString, createClaimFromVisit,
+  createServiceCodeFromVisit } = require('./ncqa-test-converter-util');
 
 //const memberId = 105264;
 
@@ -21,27 +23,6 @@ const readFile = async (file) => {
     input: fs.createReadStream(file),
     crlfDelay: Infinity
   });
-}
-
-const getSystem = (value) => {
-  switch(value) {
-    case 'S':
-      return 'http://snomed.info/sct';
-    case '9':
-      return 'http://hl7.org/fhir/sid/icd-9-cm';
-    case 'X':
-      return 'http://hl7.org/fhir/sid/icd-10-cm';
-    case 'C':
-      return 'http://www.ama-assn.org/go/cpt';
-    case 'H':
-      return 'https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets';
-    case 'L':
-      return 'L unknown';
-    case 'D':
-      return 'D unknown';
-    default:
-      return 'NA';
-  }
 }
 
 async function initMembers(testDirectory) {
@@ -167,6 +148,9 @@ async function readVisit(testDirectory, memberInfo) {
     visit.supplementalData =  extractValue(text, 314, 1);
     visit.claimId =           extractValue(text, 315, 2);
 
+    if (visit.cpt && visit.hcpcs) {
+      console.log(`${visit.memberId} has CPT of ${visit.cpt} and HCPCS of: '${visit.hcpcs}'`);
+    }
     currentMember.visit.push(visit);
   }
 }
@@ -281,12 +265,28 @@ async function readObservation(testDirectory, memberInfo) {
   }
 }
 
-const convertDateString = (ncqaDateString) => {
-  const year = ncqaDateString.toString().substr(0, 4);
-  const month = ncqaDateString.toString().substr(4, 2);
-  const day = ncqaDateString.toString().substr(6, 2);
-
-  return `${year}-${month}-${day}`;
+async function readProcedure(testDirectory, memberInfo) {
+  try {
+    const fileLines = await readFile(`${testDirectory}/proc.txt`);
+    for await (const text of fileLines) {
+      const memberId = extractValue(text, 1, 16);
+      const currentMember = memberInfo[memberId];
+      if (currentMember.procedure === undefined) {
+        currentMember.procedure = [];
+      }
+      currentMember.procedure.push({
+        memberId:       extractValue(text, 1, 16),
+        serviceDate:    extractValue(text, 17, 8),
+        procedureCode:  extractValue(text, 25, 20),
+        codeFlag:       extractValue(text, 45, 1), 
+        endDate:        extractValue(text, 46, 8),
+        serviceStatus:  extractValue(text, 54, 3),
+      });
+    }
+  } catch (readError) {
+    console.log(`No proc.txt in ${testDirectory}`);
+  }
+  
 }
 
 const createPatientFhirObject = (generalMembership) => {
@@ -381,151 +381,68 @@ const createCoverageObjects = (membershipEnrollment) => {
   return coverage;
 }
 
-const createProfessionalClaimObjects = (visit, visitEncounter, diagnosis) => {
-  const visitList = [];
+const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) => {
+  const encounterClaimList = [];
   var count = 0;
-  if (visit) {
-    visit.forEach((profClaim) => {
-      const claimId = `${profClaim.memberId}-prof-claim-${profClaim.claimId}`;
-      const resource = {
-        resourceType: 'Claim',
-        id: claimId,
-        type: {
-          coding: [
-            {
-              system: 'http://terminology.hl7.org/CodeSystem/claim-type',
-              code: 'professional',
-            }
-          ]
-        },
-        patient: { reference: `Patient/${profClaim.memberId}-patient` },
-        provider: { reference: profClaim.providerId },
-      }
-  
-      let procCount = 1;
-      if (profClaim.cpt) {
-        resource.procedure = [{
-          procedureCodeableConcept: {
-            coding: [{
-              system: 'http://www.ama-assn.org/go/cpt',
-              code: profClaim.cpt,
-            }],
-          },
-        }];
-        resource.item = [{
-          sequence: procCount,
-          servicedDate: convertDateString(profClaim.dateOfService),
-          productOrService: {
-            coding: [
-              {
-                code: profClaim.cpt,
-              }
-            ]
-          }
-        }];
-        procCount += 1;
-      }
-  
-      if (profClaim.hcpcs) {
-        if (resource.procedure === undefined) {
-          resource.procedure = [];
-          resource.item = [];
-        }
-        resource.procedure.push({
-          procedureCodeableConcept: {
-            coding: [{
-              system: 'https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets',
-              code: profClaim.hcpcs,
-            }],
-          },
-        });
-        resource.item.push({
-          sequence: procCount,
-          servicedDate: convertDateString(profClaim.dateOfService),
-          productOrService: {
-            coding: [
-              {
-                code: profClaim.hcpcs,
-              }
-            ]
-          }
-        });
-      }
-  
-      profClaim.icdDiagnosis.forEach((diagnosis) => {
-        if (diagnosis) {
-          if (resource.diagnosis === undefined) {
-            resource.diagnosis = [ { diagnosisCodeableConcept: { coding: [] } } ];
-          }
-          resource.diagnosis[0].diagnosisCodeableConcept.coding.push({
-            code: diagnosis,
-          });
-        }
+  if (visitList) {
+    visitList.forEach((visit) => {
+      const serviceCode = createServiceCodeFromVisit(visit);
+      const encounterClaim = createClaimFromVisit(visit);
+      encounterClaimList.push({
+        fullUrl: `urn:uuid:${encounterClaim.id}`,
+        resource: encounterClaim
       });
-      
-      if (count < profClaim.claimId) {
-        count = profClaim.claimId;
+
+      const encounterId = `${visit.memberId}-claim-encounter-${visit.claimId}`;
+      const encounter = {
+        resourceType: 'Encounter',
+        id: encounterId,
+        status: 'finished',
+        period: {
+          start: convertDateString(visit.dateOfService),
+          end: convertDateString(visit.dateOfService),
+        }
+      };
+      if (serviceCode) {
+        encounter.type = [ { coding: [ serviceCode ] } ]
       }
-  
-      visitList.push({
-        fullUrl: `urn:uuid:${claimId}`,
-        resource,
+      encounterClaimList.push({
+        fullUrl: `urn:uuid:${encounterId}`,
+        resource: encounter
       });
   
-      if (profClaim.claimStatus == 1 && profClaim.cpt) {
-        const claimResponseId = `${profClaim.memberId}-prof-claimResponse-${profClaim.claimId}`;
+      if (visit.claimStatus == 1 && serviceCode) {
+        
+        const claimResponseId = `${visit.memberId}-prof-claimResponse-${visit.claimId}`;
         const responseResource = {
           resourceType: 'ClaimResponse',
           id: claimResponseId,
-          type: {
-            coding: [
-              {
-                system: 'http://terminology.hl7.org/CodeSystem/claim-type',
-                code: 'professional',
-              }
-            ]
-          },
+          type: professionalClaimType(),
           outcome: 'complete',
-          patient: { reference: `Patient/${profClaim.memberId}-patient` },
+          patient: { reference: `Patient/${visit.memberId}-patient` },
           request: {
-            reference: `Claim/${claimId}`,
+            reference: `Claim/${encounterClaim.id}`,
           },
           item: [{
             itemSequence: 1,
-            servicedDate: convertDateString(profClaim.dateOfService),
-            adjudication: [
-              {
-                category: {
-                  coding: [
-                    {
-                      code: 'benefit'
-                    }
-                  ]
-                },
-                amount: {
-                  value: 108.45,
-                }
-              }
-            ]
+            servicedDate: convertDateString(visit.dateOfService),
+            adjudication: paidAdjudication(),
           }],
           addItem: [
             {
               productOrService: {
-                coding: [
-                  {
-                    code: profClaim.cpt,
-                  }
-                ]
+                coding: [ serviceCode ]
               },
-              servicedDate: convertDateString(profClaim.dateOfService),
+              servicedDate: convertDateString(visit.dateOfService),
             }
           ],
         }
-        visitList.push({
+        encounterClaimList.push({
           fullUrl: `urn:uuid:${claimResponseId}`,
           resource: responseResource,
         });
       }
+      count += 1;
     });
 
   }
@@ -538,24 +455,14 @@ const createProfessionalClaimObjects = (visit, visitEncounter, diagnosis) => {
       const resource = {
         resourceType: 'Claim',
         id: claimId,
-        type: {
-          coding: [
-            {
-              system: 'http://terminology.hl7.org/CodeSystem/claim-type',
-              code: 'professional',
-            }
-          ]
-        },
+        type: professionalClaimType(),
         created: convertDateString(profClaim.serviceDate),
         patient: { reference: `Patient/${profClaim.memberId}-patient` },
         provider: { reference: profClaim.providerId },
         procedure: [
           {
             procedureCodeableConcept: {
-              coding: [{
-                system: getSystem(profClaim.codeFlag),
-                code: profClaim.activityType,
-              }],
+              coding: [ createCode(profClaim.activityType, profClaim.codeFlag) ],
             },
           }
         ],
@@ -564,15 +471,21 @@ const createProfessionalClaimObjects = (visit, visitEncounter, diagnosis) => {
             sequence: 1,
             servicedDate: convertDateString(profClaim.serviceDate),
             productOrService: {
-              coding: [
-                {
-                  system: getSystem(profClaim.codeFlag),
-                  code: profClaim.activityType,
-                }
-              ]
+              coding: [ createCode(profClaim.activityType, profClaim.codeFlag) ]
             }
           }
         ]
+      }
+      if (profClaim.diagnosisCode !== undefined) {
+        resource.diagnosis = [
+          {
+            diagnosisCodeableConcept: {
+              coding: [ 
+                createCode(profClaim.diagnosisCode, profClaim.diagnosisFlag)
+              ]
+            }
+          }
+        ];
       }
       visitEncounterList.push(resource);
     });
@@ -582,18 +495,10 @@ const createProfessionalClaimObjects = (visit, visitEncounter, diagnosis) => {
     diagnosis.forEach((diag) => {
       for (const evisit of visitEncounterList) {
         if (evisit.created === convertDateString(diag.startDate)) {
-          evisit.diagnosis = [
-            {
-              diagnosisCodeableConcept: {
-                coding: [
-                  {
-                    system: getSystem(diag.diagnosisFlag),
-                    code: diag.diagnosisCode,
-                  }
-                ]
-              }
-            }
-          ];
+          if (evisit.diagnosis === undefined) {
+            evisit.diagnosis = [ { diagnosisCodeableConcept: { coding: [] } } ]
+          }
+          evisit.diagnosis[0].diagnosisCodeableConcept.coding.push(createCode(diag.diagnosisCode, diag.diagnosisFlag));
         }
       }
     });
@@ -602,14 +507,14 @@ const createProfessionalClaimObjects = (visit, visitEncounter, diagnosis) => {
 
   if (visitEncounterList) {
     visitEncounterList.forEach((fullEncounter) => {
-      visitList.push({
+      encounterClaimList.push({
         fullUrl: `urn:uuid:${fullEncounter.id}`,
         resource: fullEncounter,
       });
     });
   }
 
-  return visitList;
+  return encounterClaimList;
 };
 
 const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
@@ -622,14 +527,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
       const resource = {
         resourceType: 'Claim',
         id: claimId,
-        type: {
-          coding: [
-            {
-              system: 'http://terminology.hl7.org/CodeSystem/claim-type',
-              code: 'pharmacy',
-            }
-          ]
-        },
+        type: professionalClaimType(), // Are clinical pharmacys professional claims or pharmacy claims??
         patient: { reference: `Patient/${pharmClinic.memberId}-patient` },
         diagnosis: [
           {
@@ -637,7 +535,10 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
             diagnosisCodeableConcept: {
               coding: [
                 {
-                  code: 112690009,
+                  code: '112690009',
+                  system: 'http://snomed.info/sct',
+                  version: '2020-09',
+                  display: 'Nonacute Inpatient Stay'
                 }
               ]
             }
@@ -650,12 +551,11 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
             end: convertDateString(pharmClinic.endDate),
           },
           productOrService: {
-            coding: [
-              {
-                code: pharmClinic.drugCode,
-              }
-            ]
+            coding: [ createCode(pharmClinic.drugCode, pharmClinic.codeFlag) ]
           },
+          quantity: {
+            value: pharmClinic.quantity,
+          }
         }],
       }
       pharmacyClaimList.push({
@@ -672,14 +572,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
       const resource = {
         resourceType: 'Claim',
         id: claimId,
-        type: {
-          coding: [
-            {
-              system: 'http://terminology.hl7.org/CodeSystem/claim-type',
-              code: 'pharmacy',
-            }
-          ]
-        },
+        type: pharmacyClaimType(),
         patient: { reference: `Patient/${pharm.memberId}-patient` },
         item: [{
           sequence: 1,
@@ -691,6 +584,9 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
               }
             ]
           },
+          quantity: {
+            value: pharm.daysSupply,
+          }
         }],
       }
       pharmacyClaimList.push({
@@ -704,14 +600,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
         const responseResource = {
           resourceType: 'ClaimResponse',
           id: claimResponseId,
-          type: {
-            coding: [
-              {
-                system: 'http://terminology.hl7.org/CodeSystem/claim-type',
-                code: 'pharmacy',
-              }
-            ]
-          },
+          type: pharmacyClaimType(),
           outcome: 'complete',
           patient: { reference: `Patient/${pharm.memberId}-patient` },
           request: {
@@ -720,20 +609,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
           item: [{
             itemSequence: 1,
             servicedDate: convertDateString(pharm.serviceDate),
-            adjudication: [
-              {
-                category: {
-                  coding: [
-                    {
-                      code: 'benefit'
-                    }
-                  ]
-                },
-                amount: {
-                  value: 108.45,
-                }
-              }
-            ]
+            adjudication: paidAdjudication(),
           }],
           addItem: [
             {
@@ -760,28 +636,25 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
   return pharmacyClaimList;
 }
 
-const createObservations = (observations) => {
+const createObservations = (observations, procedures) => {
   const fhirObsList = [];
   let count = 1;
   
   if (observations) {
     observations.forEach((observation) => {
       const encounterId = `${observation.memberId}-encounter-${count}`;
+      const obsCode = createCode(observation.test, observation.testCodeFlag);
       const encResource = {
         resourceType: 'Encounter',
         id: encounterId,
+        patient: { reference: `Patient/${observation.memberId}-patient` },
         period: {
           start: convertDateString(observation.observationDate),
           end: convertDateString(observation.endDate),
         },
         type: [
           {
-            coding: [
-              {
-                system: getSystem(observation.testCodeFlag),
-                code: observation.test,
-              }
-            ]
+            coding: [ obsCode ]
           }
         ]
       }
@@ -791,26 +664,22 @@ const createObservations = (observations) => {
         resource: encResource,
       });
   
-  
       const procedureId = `${observation.memberId}-procedure-${count}`;
       const procResource = {
         resourceType: 'Procedure',
         id: encounterId,
+        patient: { reference: `Patient/${observation.memberId}-patient` },
         performedPeriod: {
           start: convertDateString(observation.observationDate),
           end: convertDateString(observation.endDate),
         },
         type: [
           {
-            coding: [
-              {
-                system: getSystem(observation.testCodeFlag),
-                code: observation.test,
-              }
-            ]
+            coding: [ obsCode ]
           }
         ]
       }
+      count += 1;
   
       fhirObsList.push({
         fullUrl: `urn:uuid:${procedureId}`,
@@ -819,11 +688,39 @@ const createObservations = (observations) => {
     });
   }
 
+  if (procedures) {
+    procedures.forEach((procedure) => {
+      const encounterId = `${procedure.memberId}-encounter-${count}`;
+      const procCode = createCode(procedure.procedureCode, procedure.codeFlag);
+      const encResource = {
+        resourceType: 'Encounter',
+        id: encounterId,
+        patient: { reference: `Patient/${procedure.memberId}-patient` },
+        period: {
+          start: convertDateString(procedure.serviceDate),
+          end: convertDateString(procedure.endDate),
+        },
+        status: procedure.serviceStatus === 'EVN' ? 'completed' : 'in-progress',
+        type: [
+          {
+            coding: [ procCode ]
+          }
+        ]
+      }
+      count += 1;
+
+      fhirObsList.push({
+        fullUrl: `urn:uuid:${encounterId}`,
+        resource: encResource,
+      });
+    });
+  }
+
   return fhirObsList;
 }
 
-const createFhirJson = (testDirectory, allMemberInfo) => {
-  Object.keys(allMemberInfo).forEach((memberId) => {
+async function createFhirJson(testDirectory, allMemberInfo) {
+  Object.keys(allMemberInfo).forEach(async (memberId) => {
     const memberInfo = allMemberInfo[memberId];
     const fhirObject = {};
     fhirObject.resourceType = 'Bundle';
@@ -832,7 +729,7 @@ const createFhirJson = (testDirectory, allMemberInfo) => {
     const patient = createPatientFhirObject(memberInfo.generalMembership);
   
     fhirObject.entry = [{
-      fullUrl: `urn:uuid:${memberInfo.generalMembership.memberId}-patient`,
+      fullUrl: `urn:uuid:${memberId}-patient`,
       resource: patient,
     }];
   
@@ -845,11 +742,12 @@ const createFhirJson = (testDirectory, allMemberInfo) => {
     const clincalPharm = createPharmacyClaims(memberInfo.pharmacyClinical, memberInfo.pharmacy);
     clincalPharm.forEach((item) => fhirObject.entry.push(item));
   
-    const observations = createObservations(memberInfo.observation);
+    const observations = createObservations(memberInfo.observation, memberInfo.procedure);
     observations.forEach((item) => fhirObject.entry.push(item));
+
     try {
-      fs.mkdir(`/${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
-      fs.writeFileSync(`/${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
+      fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
+      fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
     } catch (writeErr) {
       console.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
       process.exit();
@@ -866,9 +764,10 @@ const processTestDeck = async (testDirectory) => {
   await readPharmacyClinical(testDirectory, allMemberInfo);
   await readDiagnosis(testDirectory, allMemberInfo);
   await readObservation(testDirectory, allMemberInfo);
+  await readProcedure(testDirectory, allMemberInfo);
 
-  console.log(JSON.stringify(allMemberInfo['96002'], null, 2));
-  createFhirJson(testDirectory, allMemberInfo);
+  // console.log(JSON.stringify(allMemberInfo['96002'], null, 2));
+  await createFhirJson(testDirectory, allMemberInfo);
 };
 
 processTestDeck(parseArgs['testDirectory']);

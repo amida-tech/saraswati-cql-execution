@@ -1,7 +1,6 @@
 const { Kafka } = require('kafkajs');
 const logger = require('./src/winston');
 const config = require('./config');
-const { evalData } = require('./exec-files/exec-config');
 
 const kafka = new Kafka({
   clientId: 'cql-execution',
