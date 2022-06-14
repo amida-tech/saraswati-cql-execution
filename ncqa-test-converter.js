@@ -156,89 +156,105 @@ async function readVisit(testDirectory, memberInfo) {
 }
 
 async function readVisitEncounter(testDirectory, memberInfo) {
-  const fileLines = await readFile(`${testDirectory}/visit-e.txt`);
-  for await (const text of fileLines) {
-    const memberId = extractValue(text, 1, 16);
-    const currentMember = memberInfo[memberId];
-    if (currentMember.visitEncounter === undefined) {
-      currentMember.visitEncounter = [];
+  try {
+    const fileLines = await readFile(`${testDirectory}/visit-e.txt`);
+    for await (const text of fileLines) {
+      const memberId = extractValue(text, 1, 16);
+      const currentMember = memberInfo[memberId];
+      if (currentMember.visitEncounter === undefined) {
+        currentMember.visitEncounter = [];
+      }
+      currentMember.visitEncounter.push ({
+        memberId:       extractValue(text, 1, 16),
+        serviceDate:    extractValue(text, 17, 8),
+        activityType:   extractValue(text, 25, 20),
+        codeFlag:       extractValue(text, 45, 1),
+        endDate:        extractValue(text, 46, 8),
+        status:         extractValue(text, 54, 1),
+        providerId:     extractValue(text, 55, 10),
+        diagnosisCode:  extractValue(text, 65, 20),
+        diagnosisFlag:  extractValue(text, 85, 1),
+      });
     }
-    currentMember.visitEncounter.push ({
-      memberId:       extractValue(text, 1, 16),
-      serviceDate:    extractValue(text, 17, 8),
-      activityType:   extractValue(text, 25, 20),
-      codeFlag:       extractValue(text, 45, 1),
-      endDate:        extractValue(text, 46, 8),
-      status:         extractValue(text, 54, 1),
-      providerId:     extractValue(text, 55, 10),
-      diagnosisCode:  extractValue(text, 65, 20),
-      diagnosisFlag:  extractValue(text, 85, 1),
-    });
+  } catch (readError) {
+    console.log(`No visit-e.txt in ${testDirectory}`);
   }
 }
 
 async function readPharmacy(testDirectory, memberInfo) {
-  const fileLines = await readFile(`${testDirectory}/pharm.txt`);
-  for await (const text of fileLines) {
-    const memberId = extractValue(text, 1, 16);
-    const currentMember = memberInfo[memberId];
-    if (currentMember.pharmacy === undefined) {
-      currentMember.pharmacy = [];
+  try {
+    const fileLines = await readFile(`${testDirectory}/pharm.txt`);
+    for await (const text of fileLines) {
+      const memberId = extractValue(text, 1, 16);
+      const currentMember = memberInfo[memberId];
+      if (currentMember.pharmacy === undefined) {
+        currentMember.pharmacy = [];
+      }
+      currentMember.pharmacy.push({
+        memberId:           extractValue(text, 1, 16),
+        daysSupply:         extractValue(text, 17, 3),
+        serviceDate:        extractValue(text, 20, 8),
+        ndcDrugCode:        extractValue(text, 28, 11),
+        claimStatus:        extractValue(text, 39, 1),
+        quantityDispensed:  extractValue(text, 40, 7),
+        supplementalData:   extractValue(text, 47, 1),
+        providerNpi:        extractValue(text, 48, 10),
+        pharmacyNpi:        extractValue(text, 58, 10),
+      });
     }
-    currentMember.pharmacy.push({
-      memberId:           extractValue(text, 1, 16),
-      daysSupply:         extractValue(text, 17, 3),
-      serviceDate:        extractValue(text, 20, 8),
-      ndcDrugCode:        extractValue(text, 28, 11),
-      claimStatus:        extractValue(text, 39, 1),
-      quantityDispensed:  extractValue(text, 40, 7),
-      supplementalData:   extractValue(text, 47, 1),
-      providerNpi:        extractValue(text, 48, 10),
-      pharmacyNpi:        extractValue(text, 58, 10),
-    });
+  } catch (readError) {
+    console.log(`No pharm.txt in ${testDirectory}`);
   }
 }
 
 async function readPharmacyClinical(testDirectory, memberInfo) {
-  const fileLines = await readFile(`${testDirectory}/pharm-c.txt`);
-  for await (const text of fileLines) {
-    const memberId = extractValue(text, 1, 16);
-    const currentMember = memberInfo[memberId];
-    if (currentMember.pharmacyClinical === undefined) {
-      currentMember.pharmacyClinical = [];
+  try {
+    const fileLines = await readFile(`${testDirectory}/pharm-c.txt`);
+    for await (const text of fileLines) {
+      const memberId = extractValue(text, 1, 16);
+      const currentMember = memberInfo[memberId];
+      if (currentMember.pharmacyClinical === undefined) {
+        currentMember.pharmacyClinical = [];
+      }
+      currentMember.pharmacyClinical.push({
+        memberId:           extractValue(text, 1, 16),
+        orderedDate:        extractValue(text, 17, 8),
+        startDate:          extractValue(text, 25, 8),
+        drugCode:           extractValue(text, 33, 11),
+        codeFlag:           extractValue(text, 44, 1),
+        frequency:          extractValue(text, 45, 3),
+        dispensedDate:      extractValue(text, 48, 8),
+        endDate:            extractValue(text, 56, 8),
+        active:             extractValue(text, 64, 1),
+        yearOfImmunization: extractValue(text, 65, 4),
+        quantity:           extractValue(text, 69, 3),
+      });
     }
-    currentMember.pharmacyClinical.push({
-      memberId:           extractValue(text, 1, 16),
-      orderedDate:        extractValue(text, 17, 8),
-      startDate:          extractValue(text, 25, 8),
-      drugCode:           extractValue(text, 33, 11),
-      codeFlag:           extractValue(text, 44, 1),
-      frequency:          extractValue(text, 45, 3),
-      dispensedDate:      extractValue(text, 48, 8),
-      endDate:            extractValue(text, 56, 8),
-      active:             extractValue(text, 64, 1),
-      yearOfImmunization: extractValue(text, 65, 4),
-      quantity:           extractValue(text, 69, 3),
-    });
+  } catch (readError) {
+    console.log(`No pharm-c.txt in ${testDirectory}`);
   }
 }
 
 async function readDiagnosis(testDirectory, memberInfo) {
-  const fileLines = await readFile(`${testDirectory}/diag.txt`);
-  for await (const text of fileLines) {
-    const memberId = extractValue(text, 1, 16);
-    const currentMember = memberInfo[memberId];
-    if (currentMember.diagnosis === undefined) {
-      currentMember.diagnosis = [];
+  try {
+    const fileLines = await readFile(`${testDirectory}/diag.txt`);
+    for await (const text of fileLines) {
+      const memberId = extractValue(text, 1, 16);
+      const currentMember = memberInfo[memberId];
+      if (currentMember.diagnosis === undefined) {
+        currentMember.diagnosis = [];
+      }
+      currentMember.diagnosis.push({
+        memberId:      extractValue(text, 1, 16),
+        startDate:     extractValue(text, 17, 8),
+        diagnosisCode: extractValue(text, 25, 20),
+        diagnosisFlag: extractValue(text, 45, 1),
+        endDate:       extractValue(text, 46, 8),
+        attribute:     extractValue(text, 54, 20),
+      });
     }
-    currentMember.diagnosis.push({
-      memberId:      extractValue(text, 1, 16),
-      startDate:     extractValue(text, 17, 8),
-      diagnosisCode: extractValue(text, 25, 20),
-      diagnosisFlag: extractValue(text, 45, 1),
-      endDate:       extractValue(text, 46, 8),
-      attribute:     extractValue(text, 54, 20),
-    });
+  } catch (readError) {
+    console.log(`No diag.txt in ${testDirectory}`);
   }
 }
 
@@ -286,7 +302,29 @@ async function readProcedure(testDirectory, memberInfo) {
   } catch (readError) {
     console.log(`No proc.txt in ${testDirectory}`);
   }
-  
+}
+
+async function readLab(testDirectory, memberInfo) {
+  try {
+    const fileLines = await readFile(`${testDirectory}/lab.txt`);
+    for await (const text of fileLines) {
+      const memberId = extractValue(text, 1, 16);
+      const currentMember = memberInfo[memberId];
+      if (currentMember.lab === undefined) {
+        currentMember.lab = [];
+      }
+      currentMember.lab.push({
+        memberId:         extractValue(text, 1, 16),
+        cptCode:          extractValue(text, 17, 5),
+        loincCode:        extractValue(text, 22, 7),
+        value:            extractValue(text, 29, 6), 
+        dateOfService:    extractValue(text, 35, 8),
+        supplementalData: extractValue(text, 43, 1),
+      });
+    }
+  } catch (readError) {
+    console.log(`No lab.txt in ${testDirectory}`);
+  }
 }
 
 const createPatientFhirObject = (generalMembership) => {
@@ -362,11 +400,30 @@ const createCoverageObjects = (membershipEnrollment) => {
       });
     }
 
-    if (!enrollment.payor.startsWith('SN')) {
+    if (enrollment.payor === 'HMO' || enrollment.payor === 'PPO' || enrollment.payor === 'POS'
+      || enrollment.payor === 'SN1' || enrollment.payor === 'SN2' || enrollment.payor === 'SN3') {
       resource.type.coding.push({
         system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
         code: 'MCPOL',
         display: 'Managed Care Policy',
+      });
+    }
+
+    if (enrollment.payor === 'MCR' || enrollment.payor === 'MCS' || enrollment.payor === 'MP'
+      || enrollment.payor === 'MC' || enrollment.payor === 'MMP') {
+      resource.type.coding.push({
+        system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
+        code: 'RETIRE',
+        display: 'Retiree Health Program',
+      });
+    }
+
+    if (enrollment.payor === 'MD' || enrollment.payor === 'MDE'
+      || enrollment.payor === 'MLI' || enrollment.payor === 'MRB') {
+      resource.type.coding.push({
+        system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
+        code: 'SUBSIDIZ',
+        display: 'Subsidized Health Program',
       });
     }
 
@@ -393,6 +450,20 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
         resource: encounterClaim
       });
 
+      if (visit.cmsPlaceOfService.startsWith('8')) {
+        const obcClaimId = `${visit.memberId}-claim-obsesrvation-${visit.claimId}`;
+        const obsClaim = {
+          id: obcClaimId,
+          resourceType: 'Observation',
+          code: { coding: [ serviceCode ] },
+          effectiveDateTime: convertDateString(visit.dateOfService),
+        }
+        encounterClaimList.push({
+          fullUrl: `urn:uuid:${obcClaimId}`,
+          resource: obsClaim
+        });
+      }
+
       const encounterId = `${visit.memberId}-claim-encounter-${visit.claimId}`;
       const encounter = {
         resourceType: 'Encounter',
@@ -405,6 +476,9 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
       };
       if (serviceCode) {
         encounter.type = [ { coding: [ serviceCode ] } ]
+      }
+      if (visit.cmsPlaceOfService.startsWith('7')) {
+        encounter.class = createCode('AMB', 'A');
       }
       encounterClaimList.push({
         fullUrl: `urn:uuid:${encounterId}`,
@@ -551,17 +625,36 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
             end: convertDateString(pharmClinic.endDate),
           },
           productOrService: {
-            coding: [ createCode(pharmClinic.drugCode, pharmClinic.codeFlag) ]
+            coding: [ createCode(pharmClinic.drugCode, pharmClinic.codeFlag, 'RX') ]
           },
-          quantity: {
-            value: pharmClinic.quantity,
-          }
         }],
+      }
+
+      if (pharmClinic.quantity) {
+        resource.quantity = {
+          value: pharmClinic.quantity,
+        }
       }
       pharmacyClaimList.push({
         fullUrl: `urn:uuid:${claimId}`,
         resource,
       });
+      if (pharmClinic.drugCode.length <= 3) {
+        const immunoId = `${pharmClinic.memberId}-immunization-${claimCount}`;
+        const immunoResource = {
+          id: immunoId,
+          resourceType: 'Immunization',
+          patient: { reference: `Patient/${pharmClinic.memberId}-patient` },
+          status: 'completed',
+          vaccineCode: { coding: [ createCode(pharmClinic.drugCode, pharmClinic.codeFlag, 'RX') ] },
+          occurrenceDateTime: convertDateString(pharmClinic.dispensedDate),
+        }
+        pharmacyClaimList.push({
+          fullUrl: `urn:uuid:${immunoId}`,
+          resource: immunoResource,
+        });
+      }
+
       claimCount += 1;
     });
   }
@@ -719,6 +812,40 @@ const createObservations = (observations, procedures) => {
   return fhirObsList;
 }
 
+const createLabs = (labs) => {
+  const fhirLabsList = [];
+  let count = 1;
+  
+  if (labs) {
+    labs.forEach((lab) => {
+      const observId = `${lab.memberId}-observation-${count}`;
+      resource = {
+        id: observId,
+        resourceType: 'Observation',
+        effectiveDateTime: convertDateString(lab.dateOfService),
+      };
+      if (lab.cptCode || lab.loincCode) {
+        resource.code = { coding: [] };
+        if (lab.cptCode) {
+          resource.code.coding.push(createCode(lab.cptCode, 'C'));
+        }
+        if (lab.loincCode) {
+          resource.code.coding.push(createCode(lab.loincCode, 'L'));
+        }
+      }
+      if (lab.value) {
+        console.log(`Handle value for ${lab.memberId}`);
+      }
+      fhirLabsList.push({
+        fullUrl: `urn:uuid:${observId}`,
+        resource,
+      });
+    });
+  }
+
+  return fhirLabsList;
+}
+
 async function createFhirJson(testDirectory, allMemberInfo) {
   Object.keys(allMemberInfo).forEach(async (memberId) => {
     const memberInfo = allMemberInfo[memberId];
@@ -744,13 +871,18 @@ async function createFhirJson(testDirectory, allMemberInfo) {
   
     const observations = createObservations(memberInfo.observation, memberInfo.procedure);
     observations.forEach((item) => fhirObject.entry.push(item));
+  
+    const labs = createLabs(memberInfo.lab, memberInfo.procedure);
+    labs.forEach((item) => fhirObject.entry.push(item));
 
-    try {
-      fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
-      fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
-    } catch (writeErr) {
-      console.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
-      process.exit();
+    if (memberId === '95038') {
+      try {
+        fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
+        fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
+      } catch (writeErr) {
+        console.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
+        process.exit();
+      }
     }
   });
 }
@@ -765,6 +897,7 @@ const processTestDeck = async (testDirectory) => {
   await readDiagnosis(testDirectory, allMemberInfo);
   await readObservation(testDirectory, allMemberInfo);
   await readProcedure(testDirectory, allMemberInfo);
+  await readLab(testDirectory, allMemberInfo);
 
   // console.log(JSON.stringify(allMemberInfo['96002'], null, 2));
   await createFhirJson(testDirectory, allMemberInfo);

@@ -8,17 +8,35 @@ const getSystem = (value) => {
       return 'http://hl7.org/fhir/sid/icd-10-cm';
     case 'C':
       return 'http://www.ama-assn.org/go/cpt';
+    case 'L':
+      return 'http://loinc.org'
     case 'H':
       return 'https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets';
-    case 'R':
-      return 'http://www.nlm.nih.gov/research/umls/rxnorm';
+    case 'A':
+      return 'http://terminology.hl7.org/CodeSystem/v3-ActCode';
     default:
       return 'NA';
   }
 };
 
-const createCode = (code, systemFlag) => {
-  const system = systemFlag.length === 1 ? getSystem(systemFlag) : systemFlag;
+const getRxSystem = (value) => {
+  switch(value) {
+    case 'R':
+      return 'http://www.nlm.nih.gov/research/umls/rxnorm';
+    case 'C':
+      return 'http://hl7.org/fhir/sid/cvx';
+    default:
+      return 'NA';
+  }
+}
+
+const createCode = (code, systemFlag, systemType) => {
+  let system = '';
+  if (systemType === 'RX') {
+    system = systemFlag.length === 1 ? getRxSystem(systemFlag) : systemFlag;
+  } else {
+    system = systemFlag.length === 1 ? getSystem(systemFlag) : systemFlag;
+  }
   if (system !== 'NA') {
     return {
       system,
