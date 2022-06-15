@@ -451,8 +451,34 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
         resource: encounterClaim
       });
 
+      let conditionCount = 1;
+      visit.icdDiagnosis.forEach((diagnosis) => {
+        if (diagnosis) {
+          const conditionId = `${visit.memberId}-diagnosis-condition-${conditionCount}`;
+          const condObj = {
+            id: conditionId,
+            resourceType: 'Condition',
+            clinicalStatus: {
+              coding: [
+                {
+                  system: 'http://terminology.hl7.org/CodeSystem/condition-clinical',
+                  code: 'active'
+                }
+              ]
+            },
+            code: { coding: [ createCode(diagnosis, visit.icdIdentifier) ] },
+            onsetDateTime: convertDateString(visit.dateOfService),
+          }
+          encounterClaimList.push({
+            fullUrl: `urn:uuid:${conditionId}`,
+            resource: condObj
+          });
+          conditionCount += 1;
+        }
+      });
+
       if (visit.cmsPlaceOfService.startsWith('8')) {
-        const obcClaimId = `${visit.memberId}-claim-obsesrvation-${visit.claimId}`;
+        const obcClaimId = `${visit.memberId}-claim-observation-${visit.claimId}`;
         const obsClaim = {
           id: obcClaimId,
           resourceType: 'Observation',
@@ -912,7 +938,7 @@ async function createFhirJson(testDirectory, allMemberInfo) {
     const labs = createLabs(memberInfo.lab, memberInfo.procedure);
     labs.forEach((item) => fhirObject.entry.push(item));
 
-    if (memberId === '95200') {
+    if (memberId === '95586') {
       try {
         fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
         fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
