@@ -451,6 +451,23 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
         resource: encounterClaim
       });
 
+      if (serviceCode) {
+        const procedureId = `${visit.memberId}-visit-procedure-${visit.claimId}`;
+        const procResource = {
+          id: procedureId,
+          resourceType: 'Procedure',
+          subject: { reference: `Patient/${visit.memberId}-patient`
+          },
+          performedDateTime: convertDateString(visit.dateOfService),
+          status: 'completed',
+          code: { coding: [ serviceCode ] }
+        }
+        encounterClaimList.push({
+          fullUrl: `urn:uuid:${procedureId}`,
+          resource: procResource
+        });
+      }
+
       let conditionCount = 1;
       visit.icdDiagnosis.forEach((diagnosis) => {
         if (diagnosis) {
@@ -938,7 +955,7 @@ async function createFhirJson(testDirectory, allMemberInfo) {
     const labs = createLabs(memberInfo.lab, memberInfo.procedure);
     labs.forEach((item) => fhirObject.entry.push(item));
 
-    if (memberId === '95586') {
+    if (memberId === '95030') {
       try {
         fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
         fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
