@@ -735,49 +735,61 @@ const createObservations = (observations, procedures) => {
   
   if (observations) {
     observations.forEach((observation) => {
-      const encounterId = `${observation.memberId}-encounter-${count}`;
       const obsCode = createCode(observation.test, observation.testCodeFlag);
-      const encResource = {
-        resourceType: 'Encounter',
-        id: encounterId,
-        patient: { reference: `Patient/${observation.memberId}-patient` },
-        period: {
-          start: convertDateString(observation.observationDate),
-          end: convertDateString(observation.endDate),
-        },
-        type: [
-          {
-            coding: [ obsCode ]
-          }
-        ]
-      }
+      if (observation.value) {
+        const observationId = `${observation.memberId}-observation-${count}`;
+        const obsResource = {
+          resourceType: 'Observation',
+          id: observationId,
+          subject: { reference: `Patient/${observation.memberId}-patient` },
+          code: { coding: [ obsCode ] },
+          valueInteger: observation.value,
+          effectiveDateTime: convertDateString(observation.observationDate),
+        }
+        fhirObsList.push({
+          fullUrl: `urn:uuid:${observationId}`,
+          resource: obsResource,
+        });
+      } else {
+        const encounterId = `${observation.memberId}-encounter-${count}`;
+        const encResource = {
+          resourceType: 'Encounter',
+          id: encounterId,
+          patient: { reference: `Patient/${observation.memberId}-patient` },
+          period: {
+            start: convertDateString(observation.observationDate),
+            end: convertDateString(observation.endDate),
+          },
+          type: [ { coding: [ obsCode ] } ]
+        }
+    
+        fhirObsList.push({
+          fullUrl: `urn:uuid:${encounterId}`,
+          resource: encResource,
+        });
+    
+        const procedureId = `${observation.memberId}-procedure-${count}`;
+        const procResource = {
+          resourceType: 'Procedure',
+          id: encounterId,
+          patient: { reference: `Patient/${observation.memberId}-patient` },
+          performedPeriod: {
+            start: convertDateString(observation.observationDate),
+            end: convertDateString(observation.endDate),
+          },
+          type: [
+            {
+              coding: [ obsCode ]
+            }
+          ]
+        }
   
-      fhirObsList.push({
-        fullUrl: `urn:uuid:${encounterId}`,
-        resource: encResource,
-      });
-  
-      const procedureId = `${observation.memberId}-procedure-${count}`;
-      const procResource = {
-        resourceType: 'Procedure',
-        id: encounterId,
-        patient: { reference: `Patient/${observation.memberId}-patient` },
-        performedPeriod: {
-          start: convertDateString(observation.observationDate),
-          end: convertDateString(observation.endDate),
-        },
-        type: [
-          {
-            coding: [ obsCode ]
-          }
-        ]
+        fhirObsList.push({
+          fullUrl: `urn:uuid:${procedureId}`,
+          resource: procResource,
+        });
       }
       count += 1;
-  
-      fhirObsList.push({
-        fullUrl: `urn:uuid:${procedureId}`,
-        resource: procResource,
-      });
     });
   }
 
@@ -800,12 +812,26 @@ const createObservations = (observations, procedures) => {
           }
         ]
       }
-      count += 1;
-
       fhirObsList.push({
         fullUrl: `urn:uuid:${encounterId}`,
         resource: encResource,
       });
+
+      const procedureId = `${procedure.memberId}-procedure-${count}`;
+      const procResource = {
+        resourceType: 'Procedure',
+        id: procedureId,
+        subject: { reference: `Patient/${procedure.memberId}-patient` },
+        performedDateTime: convertDateString(procedure.serviceDate),
+        status: procedure.serviceStatus === 'EVN' ? 'completed' : 'in-progress',
+        code: { coding: [ procCode ] },
+      }
+      fhirObsList.push({
+        fullUrl: `urn:uuid:${encounterId}`,
+        resource: procResource,
+      });
+      
+      count += 1;
     });
   }
 

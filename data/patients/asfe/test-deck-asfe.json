@@ -234,51 +234,23 @@
         }
       },
       {
-        "fullUrl": "urn:uuid:95038-encounter-1",
+        "fullUrl": "urn:uuid:95038-observation-1",
         "resource": {
-          "resourceType": "Encounter",
-          "id": "95038-encounter-1",
-          "patient": {
+          "resourceType": "Observation",
+          "id": "95038-observation-1",
+          "subject": {
             "reference": "Patient/95038-patient"
           },
-          "period": {
-            "start": "2022-10-23",
-            "end": "2022-10-23"
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "75889-6"
+              }
+            ]
           },
-          "type": [
-            {
-              "coding": [
-                {
-                  "system": "http://loinc.org",
-                  "code": "75889-6"
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "fullUrl": "urn:uuid:95038-procedure-1",
-        "resource": {
-          "resourceType": "Procedure",
-          "id": "95038-encounter-1",
-          "patient": {
-            "reference": "Patient/95038-patient"
-          },
-          "performedPeriod": {
-            "start": "2022-10-23",
-            "end": "2022-10-23"
-          },
-          "type": [
-            {
-              "coding": [
-                {
-                  "system": "http://loinc.org",
-                  "code": "75889-6"
-                }
-              ]
-            }
-          ]
+          "valueInteger": "80",
+          "effectiveDateTime": "2022-10-23"
         }
       },
       {
@@ -304,6 +276,26 @@
               ]
             }
           ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95038-encounter-2",
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "95038-procedure-2",
+          "subject": {
+            "reference": "Patient/95038-patient"
+          },
+          "performedDateTime": "2022-12-07",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "429291000124102"
+              }
+            ]
+          }
         }
       }
     ]
