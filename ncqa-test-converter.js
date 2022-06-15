@@ -96,6 +96,10 @@ async function readVisit(testDirectory, memberInfo) {
   for await (const text of fileLines) {
     const memberId = extractValue(text, 1, 16);
     const currentMember = memberInfo[memberId];
+    if (currentMember === undefined) {
+      console.log(`No member info for ${memberId}, unable to add visit.txt data.`);
+      continue;
+    }
     if (currentMember.visit === undefined) {
       currentMember.visit = [];
     }
@@ -148,9 +152,6 @@ async function readVisit(testDirectory, memberInfo) {
     visit.supplementalData =  extractValue(text, 314, 1);
     visit.claimId =           extractValue(text, 315, 2);
 
-    if (visit.cpt && visit.hcpcs) {
-      console.log(`${visit.memberId} has CPT of ${visit.cpt} and HCPCS of: '${visit.hcpcs}'`);
-    }
     currentMember.visit.push(visit);
   }
 }
@@ -806,11 +807,7 @@ const createObservations = (observations, procedures) => {
           end: convertDateString(procedure.endDate),
         },
         status: procedure.serviceStatus === 'EVN' ? 'completed' : 'in-progress',
-        type: [
-          {
-            coding: [ procCode ]
-          }
-        ]
+        type: [ { coding: [ procCode ] } ]
       }
       fhirObsList.push({
         fullUrl: `urn:uuid:${encounterId}`,
@@ -829,6 +826,20 @@ const createObservations = (observations, procedures) => {
       fhirObsList.push({
         fullUrl: `urn:uuid:${encounterId}`,
         resource: procResource,
+      });
+
+      const observationId = `${procedure.memberId}-observation-${count}`;
+      const obsResource = {
+        resourceType: 'Observation',
+        id: observationId,
+        subject: { reference: `Patient/${procedure.memberId}-patient` },
+        effectiveDateTime: convertDateString(procedure.serviceDate),
+        status: procedure.serviceStatus === 'EVN' ? 'completed' : 'in-progress',
+        code: { coding: [ procCode ] },
+      }
+      fhirObsList.push({
+        fullUrl: `urn:uuid:${observationId}`,
+        resource: obsResource,
       });
       
       count += 1;
@@ -901,7 +912,7 @@ async function createFhirJson(testDirectory, allMemberInfo) {
     const labs = createLabs(memberInfo.lab, memberInfo.procedure);
     labs.forEach((item) => fhirObject.entry.push(item));
 
-    if (memberId === '95038') {
+    if (memberId === '95200') {
       try {
         fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
         fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
