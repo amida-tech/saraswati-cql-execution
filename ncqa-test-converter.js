@@ -355,6 +355,36 @@ const createPatientFhirObject = (generalMembership) => {
 
   patient.birthDate = convertDateString(generalMembership.dateOfBirth);
 
+  patient.extension = [
+    {
+      extension: [
+        {
+          url: 'ombCategory',
+          valueCoding: parseInt(generalMembership.race),
+        }
+      ],
+      url : 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race',
+    },
+    {
+      extension: [
+        {
+          url: 'ombCategory',
+          valueCoding: parseInt(generalMembership.ethnicity),
+        }
+      ],
+      url: 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity',
+    }
+  ];
+  patient.meta = { extension: [] }
+  patient.meta.extension.push({
+    url: 'raceDS',
+    valueString: generalMembership.raceDataSource,
+  });
+  patient.meta.extension.push({
+    url: 'ethnicityDS',
+    valueString: generalMembership.ethnicityDataSource,
+  });
+
   return patient;
 }
 
