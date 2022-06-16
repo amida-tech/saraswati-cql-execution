@@ -184,6 +184,44 @@ const createClaimFromVisit = (visit) => {
   return resource;
 }
 
+const createDiagnosisCondition = (condition) => {
+  const condObj = {
+    id: `${condition.memberId}-diagnosis-condition-${condition.conditionId}`,
+    resourceType: 'Condition',
+    clinicalStatus: {
+      coding: [
+        {
+          system: 'http://terminology.hl7.org/CodeSystem/condition-clinical',
+          code: 'active'
+        }
+      ]
+    },
+    code: { coding: [ createCode(condition.code, condition.system) ] },
+    onsetDateTime: convertDateString(condition.onsetDateTime),
+  }
+
+  return condObj;
+}
+
+const createClaimEncounter = (encounter) => {
+  const encounterFhir = {
+    resourceType: 'Encounter',
+    id: `${encounter.memberId}-claim-encounter-${encounter.encounterId}`,
+    status: 'finished',
+    period: {
+      start: convertDateString(encounter.period.start),
+      end: convertDateString(encounter.period.end),
+    }
+  };
+  if (encounter.serviceCode) {
+    encounterFhir.type = [ { coding: [ encounter.serviceCode ] } ]
+  }
+  if (encounter.cmsPlaceOfService && encounter.cmsPlaceOfService.startsWith('7')) {
+    encounterFhir.class = createCode('AMB', 'A');
+  }
+  return encounterFhir;
+}
+
 const convertDateString = (ncqaDateString) => {
   const year = ncqaDateString.toString().substr(0, 4);
   const month = ncqaDateString.toString().substr(4, 2);
@@ -194,4 +232,4 @@ const convertDateString = (ncqaDateString) => {
 
 module.exports = { getSystem, createCode, professionalClaimType, 
   pharmacyClaimType, paidAdjudication, convertDateString, createClaimFromVisit,
-  createServiceCodeFromVisit };
+  createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition };

@@ -3,7 +3,7 @@ const fs = require('fs');
 const readline = require('readline');
 const { createCode, professionalClaimType, pharmacyClaimType,
   paidAdjudication, convertDateString, createClaimFromVisit,
-  createServiceCodeFromVisit } = require('./ncqa-test-converter-util');
+  createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition } = require('./ncqa-test-converter-util');
 
 //const memberId = 105264;
 
@@ -498,26 +498,22 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
         });
       }
 
+      const conditionList = [];
       let conditionCount = 1;
       visit.icdDiagnosis.forEach((diagnosis) => {
         if (diagnosis) {
-          const conditionId = `${visit.memberId}-diagnosis-condition-${conditionCount}`;
-          const condObj = {
-            id: conditionId,
-            resourceType: 'Condition',
-            clinicalStatus: {
-              coding: [
-                {
-                  system: 'http://terminology.hl7.org/CodeSystem/condition-clinical',
-                  code: 'active'
-                }
-              ]
-            },
-            code: { coding: [ createCode(diagnosis, visit.icdIdentifier) ] },
-            onsetDateTime: convertDateString(visit.dateOfService),
-          }
+          const condObj = createDiagnosisCondition(
+            {
+              memberId: visit.memberId,
+              conditionId: conditionCount,
+              code: diagnosis,
+              system: visit.icdIdentifier,
+              onsetDateTime: visit.dateOfService,
+            }
+          );
+          conditionList.push(condObj);
           encounterClaimList.push({
-            fullUrl: `urn:uuid:${conditionId}`,
+            fullUrl: `urn:uuid:${condObj.id}`,
             resource: condObj
           });
           conditionCount += 1;
@@ -538,24 +534,30 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
         });
       }
 
-      const encounterId = `${visit.memberId}-claim-encounter-${visit.claimId}`;
-      const encounter = {
-        resourceType: 'Encounter',
-        id: encounterId,
-        status: 'finished',
-        period: {
-          start: convertDateString(visit.dateOfService),
-          end: convertDateString(visit.dateOfService),
+      const encounter = createClaimEncounter(
+        {
+          memberId: visit.memberId,
+          encounterId: visit.claimId,
+          period: {
+            start: visit.dateOfService,
+            end: visit.dateOfService,
+          },
+          serviceCode,
+          cmsPlaceOfService: visit.cmsPlaceOfService,
         }
-      };
-      if (serviceCode) {
-        encounter.type = [ { coding: [ serviceCode ] } ]
-      }
-      if (visit.cmsPlaceOfService.startsWith('7')) {
-        encounter.class = createCode('AMB', 'A');
-      }
+      );
+      conditionList.forEach((linkCondition) => {
+        if (encounter.diagnosis === undefined) {
+          encounter.diagnosis = [];
+        }
+        encounter.diagnosis.push({
+          condition: {
+            reference: linkCondition.id,
+          }
+        });
+      });
       encounterClaimList.push({
-        fullUrl: `urn:uuid:${encounterId}`,
+        fullUrl: `urn:uuid:${encounter.id}`,
         resource: encounter
       });
   
@@ -600,6 +602,7 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
     visitEncounter.forEach((profClaim) => {
       count += 1;
       const claimId = `${profClaim.memberId}-prof-claim-${count}`;
+      const serviceCode = createCode(profClaim.activityType, profClaim.codeFlag);
       const resource = {
         resourceType: 'Claim',
         id: claimId,
@@ -610,7 +613,7 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
         procedure: [
           {
             procedureCodeableConcept: {
-              coding: [ createCode(profClaim.activityType, profClaim.codeFlag) ],
+              coding: [ serviceCode ],
             },
           }
         ],
@@ -619,7 +622,7 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
             sequence: 1,
             servicedDate: convertDateString(profClaim.serviceDate),
             productOrService: {
-              coding: [ createCode(profClaim.activityType, profClaim.codeFlag) ]
+              coding: [ serviceCode ]
             }
           }
         ]
@@ -636,6 +639,47 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
         ];
       }
       visitEncounterList.push(resource);
+
+      const encounter = createClaimEncounter(
+        {
+          memberId: profClaim.memberId,
+          encounterId: count,
+          period: {
+            start: profClaim.serviceDate,
+            end: profClaim.serviceDate,
+          },
+          serviceCode,
+        }
+      );
+
+      if (profClaim.diagnosisCode) {
+        const condObj = createDiagnosisCondition(
+          {
+            memberId: profClaim.memberId,
+            conditionId: count,
+            code: profClaim.diagnosisCode,
+            system: profClaim.diagnosisFlag,
+            onsetDateTime: profClaim.serviceDate,
+          }
+        );
+        encounterClaimList.push({
+          fullUrl: `urn:uuid:${condObj.id}`,
+          resource: condObj
+        });
+
+        if (encounter.diagnosis === undefined) {
+          encounter.diagnosis = [];
+        }
+        encounter.diagnosis[0] = {
+          condition: {
+            reference: condObj.id,
+          }
+        };
+      }
+      encounterClaimList.push({
+        fullUrl: `urn:uuid:${encounter.id}`,
+        resource: encounter
+      });
     });
   }
 
@@ -985,7 +1029,7 @@ async function createFhirJson(testDirectory, allMemberInfo) {
     const labs = createLabs(memberInfo.lab, memberInfo.procedure);
     labs.forEach((item) => fhirObject.entry.push(item));
 
-    if (memberId === '95030') {
+    if (memberId === '95147') {
       try {
         fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
         fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
