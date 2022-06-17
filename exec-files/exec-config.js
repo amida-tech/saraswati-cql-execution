@@ -179,10 +179,10 @@ const evalData = (patient) => {
   const patientData = data[memberId];
   if (hasDenominator(patientData)) {
     const entryList = Array.isArray(patient) ? patient[0].entry : patient.entry;
-    const paitientInfo = entryList.find((results) => results.resource.resourceType === 'Patient')
-    const paitientInfoNeeded = paitientInfo.resource
-    const birthDateFound = paitientInfoNeeded.birthDate
-    const genderFound = paitientInfoNeeded.gender
+    const patientInfo = entryList.find((results) => results.resource.resourceType === 'Patient')
+    const patientInfoNeeded = patientInfo.resource;
+    const birthDateFound = patientInfoNeeded.birthDate;
+    const genderFound = patientInfoNeeded.gender;
       data['memberId'] = memberId;
       data['birthDate'] = birthDateFound;
       data['gender'] = genderFound;
