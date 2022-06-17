@@ -1,4 +1,4 @@
-[ 
+[
   {
     "resourceType": "Bundle",
     "type": "transaction",
@@ -72,8 +72,12 @@
             {
               "use": "official",
               "family": "Murphy561",
-              "given": ["Young120"],
-              "prefix": ["Mr."]
+              "given": [
+                "Young120"
+              ],
+              "prefix": [
+                "Mr."
+              ]
             }
           ],
           "telecom": [
@@ -102,7 +106,9 @@
                   ]
                 }
               ],
-              "line": ["302 Kerluke Trailer Suite 30"],
+              "line": [
+                "302 Kerluke Trailer Suite 30"
+              ],
               "city": "Arlington",
               "state": "Massachusetts",
               "country": "US"
@@ -115,7 +121,9 @@
             }
           ],
           "meta": {
-            "profile": ["patient-qicore-qicore-patient"]
+            "profile": [
+              "patient-qicore-qicore-patient"
+            ]
           }
         },
         "request": {
@@ -736,7 +744,9 @@
           "item": [
             {
               "sequence": 1,
-              "careTeamSequence": [1],
+              "careTeamSequence": [
+                1
+              ],
               "productOrService": {
                 "coding": [
                   {
@@ -768,7 +778,9 @@
             },
             {
               "sequence": 2,
-              "careTeamSequence": [1],
+              "careTeamSequence": [
+                1
+              ],
               "productOrService": {
                 "coding": [
                   {
@@ -843,7 +855,7 @@
                     ]
                   },
                   "amount": {
-                    "value": 108.45, 
+                    "value": 108.45,
                     "currency": "USD"
                   }
                 }
@@ -957,7 +969,9 @@
           "item": [
             {
               "sequence": 1,
-              "careTeamSequence": [1],
+              "careTeamSequence": [
+                1
+              ],
               "productOrService": {
                 "coding": [
                   {
@@ -989,7 +1003,9 @@
             },
             {
               "sequence": 2,
-              "careTeamSequence": [1],
+              "careTeamSequence": [
+                1
+              ],
               "productOrService": {
                 "coding": [
                   {

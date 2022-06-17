@@ -177,13 +177,20 @@ const evalData = (patient) => {
 
   const memberId = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
   const patientData = data[memberId];
-
   if (hasDenominator(patientData)) {
-    data['memberId'] = memberId;
-    data['measurementType'] = config.measurementType;
-    data['coverage'] = patientData['Member Coverage'];
-    data['providers'] = createProviderList(patient);
-    return data;
+    const entryList = Array.isArray(patient) ? patient[0].entry : patient.entry;
+    const patientInfo = entryList.find((results) => results.resource.resourceType === 'Patient')
+    const patientInfoNeeded = patientInfo.resource;
+    const birthDateFound = patientInfoNeeded.birthDate;
+    const genderFound = patientInfoNeeded.gender;
+      data['memberId'] = memberId;
+      data['birthDate'] = birthDateFound;
+      data['gender'] = genderFound;
+      data['measurementType'] = config.measurementType;
+      data['coverage'] = patientData['Member Coverage'];
+      data['providers'] = createProviderList(patient);
+      return data;
+
   }
   return undefined;
 };
