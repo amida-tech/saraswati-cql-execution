@@ -143,8 +143,8 @@ const execute = (patients) => {
   const executor = new cql.Executor(engineLibraries, codeService, parameters, messageListener);
   patientSource.loadBundles(patients);
   const result = executor.exec(patientSource);
-  // console.log(result.patientResults); // eslint-disable-line no-console
-  // console.log(result.unfilteredResults); // eslint-disable-line no-console
+  console.log(result.patientResults); // eslint-disable-line no-console
+  console.log(result.unfilteredResults); // eslint-disable-line no-console
   const cleanedPatientResults = cleanData(result.patientResults);
   cleanedPatientResults.timeStamp = moment().format();
 
@@ -190,7 +190,7 @@ const evalData = (patient) => {
       data['coverage'] = patientData['Member Coverage'];
       data['providers'] = createProviderList(patient);
       return data;
-    
+
   }
   return undefined;
 };
