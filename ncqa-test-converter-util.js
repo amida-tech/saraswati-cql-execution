@@ -222,6 +222,34 @@ const createClaimEncounter = (encounter) => {
   return encounterFhir;
 }
 
+const createClaimResponse = (response) => {
+  const responseFhir ={
+    resourceType: 'ClaimResponse',
+    id: response.claimResponseId,
+    type: response.claimType,//pharmacyClaimType(),
+    outcome: 'complete',
+    patient: { reference: `Patient/${response.memberId}-patient` },
+    request: {
+      reference: `Claim/${response.claimId}`,
+    },
+    item: [{
+      itemSequence: 1,
+      servicedDate: convertDateString(response.serviceDate),
+      adjudication: paidAdjudication(),
+    }],
+    addItem: [
+      {
+        productOrService: {
+          coding: [ response.serviceCode ]
+        },
+        servicedDate: convertDateString(response.serviceDate),
+      }
+    ],
+  }
+
+  return responseFhir;
+}
+
 const convertDateString = (ncqaDateString) => {
   const year = ncqaDateString.toString().substr(0, 4);
   const month = ncqaDateString.toString().substr(4, 2);
@@ -232,4 +260,5 @@ const convertDateString = (ncqaDateString) => {
 
 module.exports = { getSystem, createCode, professionalClaimType, 
   pharmacyClaimType, paidAdjudication, convertDateString, createClaimFromVisit,
-  createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition };
+  createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
+  createClaimResponse };

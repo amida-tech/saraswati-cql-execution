@@ -3,7 +3,8 @@ const fs = require('fs');
 const readline = require('readline');
 const { createCode, professionalClaimType, pharmacyClaimType,
   paidAdjudication, convertDateString, createClaimFromVisit,
-  createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition } = require('./ncqa-test-converter-util');
+  createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
+  createClaimResponse } = require('./ncqa-test-converter-util');
 
 //const memberId = 105264;
 
@@ -564,29 +565,16 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
       if (visit.claimStatus == 1 && serviceCode) {
         
         const claimResponseId = `${visit.memberId}-prof-claimResponse-${visit.claimId}`;
-        const responseResource = {
-          resourceType: 'ClaimResponse',
-          id: claimResponseId,
-          type: professionalClaimType(),
-          outcome: 'complete',
-          patient: { reference: `Patient/${visit.memberId}-patient` },
-          request: {
-            reference: `Claim/${encounterClaim.id}`,
-          },
-          item: [{
-            itemSequence: 1,
-            servicedDate: convertDateString(visit.dateOfService),
-            adjudication: paidAdjudication(),
-          }],
-          addItem: [
-            {
-              productOrService: {
-                coding: [ serviceCode ]
-              },
-              servicedDate: convertDateString(visit.dateOfService),
-            }
-          ],
-        }
+        const responseResource = createClaimResponse(
+          {
+            claimResponseId: `${visit.memberId}-claimResponse-${visit.claimId}`,
+            claimType: professionalClaimType(),
+            memberId: visit.memberId,
+            claimId: visit.claimId,
+            serviceDate: visit.dateOfService,
+            serviceCode: serviceCode,
+          }
+        )
         encounterClaimList.push({
           fullUrl: `urn:uuid:${claimResponseId}`,
           resource: responseResource,
@@ -807,36 +795,18 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
       claimCount += 1;
 
       if (pharm.claimStatus == 1) {
-        const claimResponseId = `${pharm.memberId}-pharm-claimResponse-${claimResponseCount}`;
-        const responseResource = {
-          resourceType: 'ClaimResponse',
-          id: claimResponseId,
-          type: pharmacyClaimType(),
-          outcome: 'complete',
-          patient: { reference: `Patient/${pharm.memberId}-patient` },
-          request: {
-            reference: `Claim/${claimId}`,
-          },
-          item: [{
-            itemSequence: 1,
-            servicedDate: convertDateString(pharm.serviceDate),
-            adjudication: paidAdjudication(),
-          }],
-          addItem: [
-            {
-              productOrService: {
-                coding: [
-                  {
-                    code: pharm.ndcDrugCode,
-                  }
-                ]
-              },
-              servicedDate: convertDateString(pharm.serviceDate),
-            }
-          ],
-        }
+        const responseResource = createClaimResponse(
+          {
+            claimResponseId: `${pharm.memberId}-claimResponse-${claimResponseCount}`,
+            claimType: pharmacyClaimType(),
+            memberId: pharm.memberId,
+            claimId: claimResponseCount,
+            serviceDate: pharm.serviceDate,
+            serviceCode: { code:pharm.ndcDrugCode },
+          }
+        )
         pharmacyClaimList.push({
-          fullUrl: `urn:uuid:${claimResponseId}`,
+          fullUrl: `urn:uuid:${responseResource.id}`,
           resource: responseResource,
         });
         claimResponseCount += 1;
