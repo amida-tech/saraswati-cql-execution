@@ -17,3 +17,5 @@ private
 .vscode-server
 .npm
 .cache
+.bash_history
+.ssh
