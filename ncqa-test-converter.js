@@ -3,7 +3,7 @@ const fs = require('fs');
 const readline = require('readline');
 const { createCode, professionalClaimType, pharmacyClaimType, convertDateString,
   createClaimFromVisit, createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
-  createClaimResponse, createPharmacyClaim } = require('./ncqa-test-converter-util');
+  createClaimResponse, createPharmacyClaim, isDateDuringPeriod } = require('./ncqa-test-converter-util');
 
 //const memberId = 105264;
 
@@ -470,13 +470,14 @@ const createCoverageObjects = (membershipEnrollment) => {
 }
 
 const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) => {
-  const encounterClaimList = [];
+  const fullResourceList = [];
+  const encounterVisitList = [];
   var count = 0;
   if (visitList) {
     visitList.forEach((visit) => {
       const serviceCode = createServiceCodeFromVisit(visit);
       const encounterClaim = createClaimFromVisit(visit);
-      encounterClaimList.push({
+      fullResourceList.push({
         fullUrl: `urn:uuid:${encounterClaim.id}`,
         resource: encounterClaim
       });
@@ -491,7 +492,7 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
           status: 'completed',
           code: { coding: [ serviceCode ] }
         }
-        encounterClaimList.push({
+        fullResourceList.push({
           fullUrl: `urn:uuid:${procedureId}`,
           resource: procResource
         });
@@ -504,14 +505,14 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
           const condObj = createDiagnosisCondition(
             {
               memberId: visit.memberId,
-              conditionId: conditionCount,
+              conditionId: `${visit.memberId}-diagnosis-condition-${conditionCount}`,
               code: diagnosis,
               system: visit.icdIdentifier,
               onsetDateTime: visit.dateOfService,
             }
           );
           conditionList.push(condObj);
-          encounterClaimList.push({
+          fullResourceList.push({
             fullUrl: `urn:uuid:${condObj.id}`,
             resource: condObj
           });
@@ -527,7 +528,7 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
           code: { coding: [ serviceCode ] },
           effectiveDateTime: convertDateString(visit.dateOfService),
         }
-        encounterClaimList.push({
+        fullResourceList.push({
           fullUrl: `urn:uuid:${obcClaimId}`,
           resource: obsClaim
         });
@@ -555,10 +556,7 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
           }
         });
       });
-      encounterClaimList.push({
-        fullUrl: `urn:uuid:${encounter.id}`,
-        resource: encounter
-      });
+      encounterVisitList.push(encounter);
   
       if (visit.claimStatus == 1 && serviceCode) {
         
@@ -573,7 +571,7 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
             serviceCode: serviceCode,
           }
         )
-        encounterClaimList.push({
+        fullResourceList.push({
           fullUrl: `urn:uuid:${claimResponseId}`,
           resource: responseResource,
         });
@@ -583,7 +581,6 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
 
   }
 
-  const visitEncounterList = [];
   if (visitEncounter) {
     visitEncounter.forEach((profClaim) => {
       count += 1;
@@ -624,7 +621,11 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
           }
         ];
       }
-      visitEncounterList.push(resource);
+
+      fullResourceList.push({
+        fullUrl: `urn:uuid:${resource.id}`,
+        resource: resource
+      });
 
       const encounter = createClaimEncounter(
         {
@@ -642,13 +643,13 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
         const condObj = createDiagnosisCondition(
           {
             memberId: profClaim.memberId,
-            conditionId: count,
+            conditionId: `${profClaim.memberId}-diagnosis-condition-${count}`,
             code: profClaim.diagnosisCode,
             system: profClaim.diagnosisFlag,
             onsetDateTime: profClaim.serviceDate,
           }
         );
-        encounterClaimList.push({
+        fullResourceList.push({
           fullUrl: `urn:uuid:${condObj.id}`,
           resource: condObj
         });
@@ -662,37 +663,60 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
           }
         };
       }
-      encounterClaimList.push({
-        fullUrl: `urn:uuid:${encounter.id}`,
-        resource: encounter
-      });
+      encounterVisitList.push(encounter);
     });
   }
 
+  let diagnosisCount = 1;
   if (diagnosis) {
     diagnosis.forEach((diag) => {
-      for (const evisit of visitEncounterList) {
-        if (evisit.created === convertDateString(diag.startDate)) {
+      const condition = createDiagnosisCondition(
+        {
+          memberId: diag.memberId,
+          conditionId: `${diag.memberId}-condition-${diagnosisCount}`,
+          code: diag.diagnosisCode,
+          system: diag.diagnosisFlag,
+          onsetStart: diag.startDate,
+          onsetEnd: diag.endDate,
+        }
+      );
+      fullResourceList.push({
+        fullUrl: `urn:uuid:${condition.id}`,
+        resource: condition,
+      });
+
+      let onsetPeriod = undefined;
+      if (condition.onsetDateTime) {
+        onsetPeriod = { start: condition.onsetDateTime };
+      } else {
+        onsetPeriod = condition.onsetPeriod;
+      }
+      for (const evisit of encounterVisitList) {
+        if (onsetPeriod && isDateDuringPeriod(evisit.period.start, onsetPeriod)) {
           if (evisit.diagnosis === undefined) {
-            evisit.diagnosis = [ { diagnosisCodeableConcept: { coding: [] } } ]
+            evisit.diagnosis = [ ]
           }
-          evisit.diagnosis[0].diagnosisCodeableConcept.coding.push(createCode(diag.diagnosisCode, diag.diagnosisFlag));
+          evisit.diagnosis.push(
+            { condition: {
+              reference: condition.id,
+            }
+          });
         }
       }
     });
   }
   
 
-  if (visitEncounterList) {
-    visitEncounterList.forEach((fullEncounter) => {
-      encounterClaimList.push({
+  if (encounterVisitList) {
+    encounterVisitList.forEach((fullEncounter) => {
+      fullResourceList.push({
         fullUrl: `urn:uuid:${fullEncounter.id}`,
         resource: fullEncounter,
       });
     });
   }
 
-  return encounterClaimList;
+  return fullResourceList;
 };
 
 const createPharmacyClaims = (pharmacyClinical, pharmacy) => {

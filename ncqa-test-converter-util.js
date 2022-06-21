@@ -79,6 +79,15 @@ const paidAdjudication = () => {
   ]
 }
 
+const isDateDuringPeriod = (date, period) => {
+  const dateToCheck = Date.parse(date);
+  if (period.end) {
+    return Date.parse(period.start) <= dateToCheck
+      && dateToCheck <= Date.parse(period.end);
+  }
+  return Date.parse(period.start) <= dateToCheck;
+}
+
 const createServiceCodeFromVisit = (visit) => {
   if (visit.cpt || visit.hcpcs) {
     let code = '';
@@ -186,8 +195,9 @@ const createClaimFromVisit = (visit) => {
 
 const createDiagnosisCondition = (condition) => {
   const condObj = {
-    id: `${condition.memberId}-diagnosis-condition-${condition.conditionId}`,
+    id: condition.conditionId,
     resourceType: 'Condition',
+    subject: { reference: `Patient/${condition.memberId}-patient` },
     clinicalStatus: {
       coding: [
         {
@@ -197,9 +207,20 @@ const createDiagnosisCondition = (condition) => {
       ]
     },
     code: { coding: [ createCode(condition.code, condition.system) ] },
-    onsetDateTime: convertDateString(condition.onsetDateTime),
   }
 
+  if (condition.onsetDateTime) {
+    condObj.onsetDateTime = convertDateString(condition.onsetDateTime);
+  } else if (condition.onsetStart) {
+    if (condition.onsetEnd) {
+      condObj.onsetPeriod = {
+        start: convertDateString(condition.onsetStart),
+        end: convertDateString(condition.onsetEnd),
+      }
+    } else {
+      condObj.onsetDateTime = convertDateString(condition.onsetStart);
+    }
+  }
   return condObj;
 }
 
@@ -319,4 +340,4 @@ const convertDateString = (ncqaDateString) => {
 module.exports = { getSystem, createCode, professionalClaimType, 
   pharmacyClaimType, convertDateString, createClaimFromVisit,
   createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
-  createClaimResponse, createPharmacyClaim };
+  createClaimResponse, createPharmacyClaim, isDateDuringPeriod };
