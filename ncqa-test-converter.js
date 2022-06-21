@@ -1,10 +1,9 @@
 const parseArgs = require('minimist')(process.argv.slice(2));
 const fs = require('fs');
 const readline = require('readline');
-const { createCode, professionalClaimType, pharmacyClaimType,
-  paidAdjudication, convertDateString, createClaimFromVisit,
-  createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
-  createClaimResponse } = require('./ncqa-test-converter-util');
+const { createCode, professionalClaimType, pharmacyClaimType, convertDateString,
+  createClaimFromVisit, createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
+  createClaimResponse, createPharmacyClaim } = require('./ncqa-test-converter-util');
 
 //const memberId = 105264;
 
@@ -487,8 +486,7 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
         const procResource = {
           id: procedureId,
           resourceType: 'Procedure',
-          subject: { reference: `Patient/${visit.memberId}-patient`
-          },
+          subject: { reference: `Patient/${visit.memberId}-patient`},
           performedDateTime: convertDateString(visit.dateOfService),
           status: 'completed',
           code: { coding: [ serviceCode ] }
@@ -703,48 +701,27 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
   let claimResponseCount = 1;
   if (pharmacyClinical) {
     pharmacyClinical.forEach((pharmClinic) => {
-      const claimId = `${pharmClinic.memberId}-pharm-claim-${claimCount}`;
-      const resource = {
-        resourceType: 'Claim',
-        id: claimId,
-        type: professionalClaimType(), // Are clinical pharmacys professional claims or pharmacy claims??
-        patient: { reference: `Patient/${pharmClinic.memberId}-patient` },
-        diagnosis: [
-          {
-            sequence: 1,
-            diagnosisCodeableConcept: {
-              coding: [
-                {
-                  code: '112690009',
-                  system: 'http://snomed.info/sct',
-                  version: '2020-09',
-                  display: 'Nonacute Inpatient Stay'
-                }
-              ]
-            }
-          }
-        ],
-        item: [{
-          sequence: 1,
-          servicedPeriod: {
-            start: convertDateString(pharmClinic.startDate),
-            end: convertDateString(pharmClinic.endDate),
-          },
-          productOrService: {
-            coding: [ createCode(pharmClinic.drugCode, pharmClinic.codeFlag, 'RX') ]
-          },
-        }],
-      }
-
-      if (pharmClinic.quantity) {
-        resource.quantity = {
-          value: pharmClinic.quantity,
-        }
-      }
+      const resource = createPharmacyClaim({
+        claimId: `${pharmClinic.memberId}-pharm-claim-${claimCount}`,
+        type: professionalClaimType(),
+        memberId: pharmClinic.memberId,
+        startDate: pharmClinic.startDate,
+        endDate: pharmClinic.endDate,
+        serviceCode: createCode(pharmClinic.drugCode, pharmClinic.codeFlag, 'RX'),
+        diagnosisCode: {
+          code: '112690009',
+          system: 'http://snomed.info/sct',
+          version: '2020-09',
+          display: 'Nonacute Inpatient Stay'
+        },
+        quantity: pharmClinic.quantity,
+      });
+      
       pharmacyClaimList.push({
-        fullUrl: `urn:uuid:${claimId}`,
+        fullUrl: `urn:uuid:${resource.id}`,
         resource,
       });
+
       if (pharmClinic.drugCode.length <= 3) {
         const immunoId = `${pharmClinic.memberId}-immunization-${claimCount}`;
         const immunoResource = {
@@ -767,29 +744,16 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
 
   if (pharmacy) {
     pharmacy.forEach((pharm) => {
-      const claimId = `${pharm.memberId}-pharm-claim-${claimCount}`;
-      const resource = {
-        resourceType: 'Claim',
-        id: claimId,
+      const resource = createPharmacyClaim({
+        claimId: `${pharm.memberId}-pharm-claim-${claimCount}`,
         type: pharmacyClaimType(),
-        patient: { reference: `Patient/${pharm.memberId}-patient` },
-        item: [{
-          sequence: 1,
-          servicedDate: convertDateString(pharm.serviceDate),
-          productOrService: {
-            coding: [
-              {
-                code: pharm.ndcDrugCode,
-              }
-            ]
-          },
-          quantity: {
-            value: pharm.daysSupply,
-          }
-        }],
-      }
+        memberId: pharm.memberId,
+        serviceDate: pharm.serviceDate,
+        serviceCode: { code: pharm.ndcDrugCode },
+        quantity: pharm.daysSupply,
+      });
       pharmacyClaimList.push({
-        fullUrl: `urn:uuid:${claimId}`,
+        fullUrl: `urn:uuid:${resource.id}`,
         resource,
       });
       claimCount += 1;
@@ -859,7 +823,7 @@ const createObservations = (observations, procedures) => {
         const procedureId = `${observation.memberId}-procedure-${count}`;
         const procResource = {
           resourceType: 'Procedure',
-          id: encounterId,
+          id: procedureId,
           patient: { reference: `Patient/${observation.memberId}-patient` },
           performedPeriod: {
             start: convertDateString(observation.observationDate),

@@ -250,6 +250,64 @@ const createClaimResponse = (response) => {
   return responseFhir;
 }
 
+const createPharmacyClaim = (pharmacy) => {
+  const resource = {
+    resourceType: 'Claim',
+    id: pharmacy.claimId,
+    type: pharmacy.ClaimType,
+    patient: { reference: `Patient/${pharmacy.memberId}-patient` },
+  }
+
+  let item = undefined;
+  if (pharmacy.serviceDate) {
+    item = {
+      sequence: 1,
+      servicedDate: pharmacy.serviceDate,
+      productOrService: {
+        coding: [ pharmacy.serviceCode ]
+      },
+    };
+  } else if (pharmacy.startDate && pharmacy.endDate) {
+    item = {
+      sequence: 1,
+      servicedPeriod: {
+        start: convertDateString(pharmacy.startDate),
+        end: convertDateString(pharmacy.endDate),
+      },
+      productOrService: {
+        coding: [ pharmacy.serviceCode ]
+      },
+    };
+  }
+
+  if (pharmacy.diagnosisCode) {
+    resource.diagnosis = [
+      {
+        sequence: 1,
+        diagnosisCodeableConcept: {
+          coding: [
+            pharmacy.diagnosisCode
+          ]
+        }
+      }
+    ]
+  }
+  
+  if (pharmacy.quantity) {
+    resource.quantity = {
+      value: pharmacy.quantity,
+    }
+    if (item) {
+      item.quantity = {
+        value: pharmacy.quantity,
+      }
+    }
+  }
+
+  resource.item = [item];
+  return resource;
+}
+
 const convertDateString = (ncqaDateString) => {
   const year = ncqaDateString.toString().substr(0, 4);
   const month = ncqaDateString.toString().substr(4, 2);
@@ -259,6 +317,6 @@ const convertDateString = (ncqaDateString) => {
 }
 
 module.exports = { getSystem, createCode, professionalClaimType, 
-  pharmacyClaimType, paidAdjudication, convertDateString, createClaimFromVisit,
+  pharmacyClaimType, convertDateString, createClaimFromVisit,
   createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
-  createClaimResponse };
+  createClaimResponse, createPharmacyClaim };
