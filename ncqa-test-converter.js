@@ -433,7 +433,7 @@ const createCoverageObjects = (membershipEnrollment) => {
 
     if (enrollment.payor === 'HMO' || enrollment.payor === 'PPO' || enrollment.payor === 'POS'
       || enrollment.payor === 'SN1' || enrollment.payor === 'SN2' || enrollment.payor === 'SN3'
-      || enrollment.payor === 'CEP') {
+      || enrollment.payor === 'CEP' || enrollment.payor === 'MOS' || enrollment.payor === 'MPO') {
       resource.type.coding.push({
         system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
         code: 'MCPOL',
@@ -820,8 +820,15 @@ const createObservations = (observations, procedures) => {
           id: observationId,
           subject: { reference: `Patient/${observation.memberId}-patient` },
           code: { coding: [ obsCode ] },
-          valueInteger: observation.value,
-          effectiveDateTime: convertDateString(observation.observationDate),
+          valueInteger: parseInt(observation.value),
+        }
+        if (observation.endDate) {
+          obsResource.effectivePeriod = {
+            start: convertDateString(observation.observationDate),
+            end: convertDateString(observation.endDate),
+          };
+        } else {
+          obsResource.effectiveDateTime = convertDateString(observation.observationDate);
         }
         fhirObsList.push({
           fullUrl: `urn:uuid:${observationId}`,
@@ -988,7 +995,7 @@ async function createFhirJson(testDirectory, allMemberInfo) {
     const labs = createLabs(memberInfo.lab, memberInfo.procedure);
     labs.forEach((item) => fhirObject.entry.push(item));
 
-    if (memberId === '95152') {
+    if (memberId === '95101') {
       try {
         fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
         fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
