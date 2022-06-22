@@ -450,7 +450,7 @@ const createCoverageObjects = (membershipEnrollment) => {
       });
     }
 
-    if (enrollment.payor === 'MD' || enrollment.payor === 'MDE'
+    if (enrollment.payor === 'MD' || enrollment.payor === 'MDE' || enrollment.payor === 'MMO'
       || enrollment.payor === 'MLI' || enrollment.payor === 'MRB') {
       resource.type.coding.push({
         system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
@@ -995,7 +995,7 @@ async function createFhirJson(testDirectory, allMemberInfo) {
     const labs = createLabs(memberInfo.lab, memberInfo.procedure);
     labs.forEach((item) => fhirObject.entry.push(item));
 
-    if (memberId === '95101') {
+    if (memberId === '95285') {
       try {
         fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
         fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
