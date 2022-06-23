@@ -669,13 +669,12 @@ const linkConditionsToEncounters = (conditions, encounters) => {
 
 const createProcedureList = (visits, observations, procedures) => {
   const procedureList = [];
-  let procedureCount = 1;
   if (visits) {
-    visits.forEach((visit) => {
+    visits.forEach((visit, index) => {
       const serviceCode = createServiceCodeFromVisit(visit);
       if (serviceCode) {
         const procResource = {
-          id: `${visit.memberId}-visit-procedure-${visit.claimId}-${procedureCount}`,
+          id: `${visit.memberId}-visit-procedure-${visit.claimId}-${index + 1}`,
           resourceType: 'Procedure',
           subject: { reference: `Patient/${visit.memberId}-patient`},
           performedDateTime: convertDateString(visit.dateOfService),
@@ -683,7 +682,6 @@ const createProcedureList = (visits, observations, procedures) => {
           code: { coding: [ serviceCode ] }
         }
         procedureList.push(procResource);
-        procedureCount += 1;
       }
     });
   }
@@ -706,7 +704,21 @@ const createProcedureList = (visits, observations, procedures) => {
         ]
       }
       procedureList.push(procResource);
-      procedureCount += 1;
+    });
+  }
+
+  if (procedures) {
+    procedures.forEach((procedure, index) => {
+      const procCode = createCode(procedure.procedureCode, procedure.codeFlag);
+      const procResource = {
+        resourceType: 'Procedure',
+        id: `${procedure.memberId}-procedure-${index + 1}`,
+        subject: { reference: `Patient/${procedure.memberId}-patient` },
+        performedDateTime: convertDateString(procedure.serviceDate),
+        status: procedure.serviceStatus === 'EVN' ? 'completed' : 'in-progress',
+        code: { coding: [ procCode ] },
+      }
+      procedureList.push(procResource);
     });
   }
 
@@ -967,7 +979,7 @@ async function createFhirJson(testDirectory, allMemberInfo) {
     const clincalPharm = createPharmacyClaims(memberInfo.pharmacyClinical, memberInfo.pharmacy);
     clincalPharm.forEach((item) => fhirObject.entry.push(item));
 
-    if (memberId === '95287') {
+    if (memberId === '95087') {
       try {
         fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
         fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
