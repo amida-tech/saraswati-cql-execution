@@ -41,7 +41,7 @@
     "jsonl": "^1.1.2",
     "kafkajs": "^1.15.0",
     "luxon": "^1.25.0",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "moment": "^2.27.0",
     "node-watch": "^0.7.3",
     "ucum": "^0.0.7",
