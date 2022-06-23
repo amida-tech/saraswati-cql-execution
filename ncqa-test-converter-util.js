@@ -114,12 +114,12 @@ const createClaimFromVisit = (visit) => {
     provider: { reference: visit.providerId },
   }
 
-  if (visit.ubRevenue && visit.ubRevenue.startsWith('045')) {
+  if (visit.ubRevenue) {
     resource.procedure = [{
       procedureCodeableConcept: {
-        coding: [ createCode('99211', 'C') ],
+        coding: [ createCode(visit.ubRevenue, 'C') ],
       },
-    }]
+    }];
   }
 
   let procCount = 1;
@@ -165,14 +165,17 @@ const createClaimFromVisit = (visit) => {
     procCount += 1;
   }
 
-  visit.icdDiagnosis.forEach((diagnosis) => {
+  visit.icdDiagnosis.forEach((diagnosis, index) => {
     if (diagnosis) {
       if (resource.diagnosis === undefined) {
-        resource.diagnosis = [ { diagnosisCodeableConcept: { coding: [] } } ];
+        resource.diagnosis = []
       }
-      resource.diagnosis[0].diagnosisCodeableConcept.coding.push(
-        createCode(diagnosis, visit.icdIdentifier)
-      );
+      resource.diagnosis.push({
+        sequence: index + 1,
+        diagnosisCodeableConcept: {
+          coding: [ createCode(diagnosis, visit.icdIdentifier) ]
+        }
+      });
     }
   });
 
@@ -190,6 +193,46 @@ const createClaimFromVisit = (visit) => {
     }
   }
 
+  return resource;
+}
+
+const createClaimFromVisitEncounter = (visitEncounter, count) => {
+  const serviceCode = createCode(visitEncounter.activityType, visitEncounter.codeFlag);
+  const resource = {
+    resourceType: 'Claim',
+    id: `${visitEncounter.memberId}-prof-claim-${count}`,
+    type: professionalClaimType(),
+    created: convertDateString(visitEncounter.serviceDate),
+    patient: { reference: `Patient/${visitEncounter.memberId}-patient` },
+    provider: { reference: visitEncounter.providerId },
+    procedure: [
+      {
+        procedureCodeableConcept: {
+          coding: [ serviceCode ],
+        },
+      }
+    ],
+    item: [
+      {
+        sequence: 1,
+        servicedDate: convertDateString(visitEncounter.serviceDate),
+        productOrService: {
+          coding: [ serviceCode ]
+        }
+      }
+    ]
+  }
+  if (visitEncounter.diagnosisCode !== undefined) {
+    resource.diagnosis = [
+      {
+        diagnosisCodeableConcept: {
+          coding: [ 
+            createCode(visitEncounter.diagnosisCode, visitEncounter.diagnosisFlag)
+          ]
+        }
+      }
+    ];
+  }
   return resource;
 }
 
@@ -237,8 +280,17 @@ const createClaimEncounter = (encounter) => {
   if (encounter.serviceCode) {
     encounterFhir.type = [ { coding: [ encounter.serviceCode ] } ]
   }
-  if (encounter.cmsPlaceOfService && encounter.cmsPlaceOfService.startsWith('7')) {
+  if (encounter.admissionDate === undefined) {
     encounterFhir.class = createCode('AMB', 'A');
+  }
+  if (encounter.ubRevenue) {
+    if (encounterFhir.type) {
+      encounterFhir.type.push({
+        coding: [ createCode(encounter.ubRevenue, 'C') ],
+      });
+    } else {
+      encounterFhir.type = [ { coding: [ createCode(encounter.ubRevenue, 'C') ] } ];
+    }
   }
   return encounterFhir;
 }
@@ -246,8 +298,8 @@ const createClaimEncounter = (encounter) => {
 const createClaimResponse = (response) => {
   const responseFhir ={
     resourceType: 'ClaimResponse',
-    id: response.claimResponseId,
-    type: response.claimType,//pharmacyClaimType(),
+    id: `${response.memberId}-${response.idName}-${response.claimId}`,
+    type: response.claimType,
     outcome: 'complete',
     patient: { reference: `Patient/${response.memberId}-patient` },
     request: {
@@ -338,6 +390,6 @@ const convertDateString = (ncqaDateString) => {
 }
 
 module.exports = { getSystem, createCode, professionalClaimType, 
-  pharmacyClaimType, convertDateString, createClaimFromVisit,
-  createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
+  pharmacyClaimType, convertDateString, createClaimFromVisit, createClaimFromVisitEncounter,
+  createServiceCodeFromVisit, createClaimEncounter, createDiagnosisCondition,
   createClaimResponse, createPharmacyClaim, isDateDuringPeriod };

@@ -3,7 +3,8 @@ const fs = require('fs');
 const readline = require('readline');
 const { createCode, professionalClaimType, pharmacyClaimType, convertDateString,
   createClaimFromVisit, createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
-  createClaimResponse, createPharmacyClaim, isDateDuringPeriod } = require('./ncqa-test-converter-util');
+  createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createClaimFromVisitEncounter }
+  = require('./ncqa-test-converter-util');
 
 //const memberId = 105264;
 
@@ -470,71 +471,75 @@ const createCoverageObjects = (membershipEnrollment) => {
   return coverage;
 }
 
-const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) => {
-  const fullResourceList = [];
-  const encounterVisitList = [];
-  var count = 0;
+const createConditionList = (visitList, visitEncounterList, diagnosisList) => {
+  const fullConditionList = [];
+  let conditionCount = 1;
   if (visitList) {
     visitList.forEach((visit) => {
-      const serviceCode = createServiceCodeFromVisit(visit);
-      const encounterClaim = createClaimFromVisit(visit);
-      fullResourceList.push({
-        fullUrl: `urn:uuid:${encounterClaim.id}`,
-        resource: encounterClaim
-      });
-
-      if (serviceCode) {
-        const procedureId = `${visit.memberId}-visit-procedure-${visit.claimId}`;
-        const procResource = {
-          id: procedureId,
-          resourceType: 'Procedure',
-          subject: { reference: `Patient/${visit.memberId}-patient`},
-          performedDateTime: convertDateString(visit.dateOfService),
-          status: 'completed',
-          code: { coding: [ serviceCode ] }
-        }
-        fullResourceList.push({
-          fullUrl: `urn:uuid:${procedureId}`,
-          resource: procResource
-        });
-      }
-
-      const conditionList = [];
-      let conditionCount = 1;
-      visit.icdDiagnosis.forEach((diagnosis) => {
-        if (diagnosis) {
+      visit.icdDiagnosis.forEach((visitDiagnosis) => {
+        if (visitDiagnosis) {
           const condObj = createDiagnosisCondition(
             {
               memberId: visit.memberId,
-              conditionId: `${visit.memberId}-diagnosis-condition-${conditionCount}`,
-              code: diagnosis,
+              conditionId: `${visit.memberId}-visit-condition-${visit.claimId}-${conditionCount}`,
+              code: visitDiagnosis,
               system: visit.icdIdentifier,
               onsetDateTime: visit.dateOfService,
             }
           );
-          conditionList.push(condObj);
-          fullResourceList.push({
-            fullUrl: `urn:uuid:${condObj.id}`,
-            resource: condObj
-          });
+          fullConditionList.push(condObj);
           conditionCount += 1;
         }
       });
+    });
+  }
 
-      if (visit.cmsPlaceOfService.startsWith('8')) {
-        const obcClaimId = `${visit.memberId}-claim-observation-${visit.claimId}`;
-        const obsClaim = {
-          id: obcClaimId,
-          resourceType: 'Observation',
-          code: { coding: [ serviceCode ] },
-          effectiveDateTime: convertDateString(visit.dateOfService),
-        }
-        fullResourceList.push({
-          fullUrl: `urn:uuid:${obcClaimId}`,
-          resource: obsClaim
-        });
+  if (visitEncounterList) {
+    visitEncounterList.forEach((visitEncounter) => {
+      if (visitEncounter.diagnosisCode) {
+        const condObj = createDiagnosisCondition(
+          {
+            memberId: visitEncounter.memberId,
+            conditionId: `${visitEncounter.memberId}-diagnosis-condition-${conditionCount}`,
+            code: visitEncounter.diagnosisCode,
+            system: visitEncounter.diagnosisFlag,
+            onsetDateTime: visitEncounter.serviceDate,
+          }
+        );
+        fullConditionList.push(condObj);
+        conditionCount += 1;
       }
+    });
+  }
+    
+  if (diagnosisList) {
+    diagnosisList.forEach((diagnosis) => {
+      const condition = createDiagnosisCondition(
+        {
+          memberId: diagnosis.memberId,
+          conditionId: `${diagnosis.memberId}-condition-${conditionCount}`,
+          code: diagnosis.diagnosisCode,
+          system: diagnosis.diagnosisFlag,
+          onsetStart: diagnosis.startDate,
+          onsetEnd: diagnosis.endDate,
+        }
+      );
+      fullConditionList.push(condition);
+      conditionCount += 1;
+    });
+  }
 
+  return fullConditionList;
+}
+
+const createClaimEncResponse = (visitList, visitEncounterList, observationList, procedureList) => {
+  const claims = [];
+  const encounters = [];
+  const claimResponses = [];
+
+  if (visitList) {
+    visitList.forEach((visit) => {
+      const serviceCode = createServiceCodeFromVisit(visit);
       const encounter = createClaimEncounter(
         {
           memberId: visit.memberId,
@@ -545,180 +550,250 @@ const createProfessionalClaimObjects = (visitList, visitEncounter, diagnosis) =>
           },
           serviceCode,
           cmsPlaceOfService: visit.cmsPlaceOfService,
+          ubRevenue: visit.ubRevenue,
         }
       );
-      conditionList.forEach((linkCondition) => {
-        if (encounter.diagnosis === undefined) {
-          encounter.diagnosis = [];
-        }
-        encounter.diagnosis.push({
-          condition: {
-            reference: linkCondition.id,
-          }
-        });
-      });
-      encounterVisitList.push(encounter);
-  
+      encounters.push(encounter);
+
+      const visitClaim = createClaimFromVisit(visit);
+      visit.encounter = [ { reference: `Encounter/${encounter.id}` } ]
+      claims.push(visitClaim);
+
       if (visit.claimStatus == 1 && serviceCode) {
-        
-        const claimResponseId = `${visit.memberId}-prof-claimResponse-${visit.claimId}`;
         const responseResource = createClaimResponse(
           {
-            claimResponseId: `${visit.memberId}-claimResponse-${visit.claimId}`,
+            idName: 'prof-claimResponse',
             claimType: professionalClaimType(),
             memberId: visit.memberId,
             claimId: visit.claimId,
             serviceDate: visit.dateOfService,
             serviceCode: serviceCode,
           }
-        )
-        fullResourceList.push({
-          fullUrl: `urn:uuid:${claimResponseId}`,
-          resource: responseResource,
-        });
+        );
+        responseResource.request = [ { reference: `Claim/${visitClaim.id}` } ];
+        claimResponses.push(responseResource);
       }
-      count += 1;
     });
-
   }
 
-  if (visitEncounter) {
-    visitEncounter.forEach((profClaim) => {
-      count += 1;
-      const claimId = `${profClaim.memberId}-prof-claim-${count}`;
-      const serviceCode = createCode(profClaim.activityType, profClaim.codeFlag);
-      const resource = {
-        resourceType: 'Claim',
-        id: claimId,
-        type: professionalClaimType(),
-        created: convertDateString(profClaim.serviceDate),
-        patient: { reference: `Patient/${profClaim.memberId}-patient` },
-        provider: { reference: profClaim.providerId },
-        procedure: [
-          {
-            procedureCodeableConcept: {
-              coding: [ serviceCode ],
-            },
-          }
-        ],
-        item: [
-          {
-            sequence: 1,
-            servicedDate: convertDateString(profClaim.serviceDate),
-            productOrService: {
-              coding: [ serviceCode ]
-            }
-          }
-        ]
-      }
-      if (profClaim.diagnosisCode !== undefined) {
-        resource.diagnosis = [
-          {
-            diagnosisCodeableConcept: {
-              coding: [ 
-                createCode(profClaim.diagnosisCode, profClaim.diagnosisFlag)
-              ]
-            }
-          }
-        ];
-      }
-
-      fullResourceList.push({
-        fullUrl: `urn:uuid:${resource.id}`,
-        resource: resource
-      });
-
+  if (visitEncounterList) {
+    visitEncounterList.forEach((visitEncounter, index) => {
+      const serviceCode = createCode(visitEncounter.activityType, visitEncounter.codeFlag);
       const encounter = createClaimEncounter(
         {
-          memberId: profClaim.memberId,
-          encounterId: count,
+          memberId: visitEncounter.memberId,
+          encounterId: index + 1,
           period: {
-            start: profClaim.serviceDate,
-            end: profClaim.serviceDate,
+            start: visitEncounter.serviceDate,
+            end: visitEncounter.serviceDate,
           },
           serviceCode,
         }
       );
+      encounters.push(encounter);
 
-      if (profClaim.diagnosisCode) {
-        const condObj = createDiagnosisCondition(
-          {
-            memberId: profClaim.memberId,
-            conditionId: `${profClaim.memberId}-diagnosis-condition-${count}`,
-            code: profClaim.diagnosisCode,
-            system: profClaim.diagnosisFlag,
-            onsetDateTime: profClaim.serviceDate,
-          }
-        );
-        fullResourceList.push({
-          fullUrl: `urn:uuid:${condObj.id}`,
-          resource: condObj
-        });
+      const visitEncounterClaim = createClaimFromVisitEncounter(visitEncounter, index + 1);
+      visitEncounterClaim.encounter = [ { reference: `Encounter/${encounter.id}` } ]
+      claims.push(visitEncounterClaim);
+    });
+    
+  }
 
-        if (encounter.diagnosis === undefined) {
-          encounter.diagnosis = [];
+  if (observationList) {
+    observationList.forEach((observation, index) => {
+      if (observation.value === undefined) {
+        const encResource = {
+          resourceType: 'Encounter',
+          id: `${observation.memberId}-observation-encounter-${index + 1}`,
+          patient: { reference: `Patient/${observation.memberId}-patient` },
+          period: {
+            start: convertDateString(observation.observationDate),
+            end: convertDateString(observation.endDate),
+          },
+          status: procedure.serviceStatus === 'EVN' ? 'finished' : 'in-progress',
+          type: [ { coding: [ obsCode ] } ]
         }
-        encounter.diagnosis[0] = {
-          condition: {
-            reference: condObj.id,
-          }
-        };
+        encounters.push(encResource);
       }
-      encounterVisitList.push(encounter);
     });
   }
 
-  let diagnosisCount = 1;
-  if (diagnosis) {
-    diagnosis.forEach((diag) => {
-      const condition = createDiagnosisCondition(
-        {
-          memberId: diag.memberId,
-          conditionId: `${diag.memberId}-condition-${diagnosisCount}`,
-          code: diag.diagnosisCode,
-          system: diag.diagnosisFlag,
-          onsetStart: diag.startDate,
-          onsetEnd: diag.endDate,
-        }
-      );
-      fullResourceList.push({
-        fullUrl: `urn:uuid:${condition.id}`,
-        resource: condition,
-      });
+  if (procedureList) {
+    procedureList.forEach((procedure, index) => {
+      const procCode = createCode(procedure.procedureCode, procedure.codeFlag);
+      const encResource = {
+        resourceType: 'Encounter',
+        id: `${procedure.memberId}-procedure-encounter-${index + 1}`,
+        patient: { reference: `Patient/${procedure.memberId}-patient` },
+        period: {
+          start: convertDateString(procedure.serviceDate),
+          end: convertDateString(procedure.endDate),
+        },
+        status: procedure.serviceStatus === 'EVN' ? 'finished' : 'in-progress',
+        type: [ { coding: [ procCode ] } ]
+      }
+      encounters.push(encResource);
+    });
+  }
 
+  return { claims, encounters, claimResponses };
+}
+
+const linkConditionsToEncounters = (conditions, encounters) => {
+  if (conditions && encounters) {
+    conditions.forEach((condition) => {
       let onsetPeriod = undefined;
       if (condition.onsetDateTime) {
         onsetPeriod = { start: condition.onsetDateTime };
       } else {
         onsetPeriod = condition.onsetPeriod;
       }
-      for (const evisit of encounterVisitList) {
-        if (onsetPeriod && isDateDuringPeriod(evisit.period.start, onsetPeriod)) {
-          if (evisit.diagnosis === undefined) {
-            evisit.diagnosis = [ ]
+      encounters.forEach((encounter) => {
+        if (onsetPeriod && isDateDuringPeriod(encounter.period.start, onsetPeriod)) {
+          if (encounter.diagnosis === undefined) {
+            encounter.diagnosis = [ ]
           }
-          evisit.diagnosis.push(
-            { condition: {
-              reference: condition.id,
+          encounter.diagnosis.push(
+            { 
+              condition: {
+                reference: condition.id,
+              },
+              rank: encounter.diagnosis.length + 1,
             }
-          });
+          );
         }
-      }
-    });
-  }
-  
-
-  if (encounterVisitList) {
-    encounterVisitList.forEach((fullEncounter) => {
-      fullResourceList.push({
-        fullUrl: `urn:uuid:${fullEncounter.id}`,
-        resource: fullEncounter,
       });
     });
   }
+}
 
-  return fullResourceList;
-};
+const createProcedureList = (visits, observations, procedures) => {
+  const procedureList = [];
+  let procedureCount = 1;
+  if (visits) {
+    visits.forEach((visit) => {
+      const serviceCode = createServiceCodeFromVisit(visit);
+      if (serviceCode) {
+        const procResource = {
+          id: `${visit.memberId}-visit-procedure-${visit.claimId}-${procedureCount}`,
+          resourceType: 'Procedure',
+          subject: { reference: `Patient/${visit.memberId}-patient`},
+          performedDateTime: convertDateString(visit.dateOfService),
+          status: 'completed',
+          code: { coding: [ serviceCode ] }
+        }
+        procedureList.push(procResource);
+        procedureCount += 1;
+      }
+    });
+  }
+
+  if (observations) {
+    observations.forEach((observation, index) => {
+      const obsCode = createCode(observation.test, observation.testCodeFlag);
+      const procResource = {
+        resourceType: 'Procedure',
+        id: `${observation.memberId}-observation-procedure-${index + 1}`,
+        patient: { reference: `Patient/${observation.memberId}-patient` },
+        performedPeriod: {
+          start: convertDateString(observation.observationDate),
+          end: convertDateString(observation.endDate),
+        },
+        type: [
+          {
+            coding: [ obsCode ]
+          }
+        ]
+      }
+      procedureList.push(procResource);
+      procedureCount += 1;
+    });
+  }
+
+  return procedureList;
+}
+
+const createObservationList = (visits, observations, procedures, labs) => {
+  const observationList = [];
+  if (visits) {
+    visits.forEach((visit, index) => {
+      if (visit.cmsPlaceOfService.startsWith('8')) {
+        const serviceCode = createServiceCodeFromVisit(visit);
+        const obsClaim = {
+          id: `${visit.memberId}-claim-observation-${visit.claimId}-${index+1}`,
+          resourceType: 'Observation',
+          code: { coding: [ serviceCode ] },
+          effectiveDateTime: convertDateString(visit.dateOfService),
+        }
+        observationList.push(obsClaim);
+      }
+    });
+  }
+
+  if (observations) {
+    observations.forEach((observation, index) => {
+      if (observation.value) {
+        const obsCode = createCode(observation.test, observation.testCodeFlag);
+        const obsResource = {
+          resourceType: 'Observation',
+          id: `${observation.memberId}-observation-${index + 1}`,
+          subject: { reference: `Patient/${observation.memberId}-patient` },
+          code: { coding: [ obsCode ] },
+          valueInteger: parseInt(observation.value),
+        }
+        if (observation.endDate) {
+          obsResource.effectivePeriod = {
+            start: convertDateString(observation.observationDate),
+            end: convertDateString(observation.endDate),
+          };
+        } else {
+          obsResource.effectiveDateTime = convertDateString(observation.observationDate);
+        }
+        observationList.push(obsResource);
+      }
+    });
+  }
+
+  if (procedures) {
+    procedures.forEach((procedure, index) => {
+      const procCode = createCode(procedure.procedureCode, procedure.codeFlag);
+      const obsResource = {
+        resourceType: 'Observation',
+        id: `${procedure.memberId}-procedure-observation-${index + 1}`,
+        subject: { reference: `Patient/${procedure.memberId}-patient` },
+        effectiveDateTime: convertDateString(procedure.serviceDate),
+        status: procedure.serviceStatus === 'EVN' ? 'completed' : 'in-progress',
+        code: { coding: [ procCode ] },
+      }
+      observationList.push(obsResource);
+    });
+  }
+
+  if (labs) {
+    labs.forEach((lab, index) => {
+      const resource = {
+        id: `${lab.memberId}-lab-observation-${index + 1}`,
+        resourceType: 'Observation',
+        effectiveDateTime: convertDateString(lab.dateOfService),
+      };
+      if (lab.cptCode || lab.loincCode) {
+        resource.code = { coding: [] };
+        if (lab.cptCode) {
+          resource.code.coding.push(createCode(lab.cptCode, 'C'));
+        }
+        if (lab.loincCode) {
+          resource.code.coding.push(createCode(lab.loincCode, 'L'));
+        }
+      }
+      if (lab.value) {
+        console.log(`Handle value for ${lab.memberId}`);
+      }
+      observationList.push(resource);
+    });
+  }
+
+  return observationList;
+}
 
 const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
   const pharmacyClaimList = [];
@@ -786,7 +861,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
       if (pharm.claimStatus == 1) {
         const responseResource = createClaimResponse(
           {
-            claimResponseId: `${pharm.memberId}-claimResponse-${claimResponseCount}`,
+            idName: 'pharm-claimResponse',
             claimType: pharmacyClaimType(),
             memberId: pharm.memberId,
             claimId: claimResponseCount,
@@ -806,166 +881,6 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
   return pharmacyClaimList;
 }
 
-const createObservations = (observations, procedures) => {
-  const fhirObsList = [];
-  let count = 1;
-  
-  if (observations) {
-    observations.forEach((observation) => {
-      const obsCode = createCode(observation.test, observation.testCodeFlag);
-      if (observation.value) {
-        const observationId = `${observation.memberId}-observation-${count}`;
-        const obsResource = {
-          resourceType: 'Observation',
-          id: observationId,
-          subject: { reference: `Patient/${observation.memberId}-patient` },
-          code: { coding: [ obsCode ] },
-          valueInteger: parseInt(observation.value),
-        }
-        if (observation.endDate) {
-          obsResource.effectivePeriod = {
-            start: convertDateString(observation.observationDate),
-            end: convertDateString(observation.endDate),
-          };
-        } else {
-          obsResource.effectiveDateTime = convertDateString(observation.observationDate);
-        }
-        fhirObsList.push({
-          fullUrl: `urn:uuid:${observationId}`,
-          resource: obsResource,
-        });
-      } else {
-        const encounterId = `${observation.memberId}-encounter-${count}`;
-        const encResource = {
-          resourceType: 'Encounter',
-          id: encounterId,
-          patient: { reference: `Patient/${observation.memberId}-patient` },
-          period: {
-            start: convertDateString(observation.observationDate),
-            end: convertDateString(observation.endDate),
-          },
-          type: [ { coding: [ obsCode ] } ]
-        }
-    
-        fhirObsList.push({
-          fullUrl: `urn:uuid:${encounterId}`,
-          resource: encResource,
-        });
-    
-        const procedureId = `${observation.memberId}-procedure-${count}`;
-        const procResource = {
-          resourceType: 'Procedure',
-          id: procedureId,
-          patient: { reference: `Patient/${observation.memberId}-patient` },
-          performedPeriod: {
-            start: convertDateString(observation.observationDate),
-            end: convertDateString(observation.endDate),
-          },
-          type: [
-            {
-              coding: [ obsCode ]
-            }
-          ]
-        }
-  
-        fhirObsList.push({
-          fullUrl: `urn:uuid:${procedureId}`,
-          resource: procResource,
-        });
-      }
-      count += 1;
-    });
-  }
-
-  if (procedures) {
-    procedures.forEach((procedure) => {
-      const encounterId = `${procedure.memberId}-encounter-${count}`;
-      const procCode = createCode(procedure.procedureCode, procedure.codeFlag);
-      const encResource = {
-        resourceType: 'Encounter',
-        id: encounterId,
-        patient: { reference: `Patient/${procedure.memberId}-patient` },
-        period: {
-          start: convertDateString(procedure.serviceDate),
-          end: convertDateString(procedure.endDate),
-        },
-        status: procedure.serviceStatus === 'EVN' ? 'completed' : 'in-progress',
-        type: [ { coding: [ procCode ] } ]
-      }
-      fhirObsList.push({
-        fullUrl: `urn:uuid:${encounterId}`,
-        resource: encResource,
-      });
-
-      const procedureId = `${procedure.memberId}-procedure-${count}`;
-      const procResource = {
-        resourceType: 'Procedure',
-        id: procedureId,
-        subject: { reference: `Patient/${procedure.memberId}-patient` },
-        performedDateTime: convertDateString(procedure.serviceDate),
-        status: procedure.serviceStatus === 'EVN' ? 'completed' : 'in-progress',
-        code: { coding: [ procCode ] },
-      }
-      fhirObsList.push({
-        fullUrl: `urn:uuid:${encounterId}`,
-        resource: procResource,
-      });
-
-      const observationId = `${procedure.memberId}-observation-${count}`;
-      const obsResource = {
-        resourceType: 'Observation',
-        id: observationId,
-        subject: { reference: `Patient/${procedure.memberId}-patient` },
-        effectiveDateTime: convertDateString(procedure.serviceDate),
-        status: procedure.serviceStatus === 'EVN' ? 'completed' : 'in-progress',
-        code: { coding: [ procCode ] },
-      }
-      fhirObsList.push({
-        fullUrl: `urn:uuid:${observationId}`,
-        resource: obsResource,
-      });
-      
-      count += 1;
-    });
-  }
-
-  return fhirObsList;
-}
-
-const createLabs = (labs) => {
-  const fhirLabsList = [];
-  let count = 1;
-  
-  if (labs) {
-    labs.forEach((lab) => {
-      const observId = `${lab.memberId}-observation-${count}`;
-      resource = {
-        id: observId,
-        resourceType: 'Observation',
-        effectiveDateTime: convertDateString(lab.dateOfService),
-      };
-      if (lab.cptCode || lab.loincCode) {
-        resource.code = { coding: [] };
-        if (lab.cptCode) {
-          resource.code.coding.push(createCode(lab.cptCode, 'C'));
-        }
-        if (lab.loincCode) {
-          resource.code.coding.push(createCode(lab.loincCode, 'L'));
-        }
-      }
-      if (lab.value) {
-        console.log(`Handle value for ${lab.memberId}`);
-      }
-      fhirLabsList.push({
-        fullUrl: `urn:uuid:${observId}`,
-        resource,
-      });
-    });
-  }
-
-  return fhirLabsList;
-}
-
 async function createFhirJson(testDirectory, allMemberInfo) {
   Object.keys(allMemberInfo).forEach(async (memberId) => {
     const memberInfo = allMemberInfo[memberId];
@@ -982,20 +897,77 @@ async function createFhirJson(testDirectory, allMemberInfo) {
   
     const coverage = createCoverageObjects(memberInfo.membershipEnrollment);
     coverage.forEach((cov) => fhirObject.entry.push(cov));
+
+    const conditions = createConditionList(memberInfo.visit, memberInfo.visitEncounter, memberInfo.diagnosis);
+
+    const claimEncResponse = createClaimEncResponse(
+      memberInfo.visit,
+      memberInfo.visitEncounter,
+      memberInfo.observation,
+      memberInfo.procedure
+    );
+
+    claimEncResponse.claims.forEach((claim) => {
+      fhirObject.entry.push({
+        fullUrl: `urn:uuid:${claim.id}`,
+        resource: claim,
+      });
+    });
+
+    claimEncResponse.claimResponses.forEach((claimResponse) => {
+      fhirObject.entry.push({
+        fullUrl: `urn:uuid:${claimResponse.id}`,
+        resource: claimResponse,
+      });
+    });
+
+    linkConditionsToEncounters(conditions, claimEncResponse.encounters);
+
+    claimEncResponse.encounters.forEach((encounter) => {
+      fhirObject.entry.push({
+        fullUrl: `urn:uuid:${encounter.id}`,
+        resource: encounter,
+      });
+    });
+
+    conditions.forEach((condition) => {
+      fhirObject.entry.push({
+        fullUrl: `urn:uuid:${condition.id}`,
+        resource: condition,
+      });
+    });
+
+    const procedures = createProcedureList(
+      memberInfo.visit,
+      memberInfo.observation,
+      memberInfo.procedure
+    );
+
+    procedures.forEach((procedure) => {
+      fhirObject.entry.push({
+        fullUrl: `urn:uuid:${procedure.id}`,
+        resource: procedure,
+      });
+    });
   
-    const visits = createProfessionalClaimObjects(memberInfo.visit, memberInfo.visitEncounter, memberInfo.diagnosis);
-    visits.forEach((visit) => fhirObject.entry.push(visit));
+    const observations = createObservationList(
+      memberInfo.visit,
+      memberInfo.observation,
+      memberInfo.procedure,
+      memberInfo.lab
+    );
+
+    observations.forEach((observation) => {
+      fhirObject.entry.push({
+        fullUrl: `urn:uuid:${observation.id}`,
+        resource: observation,
+      });
+    });
   
     const clincalPharm = createPharmacyClaims(memberInfo.pharmacyClinical, memberInfo.pharmacy);
     clincalPharm.forEach((item) => fhirObject.entry.push(item));
-  
-    const observations = createObservations(memberInfo.observation, memberInfo.procedure);
-    observations.forEach((item) => fhirObject.entry.push(item));
-  
-    const labs = createLabs(memberInfo.lab, memberInfo.procedure);
-    labs.forEach((item) => fhirObject.entry.push(item));
 
-    if (memberId === '95285') {
+    if (memberId === '95287') {
       try {
         fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
         fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
@@ -1019,7 +991,6 @@ const processTestDeck = async (testDirectory) => {
   await readProcedure(testDirectory, allMemberInfo);
   await readLab(testDirectory, allMemberInfo);
 
-  // console.log(JSON.stringify(allMemberInfo['96002'], null, 2));
   await createFhirJson(testDirectory, allMemberInfo);
 };
 
