@@ -697,7 +697,7 @@ const createProcedureList = (visits, observations, procedures) => {
           start: convertDateString(observation.observationDate),
           end: convertDateString(observation.endDate),
         },
-        type: [
+        code: [
           {
             coding: [ obsCode ]
           }
@@ -813,13 +813,14 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
   let claimResponseCount = 1;
   if (pharmacyClinical) {
     pharmacyClinical.forEach((pharmClinic) => {
+      const medicationCode = createCode(pharmClinic.drugCode, pharmClinic.codeFlag, 'RX');
       const resource = createPharmacyClaim({
         claimId: `${pharmClinic.memberId}-pharm-claim-${claimCount}`,
         type: professionalClaimType(),
         memberId: pharmClinic.memberId,
         startDate: pharmClinic.startDate,
         endDate: pharmClinic.endDate,
-        serviceCode: createCode(pharmClinic.drugCode, pharmClinic.codeFlag, 'RX'),
+        serviceCode: medicationCode,
         diagnosisCode: {
           code: '112690009',
           system: 'http://snomed.info/sct',
@@ -841,7 +842,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
           resourceType: 'Immunization',
           patient: { reference: `Patient/${pharmClinic.memberId}-patient` },
           status: 'completed',
-          vaccineCode: { coding: [ createCode(pharmClinic.drugCode, pharmClinic.codeFlag, 'RX') ] },
+          vaccineCode: { coding: [ medicationCode ] },
           occurrenceDateTime: convertDateString(pharmClinic.dispensedDate),
         }
         pharmacyClaimList.push({
@@ -849,6 +850,23 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
           resource: immunoResource,
         });
       }
+
+      if (pharmClinic.dispensedDate) {
+        const medDispenseResource = {
+          id: `${pharmClinic.memberId}-medicationDispense-${claimCount}`,
+          resourceType: 'MedicationDispense',
+          patient: { reference: `Patient/${pharmClinic.memberId}-patient` },
+          status: 'completed',
+          medicationCodeableConcept: { coding: [ medicationCode ] },
+          whenHandedOver: convertDateString(pharmClinic.dispensedDate),
+        }
+
+        pharmacyClaimList.push({
+          fullUrl: `urn:uuid:${medDispenseResource.id}`,
+          resource: medDispenseResource,
+        });
+      }
+      
 
       claimCount += 1;
     });
@@ -979,7 +997,7 @@ async function createFhirJson(testDirectory, allMemberInfo) {
     const clincalPharm = createPharmacyClaims(memberInfo.pharmacyClinical, memberInfo.pharmacy);
     clincalPharm.forEach((item) => fhirObject.entry.push(item));
 
-    if (memberId === '95087') {
+    if (memberId === '95218') {
       try {
         fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
         fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));

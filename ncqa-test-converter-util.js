@@ -6,6 +6,8 @@ const getSystem = (value) => {
       return 'http://hl7.org/fhir/sid/icd-9-cm';
     case 'X':
       return 'http://hl7.org/fhir/sid/icd-10-cm';
+    case 'X2':
+      return 'https://www.cms.gov/Medicare/Coding/ICD10'
     case 'C':
       return 'http://www.ama-assn.org/go/cpt';
     case 'L':
@@ -35,7 +37,12 @@ const createCode = (code, systemFlag, systemType) => {
   if (systemType === 'RX') {
     system = systemFlag.length === 1 ? getRxSystem(systemFlag) : systemFlag;
   } else {
-    system = systemFlag.length === 1 ? getSystem(systemFlag) : systemFlag;
+    // For PNDE Deliveries
+    if (code.length === 7 && code.startsWith('10') && systemFlag === 'X') {
+      system = getSystem('X2');
+    } else {
+      system = systemFlag.length === 1 ? getSystem(systemFlag) : systemFlag;
+    }
   }
   if (system !== 'NA') {
     return {
