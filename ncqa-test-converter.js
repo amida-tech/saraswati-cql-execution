@@ -997,14 +997,12 @@ async function createFhirJson(testDirectory, allMemberInfo) {
     const clincalPharm = createPharmacyClaims(memberInfo.pharmacyClinical, memberInfo.pharmacy);
     clincalPharm.forEach((item) => fhirObject.entry.push(item));
 
-    if (memberId === '95218') {
-      try {
-        fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
-        fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
-      } catch (writeErr) {
-        console.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
-        process.exit();
-      }
+    try {
+      fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
+      fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
+    } catch (writeErr) {
+      console.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
+      process.exit();
     }
   });
 }

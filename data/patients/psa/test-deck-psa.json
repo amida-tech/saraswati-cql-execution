@@ -1,0 +1,1454 @@
+[
+  {
+    "resourceType": "Bundle",
+    "type": "transaction",
+    "entry": [
+      {
+        "fullUrl": "urn:uuid:95008-patient",
+        "resource": {
+          "resourceType": "Patient",
+          "id": "95008-patient",
+          "name": [
+            {
+              "family": "LastName",
+              "given": [
+                "FirstName"
+              ]
+            }
+          ],
+          "telcom": {
+            "system": "phone",
+            "value": "9999999999"
+          },
+          "gender": "male",
+          "address": [
+            {
+              "line": [
+                "Address1",
+                "Address2"
+              ],
+              "city": "City",
+              "state": "AB",
+              "postalCode": "99999"
+            }
+          ],
+          "birthDate": "1946-10-05",
+          "extension": [
+            {
+              "extension": [
+                {
+                  "url": "ombCategory",
+                  "valueCoding": 1
+                }
+              ],
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
+            },
+            {
+              "extension": [
+                {
+                  "url": "ombCategory",
+                  "valueCoding": 12
+                }
+              ],
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
+            }
+          ],
+          "meta": {
+            "extension": [
+              {
+                "url": "raceDS",
+                "valueString": "21"
+              },
+              {
+                "url": "ethnicityDS",
+                "valueString": "91"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-coverage-1",
+        "resource": {
+          "resourceType": "Coverage",
+          "id": "95008-coverage-1",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MENTPOL",
+                "display": "Mental Health Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "SUBPOL",
+                "display": "Substance Abuse Policy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/95008-patient"
+          },
+          "payor": [
+            {
+              "reference": "MEP"
+            }
+          ],
+          "period": {
+            "start": "1947-05-10",
+            "end": "1948-01-06"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-coverage-2",
+        "resource": {
+          "resourceType": "Coverage",
+          "id": "95008-coverage-2",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MENTPOL",
+                "display": "Mental Health Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "SUBPOL",
+                "display": "Substance Abuse Policy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/95008-patient"
+          },
+          "payor": [
+            {
+              "reference": "MEP"
+            }
+          ],
+          "period": {
+            "start": "1950-08-07",
+            "end": "1955-05-15"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-coverage-3",
+        "resource": {
+          "resourceType": "Coverage",
+          "id": "95008-coverage-3",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MENTPOL",
+                "display": "Mental Health Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "SUBPOL",
+                "display": "Substance Abuse Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MCPOL",
+                "display": "Managed Care Policy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/95008-patient"
+          },
+          "payor": [
+            {
+              "reference": "MPO"
+            }
+          ],
+          "period": {
+            "start": "1957-04-24",
+            "end": "1963-05-24"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-coverage-4",
+        "resource": {
+          "resourceType": "Coverage",
+          "id": "95008-coverage-4",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MENTPOL",
+                "display": "Mental Health Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "SUBPOL",
+                "display": "Substance Abuse Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MCPOL",
+                "display": "Managed Care Policy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/95008-patient"
+          },
+          "payor": [
+            {
+              "reference": "HMO"
+            }
+          ],
+          "period": {
+            "start": "1967-06-20",
+            "end": "1971-04-22"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-coverage-5",
+        "resource": {
+          "resourceType": "Coverage",
+          "id": "95008-coverage-5",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MENTPOL",
+                "display": "Mental Health Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "SUBPOL",
+                "display": "Substance Abuse Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MCPOL",
+                "display": "Managed Care Policy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/95008-patient"
+          },
+          "payor": [
+            {
+              "reference": "HMO"
+            }
+          ],
+          "period": {
+            "start": "1977-05-11",
+            "end": "1983-09-13"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-coverage-6",
+        "resource": {
+          "resourceType": "Coverage",
+          "id": "95008-coverage-6",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MENTPOL",
+                "display": "Mental Health Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "SUBPOL",
+                "display": "Substance Abuse Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MCPOL",
+                "display": "Managed Care Policy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/95008-patient"
+          },
+          "payor": [
+            {
+              "reference": "POS"
+            }
+          ],
+          "period": {
+            "start": "1988-04-03",
+            "end": "1992-12-23"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-coverage-7",
+        "resource": {
+          "resourceType": "Coverage",
+          "id": "95008-coverage-7",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MENTPOL",
+                "display": "Mental Health Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "SUBPOL",
+                "display": "Substance Abuse Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MCPOL",
+                "display": "Managed Care Policy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/95008-patient"
+          },
+          "payor": [
+            {
+              "reference": "POS"
+            }
+          ],
+          "period": {
+            "start": "1998-03-27",
+            "end": "2001-09-19"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-coverage-8",
+        "resource": {
+          "resourceType": "Coverage",
+          "id": "95008-coverage-8",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MENTPOL",
+                "display": "Mental Health Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "SUBPOL",
+                "display": "Substance Abuse Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "SUBSIDIZ",
+                "display": "Subsidized Health Program"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/95008-patient"
+          },
+          "payor": [
+            {
+              "reference": "MMO"
+            }
+          ],
+          "period": {
+            "start": "2002-05-01",
+            "end": "2022-12-31"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-prof-claim-1",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "95008-prof-claim-1",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "professional"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/95008-patient"
+          },
+          "provider": {
+            "reference": "UNK001"
+          },
+          "procedure": [
+            {
+              "procedureCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+                    "code": "E0165"
+                  }
+                ]
+              }
+            }
+          ],
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2022-08-05",
+              "productOrService": {
+                "coding": [
+                  {
+                    "system": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+                    "code": "E0165"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 2,
+              "servicedDate": "2022-08-05"
+            }
+          ],
+          "diagnosis": [
+            {
+              "sequence": 1,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "S72.26XC"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 2,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "O45.022"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-prof-claim-2",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "95008-prof-claim-2",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "professional"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/95008-patient"
+          },
+          "provider": {
+            "reference": "UNK001"
+          },
+          "procedure": [
+            {
+              "procedureCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://www.ama-assn.org/go/cpt",
+                    "code": "99283"
+                  }
+                ]
+              }
+            }
+          ],
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2021-05-26",
+              "productOrService": {
+                "coding": [
+                  {
+                    "system": "http://www.ama-assn.org/go/cpt",
+                    "code": "99283"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 2,
+              "servicedDate": "2021-05-26"
+            }
+          ],
+          "diagnosis": [
+            {
+              "sequence": 1,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "O41.92X5"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 2,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "S72.401M"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 3,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "C25.3"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 4,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "S72.141B"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 5,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "A28.0"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-prof-claim-3",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "95008-prof-claim-3",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "professional"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/95008-patient"
+          },
+          "provider": {
+            "reference": "UNK001"
+          },
+          "procedure": [
+            {
+              "procedureCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://www.ama-assn.org/go/cpt",
+                    "code": "99326"
+                  }
+                ]
+              }
+            }
+          ],
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2022-05-04",
+              "productOrService": {
+                "coding": [
+                  {
+                    "system": "http://www.ama-assn.org/go/cpt",
+                    "code": "99326"
+                  }
+                ]
+              }
+            }, 
+            {
+              "sequence": 2,
+              "servicedDate": "2022-05-04"
+            }
+          ],
+          "diagnosis": [
+            {
+              "sequence": 1,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "L89.524"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-prof-claim-4",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "95008-prof-claim-4",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "professional"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/95008-patient"
+          },
+          "provider": {
+            "reference": "UNK001"
+          },
+          "procedure": [
+            {
+              "procedureCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+                    "code": "G0103"
+                  }
+                ]
+              }
+            }
+          ],
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2022-06-01",
+              "productOrService": {
+                "coding": [
+                  {
+                    "system": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+                    "code": "G0103"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 2,
+              "servicedDate": "2022-06-01"
+            }
+          ],
+          "diagnosis": [
+            {
+              "sequence": 1,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "S32.011B"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 2,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "O34.41"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-prof-claimResponse-3",
+        "resource": {
+          "resourceType": "ClaimResponse",
+          "id": "95008-prof-claimResponse-3",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "professional"
+              }
+            ]
+          },
+          "outcome": "complete",
+          "patient": {
+            "reference": "Patient/95008-patient"
+          },
+          "request": [
+            {
+              "reference": "Claim/95008-prof-claim-3"
+            }
+          ],
+          "item": [
+            {
+              "itemSequence": 1,
+              "servicedDate": "2022-05-04",
+              "adjudication": [
+                {
+                  "category": {
+                    "coding": [
+                      {
+                        "code": "benefit"
+                      }
+                    ]
+                  },
+                  "amount": {
+                    "value": 100
+                  }
+                }
+              ]
+            }
+          ],
+          "addItem": [
+            {
+              "productOrService": {
+                "coding": [
+                  {
+                    "system": "http://www.ama-assn.org/go/cpt",
+                    "code": "99326"
+                  }
+                ]
+              },
+              "servicedDate": "2022-05-04"
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-prof-claimResponse-4",
+        "resource": {
+          "resourceType": "ClaimResponse",
+          "id": "95008-prof-claimResponse-4",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "professional"
+              }
+            ]
+          },
+          "outcome": "complete",
+          "patient": {
+            "reference": "Patient/95008-patient"
+          },
+          "request": [
+            {
+              "reference": "Claim/95008-prof-claim-4"
+            }
+          ],
+          "item": [
+            {
+              "itemSequence": 1,
+              "servicedDate": "2022-06-01",
+              "adjudication": [
+                {
+                  "category": {
+                    "coding": [
+                      {
+                        "code": "benefit"
+                      }
+                    ]
+                  },
+                  "amount": {
+                    "value": 100
+                  }
+                }
+              ]
+            }
+          ],
+          "addItem": [
+            {
+              "productOrService": {
+                "coding": [
+                  {
+                    "system": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+                    "code": "G0103"
+                  }
+                ]
+              },
+              "servicedDate": "2022-06-01"
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-claim-encounter-1",
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "95008-claim-encounter-1",
+          "status": "finished",
+          "period": {
+            "start": "2022-08-05",
+            "end": "2022-08-05"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+                  "code": "E0165"
+                }
+              ]
+            }
+          ],
+          "class": {
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            "code": "AMB"
+          },
+          "diagnosis": [
+            {
+              "condition": {
+                "reference": "95008-visit-condition-1-1"
+              },
+              "rank": 1
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-1-2"
+              },
+              "rank": 2
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-3"
+              },
+              "rank": 3
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-4"
+              },
+              "rank": 4
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-5"
+              },
+              "rank": 5
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-6"
+              },
+              "rank": 6
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-7"
+              },
+              "rank": 7
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-3-8"
+              },
+              "rank": 8
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-4-9"
+              },
+              "rank": 9
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-4-10"
+              },
+              "rank": 10
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-claim-encounter-2",
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "95008-claim-encounter-2",
+          "status": "finished",
+          "period": {
+            "start": "2021-05-26",
+            "end": "2021-05-26"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://www.ama-assn.org/go/cpt",
+                  "code": "99283"
+                }
+              ]
+            }
+          ],
+          "class": {
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            "code": "AMB"
+          },
+          "diagnosis": [
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-3"
+              },
+              "rank": 1
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-4"
+              },
+              "rank": 2
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-5"
+              },
+              "rank": 3
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-6"
+              },
+              "rank": 4
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-7"
+              },
+              "rank": 5
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-claim-encounter-3",
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "95008-claim-encounter-3",
+          "status": "finished",
+          "period": {
+            "start": "2022-05-04",
+            "end": "2022-05-04"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://www.ama-assn.org/go/cpt",
+                  "code": "99326"
+                }
+              ]
+            }
+          ],
+          "class": {
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            "code": "AMB"
+          },
+          "diagnosis": [
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-3"
+              },
+              "rank": 1
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-4"
+              },
+              "rank": 2
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-5"
+              },
+              "rank": 3
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-6"
+              },
+              "rank": 4
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-7"
+              },
+              "rank": 5
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-3-8"
+              },
+              "rank": 6
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-claim-encounter-4",
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "95008-claim-encounter-4",
+          "status": "finished",
+          "period": {
+            "start": "2022-06-01",
+            "end": "2022-06-01"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+                  "code": "G0103"
+                }
+              ]
+            }
+          ],
+          "class": {
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            "code": "AMB"
+          },
+          "diagnosis": [
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-3"
+              },
+              "rank": 1
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-4"
+              },
+              "rank": 2
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-5"
+              },
+              "rank": 3
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-6"
+              },
+              "rank": 4
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-2-7"
+              },
+              "rank": 5
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-3-8"
+              },
+              "rank": 6
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-4-9"
+              },
+              "rank": 7
+            },
+            {
+              "condition": {
+                "reference": "95008-visit-condition-4-10"
+              },
+              "rank": 8
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-visit-condition-1-1",
+        "resource": {
+          "id": "95008-visit-condition-1-1",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/95008-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S72.26XC"
+              }
+            ]
+          },
+          "onsetDateTime": "2022-08-05"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-visit-condition-1-2",
+        "resource": {
+          "id": "95008-visit-condition-1-2",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/95008-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "O45.022"
+              }
+            ]
+          },
+          "onsetDateTime": "2022-08-05"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-visit-condition-2-3",
+        "resource": {
+          "id": "95008-visit-condition-2-3",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/95008-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "O41.92X5"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-05-26"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-visit-condition-2-4",
+        "resource": {
+          "id": "95008-visit-condition-2-4",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/95008-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S72.401M"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-05-26"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-visit-condition-2-5",
+        "resource": {
+          "id": "95008-visit-condition-2-5",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/95008-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "C25.3"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-05-26"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-visit-condition-2-6",
+        "resource": {
+          "id": "95008-visit-condition-2-6",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/95008-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S72.141B"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-05-26"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-visit-condition-2-7",
+        "resource": {
+          "id": "95008-visit-condition-2-7",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/95008-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "A28.0"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-05-26"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-visit-condition-3-8",
+        "resource": {
+          "id": "95008-visit-condition-3-8",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/95008-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "L89.524"
+              }
+            ]
+          },
+          "onsetDateTime": "2022-05-04"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-visit-condition-4-9",
+        "resource": {
+          "id": "95008-visit-condition-4-9",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/95008-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S32.011B"
+              }
+            ]
+          },
+          "onsetDateTime": "2022-06-01"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-visit-condition-4-10",
+        "resource": {
+          "id": "95008-visit-condition-4-10",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/95008-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "O34.41"
+              }
+            ]
+          },
+          "onsetDateTime": "2022-06-01"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-visit-procedure-1-1",
+        "resource": {
+          "id": "95008-visit-procedure-1-1",
+          "resourceType": "Procedure",
+          "subject": {
+            "reference": "Patient/95008-patient"
+          },
+          "performedDateTime": "2022-08-05",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "system": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+                "code": "E0165"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-visit-procedure-2-2",
+        "resource": {
+          "id": "95008-visit-procedure-2-2",
+          "resourceType": "Procedure",
+          "subject": {
+            "reference": "Patient/95008-patient"
+          },
+          "performedDateTime": "2021-05-26",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "system": "http://www.ama-assn.org/go/cpt",
+                "code": "99283"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-visit-procedure-3-3",
+        "resource": {
+          "id": "95008-visit-procedure-3-3",
+          "resourceType": "Procedure",
+          "subject": {
+            "reference": "Patient/95008-patient"
+          },
+          "performedDateTime": "2022-05-04",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "system": "http://www.ama-assn.org/go/cpt",
+                "code": "99326"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-visit-procedure-4-4",
+        "resource": {
+          "id": "95008-visit-procedure-4-4",
+          "resourceType": "Procedure",
+          "subject": {
+            "reference": "Patient/95008-patient"
+          },
+          "performedDateTime": "2022-06-01",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "system": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+                "code": "G0103"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:95008-claim-observation-4-4",
+        "resource": {
+          "id": "95008-claim-observation-4-4",
+          "resourceType": "Observation",
+          "code": {
+            "coding": [
+              {
+                "system": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+                "code": "G0103"
+              }
+            ]
+          },
+          "effectiveDateTime": "2022-06-01"
+        }
+      }
+    ]
+  }
+] 
