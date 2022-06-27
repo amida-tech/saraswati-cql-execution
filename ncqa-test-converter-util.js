@@ -303,15 +303,13 @@ const createClaimEncounter = (encounter) => {
 }
 
 const createClaimResponse = (response) => {
-  const responseFhir ={
+  return {
     resourceType: 'ClaimResponse',
     id: `${response.memberId}-${response.idName}-${response.claimId}`,
     type: response.claimType,
     outcome: 'complete',
     patient: { reference: `Patient/${response.memberId}-patient` },
-    request: {
-      reference: `Claim/${response.claimId}`,
-    },
+    request: { reference: `Claim/${response.fullClaimId}` },
     item: [{
       itemSequence: 1,
       servicedDate: convertDateString(response.serviceDate),
@@ -319,15 +317,11 @@ const createClaimResponse = (response) => {
     }],
     addItem: [
       {
-        productOrService: {
-          coding: [ response.serviceCode ]
-        },
+        productOrService: { coding: [ response.serviceCode ] },
         servicedDate: convertDateString(response.serviceDate),
       }
     ],
-  }
-
-  return responseFhir;
+  };
 }
 
 const createPharmacyClaim = (pharmacy) => {

@@ -158,6 +158,11 @@ async function readVisit(testDirectory, memberInfo) {
 }
 
 async function readVisitEncounter(testDirectory, memberInfo) {
+  if (!fs.existsSync(`${testDirectory}/visit-e.txt`)) {
+    console.log(`No visit-e.txt in ${testDirectory}2`);
+    return
+  }
+
   try {
     const fileLines = await readFile(`${testDirectory}/visit-e.txt`);
     for await (const text of fileLines) {
@@ -179,7 +184,7 @@ async function readVisitEncounter(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`No visit-e.txt in ${testDirectory}`);
+    console.log(`Issue visit-e.txt in ${testDirectory}`);
   }
 }
 
@@ -284,6 +289,11 @@ async function readObservation(testDirectory, memberInfo) {
 }
 
 async function readProcedure(testDirectory, memberInfo) {
+  if (!fs.existsSync(`${testDirectory}/proc.txt`)) {
+    console.log(`No proc.txt in ${testDirectory}`);
+    return;
+  }
+
   try {
     const fileLines = await readFile(`${testDirectory}/proc.txt`);
     for await (const text of fileLines) {
@@ -566,11 +576,11 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
             claimType: professionalClaimType(),
             memberId: visit.memberId,
             claimId: visit.claimId,
+            fullClaimId: visitClaim.id,
             serviceDate: visit.dateOfService,
             serviceCode: serviceCode,
           }
         );
-        responseResource.request = [ { reference: `Claim/${visitClaim.id}` } ];
         claimResponses.push(responseResource);
       }
     });
@@ -798,7 +808,7 @@ const createObservationList = (visits, observations, procedures, labs) => {
         }
       }
       if (lab.value) {
-        console.log(`Handle value for ${lab.memberId}`);
+        // console.log(`Handle value for ${lab.memberId}`);
       }
       observationList.push(resource);
     });
@@ -895,6 +905,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
             claimType: pharmacyClaimType(),
             memberId: pharm.memberId,
             claimId: claimResponseCount,
+            fullClaimId: resource.id,
             serviceDate: pharm.serviceDate,
             serviceCode: { code:pharm.ndcDrugCode },
           }
@@ -997,12 +1008,14 @@ async function createFhirJson(testDirectory, allMemberInfo) {
     const clincalPharm = createPharmacyClaims(memberInfo.pharmacyClinical, memberInfo.pharmacy);
     clincalPharm.forEach((item) => fhirObject.entry.push(item));
 
-    try {
-      fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
-      fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
-    } catch (writeErr) {
-      console.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
-      process.exit();
+    if (memberId === '95023'){
+      try {
+        fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
+        fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
+      } catch (writeErr) {
+        console.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
+        process.exit();
+      }
     }
   });
 }
