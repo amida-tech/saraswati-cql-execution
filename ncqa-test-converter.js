@@ -1,4 +1,4 @@
-const parseArgs = require('minimist')(process.argv.slice(2));
+const minimist = require('minimist');
 const fs = require('fs');
 const readline = require('readline');
 const { createCode, professionalClaimType, pharmacyClaimType, convertDateString,
@@ -8,11 +8,20 @@ const { createCode, professionalClaimType, pharmacyClaimType, convertDateString,
 
 //const memberId = 105264;
 
-if(parseArgs['testDirectory'] === undefined) {
-  console.error('\x1b[31m', 
-    '\nError: Please define a directory path to read. Usage: "--testDirectory=<directory>".',
-    '\x1b[0m');
-  process.exit();
+const parseArgs = minimist(process.argv.slice(2), {
+  alias: {
+    t: 'testDirectory',
+    m: 'memberId',
+  },
+});
+
+function checkArgs() {
+  if(parseArgs.t === undefined) {
+    console.error('\x1b[31m', 
+      '\nError: Please define a directory path to read. Usage: "--testDirectory=<directory>".',
+      '\x1b[0m');
+    process.exit();
+  }
 }
 
 const extractValue = (line, start, length) => {
@@ -981,7 +990,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
   return pharmacyClaimList;
 }
 
-async function createFhirJson(testDirectory, allMemberInfo) {
+async function createFhirJson(testDirectory, allMemberInfo, memberIds) {
   Object.keys(allMemberInfo).forEach(async (memberId) => {
     const memberInfo = allMemberInfo[memberId];
     const fhirObject = {};
@@ -1067,7 +1076,8 @@ async function createFhirJson(testDirectory, allMemberInfo) {
     const clincalPharm = createPharmacyClaims(memberInfo.pharmacyClinical, memberInfo.pharmacy);
     clincalPharm.forEach((item) => fhirObject.entry.push(item));
 
-    if (memberId === '95017'){
+    if (memberIds === undefined || 
+      (memberIds !== undefined && memberIds.find((id) => id === memberId))) {
       try {
         fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
         fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
@@ -1079,7 +1089,9 @@ async function createFhirJson(testDirectory, allMemberInfo) {
   });
 }
 
-const processTestDeck = async (testDirectory) => {
+const processTestDeck = async () => {
+  checkArgs();
+  const testDirectory = parseArgs.t;
   const allMemberInfo = await initMembers(testDirectory);
   await readMembershipEnrollment(testDirectory, allMemberInfo);
   await readVisit(testDirectory, allMemberInfo);
@@ -1091,7 +1103,12 @@ const processTestDeck = async (testDirectory) => {
   await readProcedure(testDirectory, allMemberInfo);
   await readLab(testDirectory, allMemberInfo);
 
-  await createFhirJson(testDirectory, allMemberInfo);
+  if (parseArgs.m) {
+    const memberIds = parseArgs.m.toString().split(',');
+    await createFhirJson(testDirectory, allMemberInfo, memberIds);
+  } else {
+    await createFhirJson(testDirectory, allMemberInfo);
+  }
 };
 
-processTestDeck(parseArgs['testDirectory']);
+processTestDeck();
