@@ -324,11 +324,32 @@ const createClaimResponse = (response) => {
   };
 }
 
+const createPractitionerLocation = (locPrac) => {
+  return {
+    resourceType: locPrac.type,
+    id: locPrac.npi,
+    identifier: [
+      {
+        type: {
+          coding: [
+            {
+              system: 'http://terminology.hl7.org/CodeSystem/v2-0203',
+              code: 'PRN',
+            }
+          ]
+        },
+        system: 'http://hl7.org/fhir/sid/us-npi',
+        value: locPrac.npi,
+      }
+    ]
+  }
+}
+
 const createPharmacyClaim = (pharmacy) => {
   const resource = {
     resourceType: 'Claim',
     id: pharmacy.claimId,
-    type: pharmacy.ClaimType,
+    type: pharmacy.claimType,
     patient: { reference: `Patient/${pharmacy.memberId}-patient` },
   }
 
@@ -336,7 +357,7 @@ const createPharmacyClaim = (pharmacy) => {
   if (pharmacy.serviceDate) {
     item = {
       sequence: 1,
-      servicedDate: pharmacy.serviceDate,
+      servicedDate: convertDateString(pharmacy.serviceDate),
       productOrService: {
         coding: [ pharmacy.serviceCode ]
       },
@@ -393,4 +414,4 @@ const convertDateString = (ncqaDateString) => {
 module.exports = { getSystem, createCode, professionalClaimType, 
   pharmacyClaimType, convertDateString, createClaimFromVisit, createClaimFromVisitEncounter,
   createServiceCodeFromVisit, createClaimEncounter, createDiagnosisCondition,
-  createClaimResponse, createPharmacyClaim, isDateDuringPeriod };
+  createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createPractitionerLocation };

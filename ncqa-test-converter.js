@@ -3,8 +3,8 @@ const fs = require('fs');
 const readline = require('readline');
 const { createCode, professionalClaimType, pharmacyClaimType, convertDateString,
   createClaimFromVisit, createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
-  createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createClaimFromVisitEncounter }
-  = require('./ncqa-test-converter-util');
+  createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createClaimFromVisitEncounter,
+  createPractitionerLocation }= require('./ncqa-test-converter-util');
 
 //const memberId = 105264;
 
@@ -243,6 +243,11 @@ async function readPharmacyClinical(testDirectory, memberInfo) {
 }
 
 async function readDiagnosis(testDirectory, memberInfo) {
+  if (!fs.existsSync(`${testDirectory}/diag.txt`)) {
+    console.log(`No diag.txt in ${testDirectory}2`);
+    return
+  }
+
   try {
     const fileLines = await readFile(`${testDirectory}/diag.txt`);
     for await (const text of fileLines) {
@@ -317,6 +322,11 @@ async function readProcedure(testDirectory, memberInfo) {
 }
 
 async function readLab(testDirectory, memberInfo) {
+  if (!fs.existsSync(`${testDirectory}/lab.txt`)) {
+    console.log(`No lab.txt in ${testDirectory}2`);
+    return
+  }
+
   try {
     const fileLines = await readFile(`${testDirectory}/lab.txt`);
     for await (const text of fileLines) {
@@ -826,7 +836,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
       const medicationCode = createCode(pharmClinic.drugCode, pharmClinic.codeFlag, 'RX');
       const resource = createPharmacyClaim({
         claimId: `${pharmClinic.memberId}-pharm-claim-${claimCount}`,
-        type: professionalClaimType(),
+        claimType: professionalClaimType(),
         memberId: pharmClinic.memberId,
         startDate: pharmClinic.startDate,
         endDate: pharmClinic.endDate,
@@ -883,15 +893,50 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
   }
 
   if (pharmacy) {
+    const providerNpiHolder = {};
+    const pharmacyNpiHolder = {};
     pharmacy.forEach((pharm) => {
       const resource = createPharmacyClaim({
         claimId: `${pharm.memberId}-pharm-claim-${claimCount}`,
-        type: pharmacyClaimType(),
+        claimType: pharmacyClaimType(),
         memberId: pharm.memberId,
         serviceDate: pharm.serviceDate,
         serviceCode: { code: pharm.ndcDrugCode },
         quantity: pharm.daysSupply,
       });
+
+      if (pharm.providerNpi) {
+        if (!providerNpiHolder[pharm.providerNpi]) {
+          providerNpiHolder[pharm.providerNpi] = createPractitionerLocation({
+            type: 'Practitioner',
+            npi: pharm.providerNpi,
+          });
+        }
+
+        resource.careTeam = [
+          {
+            sequence: 1,
+              provider: {
+                reference: `Practitioner/${providerNpiHolder[pharm.providerNpi].id}`,
+              }
+          }
+        ]
+      }
+
+      if (pharm.pharmacyNpi) {
+        if (!pharmacyNpiHolder[pharm.pharmacyNpi]) {
+          pharmacyNpiHolder[pharm.pharmacyNpi] = createPractitionerLocation({
+            type: 'Location',
+            npi: pharm.pharmacyNpi,
+          });
+        }
+
+        resource.item[0].locationReference = {
+          reference: `Location/${pharmacyNpiHolder[pharm.pharmacyNpi].id}`,
+        }
+      }
+
+      
       pharmacyClaimList.push({
         fullUrl: `urn:uuid:${resource.id}`,
         resource,
@@ -916,6 +961,20 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
         });
         claimResponseCount += 1;
       }
+    });
+
+    Object.keys(providerNpiHolder).forEach((key) => {
+      pharmacyClaimList.push({
+        fullUrl: `urn:uuid:${providerNpiHolder[key].id}`,
+        resource: providerNpiHolder[key],
+      });
+    });
+
+    Object.keys(pharmacyNpiHolder).forEach((key) => {
+      pharmacyClaimList.push({
+        fullUrl: `urn:uuid:${pharmacyNpiHolder[key].id}`,
+        resource: pharmacyNpiHolder[key],
+      });
     });
   }
 
@@ -1008,7 +1067,7 @@ async function createFhirJson(testDirectory, allMemberInfo) {
     const clincalPharm = createPharmacyClaims(memberInfo.pharmacyClinical, memberInfo.pharmacy);
     clincalPharm.forEach((item) => fhirObject.entry.push(item));
 
-    if (memberId === '95023'){
+    if (memberId === '95017'){
       try {
         fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
         fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
