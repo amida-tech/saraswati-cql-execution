@@ -1,6 +1,5 @@
 const minimist = require('minimist');
 const fs = require('fs');
-const readline = require('readline');
 const path = require('node:path');
 const config = require('./config');
 const { execute } = require('./exec-files/exec-config');
@@ -21,7 +20,7 @@ const parseArgs = minimist(process.argv.slice(2), {
   },
 });
 
-function checkArgs() {
+async function checkArgs() {
   if(parseArgs.f === undefined) {
     console.error('\x1b[31m', 
       '\nError: Please define a directory path with FHIR data to validate. Usage: "--fhirDirectory=<directory>".',
@@ -29,7 +28,6 @@ function checkArgs() {
     process.exit();
   }
 
-  
   basePath = path.join(parseArgs.f, '..');
   measuresPath = path.join(basePath, 'measures');
   scoreAmidaPath = path.join(basePath, 'score-amida.txt');
@@ -72,7 +70,7 @@ const evalData = (patient) => {
   return data;
 };
 
-function createMeasureDirectory() {
+async function createMeasureDirectory() {
   fs.mkdir(measuresPath, { recursive: true }, (mkdirErr) => {
     if (mkdirErr) {
       console.error(`\x1b[31m\nError: Failure to make measures directory, ${mkdirErr}.\x1b[0m`);
@@ -81,7 +79,7 @@ function createMeasureDirectory() {
   });
 }
 
-function createScoreFile() {
+async function createScoreFile() {
   if(fs.existsSync(scoreAmidaPath)) {
     fs.unlink(scoreAmidaPath, (deleteScoreErr) => {
       if (deleteScoreErr) {
@@ -98,12 +96,12 @@ function createScoreFile() {
     });
 }
 
-function getAge(date) {
-  const ageInMilliseconds = new Date() - new Date(date);
+function getAge(birthDate) { // Age must be calculated against first event.
+  const ageInMilliseconds = new Date() - new Date(birthDate);
   return Math.floor(ageInMilliseconds / msInAYear);
 }
 
-function appendScoreFile(data) {
+async function appendScoreFile(data) {
   const memberId = data.memberId.split('-')[0];
   const measureId = '???'; // These are by-measure changes. Requires logic table.
   const payer = data[data.memberId]['Member Coverage'][0].payor[0].reference.value;
@@ -118,7 +116,7 @@ function appendScoreFile(data) {
   const gender = data.gender === 'male' ? 'M' : 'F';
 
   const row = `${memberId},${measureId},${payer},${ce},${event},${ePop},${excl},${num},${rExcl},${rExclD},${age},${gender}\n`;
-  fs.appendFile(scoreAmidaPath, row, appendScoreErr => {
+  fs.appendFileSync(scoreAmidaPath, row, appendScoreErr => {
     if (appendScoreErr) {
       console.error(`\x1b[31m\nError: Failure to read FHIR directory, ${fhirDirErr}.\x1b[0m`);
       process.exit();
@@ -126,29 +124,33 @@ function appendScoreFile(data) {
   });
 }
 
-function verifyData() {
-  checkArgs();
-  fs.readdir(parseArgs.f, (fhirDirErr, files) => {
+async function getFhirDirectoryFiles() {
+  return fs.readdirSync(parseArgs.f, (fhirDirErr, fhirFiles) => {
     if(fhirDirErr) {
       console.error(`\x1b[31m\nError: Failure to read FHIR directory, ${fhirDirErr}.\x1b[0m`);
       process.exit();
     }
-    createMeasureDirectory();
-    createScoreFile();
-    files.forEach(file => {
-      fs.readFile(path.join(parseArgs.f, file), 'utf8', function(readFileErr, data) {
-        if(readFileErr) {
-          console.error(`\x1b[31m\nError: Failure to read FHIR file, ${readFileErr}.\x1b[0m`);
-          process.exit();
-        }
-        const memberData = evalData(JSON.parse(data));
-        const fileTitle = `${config.measurementType}-${memberData.memberId}.json`;
-        fs.writeFileSync(path.join(measuresPath, fileTitle), JSON.stringify(memberData, null, 4));
-        appendScoreFile(memberData);
-      });
-      
-    });
-  });
+    return fhirFiles;
+  })
+}
+
+async function processFhirDirectory(files) {
+  for (let file of files) {
+    console.log(`Processing ${file}.`);
+    const fileData = await fs.promises.readFile(path.join(parseArgs.f, file));
+    const memberData = evalData(JSON.parse(fileData));
+    const fileTitle = `${config.measurementType}-${memberData.memberId}.json`;
+    fs.writeFileSync(path.join(measuresPath, fileTitle), JSON.stringify(memberData, null, 2));
+    appendScoreFile(memberData);
+  }
+}
+
+const verifyData = async() => {
+  await checkArgs();
+  const files = await getFhirDirectoryFiles();
+  await createMeasureDirectory();
+  await createScoreFile();
+  await processFhirDirectory(files);
 }
 
 if (parseArgs.h === true) {
