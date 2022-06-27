@@ -1,18 +1,27 @@
-const parseArgs = require('minimist')(process.argv.slice(2));
+const minimist = require('minimist');
 const fs = require('fs');
 const readline = require('readline');
 const { createCode, professionalClaimType, pharmacyClaimType, convertDateString,
   createClaimFromVisit, createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
-  createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createClaimFromVisitEncounter }
-  = require('./ncqa-test-converter-util');
+  createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createClaimFromVisitEncounter,
+  createPractitionerLocation }= require('./ncqa-test-converter-util');
 
 //const memberId = 105264;
 
-if(parseArgs['testDirectory'] === undefined) {
-  console.error('\x1b[31m', 
-    '\nError: Please define a directory path to read. Usage: "--testDirectory=<directory>".',
-    '\x1b[0m');
-  process.exit();
+const parseArgs = minimist(process.argv.slice(2), {
+  alias: {
+    t: 'testDirectory',
+    m: 'memberId',
+  },
+});
+
+function checkArgs() {
+  if(parseArgs.t === undefined) {
+    console.error('\x1b[31m', 
+      '\nError: Please define a directory path to read. Usage: "--testDirectory=<directory>".',
+      '\x1b[0m');
+    process.exit();
+  }
 }
 
 const extractValue = (line, start, length) => {
@@ -158,6 +167,11 @@ async function readVisit(testDirectory, memberInfo) {
 }
 
 async function readVisitEncounter(testDirectory, memberInfo) {
+  if (!fs.existsSync(`${testDirectory}/visit-e.txt`)) {
+    console.log(`No visit-e.txt in ${testDirectory}2`);
+    return
+  }
+
   try {
     const fileLines = await readFile(`${testDirectory}/visit-e.txt`);
     for await (const text of fileLines) {
@@ -179,7 +193,7 @@ async function readVisitEncounter(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`No visit-e.txt in ${testDirectory}`);
+    console.log(`Issue visit-e.txt in ${testDirectory}`);
   }
 }
 
@@ -238,6 +252,11 @@ async function readPharmacyClinical(testDirectory, memberInfo) {
 }
 
 async function readDiagnosis(testDirectory, memberInfo) {
+  if (!fs.existsSync(`${testDirectory}/diag.txt`)) {
+    console.log(`No diag.txt in ${testDirectory}2`);
+    return
+  }
+
   try {
     const fileLines = await readFile(`${testDirectory}/diag.txt`);
     for await (const text of fileLines) {
@@ -284,6 +303,11 @@ async function readObservation(testDirectory, memberInfo) {
 }
 
 async function readProcedure(testDirectory, memberInfo) {
+  if (!fs.existsSync(`${testDirectory}/proc.txt`)) {
+    console.log(`No proc.txt in ${testDirectory}`);
+    return;
+  }
+
   try {
     const fileLines = await readFile(`${testDirectory}/proc.txt`);
     for await (const text of fileLines) {
@@ -307,6 +331,11 @@ async function readProcedure(testDirectory, memberInfo) {
 }
 
 async function readLab(testDirectory, memberInfo) {
+  if (!fs.existsSync(`${testDirectory}/lab.txt`)) {
+    console.log(`No lab.txt in ${testDirectory}2`);
+    return
+  }
+
   try {
     const fileLines = await readFile(`${testDirectory}/lab.txt`);
     for await (const text of fileLines) {
@@ -566,11 +595,11 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
             claimType: professionalClaimType(),
             memberId: visit.memberId,
             claimId: visit.claimId,
+            fullClaimId: visitClaim.id,
             serviceDate: visit.dateOfService,
             serviceCode: serviceCode,
           }
         );
-        responseResource.request = [ { reference: `Claim/${visitClaim.id}` } ];
         claimResponses.push(responseResource);
       }
     });
@@ -798,7 +827,7 @@ const createObservationList = (visits, observations, procedures, labs) => {
         }
       }
       if (lab.value) {
-        console.log(`Handle value for ${lab.memberId}`);
+        // console.log(`Handle value for ${lab.memberId}`);
       }
       observationList.push(resource);
     });
@@ -816,7 +845,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
       const medicationCode = createCode(pharmClinic.drugCode, pharmClinic.codeFlag, 'RX');
       const resource = createPharmacyClaim({
         claimId: `${pharmClinic.memberId}-pharm-claim-${claimCount}`,
-        type: professionalClaimType(),
+        claimType: professionalClaimType(),
         memberId: pharmClinic.memberId,
         startDate: pharmClinic.startDate,
         endDate: pharmClinic.endDate,
@@ -873,15 +902,50 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
   }
 
   if (pharmacy) {
+    const providerNpiHolder = {};
+    const pharmacyNpiHolder = {};
     pharmacy.forEach((pharm) => {
       const resource = createPharmacyClaim({
         claimId: `${pharm.memberId}-pharm-claim-${claimCount}`,
-        type: pharmacyClaimType(),
+        claimType: pharmacyClaimType(),
         memberId: pharm.memberId,
         serviceDate: pharm.serviceDate,
         serviceCode: { code: pharm.ndcDrugCode },
         quantity: pharm.daysSupply,
       });
+
+      if (pharm.providerNpi) {
+        if (!providerNpiHolder[pharm.providerNpi]) {
+          providerNpiHolder[pharm.providerNpi] = createPractitionerLocation({
+            type: 'Practitioner',
+            npi: pharm.providerNpi,
+          });
+        }
+
+        resource.careTeam = [
+          {
+            sequence: 1,
+              provider: {
+                reference: `Practitioner/${providerNpiHolder[pharm.providerNpi].id}`,
+              }
+          }
+        ]
+      }
+
+      if (pharm.pharmacyNpi) {
+        if (!pharmacyNpiHolder[pharm.pharmacyNpi]) {
+          pharmacyNpiHolder[pharm.pharmacyNpi] = createPractitionerLocation({
+            type: 'Location',
+            npi: pharm.pharmacyNpi,
+          });
+        }
+
+        resource.item[0].locationReference = {
+          reference: `Location/${pharmacyNpiHolder[pharm.pharmacyNpi].id}`,
+        }
+      }
+
+      
       pharmacyClaimList.push({
         fullUrl: `urn:uuid:${resource.id}`,
         resource,
@@ -895,6 +959,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
             claimType: pharmacyClaimType(),
             memberId: pharm.memberId,
             claimId: claimResponseCount,
+            fullClaimId: resource.id,
             serviceDate: pharm.serviceDate,
             serviceCode: { code:pharm.ndcDrugCode },
           }
@@ -906,12 +971,26 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
         claimResponseCount += 1;
       }
     });
+
+    Object.keys(providerNpiHolder).forEach((key) => {
+      pharmacyClaimList.push({
+        fullUrl: `urn:uuid:${providerNpiHolder[key].id}`,
+        resource: providerNpiHolder[key],
+      });
+    });
+
+    Object.keys(pharmacyNpiHolder).forEach((key) => {
+      pharmacyClaimList.push({
+        fullUrl: `urn:uuid:${pharmacyNpiHolder[key].id}`,
+        resource: pharmacyNpiHolder[key],
+      });
+    });
   }
 
   return pharmacyClaimList;
 }
 
-async function createFhirJson(testDirectory, allMemberInfo) {
+async function createFhirJson(testDirectory, allMemberInfo, memberIds) {
   Object.keys(allMemberInfo).forEach(async (memberId) => {
     const memberInfo = allMemberInfo[memberId];
     const fhirObject = {};
@@ -997,17 +1076,22 @@ async function createFhirJson(testDirectory, allMemberInfo) {
     const clincalPharm = createPharmacyClaims(memberInfo.pharmacyClinical, memberInfo.pharmacy);
     clincalPharm.forEach((item) => fhirObject.entry.push(item));
 
-    try {
-      fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
-      fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
-    } catch (writeErr) {
-      console.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
-      process.exit();
+    if (memberIds === undefined || 
+      (memberIds !== undefined && memberIds.find((id) => id === memberId))) {
+      try {
+        fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
+        fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
+      } catch (writeErr) {
+        console.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
+        process.exit();
+      }
     }
   });
 }
 
-const processTestDeck = async (testDirectory) => {
+const processTestDeck = async () => {
+  checkArgs();
+  const testDirectory = parseArgs.t;
   const allMemberInfo = await initMembers(testDirectory);
   await readMembershipEnrollment(testDirectory, allMemberInfo);
   await readVisit(testDirectory, allMemberInfo);
@@ -1019,7 +1103,12 @@ const processTestDeck = async (testDirectory) => {
   await readProcedure(testDirectory, allMemberInfo);
   await readLab(testDirectory, allMemberInfo);
 
-  await createFhirJson(testDirectory, allMemberInfo);
+  if (parseArgs.m) {
+    const memberIds = parseArgs.m.toString().split(',');
+    await createFhirJson(testDirectory, allMemberInfo, memberIds);
+  } else {
+    await createFhirJson(testDirectory, allMemberInfo);
+  }
 };
 
-processTestDeck(parseArgs['testDirectory']);
+processTestDeck();
