@@ -4,10 +4,10 @@
     "type": "transaction",
     "entry": [
       {
-        "fullUrl": "urn:uuid:95030-patient",
+        "fullUrl": "urn:uuid:110605-patient",
         "resource": {
           "resourceType": "Patient",
-          "id": "95030-patient",
+          "id": "110605-patient",
           "name": [
             {
               "family": "LastName",
@@ -20,7 +20,7 @@
             "system": "phone",
             "value": "9999999999"
           },
-          "gender": "male",
+          "gender": "female",
           "address": [
             {
               "line": [
@@ -32,100 +32,46 @@
               "postalCode": "99999"
             }
           ],
-          "birthDate": "1936-01-17"
-        }
-      },
-      {
-        "fullUrl": "urn:uuid:95030-coverage-1",
-        "resource": {
-          "resourceType": "Coverage",
-          "id": "95030-coverage-1",
-          "type": {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-                "code": "DRUGPOL",
-                "display": "Drug Policy"
-              },
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-                "code": "MENTPOL",
-                "display": "Mental Health Policy"
-              },
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-                "code": "SUBPOL",
-                "display": "Substance Abuse Policy"
-              },
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-                "code": "MCPOL",
-                "display": "Managed Care Policy"
-              }
-            ]
-          },
-          "patient": {
-            "reference": "Patient/95030-patient"
-          },
-          "payor": [
+          "birthDate": "1954-10-13",
+          "extension": [
             {
-              "reference": "CEP"
+              "extension": [
+                {
+                  "url": "ombCategory",
+                  "valueCoding": 1
+                }
+              ],
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
+            },
+            {
+              "extension": [
+                {
+                  "url": "ombCategory",
+                  "valueCoding": 12
+                }
+              ],
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
             }
           ],
-          "period": {
-            "start": "1937-05-29",
-            "end": "1951-06-14"
+          "meta": {
+            "extension": [
+              {
+                "url": "raceDS",
+                "valueString": "21"
+              },
+              {
+                "url": "ethnicityDS",
+                "valueString": "91"
+              }
+            ]
           }
         }
       },
       {
-        "fullUrl": "urn:uuid:95030-coverage-2",
+        "fullUrl": "urn:uuid:110605-coverage-1",
         "resource": {
           "resourceType": "Coverage",
-          "id": "95030-coverage-2",
-          "type": {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-                "code": "DRUGPOL",
-                "display": "Drug Policy"
-              },
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-                "code": "MENTPOL",
-                "display": "Mental Health Policy"
-              },
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-                "code": "SUBPOL",
-                "display": "Substance Abuse Policy"
-              },
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-                "code": "MCPOL",
-                "display": "Managed Care Policy"
-              }
-            ]
-          },
-          "patient": {
-            "reference": "Patient/95030-patient"
-          },
-          "payor": [
-            {
-              "reference": "POS"
-            }
-          ],
-          "period": {
-            "start": "1959-11-25",
-            "end": "2022-05-29"
-          }
-        }
-      },
-      {
-        "fullUrl": "urn:uuid:95030-coverage-3",
-        "resource": {
-          "resourceType": "Coverage",
-          "id": "95030-coverage-3",
+          "id": "110605-coverage-1",
           "type": {
             "coding": [
               {
@@ -140,56 +86,13 @@
               },
               {
                 "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-                "code": "MCPOL",
-                "display": "Managed Care Policy"
+                "code": "RETIRE",
+                "display": "Retiree Health Program"
               }
             ]
           },
           "patient": {
-            "reference": "Patient/95030-patient"
-          },
-          "payor": [
-            {
-              "reference": "MMO"
-            }
-          ],
-          "period": {
-            "start": "2022-05-30",
-            "end": "2022-07-12"
-          }
-        }
-      },
-      {
-        "fullUrl": "urn:uuid:95030-coverage-4",
-        "resource": {
-          "resourceType": "Coverage",
-          "id": "95030-coverage-4",
-          "type": {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-                "code": "DRUGPOL",
-                "display": "Drug Policy"
-              },
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-                "code": "MENTPOL",
-                "display": "Mental Health Policy"
-              },
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-                "code": "SUBPOL",
-                "display": "Substance Abuse Policy"
-              },
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-                "code": "MCPOL",
-                "display": "Managed Care Policy"
-              }
-            ]
-          },
-          "patient": {
-            "reference": "Patient/95030-patient"
+            "reference": "Patient/110605-patient"
           },
           "payor": [
             {
@@ -197,16 +100,92 @@
             }
           ],
           "period": {
-            "start": "2022-07-13",
-            "end": "2023-03-15"
+            "start": "1955-05-03",
+            "end": "1956-12-28"
           }
         }
       },
       {
-        "fullUrl": "urn:uuid:95030-prof-claim-1",
+        "fullUrl": "urn:uuid:110605-coverage-2",
+        "resource": {
+          "resourceType": "Coverage",
+          "id": "110605-coverage-2",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MENTPOL",
+                "display": "Mental Health Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "SUBPOL",
+                "display": "Substance Abuse Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "RETIRE",
+                "display": "Retiree Health Program"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/110605-patient"
+          },
+          "payor": [
+            {
+              "reference": "MCS"
+            }
+          ],
+          "period": {
+            "start": "1958-12-23",
+            "end": "1959-01-11"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-coverage-3",
+        "resource": {
+          "resourceType": "Coverage",
+          "id": "110605-coverage-3",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MENTPOL",
+                "display": "Mental Health Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "SUBPOL",
+                "display": "Substance Abuse Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "RETIRE",
+                "display": "Retiree Health Program"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/110605-patient"
+          },
+          "payor": [
+            {
+              "reference": "MMP"
+            }
+          ],
+          "period": {
+            "start": "1961-07-10",
+            "end": "2022-07-01"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-prof-claim-3",
         "resource": {
           "resourceType": "Claim",
-          "id": "95030-prof-claim-1",
+          "id": "110605-prof-claim-3",
           "type": {
             "coding": [
               {
@@ -216,26 +195,18 @@
             ]
           },
           "patient": {
-            "reference": "Patient/95030-patient"
+            "reference": "Patient/110605-patient"
           },
           "provider": {
             "reference": "UNK001"
           },
-          "diagnosis": [
+          "procedure": [
             {
-              "diagnosisCodeableConcept": {
+              "procedureCodeableConcept": {
                 "coding": [
                   {
-                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
-                    "code": "S72.432N"
-                  },
-                  {
-                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
-                    "code": "H18.819"
-                  },
-                  {
-                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
-                    "code": "T21.41XS"
+                    "system": "http://www.ama-assn.org/go/cpt",
+                    "code": "90654"
                   }
                 ]
               }
@@ -244,28 +215,747 @@
           "item": [
             {
               "sequence": 1,
-              "servicedDate": "2023-05-18"
+              "servicedDate": "2021-08-08",
+              "productOrService": {
+                "coding": [
+                  {
+                    "system": "http://www.ama-assn.org/go/cpt",
+                    "code": "90654"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 2,
+              "servicedDate": "2021-08-08"
+            }
+          ],
+          "diagnosis": [
+            {
+              "sequence": 1,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "T81.9XXS"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 2,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "S62.612B"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 3,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "S92.201D"
+                  }
+                ]
+              }
             }
           ]
         }
       },
       {
-        "fullUrl": "urn:uuid:95030-claim-encounter-1",
+        "fullUrl": "urn:uuid:110605-claim-encounter-1",
         "resource": {
           "resourceType": "Encounter",
-          "id": "95030-claim-encounter-1",
+          "id": "110605-claim-encounter-1",
           "status": "finished",
           "period": {
-            "start": "2023-05-18",
-            "end": "2023-05-18"
+            "start": "2021-07-05",
+            "end": "2021-07-05"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://www.ama-assn.org/go/cpt",
+                  "code": "90732"
+                }
+              ]
+            }
+          ],
+          "diagnosis": [
+            {
+              "condition": {
+                "reference": "110605-visit-condition-1-1"
+              },
+              "rank": 1
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-1-2"
+              },
+              "rank": 2
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-1-3"
+              },
+              "rank": 3
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-1-4"
+              },
+              "rank": 4
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-1-5"
+              },
+              "rank": 5
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-1-6"
+              },
+              "rank": 6
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-1-7"
+              },
+              "rank": 7
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-1-8"
+              },
+              "rank": 8
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-claim-encounter-2",
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "110605-claim-encounter-2",
+          "status": "finished",
+          "period": {
+            "start": "--",
+            "end": "--"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://www.ama-assn.org/go/cpt",
+                  "code": "90670"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-claim-encounter-3",
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "110605-claim-encounter-3",
+          "status": "finished",
+          "period": {
+            "start": "2021-08-08",
+            "end": "2021-08-08"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://www.ama-assn.org/go/cpt",
+                  "code": "90654"
+                }
+              ]
+            }
+          ],
+          "diagnosis": [
+            {
+              "condition": {
+                "reference": "110605-visit-condition-1-1"
+              },
+              "rank": 1
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-1-2"
+              },
+              "rank": 2
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-1-3"
+              },
+              "rank": 3
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-1-4"
+              },
+              "rank": 4
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-1-5"
+              },
+              "rank": 5
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-1-6"
+              },
+              "rank": 6
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-1-7"
+              },
+              "rank": 7
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-1-8"
+              },
+              "rank": 8
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-3-12"
+              },
+              "rank": 9
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-3-13"
+              },
+              "rank": 10
+            },
+            {
+              "condition": {
+                "reference": "110605-visit-condition-3-14"
+              },
+              "rank": 11
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-procedure-encounter-1",
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "110605-procedure-encounter-1",
+          "patient": {
+            "reference": "Patient/110605-patient"
+          },
+          "period": {
+            "start": "2021-01-27",
+            "end": "2021-01-27"
+          },
+          "status": "finished",
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "446253009"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-visit-condition-1-1",
+        "resource": {
+          "id": "110605-visit-condition-1-1",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "T46.4X3A"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-07-05"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-visit-condition-1-2",
+        "resource": {
+          "id": "110605-visit-condition-1-2",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "F19.90"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-07-05"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-visit-condition-1-3",
+        "resource": {
+          "id": "110605-visit-condition-1-3",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "T26.90XD"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-07-05"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-visit-condition-1-4",
+        "resource": {
+          "id": "110605-visit-condition-1-4",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "O99.820"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-07-05"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-visit-condition-1-5",
+        "resource": {
+          "id": "110605-visit-condition-1-5",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S50.859S"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-07-05"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-visit-condition-1-6",
+        "resource": {
+          "id": "110605-visit-condition-1-6",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S52.616P"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-07-05"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-visit-condition-1-7",
+        "resource": {
+          "id": "110605-visit-condition-1-7",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S65.592D"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-07-05"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-visit-condition-1-8",
+        "resource": {
+          "id": "110605-visit-condition-1-8",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S82.432P"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-07-05"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-visit-condition-2-9",
+        "resource": {
+          "id": "110605-visit-condition-2-9",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S82.443S"
+              }
+            ]
           }
         }
       },
       {
-        "fullUrl": "urn:uuid:95030-pharm-claim-1",
+        "fullUrl": "urn:uuid:110605-visit-condition-2-10",
+        "resource": {
+          "id": "110605-visit-condition-2-10",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S62.164A"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-visit-condition-2-11",
+        "resource": {
+          "id": "110605-visit-condition-2-11",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "C02.4"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-visit-condition-3-12",
+        "resource": {
+          "id": "110605-visit-condition-3-12",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "T81.9XXS"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-08-08"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-visit-condition-3-13",
+        "resource": {
+          "id": "110605-visit-condition-3-13",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S62.612B"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-08-08"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-visit-condition-3-14",
+        "resource": {
+          "id": "110605-visit-condition-3-14",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S92.201D"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-08-08"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-visit-procedure-1-1",
+        "resource": {
+          "id": "110605-visit-procedure-1-1",
+          "resourceType": "Procedure",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "performedDateTime": "2021-07-05",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "system": "http://www.ama-assn.org/go/cpt",
+                "code": "90732"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-visit-procedure-2-2",
+        "resource": {
+          "id": "110605-visit-procedure-2-2",
+          "resourceType": "Procedure",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "performedDateTime": "--",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "system": "http://www.ama-assn.org/go/cpt",
+                "code": "90670"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-visit-procedure-3-3",
+        "resource": {
+          "id": "110605-visit-procedure-3-3",
+          "resourceType": "Procedure",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "performedDateTime": "2021-08-08",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "system": "http://www.ama-assn.org/go/cpt",
+                "code": "90654"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-procedure-1",
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "110605-procedure-1",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "performedDateTime": "2021-01-27",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "446253009"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-procedure-observation-1",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "110605-procedure-observation-1",
+          "subject": {
+            "reference": "Patient/110605-patient"
+          },
+          "effectiveDateTime": "2021-01-27",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "446253009"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-pharm-claim-1",
         "resource": {
           "resourceType": "Claim",
-          "id": "95030-pharm-claim-1",
+          "id": "110605-pharm-claim-1",
           "type": {
             "coding": [
               {
@@ -275,7 +965,7 @@
             ]
           },
           "patient": {
-            "reference": "Patient/95030-patient"
+            "reference": "Patient/110605-patient"
           },
           "diagnosis": [
             {
@@ -296,14 +986,14 @@
             {
               "sequence": 1,
               "servicedPeriod": {
-                "start": "2012-04-17",
-                "end": "2012-04-17"
+                "start": "2018-10-10",
+                "end": "2018-10-10"
               },
               "productOrService": {
                 "coding": [
                   {
                     "system": "http://hl7.org/fhir/sid/cvx",
-                    "code": "33"
+                    "code": "187"
                   }
                 ]
               }
@@ -312,48 +1002,133 @@
         }
       },
       {
-        "fullUrl": "urn:uuid:95030-immunization-1",
+        "fullUrl": "urn:uuid:110605-immunization-1",
         "resource": {
-          "id": "95030-immunization-1",
+          "id": "110605-immunization-1",
           "resourceType": "Immunization",
           "patient": {
-            "reference": "Patient/95030-patient"
+            "reference": "Patient/110605-patient"
           },
           "status": "completed",
           "vaccineCode": {
             "coding": [
               {
                 "system": "http://hl7.org/fhir/sid/cvx",
-                "code": "33"
+                "code": "187"
               }
             ]
           },
-          "occurrenceDateTime": "2012-04-17"
+          "occurrenceDateTime": "2018-10-10"
         }
       },
       {
-        "fullUrl": "urn:uuid:95030-encounter-1",
+        "fullUrl": "urn:uuid:110605-medicationDispense-1",
         "resource": {
-          "resourceType": "Encounter",
-          "id": "95030-encounter-1",
+          "id": "110605-medicationDispense-1",
+          "resourceType": "MedicationDispense",
           "patient": {
-            "reference": "Patient/95030-patient"
-          },
-          "period": {
-            "start": "2020-12-22",
-            "end": "2020-12-22"
+            "reference": "Patient/110605-patient"
           },
           "status": "completed",
-          "type": [
+          "medicationCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/cvx",
+                "code": "187"
+              }
+            ]
+          },
+          "whenHandedOver": "2018-10-10"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-pharm-claim-2",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "110605-pharm-claim-2",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "professional"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/110605-patient"
+          },
+          "diagnosis": [
             {
-              "coding": [
-                {
-                  "system": "http://snomed.info/sct",
-                  "code": "84353005"
-                }
-              ]
+              "sequence": 1,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "code": "112690009",
+                    "system": "http://snomed.info/sct",
+                    "version": "2020-09",
+                    "display": "Nonacute Inpatient Stay"
+                  }
+                ]
+              }
+            }
+          ],
+          "item": [
+            {
+              "sequence": 1,
+              "servicedPeriod": {
+                "start": "2022-05-20",
+                "end": "2022-05-20"
+              },
+              "productOrService": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/cvx",
+                    "code": "187"
+                  }
+                ]
+              }
             }
           ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-immunization-2",
+        "resource": {
+          "id": "110605-immunization-2",
+          "resourceType": "Immunization",
+          "patient": {
+            "reference": "Patient/110605-patient"
+          },
+          "status": "completed",
+          "vaccineCode": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/cvx",
+                "code": "187"
+              }
+            ]
+          },
+          "occurrenceDateTime": "2022-05-20"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:110605-medicationDispense-2",
+        "resource": {
+          "id": "110605-medicationDispense-2",
+          "resourceType": "MedicationDispense",
+          "patient": {
+            "reference": "Patient/110605-patient"
+          },
+          "status": "completed",
+          "medicationCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/cvx",
+                "code": "187"
+              }
+            ]
+          },
+          "whenHandedOver": "2022-05-20"
         }
       }
     ]

@@ -758,8 +758,8 @@ const createObservationList = (visits, observations, procedures, labs) => {
   const observationList = [];
   if (visits) {
     visits.forEach((visit, index) => {
-      if (visit.cmsPlaceOfService.startsWith('8')) {
-        const serviceCode = createServiceCodeFromVisit(visit);
+      const serviceCode = createServiceCodeFromVisit(visit);
+      if (serviceCode) {
         const obsClaim = {
           id: `${visit.memberId}-claim-observation-${visit.claimId}-${index+1}`,
           resourceType: 'Observation',
