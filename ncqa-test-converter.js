@@ -583,24 +583,26 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
         }
       );
       encounters.push(encounter);
-
-      const visitClaim = createClaimFromVisit(visit);
-      visit.encounter = [ { reference: `Encounter/${encounter.id}` } ]
-      claims.push(visitClaim);
-
-      if (visit.claimStatus == 1 && serviceCode) {
-        const responseResource = createClaimResponse(
-          {
-            idName: 'prof-claimResponse',
-            claimType: professionalClaimType(),
-            memberId: visit.memberId,
-            claimId: visit.claimId,
-            fullClaimId: visitClaim.id,
-            serviceDate: visit.dateOfService,
-            serviceCode: serviceCode,
-          }
-        );
-        claimResponses.push(responseResource);
+      
+      if (visit.supplementalData === 'N') {
+        const visitClaim = createClaimFromVisit(visit);
+        visit.encounter = [ { reference: `Encounter/${encounter.id}` } ]
+        claims.push(visitClaim);
+  
+        if (visit.claimStatus == 1 && serviceCode) {
+          const responseResource = createClaimResponse(
+            {
+              idName: 'prof-claimResponse',
+              claimType: professionalClaimType(),
+              memberId: visit.memberId,
+              claimId: visit.claimId,
+              fullClaimId: visitClaim.id,
+              serviceDate: visit.dateOfService,
+              serviceCode: serviceCode,
+            }
+          );
+          claimResponses.push(responseResource);
+        }
       }
     });
   }
@@ -684,9 +686,7 @@ const linkConditionsToEncounters = (conditions, encounters) => {
           }
           encounter.diagnosis.push(
             { 
-              condition: {
-                reference: condition.id,
-              },
+              condition: { reference: condition.id },
               rank: encounter.diagnosis.length + 1,
             }
           );
@@ -904,73 +904,76 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
   if (pharmacy) {
     const providerNpiHolder = {};
     const pharmacyNpiHolder = {};
-    pharmacy.forEach((pharm) => {
-      const resource = createPharmacyClaim({
-        claimId: `${pharm.memberId}-pharm-claim-${claimCount}`,
-        claimType: pharmacyClaimType(),
-        memberId: pharm.memberId,
-        serviceDate: pharm.serviceDate,
-        serviceCode: { code: pharm.ndcDrugCode },
-        quantity: pharm.daysSupply,
-      });
+    pharmacy //pharm.txt is only a claim when NOT supplemental data
+      .filter((item) => item.supplementalData !== 'Y')
+      .forEach((pharm) => {
+        const resource = createPharmacyClaim({
+          claimId: `${pharm.memberId}-pharm-claim-${claimCount}`,
+          claimType: pharmacyClaimType(),
+          memberId: pharm.memberId,
+          serviceDate: pharm.serviceDate,
+          serviceCode: { code: pharm.ndcDrugCode },
+          quantity: pharm.daysSupply,
+        });
 
-      if (pharm.providerNpi) {
-        if (!providerNpiHolder[pharm.providerNpi]) {
-          providerNpiHolder[pharm.providerNpi] = createPractitionerLocation({
-            type: 'Practitioner',
-            npi: pharm.providerNpi,
-          });
-        }
-
-        resource.careTeam = [
-          {
-            sequence: 1,
-              provider: {
-                reference: `Practitioner/${providerNpiHolder[pharm.providerNpi].id}`,
-              }
+        if (pharm.providerNpi) {
+          if (!providerNpiHolder[pharm.providerNpi]) {
+            providerNpiHolder[pharm.providerNpi] = createPractitionerLocation({
+              type: 'Practitioner',
+              npi: pharm.providerNpi,
+            });
           }
-        ]
-      }
 
-      if (pharm.pharmacyNpi) {
-        if (!pharmacyNpiHolder[pharm.pharmacyNpi]) {
-          pharmacyNpiHolder[pharm.pharmacyNpi] = createPractitionerLocation({
-            type: 'Location',
-            npi: pharm.pharmacyNpi,
-          });
+          resource.careTeam = [
+            {
+              sequence: 1,
+                provider: {
+                  reference: `Practitioner/${providerNpiHolder[pharm.providerNpi].id}`,
+                }
+            }
+          ]
         }
 
-        resource.item[0].locationReference = {
-          reference: `Location/${pharmacyNpiHolder[pharm.pharmacyNpi].id}`,
+        if (pharm.pharmacyNpi) {
+          if (!pharmacyNpiHolder[pharm.pharmacyNpi]) {
+            pharmacyNpiHolder[pharm.pharmacyNpi] = createPractitionerLocation({
+              type: 'Location',
+              npi: pharm.pharmacyNpi,
+            });
+          }
+
+          resource.item[0].locationReference = {
+            reference: `Location/${pharmacyNpiHolder[pharm.pharmacyNpi].id}`,
+          }
         }
-      }
 
       
-      pharmacyClaimList.push({
-        fullUrl: `urn:uuid:${resource.id}`,
-        resource,
-      });
-      claimCount += 1;
-
-      if (pharm.claimStatus == 1) {
-        const responseResource = createClaimResponse(
-          {
-            idName: 'pharm-claimResponse',
-            claimType: pharmacyClaimType(),
-            memberId: pharm.memberId,
-            claimId: claimResponseCount,
-            fullClaimId: resource.id,
-            serviceDate: pharm.serviceDate,
-            serviceCode: { code:pharm.ndcDrugCode },
-          }
-        )
         pharmacyClaimList.push({
-          fullUrl: `urn:uuid:${responseResource.id}`,
-          resource: responseResource,
+          fullUrl: `urn:uuid:${resource.id}`,
+          resource,
         });
-        claimResponseCount += 1;
+        claimCount += 1;
+
+        if (pharm.claimStatus == 1) {
+          const responseResource = createClaimResponse(
+            {
+              idName: 'pharm-claimResponse',
+              claimType: pharmacyClaimType(),
+              memberId: pharm.memberId,
+              claimId: claimResponseCount,
+              fullClaimId: resource.id,
+              serviceDate: pharm.serviceDate,
+              serviceCode: { code:pharm.ndcDrugCode },
+            }
+          );
+          pharmacyClaimList.push({
+            fullUrl: `urn:uuid:${responseResource.id}`,
+            resource: responseResource,
+          });
+          claimResponseCount += 1;
+        }
       }
-    });
+    );
 
     Object.keys(providerNpiHolder).forEach((key) => {
       pharmacyClaimList.push({

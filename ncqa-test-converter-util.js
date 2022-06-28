@@ -285,11 +285,17 @@ const createClaimEncounter = (encounter) => {
     }
   };
   if (encounter.serviceCode) {
-    encounterFhir.type = [ { coding: [ encounter.serviceCode ] } ]
+    encounterFhir.type = [ { coding: [ encounter.serviceCode ] } ];
   }
-  if (encounter.admissionDate === undefined) {
-    encounterFhir.class = createCode('AMB', 'A');
+
+  if (encounter.cmsPlaceOfService) {
+    if (encounter.cmsPlaceOfService === '02') {
+      encounterFhir.class = createCode('VR', 'A');
+    } else if (encounter.cmsPlaceOfService === '71') {
+      encounterFhir.class = createCode('AMB', 'A');
+    }
   }
+  
   if (encounter.ubRevenue) {
     if (encounterFhir.type) {
       encounterFhir.type.push({
