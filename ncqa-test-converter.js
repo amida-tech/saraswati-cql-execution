@@ -169,7 +169,7 @@ async function readVisit(testDirectory, memberInfo) {
 async function readVisitEncounter(testDirectory, memberInfo) {
   if (!fs.existsSync(`${testDirectory}/visit-e.txt`)) {
     console.log(`No visit-e.txt in ${testDirectory}2`);
-    return
+    return;
   }
 
   try {
@@ -193,11 +193,16 @@ async function readVisitEncounter(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`Issue visit-e.txt in ${testDirectory}`);
+    console.log(`Error reading visit-e.txt.`);
   }
 }
 
 async function readPharmacy(testDirectory, memberInfo) {
+  if (!fs.existsSync(`${testDirectory}/pharm.txt`)) {
+    console.log(`No pharm.txt in ${testDirectory}`);
+    return;
+  }
+
   try {
     const fileLines = await readFile(`${testDirectory}/pharm.txt`);
     for await (const text of fileLines) {
@@ -219,11 +224,16 @@ async function readPharmacy(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`No pharm.txt in ${testDirectory}`);
+    console.log(`Error reading pharm.txt`);
   }
 }
 
 async function readPharmacyClinical(testDirectory, memberInfo) {
+  if (!fs.existsSync(`${testDirectory}/pharm-c.txt`)) {
+    console.log(`No pharm-c.txt in ${testDirectory}`);
+    return;
+  }
+
   try {
     const fileLines = await readFile(`${testDirectory}/pharm-c.txt`);
     for await (const text of fileLines) {
@@ -247,13 +257,13 @@ async function readPharmacyClinical(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`No pharm-c.txt in ${testDirectory}`);
+    console.log(`Error reading pharm-c.txt`);
   }
 }
 
 async function readDiagnosis(testDirectory, memberInfo) {
   if (!fs.existsSync(`${testDirectory}/diag.txt`)) {
-    console.log(`No diag.txt in ${testDirectory}2`);
+    console.log(`No diag.txt in ${testDirectory}`);
     return
   }
 
@@ -275,7 +285,7 @@ async function readDiagnosis(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`No diag.txt in ${testDirectory}`);
+    console.log(`Error reading diag.txt`);
   }
 }
 
