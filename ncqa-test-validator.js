@@ -4,12 +4,12 @@ const path = require('node:path');
 const config = require('./config');
 const { execute } = require('./exec-files/exec-config');
 const { createProviderList } = require('./src/utilities/providerUtil');
+const { getAge, getContinuousEnrollment, getEligiblePopulation, getEvent, getNumerator, getRequiredExclusion, hedisData, getExclusion } = require('./ncqa-test-validator-util');
 
 let basePath;
 let scorePath;
 let scoreAmidaPath;
 let measuresPath;
-const msInAYear = 1000 * 60 * 60 * 24 * 365;
 const hedisEocHeaders = "MemID,Meas,Payer,CE,Event,Epop,Excl,Num,RExcl,RExclD,Age,Gender\n";
 // Different, future headers maybe added.
 
@@ -96,32 +96,35 @@ async function createScoreFile() {
     });
 }
 
-function getAge(birthDate) { // Age must be calculated against first event.
-  const ageInMilliseconds = new Date() - new Date(birthDate);
-  return Math.floor(ageInMilliseconds / msInAYear);
-}
-
 async function appendScoreFile(data) {
-  const memberId = data.memberId.split('-')[0];
-  const measureId = '???'; // These are by-measure changes. Requires logic table.
-  const payer = data[data.memberId]['Member Coverage'][0].payor[0].reference.value;
-  const ce = '???'; // Continuous enrollment.
-  const event = '???';
-  const ePop = '???';
-  const excl = '???';
-  const num = '???';
-  const rExcl = '???'; // Required exclusion.
-  const rExclD = '???'; // Data Element Required Exclusions.
-  const age = getAge(new Date(data.birthDate)); 
-  const gender = data.gender === 'male' ? 'M' : 'F';
+  const memberId = data.memberId.split('-')[0]; // Works.
+  const gender = data.gender === 'male' ? 'M' : 'F'; // Works.
+  hedisData[config.measurementType].measureIds.forEach((measureId, index) => {
+    if (hedisData[config.measurementType].measureCheck(data, index)) {
+      const ce = hedisData[config.measurementType].getContinuousEnrollment(data, index);
+      const event = getEvent(data);
+      const excl = getExclusion(data, index)
+      const num = getNumerator(data, index);
+      const rExcl = getRequiredExclusion(data, index); // Required exclusion.
+      const rExclD = '???'; // Data Element Required Exclusions.
+      const age = hedisData[config.measurementType].getAge(data, index); // Works for AAB.
+      const ePop = getEligiblePopulation(ce, event, rExcl, rExclD);
 
-  const row = `${memberId},${measureId},${payer},${ce},${event},${ePop},${excl},${num},${rExcl},${rExclD},${age},${gender}\n`;
-  fs.appendFileSync(scoreAmidaPath, row, appendScoreErr => {
-    if (appendScoreErr) {
-      console.error(`\x1b[31m\nError: Failure to read FHIR directory, ${fhirDirErr}.\x1b[0m`);
-      process.exit();
+      data[data.memberId]['Member Coverage'].forEach((coverage) => {
+        coverage.payor.forEach((payor) => {
+          const payer = payor.reference.value; 
+          // Payor mapping goes here for the custom cases.
+          const row = `${memberId},${measureId},${payer},${ce},${event},${ePop},${excl},${num},${rExcl},${rExclD},${age},${gender}\n`;
+          fs.appendFileSync(scoreAmidaPath, row, appendScoreErr => {
+            if (appendScoreErr) {
+              console.error(`\x1b[31m\nError: Failure to read FHIR directory, ${fhirDirErr}.\x1b[0m`);
+              process.exit();
+            }
+          });
+        })
+      });
     }
-  });
+  })
 }
 
 async function getFhirDirectoryFiles() {
