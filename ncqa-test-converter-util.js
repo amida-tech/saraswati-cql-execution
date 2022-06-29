@@ -96,11 +96,11 @@ const isDateDuringPeriod = (date, period) => {
 }
 
 const createServiceCodeFromVisit = (visit) => {
-  if (visit.cpt || visit.hcpcs) {
+  if (visit.cpt || visit.hcpcs || visit.cptII) {
     let code = '';
     let system = '';
-    if (visit.cpt) {
-      code = visit.cpt;
+    if (visit.cpt || visit.cptII) {
+      code = visit.cpt ? visit.cpt : visit.cptII;
       system = 'C';
     } else {
       code = visit.hcpcs;
@@ -285,11 +285,17 @@ const createClaimEncounter = (encounter) => {
     }
   };
   if (encounter.serviceCode) {
-    encounterFhir.type = [ { coding: [ encounter.serviceCode ] } ]
+    encounterFhir.type = [ { coding: [ encounter.serviceCode ] } ];
   }
-  if (encounter.admissionDate === undefined) {
-    encounterFhir.class = createCode('AMB', 'A');
+
+  if (encounter.cmsPlaceOfService) {
+    if (encounter.cmsPlaceOfService === '02') {
+      encounterFhir.class = createCode('VR', 'A');
+    } else if (encounter.cmsPlaceOfService === '71') {
+      encounterFhir.class = createCode('AMB', 'A');
+    }
   }
+
   if (encounter.ubRevenue) {
     if (encounterFhir.type) {
       encounterFhir.type.push({
