@@ -54,8 +54,16 @@ const hedisData = {
       return Math.floor(ageInMilliseconds / msInAYear);
     },
     getContinuousEnrollment: (data, index) => {
-      return data[data.memberId][`Initial Population ${index + 1}`] ? 1 : 0;
+      return data[data.memberId][`Enrolled During Participation Period ${index + 1}`] ? 1 : 0;
     },
+    getExclusion: () => 0,
+    getNumerator: (data, index) => {
+      return data[data.memberId][`Numerator ${index + 1}`] ? 1 : 0;
+    },
+    getRequiredExclusion: (data, index) => {
+      return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
+    },
+    getRequiredExclusionID: () => 0,
     measureCheck: () => true,
   },
   aise: {

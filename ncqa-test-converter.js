@@ -473,7 +473,8 @@ const createCoverageObjects = (membershipEnrollment) => {
 
     if (enrollment.payor === 'HMO' || enrollment.payor === 'PPO' || enrollment.payor === 'POS'
       || enrollment.payor === 'SN1' || enrollment.payor === 'SN2' || enrollment.payor === 'SN3'
-      || enrollment.payor === 'CEP' || enrollment.payor === 'MOS' || enrollment.payor === 'MPO') {
+      || enrollment.payor === 'CEP' || enrollment.payor === 'MOS' || enrollment.payor === 'MPO'
+      || enrollment.payor === 'MEP') {
       resource.type.coding.push({
         system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
         code: 'MCPOL',
@@ -516,7 +517,7 @@ const createConditionList = (visitList, visitEncounterList, diagnosisList) => {
   if (visitList) {
     visitList.forEach((visit) => {
       visit.icdDiagnosis.forEach((visitDiagnosis) => {
-        if (visitDiagnosis) {
+        if (visitDiagnosis && visit.cmsPlaceOfService !== '81') {
           const condObj = createDiagnosisCondition(
             {
               memberId: visit.memberId,

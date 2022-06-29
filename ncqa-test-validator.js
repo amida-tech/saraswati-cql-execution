@@ -1,6 +1,6 @@
 const minimist = require('minimist');
 const fs = require('fs');
-const path = require('node:path');
+const path = require('path');
 const config = require('./config');
 const { execute } = require('./exec-files/exec-config');
 const { createProviderList } = require('./src/utilities/providerUtil');
@@ -103,10 +103,10 @@ async function appendScoreFile(data) {
     if (hedisData[config.measurementType].measureCheck(data, index)) {
       const ce = hedisData[config.measurementType].getContinuousEnrollment(data, index);
       const event = getEvent(data);
-      const excl = getExclusion(data, index)
-      const num = getNumerator(data, index);
-      const rExcl = getRequiredExclusion(data, index); // Required exclusion.
-      const rExclD = '???'; // Data Element Required Exclusions.
+      const excl = hedisData[config.measurementType].getExclusion(data, index);//getExclusion(data, index)
+      const num = hedisData[config.measurementType].getNumerator(data, index);//getNumerator(data, index);
+      const rExcl = hedisData[config.measurementType].getRequiredExclusion(data, index);//getRequiredExclusion(data, index); // Required exclusion.
+      const rExclD = hedisData[config.measurementType].getRequiredExclusionID(data, index); // Data Element Required Exclusions.
       const age = hedisData[config.measurementType].getAge(data, index); // Works for AAB.
       const ePop = getEligiblePopulation(ce, event, rExcl, rExclD);
 
@@ -139,6 +139,9 @@ async function getFhirDirectoryFiles() {
 
 async function processFhirDirectory(files) {
   for (let file of files) {
+    if (file === '.DS_Store') {
+      continue;
+    }
     console.log(`Processing ${file}.`);
     const fileData = await fs.promises.readFile(path.join(parseArgs.f, file));
     const memberData = evalData(JSON.parse(fileData));
