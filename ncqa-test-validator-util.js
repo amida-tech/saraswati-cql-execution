@@ -1,6 +1,7 @@
 const config = require('./config');
 
-const msInAYear = 1000 * 60 * 60 * 24 * 365;
+const msInADay = 1000 * 60 * 60 * 24;
+const msInAYear = msInADay * 365.242;
 
 const secondQualifyingEpisodeCheck = (data, index) => {
   if (index === 0) {
@@ -34,9 +35,22 @@ const hedisData = {
   },
   adde: {
     measureIds: ['ADD1','ADD2'],
-    getAge: (data, index) => {
-      let eventDate = new Date(data[data.memberId]['ADHD Medication Coverage Intervals'][index].high);
-      const ageInMilliseconds = new Date(eventDate) - new Date(data.birthDate);
+    getAge: (data) => {
+      let eventDate = new Date(data[data.memberId]['Last Calendar Day of February']);
+      eventDate.setUTCHours(0,0,0,0);
+      let eventDateMls = eventDate.getTime();
+      const birthDate = new Date(data.birthDate);
+      const eventYear = parseInt(eventDate.getFullYear());
+      let birthYearCheck = parseInt(birthDate.getFullYear());
+
+      while(birthYearCheck <= eventYear) {
+        if (birthYearCheck % 4 === 0 && (birthDate.getMonth() + 1 > 2)) {
+          eventDateMls += msInADay;
+        }
+        birthYearCheck += 1;
+      }
+
+      const ageInMilliseconds = eventDateMls - birthDate.getTime();
       return Math.floor(ageInMilliseconds / msInAYear);
     },
     getContinuousEnrollment: (data, index) => {
