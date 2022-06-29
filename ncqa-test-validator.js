@@ -102,7 +102,7 @@ async function appendScoreFile(data) {
   hedisData[config.measurementType].measureIds.forEach((measureId, index) => {
     if (hedisData[config.measurementType].measureCheck(data, index)) {
       const ce = hedisData[config.measurementType].getContinuousEnrollment(data, index);
-      const event = getEvent(data);
+      const event = hedisData[config.measurementType].getEvent(data, index);
       const excl = hedisData[config.measurementType].getExclusion(data, index);//getExclusion(data, index)
       const num = hedisData[config.measurementType].getNumerator(data, index);//getNumerator(data, index);
       const rExcl = hedisData[config.measurementType].getRequiredExclusion(data, index);//getRequiredExclusion(data, index); // Required exclusion.
