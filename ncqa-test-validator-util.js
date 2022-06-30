@@ -1,4 +1,5 @@
 const config = require('./config');
+const measure = config.measurementType;
 
 const msInADay = 1000 * 60 * 60 * 24;
 const msInAYear = msInADay * 365.242;
@@ -6,44 +7,53 @@ const msInAYear = msInADay * 365.242;
 const exchangeOrCommercial = ['CEP', 'HMO', 'POS', 'PPO', 'MEP', 'MMO', 'MOS', 'MPO'];
 const medicarePlans = ['MCR', 'MCS', 'MP', 'MC'];
 const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB'];
-const snpMeasures = [];
+const snpMeasures = []; // I don't think we'll ever have any of these for a while.
 const medicareMeasures = [];
 const medicaidMeasures = ['adde'];
-const mmpMeasures = [];
+const mmpMeasures = []; // As with SNPs.
 
-const getPayors = (payor, measureId) => {
+const insPref = {
+  snp: snpMeasures.find((snpMeasure) => snpMeasure === measure),
+  medicare: medicareMeasures.find((medicareMeasure) => medicareMeasure === measure),
+  medicaid: medicaidMeasures.find((medicaidMeasure) => medicaidMeasure === measure),
+  mmp: mmpMeasures.find((mmpMeasure) => mmpMeasure === measure),
+};
+
+const snpHelper = (payor) => {
+  if (insPref.medicare && insPref.snp) {
+    return ['MCR', payor];
+  } 
+  if (!insPref.medicare && insPref.snp) {
+    return [payor];
+  }
+  return ['MCR'];
+}
+
+const mmpHelper = () => {
+  if (insPref.medicare && insPref.medicaid && insPref.mmp) {
+    return [ 'MCR', 'MCD', 'MMP' ];
+  } else if (insPref.medicare && !insPref.medicaid && insPref.mmp) {
+    return [ 'MCR', 'MMP' ];
+  } else if (insPref.medicare && insPref.medicaid && !insPref.mmp) {
+    return [ 'MCR', 'MCD' ];
+  } else if (insPref.medicare && !medicaid && !insPref.mmp) {
+    return [ 'MCR' ];
+  } else if (!insPref.medicare && insPref.medicaid && !insPref.mmp) {
+    return [ 'MCD' ];
+  } else if (!insPref.medicare && !insPref.medicaid && insPref.mmp) {
+    return [ 'MMP' ];
+  }
+}
+
+const getPayors = (payor) => {
   if (Array.isArray(payor)) {
     return payor;
   }
-  const snp = snpMeasures.includes(measureId);
-  const medicare = medicareMeasures.includes(measureId);
-  const medicaid = medicaidMeasures.includes(measureId);
-  const mmp = mmpMeasures.includes(measureId);
 
-  if (payor === 'SN1' || payor === 'SN2' || payor === 'SN3') {
-    if (medicare && snp) {
-      return ['MCR', payor];
-    } else if (medicare && !snp) {
-      return ['MCR'];
-    } else if (!medicare && !snp) {
-      return ['MCR'];
-    } else if (!medicare && snp) {
-      return [payor];
-    }
+  if (payor.startsWith('SN')) {
+    return snpHelper(payor);
   } else if (payor === 'MMP') {
-    if (medicare && medicaid && mmp) {
-      return [ 'MCR', 'MCD', 'MMP' ];
-    } else if (medicare && !medicaid && mmp) {
-      return [ 'MCR', 'MMP' ];
-    } else if (medicare && medicaid && !mmp) {
-      return [ 'MCR', 'MCD' ];
-    } else if (medicare && !medicaid && !mmp) {
-      return [ 'MCR' ];
-    } else if (!medicare && medicaid && !mmp) {
-      return [ 'MCD' ];
-    } else if (!medicare && !medicaid && mmp) {
-      return [ 'MMP' ];
-    }
+    return mmpHelper();
   } else if (payor === 'MDE' || payor === 'MD' || payor === 'MLI' || payor === 'MRB') {
     return [ 'MCD' ];
   } else {
@@ -51,12 +61,10 @@ const getPayors = (payor, measureId) => {
   }
 }
 
-const getPreferredPayor = (latestCoverage, measureId) => {
+const getPreferredPayor = (latestCoverage) => {
   if (latestCoverage.length === 1) {
     return latestCoverage[0].payor;
   }
-  const medicare = medicareMeasures.includes(measureId);
-  const medicaid = medicaidMeasures.includes(measureId);
 
   // Check if all are commercial plans
   let allCommercial = true;
@@ -80,7 +88,7 @@ const getPreferredPayor = (latestCoverage, measureId) => {
   }
 
   // If is a medicaid measure, check medicaid first
-  if (medicaid) {
+  if (insPref.medicaid) {
     for (const medicaidPlan of medicaidPlans) {
       for (const cov of latestCoverage) {
         if (cov.payor === medicaidPlan) {
@@ -96,7 +104,7 @@ const getPreferredPayor = (latestCoverage, measureId) => {
       }
     }
   // If it's a medicare measure, check medicare first
-  } else if (medicare) {
+  } else if (insPref.medicare) {
     for (const medicarePlan of medicarePlans) {
       for (const cov of latestCoverage) {
         if (cov.payor === medicarePlan) {
@@ -217,7 +225,7 @@ const hedisData = {
       // if none are found, use the latest is Member Coverage
       if (foundPayors === undefined || foundPayors.length === 0) {
         foundPayors = memberCoverage[memberCoverage.length - 1].payor[0].reference.value;
-        return getPayors(foundPayors, 'adde');
+        return getPayors(foundPayors);
       }
       // Now that we have the latest for the participation period, find the latest one
       let latestCoverage = [];
@@ -234,10 +242,10 @@ const hedisData = {
       }
       // if we have one, use that
       if (latestCoverage.length === 1) {
-        return getPayors(latestCoverage[0].payor, 'adde');
+        return getPayors(latestCoverage[0].payor);
       }
       // if we have more than one we need to decide to either choose one or all
-      return getPayors(getPreferredPayor(latestCoverage, 'adde'), 'adde');
+      return getPayors(getPreferredPayor(latestCoverage));
     }
   },
   aise: {
@@ -314,8 +322,8 @@ const hedisData = {
 }
 
 const getAge = (data, index) => { // Age must be calculated against first event.
-  let eventDate = data[data.memberId][hedisData[config.measurementType].ageKey];
-  if (hedisData[config.measurementType].ageArray) {
+  let eventDate = data[data.memberId][hedisData[measure].ageKey];
+  if (hedisData[measure].ageArray) {
     eventDate = eventDate[index];
   }
   
@@ -324,15 +332,15 @@ const getAge = (data, index) => { // Age must be calculated against first event.
 }
 
 const getContinuousEnrollment = (data) => {
-  const ce = data[data.memberId][hedisData[config.measurementType].ceKey];
-  if(hedisData[config.measurementType].ceArray) {
+  const ce = data[data.memberId][hedisData[measure].ceKey];
+  if(hedisData[measure].ceArray) {
     return ce.length >= 1 ? 1 : 0;
   } 
   // Handle other case.
 }
 
 const getEligiblePopulation = (ce, event, rExcl, rExclD) => {
-  if (hedisData[config.measurementType].eventsOrDiag) { 
+  if (hedisData[measure].eventsOrDiag) { 
     if (ce === 0 || event === 0 || rExcl === 1 || rExclD === 1) {
       return 0;
     } 
@@ -346,16 +354,16 @@ const getEligiblePopulation = (ce, event, rExcl, rExclD) => {
 }
 
 const getEvent = (data) => {
-  const event = data[data.memberId][hedisData[config.measurementType].eventKey];
-  if(hedisData[config.measurementType].eventArray) {
+  const event = data[data.memberId][hedisData[measure].eventKey];
+  if(hedisData[measure].eventArray) {
     return event.length >= 1 ? 1 : 0;
   }
   // Handle other case.
 }
 
 const getExclusion = (data, index) => {
-  if (hedisData[config.measurementType].denArray) {
-    if (hedisData[config.measurementType].denCount === 1) {
+  if (hedisData[measure].denArray) {
+    if (hedisData[measure].denCount === 1) {
       return data[data.memberId].Exclusions.includes(data[data.memberId].Denominator[index]) ? 1 : 0;
     }
     return data[data.memberId][`Exclusions ${index}`].includes(data[data.memberId][`Denominator ${index}`][index]) ? 1 : 0;
@@ -363,8 +371,8 @@ const getExclusion = (data, index) => {
 }
 
 const getNumerator = (data, index) => {
-  if (hedisData[config.measurementType].denArray) {
-    if (hedisData[config.measurementType].denCount === 1) {
+  if (hedisData[measure].denArray) {
+    if (hedisData[measure].denCount === 1) {
       return data[data.memberId].Numerator.includes(data[data.memberId].Denominator[index]) ? 1 : 0;
     }
     return data[data.memberId][`Numerator ${index}`].includes(data[data.memberId][`Denominator ${index}`][index]) ? 1 : 0;
@@ -372,9 +380,9 @@ const getNumerator = (data, index) => {
 }
 
 const getRequiredExclusion = (data, index) => {
-  if (hedisData[config.measurementType].denArray) {
-    if (hedisData[config.measurementType].denCount === 1) {
-      return data[data.memberId][hedisData[config.measurementType].reqExKey].includes(data[data.memberId].Denominator[index]) ? 1 : 0;
+  if (hedisData[measure].denArray) {
+    if (hedisData[measure].denCount === 1) {
+      return data[data.memberId][hedisData[measure].reqExKey].includes(data[data.memberId].Denominator[index]) ? 1 : 0;
     }
     return data[data.memberId][`Numerator ${index}`].includes(data[data.memberId][`Denominator ${index}`][index]) ? 1 : 0;
   } // There's also 2 or 3 for DMS measures, the PHQ-9 measure.

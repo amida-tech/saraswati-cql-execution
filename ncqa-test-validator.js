@@ -4,7 +4,9 @@ const path = require('path');
 const config = require('./config');
 const { execute } = require('./exec-files/exec-config');
 const { createProviderList } = require('./src/utilities/providerUtil');
-const { getAge, getContinuousEnrollment, getEligiblePopulation, getEvent, getNumerator, getRequiredExclusion, hedisData, getExclusion } = require('./ncqa-test-validator-util');
+const { getEligiblePopulation, hedisData } = require('./ncqa-test-validator-util');
+
+const measure = config.measurementType;
 
 let basePath;
 let scorePath;
@@ -49,7 +51,7 @@ async function checkArgs() {
   console.log(`\tMeasurement File: ${config.measurementFile}`);
   console.log(`\tLibraries: ${config.librariesDirectory}`);
   console.log(`\tValue Sets: ${config.valuesetsDirectory}`);
-  console.log(`\tMeasurement: ${config.measurementType}`);
+  console.log(`\tMeasurement: ${measure}`);
 }
 
 const evalData = (patient) => {
@@ -64,7 +66,7 @@ const evalData = (patient) => {
   data['memberId'] = memberId;
   data['birthDate'] = patientInfo.birthDate;
   data['gender'] = patientInfo.gender;
-  data['measurementType'] = config.measurementType;
+  data['measurementType'] = measure;
   data['coverage'] = patientData['Member Coverage'];
   data['providers'] = createProviderList(patient);
   return data;
@@ -99,18 +101,18 @@ async function createScoreFile() {
 async function appendScoreFile(data) {
   const memberId = data.memberId.split('-')[0]; // Works.
   const gender = data.gender === 'male' ? 'M' : 'F'; // Works.
-  hedisData[config.measurementType].measureIds.forEach((measureId, index) => {
-    if (hedisData[config.measurementType].measureCheck(data, index)) {
-      const ce = hedisData[config.measurementType].getContinuousEnrollment(data, index);
-      const event = hedisData[config.measurementType].getEvent(data, index);
-      const excl = hedisData[config.measurementType].getExclusion(data, index);
-      const num = hedisData[config.measurementType].getNumerator(data, index);
-      const rExcl = hedisData[config.measurementType].getRequiredExclusion(data, index);// Required exclusion.
-      const rExclD = hedisData[config.measurementType].getRequiredExclusionID(data, index); // Data Element Required Exclusions.
-      const age = hedisData[config.measurementType].getAge(data, index); 
+  hedisData[measure].measureIds.forEach((measureId, index) => {
+    if (hedisData[measure].measureCheck(data, index)) {
+      const ce = hedisData[measure].getContinuousEnrollment(data, index);
+      const event = hedisData[measure].getEvent(data, index);
+      const excl = hedisData[measure].getExclusion(data, index);
+      const num = hedisData[measure].getNumerator(data, index);
+      const rExcl = hedisData[measure].getRequiredExclusion(data, index);// Required exclusion.
+      const rExclD = hedisData[measure].getRequiredExclusionID(data, index); // Data Element Required Exclusions.
+      const age = hedisData[measure].getAge(data, index); 
       const ePop = getEligiblePopulation(ce, event, rExcl, rExclD);
 
-      const payors = hedisData[config.measurementType].getPayors(data, index);
+      const payors = hedisData[measure].getPayors(data, index);
 
       payors.forEach((payer) => {
         const row = `${memberId},${measureId},${payer},${ce},${event},${ePop},${excl},${num},${rExcl},${rExclD},${age},${gender}\n`;
@@ -143,7 +145,7 @@ async function processFhirDirectory(dirFiles) {
     console.log(`Processing ${file}.json.`);
     const fileData = await fs.promises.readFile(path.join(parseArgs.f, `${file}.json`));
     const memberData = evalData(JSON.parse(fileData));
-    const fileTitle = `${config.measurementType}-${memberData.memberId}.json`;
+    const fileTitle = `${measure}-${memberData.memberId}.json`;
     fs.writeFileSync(path.join(measuresPath, fileTitle), JSON.stringify(memberData, null, 2));
     appendScoreFile(memberData);
   }
