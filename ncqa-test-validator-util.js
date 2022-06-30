@@ -3,6 +3,48 @@ const config = require('./config');
 const msInADay = 1000 * 60 * 60 * 24;
 const msInAYear = msInADay * 365.242;
 
+const snpMeasures = [];
+const medicareMeasures = [];
+const medicaidMeasures = ['ADDE'];
+const mmpMeasures = [];
+
+const getPayors = (payor, measureId) => {
+  const snp = snpMeasures.find((snp) => snp === measureId);
+  const medicare = medicareMeasures.find((medMeasure) => medMeasure === measureId);
+  const medicaid = medicaidMeasures.find((medicaid) => medicaid === measureId);
+  const mmp = mmpMeasures.find((mmp) => mmp === measureId);
+
+  if (payor === 'SN1' || payor === 'SN2' || payor === 'SN3') {
+    if (medicare && snp) {
+      return ['MCR', payor];
+    } else if (medicare && !snp) {
+      return ['MCR'];
+    } else if (!medicare && !snp) {
+      return ['MCR'];
+    } else if (!medicare && snp) {
+      return [payor];
+    }
+  } else if (payor === 'MMP') {
+    if (medicare && medicaid && mmp) {
+      return [ 'MCR', 'MCD', 'MMP' ];
+    } else if (medicare && !medicaid && mmp) {
+      return [ 'MCR', 'MMP' ];
+    } else if (medicare && medicaid && !mmp) {
+      return [ 'MCR', 'MCD' ];
+    } else if (medicare && !medicaid && !mmp) {
+      return [ 'MCR' ];
+    } else if (!medicare && medicaid && !mmp) {
+      return [ 'MCD' ];
+    } else if (!medicare && !medicaid && mmp) {
+      return [ 'MMP' ];
+    }
+  } else if (payor === 'MDE' || payor === 'MD' || payor === 'MLI' || payor === 'MRB') {
+    return [ 'MCD' ];
+  } else {
+    return [ payor ];
+  }
+}
+
 const secondQualifyingEpisodeCheck = (data, index) => {
   if (index === 0) {
     return true;
@@ -64,8 +106,8 @@ const hedisData = {
       }
       return appAgeWNHN 
         && data[data.memberId]['Has 210 Medication Treatment Days in 301 Day Period Starting on IPSD and Continuing through End of Continuation and Maintenance Phase']
-        && data[data.memberId]['Acute Inpatient Encounter for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase'].length === 0
-        && data[data.memberId]['Acute Inpatient Discharge for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase'].length === 0
+        && data[data.memberId]['Acute Inpatient Encounter for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase']
+        && data[data.memberId]['Acute Inpatient Discharge for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase']
           ? 1 : 0;
     },
     getContinuousEnrollment: (data, index) => {
