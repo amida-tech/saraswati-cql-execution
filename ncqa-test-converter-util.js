@@ -232,6 +232,7 @@ const createClaimFromVisitEncounter = (visitEncounter, count) => {
   if (visitEncounter.diagnosisCode !== undefined) {
     resource.diagnosis = [
       {
+        sequence: 1,
         diagnosisCodeableConcept: {
           coding: [ 
             createCode(visitEncounter.diagnosisCode, visitEncounter.diagnosisFlag)
