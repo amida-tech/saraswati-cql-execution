@@ -104,46 +104,50 @@ async function appendScoreFile(data) {
       const ce = hedisData[config.measurementType].getContinuousEnrollment(data, index);
       const event = hedisData[config.measurementType].getEvent(data, index);
       const excl = hedisData[config.measurementType].getExclusion(data, index);//getExclusion(data, index)
-      const num = hedisData[config.measurementType].getNumerator(data, index);//getNumerator(data, index);
+      const num = hedisData[config.measurementType].getNumerator(data, index); //getNumerator(data, index);
       const rExcl = hedisData[config.measurementType].getRequiredExclusion(data, index);//getRequiredExclusion(data, index); // Required exclusion.
       const rExclD = hedisData[config.measurementType].getRequiredExclusionID(data, index); // Data Element Required Exclusions.
       const age = hedisData[config.measurementType].getAge(data, index); 
       const ePop = getEligiblePopulation(ce, event, rExcl, rExclD);
 
+      const payerSet = new Set();
       data[data.memberId]['Member Coverage'].forEach((coverage) => {
         coverage.payor.forEach((payor) => {
-          const payer = payor.reference.value; 
-          // Payor mapping goes here for the custom cases.
-          const row = `${memberId},${measureId},${payer},${ce},${event},${ePop},${excl},${num},${rExcl},${rExclD},${age},${gender}\n`;
-          fs.appendFileSync(scoreAmidaPath, row, appendScoreErr => {
-            if (appendScoreErr) {
-              console.error(`\x1b[31m\nError: Failure to read FHIR directory, ${fhirDirErr}.\x1b[0m`);
-              process.exit();
-            }
-          });
+          payerSet.add(payor.reference.value);
         })
+      });
+
+      payerSet.forEach((payer) => {
+        const row = `${memberId},${measureId},${payer},${ce},${event},${ePop},${excl},${num},${rExcl},${rExclD},${age},${gender}\n`;
+        fs.appendFileSync(scoreAmidaPath, row, appendScoreErr => {
+          if (appendScoreErr) {
+            console.error(`\x1b[31m\nError: Failure to read FHIR directory, ${fhirDirErr}.\x1b[0m`);
+            process.exit();
+          }
+        });
       });
     }
   })
 }
 
 async function getFhirDirectoryFiles() {
-  return fs.readdirSync(parseArgs.f, (fhirDirErr, fhirFiles) => {
+  return fs.readdirSync(parseArgs.f, (fhirDirErr, dirFiles) => {
     if(fhirDirErr) {
       console.error(`\x1b[31m\nError: Failure to read FHIR directory, ${fhirDirErr}.\x1b[0m`);
       process.exit();
     }
-    return fhirFiles;
+    return dirFiles;
   })
 }
 
-async function processFhirDirectory(files) {
-  for (let file of files) {
+async function processFhirDirectory(dirFiles) {
+  const filenames = dirFiles.map((file) => parseInt(file.split('.')[0], 10)).sort((a, b) => a - b);
+  for (let file of filenames) {
     if (file === '.DS_Store') {
       continue;
     }
-    console.log(`Processing ${file}.`);
-    const fileData = await fs.promises.readFile(path.join(parseArgs.f, file));
+    console.log(`Processing ${file}.json.`);
+    const fileData = await fs.promises.readFile(path.join(parseArgs.f, `${file}.json`));
     const memberData = evalData(JSON.parse(fileData));
     const fileTitle = `${config.measurementType}-${memberData.memberId}.json`;
     fs.writeFileSync(path.join(measuresPath, fileTitle), JSON.stringify(memberData, null, 2));
@@ -153,10 +157,10 @@ async function processFhirDirectory(files) {
 
 const verifyData = async() => {
   await checkArgs();
-  const files = await getFhirDirectoryFiles();
+  const dirFiles = await getFhirDirectoryFiles();
   await createMeasureDirectory();
   await createScoreFile();
-  await processFhirDirectory(files);
+  await processFhirDirectory(dirFiles);
 }
 
 if (parseArgs.h === true) {
