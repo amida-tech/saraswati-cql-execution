@@ -103,21 +103,16 @@ async function appendScoreFile(data) {
     if (hedisData[config.measurementType].measureCheck(data, index)) {
       const ce = hedisData[config.measurementType].getContinuousEnrollment(data, index);
       const event = hedisData[config.measurementType].getEvent(data, index);
-      const excl = hedisData[config.measurementType].getExclusion(data, index);//getExclusion(data, index)
-      const num = hedisData[config.measurementType].getNumerator(data, index); //getNumerator(data, index);
-      const rExcl = hedisData[config.measurementType].getRequiredExclusion(data, index);//getRequiredExclusion(data, index); // Required exclusion.
+      const excl = hedisData[config.measurementType].getExclusion(data, index);
+      const num = hedisData[config.measurementType].getNumerator(data, index);
+      const rExcl = hedisData[config.measurementType].getRequiredExclusion(data, index);// Required exclusion.
       const rExclD = hedisData[config.measurementType].getRequiredExclusionID(data, index); // Data Element Required Exclusions.
       const age = hedisData[config.measurementType].getAge(data, index); 
       const ePop = getEligiblePopulation(ce, event, rExcl, rExclD);
 
-      const payerSet = new Set();
-      data[data.memberId]['Member Coverage'].forEach((coverage) => {
-        coverage.payor.forEach((payor) => {
-          payerSet.add(payor.reference.value);
-        })
-      });
+      const payors = hedisData[config.measurementType].getPayors(data, index);
 
-      payerSet.forEach((payer) => {
+      payors.forEach((payer) => {
         const row = `${memberId},${measureId},${payer},${ce},${event},${ePop},${excl},${num},${rExcl},${rExclD},${age},${gender}\n`;
         fs.appendFileSync(scoreAmidaPath, row, appendScoreErr => {
           if (appendScoreErr) {
@@ -141,11 +136,10 @@ async function getFhirDirectoryFiles() {
 }
 
 async function processFhirDirectory(dirFiles) {
-  const filenames = dirFiles.map((file) => parseInt(file.split('.')[0], 10)).sort((a, b) => a - b);
+  const filenames = dirFiles
+    .filter((file) => file !== '.DS_Store')
+    .map((file) => parseInt(file.split('.')[0], 10)).sort((a, b) => a - b);
   for (let file of filenames) {
-    if (file === '.DS_Store') {
-      continue;
-    }
     console.log(`Processing ${file}.json.`);
     const fileData = await fs.promises.readFile(path.join(parseArgs.f, `${file}.json`));
     const memberData = evalData(JSON.parse(fileData));

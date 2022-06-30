@@ -3,16 +3,22 @@ const config = require('./config');
 const msInADay = 1000 * 60 * 60 * 24;
 const msInAYear = msInADay * 365.242;
 
+const exchangeOrCommercial = ['CEP', 'HMO', 'POS', 'PPO', 'MEP', 'MMO', 'MOS', 'MPO'];
+const medicarePlans = ['MCR', 'MCS', 'MP', 'MC'];
+const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB'];
 const snpMeasures = [];
 const medicareMeasures = [];
-const medicaidMeasures = ['ADDE'];
+const medicaidMeasures = ['adde'];
 const mmpMeasures = [];
 
 const getPayors = (payor, measureId) => {
-  const snp = snpMeasures.find((snp) => snp === measureId);
-  const medicare = medicareMeasures.find((medMeasure) => medMeasure === measureId);
-  const medicaid = medicaidMeasures.find((medicaid) => medicaid === measureId);
-  const mmp = mmpMeasures.find((mmp) => mmp === measureId);
+  if (Array.isArray(payor)) {
+    return payor;
+  }
+  const snp = snpMeasures.includes(measureId);
+  const medicare = medicareMeasures.includes(measureId);
+  const medicaid = medicaidMeasures.includes(measureId);
+  const mmp = mmpMeasures.includes(measureId);
 
   if (payor === 'SN1' || payor === 'SN2' || payor === 'SN3') {
     if (medicare && snp) {
@@ -42,6 +48,69 @@ const getPayors = (payor, measureId) => {
     return [ 'MCD' ];
   } else {
     return [ payor ];
+  }
+}
+
+const getPreferredPayor = (latestCoverage, measureId) => {
+  if (latestCoverage.length === 1) {
+    return latestCoverage[0].payor;
+  }
+  const medicare = medicareMeasures.includes(measureId);
+  const medicaid = medicaidMeasures.includes(measureId);
+
+  // Check if all are commercial plans
+  let allCommercial = true;
+  let anyCommercial = false;
+  for (const cov of latestCoverage) {
+    if (exchangeOrCommercial.includes(cov.payor)) {
+      anyCommercial = true
+    }
+    if (!exchangeOrCommercial.includes(cov.payor)) {
+      allCommercial = false;
+      break;
+    }
+  }
+
+  if (allCommercial) {
+    return latestCoverage.map((coverage) => coverage.payor);
+  }
+  // If all else fails, return latest payer
+  if (anyCommercial) {
+    return latestCoverage[latestCoverage.length - 1].payor;
+  }
+
+  // If is a medicaid measure, check medicaid first
+  if (medicaid) {
+    for (const medicaidPlan of medicaidPlans) {
+      for (const cov of latestCoverage) {
+        if (cov.payor === medicaidPlan) {
+          return medicaidPlan;
+        }
+      }
+    }
+    for (const medicarePlan of medicarePlans) {
+      for (const cov of latestCoverage) {
+        if (cov.payor === medicarePlan) {
+          return medicarePlan;
+        }
+      }
+    }
+  // If it's a medicare measure, check medicare first
+  } else if (medicare) {
+    for (const medicarePlan of medicarePlans) {
+      for (const cov of latestCoverage) {
+        if (cov.payor === medicarePlan) {
+          return medicarePlan;
+        }
+      }
+    }
+    for (const medicaidPlan of medicaidPlans) {
+      for (const cov of latestCoverage) {
+        if (cov.payor === medicaidPlan) {
+          return medicaidPlan;
+        }
+      }
+    }
   }
 }
 
@@ -122,6 +191,54 @@ const hedisData = {
     },
     getRequiredExclusionID: () => 0,
     measureCheck: () => true,
+    getPayors: (data, index) => {
+      const compareDate = new Date(data[data.memberId]['Index Prescription Start Date']);
+      const memberCoverage = data[data.memberId]['Member Coverage'];
+      // filter coverage objects based on dates from Enrolled During Participation Period 1 and 2
+      let foundPayors = memberCoverage
+        .filter((coverage) => {
+          const coverageStart = new Date(coverage.period.start.value);
+          const coverageEnd = new Date(coverage.period.end.value);
+
+          if (index == 0) {
+            return coverageStart.getTime() <= compareDate.getTime() + (30 * msInADay)
+              && coverageEnd.getTime() >= compareDate.getTime() - (120 * msInADay);
+          }
+          return coverageStart.getTime() <= compareDate.getTime() + (300 * msInADay)
+            && coverageEnd.getTime() >= compareDate.getTime() + (31 * msInADay);
+          
+        })
+        .map((coverage) => {
+          return {
+            payor: coverage.payor[0].reference.value,
+            date: new Date(coverage.period.end.value).getTime(),
+          }
+        });
+      // if none are found, use the latest is Member Coverage
+      if (foundPayors === undefined || foundPayors.length === 0) {
+        foundPayors = memberCoverage[memberCoverage.length - 1].payor[0].reference.value;
+        return getPayors(foundPayors, 'adde');
+      }
+      // Now that we have the latest for the participation period, find the latest one
+      let latestCoverage = [];
+      for (const found of foundPayors) {
+        if (latestCoverage.length === 0) {
+          latestCoverage.push(found);
+          continue;
+        }
+        if (latestCoverage[0].date < found.date) {
+          latestCoverage = [found];
+        } else if (latestCoverage[0].date == found.date) {
+          latestCoverage.push(found);
+        }
+      }
+      // if we have one, use that
+      if (latestCoverage.length === 1) {
+        return getPayors(latestCoverage[0].payor, 'adde');
+      }
+      // if we have more than one we need to decide to either choose one or all
+      return getPayors(getPreferredPayor(latestCoverage, 'adde'), 'adde');
+    }
   },
   aise: {
     measureIds: ['AISINFL','AISTD','AISZOS','AISPNEU']
