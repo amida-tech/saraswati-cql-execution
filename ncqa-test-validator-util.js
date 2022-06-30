@@ -54,15 +54,19 @@ const hedisData = {
       return Math.floor(ageInMilliseconds / msInAYear);
     },
     getEvent: (data, index) => { // Guess?
-      const eventBase = data[data.memberId]['Member is Appropriate Age and Has IPSD with Negative Medication History']
-        && data[data.memberId]['Acute Inpatient Encounter for Mental Behavioral or Neurodevelopmental Disorders During Initiation Phase'].length === 0
-        && data[data.memberId]['Acute Inpatient Discharge for Mental Behavioral or Neurodevelopmental Disorders During Initiation Phase'].length === 0;
+      const appAgeWNHN = data[data.memberId]['Member is Appropriate Age and Has IPSD with Negative Medication History'];
 
       if (index === 0) {
-        return eventBase ? 1 : 0
+        return appAgeWNHN
+          && data[data.memberId]['Acute Inpatient Encounter for Mental Behavioral or Neurodevelopmental Disorders During Initiation Phase'].length === 0
+          && data[data.memberId]['Acute Inpatient Discharge for Mental Behavioral or Neurodevelopmental Disorders During Initiation Phase'].length === 0
+          ? 1 : 0
       }
-      return eventBase && data[data.memberId]['Has 210 Medication Treatment Days in 301 Day Period Starting on IPSD and Continuing through End of Continuation and Maintenance Phase']
-        ? 1 : 0;
+      return appAgeWNHN 
+        && data[data.memberId]['Has 210 Medication Treatment Days in 301 Day Period Starting on IPSD and Continuing through End of Continuation and Maintenance Phase']
+        && data[data.memberId]['Acute Inpatient Encounter for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase']
+        && data[data.memberId]['Acute Inpatient Discharge for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase']
+          ? 1 : 0;
     },
     getContinuousEnrollment: (data, index) => {
       return data[data.memberId][`Enrolled During Participation Period ${index + 1}`] ? 1 : 0;

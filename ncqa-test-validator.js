@@ -107,7 +107,7 @@ async function appendScoreFile(data) {
       const num = hedisData[config.measurementType].getNumerator(data, index);//getNumerator(data, index);
       const rExcl = hedisData[config.measurementType].getRequiredExclusion(data, index);//getRequiredExclusion(data, index); // Required exclusion.
       const rExclD = hedisData[config.measurementType].getRequiredExclusionID(data, index); // Data Element Required Exclusions.
-      const age = hedisData[config.measurementType].getAge(data, index); // Works for AAB.
+      const age = hedisData[config.measurementType].getAge(data, index); 
       const ePop = getEligiblePopulation(ce, event, rExcl, rExclD);
 
       data[data.memberId]['Member Coverage'].forEach((coverage) => {
