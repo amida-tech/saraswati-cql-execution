@@ -125,6 +125,28 @@ const getPreferredPayor = (latestCoverage) => {
   return latestCoverage[latestCoverage.length - 1].payor;
 }
 
+const getPayorArray = (foundPayors) => {
+  // Now that we have the latest for the participation period, find the latest one
+  let latestCoverage = [];
+  for (const found of foundPayors) {
+    if (latestCoverage.length === 0) {
+      latestCoverage.push(found);
+      continue;
+    }
+    if (latestCoverage[0].date < found.date) {
+      latestCoverage = [found];
+    } else if (latestCoverage[0].date == found.date) {
+      latestCoverage.push(found);
+    }
+  }
+  // if we have one, use that
+  if (latestCoverage.length === 1) {
+    return getPayors(latestCoverage[0].payor);
+  }
+  // if we have more than one we need to decide to either choose one or all
+  return getPayors(getPreferredPayor(latestCoverage));      
+}
+
 const secondQualifyingEpisodeCheck = (data, index) => {
   if (index === 0) {
     return true;
@@ -161,20 +183,7 @@ const hedisData = {
     getAge: (data) => {
       let eventDate = new Date(data[data.memberId]['Last Calendar Day of February']);
       eventDate.setUTCHours(0,0,0,0);
-      let eventDateMls = eventDate.getTime();
-      const birthDate = new Date(data.birthDate);
-      const eventYear = parseInt(eventDate.getFullYear());
-      let birthYearCheck = parseInt(birthDate.getFullYear());
-
-      while(birthYearCheck <= eventYear) {
-        if (birthYearCheck % 4 === 0 && (birthDate.getMonth() + 1 > 2)) {
-          eventDateMls += msInADay;
-        }
-        birthYearCheck += 1;
-      }
-
-      const ageInMilliseconds = eventDateMls - birthDate.getTime();
-      return Math.floor(ageInMilliseconds / msInAYear);
+      return getAge(new Date(data.birthDate), eventDate);
     },
     getEvent: (data, index) => { // Guess?
       const appAgeWNHN = data[data.memberId]['Member is Appropriate Age and Has IPSD with Negative Medication History'];
@@ -231,29 +240,43 @@ const hedisData = {
         foundPayors = memberCoverage[memberCoverage.length - 1].payor[0].reference.value;
         return getPayors(foundPayors);
       }
-      // Now that we have the latest for the participation period, find the latest one
-      let latestCoverage = [];
-      for (const found of foundPayors) {
-        if (latestCoverage.length === 0) {
-          latestCoverage.push(found);
-          continue;
-        }
-        if (latestCoverage[0].date < found.date) {
-          latestCoverage = [found];
-        } else if (latestCoverage[0].date == found.date) {
-          latestCoverage.push(found);
-        }
-      }
-      // if we have one, use that
-      if (latestCoverage.length === 1) {
-        return getPayors(latestCoverage[0].payor);
-      }
-      // if we have more than one we need to decide to either choose one or all
-      return getPayors(getPreferredPayor(latestCoverage));
+
+      return getPayorArray(foundPayors);
     }
   },
   aise: {
-    measureIds: ['AISINFL','AISTD','AISZOS','AISPNEU']
+    measureIds: ['AISINFL','AISTD','AISZOS','AISPNEU'],
+    eventsOrDiag: false,
+    measureCheck: (data, index) => {
+      let eventDate = new Date('2022-01-01');
+      if (index == 1 || index == 2) {
+        return getAge(new Date(data.birthDate), eventDate) >= 19;
+      } else if (index == 3) {
+        return getAge(new Date(data.birthDate), eventDate) >= 50;
+      } else if (index == 4) {
+        return getAge(new Date(data.birthDate), eventDate) >= 66;
+      }
+      return false;
+    },
+    getAge: (data) => {
+      let eventDate = new Date('2022-01-01');
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getEvent: () => 0,
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index) => {
+      return data[data.memberId][`Numerator ${index + 1}`] ? 1 : 0;
+    },
+    getRequiredExclusion: (data, index) => {
+      return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
+    },
+    getRequiredExclusionID: () => 0,
+    getPayors: (data, index) => {
+      return ['test'];
+    }
   },
   apme: {
     measureIds: ['APM1','APM2','APM3']
@@ -325,13 +348,18 @@ const hedisData = {
   },
 }
 
-const getAge = (data, index) => { // Age must be calculated against first event.
-  let eventDate = data[data.memberId][hedisData[measure].ageKey];
-  if (hedisData[measure].ageArray) {
-    eventDate = eventDate[index];
+const getAge = (birthDate, compareDate) => { // Age must be calculated against first event.
+  let eventDateMls = compareDate.getTime();
+  const eventYear = parseInt(compareDate.getFullYear());
+  let birthYearCheck = parseInt(birthDate.getFullYear());
+
+  while(birthYearCheck <= eventYear) {
+    if (birthYearCheck % 4 === 0 && (birthDate.getMonth() + 1 > 2)) {
+      eventDateMls += msInADay;
+    }
+    birthYearCheck += 1;
   }
-  
-  const ageInMilliseconds = new Date(eventDate) - new Date(data.birthDate);
+  const ageInMilliseconds = eventDateMls - birthDate.getTime();
   return Math.floor(ageInMilliseconds / msInAYear);
 }
 
