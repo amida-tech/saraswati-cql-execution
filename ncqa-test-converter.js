@@ -375,10 +375,10 @@ const createPatientFhirObject = (generalMembership) => {
     family: generalMembership.memberLastName,
     given: [generalMembership.memberFirstName],
   }];
-  patient.telecom = {
+  patient.telecom = [{
     system: 'phone',
     value: generalMembership.phoneNumber,
-  }
+  }];
   let gender = 'unknown';
   if (generalMembership.gender === 'M') {
     gender = 'male';
