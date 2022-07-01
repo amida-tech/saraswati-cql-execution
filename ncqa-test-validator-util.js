@@ -66,26 +66,27 @@ const getPreferredPayor = (latestCoverage) => {
     return latestCoverage[0].payor;
   }
 
-  // Check if all are commercial plans
-  let allCommercial = true;
+  // Check if any are commercial plans
   let anyCommercial = false;
+  let allCommercial = true;
   for (const cov of latestCoverage) {
     if (exchangeOrCommercial.includes(cov.payor)) {
-      anyCommercial = true
+      anyCommercial = true;
+      continue;
     }
-    if (!exchangeOrCommercial.includes(cov.payor)) {
-      allCommercial = false;
-      break;
-    }
+    allCommercial = false;
   }
 
+  // If all commercial, use all
   if (allCommercial) {
-    return latestCoverage.map((coverage) => coverage.payor);
+    return latestCoverage.map((coverage) => coverage.payor)
   }
-  // If all else fails, return latest payer
+
+  // if any commercial plans exist use last item
   if (anyCommercial) {
     return latestCoverage[latestCoverage.length - 1].payor;
   }
+
 
   // If is a medicaid measure, check medicaid first
   if (insPref.medicaid) {
@@ -120,6 +121,8 @@ const getPreferredPayor = (latestCoverage) => {
       }
     }
   }
+
+  return latestCoverage[latestCoverage.length - 1].payor;
 }
 
 const secondQualifyingEpisodeCheck = (data, index) => {
@@ -154,6 +157,7 @@ const hedisData = {
   },
   adde: {
     measureIds: ['ADD1','ADD2'],
+    eventsOrDiag: true,
     getAge: (data) => {
       let eventDate = new Date(data[data.memberId]['Last Calendar Day of February']);
       eventDate.setUTCHours(0,0,0,0);
