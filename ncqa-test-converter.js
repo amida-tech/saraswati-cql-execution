@@ -583,10 +583,11 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
       const encounter = createClaimEncounter(
         {
           memberId: visit.memberId,
+          idName: 'visit-encounter',
           encounterId: visit.claimId,
           period: {
             start: visit.dateOfService,
-            end: visit.dateOfService,
+            end: visit.dischargeDate ? visit.dischargeDate : visit.dateOfService,
           },
           serviceCode,
           cmsPlaceOfService: visit.cmsPlaceOfService,
@@ -624,6 +625,7 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
       const encounter = createClaimEncounter(
         {
           memberId: visitEncounter.memberId,
+          idName: 'visit-e-encounter',
           encounterId: index + 1,
           period: {
             start: visitEncounter.serviceDate,

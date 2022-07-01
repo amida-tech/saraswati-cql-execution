@@ -278,7 +278,7 @@ const createDiagnosisCondition = (condition) => {
 const createClaimEncounter = (encounter) => {
   const encounterFhir = {
     resourceType: 'Encounter',
-    id: `${encounter.memberId}-claim-encounter-${encounter.encounterId}`,
+    id: `${encounter.memberId}-${encounter.idName}-${encounter.encounterId}`,
     status: 'finished',
     period: {
       start: convertDateString(encounter.period.start),
