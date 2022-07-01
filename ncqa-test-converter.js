@@ -375,7 +375,7 @@ const createPatientFhirObject = (generalMembership) => {
     family: generalMembership.memberLastName,
     given: [generalMembership.memberFirstName],
   }];
-  patient.telcom = {
+  patient.telecom = {
     system: 'phone',
     value: generalMembership.phoneNumber,
   }
@@ -775,7 +775,10 @@ const createObservationList = (visits, observations, procedures, labs) => {
           id: `${visit.memberId}-claim-observation-${visit.claimId}-${index+1}`,
           resourceType: 'Observation',
           code: { coding: [ serviceCode ] },
-          effectiveDateTime: convertDateString(visit.dateOfService),
+          effectivePeriod: {
+            start: convertDateString(visit.dateOfService),
+            end: convertDateString(visit.dateOfService),
+          },
         }
         observationList.push(obsClaim);
       }
@@ -799,7 +802,10 @@ const createObservationList = (visits, observations, procedures, labs) => {
             end: convertDateString(observation.endDate),
           };
         } else {
-          obsResource.effectiveDateTime = convertDateString(observation.observationDate);
+          obsResource.effectivePeriod = {
+            start: convertDateString(observation.observationDate),
+            end: convertDateString(observation.observationDate),
+          };
         }
         observationList.push(obsResource);
       }
@@ -813,7 +819,10 @@ const createObservationList = (visits, observations, procedures, labs) => {
         resourceType: 'Observation',
         id: `${procedure.memberId}-procedure-observation-${index + 1}`,
         subject: { reference: `Patient/${procedure.memberId}-patient` },
-        effectiveDateTime: convertDateString(procedure.serviceDate),
+        effectivePeriod: {
+          start: convertDateString(procedure.serviceDate),
+          end: convertDateString(procedure.serviceDate),
+        },
         status: procedure.serviceStatus === 'EVN' ? 'completed' : 'in-progress',
         code: { coding: [ procCode ] },
       }
