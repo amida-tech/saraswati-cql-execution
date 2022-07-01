@@ -18,6 +18,7 @@ const hedisEocHeaders = "MemID,Meas,Payer,CE,Event,Epop,Excl,Num,RExcl,RExclD,Ag
 const parseArgs = minimist(process.argv.slice(2), {
   alias: {
     f: 'fhirDirectory',
+    m: 'memberIds',
     v: 'validate',
   },
 });
@@ -138,9 +139,13 @@ async function getFhirDirectoryFiles() {
 }
 
 async function processFhirDirectory(dirFiles) {
-  const filenames = dirFiles
+  let filenames = dirFiles
     .filter((file) => file !== '.DS_Store')
     .map((file) => parseInt(file.split('.')[0], 10)).sort((a, b) => a - b);
+  if (parseArgs.m !== undefined) {
+    const memberIds = parseArgs.m.toString().split(',').map((memberId) => parseInt(memberId, 10));
+    filenames = filenames.filter((file) => memberIds.includes(file));
+  }
   for (let file of filenames) {
     console.log(`Processing ${file}.json.`);
     const fileData = await fs.promises.readFile(path.join(parseArgs.f, `${file}.json`));
@@ -162,6 +167,7 @@ const verifyData = async() => {
 if (parseArgs.h === true) {
   console.log('\n A script for generating HEDIS scores and verifying results. You must config ".env" settings, and run "ncqa-test-converter.js" first.\n\n Options:');
   console.log('   -f, --fhirDirectory: The directory of FHIR data you want to score and verify.');
+  console.log('   -m, --memberIds: A comma separated list of memberIds you want to compute. Optional.');
   console.log('   -v, --validate: Optional. If true, compare against the `score.txt` file in the folder above FHIR directory. Outputs "score-amida.txt". Defaults to "false".');
   process.exit();
 }
