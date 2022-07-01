@@ -318,7 +318,7 @@ const hedisData = {
     measureIds: ['DSFA','DSFB']
   },
   fum: {
-    measureIds: ['FUM30A','FUM30B','FUM7A','FUM7B']
+    measureIds: ['FUM30A','FUM30B','FUM7A','FUM7B'],
   },
   imae: {
     measureIds: ['IMAMEN','IMATD','IMAHPV','IMACMB1','IMACMB2']
