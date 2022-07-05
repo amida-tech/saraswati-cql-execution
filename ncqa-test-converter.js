@@ -792,28 +792,28 @@ const createObservationList = (visits, observations, procedures, labs) => {
 
   if (observations) {
     observations.forEach((observation, index) => {
-      if (observation.value) {
-        const obsCode = createCode(observation.test, observation.testCodeFlag);
-        const obsResource = {
-          resourceType: 'Observation',
-          id: `${observation.memberId}-observation-${index + 1}`,
-          subject: { reference: `Patient/${observation.memberId}-patient` },
-          code: { coding: [ obsCode ] },
-          valueInteger: parseInt(observation.value),
-        }
-        if (observation.endDate) {
-          obsResource.effectivePeriod = {
-            start: convertDateString(observation.observationDate),
-            end: convertDateString(observation.endDate),
-          };
-        } else {
-          obsResource.effectivePeriod = {
-            start: convertDateString(observation.observationDate),
-            end: convertDateString(observation.observationDate),
-          };
-        }
-        observationList.push(obsResource);
+      const obsCode = createCode(observation.test, observation.testCodeFlag);
+      const obsResource = {
+        resourceType: 'Observation',
+        id: `${observation.memberId}-observation-${index + 1}`,
+        subject: { reference: `Patient/${observation.memberId}-patient` },
+        code: { coding: [ obsCode ] },
       }
+      if (observation.value) {
+        obsResource.valueInteger = parseInt(observation.value);
+      }
+      if (observation.endDate) {
+        obsResource.effectivePeriod = {
+          start: convertDateString(observation.observationDate),
+          end: convertDateString(observation.endDate),
+        };
+      } else {
+        obsResource.effectivePeriod = {
+          start: convertDateString(observation.observationDate),
+          end: convertDateString(observation.observationDate),
+        };
+      }
+      observationList.push(obsResource);        
     });
   }
 

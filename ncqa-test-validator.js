@@ -110,8 +110,12 @@ async function appendScoreFile(data) {
       const num = hedisData[measure].getNumerator(data, index);
       const rExcl = hedisData[measure].getRequiredExclusion(data, index);// Required exclusion.
       const rExclD = hedisData[measure].getRequiredExclusionID(data, index); // Data Element Required Exclusions.
-      const age = hedisData[measure].getAge(data, index); 
-      const ePop = getEligiblePopulation(ce, event, rExcl, rExclD);
+      const age = hedisData[measure].getAge(data, index);
+
+      let ePop = getEligiblePopulation(ce, event, rExcl, rExclD);
+      if (ePop && typeof hedisData[measure].getEligiblePopulation === 'function') {
+        ePop = hedisData[measure].getEligiblePopulation(data, index, hedisData[measure], ePop);
+      }
 
       const payors = hedisData[measure].getPayors(data, index, hedisData[measure]);
 

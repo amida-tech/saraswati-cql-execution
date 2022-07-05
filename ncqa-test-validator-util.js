@@ -310,7 +310,6 @@ const hedisData = {
     getRequiredExclusionID: () => 0,
     getPayors: (data, _index, measureFunctions) => {
       const memberCoverage = data[data.memberId]['Member Coverage'];
-      // filter coverage objects based on dates from Enrolled During Participation Period 1 and 2
       let foundPayors = memberCoverage
         .map((coverage) => {
           return {
@@ -331,7 +330,56 @@ const hedisData = {
     }
   },
   apme: {
-    measureIds: ['APM1','APM2','APM3']
+    measureIds: ['APM1','APM2','APM3'],
+    eventsOrDiag: true,
+    measureCheck: (data, _index, measureFunctions) => {
+      return measureFunctions.getAge(data) < 18;
+    },
+    getAge: (data) => {
+      let eventDate = new Date('2022-12-31');
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getEligiblePopulation: (data, index, measureFunctions, ePop) => {
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors === undefined) {
+        return false;
+      }
+      const payor = payors[0];
+      return (ePop && !medicarePlans.includes(payor) && !exchange.includes(payor)) ? 1 : 0;
+    },
+    getEvent: (data) => {
+      return data[data.memberId]['Antipsychotics on Different Days'] ? 1 : 0;
+    },
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index) => {
+      return data[data.memberId][`Numerator ${index + 1}`] ? 1 : 0;
+    },
+    getRequiredExclusion: (data, index) => {
+      return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
+    },
+    getRequiredExclusionID: () => 0,
+    getPayors: (data, _index, measureFunctions) => {
+      const memberCoverage = data[data.memberId]['Member Coverage'];
+      let foundPayors = memberCoverage
+        .map((coverage) => {
+          return {
+            payor: coverage.payor[0].reference.value,
+            date: new Date(coverage.period.end.value).getTime(),
+          }
+        });
+      if (foundPayors === undefined || foundPayors.length === 0) {
+        if (memberCoverage.length === 0) {
+          return;
+        }
+        foundPayors = memberCoverage[memberCoverage.length - 1].payor[0].reference.value;
+        return getPayors(foundPayors, measureFunctions.getAge(data));
+      }
+  
+      return getPayorArray(foundPayors, measureFunctions.getAge(data));
+    },
   },
   asfe: {
     measureIds: ['ASFA','ASFB']
