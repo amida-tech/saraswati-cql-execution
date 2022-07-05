@@ -59,7 +59,7 @@ const getPayors = (payor, age) => {
   if (payor.startsWith('SN')) {
     return snpHelper(payor);
   } else if (payor === 'MMP') {
-    return age ? testMmpHelper(age) : mmpHelper();
+    return testMmpHelper(age);
   } else if (payor === 'MDE' || payor === 'MD' || payor === 'MLI' || payor === 'MRB') {
     return [ 'MCD' ];
   } else {
@@ -234,7 +234,7 @@ const hedisData = {
     },
     getRequiredExclusionID: () => 0,
     measureCheck: () => true,
-    getPayors: (data, index) => {
+    getPayors: (data, index, { getAge }) => {
       const compareDate = new Date(data[data.memberId]['Index Prescription Start Date']);
       const memberCoverage = data[data.memberId]['Member Coverage'];
       // filter coverage objects based on dates from Enrolled During Participation Period 1 and 2
@@ -372,7 +372,11 @@ const hedisData = {
   fum: {
     measureIds: ['FUM30A', 'FUM7A', 'FUM30B', 'FUM7B'],
     getAge: (data) => {
-      let eventDate = new Date(data[data.memberId]['First Eligible ED Visits per 31 Day Period'][0]);
+      let eventDate = data[data.memberId]['First Eligible ED Visits per 31 Day Period'][0];
+      if (eventDate === undefined) {
+        eventDate = data[data.memberId]['December 1 of the Measurement Period'];
+      }
+      eventDate = new Date(eventDate);
       eventDate.setUTCHours(0,0,0,0);
       return getAge(new Date(data.birthDate), eventDate);
     },
