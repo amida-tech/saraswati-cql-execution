@@ -59,7 +59,7 @@ const getPayors = (payor, age) => {
   if (payor.startsWith('SN')) {
     return snpHelper(payor);
   } else if (payor === 'MMP') {
-    return age ? testMmpHelper(age) : mmpHelper;
+    return age ? testMmpHelper(age) : mmpHelper();
   } else if (payor === 'MDE' || payor === 'MD' || payor === 'MLI' || payor === 'MRB') {
     return [ 'MCD' ];
   } else {
@@ -371,27 +371,52 @@ const hedisData = {
   },
   fum: {
     measureIds: ['FUM30A', 'FUM7A', 'FUM30B', 'FUM7B'],
+    getAge: (data) => {
+      let eventDate = new Date(data[data.memberId]['First Eligible ED Visits per 31 Day Period'][0]);
+      eventDate.setUTCHours(0,0,0,0);
+      return getAge(new Date(data.birthDate), eventDate);
+    },
     getContinuousEnrollment: (data, index) => {
-      return data[data.memberId][`First Eligible ED Visits per 31 Day Period`] ? 1 : 0;
+      return data[data.memberId]['First Eligible ED Visits per 31 Day Period'][Math.floor(index / 2)]
+        !== undefined ? 1 : 0;
     },
     getEvent: (data, index) => {
-      return 1;
+      return data[data.memberId]['First Eligible ED Visits per 31 Day Period'][Math.floor(index / 2)]
+        !== undefined ? 1 : 0;
     },
     getExclusion: () => 0,
     getNumerator: (data, index) => {
       const numIndex = index % 2 // Deciding between FUM30 and FUM7.
-      const dateIndex = Math.floor(date / 2); // Won't ever go over 1. 
+      const dateIndex = Math.floor(index / 2); // Won't ever go over 1. 
       return data[data.memberId][`Numerator ${numIndex + 1}`][dateIndex] !== undefined ? 1 : 0;
     },
     getRequiredExclusion: (data, index) => {
       return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
     },
-    getRequiredExclusionID: () => 0,
+    getRequiredExclusionID: () => 0, // INCORRECT.
     measureCheck: (data, index) => {
       if (index < 2) { // We always want a result back for FUM30A and FUM7A.
         return true;
       }
       return data[data.memberId]['Initial Population 2'].length > 1;
+    },
+    getPayors: (data, _index, measureFunctions) => {
+      const memberCoverage = data[data.memberId]['Member Coverage'];
+      let foundPayors = memberCoverage
+        .map((coverage) => {
+          return {
+            payor: coverage.payor[0].reference.value,
+            date: new Date(coverage.period.end.value).getTime(),
+          }
+        });
+      if (foundPayors === undefined || foundPayors.length === 0) {
+        if (memberCoverage.length === 0) {
+          return;
+        }
+        foundPayors = memberCoverage[memberCoverage.length - 1].payor[0].reference.value;
+        return getPayors(foundPayors, measureFunctions.getAge(data));
+      }
+      return getPayorArray(foundPayors, measureFunctions.getAge(data));
     }
   },
   imae: {
