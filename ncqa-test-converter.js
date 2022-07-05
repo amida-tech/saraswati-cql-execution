@@ -525,6 +525,7 @@ const createConditionList = (visitList, visitEncounterList, diagnosisList) => {
               code: visitDiagnosis,
               system: visit.icdIdentifier,
               onsetDateTime: visit.dateOfService,
+              recorder: visit.providerId,
             }
           );
           fullConditionList.push(condObj);
@@ -592,6 +593,7 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
           serviceCode,
           cmsPlaceOfService: visit.cmsPlaceOfService,
           ubRevenue: visit.ubRevenue,
+          serviceProvider: visit.providerId,
         }
       );
       encounters.push(encounter);
@@ -720,6 +722,7 @@ const createProcedureList = (visits, observations, procedures) => {
           resourceType: 'Procedure',
           subject: { reference: `Patient/${visit.memberId}-patient`},
           performedDateTime: convertDateString(visit.dateOfService),
+          performer: [ { actor: { reference: visit.providerId, } } ],
           status: 'completed',
           code: { coding: [ serviceCode ] }
         }

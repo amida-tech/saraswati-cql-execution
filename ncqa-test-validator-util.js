@@ -4,12 +4,14 @@ const measure = config.measurementType;
 const msInADay = 1000 * 60 * 60 * 24;
 const msInAYear = msInADay * 365.242;
 
+const exchange = ['MEP', 'MMO', 'MOS', 'MPO'];
+const commercial = ['CEP', 'HMO', 'POS', 'PPO'];
 const exchangeOrCommercial = ['CEP', 'HMO', 'POS', 'PPO', 'MEP', 'MMO', 'MOS', 'MPO'];
-const medicarePlans = ['MCR', 'MCS', 'MP', 'MC'];
-const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB'];
+const medicarePlans = ['MCR', 'MCS', 'MP', 'MC', 'MCR'];
+const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB', 'MCD'];
 const snpMeasures = []; // I don't think we'll ever have any of these for a while.
 const medicareMeasures = [];
-const medicaidMeasures = ['adde'];
+const medicaidMeasures = ['adde', 'aise'];
 const mmpMeasures = []; // As with SNPs.
 
 const insPref = {
@@ -36,7 +38,7 @@ const mmpHelper = () => {
     return [ 'MCR', 'MMP' ];
   } else if (insPref.medicare && insPref.medicaid && !insPref.mmp) {
     return [ 'MCR', 'MCD' ];
-  } else if (insPref.medicare && !medicaid && !insPref.mmp) {
+  } else if (insPref.medicare && !insPref.medicaid && !insPref.mmp) {
     return [ 'MCR' ];
   } else if (!insPref.medicare && insPref.medicaid && !insPref.mmp) {
     return [ 'MCD' ];
@@ -45,7 +47,11 @@ const mmpHelper = () => {
   }
 }
 
-const getPayors = (payor) => {
+const testMmpHelper = (age) => {
+  return age < 66 ? [ 'MCD' ] : [ 'MCR' ];
+}
+
+const getPayors = (payor, age) => {
   if (Array.isArray(payor)) {
     return payor;
   }
@@ -53,7 +59,7 @@ const getPayors = (payor) => {
   if (payor.startsWith('SN')) {
     return snpHelper(payor);
   } else if (payor === 'MMP') {
-    return mmpHelper();
+    return age ? testMmpHelper(age) : mmpHelper;
   } else if (payor === 'MDE' || payor === 'MD' || payor === 'MLI' || payor === 'MRB') {
     return [ 'MCD' ];
   } else {
@@ -125,7 +131,7 @@ const getPreferredPayor = (latestCoverage) => {
   return latestCoverage[latestCoverage.length - 1].payor;
 }
 
-const getPayorArray = (foundPayors) => {
+const getPayorArray = (foundPayors, age) => {
   // Now that we have the latest for the participation period, find the latest one
   let latestCoverage = [];
   for (const found of foundPayors) {
@@ -141,10 +147,26 @@ const getPayorArray = (foundPayors) => {
   }
   // if we have one, use that
   if (latestCoverage.length === 1) {
-    return getPayors(latestCoverage[0].payor);
+    return getPayors(latestCoverage[0].payor, age);
   }
   // if we have more than one we need to decide to either choose one or all
-  return getPayors(getPreferredPayor(latestCoverage));      
+  return getPayors(getPreferredPayor(latestCoverage), age);      
+}
+
+const isValidCommercial = (payor, age) => {
+  return commercial.includes(payor) && age > 18 && age < 66;
+}
+
+const isValidExchange = (payor, age) => {
+  return exchange.includes(payor) && age > 18;
+}
+
+const isValidMedicaid = (payor, age) => {
+  return medicaidPlans.includes(payor) && age > 18 && age < 66;
+}
+
+const isValidMedicare = (payor, age) => {
+  return medicarePlans.includes(payor) && age > 65;
 }
 
 const secondQualifyingEpisodeCheck = (data, index) => {
@@ -247,16 +269,28 @@ const hedisData = {
   aise: {
     measureIds: ['AISINFL','AISTD','AISZOS','AISPNEU'],
     eventsOrDiag: false,
-    measureCheck: (data, index) => {
-      let eventDate = new Date('2022-01-01');
-      if (index == 1 || index == 2) {
-        return getAge(new Date(data.birthDate), eventDate) >= 19;
-      } else if (index == 3) {
-        return getAge(new Date(data.birthDate), eventDate) >= 50;
-      } else if (index == 4) {
-        return getAge(new Date(data.birthDate), eventDate) >= 66;
+    measureCheck: (data, index, measureFunctions) => {
+      const age  = measureFunctions.getAge(data);
+      // Check if member meets age range for each measure
+      if ((index == 0 || index == 1) && age < 19) {
+        return false;
+      } else if (index == 2 && age < 50) {
+        return false
+      } else if (index == 3 && age < 66) {
+        return false;
       }
-      return false;
+
+      // Get Payor
+      let payor = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payor === undefined) {
+        return false;
+      }
+      payor = payor[0];
+      // Check if payor and age are valid
+      return (isValidCommercial(payor, age))
+        || (isValidExchange(payor, age))
+        || (isValidMedicaid(payor, age))
+        || (isValidMedicare(payor, age))
     },
     getAge: (data) => {
       let eventDate = new Date('2022-01-01');
@@ -274,8 +308,26 @@ const hedisData = {
       return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
     },
     getRequiredExclusionID: () => 0,
-    getPayors: (data, index) => {
-      return ['test'];
+    getPayors: (data, _index, measureFunctions) => {
+      const memberCoverage = data[data.memberId]['Member Coverage'];
+      // filter coverage objects based on dates from Enrolled During Participation Period 1 and 2
+      let foundPayors = memberCoverage
+        .map((coverage) => {
+          return {
+            payor: coverage.payor[0].reference.value,
+            date: new Date(coverage.period.end.value).getTime(),
+          }
+        });
+      // if none are found, use the latest is Member Coverage
+      if (foundPayors === undefined || foundPayors.length === 0) {
+        if (memberCoverage.length === 0) {
+          return;
+        }
+        foundPayors = memberCoverage[memberCoverage.length - 1].payor[0].reference.value;
+        return getPayors(foundPayors, measureFunctions.getAge(data));
+      }
+
+      return getPayorArray(foundPayors, measureFunctions.getAge(data));
     }
   },
   apme: {

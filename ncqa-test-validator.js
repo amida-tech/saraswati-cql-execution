@@ -103,7 +103,7 @@ async function appendScoreFile(data) {
   const memberId = data.memberId.split('-')[0]; // Works.
   const gender = data.gender === 'male' ? 'M' : 'F'; // Works.
   hedisData[measure].measureIds.forEach((measureId, index) => {
-    if (hedisData[measure].measureCheck(data, index)) {
+    if (hedisData[measure].measureCheck(data, index, hedisData[measure])) {
       const ce = hedisData[measure].getContinuousEnrollment(data, index);
       const event = hedisData[measure].getEvent(data, index);
       const excl = hedisData[measure].getExclusion(data, index);
@@ -113,7 +113,7 @@ async function appendScoreFile(data) {
       const age = hedisData[measure].getAge(data, index); 
       const ePop = getEligiblePopulation(ce, event, rExcl, rExclD);
 
-      const payors = hedisData[measure].getPayors(data, index);
+      const payors = hedisData[measure].getPayors(data, index, hedisData[measure]);
 
       payors.forEach((payer) => {
         const row = `${memberId},${measureId},${payer},${ce},${event},${ePop},${excl},${num},${rExcl},${rExclD},${age},${gender}\n`;
