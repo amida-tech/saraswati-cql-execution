@@ -20,8 +20,8 @@ let codeService;
 const messageListener = new cql.ConsoleMessageListener();
 const parameters = {
   'Measurement Period' : new cql.Interval(
-    new cql.DateTime(Number(config.measurementYear), 1, 1, 0, 0, 0, 0),
-    new cql.DateTime(Number(config.measurementYear) + 1, 1, 1, 0, 0, 0, 0),
+    new cql.DateTime(Number(config.measurementYear), 1, 1, 0, 0, 0, 0, false, false),
+    new cql.DateTime(Number(config.measurementYear) + 1, 1, 1, 0, 0, 0, 0, false , false),
     true,
     false
   )

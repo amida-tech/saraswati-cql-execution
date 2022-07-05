@@ -272,6 +272,11 @@ const createDiagnosisCondition = (condition) => {
       condObj.onsetDateTime = convertDateString(condition.onsetStart);
     }
   }
+  if (condition.recorder) {
+    condObj.recorder = {
+      reference: condition.recorder,
+    };
+  }
   return condObj;
 }
 
@@ -305,6 +310,12 @@ const createClaimEncounter = (encounter) => {
     } else {
       encounterFhir.type = [ { coding: [ createCode(encounter.ubRevenue, 'C') ] } ];
     }
+  }
+
+  if (encounter.serviceProvider) {
+    encounterFhir.serviceProvider = {
+      reference: encounter.serviceProvider,
+    };
   }
   return encounterFhir;
 }
