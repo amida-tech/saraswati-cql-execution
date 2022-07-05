@@ -2,7 +2,7 @@ const config = require('./config');
 const measure = config.measurementType;
 
 const msInADay = 1000 * 60 * 60 * 24;
-const msInAYear = msInADay * 365.242;
+const msInAYear = msInADay * 365.242; //.242;
 
 const exchange = ['MEP', 'MMO', 'MOS', 'MPO'];
 const commercial = ['CEP', 'HMO', 'POS', 'PPO'];
@@ -452,18 +452,14 @@ const hedisData = {
 }
 
 const getAge = (birthDate, compareDate) => { // Age must be calculated against first event.
-  let eventDateMls = compareDate.getTime();
-  const eventYear = parseInt(compareDate.getFullYear());
-  let birthYearCheck = parseInt(birthDate.getFullYear());
-
-  while(birthYearCheck <= eventYear) {
-    if (birthYearCheck % 4 === 0 && (birthDate.getMonth() + 1 > 2)) {
-      eventDateMls += msInADay;
-    }
-    birthYearCheck += 1;
+  let totalYears = parseInt(compareDate.getFullYear()) - parseInt(birthDate.getFullYear());
+  if (compareDate.getMonth() < birthDate.getMonth()) {
+    totalYears -= 1;
   }
-  const ageInMilliseconds = eventDateMls - birthDate.getTime();
-  return Math.floor(ageInMilliseconds / msInAYear);
+  if (compareDate.getMonth() === birthDate.getMonth() && compareDate.getDate() < birthDate.getDate()) {
+    totalYears -= 1;
+  }
+  return totalYears;
 }
 
 const getContinuousEnrollment = (data) => {
