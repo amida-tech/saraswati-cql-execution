@@ -114,7 +114,7 @@ async function appendScoreFile(data) {
 
       let ePop = getEligiblePopulation(ce, event, rExcl, rExclD);
       if (ePop && typeof hedisData[measure].getEligiblePopulation === 'function') {
-        ePop = hedisData[measure].getEligiblePopulation(data, index, hedisData[measure], ePop);
+        ePop = hedisData[measure].getEligiblePopulation(data, index, hedisData[measure]);
       }
 
       const payors = hedisData[measure].getPayors(data, index, hedisData[measure]);
