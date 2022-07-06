@@ -634,6 +634,7 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
             end: visitEncounter.serviceDate,
           },
           serviceCode,
+          serviceProvider: visitEncounter.providerId,
         }
       );
       encounters.push(encounter);

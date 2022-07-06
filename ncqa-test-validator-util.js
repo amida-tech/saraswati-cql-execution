@@ -153,6 +153,19 @@ const getPayorArray = (foundPayors, age) => {
   return getPayors(getPreferredPayor(latestCoverage), age);      
 }
 
+const getValidPayors = (foundPayors, age, memberCoverage) => {
+  if (foundPayors === undefined || foundPayors.length === 0) {
+    if (memberCoverage.length === 0) {
+      console.log('No coverage exists');
+      return;
+    }
+    foundPayors = memberCoverage[memberCoverage.length - 1].payor[0].reference.value;
+    return getPayors(foundPayors, age);
+  }
+
+  return getPayorArray(foundPayors, age);
+}
+
 const isValidCommercial = (payor, age) => {
   return commercial.includes(payor) && age > 18 && age < 66;
 }
@@ -174,6 +187,19 @@ const secondQualifyingEpisodeCheck = (data, index) => {
     return true;
   }
   return data[data.memberId]['Qualifying Episodes Without Exclusions'].length > 1;
+}
+
+const coverageMap = (coverage) => {
+  return {
+    payor: coverage.payor[0].reference.value,
+    date: new Date(coverage.period.end.value).getTime(),
+  }
+}
+
+const getDefaultPayors = (data, age) => {
+  const memberCoverage = data[data.memberId]['Member Coverage'];
+  let foundPayors = memberCoverage.map((coverage) => coverageMap(coverage));
+  return getValidPayors(foundPayors, age, memberCoverage);
 }
 
 const hedisData = {
@@ -225,6 +251,14 @@ const hedisData = {
     getContinuousEnrollment: (data, index) => {
       return data[data.memberId][`Enrolled During Participation Period ${index + 1}`] ? 1 : 0;
     },
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors === undefined) {
+        return false;
+      }
+      const payor = payors[0];
+      return (!medicarePlans.includes(payor) && !exchange.includes(payor)) ? 1 : 0;
+    },
     getExclusion: () => 0,
     getNumerator: (data, index) => {
       return data[data.memberId][`Numerator ${index + 1}`] ? 1 : 0;
@@ -234,7 +268,7 @@ const hedisData = {
     },
     getRequiredExclusionID: () => 0,
     measureCheck: () => true,
-    getPayors: (data, index, { getAge }) => {
+    getPayors: (data, index, measureFunctions) => {
       const compareDate = new Date(data[data.memberId]['Index Prescription Start Date']);
       const memberCoverage = data[data.memberId]['Member Coverage'];
       // filter coverage objects based on dates from Enrolled During Participation Period 1 and 2
@@ -251,19 +285,9 @@ const hedisData = {
             && coverageEnd.getTime() >= compareDate.getTime() + (31 * msInADay);
           
         })
-        .map((coverage) => {
-          return {
-            payor: coverage.payor[0].reference.value,
-            date: new Date(coverage.period.end.value).getTime(),
-          }
-        });
+        .map((coverage) => coverageMap(coverage));
       // if none are found, use the latest is Member Coverage
-      if (foundPayors === undefined || foundPayors.length === 0) {
-        foundPayors = memberCoverage[memberCoverage.length - 1].payor[0].reference.value;
-        return getPayors(foundPayors);
-      }
-
-      return getPayorArray(foundPayors);
+      return getValidPayors(foundPayors, measureFunctions.getAge(data), memberCoverage);
     }
   },
   aise: {
@@ -308,26 +332,7 @@ const hedisData = {
       return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
     },
     getRequiredExclusionID: () => 0,
-    getPayors: (data, _index, measureFunctions) => {
-      const memberCoverage = data[data.memberId]['Member Coverage'];
-      let foundPayors = memberCoverage
-        .map((coverage) => {
-          return {
-            payor: coverage.payor[0].reference.value,
-            date: new Date(coverage.period.end.value).getTime(),
-          }
-        });
-      // if none are found, use the latest is Member Coverage
-      if (foundPayors === undefined || foundPayors.length === 0) {
-        if (memberCoverage.length === 0) {
-          return;
-        }
-        foundPayors = memberCoverage[memberCoverage.length - 1].payor[0].reference.value;
-        return getPayors(foundPayors, measureFunctions.getAge(data));
-      }
-
-      return getPayorArray(foundPayors, measureFunctions.getAge(data));
-    }
+    getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
   },
   apme: {
     measureIds: ['APM1','APM2','APM3'],
@@ -339,7 +344,7 @@ const hedisData = {
       let eventDate = new Date('2022-12-31');
       return getAge(new Date(data.birthDate), eventDate);
     },
-    getEligiblePopulation: (data, index, measureFunctions, ePop) => {
+    getEligiblePopulation: (data, index, measureFunctions) => {
       const payors = measureFunctions.getPayors(data, index, measureFunctions);
       if (payors === undefined) {
         return false;
@@ -361,25 +366,7 @@ const hedisData = {
       return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
     },
     getRequiredExclusionID: () => 0,
-    getPayors: (data, _index, measureFunctions) => {
-      const memberCoverage = data[data.memberId]['Member Coverage'];
-      let foundPayors = memberCoverage
-        .map((coverage) => {
-          return {
-            payor: coverage.payor[0].reference.value,
-            date: new Date(coverage.period.end.value).getTime(),
-          }
-        });
-      if (foundPayors === undefined || foundPayors.length === 0) {
-        if (memberCoverage.length === 0) {
-          return;
-        }
-        foundPayors = memberCoverage[memberCoverage.length - 1].payor[0].reference.value;
-        return getPayors(foundPayors, measureFunctions.getAge(data));
-      }
-  
-      return getPayorArray(foundPayors, measureFunctions.getAge(data));
-    },
+    getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
   },
   asfe: {
     measureIds: ['ASFA','ASFB']
