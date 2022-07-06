@@ -10,8 +10,8 @@ const exchangeOrCommercial = ['CEP', 'HMO', 'POS', 'PPO', 'MEP', 'MMO', 'MOS', '
 const medicarePlans = ['MCR', 'MCS', 'MP', 'MC', 'MCR'];
 const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB', 'MCD'];
 const snpMeasures = []; // I don't think we'll ever have any of these for a while.
-const medicareMeasures = [];
-const medicaidMeasures = ['adde', 'aise'];
+const medicareMeasures = ['asfe'];
+const medicaidMeasures = ['asfe'];
 const mmpMeasures = []; // As with SNPs.
 
 const insPref = {
@@ -31,13 +31,13 @@ const snpHelper = (payor) => {
   return ['MCR'];
 }
 
-const mmpHelper = () => {
+const mmpMatrix = () => {
   if (insPref.medicare && insPref.medicaid && insPref.mmp) {
-    return [ 'MCR', 'MCD', 'MMP' ];
+    return [ 'MCD', 'MCR', 'MMP' ];
   } else if (insPref.medicare && !insPref.medicaid && insPref.mmp) {
     return [ 'MCR', 'MMP' ];
   } else if (insPref.medicare && insPref.medicaid && !insPref.mmp) {
-    return [ 'MCR', 'MCD' ];
+    return [ 'MCD', 'MCR' ];
   } else if (insPref.medicare && !insPref.medicaid && !insPref.mmp) {
     return [ 'MCR' ];
   } else if (!insPref.medicare && insPref.medicaid && !insPref.mmp) {
@@ -47,8 +47,11 @@ const mmpHelper = () => {
   }
 }
 
-const testMmpHelper = (age) => {
-  return age < 66 ? [ 'MCD' ] : [ 'MCR' ];
+const mmpHelper = (age) => {
+  if (age) {
+    return age < 66 ? [ 'MCD' ] : [ 'MCR' ];
+  }
+  return mmpMatrix();
 }
 
 const getPayors = (payor, age) => {
@@ -59,7 +62,7 @@ const getPayors = (payor, age) => {
   if (payor.startsWith('SN')) {
     return snpHelper(payor);
   } else if (payor === 'MMP') {
-    return testMmpHelper(age);
+    return mmpHelper(age);
   } else if (payor === 'MDE' || payor === 'MD' || payor === 'MLI' || payor === 'MRB') {
     return [ 'MCD' ];
   } else {
@@ -314,7 +317,7 @@ const hedisData = {
       return (isValidCommercial(payor, age))
         || (isValidExchange(payor, age))
         || (isValidMedicaid(payor, age))
-        || (isValidMedicare(payor, age))
+        || (isValidMedicare(payor, age));
     },
     getAge: (data) => {
       let eventDate = new Date('2022-01-01');
@@ -369,7 +372,48 @@ const hedisData = {
     getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
   },
   asfe: {
-    measureIds: ['ASFA','ASFB']
+    measureIds: ['ASFA','ASFB'],
+    eventsOrDiag: false,
+    measureCheck: (data, _index, measureFunctions) => {
+      return measureFunctions.getAge(data) >= 18;
+    },
+    getAge: (data) => {
+      let eventDate = new Date('2022-01-01');
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      if (index == 0) {
+        return 1;
+      }
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors === undefined) {
+        return false;
+      }
+      const payor = payors[0];
+      const age = measureFunctions.getAge(data);
+      return ((isValidCommercial(payor, age))
+        || (isValidExchange(payor, age))
+        || (isValidMedicaid(payor, age))
+        || (isValidMedicare(payor, age))) ? 1 : 0;
+    },
+    getEvent: (data, index) => {
+      if (index === 0) {
+        return 0;
+      }
+      return data[data.memberId]['Denominator 2'] ? 1 : 0;
+    },
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index) => {
+      return data[data.memberId][`Numerator ${index + 1}`] ? 1 : 0;
+    },
+    getRequiredExclusion: (data, index) => {
+      return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
+    },
+    getRequiredExclusionID: () => 0,
+    getPayors: (data) => getDefaultPayors(data), //Don't send age, uses matrix
   },
   bcse: {
     measureIds: ['BCS','BCSNON','BCSLISDE','BCSDIS','BCSCMB','BCSOT']
