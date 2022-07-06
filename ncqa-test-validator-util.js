@@ -10,8 +10,8 @@ const exchangeOrCommercial = ['CEP', 'HMO', 'POS', 'PPO', 'MEP', 'MMO', 'MOS', '
 const medicarePlans = ['MCR', 'MCS', 'MP', 'MC', 'MCR'];
 const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB', 'MCD'];
 const snpMeasures = []; // I don't think we'll ever have any of these for a while.
-const medicareMeasures = [];
-const medicaidMeasures = ['adde', 'aise'];
+const medicareMeasures = ['fum'];
+const medicaidMeasures = ['adde', 'aise', 'fum'];
 const mmpMeasures = []; // As with SNPs.
 
 const insPref = {
@@ -422,7 +422,7 @@ const hedisData = {
     getAge: (data) => {
       let eventDate = data[data.memberId]['First Eligible ED Visits per 31 Day Period'][0];
       if (eventDate === undefined) {
-        eventDate = data[data.memberId]['December 1 of the Measurement Period'];
+        eventDate = data[data.memberId]['ED Visits With Principal Diagnosis of Mental Illness or Intentional Self-Harm'][0]?.low;
       }
       eventDate = new Date(eventDate);
       eventDate.setUTCHours(0,0,0,0);
@@ -432,8 +432,8 @@ const hedisData = {
       return data[data.memberId]['First Eligible ED Visits per 31 Day Period'][Math.floor(index / 2)]
         !== undefined ? 1 : 0;
     },
-    getEvent: (data, index) => {
-      return data[data.memberId]['First Eligible ED Visits per 31 Day Period'][Math.floor(index / 2)]
+    getEvent: (data, index) => { //Math.floor(index / 2)
+      return data[data.memberId]['ED Visits With Principal Diagnosis of Mental Illness or Intentional Self-Harm'][0]
         !== undefined ? 1 : 0;
     },
     getExclusion: () => 0,
@@ -446,7 +446,11 @@ const hedisData = {
       return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
     },
     getRequiredExclusionID: () => 0, // INCORRECT.
-    measureCheck: (data, index) => {
+    measureCheck: (data, index, measureFunctions) => {
+      const age = measureFunctions.getAge(data);
+      if (isNaN(age) || age < 6) {
+        return false;
+      }
       if (index < 2) { // We always want a result back for FUM30A and FUM7A.
         return true;
       }
