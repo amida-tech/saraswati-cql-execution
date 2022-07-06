@@ -350,7 +350,7 @@ const hedisData = {
         return false;
       }
       const payor = payors[0];
-      return (ePop && !medicarePlans.includes(payor) && !exchange.includes(payor)) ? 1 : 0;
+      return (!medicarePlans.includes(payor) && !exchange.includes(payor)) ? 1 : 0;
     },
     getEvent: (data) => {
       return data[data.memberId]['Antipsychotics on Different Days'] ? 1 : 0;
