@@ -631,7 +631,7 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
           encounterId: index + 1,
           period: {
             start: visitEncounter.serviceDate,
-            end: visitEncounter.serviceDate,
+            end: visitEncounter.endDate,
           },
           serviceCode,
           serviceProvider: visitEncounter.providerId,
@@ -668,18 +668,34 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
   if (procedureList) {
     procedureList.forEach((procedure, index) => {
       const procCode = createCode(procedure.procedureCode, procedure.codeFlag);
-      const encResource = {
-        resourceType: 'Encounter',
-        id: `${procedure.memberId}-procedure-encounter-${index + 1}`,
-        patient: { reference: `Patient/${procedure.memberId}-patient` },
-        period: {
-          start: convertDateString(procedure.serviceDate),
-          end: convertDateString(procedure.endDate),
-        },
-        status: procedure.serviceStatus === 'EVN' ? 'finished' : 'in-progress',
-        type: [ { coding: [ procCode ] } ]
+      let matchFound = false;
+      for (const enc of encounters) {
+        if (convertDateString(procedure.serviceDate) === enc.period.start
+          && convertDateString(procedure.endDate) === enc.period.end) {
+            enc.status = procedure.serviceStatus === 'EVN' ? 'finished' : 'in-progress';
+            if (enc.type) {
+              enc.type.push({ coding: [ procCode ] });
+            } else {
+              enc.type = [ { coding: [ procCode ] } ];
+            }
+            matchFound = true;
+            break;
+          }
       }
-      encounters.push(encResource);
+      if (!matchFound) {
+        const encResource = {
+          esourceType: 'Encounter',
+          id: `${procedure.memberId}-procedure-encounter-${index + 1}`,
+          patient: { reference: `Patient/${procedure.memberId}-patient` },
+          period: {
+            start: convertDateString(procedure.serviceDate),
+            end: convertDateString(procedure.endDate),
+          },
+          status: procedure.serviceStatus === 'EVN' ? 'finished' : 'in-progress',
+          type: [ { coding: [ procCode ] } ]
+        }
+        encounters.push(encResource);
+      }
     });
   }
 

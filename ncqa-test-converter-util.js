@@ -16,6 +16,8 @@ const getSystem = (value) => {
       return 'https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets';
     case 'A':
       return 'http://terminology.hl7.org/CodeSystem/v3-ActCode';
+    case 'R':
+      return 'https://www.nubc.org/CodeSystem/RevenueCodes';
     default:
       return 'NA';
   }
@@ -305,10 +307,10 @@ const createClaimEncounter = (encounter) => {
   if (encounter.ubRevenue) {
     if (encounterFhir.type) {
       encounterFhir.type.push({
-        coding: [ createCode(encounter.ubRevenue, 'C') ],
+        coding: [ createCode(encounter.ubRevenue, 'R') ],
       });
     } else {
-      encounterFhir.type = [ { coding: [ createCode(encounter.ubRevenue, 'C') ] } ];
+      encounterFhir.type = [ { coding: [ createCode(encounter.ubRevenue, 'R') ] } ];
     }
   }
 

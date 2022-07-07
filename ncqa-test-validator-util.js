@@ -1,3 +1,4 @@
+const fs = require('fs');
 const config = require('./config');
 const measure = config.measurementType;
 
@@ -162,10 +163,10 @@ const getValidPayors = (foundPayors, age, memberCoverage) => {
       console.log('No coverage exists');
       return;
     }
+    
     foundPayors = memberCoverage[memberCoverage.length - 1].payor[0].reference.value;
     return getPayors(foundPayors, age);
   }
-
   return getPayorArray(foundPayors, age);
 }
 
@@ -264,7 +265,31 @@ const hedisData = {
     },
     getExclusion: () => 0,
     getNumerator: (data, index) => {
-      return data[data.memberId][`Numerator ${index + 1}`] ? 1 : 0;
+      const numerator = data[data.memberId][`Numerator ${index + 1}`];
+      if (!numerator) {
+        return 0;
+      }
+
+      let hasValidFollowUp = false;
+      if (index == 0) {
+        const providerInfo = JSON.parse(fs.readFileSync('ncqa-test-provider.json', 'utf8'));
+        const followUpEncs = data[data.memberId]['Follow Up Encounters or Assessments During Initiation Phase'];
+        for (const followUpEnc of followUpEncs) {
+          if (followUpEnc.serviceProvider) {
+            const provider = providerInfo[followUpEnc.serviceProvider.reference.value];
+            if (provider.prescriber || provider.mhProvider) {
+              hasValidFollowUp = true;
+              break;
+            }
+          } else {
+            hasValidFollowUp = true;
+            break;
+          }
+        }
+      } else {
+        hasValidFollowUp = true;
+      }
+      return (hasValidFollowUp && numerator) ? 1 : 0;
     },
     getRequiredExclusion: (data, index) => {
       return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
