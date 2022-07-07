@@ -154,7 +154,7 @@ async function processFhirDirectory(dirFiles) {
   for (let file of filenames) {
     console.log(`Processing ${file}.json.`);
     let memberData = '';
-    if (parseArgs.f) {
+    if (parseArgs.s) {
       memberData = JSON.parse(await fs.promises.readFile(path.join(measuresPath, `${measure}-${file}-patient.json`)));
     } else {
       const fileData = await fs.promises.readFile(path.join(parseArgs.f, `${file}.json`));
