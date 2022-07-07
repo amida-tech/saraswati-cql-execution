@@ -306,7 +306,7 @@ const createClaimEncounter = (encounter) => {
 
   if (encounter.ubRevenue) {
     if (encounterFhir.type) {
-      encounterFhir.type.push({
+      encounterFhir.type.push({ // Must be R for ADD-E
         coding: [ createCode(encounter.ubRevenue, 'R') ],
       });
     } else {

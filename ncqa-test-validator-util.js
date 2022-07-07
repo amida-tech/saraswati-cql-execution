@@ -248,8 +248,8 @@ const hedisData = {
       }
       return appAgeWNHN 
         && data[data.memberId]['Has 210 Medication Treatment Days in 301 Day Period Starting on IPSD and Continuing through End of Continuation and Maintenance Phase']
-        && data[data.memberId]['Acute Inpatient Encounter for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase']
-        && data[data.memberId]['Acute Inpatient Discharge for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase']
+        && data[data.memberId]['Acute Inpatient Encounter for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase'].length === 0
+        && data[data.memberId]['Acute Inpatient Discharge for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase'].length === 0
           ? 1 : 0;
     },
     getContinuousEnrollment: (data, index) => {
@@ -277,7 +277,7 @@ const hedisData = {
         for (const followUpEnc of followUpEncs) {
           if (followUpEnc.serviceProvider) {
             const provider = providerInfo[followUpEnc.serviceProvider.reference.value];
-            if (provider.prescriber || provider.mhProvider) {
+            if (provider.prescriber) {
               hasValidFollowUp = true;
               break;
             }

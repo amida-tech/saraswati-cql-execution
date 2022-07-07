@@ -20,6 +20,7 @@ const parseArgs = minimist(process.argv.slice(2), {
     f: 'fhirDirectory',
     m: 'memberIds',
     v: 'validate',
+    s: 'skipEval',
   },
 });
 
@@ -152,10 +153,16 @@ async function processFhirDirectory(dirFiles) {
   }
   for (let file of filenames) {
     console.log(`Processing ${file}.json.`);
-    const fileData = await fs.promises.readFile(path.join(parseArgs.f, `${file}.json`));
-    const memberData = evalData(JSON.parse(fileData));
-    const fileTitle = `${measure}-${memberData.memberId}.json`;
-    fs.writeFileSync(path.join(measuresPath, fileTitle), JSON.stringify(memberData, null, 2));
+    let memberData = '';
+    if (parseArgs.f) {
+      memberData = JSON.parse(await fs.promises.readFile(path.join(measuresPath, `${measure}-${file}-patient.json`)));
+    } else {
+      const fileData = await fs.promises.readFile(path.join(parseArgs.f, `${file}.json`));
+      memberData = evalData(JSON.parse(fileData));
+      const fileTitle = `${measure}-${memberData.memberId}.json`;
+      fs.writeFileSync(path.join(measuresPath, fileTitle), JSON.stringify(memberData, null, 2));
+    }
+    
     appendScoreFile(memberData);
   }
 }
@@ -173,6 +180,7 @@ if (parseArgs.h === true) {
   console.log('   -f, --fhirDirectory: The directory of FHIR data you want to score and verify.');
   console.log('   -m, --memberIds: A comma separated list of memberIds you want to compute. Optional.');
   console.log('   -v, --validate: Optional. If true, compare against the `score.txt` file in the folder above FHIR directory. Outputs "score-amida.txt". Defaults to "false".');
+  console.log('   -s, --skipEval: Optional. If true, it will not run CQL execution. It will use the previously generated json output.')
   process.exit();
 }
 
