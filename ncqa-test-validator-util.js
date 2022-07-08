@@ -15,6 +15,8 @@ const medicareMeasures = ['asfe', 'fum'];
 const medicaidMeasures = ['adde', 'aise', 'asfe', 'fum'];
 const mmpMeasures = []; // As with SNPs.
 
+const providerInfo = JSON.parse(fs.readFileSync('ncqa-test-provider.json', 'utf8'));
+
 const insPref = {
   snp: snpMeasures.find((snpMeasure) => snpMeasure === measure),
   medicare: medicareMeasures.find((medicareMeasure) => medicareMeasure === measure),
@@ -246,9 +248,30 @@ const hedisData = {
           && data[data.memberId]['Acute Inpatient Discharge for Mental Behavioral or Neurodevelopmental Disorders During Initiation Phase'].length === 0
           ? 1 : 0
       }
+
+      const possibleDisEncList = data[data.memberId]['Claims with Principal Diagnosis of Mental Behavioral and Neurodevelopmental Disorders'];
+      const validEncList = [];
+      if (possibleDisEncList.length !== 0) {
+        const validEncDates = data[data.memberId]['Acute Inpatient Encounter for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase'];
+        //const providerInfo = JSON.parse(fs.readFileSync('ncqa-test-provider.json', 'utf8'));
+        for (const claim of possibleDisEncList) {
+          for (const item of claim.item) {
+            for (const encDate of validEncDates) {
+              const encDateString = encDate.low.toString().split('T')[0];
+              if (item.serviced.value.toString() === encDateString) {
+                //const provider = claim.provider.reference.value;
+                //if (providerInfo[provider].mhProvider) {
+                  validEncList.push(claim);
+                //}
+              }
+            }
+          }
+        }
+      }
+      
       return appAgeWNHN 
         && data[data.memberId]['Has 210 Medication Treatment Days in 301 Day Period Starting on IPSD and Continuing through End of Continuation and Maintenance Phase']
-        && data[data.memberId]['Acute Inpatient Encounter for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase'].length === 0
+        && validEncList.length === 0
         && data[data.memberId]['Acute Inpatient Discharge for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase'].length === 0
           ? 1 : 0;
     },
@@ -271,25 +294,57 @@ const hedisData = {
       }
 
       let hasValidFollowUp = false;
-      if (index == 0) {
-        const providerInfo = JSON.parse(fs.readFileSync('ncqa-test-provider.json', 'utf8'));
-        const followUpEncs = data[data.memberId]['Follow Up Encounters or Assessments During Initiation Phase'];
-        for (const followUpEnc of followUpEncs) {
-          if (followUpEnc.serviceProvider) {
-            const provider = providerInfo[followUpEnc.serviceProvider.reference.value];
-            if (provider.prescriber) {
-              hasValidFollowUp = true;
-              break;
-            }
-          } else {
+      const followUpEncs = data[data.memberId]['Follow Up Encounters or Assessments During Initiation Phase'];
+      for (const followUpEnc of followUpEncs) {
+        if (followUpEnc.serviceProvider) {
+          const provider = providerInfo[followUpEnc.serviceProvider.reference.value];
+          if (provider.prescriber) {
             hasValidFollowUp = true;
-            break;
           }
+        } else if (followUpEnc.performer) {
+          const provider = providerInfo[followUpEnc.performer[0].reference.value];
+          if (provider.prescriber) {
+            hasValidFollowUp = true;
+          }
+        } else {
+          hasValidFollowUp = true;
         }
-      } else {
-        hasValidFollowUp = true;
       }
-      return (hasValidFollowUp && numerator) ? 1 : 0;
+
+      if (index == 0) {
+        return hasValidFollowUp ? 1 : 0;
+      }
+
+      const twoFollowUpEncs = data[data.memberId]['Follow Up Encounters or Assessments During Continuation and Maintenance Phase'];
+      const validFollowUpEncs = [];
+      for (const followUp of twoFollowUpEncs) {
+        if (followUp.serviceProvider) {
+          const provider = providerInfo[followUp.serviceProvider.reference.value];
+          if (provider.mhProvider || provider.prescriber || provider.nprProvider) {
+            validFollowUpEncs.push(followUp);
+          }
+        } else {
+          validFollowUpEncs.push(followUp);
+        }
+      }
+
+      const twoFollowUpEncsE = data[data.memberId]['Follow Up Encounter with eVisit or Virtual Check in During Continuation and Maintenance Phase'];
+      const validFollowUpEncsE = [];
+      for (const followUp of twoFollowUpEncsE) {
+        if (followUp.serviceProvider) {
+        const provider = providerInfo[followUp.serviceProvider.reference.value];
+          //if (provider.mhProvider || provider.prescriber) {
+            validFollowUpEncsE.push(followUp);
+          //}
+        } else {
+          validFollowUpEncsE.push(followUp);
+        }
+      }
+
+      const twoValidFollowUps = validFollowUpEncs.length >= 2 
+        || ((validFollowUpEncs.length + validFollowUpEncsE.length) >= 2);
+
+      return (hasValidFollowUp && twoValidFollowUps) ? 1 : 0;
     },
     getRequiredExclusion: (data, index) => {
       return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;

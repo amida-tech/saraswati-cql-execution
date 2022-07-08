@@ -1,12 +1,13 @@
 const minimist = require('minimist');
 const fs = require('fs');
 const readline = require('readline');
+const config = require('./config');
 const { createCode, professionalClaimType, pharmacyClaimType, convertDateString,
   createClaimFromVisit, createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
   createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createClaimFromVisitEncounter,
-  createPractitionerLocation }= require('./ncqa-test-converter-util');
+  createPractitionerLocation, isValidEncounter } = require('./ncqa-test-converter-util');
 
-//const memberId = 105264;
+const measure = config.measurementType;
 
 const parseArgs = minimist(process.argv.slice(2), {
   alias: {
@@ -579,8 +580,11 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
   const claimResponses = [];
 
   if (visitList) {
-    visitList.forEach((visit) => {
+    for (const visit of visitList) {
       const serviceCode = createServiceCodeFromVisit(visit);
+      if (!isValidEncounter(visit.cmsPlaceOfService, serviceCode, measure)) {
+        continue;
+      }
       const encounter = createClaimEncounter(
         {
           memberId: visit.memberId,
@@ -597,12 +601,12 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
         }
       );
       encounters.push(encounter);
-      
+        
       if (visit.supplementalData === 'N') {
         const visitClaim = createClaimFromVisit(visit);
         visit.encounter = [ { reference: `Encounter/${encounter.id}` } ]
         claims.push(visitClaim);
-  
+
         if (visit.claimStatus == 1 && serviceCode) {
           const responseResource = createClaimResponse(
             {
@@ -617,8 +621,8 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
           );
           claimResponses.push(responseResource);
         }
-      }
-    });
+      }  
+    }
   }
 
   if (visitEncounterList) {
@@ -639,9 +643,10 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
       );
       encounters.push(encounter);
 
-      const visitEncounterClaim = createClaimFromVisitEncounter(visitEncounter, index + 1);
+      //Removed for ADD-E
+      /*const visitEncounterClaim = createClaimFromVisitEncounter(visitEncounter, index + 1);
       visitEncounterClaim.encounter = [ { reference: `Encounter/${encounter.id}` } ]
-      claims.push(visitEncounterClaim);
+      claims.push(visitEncounterClaim);*/
     });
     
   }
@@ -787,20 +792,40 @@ const createProcedureList = (visits, observations, procedures) => {
   return procedureList;
 }
 
-const createObservationList = (visits, observations, procedures, labs) => {
+const createObservationList = (visits, visitEncounterList, observations, procedures, labs) => {
   const observationList = [];
   if (visits) {
     visits.forEach((visit, index) => {
       const serviceCode = createServiceCodeFromVisit(visit);
       if (serviceCode) {
         const obsClaim = {
-          id: `${visit.memberId}-claim-observation-${visit.claimId}-${index+1}`,
+          id: `${visit.memberId}-visit-observation-${visit.claimId}-${index+1}`,
           resourceType: 'Observation',
           code: { coding: [ serviceCode ] },
           effectivePeriod: {
             start: convertDateString(visit.dateOfService),
             end: convertDateString(visit.dateOfService),
           },
+          performer: [ { reference: visit.providerId } ]
+        }
+        observationList.push(obsClaim);
+      }
+    });
+  }
+
+  if (visitEncounterList) {
+    visitEncounterList.forEach((visitEncounter, index) => {
+      const serviceCode = createCode(visitEncounter.activityType, visitEncounter.codeFlag);
+      if (serviceCode) {
+        const obsClaim = {
+          id: `${visitEncounter.memberId}-visit-e-observation-${index+1}`,
+          resourceType: 'Observation',
+          code: { coding: [ serviceCode ] },
+          effectivePeriod: {
+            start: convertDateString(visitEncounter.serviceDate),
+            end: convertDateString(visitEncounter.endDate),
+          },
+          performer: [ { reference: visitEncounter.providerId } ]
         }
         observationList.push(obsClaim);
       }
@@ -1106,6 +1131,7 @@ async function createFhirJson(testDirectory, allMemberInfo, memberIds) {
   
     const observations = createObservationList(
       memberInfo.visit,
+      memberInfo.visitEncounter,
       memberInfo.observation,
       memberInfo.procedure,
       memberInfo.lab

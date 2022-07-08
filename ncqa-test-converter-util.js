@@ -126,7 +126,7 @@ const createClaimFromVisit = (visit) => {
   if (visit.ubRevenue) {
     resource.procedure = [{
       procedureCodeableConcept: {
-        coding: [ createCode(visit.ubRevenue, 'C') ],
+        coding: [ createCode(visit.ubRevenue, 'R') ],
       },
     }];
   }
@@ -143,13 +143,17 @@ const createClaimFromVisit = (visit) => {
         coding: [ cptCode ],
       },
     });
-    resource.item = [{
+    const item = {
       sequence: procCount,
       servicedDate: convertDateString(visit.dateOfService),
       productOrService: {
         coding: [ cptCode ]
       }
-    }];
+    };
+    if (visit.ubRevenue) {
+      item.revenue = { coding: [ createCode(visit.ubRevenue, 'R') ] }
+    }
+    resource.item.push(item);
     procCount += 1;
   }
 
@@ -164,13 +168,17 @@ const createClaimFromVisit = (visit) => {
         coding: [ hcpcsCode ],
       },
     });
-    resource.item.push({
+    const item = {
       sequence: procCount,
       servicedDate: convertDateString(visit.dateOfService),
       productOrService: {
         coding: [ hcpcsCode ]
       }
-    });
+    };
+    if (visit.ubRevenue) {
+      item.revenue = { coding: [ createCode(visit.ubRevenue, 'R') ] }
+    }
+    resource.item.push(item);
     procCount += 1;
   }
 
@@ -189,17 +197,24 @@ const createClaimFromVisit = (visit) => {
   });
 
   if (visit.icdDiagnosis[0]) {
-    if (resource.item) {
-      resource.item.push({
-        sequence: procCount,
-        servicedDate: convertDateString(visit.dateOfService),
-      });
-    } else {
-      resource.item = [{
-        sequence: procCount,
-        servicedDate: convertDateString(visit.dateOfService),
-      }];
+    const item = {
+      sequence: procCount,
+      servicedDate: convertDateString(visit.dateOfService),
+    };
+    if (visit.ubRevenue) {
+      item.revenue = { coding: [ createCode(visit.ubRevenue, 'R') ] }
     }
+    if (resource.item) {
+      resource.item.push(item);
+    } else {
+      resource.item = [ item ];
+    }
+  }
+
+  if (visit.cmsPlaceOfService) {
+    resource.locationReference = {
+      reference: visit.cmsPlaceOfService,
+    };
   }
 
   return resource;
@@ -302,6 +317,7 @@ const createClaimEncounter = (encounter) => {
     } else if (encounter.cmsPlaceOfService === '71') {
       encounterFhir.class = createCode('AMB', 'A');
     }
+    encounter.location = [ { location: { reference: encounter.cmsPlaceOfService } } ];
   }
 
   if (encounter.ubRevenue) {
@@ -431,7 +447,17 @@ const convertDateString = (ncqaDateString) => {
   return `${year}-${month}-${day}`;
 }
 
+const isValidEncounter = (cmsPlaceOfService, serviceCode, measure) => {
+  if (cmsPlaceOfService === '81') {
+    if (measure === 'adde') {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 module.exports = { getSystem, createCode, professionalClaimType, 
   pharmacyClaimType, convertDateString, createClaimFromVisit, createClaimFromVisitEncounter,
   createServiceCodeFromVisit, createClaimEncounter, createDiagnosisCondition,
-  createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createPractitionerLocation };
+  createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createPractitionerLocation, isValidEncounter };
