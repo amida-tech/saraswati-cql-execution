@@ -252,6 +252,7 @@ const hedisData = {
       const possibleDisEncList = data[data.memberId]['Claims with Principal Diagnosis of Mental Behavioral and Neurodevelopmental Disorders'];
       const validEncList = [];
       if (possibleDisEncList.length !== 0) {
+        // validEncDates are just dates, so incase we need to check any info we have to find the full claim
         const validEncDates = data[data.memberId]['Acute Inpatient Encounter for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase'];
         //const providerInfo = JSON.parse(fs.readFileSync('ncqa-test-provider.json', 'utf8'));
         for (const claim of possibleDisEncList) {
@@ -300,14 +301,17 @@ const hedisData = {
           const provider = providerInfo[followUpEnc.serviceProvider.reference.value];
           if (provider.prescriber) {
             hasValidFollowUp = true;
+            break;
           }
         } else if (followUpEnc.performer) {
           const provider = providerInfo[followUpEnc.performer[0].reference.value];
           if (provider.prescriber) {
             hasValidFollowUp = true;
+            break;
           }
         } else {
           hasValidFollowUp = true;
+          break;
         }
       }
 
@@ -320,7 +324,7 @@ const hedisData = {
       for (const followUp of twoFollowUpEncs) {
         if (followUp.serviceProvider) {
           const provider = providerInfo[followUp.serviceProvider.reference.value];
-          if (provider.mhProvider || provider.prescriber || provider.nprProvider) {
+          if (provider.mhProvider || provider.prescriber || provider.nprProvider || provider.pcp) {
             validFollowUpEncs.push(followUp);
           }
         } else {

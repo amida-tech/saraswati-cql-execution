@@ -764,11 +764,8 @@ const createProcedureList = (visits, observations, procedures) => {
           start: convertDateString(observation.observationDate),
           end: convertDateString(observation.endDate),
         },
-        code: [
-          {
-            coding: [ obsCode ]
-          }
-        ]
+        status: 'completed',
+        code: { coding: [ obsCode ] },
       }
       procedureList.push(procResource);
     });
