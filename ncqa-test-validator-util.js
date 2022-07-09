@@ -249,13 +249,13 @@ const hedisData = {
           ? 1 : 0
       }
 
-      const possibleDisEncList = data[data.memberId]['Claims with Principal Diagnosis of Mental Behavioral and Neurodevelopmental Disorders'];
+      const possibleEncList = data[data.memberId]['Claims with Principal Diagnosis of Mental Behavioral and Neurodevelopmental Disorders'];
       const validEncList = [];
-      if (possibleDisEncList.length !== 0) {
+      if (possibleEncList.length !== 0) {
         // validEncDates are just dates, so incase we need to check any info we have to find the full claim
         const validEncDates = data[data.memberId]['Acute Inpatient Encounter for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase'];
         //const providerInfo = JSON.parse(fs.readFileSync('ncqa-test-provider.json', 'utf8'));
-        for (const claim of possibleDisEncList) {
+        for (const claim of possibleEncList) {
           for (const item of claim.item) {
             for (const encDate of validEncDates) {
               const encDateString = encDate.low.toString().split('T')[0];
@@ -269,7 +269,7 @@ const hedisData = {
           }
         }
       }
-      
+
       return appAgeWNHN 
         && data[data.memberId]['Has 210 Medication Treatment Days in 301 Day Period Starting on IPSD and Continuing through End of Continuation and Maintenance Phase']
         && validEncList.length === 0

@@ -447,8 +447,14 @@ const convertDateString = (ncqaDateString) => {
   return `${year}-${month}-${day}`;
 }
 
-const isValidEncounter = (cmsPlaceOfService, serviceCode, measure) => {
+const isValidEncounter = (cmsPlaceOfService, ubTypeOfBill, serviceCode, measure) => {
+  // 31 is for skilled nursing facility, but 1 is for hospital. Can't be both, so it's invalid
+  if (cmsPlaceOfService === '31' && ubTypeOfBill.charAt(1) === '1') {
+    return false;
+  }
+  // 81 is for laboratory
   if (cmsPlaceOfService === '81') {
+    // add-e doesn't use lab codes, so it's invalid
     if (measure === 'adde') {
       return false;
     }

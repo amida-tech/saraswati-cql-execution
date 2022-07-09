@@ -582,7 +582,7 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
   if (visitList) {
     for (const visit of visitList) {
       const serviceCode = createServiceCodeFromVisit(visit);
-      if (!isValidEncounter(visit.cmsPlaceOfService, serviceCode, measure)) {
+      if (!isValidEncounter(visit.cmsPlaceOfService, visit.ubTypeOfBill, serviceCode, measure)) {
         continue;
       }
       const encounter = createClaimEncounter(
