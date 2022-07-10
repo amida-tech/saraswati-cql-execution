@@ -337,16 +337,16 @@ const hedisData = {
       for (const followUp of twoFollowUpEncsE) {
         if (followUp.serviceProvider) {
         const provider = providerInfo[followUp.serviceProvider.reference.value];
-          //if (provider.mhProvider || provider.prescriber) {
+        if (!provider.nprProvider) {
             validFollowUpEncsE.push(followUp);
-          //}
+        }
         } else {
           validFollowUpEncsE.push(followUp);
         }
       }
 
       const twoValidFollowUps = validFollowUpEncs.length >= 2 
-        || ((validFollowUpEncs.length + validFollowUpEncsE.length) >= 2);
+        || (validFollowUpEncs.length === 1 && ((validFollowUpEncs.length + validFollowUpEncsE.length) >= 2));
 
       return (hasValidFollowUp && twoValidFollowUps) ? 1 : 0;
     },

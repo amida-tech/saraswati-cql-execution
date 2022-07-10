@@ -604,6 +604,13 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
           ambulatory: visit.dischargeDate !== undefined,
         }
       );
+      if (visit.cptModOne === 'GT') {
+        if (encounter.type) {
+          encounter.type.push({ coding: [ createCode('99457', 'C') ] });
+        } else {
+          encounter.type = [ { coding: [ createCode('99457', 'C') ] } ];
+        }
+      }
       encounters.push(encounter);
         
       if (visit.supplementalData === 'N') {

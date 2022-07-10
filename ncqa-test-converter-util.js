@@ -317,7 +317,9 @@ const createClaimEncounter = (encounter) => {
     } else if (encounter.cmsPlaceOfService === '71' || encounter.ambulatory) {
       encounterFhir.class = createCode('AMB', 'A');
     }
-    encounter.location = [ { location: { reference: encounter.cmsPlaceOfService } } ];
+    if (encounter.cmsPlaceOfService) {
+      encounter.location = [ { location: { reference: encounter.cmsPlaceOfService } } ];
+    }
   }
 
   if (encounter.ubRevenue) {
