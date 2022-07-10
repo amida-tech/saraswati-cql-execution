@@ -516,7 +516,10 @@ const createConditionList = (visitList, visitEncounterList, diagnosisList) => {
   const fullConditionList = [];
   let conditionCount = 1;
   if (visitList) {
-    visitList.forEach((visit) => {
+    for (const visit of visitList) {
+      if (!isValidEncounter(visit.ubRevenue, visit.ubTypeOfBill, visit.cmsPlaceOfService, measure)) {
+        continue;
+      }
       visit.icdDiagnosis.forEach((visitDiagnosis) => {
         if (visitDiagnosis && visit.cmsPlaceOfService !== '81') {
           const condObj = createDiagnosisCondition(
@@ -533,7 +536,7 @@ const createConditionList = (visitList, visitEncounterList, diagnosisList) => {
           conditionCount += 1;
         }
       });
-    });
+    }
   }
 
   if (visitEncounterList) {
@@ -581,10 +584,10 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
 
   if (visitList) {
     for (const visit of visitList) {
-      const serviceCode = createServiceCodeFromVisit(visit);
       if (!isValidEncounter(visit.ubRevenue, visit.ubTypeOfBill, visit.cmsPlaceOfService, measure)) {
         continue;
       }
+      const serviceCode = createServiceCodeFromVisit(visit);
       const encounter = createClaimEncounter(
         {
           memberId: visit.memberId,
@@ -737,7 +740,11 @@ const linkConditionsToEncounters = (conditions, encounters) => {
 const createProcedureList = (visits, observations, procedures) => {
   const procedureList = [];
   if (visits) {
-    visits.forEach((visit, index) => {
+    for (let index = 0; index < visits.length; index += 1) {
+      const visit = visits[index];
+      if (!isValidEncounter(visit.ubRevenue, visit.ubTypeOfBill, visit.cmsPlaceOfService, measure)) {
+        continue;
+      }
       const serviceCode = createServiceCodeFromVisit(visit);
       if (serviceCode) {
         const procResource = {
@@ -751,7 +758,7 @@ const createProcedureList = (visits, observations, procedures) => {
         }
         procedureList.push(procResource);
       }
-    });
+    }
   }
 
   if (observations) {
