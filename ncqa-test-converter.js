@@ -582,7 +582,7 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
   if (visitList) {
     for (const visit of visitList) {
       const serviceCode = createServiceCodeFromVisit(visit);
-      if (!isValidEncounter(visit.cmsPlaceOfService, visit.ubTypeOfBill, serviceCode, measure)) {
+      if (!isValidEncounter(visit.ubRevenue, visit.ubTypeOfBill, visit.cmsPlaceOfService, measure)) {
         continue;
       }
       const encounter = createClaimEncounter(
@@ -598,6 +598,7 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
           cmsPlaceOfService: visit.cmsPlaceOfService,
           ubRevenue: visit.ubRevenue,
           serviceProvider: visit.providerId,
+          ambulatory: visit.dischargeDate !== undefined,
         }
       );
       encounters.push(encounter);
@@ -653,7 +654,7 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
 
   if (observationList) {
     observationList.forEach((observation, index) => {
-      if (observation.value === undefined) {
+      if (observation.value === undefined || observation.value === '') {
         const encResource = {
           resourceType: 'Encounter',
           id: `${observation.memberId}-observation-encounter-${index + 1}`,
@@ -662,8 +663,8 @@ const createClaimEncResponse = (visitList, visitEncounterList, observationList, 
             start: convertDateString(observation.observationDate),
             end: convertDateString(observation.endDate),
           },
-          status: procedure.serviceStatus === 'EVN' ? 'finished' : 'in-progress',
-          type: [ { coding: [ obsCode ] } ]
+          status: 'finished',
+          type: [ { coding: [ createCode(observation.test, observation.testCodeFlag) ] } ]
         }
         encounters.push(encResource);
       }

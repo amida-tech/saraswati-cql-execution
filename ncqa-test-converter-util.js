@@ -311,10 +311,10 @@ const createClaimEncounter = (encounter) => {
     encounterFhir.type = [ { coding: [ encounter.serviceCode ] } ];
   }
 
-  if (encounter.cmsPlaceOfService) {
+  if (encounter.cmsPlaceOfService || encounter.ambulatory) {
     if (encounter.cmsPlaceOfService === '02') {
       encounterFhir.class = createCode('VR', 'A');
-    } else if (encounter.cmsPlaceOfService === '71') {
+    } else if (encounter.cmsPlaceOfService === '71' || encounter.ambulatory) {
       encounterFhir.class = createCode('AMB', 'A');
     }
     encounter.location = [ { location: { reference: encounter.cmsPlaceOfService } } ];
@@ -447,10 +447,34 @@ const convertDateString = (ncqaDateString) => {
   return `${year}-${month}-${day}`;
 }
 
-const isValidEncounter = (cmsPlaceOfService, ubTypeOfBill, serviceCode, measure) => {
-  // 31 is for skilled nursing facility, but 1 is for hospital. Can't be both, so it's invalid
-  if (cmsPlaceOfService === '31' && ubTypeOfBill.charAt(1) === '1') {
+const invalidLocations = ['10', '27', '28', '29', '30', '58', '59', '63', '64', '66', '67',
+                        '68', '69', '70', '73', '74', '75', '76', '77', '78', '79', '80',
+                      '82', '83', '84', '85', '86', '87', '88', '89', '90', '91', '92',
+                      '93', '94', '95', '96', '97', '98'];
+
+const isValidEncounter = (ubRevenue, ubTypeOfBill, cmsPlaceOfService, measure) => {
+  // Can't be one of the unassaigned locations
+  if (invalidLocations.includes(cmsPlaceOfService)) {
     return false;
+  }
+  if (ubTypeOfBill.length === 3) {
+    ubTypeOfBill = `0${ubTypeOfBill}`;
+  }
+  // 21 is for inpatient facility, other than psychiatric. 0154 is psychiatric
+  if ((cmsPlaceOfService && cmsPlaceOfService === '31') 
+    && (ubRevenue && ubRevenue == '0154')) {
+    return false;
+  }
+  // 31 is for skilled nursing facility
+  if (cmsPlaceOfService === '31') {
+    // If Ub Revenue exists, but is not 002 (skilled nursing) it's invalid
+    if (ubRevenue && !ubRevenue.startsWith('002') ) {
+      return false;
+    }
+    // 1 is for hospital, Can't be both, so it's invalid
+    if (ubTypeOfBill.charAt(1) === '1') {
+      return false;
+    }
   }
   // 81 is for laboratory
   if (cmsPlaceOfService === '81') {
