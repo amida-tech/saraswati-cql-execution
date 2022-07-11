@@ -314,11 +314,13 @@ const createClaimEncounter = (encounter) => {
   if (encounter.cmsPlaceOfService || encounter.ambulatory) {
     if (encounter.cmsPlaceOfService === '02') {
       encounterFhir.class = createCode('VR', 'A');
-    } else if (encounter.cmsPlaceOfService === '71' || encounter.ambulatory) {
+    } else if (encounter.cmsPlaceOfService === '71'
+      || encounter.cmsPlaceOfService === '72'
+      || encounter.ambulatory) {
       encounterFhir.class = createCode('AMB', 'A');
     }
     if (encounter.cmsPlaceOfService) {
-      encounter.location = [ { location: { reference: encounter.cmsPlaceOfService } } ];
+      encounterFhir.location = [ { location: { reference: encounter.cmsPlaceOfService } } ];
     }
   }
 

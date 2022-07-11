@@ -237,7 +237,8 @@ const hedisData = {
     getAge: (data) => {
       let eventDate = new Date(data[data.memberId]['Last Calendar Day of February']);
       eventDate.setUTCHours(0,0,0,0);
-      return getAge(new Date(data.birthDate), eventDate);
+      const birthdate = new Date(data.birthDate);
+      return getAge(birthdate, eventDate);
     },
     getEvent: (data, index) => { // Guess?
       const appAgeWNHN = data[data.memberId]['Member is Appropriate Age and Has IPSD with Negative Medication History'];
@@ -324,7 +325,8 @@ const hedisData = {
       for (const followUp of twoFollowUpEncs) {
         if (followUp.serviceProvider) {
           const provider = providerInfo[followUp.serviceProvider.reference.value];
-          if (provider.mhProvider || provider.prescriber || provider.nprProvider || provider.pcp) {
+          if ((followUp.class && followUp.class.code.value === 'VR')
+            || provider.mhProvider || provider.prescriber || provider.nprProvider || provider.pcp) {
             validFollowUpEncs.push(followUp);
           }
         } else {
@@ -337,7 +339,7 @@ const hedisData = {
       for (const followUp of twoFollowUpEncsE) {
         if (followUp.serviceProvider) {
         const provider = providerInfo[followUp.serviceProvider.reference.value];
-        if (!provider.nprProvider) {
+        if (!provider.nprProvider || provider.prescriber) {
             validFollowUpEncsE.push(followUp);
         }
         } else {
@@ -345,8 +347,10 @@ const hedisData = {
         }
       }
 
+      //console.log(validFollowUpEncs.length);
+      //console.log(validFollowUpEncsE.length);
       const twoValidFollowUps = validFollowUpEncs.length >= 2 
-        || (validFollowUpEncs.length === 1 && ((validFollowUpEncs.length + validFollowUpEncsE.length) >= 2));
+        || (validFollowUpEncs.length === 1 && validFollowUpEncsE.length >= 1);
 
       return (hasValidFollowUp && twoValidFollowUps) ? 1 : 0;
     },
@@ -354,7 +358,10 @@ const hedisData = {
       return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
     },
     getRequiredExclusionID: () => 0,
-    measureCheck: () => true,
+    measureCheck: (data, _index, measureFunctions) => {
+      return measureFunctions.getEvent(data, 0, measureFunctions) === 1
+        || measureFunctions.getEvent(data, 1, measureFunctions) === 1;
+    },
     getPayors: (data, index, measureFunctions) => {
       const compareDate = new Date(data[data.memberId]['Index Prescription Start Date']);
       const memberCoverage = data[data.memberId]['Member Coverage'];
@@ -619,6 +626,10 @@ const hedisData = {
 }
 
 const getAge = (birthDate, compareDate) => { // Age must be calculated against first event.
+  // If you are born during a leap year, the last calendar day of February is the 29th
+  if (birthDate.getFullYear() % 4 === 0) {
+    compareDate = new Date(compareDate.getTime() + msInADay);
+  }
   let totalYears = parseInt(compareDate.getFullYear()) - parseInt(birthDate.getFullYear());
   if (compareDate.getMonth() < birthDate.getMonth()) {
     totalYears -= 1;
