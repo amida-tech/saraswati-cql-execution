@@ -19,6 +19,9 @@ const parseArgs = minimist(process.argv.slice(2), {
   alias: {
     f: 'fhirDirectory',
     m: 'memberIds',
+    b: 'beginWith',
+    e: 'endWith',
+    o: 'outFile',
     v: 'validate',
     s: 'skipEval',
   },
@@ -34,7 +37,7 @@ async function checkArgs() {
 
   basePath = path.join(parseArgs.f, '..');
   measuresPath = path.join(basePath, 'measures');
-  scoreAmidaPath = path.join(basePath, 'score-amida.txt');
+  scoreAmidaPath = path.join(basePath, parseArgs.o !== undefined ? parseArgs.o : 'score-amida.txt');
 
   if(parseArgs.v === true) {
     scorePath = path.join(basePath, 'score.txt');
@@ -147,7 +150,15 @@ async function processFhirDirectory(dirFiles) {
   let filenames = dirFiles
     .filter((file) => file !== '.DS_Store')
     .map((file) => parseInt(file.split('.')[0], 10)).sort((a, b) => a - b);
-  if (parseArgs.m !== undefined) {
+  if (parseArgs.b !== undefined) {
+    const memberId = parseInt(parseArgs.b, 10);
+    filenames = filenames.filter((file) => parseInt(file) >= memberId);
+  }
+  if (parseArgs.e !== undefined) {
+    const memberId = parseInt(parseArgs.e, 10);
+    filenames = filenames.filter((file) => parseInt(file) <= memberId);
+  }
+   if (parseArgs.m !== undefined) {
     const memberIds = parseArgs.m.toString().split(',').map((memberId) => parseInt(memberId, 10));
     filenames = filenames.filter((file) => memberIds.includes(file));
   }
@@ -179,6 +190,8 @@ if (parseArgs.h === true) {
   console.log('\n A script for generating HEDIS scores and verifying results. You must config ".env" settings, and run "ncqa-test-converter.js" first.\n\n Options:');
   console.log('   -f, --fhirDirectory: The directory of FHIR data you want to score and verify.');
   console.log('   -m, --memberIds: A comma separated list of memberIds you want to compute. Optional.');
+  console.log('   -b, --beginWith: A number for which member ID the script will start with. Optional.');
+  console.log('   -e, --endWith: A number for which member ID the script will end with. Optional.');
   console.log('   -v, --validate: Optional. If true, compare against the `score.txt` file in the folder above FHIR directory. Outputs "score-amida.txt". Defaults to "false".');
   console.log('   -s, --skipEval: Optional. If true, it will not run CQL execution. It will use the previously generated json output.')
   process.exit();

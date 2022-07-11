@@ -237,8 +237,12 @@ const hedisData = {
     getAge: (data) => {
       let eventDate = new Date(data[data.memberId]['Last Calendar Day of February']);
       eventDate.setUTCHours(0,0,0,0);
-      const birthdate = new Date(data.birthDate);
-      return getAge(birthdate, eventDate);
+      const birthDate = new Date(data.birthDate);
+        // If you are born during a leap year, and the compare date is Feb 28th, the last calendar day of February is the 29th
+    if (birthDate.getFullYear() % 4 === 0) {
+      eventDate = new Date(eventDate.getTime() + msInADay);
+    }
+      return getAge(birthDate, eventDate);
     },
     getEvent: (data, index) => { // Guess?
       const appAgeWNHN = data[data.memberId]['Member is Appropriate Age and Has IPSD with Negative Medication History'];
@@ -300,6 +304,12 @@ const hedisData = {
       for (const followUpEnc of followUpEncs) {
         if (followUpEnc.serviceProvider) {
           const provider = providerInfo[followUpEnc.serviceProvider.reference.value];
+          const location = followUpEnc.location;
+          // Not sure why it wouldn't like the psychiatric facility, but it's excluded I guess
+          if (location && 
+            (location[0].location.reference.value === '51' || location[0].location.reference.value === '21')) {
+            continue;
+          }
           if (provider.prescriber) {
             hasValidFollowUp = true;
             break;
@@ -626,10 +636,6 @@ const hedisData = {
 }
 
 const getAge = (birthDate, compareDate) => { // Age must be calculated against first event.
-  // If you are born during a leap year, the last calendar day of February is the 29th
-  if (birthDate.getFullYear() % 4 === 0) {
-    compareDate = new Date(compareDate.getTime() + msInADay);
-  }
   let totalYears = parseInt(compareDate.getFullYear()) - parseInt(birthDate.getFullYear());
   if (compareDate.getMonth() < birthDate.getMonth()) {
     totalYears -= 1;
