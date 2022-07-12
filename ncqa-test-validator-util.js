@@ -334,9 +334,23 @@ const hedisData = {
       const validFollowUpEncs = [];
       for (const followUp of twoFollowUpEncs) {
         if (followUp.serviceProvider) {
-          const provider = providerInfo[followUp.serviceProvider.reference.value];
-          if ((followUp.class && followUp.class.code.value === 'VR')
-            || provider.mhProvider || provider.prescriber || provider.nprProvider || provider.pcp) {
+          if (followUp.location && followUp.location[0].location.reference.value === '51' 
+            && providerInfo[followUp.serviceProvider.reference.value].pasProvider) {
+              continue;
+          }
+          let validCode = false;
+          if (followUp.type) {
+            const codes = [];
+            followUp.type.forEach((type) => {
+              type.coding.forEach((coding) => {
+                codes.push(coding.code.value);
+              });
+            });
+            validCode = codes.find((code) => code.length === 4 && code.startsWith('09'));
+          }
+          if (followUp.serviceProvider.reference.value !== 'UNK001' 
+            || (followUp.class && followUp.class.code.value === 'VR')
+            || validCode) {
             validFollowUpEncs.push(followUp);
           }
         } else {
@@ -357,8 +371,8 @@ const hedisData = {
         }
       }
 
-      //console.log(validFollowUpEncs.length);
-      //console.log(validFollowUpEncsE.length);
+      console.log(validFollowUpEncs.length);
+      console.log(validFollowUpEncsE.length);
       const twoValidFollowUps = validFollowUpEncs.length >= 2 
         || (validFollowUpEncs.length === 1 && validFollowUpEncsE.length >= 1);
 
