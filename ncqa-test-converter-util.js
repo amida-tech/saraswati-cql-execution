@@ -35,6 +35,9 @@ const getRxSystem = (value) => {
 }
 
 const createCode = (code, systemFlag, systemType) => {
+  if (code === undefined) {
+    return undefined;
+  }
   let system = '';
   if (systemType === 'RX') {
     system = systemFlag.length === 1 ? getRxSystem(systemFlag) : systemFlag;
@@ -114,7 +117,7 @@ const createServiceCodeFromVisit = (visit) => {
 }
 
 const createClaimFromVisit = (visit) => {
-  const claimId = `${visit.memberId}-prof-claim-${visit.claimId}`;
+  const claimId = `${visit.memberId}-visit-claim-${visit.claimId}`;
   const resource = {
     resourceType: 'Claim',
     id: claimId,
@@ -300,7 +303,8 @@ const createDiagnosisCondition = (condition) => {
 const createClaimEncounter = (encounter) => {
   const encounterFhir = {
     resourceType: 'Encounter',
-    id: `${encounter.memberId}-${encounter.idName}-${encounter.encounterId}`,
+    id: encounter.encounterId,
+    subject: { reference: encounter.memberId },
     status: 'finished',
     period: {
       start: convertDateString(encounter.period.start),
@@ -338,6 +342,14 @@ const createClaimEncounter = (encounter) => {
     encounterFhir.serviceProvider = {
       reference: encounter.serviceProvider,
     };
+  }
+
+  if (encounter.cptModOne === 'GT') {
+    if (encounterFhir.type) {
+      encounterFhir.type.push({ coding: [ createCode('99457', 'C') ] });
+    } else {
+      encounterFhir.type = [ { coding: [ createCode('99457', 'C') ] } ];
+    }
   }
   return encounterFhir;
 }
