@@ -331,11 +331,11 @@ const hedisData = {
             });
             validCode = codes.find((code) => code.length === 4 && code.startsWith('09'));
           }
-          if (followUp.serviceProvider.reference.value !== 'UNK001' 
-            || (followUp.class && followUp.class.code.value === 'VR')
-            || validCode) {
+          //if (followUp.serviceProvider.reference.value !== 'UNK001' 
+          //  || (followUp.class && followUp.class.code.value === 'VR')
+           // || validCode) {
             validFollowUpEncs.push(followUp);
-          }
+          //}
         } else {
           validFollowUpEncs.push(followUp);
         }
