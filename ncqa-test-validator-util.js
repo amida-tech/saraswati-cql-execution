@@ -254,30 +254,9 @@ const hedisData = {
           ? 1 : 0
       }
 
-      const possibleEncList = data[data.memberId]['Claims with Principal Diagnosis of Mental Behavioral and Neurodevelopmental Disorders'];
-      const validEncList = [];
-      if (possibleEncList.length !== 0) {
-        // validEncDates are just dates, so incase we need to check any info we have to find the full claim
-        const validEncDates = data[data.memberId]['Acute Inpatient Encounter for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase'];
-        //const providerInfo = JSON.parse(fs.readFileSync('ncqa-test-provider.json', 'utf8'));
-        for (const claim of possibleEncList) {
-          for (const item of claim.item) {
-            for (const encDate of validEncDates) {
-              const encDateString = encDate.low.toString().split('T')[0];
-              if (item.serviced.value.toString() === encDateString) {
-                //const provider = claim.provider.reference.value;
-                //if (providerInfo[provider].mhProvider) {
-                  validEncList.push(claim);
-                //}
-              }
-            }
-          }
-        }
-      }
-
       return appAgeWNHN 
         && data[data.memberId]['Has 210 Medication Treatment Days in 301 Day Period Starting on IPSD and Continuing through End of Continuation and Maintenance Phase']
-        && validEncList.length === 0
+        && data[data.memberId]['Acute Inpatient Encounter for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase'].length === 0
         && data[data.memberId]['Acute Inpatient Discharge for Mental Behavioral or Neurodevelopmental Disorders Before End of Continuation and Maintenance Phase'].length === 0
           ? 1 : 0;
     },
@@ -338,6 +317,10 @@ const hedisData = {
             && providerInfo[followUp.serviceProvider.reference.value].pasProvider) {
               continue;
           }
+          if (followUp.location && followUp.location[0].location.reference.value === '21' 
+            && !providerInfo[followUp.serviceProvider.reference.value].pcp) {
+              continue;
+          }
           let validCode = false;
           if (followUp.type) {
             const codes = [];
@@ -371,8 +354,8 @@ const hedisData = {
         }
       }
 
-      console.log(validFollowUpEncs.length);
-      console.log(validFollowUpEncsE.length);
+      //console.log(validFollowUpEncs.length);
+      // console.log(validFollowUpEncsE.length);
       const twoValidFollowUps = validFollowUpEncs.length >= 2 
         || (validFollowUpEncs.length === 1 && validFollowUpEncsE.length >= 1);
 
@@ -441,6 +424,14 @@ const hedisData = {
     getEvent: () => 0,
     getContinuousEnrollment: (data) => {
       return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors === undefined) {
+        return false;
+      }
+      const payor = payors[0];
+      return !exchange.includes(payor) ? 1 : 0;
     },
     getExclusion: () => 0,
     getNumerator: (data, index) => {
