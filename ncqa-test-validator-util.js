@@ -551,6 +551,7 @@ const hedisData = {
   },
   fum: {
     measureIds: ['FUM30A', 'FUM7A', 'FUM30B', 'FUM7B'],
+    eventsOrDiag: true,
     getAge: (data) => {
       let eventDate = data[data.memberId]['First Eligible ED Visits per 31 Day Period'][0];
       if (eventDate === undefined) {
@@ -559,6 +560,22 @@ const hedisData = {
       eventDate = new Date(eventDate);
       eventDate.setUTCHours(0,0,0,0);
       return getAge(new Date(data.birthDate), eventDate);
+    },
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      const age = measureFunctions.getAge(data);
+      if (age < 6 || isNaN(age)) {
+        return 0;
+      }
+
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors === undefined) {
+        return 0;
+      }
+      const payor = payors[0];
+      return (commercial.includes(payor))
+        // || exchange.includes(payor)
+        || medicaidPlans.includes(payor)
+        || medicarePlans.includes(payor) ? 1 : 0;
     },
     getContinuousEnrollment: (data, index) => {
       return data[data.memberId]['First Eligible ED Visits per 31 Day Period'][Math.floor(index / 2)]
@@ -575,7 +592,7 @@ const hedisData = {
       return data[data.memberId][`Numerator ${numIndex + 1}`][dateIndex] !== undefined ? 1 : 0;
     },
     getRequiredExclusion: (data, index) => {
-      return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
+      return data[data.memberId][`Exclusions ${index + 1}`].length !== 0 ? 1 : 0;
     },
     getRequiredExclusionID: () => 0, // INCORRECT.
     measureCheck: (data, index, measureFunctions) => {
