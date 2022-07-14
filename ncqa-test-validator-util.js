@@ -606,7 +606,9 @@ const hedisData = {
       return data[data.memberId][`Numerator ${numIndex + 1}`][dateIndex] !== undefined ? 1 : 0;
     },
     getRequiredExclusion: (data, index) => {
-      return data[data.memberId][`Exclusions ${index + 1}`].length !== 0 ? 1 : 0;
+      const numIndex = index % 2
+      const dateIndex = Math.floor(index / 2);
+      return data[data.memberId][`Exclusions ${numIndex + 1}`][dateIndex] !== undefined ? 1 : 0;
     },
     getRequiredExclusionID: () => 0, // INCORRECT.
     measureCheck: (data, index, measureFunctions) => {
@@ -633,9 +635,9 @@ const hedisData = {
           return;
         }
         foundPayors = memberCoverage[memberCoverage.length - 1].payor[0].reference.value;
-        return getPayors(foundPayors, measureFunctions.getAge(data));
+        return getPayors(foundPayors);
       }
-      return getPayorArray(foundPayors, measureFunctions.getAge(data));
+      return getPayorArray(foundPayors);
     }
   },
   imae: {
