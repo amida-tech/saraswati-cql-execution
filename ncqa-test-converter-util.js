@@ -223,47 +223,6 @@ const createClaimFromVisit = (visit) => {
   return resource;
 }
 
-const createClaimFromVisitEncounter = (visitEncounter, count) => {
-  const serviceCode = createCode(visitEncounter.activityType, visitEncounter.codeFlag);
-  const resource = {
-    resourceType: 'Claim',
-    id: `${visitEncounter.memberId}-prof-claim-${count}`,
-    type: professionalClaimType(),
-    created: convertDateString(visitEncounter.serviceDate),
-    patient: { reference: `Patient/${visitEncounter.memberId}-patient` },
-    provider: { reference: visitEncounter.providerId },
-    procedure: [
-      {
-        procedureCodeableConcept: {
-          coding: [ serviceCode ],
-        },
-      }
-    ],
-    item: [
-      {
-        sequence: 1,
-        servicedDate: convertDateString(visitEncounter.serviceDate),
-        productOrService: {
-          coding: [ serviceCode ]
-        }
-      }
-    ]
-  }
-  if (visitEncounter.diagnosisCode !== undefined) {
-    resource.diagnosis = [
-      {
-        sequence: 1,
-        diagnosisCodeableConcept: {
-          coding: [ 
-            createCode(visitEncounter.diagnosisCode, visitEncounter.diagnosisFlag)
-          ]
-        }
-      }
-    ];
-  }
-  return resource;
-}
-
 const createDiagnosisCondition = (condition) => {
   const condObj = {
     id: condition.conditionId,
@@ -495,8 +454,8 @@ const isValidEncounter = (ubRevenue, ubTypeOfBill, cmsPlaceOfService, measure) =
   }
   // 81 is for laboratory
   if (cmsPlaceOfService === '81') {
-    // add-e doesn't use lab codes, so it's invalid
-    if (measure === 'adde') {
+    // add-e, ais-e don't use lab codes, so it's invalid
+    if (measure === 'adde' || measure === 'aise') {
       return false;
     }
   }
@@ -505,6 +464,6 @@ const isValidEncounter = (ubRevenue, ubTypeOfBill, cmsPlaceOfService, measure) =
 }
 
 module.exports = { getSystem, createCode, professionalClaimType, 
-  pharmacyClaimType, convertDateString, createClaimFromVisit, createClaimFromVisitEncounter,
+  pharmacyClaimType, convertDateString, createClaimFromVisit,
   createServiceCodeFromVisit, createClaimEncounter, createDiagnosisCondition,
   createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createPractitionerLocation, isValidEncounter };

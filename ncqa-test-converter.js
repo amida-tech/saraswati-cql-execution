@@ -4,7 +4,7 @@ const readline = require('readline');
 const config = require('./config');
 const { createCode, professionalClaimType, pharmacyClaimType, convertDateString,
   createClaimFromVisit, createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
-  createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createClaimFromVisitEncounter,
+  createClaimResponse, createPharmacyClaim, isDateDuringPeriod,
   createPractitionerLocation, isValidEncounter } = require('./ncqa-test-converter-util');
 
 const measure = config.measurementType;
@@ -23,6 +23,11 @@ function checkArgs() {
       '\x1b[0m');
     process.exit();
   }
+
+  if (parseArgs.m) {
+    return parseArgs.m.toString().split(',');
+  }
+  return undefined;
 }
 
 const extractValue = (line, start, length) => {
@@ -36,11 +41,14 @@ const readFile = async (file) => {
   });
 }
 
-async function initMembers(testDirectory) {
+async function initMembers(testDirectory, memberIds) {
   const memberObject = {};
   const fileLines = await readFile(`${testDirectory}/member-gm.txt`);
   for await (const text of fileLines) {
     const memberId = extractValue(text, 1, 16);
+    if (memberIds !== undefined && memberIds.find((id) => id !== memberId)) {
+      continue;
+    }
     memberObject[memberId] = {
       generalMembership: {
         memberId:              extractValue(text, 1, 16),
@@ -80,6 +88,9 @@ async function readMembershipEnrollment(testDirectory, memberInfo) {
   for await (const text of fileLines) {
     const memberId = extractValue(text, 1, 16);
     const currentMember = memberInfo[memberId];
+    if (!currentMember) {
+      continue;
+    }
     if (currentMember.membershipEnrollment === undefined) {
       currentMember.membershipEnrollment = [];
     }
@@ -108,7 +119,6 @@ async function readVisit(testDirectory, memberInfo) {
     const memberId = extractValue(text, 1, 16);
     const currentMember = memberInfo[memberId];
     if (currentMember === undefined) {
-      console.log(`No member info for ${memberId}, unable to add visit.txt data.`);
       continue;
     }
     if (currentMember.visit === undefined) {
@@ -169,7 +179,7 @@ async function readVisit(testDirectory, memberInfo) {
 
 async function readVisitEncounter(testDirectory, memberInfo) {
   if (!fs.existsSync(`${testDirectory}/visit-e.txt`)) {
-    console.log(`No visit-e.txt in ${testDirectory}2`);
+    console.log(`No visit-e.txt in ${testDirectory}`);
     return;
   }
 
@@ -178,6 +188,9 @@ async function readVisitEncounter(testDirectory, memberInfo) {
     for await (const text of fileLines) {
       const memberId = extractValue(text, 1, 16);
       const currentMember = memberInfo[memberId];
+      if (currentMember === undefined) {
+        continue;
+      }
       if (currentMember.visitEncounter === undefined) {
         currentMember.visitEncounter = [];
       }
@@ -209,6 +222,9 @@ async function readPharmacy(testDirectory, memberInfo) {
     for await (const text of fileLines) {
       const memberId = extractValue(text, 1, 16);
       const currentMember = memberInfo[memberId];
+      if (currentMember === undefined) {
+        continue;
+      }
       if (currentMember.pharmacy === undefined) {
         currentMember.pharmacy = [];
       }
@@ -240,6 +256,9 @@ async function readPharmacyClinical(testDirectory, memberInfo) {
     for await (const text of fileLines) {
       const memberId = extractValue(text, 1, 16);
       const currentMember = memberInfo[memberId];
+      if (currentMember === undefined) {
+        continue;
+      }
       if (currentMember.pharmacyClinical === undefined) {
         currentMember.pharmacyClinical = [];
       }
@@ -273,6 +292,9 @@ async function readDiagnosis(testDirectory, memberInfo) {
     for await (const text of fileLines) {
       const memberId = extractValue(text, 1, 16);
       const currentMember = memberInfo[memberId];
+      if (currentMember === undefined) {
+        continue;
+      }
       if (currentMember.diagnosis === undefined) {
         currentMember.diagnosis = [];
       }
@@ -295,6 +317,9 @@ async function readObservation(testDirectory, memberInfo) {
   for await (const text of fileLines) {
     const memberId = extractValue(text, 1, 16);
     const currentMember = memberInfo[memberId];
+    if (currentMember === undefined) {
+      continue;
+    }
     if (currentMember.observation === undefined) {
       currentMember.observation = [];
     }
@@ -324,6 +349,9 @@ async function readProcedure(testDirectory, memberInfo) {
     for await (const text of fileLines) {
       const memberId = extractValue(text, 1, 16);
       const currentMember = memberInfo[memberId];
+      if (currentMember === undefined) {
+        continue;
+      }
       if (currentMember.procedure === undefined) {
         currentMember.procedure = [];
       }
@@ -337,13 +365,13 @@ async function readProcedure(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`No proc.txt in ${testDirectory}`);
+    console.log(`Error reading proc.txt in ${testDirectory}`);
   }
 }
 
 async function readLab(testDirectory, memberInfo) {
   if (!fs.existsSync(`${testDirectory}/lab.txt`)) {
-    console.log(`No lab.txt in ${testDirectory}2`);
+    console.log(`No lab.txt in ${testDirectory}`);
     return
   }
 
@@ -365,7 +393,41 @@ async function readLab(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`No lab.txt in ${testDirectory}`);
+    console.log(`Error reading lab.txt in ${testDirectory}`);
+  }
+}
+
+async function readMmdf(testDirectory, memberInfo) {
+  let count = 0;
+  while (true) {
+    count += 1;
+    const fileName = `${testDirectory}/mmdf${count}.txt`;
+    if (!fs.existsSync(fileName)) {
+      break;
+    }
+    try {
+      const fileLines = await readFile(fileName);
+      for await (const text of fileLines) {
+        const memberId = extractValue(text, 20, 12);
+        const currentMember = memberInfo[memberId];
+        if (currentMember === undefined) {
+          continue;
+        }
+        if (currentMember.mmdf === undefined) {
+          currentMember.mmdf = [];
+        }
+        currentMember.mmdf.push({
+          contractNumber:   extractValue(text, 1, 5),
+          runDate:          extractValue(text, 6, 8),
+          paymentDate:      extractValue(text, 14, 6),
+          beneficiaryId:    extractValue(text, 20, 12), 
+          hospice:          extractValue(text, 61, 1),
+          orec:             extractValue(text, 192, 1),
+        });
+      }
+    } catch (readError) {
+      console.log(`Error reading ${fileName} in ${testDirectory}`);
+    }
   }
 }
 
@@ -660,12 +722,20 @@ const createClaimEncResponse = (visitList, visitEList, observationList, procedur
           esourceType: 'Encounter',
           id: `${procedure.memberId}-procedure-encounter-${index + 1}`,
           patient: { reference: `Patient/${procedure.memberId}-patient` },
-          period: {
-            start: convertDateString(procedure.serviceDate),
-            end: convertDateString(procedure.endDate),
-          },
           status: procedure.serviceStatus === 'EVN' ? 'finished' : 'in-progress',
           type: [ { coding: [ procCode ] } ]
+        }
+
+        if (procedure.endDate !== '') {
+          encResource.period = {
+            start: convertDateString(procedure.serviceDate),
+            end: convertDateString(procedure.endDate),
+          }
+        } else {
+          encResource.period = {
+            start: convertDateString(procedure.serviceDate),
+            end: '2022-12-31',
+          }
         }
         encounters.push(encResource);
       }
@@ -849,9 +919,20 @@ const createProcedureList = (visits, observations, procedures) => {
         resourceType: 'Procedure',
         id: `${procedure.memberId}-procedure-${index + 1}`,
         subject: { reference: `Patient/${procedure.memberId}-patient` },
-        performedDateTime: convertDateString(procedure.serviceDate),
+        // performedDateTime: convertDateString(procedure.serviceDate),
         status: procedure.serviceStatus === 'EVN' ? 'completed' : 'in-progress',
         code: { coding: [ procCode ] },
+      }
+      if (procedure.endDate !== '') {
+        procResource.performedPeriod = {
+          start: convertDateString(procedure.serviceDate),
+          end: convertDateString(procedure.endDate),
+        }
+      } else {
+        procResource.performedPeriod = {
+          start: convertDateString(procedure.serviceDate),
+          end: convertDateString('2022-12-31'),
+        }
       }
       procedureList.push(procResource);
     });
@@ -870,11 +951,13 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
           id: `${visit.memberId}-visit-observation-${visit.claimId}-${index+1}`,
           resourceType: 'Observation',
           code: { coding: [ serviceCode ] },
-          effectivePeriod: {
+          performer: [ { reference: visit.providerId } ]
+        }
+        if (visit.dateOfService) {
+          obsClaim.effectivePeriod = {
             start: convertDateString(visit.dateOfService),
             end: convertDateString(visit.dateOfService),
-          },
-          performer: [ { reference: visit.providerId } ]
+          }
         }
         observationList.push(obsClaim);
       }
@@ -1128,6 +1211,45 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
   return pharmacyClaimList;
 }
 
+const createMmdfResources = (mmdfList) => {
+  const mmdfResources = [];
+  if (mmdfList) {
+    mmdfList.forEach((mmdf, index) => {
+      if (mmdf.hospice === 'Y') {
+        mmdfResources.push({
+          resourceType: 'Encounter',
+          id: `${mmdf.beneficiaryId}-mmdf-encounter-${index + 1}`,
+          patient: { reference: `Patient/${mmdf.beneficiaryId}-patient` },
+          period: {
+            start: convertDateString(mmdf.runDate),
+            end: convertDateString(mmdf.runDate),
+          },
+          status: 'finished',
+          type: [ { coding: [ createCode('0115', 'R') ] } ]
+        });
+      }
+      if (mmdf.orec === '2') {
+        mmdfResources.push({
+          id: `${mmdf.beneficiaryId}-mmdf-condition-${index + 1}`,
+          resourceType: 'Condition',
+          subject: { reference: `Patient/${mmdf.beneficiaryId}-patient` },
+          clinicalStatus: {
+            coding: [
+              {
+                system: 'http://terminology.hl7.org/CodeSystem/condition-clinical',
+                code: 'active'
+              }
+            ]
+          },
+          onsetDateTime: convertDateString(mmdf.runDate),
+          code: { coding: [ createCode('236435004', 'S') ] },
+        })
+      }
+    });
+  }
+  return mmdfResources;
+}
+
 async function createFhirJson(testDirectory, allMemberInfo, memberIds) {
   Object.keys(allMemberInfo).forEach(async (memberId) => {
     const memberInfo = allMemberInfo[memberId];
@@ -1215,23 +1337,29 @@ async function createFhirJson(testDirectory, allMemberInfo, memberIds) {
     const clincalPharm = createPharmacyClaims(memberInfo.pharmacyClinical, memberInfo.pharmacy);
     clincalPharm.forEach((item) => fhirObject.entry.push(item));
 
-    if (memberIds === undefined || 
-      (memberIds !== undefined && memberIds.find((id) => id === memberId))) {
-      try {
-        fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
-        fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
-      } catch (writeErr) {
-        console.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
-        process.exit();
-      }
-    }
+    const mmdfResources = createMmdfResources(memberInfo.mmdf);
+    mmdfResources.forEach((item) => {
+      fhirObject.entry.push({
+        fullUrl: `urn:uuid:${item.id}`,
+        resource: item,
+      });
+    });
+
+    try {
+      fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
+      fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
+    } catch (writeErr) {
+      console.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
+      process.exit();
+    }  
+    
   });
 }
 
 const processTestDeck = async () => {
-  checkArgs();
+  const memberIds = checkArgs();
   const testDirectory = parseArgs.t;
-  const allMemberInfo = await initMembers(testDirectory);
+  const allMemberInfo = await initMembers(testDirectory, memberIds);
   await readMembershipEnrollment(testDirectory, allMemberInfo);
   await readVisit(testDirectory, allMemberInfo);
   await readVisitEncounter(testDirectory, allMemberInfo);
@@ -1241,13 +1369,9 @@ const processTestDeck = async () => {
   await readObservation(testDirectory, allMemberInfo);
   await readProcedure(testDirectory, allMemberInfo);
   await readLab(testDirectory, allMemberInfo);
+  await readMmdf(testDirectory, allMemberInfo);
 
-  if (parseArgs.m) {
-    const memberIds = parseArgs.m.toString().split(',');
-    await createFhirJson(testDirectory, allMemberInfo, memberIds);
-  } else {
-    await createFhirJson(testDirectory, allMemberInfo);
-  }
+  await createFhirJson(testDirectory, allMemberInfo);
 };
 
 processTestDeck();
