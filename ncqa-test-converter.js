@@ -784,7 +784,6 @@ const createClaimEncResponse = (visitList, visitEList, observationList, procedur
             cmsPlaceOfService: visit.cmsPlaceOfService,
             ubRevenue: visit.ubRevenue,
             serviceProvider: visit.providerId,
-            ambulatory: visit.dischargeDate !== undefined,
             cptModOne: visit.cptModOne,
           }
         );
