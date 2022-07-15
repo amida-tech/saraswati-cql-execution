@@ -259,6 +259,8 @@ const createDiagnosisCondition = (condition) => {
   return condObj;
 }
 
+const ambulatoryPosList = ['03', '05', '09', '15', '20', '52', '53', '71', '72'];
+
 const createClaimEncounter = (encounter) => {
   const encounterFhir = {
     resourceType: 'Encounter',
@@ -274,13 +276,14 @@ const createClaimEncounter = (encounter) => {
     encounterFhir.type = [ { coding: [ encounter.serviceCode ] } ];
   }
 
-  if (encounter.cmsPlaceOfService || encounter.ambulatory) {
-    if (encounter.cmsPlaceOfService === '02') {
+  if (encounter.cmsPlaceOfService || encounter.cptModOne) {
+    if (encounter.cmsPlaceOfService === '02'
+      || encounter.cptModOne === 'GT') {
       encounterFhir.class = createCode('VR', 'A');
-    } else if (encounter.cmsPlaceOfService === '71'
-      || encounter.cmsPlaceOfService === '72'
-      || encounter.ambulatory) {
+    } else if (ambulatoryPosList.includes(encounter.cmsPlaceOfService)) {
       encounterFhir.class = createCode('AMB', 'A');
+    } else if (encounter.cmsPlaceOfService === '12' || encounter.cmsPlaceOfService === '13' || encounter.cmsPlaceOfService === '14') {
+      encounterFhir.class = createCode('HH', 'A');
     }
     if (encounter.cmsPlaceOfService) {
       encounterFhir.location = [ { location: { reference: encounter.cmsPlaceOfService } } ];
@@ -303,13 +306,13 @@ const createClaimEncounter = (encounter) => {
     };
   }
 
-  if (encounter.cptModOne === 'GT') {
+  /*if (encounter.cptModOne === 'GT') {
     if (encounterFhir.type) {
       encounterFhir.type.push({ coding: [ createCode('99457', 'C') ] });
     } else {
       encounterFhir.type = [ { coding: [ createCode('99457', 'C') ] } ];
     }
-  }
+  }*/
   return encounterFhir;
 }
 

@@ -279,8 +279,8 @@ const hedisData = {
       }
 
       let hasValidFollowUp = false;
-      const followUpEncs = data[data.memberId]['Follow Up Encounters or Assessments During Initiation Phase'];
-      for (const followUpEnc of followUpEncs) {
+      const followUpEncsI = data[data.memberId]['Follow Up Encounters or Assessments During Initiation Phase'];
+      for (const followUpEnc of followUpEncsI) {
         if (followUpEnc.serviceProvider) {
           const provider = providerInfo[followUpEnc.serviceProvider.reference.value];
           const location = followUpEnc.location;
@@ -309,55 +309,13 @@ const hedisData = {
         return hasValidFollowUp ? 1 : 0;
       }
 
-      const twoFollowUpEncs = data[data.memberId]['Follow Up Encounters or Assessments During Continuation and Maintenance Phase'];
-      const validFollowUpEncs = [];
-      for (const followUp of twoFollowUpEncs) {
-        if (followUp.serviceProvider) {
-          if (followUp.location && followUp.location[0].location.reference.value === '51' 
-            && providerInfo[followUp.serviceProvider.reference.value].pasProvider) {
-              continue;
-          }
-          if (followUp.location && followUp.location[0].location.reference.value === '21' 
-            && !providerInfo[followUp.serviceProvider.reference.value].pcp) {
-              continue;
-          }
-          let validCode = false;
-          if (followUp.type) {
-            const codes = [];
-            followUp.type.forEach((type) => {
-              type.coding.forEach((coding) => {
-                codes.push(coding.code.value);
-              });
-            });
-            validCode = codes.find((code) => code.length === 4 && code.startsWith('09'));
-          }
-          //if (followUp.serviceProvider.reference.value !== 'UNK001' 
-          //  || (followUp.class && followUp.class.code.value === 'VR')
-           // || validCode) {
-            validFollowUpEncs.push(followUp);
-          //}
-        } else {
-          validFollowUpEncs.push(followUp);
-        }
-      }
+      const followUpEncsCM = data[data.memberId]['Follow Up Encounters or Assessments During Continuation and Maintenance Phase'];
+      const followUpEncsECM = data[data.memberId]['Follow Up Encounter with eVisit or Virtual Check in During Continuation and Maintenance Phase'];
 
-      const twoFollowUpEncsE = data[data.memberId]['Follow Up Encounter with eVisit or Virtual Check in During Continuation and Maintenance Phase'];
-      const validFollowUpEncsE = [];
-      for (const followUp of twoFollowUpEncsE) {
-        if (followUp.serviceProvider) {
-        const provider = providerInfo[followUp.serviceProvider.reference.value];
-        if (!provider.nprProvider || provider.prescriber) {
-            validFollowUpEncsE.push(followUp);
-        }
-        } else {
-          validFollowUpEncsE.push(followUp);
-        }
-      }
-
-      //console.log(validFollowUpEncs.length);
-      // console.log(validFollowUpEncsE.length);
-      const twoValidFollowUps = validFollowUpEncs.length >= 2 
-        || (validFollowUpEncs.length === 1 && validFollowUpEncsE.length >= 1);
+      // console.log(followUpEncsCM.length);
+      // console.log(followUpEncsECM.length);
+      const twoValidFollowUps = followUpEncsCM.length >= 2 
+        || (followUpEncsCM.length === 1 && followUpEncsECM.length >= 1);
 
       return (hasValidFollowUp && twoValidFollowUps) ? 1 : 0;
     },
