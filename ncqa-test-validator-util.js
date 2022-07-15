@@ -238,13 +238,13 @@ const hedisData = {
       let eventDate = new Date(data[data.memberId]['Last Calendar Day of February']);
       eventDate.setUTCHours(0,0,0,0);
       const birthDate = new Date(data.birthDate);
-        // If you are born during a leap year, and the compare date is Feb 28th, the last calendar day of February is the 29th
+        // If you are born during a leap year, use the 29th as the last calendar day of February
     if (birthDate.getFullYear() % 4 === 0) {
       eventDate = new Date(eventDate.getTime() + msInADay);
     }
       return getAge(birthDate, eventDate);
     },
-    getEvent: (data, index) => { // Guess?
+    getEvent: (data, index) => {
       const appAgeWNHN = data[data.memberId]['Member is Appropriate Age and Has IPSD with Negative Medication History'];
 
       if (index === 0) {
@@ -283,12 +283,6 @@ const hedisData = {
       for (const followUpEnc of followUpEncsI) {
         if (followUpEnc.serviceProvider) {
           const provider = providerInfo[followUpEnc.serviceProvider.reference.value];
-          const location = followUpEnc.location;
-          // Not sure why it wouldn't like the psychiatric facility, but it's excluded I guess
-          if (location && 
-            (location[0].location.reference.value === '51' || location[0].location.reference.value === '21')) {
-            continue;
-          }
           if (provider.prescriber) {
             hasValidFollowUp = true;
             break;
@@ -312,8 +306,6 @@ const hedisData = {
       const followUpEncsCM = data[data.memberId]['Follow Up Encounters or Assessments During Continuation and Maintenance Phase'];
       const followUpEncsECM = data[data.memberId]['Follow Up Encounter with eVisit or Virtual Check in During Continuation and Maintenance Phase'];
 
-      // console.log(followUpEncsCM.length);
-      // console.log(followUpEncsECM.length);
       const twoValidFollowUps = followUpEncsCM.length >= 2 
         || (followUpEncsCM.length === 1 && followUpEncsECM.length >= 1);
 
