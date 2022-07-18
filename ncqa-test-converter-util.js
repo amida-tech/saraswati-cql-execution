@@ -1,3 +1,8 @@
+const fs = require('fs');
+const config = require('./config');
+
+const measure = config.measurementType;
+
 const getSystem = (value) => {
   switch(value) {
     case 'S':
@@ -420,20 +425,53 @@ const convertDateString = (ncqaDateString) => {
   return `${year}-${month}-${day}`;
 }
 
+const labValueSets = ['2.16.840.1.113883.3.464.1004.1769',
+                    '2.16.840.1.113883.3.464.1004.1755',
+                    '2.16.840.1.113883.3.464.1004.1742',
+                    '2.16.840.1.113883.3.464.1004.1751'];
+
+const checkValidLabCode = (code) => {
+  const dir = config.valuesetsDirectory;
+  for (const valueset of labValueSets) {
+    try {
+      const valueSetInfo = JSON.parse(fs.readFileSync(`${dir}${valueset}.json`, 'utf8'));
+      for (const value of valueSetInfo.expansion.contains) {
+        if (code === value.code) {
+          return true;
+        }
+      }
+    } catch (e) {
+      console.log(`Skipping ${valueset}, not used`);
+    }
+  }
+
+  return false;
+}
+
 const invalidLocations = ['10', '27', '28', '29', '30','35', '36', '37', '38', '39', '40',
                         '43', '44', '45', '46', '47', '48', '58', '59', '63', '64', '66', '67',
                         '68', '69', '70', '73', '74', '75', '76', '77', '78', '79', '80',
                       '82', '83', '84', '85', '86', '87', '88', '89', '90', '91', '92',
                       '93', '94', '95', '96', '97', '98'];
 
-const isValidEncounter = (ubRevenue, ubTypeOfBill, cmsPlaceOfService, measure) => {
+const isValidEncounter = (visit) => {
+  // These codes mean no service was performed on the members request
+  if (visit.cptIIMod === '1P'
+    || visit.cptIIMod === '2P'
+    || visit.cptIIMod === '3P'
+    || visit.cptIIMod === '8P') {
+      return false;
+  }
+  const cmsPlaceOfService = visit.cmsPlaceOfService;
   // Can't be one of the unassaigned locations
   if (invalidLocations.includes(cmsPlaceOfService)) {
     return false;
   }
+  let ubTypeOfBill = visit.ubTypeOfBill;
   if (ubTypeOfBill.length === 3) {
     ubTypeOfBill = `0${ubTypeOfBill}`;
   }
+  const ubRevenue = visit.ubRevenue;
   // 21 is for inpatient facility, other than psychiatric. 0154 is psychiatric
   if ((cmsPlaceOfService && cmsPlaceOfService === '31') 
     && (ubRevenue && ubRevenue == '0154')) {
@@ -455,6 +493,10 @@ const isValidEncounter = (ubRevenue, ubTypeOfBill, cmsPlaceOfService, measure) =
     // add-e, ais-e don't use lab codes, so it's invalid
     if (measure === 'adde' || measure === 'aise') {
       return false;
+    }
+    const visitCode = createServiceCodeFromVisit(visit);
+    if (visitCode) {
+      return checkValidLabCode(visitCode.code);
     }
   }
 
