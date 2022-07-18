@@ -1213,6 +1213,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
 const createMmdfResources = (mmdfList) => {
   const mmdfResources = [];
   if (mmdfList) {
+    let esrdStart = undefined;
     mmdfList.forEach((mmdf, index) => {
       if (mmdf.hospice === 'Y') {
         mmdfResources.push({
@@ -1227,24 +1228,29 @@ const createMmdfResources = (mmdfList) => {
           type: [ { coding: [ createCode('0115', 'R') ] } ]
         });
       }
-      if (mmdf.orec === '2') {
-        mmdfResources.push({
-          id: `${mmdf.beneficiaryId}-mmdf-condition-${index + 1}`,
-          resourceType: 'Condition',
-          subject: { reference: `Patient/${mmdf.beneficiaryId}-patient` },
-          clinicalStatus: {
-            coding: [
-              {
-                system: 'http://terminology.hl7.org/CodeSystem/condition-clinical',
-                code: 'active'
-              }
-            ]
-          },
-          onsetDateTime: convertDateString(mmdf.runDate),
-          code: { coding: [ createCode('236435004', 'S') ] },
-        })
+      if (mmdf.orec === '2' && esrdStart === undefined) {
+        esrdStart = mmdf;
       }
     });
+    const finalmonth = mmdfList[mmdfList.length - 1];
+    if (esrdStart && finalmonth.runDate === '20221215' && finalmonth.orec === '2') {
+      mmdfResources.push({
+        id: `${esrdStart.beneficiaryId}-mmdf-ersd-condition`,
+        resourceType: 'Condition',
+        subject: { reference: `Patient/${esrdStart.beneficiaryId}-patient` },
+        clinicalStatus: {
+          coding: [
+            {
+              system: 'http://terminology.hl7.org/CodeSystem/condition-clinical',
+              code: 'active'
+            }
+          ]
+        },
+        onsetDateTime: convertDateString(esrdStart.runDate),
+        abatementDateTime: convertDateString(finalmonth.runDate),
+        code: { coding: [ createCode('236435004', 'S') ] },
+      });
+    }
   }
   return mmdfResources;
 }
