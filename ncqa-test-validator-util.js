@@ -514,17 +514,18 @@ const hedisData = {
   fum: {
     measureIds: ['FUM30A', 'FUM7A', 'FUM30B', 'FUM7B'],
     eventsOrDiag: true,
-    getAge: (data) => {
-      let eventDate = data[data.memberId]['First Eligible ED Visits per 31 Day Period'][0];
+    getAge: (data, index) => {
+      const dateIndex = Math.floor(index / 2);
+      let eventDate = data[data.memberId]['First Eligible ED Visits per 31 Day Period'][dateIndex];
       if (eventDate === undefined) {
-        eventDate = data[data.memberId]['ED Visits With Principal Diagnosis of Mental Illness or Intentional Self-Harm'][0]?.low;
+        eventDate = data[data.memberId]['ED Visits With Principal Diagnosis of Mental Illness or Intentional Self-Harm'][dateIndex]?.low;
       }
       eventDate = new Date(eventDate);
       eventDate.setUTCHours(0,0,0,0);
       return getAge(new Date(data.birthDate), eventDate);
     },
     getEligiblePopulation: (data, index, measureFunctions) => {
-      const age = measureFunctions.getAge(data);
+      const age = measureFunctions.getAge(data, index);
       if (age < 6 || isNaN(age)) {
         return 0;
       }
@@ -553,14 +554,15 @@ const hedisData = {
       const dateIndex = Math.floor(index / 2); // Won't ever go over 1. 
       return data[data.memberId][`Numerator ${numIndex + 1}`][dateIndex] !== undefined ? 1 : 0;
     },
-    getRequiredExclusion: (data, index) => {
+    
+    getRequiredExclusion: () => 0, // INCORRECT.
+    getRequiredExclusionID: (data, index) => {
       const numIndex = index % 2
       const dateIndex = Math.floor(index / 2);
       return data[data.memberId][`Exclusions ${numIndex + 1}`][dateIndex] !== undefined ? 1 : 0;
     },
-    getRequiredExclusionID: () => 0, // INCORRECT.
     measureCheck: (data, index, measureFunctions) => {
-      const age = measureFunctions.getAge(data);
+      const age = measureFunctions.getAge(data, index);
       if (isNaN(age) || age < 6) {
         return false;
       }
