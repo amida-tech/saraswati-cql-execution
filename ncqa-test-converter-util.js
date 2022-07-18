@@ -42,8 +42,9 @@ const createCode = (code, systemFlag, systemType) => {
   if (systemType === 'RX') {
     system = systemFlag.length === 1 ? getRxSystem(systemFlag) : systemFlag;
   } else {
-    // For PNDE Deliveries
-    if (code.length === 7 && code.startsWith('10') && systemFlag === 'X') {
+    // 10 PNDE Deliveries, 30 for AIS-E bone marrow
+    if ((code.startsWith('10') || code.startsWith('30')) 
+      && code.length === 7 && systemFlag === 'X') {
       system = getSystem('X2');
     } else {
       system = systemFlag.length === 1 ? getSystem(systemFlag) : systemFlag;
@@ -241,14 +242,14 @@ const createDiagnosisCondition = (condition) => {
 
   if (condition.onsetDateTime) {
     condObj.onsetDateTime = convertDateString(condition.onsetDateTime);
+    condObj.abatementDateTime = convertDateString(condition.onsetDateTime);
   } else if (condition.onsetStart) {
     if (condition.onsetEnd) {
-      condObj.onsetPeriod = {
-        start: convertDateString(condition.onsetStart),
-        end: convertDateString(condition.onsetEnd),
-      }
+      condObj.onsetDateTime = convertDateString(condition.onsetStart);
+      condObj.abatementDateTime = convertDateString(condition.onsetEnd);
     } else {
       condObj.onsetDateTime = convertDateString(condition.onsetStart);
+      condObj.abatementDateTime = convertDateString(condition.onsetStart);
     }
   }
   if (condition.recorder) {
@@ -259,7 +260,8 @@ const createDiagnosisCondition = (condition) => {
   return condObj;
 }
 
-const ambulatoryPosList = ['03', '05', '09', '15', '20', '52', '53', '71', '72'];
+const ambulatoryPosList = ['02', '03', '05', '07', '09', '15', '17', '18', '19', '20', '22', '31', '49', '50', '52', '53', '71', '72'];
+const homeHealthPosList = ['12', '13', '14', '16', '33'];
 
 const createClaimEncounter = (encounter) => {
   const encounterFhir = {
@@ -282,7 +284,7 @@ const createClaimEncounter = (encounter) => {
       encounterFhir.class = createCode('VR', 'A');
     } else if (ambulatoryPosList.includes(encounter.cmsPlaceOfService)) {
       encounterFhir.class = createCode('AMB', 'A');
-    } else if (encounter.cmsPlaceOfService === '12' || encounter.cmsPlaceOfService === '13' || encounter.cmsPlaceOfService === '14') {
+    } else if (homeHealthPosList.includes(encounter.cmsPlaceOfService)) {
       encounterFhir.class = createCode('HH', 'A');
     }
     if (encounter.cmsPlaceOfService) {
@@ -306,13 +308,6 @@ const createClaimEncounter = (encounter) => {
     };
   }
 
-  /*if (encounter.cptModOne === 'GT') {
-    if (encounterFhir.type) {
-      encounterFhir.type.push({ coding: [ createCode('99457', 'C') ] });
-    } else {
-      encounterFhir.type = [ { coding: [ createCode('99457', 'C') ] } ];
-    }
-  }*/
   return encounterFhir;
 }
 

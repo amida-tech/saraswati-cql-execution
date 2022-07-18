@@ -11,8 +11,8 @@ const exchangeOrCommercial = ['CEP', 'HMO', 'POS', 'PPO', 'MEP', 'MMO', 'MOS', '
 const medicarePlans = ['MCR', 'MCS', 'MP', 'MC', 'MCR'];
 const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB', 'MCD'];
 const snpMeasures = []; // I don't think we'll ever have any of these for a while.
-const medicareMeasures = ['asfe', 'fum'];
-const medicaidMeasures = ['adde', 'aise', 'asfe', 'fum'];
+const medicareMeasures = ['asfe', 'aise', 'fum'];
+const medicaidMeasures = ['adde', 'asfe', 'fum'];
 const mmpMeasures = []; // As with SNPs.
 
 const providerInfo = JSON.parse(fs.readFileSync('ncqa-test-provider.json', 'utf8'));
@@ -73,7 +73,7 @@ const getPayors = (payor, age) => {
   }
 }
 
-const getPreferredPayor = (latestCoverage) => {
+const getPreferredPayor = (latestCoverage, age) => {
   if (latestCoverage.length === 1) {
     return latestCoverage[0].payor;
   }
@@ -99,9 +99,17 @@ const getPreferredPayor = (latestCoverage) => {
     return latestCoverage[latestCoverage.length - 1].payor;
   }
 
+  // If any SN plans, use that
+  if (age > 65) {
+    for (const cov of latestCoverage) {
+      if (cov.payor.startsWith('SN')) {
+        return cov.payor;
+      }
+    }
+  }
 
   // If is a medicaid measure, check medicaid first
-  if (insPref.medicaid) {
+  if (insPref.medicaid || age < 66) {
     for (const medicaidPlan of medicaidPlans) {
       for (const cov of latestCoverage) {
         if (cov.payor === medicaidPlan) {
@@ -117,7 +125,7 @@ const getPreferredPayor = (latestCoverage) => {
       }
     }
   // If it's a medicare measure, check medicare first
-  } else if (insPref.medicare) {
+  } else if (insPref.medicare || age > 65) {
     for (const medicarePlan of medicarePlans) {
       for (const cov of latestCoverage) {
         if (cov.payor === medicarePlan) {
@@ -156,7 +164,7 @@ const getPayorArray = (foundPayors, age) => {
     return getPayors(latestCoverage[0].payor, age);
   }
   // if we have more than one we need to decide to either choose one or all
-  return getPayors(getPreferredPayor(latestCoverage), age);      
+  return getPayors(getPreferredPayor(latestCoverage, age), age);      
 }
 
 const getValidPayors = (foundPayors, age, memberCoverage) => {
@@ -354,7 +362,6 @@ const hedisData = {
       } else if (index == 3 && age < 66) {
         return false;
       }
-
       // Get Payor
       let payor = measureFunctions.getPayors(data, index, measureFunctions);
       if (payor === undefined) {
