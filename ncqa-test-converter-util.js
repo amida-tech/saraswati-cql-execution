@@ -42,8 +42,9 @@ const createCode = (code, systemFlag, systemType) => {
   if (systemType === 'RX') {
     system = systemFlag.length === 1 ? getRxSystem(systemFlag) : systemFlag;
   } else {
-    // For PNDE Deliveries
-    if (code.length === 7 && code.startsWith('10') && systemFlag === 'X') {
+    // 10 PNDE Deliveries, 30 for AIS-E bone marrow
+    if ((code.startsWith('10') || code.startsWith('30')) 
+      && code.length === 7 && systemFlag === 'X') {
       system = getSystem('X2');
     } else {
       system = systemFlag.length === 1 ? getSystem(systemFlag) : systemFlag;

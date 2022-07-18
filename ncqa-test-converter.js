@@ -869,7 +869,7 @@ const linkConditionsToEncounters = (conditions, encounters) => {
   }
 }
 
-const createProcedureList = (visits, observations, procedures) => {
+const createProcedureList = (visits, observations, procedures, diagnosisList) => {
   const procedureList = [];
   if (visits) {
     for (let index = 0; index < visits.length; index += 1) {
@@ -889,6 +889,21 @@ const createProcedureList = (visits, observations, procedures) => {
           code: { coding: [ serviceCode ] }
         }
         procedureList.push(procResource);
+      }
+
+      if (visit.icdProcedure) {
+        visit.icdProcedure.forEach((procedure) => {
+          const procResource = {
+            id: `${visit.memberId}-visit-list-procedure-${visit.claimId}-${index + 1}`,
+            resourceType: 'Procedure',
+            subject: { reference: `Patient/${visit.memberId}-patient`},
+            performedDateTime: convertDateString(visit.dateOfService),
+            performer: [ { actor: { reference: visit.providerId, } } ],
+            status: 'completed',
+            code: { coding: [ createCode(procedure, visit.icdIdentifier) ] }
+          }
+          procedureList.push(procResource);
+        });
       }
     }
   }
@@ -918,7 +933,6 @@ const createProcedureList = (visits, observations, procedures) => {
         resourceType: 'Procedure',
         id: `${procedure.memberId}-procedure-${index + 1}`,
         subject: { reference: `Patient/${procedure.memberId}-patient` },
-        // performedDateTime: convertDateString(procedure.serviceDate),
         status: procedure.serviceStatus === 'EVN' ? 'completed' : 'in-progress',
         code: { coding: [ procCode ] },
       }
@@ -930,6 +944,31 @@ const createProcedureList = (visits, observations, procedures) => {
       } else {
         procResource.performedPeriod = {
           start: convertDateString(procedure.serviceDate),
+          end: convertDateString('2022-12-31'),
+        }
+      }
+      procedureList.push(procResource);
+    });
+  }
+
+  if (diagnosisList) {
+    diagnosisList.forEach((diagnosis, index) => {
+      const procCode = createCode(diagnosis.diagnosisCode, diagnosis.diagnosisFlag);
+      const procResource = {
+        resourceType: 'Procedure',
+        id: `${diagnosis.memberId}-diag-procedure-${index + 1}`,
+        subject: { reference: `Patient/${diagnosis.memberId}-patient` },
+        status: 'completed',
+        code: { coding: [ procCode ] },
+      }
+      if (diagnosis.endDate !== '') {
+        procResource.performedPeriod = {
+          start: convertDateString(diagnosis.startDate),
+          end: convertDateString(diagnosis.endDate),
+        }
+      } else {
+        procResource.performedPeriod = {
+          start: convertDateString(diagnosis.startDate),
           end: convertDateString('2022-12-31'),
         }
       }
@@ -1213,7 +1252,6 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
 const createMmdfResources = (mmdfList) => {
   const mmdfResources = [];
   if (mmdfList) {
-    let esrdStart = undefined;
     mmdfList.forEach((mmdf, index) => {
       if (mmdf.hospice === 'Y') {
         mmdfResources.push({
@@ -1225,37 +1263,15 @@ const createMmdfResources = (mmdfList) => {
             end: convertDateString(mmdf.runDate),
           },
           status: 'finished',
-          type: [ { coding: [ createCode('0115', 'R') ] } ]
+          type: [ { coding: [ createCode('0115', 'R') ] } ],
         });
       }
-      if (mmdf.orec === '2' && esrdStart === undefined) {
-        esrdStart = mmdf;
-      }
     });
-    const finalmonth = mmdfList[mmdfList.length - 1];
-    if (esrdStart && finalmonth.runDate === '20221215' && finalmonth.orec === '2') {
-      mmdfResources.push({
-        id: `${esrdStart.beneficiaryId}-mmdf-ersd-condition`,
-        resourceType: 'Condition',
-        subject: { reference: `Patient/${esrdStart.beneficiaryId}-patient` },
-        clinicalStatus: {
-          coding: [
-            {
-              system: 'http://terminology.hl7.org/CodeSystem/condition-clinical',
-              code: 'active'
-            }
-          ]
-        },
-        onsetDateTime: convertDateString(esrdStart.runDate),
-        abatementDateTime: convertDateString(finalmonth.runDate),
-        code: { coding: [ createCode('236435004', 'S') ] },
-      });
-    }
   }
   return mmdfResources;
 }
 
-async function createFhirJson(testDirectory, allMemberInfo, memberIds) {
+async function createFhirJson(testDirectory, allMemberInfo) {
   Object.keys(allMemberInfo).forEach(async (memberId) => {
     const memberInfo = allMemberInfo[memberId];
     const fhirObject = {};
@@ -1314,7 +1330,8 @@ async function createFhirJson(testDirectory, allMemberInfo, memberIds) {
     const procedures = createProcedureList(
       memberInfo.visit,
       memberInfo.observation,
-      memberInfo.procedure
+      memberInfo.procedure,
+      memberInfo.diagnosis,
     );
 
     procedures.forEach((procedure) => {
