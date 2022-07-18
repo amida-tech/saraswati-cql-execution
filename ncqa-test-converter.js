@@ -1,13 +1,10 @@
 const minimist = require('minimist');
 const fs = require('fs');
 const readline = require('readline');
-const config = require('./config');
 const { createCode, professionalClaimType, pharmacyClaimType, convertDateString,
   createClaimFromVisit, createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
   createClaimResponse, createPharmacyClaim, isDateDuringPeriod,
   createPractitionerLocation, isValidEncounter } = require('./ncqa-test-converter-util');
-
-const measure = config.measurementType;
 
 const parseArgs = minimist(process.argv.slice(2), {
   alias: {
@@ -380,6 +377,9 @@ async function readLab(testDirectory, memberInfo) {
     for await (const text of fileLines) {
       const memberId = extractValue(text, 1, 16);
       const currentMember = memberInfo[memberId];
+      if (currentMember === undefined) {
+        continue;
+      }
       if (currentMember.lab === undefined) {
         currentMember.lab = [];
       }
@@ -393,6 +393,7 @@ async function readLab(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
+    console.log(readError);
     console.log(`Error reading lab.txt in ${testDirectory}`);
   }
 }
@@ -579,7 +580,7 @@ const createConditionList = (visitList, visitEList, diagnosisList) => {
   let conditionCount = 1;
   if (visitList) {
     for (const visit of visitList) {
-      if (!isValidEncounter(visit.ubRevenue, visit.ubTypeOfBill, visit.cmsPlaceOfService, measure)) {
+      if (!isValidEncounter(visit)) {
         continue;
       }
       visit.icdDiagnosis.forEach((visitDiagnosis) => {
@@ -745,7 +746,7 @@ const createClaimEncResponse = (visitList, visitEList, observationList, procedur
   if (visitList) {
     const visitEncounterList = [];
     for (const visit of visitList) {
-      if (!isValidEncounter(visit.ubRevenue, visit.ubTypeOfBill, visit.cmsPlaceOfService, measure)) {
+      if (!isValidEncounter(visit)) {
         continue;
       }
       const serviceCode = createServiceCodeFromVisit(visit);
@@ -874,7 +875,7 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
   if (visits) {
     for (let index = 0; index < visits.length; index += 1) {
       const visit = visits[index];
-      if (!isValidEncounter(visit.ubRevenue, visit.ubTypeOfBill, visit.cmsPlaceOfService, measure)) {
+      if (!isValidEncounter(visit)) {
         continue;
       }
       const serviceCode = createServiceCodeFromVisit(visit);
@@ -984,7 +985,7 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
   if (visits) {
     visits.forEach((visit, index) => {
       const serviceCode = createServiceCodeFromVisit(visit);
-      if (serviceCode) {
+      if (serviceCode && isValidEncounter(visit)) {
         const obsClaim = {
           id: `${visit.memberId}-visit-observation-${visit.claimId}-${index+1}`,
           resourceType: 'Observation',
