@@ -552,7 +552,8 @@ const hedisData = {
     getNumerator: (data, index) => {
       const numIndex = index % 2 // Deciding between FUM30 and FUM7.
       const dateIndex = Math.floor(index / 2); // Won't ever go over 1. 
-      return data[data.memberId][`Numerator ${numIndex + 1}`][dateIndex] !== undefined ? 1 : 0;
+      const denominator = data[data.memberId][`Denominator ${numIndex + 1}`][dateIndex];
+      return data[data.memberId][`Numerator ${numIndex + 1}`].includes(denominator) ? 1 : 0;
     },
     
     getRequiredExclusion: () => 0, // INCORRECT.
