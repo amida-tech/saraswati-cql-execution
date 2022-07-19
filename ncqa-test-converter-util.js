@@ -47,8 +47,8 @@ const createCode = (code, systemFlag, systemType) => {
   if (systemType === 'RX') {
     system = systemFlag.length === 1 ? getRxSystem(systemFlag) : systemFlag;
   } else {
-    // 10 PNDE Deliveries, 30 for AIS-E bone marrow
-    if ((code.startsWith('10') || code.startsWith('30')) 
+    // 10 PNDE Deliveries, 30 for AIS-E bone marrow, GZ for FUM Electro Therapy
+    if ((code.startsWith('10') || code.startsWith('30') || code.startsWith('GZ')) 
       && code.length === 7 && systemFlag === 'X') {
       system = getSystem('X2');
     } else {
@@ -265,7 +265,8 @@ const createDiagnosisCondition = (condition) => {
   return condObj;
 }
 
-const ambulatoryPosList = ['02', '03', '05', '07', '09', '15', '17', '18', '19', '20', '22', '31', '49', '50', '52', '53', '71', '72'];
+const ambulatoryPosList = ['02', '03', '05', '07', '09', '15', '17', '18', '19',
+                        '20', '22', '24', '31', '49', '50', '52', '53', '71', '72'];
 const homeHealthPosList = ['12', '13', '14', '16', '33'];
 
 const createClaimEncounter = (encounter) => {
@@ -281,6 +282,17 @@ const createClaimEncounter = (encounter) => {
   };
   if (encounter.serviceCode) {
     encounterFhir.type = [ { coding: [ encounter.serviceCode ] } ];
+  }
+  if (encounter.procedureList) {
+    encounter.procedureList.forEach((procedure) => {
+      if (procedure !== '') {
+        if (encounterFhir.type) {
+          encounterFhir.type[0].coding.push( createCode(procedure, encounter.icdIdentifier));
+        } else {
+          encounterFhir.type = [ { coding: [ createCode(procedure, encounter.icdIdentifier) ] } ];
+        }
+      }
+    });
   }
 
   if (encounter.cmsPlaceOfService || encounter.cptModOne) {
@@ -441,7 +453,7 @@ const checkValidLabCode = (code) => {
         }
       }
     } catch (e) {
-      console.log(`Skipping ${valueset}, not used`);
+      // console.log(`Skipping ${valueset}, not used`);
     }
   }
 

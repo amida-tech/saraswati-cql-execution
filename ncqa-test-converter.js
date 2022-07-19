@@ -786,6 +786,8 @@ const createClaimEncResponse = (visitList, visitEList, observationList, procedur
             ubRevenue: visit.ubRevenue,
             serviceProvider: visit.providerId,
             cptModOne: visit.cptModOne,
+            procedureList: visit.icdProcedure,
+            icdIdentifier: visit.icdIdentifier,
           }
         );
         visitEncounterList.push(encounter);
