@@ -509,6 +509,8 @@ const isValidEncounter = (visit) => {
     const visitCode = createServiceCodeFromVisit(visit);
     if (visitCode) {
       return checkValidLabCode(visitCode.code);
+    } else if (visit.ubRevenue) {
+      return checkValidLabCode(visit.ubRevenue);
     }
   }
 
