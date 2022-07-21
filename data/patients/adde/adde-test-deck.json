@@ -1,0 +1,1764 @@
+[
+  {
+    "resourceType": "Bundle",
+    "type": "transaction",
+    "entry": [
+      {
+        "fullUrl": "urn:uuid:141998-patient",
+        "resource": {
+          "resourceType": "Patient",
+          "id": "141998-patient",
+          "name": [
+            {
+              "family": "LastName",
+              "given": [
+                "FirstName"
+              ]
+            }
+          ],
+          "telcom": {
+            "system": "phone",
+            "value": "9999999999"
+          },
+          "gender": "male",
+          "address": [
+            {
+              "line": [
+                "Address1",
+                "Address2"
+              ],
+              "city": "City",
+              "state": "AB",
+              "postalCode": "99999"
+            }
+          ],
+          "birthDate": "2015-01-05",
+          "extension": [
+            {
+              "extension": [
+                {
+                  "url": "ombCategory",
+                  "valueCoding": 1
+                }
+              ],
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
+            },
+            {
+              "extension": [
+                {
+                  "url": "ombCategory",
+                  "valueCoding": 12
+                }
+              ],
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
+            }
+          ],
+          "meta": {
+            "extension": [
+              {
+                "url": "raceDS",
+                "valueString": "21"
+              },
+              {
+                "url": "ethnicityDS",
+                "valueString": "91"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-coverage-1",
+        "resource": {
+          "resourceType": "Coverage",
+          "id": "141998-coverage-1",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "DRUGPOL",
+                "display": "Drug Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MENTPOL",
+                "display": "Mental Health Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "SUBPOL",
+                "display": "Substance Abuse Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MCPOL",
+                "display": "Managed Care Policy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "payor": [
+            {
+              "reference": "POS"
+            }
+          ],
+          "period": {
+            "start": "2021-05-31",
+            "end": "2022-01-01"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-coverage-2",
+        "resource": {
+          "resourceType": "Coverage",
+          "id": "141998-coverage-2",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "DRUGPOL",
+                "display": "Drug Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MENTPOL",
+                "display": "Mental Health Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "SUBPOL",
+                "display": "Substance Abuse Policy"
+              },
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "MCPOL",
+                "display": "Managed Care Policy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "payor": [
+            {
+              "reference": "POS"
+            }
+          ],
+          "period": {
+            "start": "2022-01-02",
+            "end": "2022-08-19"
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-prof-claim-1",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "141998-prof-claim-1",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "professional"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "provider": {
+            "reference": "UNK001"
+          },
+          "procedure": [
+            {
+              "procedureCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://www.ama-assn.org/go/cpt",
+                    "code": "99253"
+                  }
+                ]
+              }
+            }
+          ],
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2021-11-18",
+              "productOrService": {
+                "coding": [
+                  {
+                    "system": "http://www.ama-assn.org/go/cpt",
+                    "code": "99253"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 2,
+              "servicedDate": "2021-11-18"
+            }
+          ],
+          "diagnosis": [
+            {
+              "sequence": 1,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "F41.9"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 2,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "S66.891A"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 3,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "S42.447K"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 4,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "S66.109A"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 5,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "S92.112D"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 6,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "S04.21XA"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-prof-claim-2",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "141998-prof-claim-2",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "professional"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "provider": {
+            "reference": "UNK001"
+          },
+          "procedure": [
+            {
+              "procedureCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+                    "code": "G0182"
+                  }
+                ]
+              }
+            }
+          ],
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2022-05-23",
+              "productOrService": {
+                "coding": [
+                  {
+                    "system": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+                    "code": "G0182"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 2,
+              "servicedDate": "2022-05-23"
+            }
+          ],
+          "diagnosis": [
+            {
+              "sequence": 1,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "T45.3X2S"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 2,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "S16.8XXD"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 3,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "S82.832N"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 4,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "S52.365P"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 5,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "H20.052"
+                  }
+                ]
+              }
+            },
+            {
+              "sequence": 6,
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                    "code": "Z15.09"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-prof-claim-1",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "141998-prof-claim-1",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "professional"
+              }
+            ]
+          },
+          "created": "2021-11-28",
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "provider": {
+            "reference": "MH002"
+          },
+          "procedure": [
+            {
+              "procedureCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "405792009"
+                  }
+                ]
+              }
+            }
+          ],
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2021-11-28",
+              "productOrService": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "405792009"
+                  }
+                ]
+              }
+            }
+          ],
+          "diagnosis": [
+            {
+              "diagnosisCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "",
+                    "code": ""
+                  }
+                ]
+              }
+            }
+          ],
+          "encounter": [
+            {
+              "reference": "Encounter/141998-claim-encounter-1"
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-prof-claimResponse-1",
+        "resource": {
+          "resourceType": "ClaimResponse",
+          "id": "141998-prof-claimResponse-1",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "professional"
+              }
+            ]
+          },
+          "outcome": "complete",
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "request": {
+            "reference": "Claim/141998-prof-claim-1"
+          },
+          "item": [
+            {
+              "itemSequence": 1,
+              "servicedDate": "2021-11-18",
+              "adjudication": [
+                {
+                  "category": {
+                    "coding": [
+                      {
+                        "code": "benefit"
+                      }
+                    ]
+                  },
+                  "amount": {
+                    "value": 100
+                  }
+                }
+              ]
+            }
+          ],
+          "addItem": [
+            {
+              "productOrService": {
+                "coding": [
+                  {
+                    "system": "http://www.ama-assn.org/go/cpt",
+                    "code": "99253"
+                  }
+                ]
+              },
+              "servicedDate": "2021-11-18"
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-claim-encounter-1",
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "141998-claim-encounter-1",
+          "status": "finished",
+          "period": {
+            "start": "2021-11-18",
+            "end": "2021-11-18"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://www.ama-assn.org/go/cpt",
+                  "code": "99253"
+                }
+              ]
+            }
+          ],
+          "diagnosis": [
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-1"
+              },
+              "rank": 1
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-2"
+              },
+              "rank": 2
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-3"
+              },
+              "rank": 3
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-4"
+              },
+              "rank": 4
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-5"
+              },
+              "rank": 5
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-6"
+              },
+              "rank": 6
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-claim-encounter-2",
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "141998-claim-encounter-2",
+          "status": "finished",
+          "period": {
+            "start": "2022-05-23",
+            "end": "2022-05-23"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+                  "code": "G0182"
+                }
+              ]
+            }
+          ],
+          "diagnosis": [
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-1"
+              },
+              "rank": 1
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-2"
+              },
+              "rank": 2
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-3"
+              },
+              "rank": 3
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-4"
+              },
+              "rank": 4
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-5"
+              },
+              "rank": 5
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-6"
+              },
+              "rank": 6
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-2-7"
+              },
+              "rank": 7
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-2-8"
+              },
+              "rank": 8
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-2-9"
+              },
+              "rank": 9
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-2-10"
+              },
+              "rank": 10
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-2-11"
+              },
+              "rank": 11
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-2-12"
+              },
+              "rank": 12
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-claim-encounter-1",
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "141998-claim-encounter-1",
+          "status": "finished",
+          "period": {
+            "start": "2021-11-28",
+            "end": "2021-11-28"
+          },
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "405792009"
+                }
+              ]
+            }
+          ],
+          "diagnosis": [
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-1"
+              },
+              "rank": 1
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-2"
+              },
+              "rank": 2
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-3"
+              },
+              "rank": 3
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-4"
+              },
+              "rank": 4
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-5"
+              },
+              "rank": 5
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-6"
+              },
+              "rank": 6
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-procedure-encounter-1",
+        "resource": {
+          "resourceType": "Encounter",
+          "id": "141998-procedure-encounter-1",
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "period": {
+            "start": "2021-11-28",
+            "end": "2021-11-28"
+          },
+          "status": "finished",
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "391188004"
+                }
+              ]
+            }
+          ],
+          "diagnosis": [
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-1"
+              },
+              "rank": 1
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-2"
+              },
+              "rank": 2
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-3"
+              },
+              "rank": 3
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-4"
+              },
+              "rank": 4
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-5"
+              },
+              "rank": 5
+            },
+            {
+              "condition": {
+                "reference": "141998-visit-condition-1-6"
+              },
+              "rank": 6
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-visit-condition-1-1",
+        "resource": {
+          "id": "141998-visit-condition-1-1",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/141998-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "F41.9"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-11-18"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-visit-condition-1-2",
+        "resource": {
+          "id": "141998-visit-condition-1-2",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/141998-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S66.891A"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-11-18"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-visit-condition-1-3",
+        "resource": {
+          "id": "141998-visit-condition-1-3",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/141998-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S42.447K"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-11-18"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-visit-condition-1-4",
+        "resource": {
+          "id": "141998-visit-condition-1-4",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/141998-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S66.109A"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-11-18"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-visit-condition-1-5",
+        "resource": {
+          "id": "141998-visit-condition-1-5",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/141998-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S92.112D"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-11-18"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-visit-condition-1-6",
+        "resource": {
+          "id": "141998-visit-condition-1-6",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/141998-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S04.21XA"
+              }
+            ]
+          },
+          "onsetDateTime": "2021-11-18"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-visit-condition-2-7",
+        "resource": {
+          "id": "141998-visit-condition-2-7",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/141998-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "T45.3X2S"
+              }
+            ]
+          },
+          "onsetDateTime": "2022-05-23"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-visit-condition-2-8",
+        "resource": {
+          "id": "141998-visit-condition-2-8",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/141998-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S16.8XXD"
+              }
+            ]
+          },
+          "onsetDateTime": "2022-05-23"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-visit-condition-2-9",
+        "resource": {
+          "id": "141998-visit-condition-2-9",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/141998-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S82.832N"
+              }
+            ]
+          },
+          "onsetDateTime": "2022-05-23"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-visit-condition-2-10",
+        "resource": {
+          "id": "141998-visit-condition-2-10",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/141998-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "S52.365P"
+              }
+            ]
+          },
+          "onsetDateTime": "2022-05-23"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-visit-condition-2-11",
+        "resource": {
+          "id": "141998-visit-condition-2-11",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/141998-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "H20.052"
+              }
+            ]
+          },
+          "onsetDateTime": "2022-05-23"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-visit-condition-2-12",
+        "resource": {
+          "id": "141998-visit-condition-2-12",
+          "resourceType": "Condition",
+          "subject": {
+            "reference": "Patient/141998-patient"
+          },
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "code": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "Z15.09"
+              }
+            ]
+          },
+          "onsetDateTime": "2022-05-23"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-visit-procedure-1-1",
+        "resource": {
+          "id": "141998-visit-procedure-1-1",
+          "resourceType": "Procedure",
+          "subject": {
+            "reference": "Patient/141998-patient"
+          },
+          "performedDateTime": "2021-11-18",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "system": "http://www.ama-assn.org/go/cpt",
+                "code": "99253"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-visit-procedure-2-2",
+        "resource": {
+          "id": "141998-visit-procedure-2-2",
+          "resourceType": "Procedure",
+          "subject": {
+            "reference": "Patient/141998-patient"
+          },
+          "performedDateTime": "2022-05-23",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "system": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+                "code": "G0182"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-procedure-1",
+        "resource": {
+          "resourceType": "Procedure",
+          "id": "141998-procedure-1",
+          "subject": {
+            "reference": "Patient/141998-patient"
+          },
+          "performedDateTime": "2021-11-28",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "391188004"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-claim-observation-2-2",
+        "resource": {
+          "id": "141998-claim-observation-2-2",
+          "resourceType": "Observation",
+          "code": {
+            "coding": [
+              {
+                "system": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+                "code": "G0182"
+              }
+            ]
+          },
+          "effectiveDateTime": "2022-05-23"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-procedure-observation-1",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "141998-procedure-observation-1",
+          "subject": {
+            "reference": "Patient/141998-patient"
+          },
+          "effectiveDateTime": "2021-11-28",
+          "status": "completed",
+          "code": {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "391188004"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-pharm-claim-1",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "141998-pharm-claim-1",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "pharmacy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "quantity": {
+            "value": "26"
+          },
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2021-11-18",
+              "productOrService": {
+                "coding": [
+                  {
+                    "code": "43602033405"
+                  }
+                ]
+              },
+              "quantity": {
+                "value": "26"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-pharm-claimResponse-1",
+        "resource": {
+          "resourceType": "ClaimResponse",
+          "id": "141998-pharm-claimResponse-1",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "pharmacy"
+              }
+            ]
+          },
+          "outcome": "complete",
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "request": {
+            "reference": "Claim/141998-pharm-claim-1"
+          },
+          "item": [
+            {
+              "itemSequence": 1,
+              "servicedDate": "2021-11-18",
+              "adjudication": [
+                {
+                  "category": {
+                    "coding": [
+                      {
+                        "code": "benefit"
+                      }
+                    ]
+                  },
+                  "amount": {
+                    "value": 100
+                  }
+                }
+              ]
+            }
+          ],
+          "addItem": [
+            {
+              "productOrService": {
+                "coding": [
+                  {
+                    "code": "43602033405"
+                  }
+                ]
+              },
+              "servicedDate": "2021-11-18"
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-pharm-claim-2",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "141998-pharm-claim-2",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "pharmacy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "quantity": {
+            "value": "26"
+          },
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2021-12-14",
+              "productOrService": {
+                "coding": [
+                  {
+                    "code": "76420006690"
+                  }
+                ]
+              },
+              "quantity": {
+                "value": "26"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-pharm-claim-3",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "141998-pharm-claim-3",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "pharmacy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "quantity": {
+            "value": "26"
+          },
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2022-01-09",
+              "productOrService": {
+                "coding": [
+                  {
+                    "code": "49884054601"
+                  }
+                ]
+              },
+              "quantity": {
+                "value": "26"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-pharm-claim-4",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "141998-pharm-claim-4",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "pharmacy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "quantity": {
+            "value": "26"
+          },
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2022-02-04",
+              "productOrService": {
+                "coding": [
+                  {
+                    "code": "65841060802"
+                  }
+                ]
+              },
+              "quantity": {
+                "value": "26"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-pharm-claimResponse-2",
+        "resource": {
+          "resourceType": "ClaimResponse",
+          "id": "141998-pharm-claimResponse-2",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "pharmacy"
+              }
+            ]
+          },
+          "outcome": "complete",
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "request": {
+            "reference": "Claim/141998-pharm-claim-4"
+          },
+          "item": [
+            {
+              "itemSequence": 1,
+              "servicedDate": "2022-02-04",
+              "adjudication": [
+                {
+                  "category": {
+                    "coding": [
+                      {
+                        "code": "benefit"
+                      }
+                    ]
+                  },
+                  "amount": {
+                    "value": 100
+                  }
+                }
+              ]
+            }
+          ],
+          "addItem": [
+            {
+              "productOrService": {
+                "coding": [
+                  {
+                    "code": "65841060802"
+                  }
+                ]
+              },
+              "servicedDate": "2022-02-04"
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-pharm-claim-5",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "141998-pharm-claim-5",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "pharmacy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "quantity": {
+            "value": "26"
+          },
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2022-03-02",
+              "productOrService": {
+                "coding": [
+                  {
+                    "code": "43602098415"
+                  }
+                ]
+              },
+              "quantity": {
+                "value": "26"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-pharm-claimResponse-3",
+        "resource": {
+          "resourceType": "ClaimResponse",
+          "id": "141998-pharm-claimResponse-3",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "pharmacy"
+              }
+            ]
+          },
+          "outcome": "complete",
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "request": {
+            "reference": "Claim/141998-pharm-claim-5"
+          },
+          "item": [
+            {
+              "itemSequence": 1,
+              "servicedDate": "2022-03-02",
+              "adjudication": [
+                {
+                  "category": {
+                    "coding": [
+                      {
+                        "code": "benefit"
+                      }
+                    ]
+                  },
+                  "amount": {
+                    "value": 100
+                  }
+                }
+              ]
+            }
+          ],
+          "addItem": [
+            {
+              "productOrService": {
+                "coding": [
+                  {
+                    "code": "43602098415"
+                  }
+                ]
+              },
+              "servicedDate": "2022-03-02"
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-pharm-claim-6",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "141998-pharm-claim-6",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "pharmacy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "quantity": {
+            "value": "26"
+          },
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2022-03-28",
+              "productOrService": {
+                "coding": [
+                  {
+                    "code": "10370053401"
+                  }
+                ]
+              },
+              "quantity": {
+                "value": "26"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-pharm-claim-7",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "141998-pharm-claim-7",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "pharmacy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "quantity": {
+            "value": "26"
+          },
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2022-04-23",
+              "productOrService": {
+                "coding": [
+                  {
+                    "code": "00115133201"
+                  }
+                ]
+              },
+              "quantity": {
+                "value": "26"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-pharm-claimResponse-4",
+        "resource": {
+          "resourceType": "ClaimResponse",
+          "id": "141998-pharm-claimResponse-4",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "pharmacy"
+              }
+            ]
+          },
+          "outcome": "complete",
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "request": {
+            "reference": "Claim/141998-pharm-claim-7"
+          },
+          "item": [
+            {
+              "itemSequence": 1,
+              "servicedDate": "2022-04-23",
+              "adjudication": [
+                {
+                  "category": {
+                    "coding": [
+                      {
+                        "code": "benefit"
+                      }
+                    ]
+                  },
+                  "amount": {
+                    "value": 100
+                  }
+                }
+              ]
+            }
+          ],
+          "addItem": [
+            {
+              "productOrService": {
+                "coding": [
+                  {
+                    "code": "00115133201"
+                  }
+                ]
+              },
+              "servicedDate": "2022-04-23"
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-pharm-claim-8",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "141998-pharm-claim-8",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "pharmacy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "quantity": {
+            "value": "26"
+          },
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2022-05-19",
+              "productOrService": {
+                "coding": [
+                  {
+                    "code": "00078060805"
+                  }
+                ]
+              },
+              "quantity": {
+                "value": "26"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:141998-pharm-claim-9",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "141998-pharm-claim-9",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "pharmacy"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/141998-patient"
+          },
+          "quantity": {
+            "value": "26"
+          },
+          "item": [
+            {
+              "sequence": 1,
+              "servicedDate": "2022-06-14",
+              "productOrService": {
+                "coding": [
+                  {
+                    "code": "66993059502"
+                  }
+                ]
+              },
+              "quantity": {
+                "value": "26"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+]
