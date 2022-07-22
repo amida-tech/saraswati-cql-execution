@@ -423,7 +423,7 @@ const hedisData = {
     measureIds: ['ASFA','ASFB'],
     eventsOrDiag: false,
     measureCheck: (data, _index, measureFunctions) => {
-      return measureFunctions.getAge(data) >= 18;
+      return measureFunctions.getAge(data) >= 18 && measureFunctions.getPayors(data) !== undefined;
     },
     getAge: (data) => {
       let eventDate = new Date('2022-01-01');
