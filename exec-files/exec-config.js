@@ -48,11 +48,12 @@ function measurementFileScan() {
 }
 
 function supportFileScan() {
-  if (config.supportFile != undefined) {
+  const supportFilePath = getDirFilePath(config.supportFile);
+  if (supportFilePath != undefined) {
     support = JSON.parse(
-      fs.readFileSync(path.join(__dirname, '..', config.supportFile)),
+      fs.readFileSync(supportFilePath),
       'utf-8');
-    logger.info('Support file located: ' + config.supportFile + '.');
+    logger.info('Support file located: ' + supportFilePath + '.');
   } else {
     logger.info('No support file located. Continuing without.');
   }
@@ -71,7 +72,8 @@ function librariesDirectoryScan() {
   logger.info('Library files located, count: ' + Object.keys(libraries).length + '.');
   engineLibraries = new cql.Library(measure, new cql.Repository(libraries));
   if (support != undefined) {
-    libraries[config.measurementType] = require(measure);
+    const measurementDirPath = getDirFilePath(config.measurementFile);
+    libraries[config.measurementType] = require(measurementDirPath);
     supportLibraries = new cql.Library(support, new cql.Repository(libraries));
   }
 }

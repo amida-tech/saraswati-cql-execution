@@ -60,7 +60,7 @@ async function checkArgs() {
 }
 
 const evalData = (patient) => {
-  const data = execute(patient);
+  const data = execute(patient); 
   const support = supportExecute(patient);
 
   const memberId = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
@@ -176,7 +176,7 @@ async function processFhirDirectory(dirFiles) {
       fs.writeFileSync(path.join(measuresPath, fileTitle), JSON.stringify(memberData, null, 2));
     }
     
-    appendScoreFile(memberData);
+    // appendScoreFile(memberData); 
   }
 }
 
