@@ -30,19 +30,28 @@ const patientSource = cqlfhir.PatientSource.FHIRv401();
 
 logger.info('Exec config building.');
 
+const getDirFilePath = (dirFile) => {
+  if (dirFile.startsWith('/') || dirFile.startsWith('.')) {
+    return dirFile;
+  }
+  return path.join(__dirname, '..', dirFile)
+}
+
 function measurementFileScan() {
+  const measurementFilePath = getDirFilePath(config.measurementFile);
   measure = JSON.parse(
-    fs.readFileSync(path.join(__dirname, '..', config.measurementFile)),
+    fs.readFileSync(measurementFilePath),
     'utf-8');
-  logger.info('Measurement file located: ' + config.measurementFile + '.');
+  logger.info('Measurement file located: ' + measurementFilePath + '.');
 }
 
 // You must run the measurementFileScan before this.
 function librariesDirectoryScan() {
-  let files = fs.readdirSync(config.librariesDirectory);
+  const libraryDirPath = getDirFilePath(config.librariesDirectory);
+  let files = fs.readdirSync(libraryDirPath);
   for(let file of files) {
     if (file.endsWith('.json')) {
-      const libraryFile = require(path.join('..', config.librariesDirectory, file));
+      const libraryFile = require(path.join(libraryDirPath, file));
       libraries[file.replace(/[-.]/g,'')] = libraryFile;
     }
   }
@@ -52,9 +61,10 @@ function librariesDirectoryScan() {
 
 // We can speed this up slightly by running it asynchronously. But it's not an issue right now.
 function valueSetsDirectoryCompile() {
-  let files = fs.lstatSync(config.valuesetsDirectory).isDirectory() ?
-    fs.readdirSync(config.valuesetsDirectory) :
-    [config.valuesetsDirectory];
+  const valuesetsDirPath = getDirFilePath(config.valuesetsDirectory);
+  let files = fs.lstatSync(valuesetsDirPath).isDirectory() ?
+    fs.readdirSync(valuesetsDirPath) :
+    [valuesetsDirPath];
 
   for (let file of files) {
     if (file.endsWith('.json')) {
@@ -70,7 +80,8 @@ function valueSetsDirectoryCompile() {
 }
 
 function valueSetJSONCompile(file) {
-  const vsFile = JSON.parse(fs.readFileSync(path.join(__dirname, '..', config.valuesetsDirectory, file)));
+  const valuesetsDirPath = getDirFilePath(config.valuesetsDirectory);
+  const vsFile = JSON.parse(fs.readFileSync(path.join(valuesetsDirPath, file)));
   if (!vsFile.expansion || !vsFile.expansion.contains) {
     logger.error('No "expansion.contains" found in ' + file + ', skipping.');
     return;
@@ -105,11 +116,12 @@ function valueSetJSONCompile(file) {
 // Uncommon for .js files to be in the same folders as .json files. However,
 // will check all likely locations.
 function valueSetJavaScriptCompile(file) {
+  const valuesetsDirPath = getDirFilePath(config.valuesetsDirectory);
   let filePath;
   if (fs.existsSync(path.join(__dirname, '..', file))) {
     filePath = path.join(__dirname, '..', file);
-  } else if (fs.existsSync(path.join(__dirname, '..', config.valuesetsDirectory, file))) {
-    filePath = path.join(__dirname, '..', config.valuesetsDirectory, file);
+  } else if (fs.existsSync(path.join(valuesetsDirPath, file))) {
+    filePath = path.join(valuesetsDirPath, file);
   } else {
     logger.warn('Was unable to find location of ' + file + '. Skipping addition.');
     return;
