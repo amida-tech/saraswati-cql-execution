@@ -11,8 +11,8 @@ const exchangeOrCommercial = ['CEP', 'HMO', 'POS', 'PPO', 'MEP', 'MMO', 'MOS', '
 const medicarePlans = ['MCR', 'MCS', 'MP', 'MC', 'MCR', 'SN1', 'SN2', 'SN3', 'MMP'];
 const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB', 'MCD', 'MMP'];
 const snpMeasures = []; // I don't think we'll ever have any of these for a while.
-const medicareMeasures = ['asfe', 'aise', 'fum'];
-const medicaidMeasures = ['adde', 'asfe', 'fum'];
+const medicareMeasures = ['asfe', 'aise', 'bcse', 'fum'];
+const medicaidMeasures = ['adde', 'asfe', 'bcse', 'fum'];
 const mmpMeasures = []; // As with SNPs.
 
 const providerInfo = JSON.parse(fs.readFileSync('ncqa-test-provider.json', 'utf8'));
@@ -462,7 +462,49 @@ const hedisData = {
     getPayors: (data) => getDefaultPayors(data), //Don't send age, uses matrix
   },
   bcse: {
-    measureIds: ['BCS','BCSNON','BCSLISDE','BCSDIS','BCSCMB','BCSOT']
+    measureIds: ['BCS','BCSNON','BCSLISDE','BCSDIS','BCSCMB','BCSOT'],
+    eventsOrDiag: false,
+    measureCheck: (data, index, measureFunctions) => {
+      let validPayor = false;
+      const payors = measureFunctions.getPayors(data, index);
+      if (index === 0) {
+        validPayor = payors.find((payor) => exchangeOrCommercial.includes(payor) || medicaidPlans.includes(payor));
+      } else if (index === 1) {
+        validPayor = payors.find((payor) => medicarePlans.includes(payor));
+      }
+      const age = measureFunctions.getAge(data);
+      return validPayor && age >= 18 && age <= 74 && data.gender.startsWith('f');
+    },
+    getAge: (data) => {
+      let eventDate = new Date('2022-12-31');
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      return data[data.memberId][`Initial Population`] ? 1 : 0; 
+    },
+    getEvent: (data, index) => {
+      return 0;
+    },
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index) => {
+      return data[data.memberId][`Numerator`] ? 1 : 0;
+    },
+    getRequiredExclusion: (data, index) => {
+      return data[data.memberId][`Exclusions`] ? 1 : 0;
+    },
+    getRequiredExclusionID: () => 0,
+    getPayors: (data, index) => {
+      const bcsePayors = getDefaultPayors(data);
+      if (index === 0) {
+        return bcsePayors.filter((payor) => exchangeOrCommercial.includes(payor) || medicaidPlans.includes(payor));
+      } else if (index === 1) {
+        return bcsePayors.filter((payor) => medicarePlans.includes(payor));
+      }
+      return bcsePayors;
+    }
   },
   ccs: {
     measureIds: ['CCS'],
