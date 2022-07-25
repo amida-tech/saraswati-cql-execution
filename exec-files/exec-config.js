@@ -164,11 +164,24 @@ const cleanData = patientResults => {
   const clonedPatientResults = cloneDeep(patientResults);
   Object.entries(clonedPatientResults).forEach(([patientKey, patientValue]) => {
     const patient = patientValue;
+    
     // remove Patient data - not needed
     delete patient.Patient;
     patient.id = patientKey;
   });
   return clonedPatientResults;
+};
+
+const cleanSupport = patientResults => {
+  const supportData = {}
+  Object.keys(patientResults).forEach((patientKey) => {
+    Object.keys(patientResults[patientKey]).forEach((dataKey) => {
+      if (dataKey.startsWith('Data Numerator')) {
+        supportData[dataKey] = patientResults[patientKey][dataKey];
+      }
+    });
+  });
+  return supportData;
 };
 
 const execute = (patients) => {
@@ -186,7 +199,8 @@ const execute = (patients) => {
 const supportExecute = (patients) => {
   const executor = new cql.Executor(supportLibraries, codeService, parameters, messageListener);
   patientSource.loadBundles(patients);
-  return executor.exec(patientSource);
+  const result = executor.exec(patientSource);
+  return cleanSupport(result.patientResults);
 };
 
 const hasDenominator = (patientData) => {
