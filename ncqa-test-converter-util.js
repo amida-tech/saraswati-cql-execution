@@ -162,7 +162,12 @@ const createClaimFromVisit = (visit) => {
     if (visit.ubRevenue) {
       item.revenue = { coding: [ createCode(visit.ubRevenue, 'R') ] }
     }
-    resource.item.push(item);
+    if (resource.item) {
+      resource.item.push(item);
+    } else {
+      resource.item = [ item ];
+    }
+    
     procCount += 1;
   }
 
@@ -187,7 +192,12 @@ const createClaimFromVisit = (visit) => {
     if (visit.ubRevenue) {
       item.revenue = { coding: [ createCode(visit.ubRevenue, 'R') ] }
     }
-    resource.item.push(item);
+    if (resource.item) {
+      resource.item.push(item);
+    } else {
+      resource.item = [ item ];
+    }
+    
     procCount += 1;
   }
 
