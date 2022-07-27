@@ -409,8 +409,9 @@ const hedisData = {
   apme: {
     measureIds: ['APM1','APM2','APM3'],
     eventsOrDiag: true,
-    measureCheck: (data, _index, measureFunctions) => {
-      return measureFunctions.getAge(data) < 18;
+    measureCheck: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      return payors !== undefined && payors.length > 0 && measureFunctions.getAge(data) < 18;
     },
     getAge: (data) => {
       let eventDate = new Date('2022-12-31');
