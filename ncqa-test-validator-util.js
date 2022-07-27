@@ -228,14 +228,35 @@ const hedisData = {
     measureIds: ['ADD1','ADD2'],
     eventsOrDiag: true,
     getAge: (data) => {
-      let eventDate = new Date(data[data.memberId]['Last Calendar Day of February']);
-      eventDate.setUTCHours(0,0,0,0);
-      const birthDate = new Date(data.birthDate);
-        // If you are born during a leap year, use the 29th as the last calendar day of February
-    if (birthDate.getFullYear() % 4 === 0) {
-      eventDate = new Date(eventDate.getTime() + msInADay);
-    }
-      return getAge(birthDate, eventDate);
+      const eventDate = data[data.memberId]['Last Calendar Day of February'];
+      let eventDateCompare = {};
+      const birthDate = data.birthDate.split('-');
+      const birthDateCompare = {
+        year: parseInt(birthDate[0]),
+        month: parseInt(birthDate[1]),
+        day: parseInt(birthDate[2]),
+      }
+      if (typeof eventDate === 'string' || eventDate instanceof String) {
+        const splitDate = eventDate.split('T')[0].split('-');
+        eventDateCompare = {
+          year: parseInt(splitDate[0]),
+          month: parseInt(splitDate[1]),
+          day: parseInt(splitDate[2]),
+        };
+      } else {
+        eventDateCompare = {
+          year: eventDate.year,
+          month: eventDate.month,
+          day: eventDate.day,
+        };
+      } 
+      
+      // If you are born during a leap year, use the 29th as the last calendar day of February
+      if (birthDateCompare.year % 4 === 0) {
+        eventDateCompare.day = 29;
+      }
+
+      return getAge2(birthDateCompare, eventDateCompare);
     },
     getEvent: (data, index) => {
       const appAgeWNHN = data[data.memberId]['Member is Appropriate Age and Has IPSD with Negative Medication History'];
@@ -608,6 +629,17 @@ const getAge = (birthDate, compareDate) => { // Age must be calculated against f
     totalYears -= 1;
   }
   if (compareDate.getMonth() === birthDate.getMonth() && compareDate.getDate() < birthDate.getDate()) {
+    totalYears -= 1;
+  }
+  return totalYears;
+}
+
+const getAge2 = (birthDate, compareDate) => { // Age must be calculated against first event.
+  let totalYears = compareDate.year - birthDate.year;
+  if (compareDate.month < birthDate.month) {
+    totalYears -= 1;
+  }
+  if (compareDate.month === birthDate.month && compareDate.day < birthDate.day) {
     totalYears -= 1;
   }
   return totalYears;
