@@ -910,6 +910,7 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
       if (visit.icdProcedure) {
         visit.icdProcedure.forEach((procedure) => {
           if (procedure !== '') {
+            const procCode = createCode(procedure, visit.icdIdentifier);
             const procResource = {
               id: `${visit.memberId}-visit-list-procedure-${visit.claimId}-${index + 1}`,
               resourceType: 'Procedure',
@@ -917,9 +918,20 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
               performedDateTime: convertDateString(visit.dateOfService),
               performer: [ { actor: { reference: visit.providerId, } } ],
               status: 'completed',
-              code: { coding: [ createCode(procedure, visit.icdIdentifier) ] }
+              code: { coding: [ procCode ] }
             }
             procedureList.push(procResource);
+
+            const immunoId = `${visit.memberId}-icd-immunization-${visit.claimId}-${index + 1}`;
+            const immunoResource = {
+              id: immunoId,
+              resourceType: 'Immunization',
+              patient: { reference: `Patient/${visit.memberId}-patient` },
+              status: 'completed',
+              vaccineCode: { coding: [ procCode ] },
+              occurrenceDateTime: convertDateString(visit.dateOfService),
+            }
+            procedureList.push(immunoResource);
           }
         });
       }

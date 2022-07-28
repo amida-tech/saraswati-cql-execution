@@ -12,7 +12,7 @@ const medicarePlans = ['MCR', 'MCS', 'MP', 'MC', 'MCR', 'SN1', 'SN2', 'SN3', 'MM
 const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB', 'MCD', 'MMP'];
 const snpMeasures = []; // I don't think we'll ever have any of these for a while.
 const medicareMeasures = ['asfe', 'aise', 'bcse', 'fum'];
-const medicaidMeasures = ['adde', 'asfe', 'bcse', 'ccs', 'fum'];
+const medicaidMeasures = ['adde', 'asfe', 'bcse', 'ccs', 'cise', 'fum'];
 const mmpMeasures = []; // As with SNPs.
 
 const providerInfo = JSON.parse(fs.readFileSync('ncqa-test-provider.json', 'utf8'));
@@ -568,7 +568,47 @@ const hedisData = {
     getPayors: (data, index) => getDefaultPayors(data),
   },
   cise: {
-    measureIds: ['CISDTP','CISOPV','CISMMR','CISHIB','CISHEPB','CISVZV','CISPNEU','CISHEPA','CISROTA','CISINFL','CISCMB3','CISCMB7','CISCMB10']
+    measureIds: ['CISDTP','CISOPV','CISMMR','CISHIB','CISHEPB','CISVZV','CISPNEU','CISHEPA','CISROTA','CISINFL','CISCMB3','CISCMB7','CISCMB10'],
+    measureCheck: (data, index, measureFunctions) => {
+      const age = measureFunctions.getAge(data);
+      if (age !== 2) {
+        return false;
+      }
+      if (index === 10 || index === 11) {
+        const payors = measureFunctions.getPayors(data);
+        if (payors === undefined) {
+          return 0;
+        }
+        return !exchange.includes(payors[0]);
+      }
+      return true;
+    },
+    getAge: (data) => {
+      let eventDate = new Date('2022-12-31');
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data);
+      if (payors === undefined || medicarePlans.includes(payors[0])) {
+        return 0;
+      }
+      return data[data.memberId][`Initial Population ${index + 1}`] ? 1 : 0; 
+    },
+    getEvent: (data, index) => {
+      return 0;
+    },
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getExclusion: (data) => 0,
+    getNumerator: (data, index) => {
+      return data[data.memberId][`Numerator ${index + 1}`] ? 1 : 0;
+    },
+    getRequiredExclusion: (data, index) => {
+      return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
+    },
+    getRequiredExclusionID: (data, index) => 0,
+    getPayors: (data, index) => getDefaultPayors(data),
   },
   cole: {
     measureIds: ['COL','COLNON','COLLISDE','COLDIS','COLCMB','COLOT']
