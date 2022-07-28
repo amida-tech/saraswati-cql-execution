@@ -275,8 +275,8 @@ const createDiagnosisCondition = (condition) => {
   return condObj;
 }
 
-const ambulatoryPosList = ['02', '03', '05', '07', '09', '15', '17', '18', '19',
-                        '20', '22', '24', '31', '49', '50', '52', '53', '71', '72'];
+const ambulatoryPosList = ['02', '03', '05', '07', '09', '11', '15', '17', '18', '19',
+                        '20', '22', '24', '31', '49', '50', '52', '53', '57', '58', '65', '71', '72'];
 const homeHealthPosList = ['12', '13', '14', '16', '33'];
 
 const createClaimEncounter = (encounter) => {
