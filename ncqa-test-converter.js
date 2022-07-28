@@ -538,7 +538,8 @@ const createCoverageObjects = (membershipEnrollment) => {
     if (enrollment.payor === 'HMO' || enrollment.payor === 'PPO' || enrollment.payor === 'POS'
       || enrollment.payor === 'SN1' || enrollment.payor === 'SN2' || enrollment.payor === 'SN3'
       || enrollment.payor === 'CEP' || enrollment.payor === 'MOS' || enrollment.payor === 'MPO'
-      || enrollment.payor === 'MEP') {
+      || enrollment.payor === 'MEP' || enrollment.payor === 'MMP' || enrollment.payor === 'MCR'
+      ||  enrollment.payor === 'MC' || enrollment.payor === 'MP' || enrollment.payor === 'MCS') {
       resource.type.coding.push({
         system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
         code: 'MCPOL',
@@ -546,14 +547,13 @@ const createCoverageObjects = (membershipEnrollment) => {
       });
     }
 
-    if (enrollment.payor === 'MCR' || enrollment.payor === 'MCS' || enrollment.payor === 'MP'
-      || enrollment.payor === 'MC' || enrollment.payor === 'MMP') {
+    /*if (enrollment.payor === 'MCS') {
       resource.type.coding.push({
         system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
         code: 'RETIRE',
         display: 'Retiree Health Program',
       });
-    }
+    }*/
 
     if (enrollment.payor === 'MD' || enrollment.payor === 'MDE' || enrollment.payor === 'MMO'
       || enrollment.payor === 'MLI' || enrollment.payor === 'MRB') {
@@ -909,16 +909,18 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
 
       if (visit.icdProcedure) {
         visit.icdProcedure.forEach((procedure) => {
-          const procResource = {
-            id: `${visit.memberId}-visit-list-procedure-${visit.claimId}-${index + 1}`,
-            resourceType: 'Procedure',
-            subject: { reference: `Patient/${visit.memberId}-patient`},
-            performedDateTime: convertDateString(visit.dateOfService),
-            performer: [ { actor: { reference: visit.providerId, } } ],
-            status: 'completed',
-            code: { coding: [ createCode(procedure, visit.icdIdentifier) ] }
+          if (procedure !== '') {
+            const procResource = {
+              id: `${visit.memberId}-visit-list-procedure-${visit.claimId}-${index + 1}`,
+              resourceType: 'Procedure',
+              subject: { reference: `Patient/${visit.memberId}-patient`},
+              performedDateTime: convertDateString(visit.dateOfService),
+              performer: [ { actor: { reference: visit.providerId, } } ],
+              status: 'completed',
+              code: { coding: [ createCode(procedure, visit.icdIdentifier) ] }
+            }
+            procedureList.push(procResource);
           }
-          procedureList.push(procResource);
         });
       }
     }

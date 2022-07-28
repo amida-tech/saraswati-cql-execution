@@ -48,7 +48,7 @@ const createCode = (code, systemFlag, systemType) => {
     system = systemFlag.length === 1 ? getRxSystem(systemFlag) : systemFlag;
   } else {
     // 10 PNDE Deliveries, 30 for AIS-E bone marrow, GZ for FUM Electro Therapy
-    if ((code.startsWith('10') || code.startsWith('30') || code.startsWith('GZ')) 
+    if ((code.startsWith('10') || code.startsWith('30') || code.startsWith('GZ') || code.startsWith('0UTC')) 
       && code.length === 7 && systemFlag === 'X') {
       system = getSystem('X2');
     } else {
@@ -447,7 +447,9 @@ const convertDateString = (ncqaDateString) => {
   return `${year}-${month}-${day}`;
 }
 
-const labValueSets = ['2.16.840.1.113883.3.464.1004.1769',
+const labValueSets = ['2.16.840.1.113883.3.464.1004.1525',
+                    '2.16.840.1.113883.3.464.1004.1527',
+                    '2.16.840.1.113883.3.464.1004.1769',
                     '2.16.840.1.113883.3.464.1004.1755',
                     '2.16.840.1.113883.3.464.1004.1742',
                     '2.16.840.1.113883.3.464.1004.1751'];
