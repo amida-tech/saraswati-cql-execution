@@ -978,6 +978,17 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
         }
       }
       procedureList.push(procResource);
+
+      const immunoId = `${procedure.memberId}-procedure-immunization-${index + 1}`;
+      const immunoResource = {
+        id: immunoId,
+        resourceType: 'Immunization',
+        patient: { reference: `Patient/${procedure.memberId}-patient` },
+        status: 'completed',
+        vaccineCode: { coding: [ procCode ] },
+        occurrenceDateTime: convertDateString(procedure.serviceDate),
+      }
+      procedureList.push(immunoResource);
     });
   }
 

@@ -587,6 +587,10 @@ const hedisData = {
       let eventDate = new Date('2022-12-31');
       return getAge(new Date(data.birthDate), eventDate);
     },
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getEvent: () => 0,
     getEligiblePopulation: (data, index, measureFunctions) => {
       const payors = measureFunctions.getPayors(data);
       if (payors === undefined || medicarePlans.includes(payors[0])) {
@@ -594,21 +598,15 @@ const hedisData = {
       }
       return data[data.memberId][`Initial Population ${index + 1}`] ? 1 : 0; 
     },
-    getEvent: (data, index) => {
-      return 0;
-    },
-    getContinuousEnrollment: (data) => {
-      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
-    },
-    getExclusion: (data) => 0,
+    getExclusion: () => 0,
     getNumerator: (data, index) => {
       return data[data.memberId][`Numerator ${index + 1}`] ? 1 : 0;
     },
     getRequiredExclusion: (data, index) => {
       return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
     },
-    getRequiredExclusionID: (data, index) => 0,
-    getPayors: (data, index) => getDefaultPayors(data),
+    getRequiredExclusionID: () => 0,
+    getPayors: (data) => getDefaultPayors(data),
   },
   cole: {
     measureIds: ['COL','COLNON','COLLISDE','COLDIS','COLCMB','COLOT']
