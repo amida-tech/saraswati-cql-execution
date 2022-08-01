@@ -11,7 +11,7 @@ const exchangeOrCommercial = ['CEP', 'HMO', 'POS', 'PPO', 'MEP', 'MMO', 'MOS', '
 const medicarePlans = ['MCR', 'MCS', 'MP', 'MC', 'MCR', 'SN1', 'SN2', 'SN3', 'MMP'];
 const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB', 'MCD', 'MMP'];
 const snpMeasures = []; // I don't think we'll ever have any of these for a while.
-const medicareMeasures = ['asfe', 'aise', 'bcse', 'fum'];
+const medicareMeasures = ['asfe', 'aise', 'bcse', 'cole', 'fum'];
 const medicaidMeasures = ['adde', 'asfe', 'bcse', 'ccs', 'cise', 'fum'];
 const mmpMeasures = []; // As with SNPs.
 
@@ -609,7 +609,48 @@ const hedisData = {
     getPayors: (data) => getDefaultPayors(data),
   },
   cole: {
-    measureIds: ['COL','COLNON','COLLISDE','COLDIS','COLCMB','COLOT']
+    measureIds: ['COL','COLNON','COLLISDE','COLDIS','COLCMB','COLOT'],
+    measureCheck: (data, index, measureFunctions) => {
+      let validPayor = false;
+      const payors = measureFunctions.getPayors(data, index);
+      if (index === 0) {
+        validPayor = payors.find((payor) => exchangeOrCommercial.includes(payor) || medicaidPlans.includes(payor));
+      } else if (index >= 1) {
+        validPayor = payors.find((payor) => medicarePlans.includes(payor));
+      }
+      const age = measureFunctions.getAge(data);
+      return validPayor && age >= 46 && age <= 75;
+    },
+    getAge: (data) => {
+      let eventDate = new Date('2022-12-31');
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getEvent: () => 0,
+    getEligiblePopulation: (data, _index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data);
+      if (payors === undefined || medicarePlans.includes(payors[0])) {
+        return 0;
+      }
+      return data[data.memberId]['Initial Population'] ? 1 : 0; 
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, _index) => {
+      return data[data.memberId]['Numerator'] ? 1 : 0;
+    },
+    getRequiredExclusion: (data, _index) => {
+      return data[data.memberId]['Exclusions'] ? 1 : 0;
+    },
+    getRequiredExclusionID: () => 0,
+    getPayors: (data, index) => {
+      const colePayors = getDefaultPayors(data);
+      if (index === 0) {
+        return colePayors.filter((payor) => exchangeOrCommercial.includes(payor) || medicaidPlans.includes(payor));
+      }
+      return colePayors.filter((payor) => medicarePlans.includes(payor));
+    }
   },
   cou: {
     measureIds: ['COUA','COUB']
