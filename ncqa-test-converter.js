@@ -538,7 +538,8 @@ const createCoverageObjects = (membershipEnrollment) => {
     if (enrollment.payor === 'HMO' || enrollment.payor === 'PPO' || enrollment.payor === 'POS'
       || enrollment.payor === 'SN1' || enrollment.payor === 'SN2' || enrollment.payor === 'SN3'
       || enrollment.payor === 'CEP' || enrollment.payor === 'MOS' || enrollment.payor === 'MPO'
-      || enrollment.payor === 'MEP') {
+      || enrollment.payor === 'MEP' || enrollment.payor === 'MMP' || enrollment.payor === 'MCR'
+      ||  enrollment.payor === 'MC' || enrollment.payor === 'MP' || enrollment.payor === 'MCS') {
       resource.type.coding.push({
         system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
         code: 'MCPOL',
@@ -546,14 +547,13 @@ const createCoverageObjects = (membershipEnrollment) => {
       });
     }
 
-    if (enrollment.payor === 'MCR' || enrollment.payor === 'MCS' || enrollment.payor === 'MP'
-      || enrollment.payor === 'MC' || enrollment.payor === 'MMP') {
+    /*if (enrollment.payor === 'MCS') {
       resource.type.coding.push({
         system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
         code: 'RETIRE',
         display: 'Retiree Health Program',
       });
-    }
+    }*/
 
     if (enrollment.payor === 'MD' || enrollment.payor === 'MDE' || enrollment.payor === 'MMO'
       || enrollment.payor === 'MLI' || enrollment.payor === 'MRB') {
@@ -575,32 +575,10 @@ const createCoverageObjects = (membershipEnrollment) => {
   return coverage;
 }
 
-const createConditionList = (visitList, visitEList, diagnosisList) => {
+const createConditionList = (visitEList, diagnosisList) => {
   const fullConditionList = [];
+  const visitConditionList = [];
   let conditionCount = 1;
-  if (visitList) {
-    for (const visit of visitList) {
-      if (!isValidEncounter(visit)) {
-        continue;
-      }
-      visit.icdDiagnosis.forEach((visitDiagnosis) => {
-        if (visitDiagnosis && visit.cmsPlaceOfService !== '81') {
-          const condObj = createDiagnosisCondition(
-            {
-              memberId: visit.memberId,
-              conditionId: `${visit.memberId}-visit-condition-${visit.claimId}-${conditionCount}`,
-              code: visitDiagnosis,
-              system: visit.icdIdentifier,
-              onsetDateTime: visit.dateOfService,
-              recorder: visit.providerId,
-            }
-          );
-          fullConditionList.push(condObj);
-          conditionCount += 1;
-        }
-      });
-    }
-  }
 
   if (visitEList) {
     visitEList.forEach((visitEncounter) => {
@@ -637,12 +615,13 @@ const createConditionList = (visitList, visitEList, diagnosisList) => {
     });
   }
 
-  return fullConditionList;
+  return { visitConditionList, fullConditionList };
 }
 
-const createClaimEncResponse = (visitList, visitEList, observationList, procedureList) => {
+const createClaimEncResponse = (visitEList, observationList, procedureList) => {
   const claims = [];
   const encounters = [];
+  const visitEncounters = [];
   const claimResponses = [];
 
   if (visitEList) {
@@ -743,107 +722,141 @@ const createClaimEncResponse = (visitList, visitEList, observationList, procedur
     });
   }
 
-  if (visitList) {
-    const visitEncounterList = [];
-    for (const visit of visitList) {
-      if (!isValidEncounter(visit)) {
-        continue;
+  return { claims, encounters, visitEncounters, claimResponses };
+}
+
+const createVisitClaimEncResponse = (visitList) => {
+  if (visitList === undefined || visitList.length === 0) {
+    return {};
+  }
+
+  const claimResponses = [];
+  const visitEncounters = [];
+  const claims = [];
+  const visitConditionList = [];
+  for (const visit of visitList) {
+    if (!isValidEncounter(visit)) {
+      continue;
+    }
+    const serviceCode = createServiceCodeFromVisit(visit);
+    const encounterId = `${visit.memberId}-visit-encounter-${visit.claimId}`;
+    let foundVisitMatch = false;
+    for (const visitE of visitEncounters) {
+      if (encounterId === visitE.id) {
+        if (serviceCode) {
+          if (visitE.type) {
+            visitE.type.push({ coding: [ serviceCode ] });
+          } else {
+            visitE.type = [ { coding: [ serviceCode ] } ];
+          }
+        }
+        if (visit.ubRevenue) {
+          if (visitE.type) {
+            visitE.type.push({ coding: [ createCode(visitE.ubRevenue, 'R') ] });
+          } else {
+            visitE.type = [ { coding: [ createCode(visitE.ubRevenue, 'R') ] } ];
+          }
+        }
+        foundVisitMatch = true;
+        break;
       }
-      const serviceCode = createServiceCodeFromVisit(visit);
-      const encounterId = `${visit.memberId}-visit-encounter-${visit.claimId}`;
-      let foundVisitMatch = false;
-      for (const visitE of visitEncounterList) {
-        if (encounterId === visitE.id) {
-          if (serviceCode) {
-            if (visitE.type) {
-              visitE.type.push({ coding: [ serviceCode ] });
-            } else {
-              visitE.type = [ { coding: [ serviceCode ] } ];
+    }
+    if (!foundVisitMatch) {
+      const encounter = createClaimEncounter(
+        {
+          memberId: visit.memberId,
+          encounterId,
+          period: {
+            start: visit.dateOfService,
+            end: visit.dischargeDate ? visit.dischargeDate : visit.dateOfService,
+          },
+          serviceCode,
+          cmsPlaceOfService: visit.cmsPlaceOfService,
+          ubRevenue: visit.ubRevenue,
+          serviceProvider: visit.providerId,
+          cptModOne: visit.cptModOne,
+          procedureList: visit.icdProcedure,
+          icdIdentifier: visit.icdIdentifier,
+        }
+      );
+      let conditionCount = 1;
+      visit.icdDiagnosis.forEach((visitDiagnosis, index) => {
+        if (visitDiagnosis && visit.cmsPlaceOfService !== '81') {
+          const condObj = createDiagnosisCondition(
+            {
+              memberId: visit.memberId,
+              conditionId: `${visit.memberId}-visit-condition-${visit.claimId}-${conditionCount}`,
+              code: visitDiagnosis,
+              system: visit.icdIdentifier,
+              onsetDateTime: visit.dateOfService,
+              recorder: visit.providerId,
             }
+          );
+
+          if (encounter.diagnosis === undefined) {
+            encounter.diagnosis = [ ]
           }
+          encounter.diagnosis.push(
+            { 
+              condition: { reference: condObj.id },
+              rank: index + 1,
+            }
+          );
+          visitConditionList.push(condObj);
+          conditionCount += 1;
+        }
+      });
+      visitEncounters.push(encounter);
+    }
+      
+    if (visit.supplementalData === 'N') {
+      let foundClaimMatch = false;
+      const claimId = `${visit.memberId}-visit-claim-${visit.claimId}`;
+      for (const claim of claims) {
+        if (claim.id === claimId) {
           if (visit.ubRevenue) {
-            if (visitE.type) {
-              visitE.type.push({ coding: [ createCode(visitE.ubRevenue, 'R') ] });
+            if (claim.procedure) {
+              claim.procedure.push({
+                procedureCodeableConcept: {
+                  coding: [ createCode(visit.ubRevenue, 'R') ],
+                },
+              });
             } else {
-              visitE.type = [ { coding: [ createCode(visitE.ubRevenue, 'R') ] } ];
+              claim.procedure = [{
+                procedureCodeableConcept: {
+                  coding: [ createCode(visit.ubRevenue, 'R') ],
+                },
+              }];
             }
           }
-          foundVisitMatch = true;
+          foundClaimMatch = true;
           break;
         }
       }
-      if (!foundVisitMatch) {
-        const encounter = createClaimEncounter(
-          {
-            memberId: visit.memberId,
-            encounterId,
-            period: {
-              start: visit.dateOfService,
-              end: visit.dischargeDate ? visit.dischargeDate : visit.dateOfService,
-            },
-            serviceCode,
-            cmsPlaceOfService: visit.cmsPlaceOfService,
-            ubRevenue: visit.ubRevenue,
-            serviceProvider: visit.providerId,
-            cptModOne: visit.cptModOne,
-            procedureList: visit.icdProcedure,
-            icdIdentifier: visit.icdIdentifier,
-          }
-        );
-        visitEncounterList.push(encounter);
-      }
-        
-      if (visit.supplementalData === 'N') {
-        let foundClaimMatch = false;
-        const claimId = `${visit.memberId}-visit-claim-${visit.claimId}`;
-        for (const claim of claims) {
-          if (claim.id === claimId) {
-            if (visit.ubRevenue) {
-              if (claim.procedure) {
-                claim.procedure.push({
-                  procedureCodeableConcept: {
-                    coding: [ createCode(visit.ubRevenue, 'R') ],
-                  },
-                });
-              } else {
-                claim.procedure = [{
-                  procedureCodeableConcept: {
-                    coding: [ createCode(visit.ubRevenue, 'R') ],
-                  },
-                }];
-              }
+      if (!foundClaimMatch) {
+        const visitClaim = createClaimFromVisit(visit);
+        visit.encounter = [ { reference: `Encounter/${encounterId.id}` } ];
+        claims.push(visitClaim);
+
+        if (visit.claimStatus == 1 && serviceCode) {
+          const responseResource = createClaimResponse(
+            {
+              idName: 'visit-claimResponse',
+              claimType: professionalClaimType(),
+              memberId: visit.memberId,
+              claimId: visit.claimId,
+              fullClaimId: visitClaim.id,
+              serviceDate: visit.dateOfService,
+              serviceCode: serviceCode,
             }
-            foundClaimMatch = true;
-            break;
-          }
+          );
+          claimResponses.push(responseResource);
         }
-        if (!foundClaimMatch) {
-          const visitClaim = createClaimFromVisit(visit);
-          visit.encounter = [ { reference: `Encounter/${encounterId.id}` } ];
-          claims.push(visitClaim);
-
-          if (visit.claimStatus == 1 && serviceCode) {
-            const responseResource = createClaimResponse(
-              {
-                idName: 'visit-claimResponse',
-                claimType: professionalClaimType(),
-                memberId: visit.memberId,
-                claimId: visit.claimId,
-                fullClaimId: visitClaim.id,
-                serviceDate: visit.dateOfService,
-                serviceCode: serviceCode,
-              }
-            );
-            claimResponses.push(responseResource);
-          }
-        }
-      }  
-    }
-
-    visitEncounterList.forEach((visitE) => encounters.push(visitE));
+      }
+    }  
   }
 
-  return { claims, encounters, claimResponses };
+  return { visitEncounters, visitConditionList, claims, claimResponses }
 }
 
 const linkConditionsToEncounters = (conditions, encounters) => {
@@ -896,16 +909,18 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
 
       if (visit.icdProcedure) {
         visit.icdProcedure.forEach((procedure) => {
-          const procResource = {
-            id: `${visit.memberId}-visit-list-procedure-${visit.claimId}-${index + 1}`,
-            resourceType: 'Procedure',
-            subject: { reference: `Patient/${visit.memberId}-patient`},
-            performedDateTime: convertDateString(visit.dateOfService),
-            performer: [ { actor: { reference: visit.providerId, } } ],
-            status: 'completed',
-            code: { coding: [ createCode(procedure, visit.icdIdentifier) ] }
+          if (procedure !== '') {
+            const procResource = {
+              id: `${visit.memberId}-visit-list-procedure-${visit.claimId}-${index + 1}`,
+              resourceType: 'Procedure',
+              subject: { reference: `Patient/${visit.memberId}-patient`},
+              performedDateTime: convertDateString(visit.dateOfService),
+              performer: [ { actor: { reference: visit.providerId, } } ],
+              status: 'completed',
+              code: { coding: [ createCode(procedure, visit.icdIdentifier) ] }
+            }
+            procedureList.push(procResource);
           }
-          procedureList.push(procResource);
         });
       }
     }
@@ -1291,10 +1306,9 @@ async function createFhirJson(testDirectory, allMemberInfo) {
     const coverage = createCoverageObjects(memberInfo.membershipEnrollment);
     coverage.forEach((cov) => fhirObject.entry.push(cov));
 
-    const conditions = createConditionList(memberInfo.visit, memberInfo.visitEncounter, memberInfo.diagnosis);
+    const conditions = createConditionList(memberInfo.visitEncounter, memberInfo.diagnosis);
 
     const claimEncResponse = createClaimEncResponse(
-      memberInfo.visit,
       memberInfo.visitEncounter,
       memberInfo.observation,
       memberInfo.procedure
@@ -1314,7 +1328,7 @@ async function createFhirJson(testDirectory, allMemberInfo) {
       });
     });
 
-    linkConditionsToEncounters(conditions, claimEncResponse.encounters);
+    linkConditionsToEncounters(conditions.fullConditionList, claimEncResponse.encounters);
 
     claimEncResponse.encounters.forEach((encounter) => {
       fhirObject.entry.push({
@@ -1323,12 +1337,50 @@ async function createFhirJson(testDirectory, allMemberInfo) {
       });
     });
 
-    conditions.forEach((condition) => {
+    conditions.fullConditionList.forEach((condition) => {
       fhirObject.entry.push({
         fullUrl: `urn:uuid:${condition.id}`,
         resource: condition,
       });
     });
+
+    const visitClaimEncResponse = createVisitClaimEncResponse(memberInfo.visit);
+
+    if (visitClaimEncResponse.claimResponses) {
+      visitClaimEncResponse.claimResponses.forEach((claimResponse) => {
+        fhirObject.entry.push({
+          fullUrl: `urn:uuid:${claimResponse.id}`,
+          resource: claimResponse,
+        });
+      });
+    }
+
+    if (visitClaimEncResponse.claims) {
+      visitClaimEncResponse.claims.forEach((claimResponse) => {
+        fhirObject.entry.push({
+          fullUrl: `urn:uuid:${claimResponse.id}`,
+          resource: claimResponse,
+        });
+      });
+    }
+
+    if (visitClaimEncResponse.visitEncounters) {
+      visitClaimEncResponse.visitEncounters.forEach((claimResponse) => {
+        fhirObject.entry.push({
+          fullUrl: `urn:uuid:${claimResponse.id}`,
+          resource: claimResponse,
+        });
+      });
+    }
+
+    if (visitClaimEncResponse.visitConditionList) {
+      visitClaimEncResponse.visitConditionList.forEach((claimResponse) => {
+        fhirObject.entry.push({
+          fullUrl: `urn:uuid:${claimResponse.id}`,
+          resource: claimResponse,
+        });
+      });
+    }
 
     const procedures = createProcedureList(
       memberInfo.visit,
