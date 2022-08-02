@@ -34,6 +34,31 @@ const snpHelper = (payor) => {
   return ['MCR'];
 }
 
+const ethnicityMap = { // Race Map is 1 for 1 to answers.
+  11: 1, // Hispanic or Latino
+  12: 2, // Not Hispanic or Latino
+  18: 3, // Asked but No Answer
+  19: 4, // Unknown ethnicity
+}
+
+const raceEthnicDSMap = {
+ 21: 1, // Direct CMS Databases RaceDS
+ 22: 1, // Direct State Databases RaceDS
+ 23: 2, // Indirect Surname Analysis RaceDS
+ 24: 2, // Indirect Geo-Coding Analysis RaceDS
+ 25: 1, // Direct Health Plan Direct RaceDS
+ 28: 0, // Unknown Data Collection method, HPDI only should not come up, RaceDS
+ 29: 1, // Other Direct RaceDS
+ 91: 1, // Direct CMS Databases EthnicityDS
+ 92: 1, // Direct State Databases EthnicityDS
+ 93: 2, // Indirect Surname Analysis EthnicityDS
+ 94: 2, // Indirect Geo-Coding Analysis EthnicityDS
+ 95: 1, // Direct Health Plan Direct EthnicityDS
+ 98: 0, // Unknown Data Collcetion method, HPDI only should not come up, EthnicityDS
+ 99: 1, // Other Direct EthnicityDS
+}
+
+
 const mmpMatrix = () => {
   if (insPref.medicare && insPref.medicaid && insPref.mmp) {
     return [ 'MCD', 'MCR', 'MMP' ];
@@ -610,6 +635,7 @@ const hedisData = {
   },
   cole: {
     measureIds: ['COL','COLNON','COLLISDE','COLDIS','COLCMB','COLOT'],
+    raceRequired: true,
     measureCheck: (data, index, measureFunctions) => {
       let validPayor = false;
       const payors = measureFunctions.getPayors(data, index);
@@ -859,4 +885,4 @@ const getRequiredExclusion = (data, index) => {
   } // There's also 2 or 3 for DMS measures, the PHQ-9 measure.
 }
 
-module.exports = { getAge, getContinuousEnrollment, getEligiblePopulation, getEvent, getExclusion, getNumerator, getRequiredExclusion, hedisData };
+module.exports = { getAge, getContinuousEnrollment, getEligiblePopulation, getEvent, getExclusion, getNumerator, getRequiredExclusion, ethnicityMap, raceEthnicDSMap, hedisData };
