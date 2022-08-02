@@ -423,6 +423,7 @@ async function readMmdf(testDirectory, memberInfo) {
           paymentDate:      extractValue(text, 14, 6),
           beneficiaryId:    extractValue(text, 20, 12), 
           hospice:          extractValue(text, 61, 1),
+          lti:              extractValue(text, 67, 1),
           orec:             extractValue(text, 192, 1),
         });
       }
@@ -492,7 +493,7 @@ const createPatientFhirObject = (generalMembership) => {
   return patient;
 }
 
-const createCoverageObjects = (membershipEnrollment) => {
+const createCoverageObjects = (membershipEnrollment, mmdfList) => {
   const coverage = [];
   let count = 1;
   
@@ -500,7 +501,7 @@ const createCoverageObjects = (membershipEnrollment) => {
     const coverageId = `${enrollment.memberId}-coverage-${count}`;
 
     const resource = {
-      resourceType: "Coverage",
+      resourceType: 'Coverage',
       id: coverageId,
       type: { coding: [] },
       patient: { reference: `Patient/${enrollment.memberId}-patient` },
@@ -510,6 +511,23 @@ const createCoverageObjects = (membershipEnrollment) => {
         end: convertDateString(enrollment.disenrollmentDate),
       }
     };
+
+    const coverageStart = new Date(convertDateString(enrollment.startDate));
+    const coverageEnd = new Date(convertDateString(enrollment.disenrollmentDate));
+
+    if (mmdfList) {
+      for (const mmdfField of mmdfList) {
+        const mmdfDate = new Date(convertDateString(mmdfField.runDate));
+        if (mmdfField.lti === 'Y' && mmdfDate >= coverageStart && mmdfDate <= coverageEnd) { // James
+          resource.type.coding.push({
+            system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
+            code: 'LTC',
+            display: 'Long Term Care',
+          });
+          break;
+        }
+      }
+    }
 
     if (enrollment.drugBenefit === 'Y') {
       resource.type.coding.push({
@@ -1326,7 +1344,7 @@ async function createFhirJson(testDirectory, allMemberInfo) {
       resource: patient,
     }];
   
-    const coverage = createCoverageObjects(memberInfo.membershipEnrollment);
+    const coverage = createCoverageObjects(memberInfo.membershipEnrollment, memberInfo.mmdf);
     coverage.forEach((cov) => fhirObject.entry.push(cov));
 
     const conditions = createConditionList(memberInfo.visitEncounter, memberInfo.diagnosis);
