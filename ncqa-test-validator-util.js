@@ -11,8 +11,8 @@ const exchangeOrCommercial = ['CEP', 'HMO', 'POS', 'PPO', 'MEP', 'MMO', 'MOS', '
 const medicarePlans = ['MCR', 'MCS', 'MP', 'MC', 'MCR', 'SN1', 'SN2', 'SN3', 'MMP'];
 const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB', 'MCD', 'MMP'];
 const snpMeasures = []; // I don't think we'll ever have any of these for a while.
-const medicareMeasures = ['asfe', 'aise', 'bcse', 'cole', 'fum'];
-const medicaidMeasures = ['adde', 'asfe', 'bcse', 'ccs', 'cise', 'fum'];
+const medicareMeasures = ['asfe', 'aise', 'bcse', 'cole', 'cou', 'fum'];
+const medicaidMeasures = ['adde', 'asfe', 'bcse', 'ccs', 'cise', 'cou', 'fum'];
 const mmpMeasures = []; // As with SNPs.
 
 const providerInfo = JSON.parse(fs.readFileSync('ncqa-test-provider.json', 'utf8'));
@@ -653,7 +653,45 @@ const hedisData = {
     }
   },
   cou: {
-    measureIds: ['COUA','COUB']
+    measureIds: ['COUA','COUB'],
+    measureCheck: (data) => {
+      return data[data.memberId]['Member is Appropriate Age and Has IPSD with Negative Medication History'];
+    },
+    getAge: (data) => {
+      let eventDate = new Date(data[data.memberId]['November 1 of Year Prior to Measurement Period']);
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getEvent: () => 1,
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data);
+      if (payors === undefined 
+        || exchange.includes(payors[0])) {
+        return 0;
+      }
+      return data[data.memberId][`Initial Population ${index + 1}`] ? 1 : 0; 
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index) => {
+      return data[data.memberId][`Numerator ${index + 1}`] ? 1 : 0;
+    },
+    getRequiredExclusion: () => 0,
+    getRequiredExclusionID: (data, index) => {
+      return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
+    },
+    getPayors: (data) => {
+      const memberCoverage = data[data.memberId]['Member Coverage'];
+      const prescStartDate = new Date(data[data.memberId]['Index Prescription Start Date']);
+      let foundPayors = memberCoverage
+        .filter((coverage) => {
+          return new Date(coverage.period.start.value).getTime() <= prescStartDate.getTime()
+            && new Date(coverage.period.end.value).getTime() >= prescStartDate.getTime();
+        })
+        .map((coverage) => coverageMap(coverage));
+      return getValidPayors(foundPayors, undefined, memberCoverage);
+    },
   },
   cwp: {
     measureIds: ['CWPA','CWPB'],
