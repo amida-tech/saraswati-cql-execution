@@ -831,6 +831,35 @@ const hedisData = {
   psa: {
     measureIds: ['PSA'],
     measureCheck: () => true,
+    getAge: () => getAge(new Date(data.birthDate), new Date('2022-12-31')),
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getEvent: () => 1,
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data);
+      if (payors === undefined 
+        || exchange.includes(payors[0])) {
+        return 0;
+      }
+      return data[data.memberId][`Initial Population ${index + 1}`] ? 1 : 0; 
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, _index) => data[data.memberId]['Numerator'] ? 1 : 0,
+    getRequiredExclusion: () => 0,
+    getRequiredExclusionID: (data, _index) => data[data.memberId]['Exclusions'] ? 1 : 0,
+    getPayors: (data) => {
+      const memberCoverage = data[data.memberId]['Member Coverage'];
+      const prescStartDate = new Date(data[data.memberId]['Index Prescription Start Date']);
+      let foundPayors = memberCoverage
+        .filter((coverage) => {
+          return new Date(coverage.period.start.value).getTime() <= prescStartDate.getTime()
+            && new Date(coverage.period.end.value).getTime() >= prescStartDate.getTime();
+        })
+        .map((coverage) => coverageMap(coverage));
+      return getValidPayors(foundPayors, undefined, memberCoverage);
+    },
+    
   },
   uop: {
     measureIds: ['UOPA','UOPB','UOPC']
