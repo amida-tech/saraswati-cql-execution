@@ -33,7 +33,7 @@
     "axios": "^0.21.4",
     "body-parser": "^1.19.1",
     "cql-exec-fhir": "^2.0.1",
-    "cql-execution": "^2.3.3",
+    "cql-execution": "^2.4.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "express-actuator": "^1.7.1",
