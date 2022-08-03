@@ -36,7 +36,7 @@
     "cql-execution": "^2.3.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
-    "express-actuator": "^1.7.1",
+    "express-actuator": "^1.8.2",
     "joi": "^17.4.0",
     "jsonl": "^1.1.2",
     "kafkajs": "^1.15.0",
