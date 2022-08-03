@@ -57,25 +57,44 @@ const getDefaultPayors = (data, age) => {
 const hedisData = {
   aab: {
     measureIds: ['AABA','AABB'],
-    denCount: 1,
-    denArray: true,
     eventsOrDiag: true,
-    getAge: (data, index) => { // Age must be calculated against first event.
-      let eventDate = new Date(data[data.memberId]['Encounter with Acute Bronchitis or Bronchiolitis'][index].low);
-      const ageInMilliseconds = new Date(eventDate) - new Date(data.birthDate);
-      return Math.floor(ageInMilliseconds / msInAYear);
+    measureCheck: (data, index, measureFunctions) => {
+      if (index === 0) {
+        return data[data.memberId]['Qualifying Episodes Without Exclusions'].length > 0;
+      }
+      return data[data.memberId]['Qualifying Episodes Without Exclusions'].length > 1;
     },
-    ageArray: true, // If true, will use the provided index to get the current event's date. Else assumes it's a single date.
+    getAge: (data, index) => { // Age must be calculated against first event.
+      const event = data[data.memberId]['Encounter with Acute Bronchitis or Bronchiolitis'][index];
+      let eventDate = {}
+      if (event) {
+        eventDate = new Date(data[data.memberId]['Encounter with Acute Bronchitis or Bronchiolitis'][index].low);
+      } else {
+        eventDate = new Date('2022-01-01');
+      }
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getEvent: () => 1,
     getContinuousEnrollment: (data) => {
       return data[data.memberId]['Episode Date'].length >= 1 ? 1 : 0;
     },
-    ceKey: 'Episode Date', // The key for Continuous Enrollment.
-    ceArray: true,
-    eventKey: 'Encounter with Acute Bronchitis or Bronchiolitis',
-    eventArray: true,
-    reqExKey: 'Episodes with Hospice Intervention or Encounter',
-    reqExArray: true,
-    measureCheck: secondQualifyingEpisodeCheck,
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors === undefined) {
+        return false;
+      }
+      const payor = payors[0];
+      return !exchange.includes(payor) ? 1 : 0;
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index) => {
+      return data[data.memberId][`Numerator`][index + 1] !== undefined ? 1 : 0;
+    },
+    getRequiredExclusion: (data, index) => {
+      return data[data.memberId][`Exclusions`][index + 1] !== undefined  ? 1 : 0;
+    },
+    getRequiredExclusionID: () => 0,
+    getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
   },
   adde: {
     measureIds: ['ADD1','ADD2'],

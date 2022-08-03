@@ -12,6 +12,11 @@ const medicaidMeasures = ['adde', 'aise', 'asfe', 'bcse', 'ccs', 'cise', 'cou', 
 const mmpMeasures = []; // As with SNPs.
 
 const measurePlanInfo = {
+  aab: {
+    commercial: {},
+    medicaid: {},
+    medicare: {},
+  },
   adde: {
     commercial: {},
     medicaid: {},
