@@ -48,7 +48,7 @@
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
     "winston-json-formatter": "^0.10.0",
-    "yarn": "^1.22.17"
+    "yarn": "^1.22.19"
   },
   "resolutions": {
     "glob-parent": "^5.1.2"
