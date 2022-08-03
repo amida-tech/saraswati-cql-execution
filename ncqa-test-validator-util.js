@@ -1,38 +1,14 @@
 const fs = require('fs');
 const config = require('./config');
 const measure = config.measurementType;
+const { getValidPayors, isValidCommercial, 
+  isValidExchange, isValidMedicaid, isValidMedicare,
+  exchange, medicarePlans, medicaidPlans, commercial } = require('./ncqa-test-payer-util');
 
 const msInADay = 1000 * 60 * 60 * 24;
 const msInAYear = msInADay * 365.242; //.242;
 
-const exchange = ['MEP', 'MMO', 'MOS', 'MPO'];
-const commercial = ['CEP', 'HMO', 'POS', 'PPO'];
-const exchangeOrCommercial = ['CEP', 'HMO', 'POS', 'PPO', 'MEP', 'MMO', 'MOS', 'MPO'];
-const medicarePlans = ['MCR', 'MCS', 'MP', 'MC', 'MCR', 'SN1', 'SN2', 'SN3', 'MMP'];
-const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB', 'MCD', 'MMP'];
-const snpMeasures = []; // I don't think we'll ever have any of these for a while.
-const medicareMeasures = ['asfe', 'aise', 'bcse', 'cole', 'cou', 'fum'];
-const medicaidMeasures = ['adde', 'asfe', 'bcse', 'ccs', 'cise', 'cou', 'fum'];
-const mmpMeasures = []; // As with SNPs.
-
 const providerInfo = JSON.parse(fs.readFileSync('ncqa-test-provider.json', 'utf8'));
-
-const insPref = {
-  snp: snpMeasures.find((snpMeasure) => snpMeasure === measure),
-  medicare: medicareMeasures.find((medicareMeasure) => medicareMeasure === measure),
-  medicaid: medicaidMeasures.find((medicaidMeasure) => medicaidMeasure === measure),
-  mmp: mmpMeasures.find((mmpMeasure) => mmpMeasure === measure),
-};
-
-const snpHelper = (payor) => {
-  if (insPref.medicare && insPref.snp) {
-    return ['MCR', payor];
-  } 
-  if (!insPref.medicare && insPref.snp) {
-    return [payor];
-  }
-  return ['MCR'];
-}
 
 const ethnicityMap = { // Race Map is 1 for 1 to answers.
   11: 1, // Hispanic or Latino
@@ -56,154 +32,6 @@ const raceEthnicDSMap = {
  95: 1, // Direct Health Plan Direct EthnicityDS
  98: 0, // Unknown Data Collcetion method, HPDI only should not come up, EthnicityDS
  99: 1, // Other Direct EthnicityDS
-}
-
-
-const mmpMatrix = () => {
-  if (insPref.medicare && insPref.medicaid && insPref.mmp) {
-    return [ 'MCD', 'MCR', 'MMP' ];
-  } else if (insPref.medicare && !insPref.medicaid && insPref.mmp) {
-    return [ 'MCR', 'MMP' ];
-  } else if (insPref.medicare && insPref.medicaid && !insPref.mmp) {
-    return [ 'MCD', 'MCR' ];
-  } else if (insPref.medicare && !insPref.medicaid && !insPref.mmp) {
-    return [ 'MCR' ];
-  } else if (!insPref.medicare && insPref.medicaid && !insPref.mmp) {
-    return [ 'MCD' ];
-  } else if (!insPref.medicare && !insPref.medicaid && insPref.mmp) {
-    return [ 'MMP' ];
-  }
-}
-
-const mmpHelper = (age) => {
-  if (age) {
-    return age < 66 ? [ 'MCD' ] : [ 'MCR' ];
-  }
-  return mmpMatrix();
-}
-
-const payorMap = (payor, age) => {
-  if (payor.startsWith('SN')) {
-    return snpHelper(payor);
-  } else if (payor === 'MMP') {
-    return mmpHelper(age);
-  } else if (payor === 'MDE' || payor === 'MD' || payor === 'MLI' || payor === 'MRB') {
-    return [ 'MCD' ];
-  } else {
-    return [ payor ];
-  }
-}
-
-const getPayors = (payor, age) => {
-  if (Array.isArray(payor)) {
-    const finalArray = [];
-    payor.forEach((pay) => {
-      payorMap(pay, age).forEach((map) => finalArray.push(map));
-    });
-    return finalArray;
-  }
-
-  return payorMap(payor, age);
-}
-
-const getPreferredPayor = (latestCoverage) => {
-  if (latestCoverage.length === 1) {
-    return latestCoverage[0].payor;
-  }
-  const foundMedicare = [];
-  const foundMedicaid = [];
-  // Check if any are commercial plans
-  let anyCommercial = false;
-  let allCommercial = true;
-  for (const cov of latestCoverage) {
-    if (exchangeOrCommercial.includes(cov.payor)) {
-      anyCommercial = true;
-      continue;
-    }
-    allCommercial = false;
-    if (medicarePlans.includes(cov.payor)) {
-      foundMedicare.push(cov.payor);
-    }
-    if (medicaidPlans.includes(cov.payor)) {
-      foundMedicaid.push(cov.payor);
-    }
-  }
-
-  // If all commercial, use all
-  if (allCommercial) {
-    return latestCoverage.map((coverage) => coverage.payor)
-  }
-
-  // if any commercial plans exist use last item
-  if (anyCommercial) {
-    return latestCoverage[latestCoverage.length - 1].payor;
-  }
-
-  const combined = [];
-  if (insPref.medicaid) {
-    foundMedicaid.forEach((cov) => combined.push(cov));
-  }
-
-  if (insPref.medicare) {
-    foundMedicare.forEach((cov) => combined.push(cov));
-  }
-
-  if (combined.length > 0) {
-    return combined;
-  }
-
-  return latestCoverage[latestCoverage.length - 1].payor;
-}
-
-const getPayorArray = (foundPayors, age) => {
-  // Now that we have the latest for the participation period, find the latest one
-  let latestCoverage = [];
-  for (const found of foundPayors) {
-    if (latestCoverage.length === 0) {
-      latestCoverage.push(found);
-      continue;
-    }
-    if (latestCoverage[0].date < found.date) {
-      latestCoverage = [found];
-    } else if (latestCoverage[0].date == found.date) {
-      latestCoverage.push(found);
-    }
-  }
-  // if we have one, use that
-  if (latestCoverage.length === 1) {
-    return getPayors(latestCoverage[0].payor, age);
-  }
-  // if we have more than one we need to decide to either choose one or all
-  return getPayors(getPreferredPayor(latestCoverage), age);      
-}
-
-const getValidPayors = (foundPayors, age, memberCoverage) => {
-  if (foundPayors === undefined || foundPayors.length === 0) {
-    if (memberCoverage.length === 0) {
-      console.log('No coverage exists');
-      return;
-    }
-    
-    foundPayors = memberCoverage[memberCoverage.length - 1].payor[0].reference.value;
-    return getPayors(foundPayors, age);
-  }
-  return getPayorArray(foundPayors, age);
-}
-
-const isValidCommercial = (payor, age) => {
-  return commercial.includes(payor) && age >= 18 && age < 66;
-}
-
-const isValidExchange = (payor, age) => {
-  return exchange.includes(payor) && age >= 18;
-}
-
-const isValidMedicaid = (payor, age) => {
-  return medicaidPlans.includes(payor) && age >= 18 && age < 66;
-}
-
-const isValidMedicare = (payor, age) => {
-  return medicarePlans.includes(payor) && age > 65;
 }
 
 const secondQualifyingEpisodeCheck = (data, index) => {
@@ -728,7 +556,49 @@ const hedisData = {
   },
   dmse: {
     measureIds: ['DMS'],
-    measureCheck: () => true,
+    measureCheck: (data, index, measureFunctions) => {
+      let payor = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payor === undefined) {
+        return false;
+      }
+      payor = payor[0];
+      if (medicarePlans.includes(payor) && measureFunctions.getAge(data) < 18) {
+        return false;
+      }
+      return measureFunctions.getAge(data) >= 12;
+    },
+    getAge: (data) => {
+      let eventDate = new Date('2022-01-01');
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getEvent: (data) => {
+      return ((data[data.memberId]['Event 1'] ? 1 : 0)
+        + (data[data.memberId]['Event 2'] ? 1 : 0)
+        + (data[data.memberId]['Event 3'] ? 1 : 0));
+    },
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      const payor = measureFunctions.getPayors(data, index, measureFunctions)[0];
+      if (exchange.includes(payor)) {
+        return 0;
+      }
+      return ((data[data.memberId]['Initial Population 1'] ? 1 : 0)
+      + (data[data.memberId]['Initial Population 2'] ? 1 : 0)
+      + (data[data.memberId]['Initial Population 3'] ? 1 : 0));
+    },
+    getExclusion: () => 0,
+    getNumerator: (data) => {
+      return ((data[data.memberId]['Numerator 1'] ? 1 : 0)
+        + (data[data.memberId]['Numerator 2'] ? 1 : 0)
+        + (data[data.memberId]['Numerator 3'] ? 1 : 0));
+    },
+    getRequiredExclusion: (data, index) => {
+      return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
+    },
+    getRequiredExclusionID: () => 0,
+    getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
   },
   drre: {
     measureIds: ['DRRA','DRRB','DRRC']
