@@ -1,184 +1,37 @@
 const fs = require('fs');
 const config = require('./config');
 const measure = config.measurementType;
+const { getValidPayors, isValidCommercial, 
+  isValidExchange, isValidMedicaid, isValidMedicare,
+  exchange, medicarePlans, medicaidPlans, commercial } = require('./ncqa-test-payer-util');
 
 const msInADay = 1000 * 60 * 60 * 24;
 const msInAYear = msInADay * 365.242; //.242;
 
-const exchange = ['MEP', 'MMO', 'MOS', 'MPO'];
-const commercial = ['CEP', 'HMO', 'POS', 'PPO'];
-const exchangeOrCommercial = ['CEP', 'HMO', 'POS', 'PPO', 'MEP', 'MMO', 'MOS', 'MPO'];
-const medicarePlans = ['MCR', 'MCS', 'MP', 'MC', 'MCR', 'SN1', 'SN2', 'SN3', 'MMP'];
-const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB', 'MCD', 'MMP'];
-const snpMeasures = []; // I don't think we'll ever have any of these for a while.
-const medicareMeasures = ['asfe', 'aise', 'fum'];
-const medicaidMeasures = ['adde', 'asfe', 'fum'];
-const mmpMeasures = []; // As with SNPs.
-
 const providerInfo = JSON.parse(fs.readFileSync('ncqa-test-provider.json', 'utf8'));
 
-const insPref = {
-  snp: snpMeasures.find((snpMeasure) => snpMeasure === measure),
-  medicare: medicareMeasures.find((medicareMeasure) => medicareMeasure === measure),
-  medicaid: medicaidMeasures.find((medicaidMeasure) => medicaidMeasure === measure),
-  mmp: mmpMeasures.find((mmpMeasure) => mmpMeasure === measure),
-};
-
-const snpHelper = (payor) => {
-  if (insPref.medicare && insPref.snp) {
-    return ['MCR', payor];
-  } 
-  if (!insPref.medicare && insPref.snp) {
-    return [payor];
-  }
-  return ['MCR'];
+const ethnicityMap = { // Race Map is 1 for 1 to answers.
+  11: 1, // Hispanic or Latino
+  12: 2, // Not Hispanic or Latino
+  18: 3, // Asked but No Answer
+  19: 4, // Unknown ethnicity
 }
 
-const mmpMatrix = () => {
-  if (insPref.medicare && insPref.medicaid && insPref.mmp) {
-    return [ 'MCD', 'MCR', 'MMP' ];
-  } else if (insPref.medicare && !insPref.medicaid && insPref.mmp) {
-    return [ 'MCR', 'MMP' ];
-  } else if (insPref.medicare && insPref.medicaid && !insPref.mmp) {
-    return [ 'MCD', 'MCR' ];
-  } else if (insPref.medicare && !insPref.medicaid && !insPref.mmp) {
-    return [ 'MCR' ];
-  } else if (!insPref.medicare && insPref.medicaid && !insPref.mmp) {
-    return [ 'MCD' ];
-  } else if (!insPref.medicare && !insPref.medicaid && insPref.mmp) {
-    return [ 'MMP' ];
-  }
-}
-
-const mmpHelper = (age) => {
-  if (age) {
-    return age < 66 ? [ 'MCD' ] : [ 'MCR' ];
-  }
-  return mmpMatrix();
-}
-
-const payorMap = (payor, age) => {
-  if (payor.startsWith('SN')) {
-    return snpHelper(payor);
-  } else if (payor === 'MMP') {
-    return mmpHelper(age);
-  } else if (payor === 'MDE' || payor === 'MD' || payor === 'MLI' || payor === 'MRB') {
-    return [ 'MCD' ];
-  } else {
-    return [ payor ];
-  }
-}
-
-const getPayors = (payor, age) => {
-  if (Array.isArray(payor)) {
-    const finalArray = [];
-    payor.forEach((pay) => {
-      payorMap(pay, age).forEach((map) => finalArray.push(map));
-    });
-    return finalArray;
-  }
-
-  return payorMap(payor, age);
-}
-
-const getPreferredPayor = (latestCoverage) => {
-  if (latestCoverage.length === 1) {
-    return latestCoverage[0].payor;
-  }
-  const foundMedicare = [];
-  const foundMedicaid = [];
-  // Check if any are commercial plans
-  let anyCommercial = false;
-  let allCommercial = true;
-  for (const cov of latestCoverage) {
-    if (exchangeOrCommercial.includes(cov.payor)) {
-      anyCommercial = true;
-      continue;
-    }
-    allCommercial = false;
-    if (medicarePlans.includes(cov.payor)) {
-      foundMedicare.push(cov.payor);
-    }
-    if (medicaidPlans.includes(cov.payor)) {
-      foundMedicaid.push(cov.payor);
-    }
-  }
-
-  // If all commercial, use all
-  if (allCommercial) {
-    return latestCoverage.map((coverage) => coverage.payor)
-  }
-
-  // if any commercial plans exist use last item
-  if (anyCommercial) {
-    return latestCoverage[latestCoverage.length - 1].payor;
-  }
-
-  const combined = [];
-  if (insPref.medicaid) {
-    foundMedicaid.forEach((cov) => combined.push(cov));
-  }
-
-  if (insPref.medicare) {
-    foundMedicare.forEach((cov) => combined.push(cov));
-  }
-
-  if (combined.length > 0) {
-    return combined;
-  }
-
-  return latestCoverage[latestCoverage.length - 1].payor;
-}
-
-const getPayorArray = (foundPayors, age) => {
-  // Now that we have the latest for the participation period, find the latest one
-  let latestCoverage = [];
-  for (const found of foundPayors) {
-    if (latestCoverage.length === 0) {
-      latestCoverage.push(found);
-      continue;
-    }
-    if (latestCoverage[0].date < found.date) {
-      latestCoverage = [found];
-    } else if (latestCoverage[0].date == found.date) {
-      latestCoverage.push(found);
-    }
-  }
-  // if we have one, use that
-  if (latestCoverage.length === 1) {
-    return getPayors(latestCoverage[0].payor, age);
-  }
-  // if we have more than one we need to decide to either choose one or all
-  return getPayors(getPreferredPayor(latestCoverage), age);      
-}
-
-const getValidPayors = (foundPayors, age, memberCoverage) => {
-  if (foundPayors === undefined || foundPayors.length === 0) {
-    if (memberCoverage.length === 0) {
-      console.log('No coverage exists');
-      return;
-    }
-    
-    foundPayors = memberCoverage[memberCoverage.length - 1].payor[0].reference.value;
-    return getPayors(foundPayors, age);
-  }
-  return getPayorArray(foundPayors, age);
-}
-
-const isValidCommercial = (payor, age) => {
-  return commercial.includes(payor) && age >= 18 && age < 66;
-}
-
-const isValidExchange = (payor, age) => {
-  return exchange.includes(payor) && age >= 18;
-}
-
-const isValidMedicaid = (payor, age) => {
-  return medicaidPlans.includes(payor) && age >= 18 && age < 66;
-}
-
-const isValidMedicare = (payor, age) => {
-  return medicarePlans.includes(payor) && age > 65;
+const raceEthnicDSMap = {
+ 21: 1, // Direct CMS Databases RaceDS
+ 22: 1, // Direct State Databases RaceDS
+ 23: 2, // Indirect Surname Analysis RaceDS
+ 24: 2, // Indirect Geo-Coding Analysis RaceDS
+ 25: 1, // Direct Health Plan Direct RaceDS
+ 28: 0, // Unknown Data Collection method, HPDI only should not come up, RaceDS
+ 29: 1, // Other Direct RaceDS
+ 91: 1, // Direct CMS Databases EthnicityDS
+ 92: 1, // Direct State Databases EthnicityDS
+ 93: 2, // Indirect Surname Analysis EthnicityDS
+ 94: 2, // Indirect Geo-Coding Analysis EthnicityDS
+ 95: 1, // Direct Health Plan Direct EthnicityDS
+ 98: 0, // Unknown Data Collcetion method, HPDI only should not come up, EthnicityDS
+ 99: 1, // Other Direct EthnicityDS
 }
 
 const secondQualifyingEpisodeCheck = (data, index) => {
@@ -204,38 +57,78 @@ const getDefaultPayors = (data, age) => {
 const hedisData = {
   aab: {
     measureIds: ['AABA','AABB'],
-    denCount: 1,
-    denArray: true,
     eventsOrDiag: true,
-    getAge: (data, index) => { // Age must be calculated against first event.
-      let eventDate = new Date(data[data.memberId]['Encounter with Acute Bronchitis or Bronchiolitis'][index].low);
-      const ageInMilliseconds = new Date(eventDate) - new Date(data.birthDate);
-      return Math.floor(ageInMilliseconds / msInAYear);
+    measureCheck: (data, index, measureFunctions) => {
+      if (index === 0) {
+        return data[data.memberId]['Qualifying Episodes Without Exclusions'].length > 0;
+      }
+      return data[data.memberId]['Qualifying Episodes Without Exclusions'].length > 1;
     },
-    ageArray: true, // If true, will use the provided index to get the current event's date. Else assumes it's a single date.
+    getAge: (data, index) => { // Age must be calculated against first event.
+      const event = data[data.memberId]['Encounter with Acute Bronchitis or Bronchiolitis'][index];
+      let eventDate = {}
+      if (event) {
+        eventDate = new Date(data[data.memberId]['Encounter with Acute Bronchitis or Bronchiolitis'][index].low);
+      } else {
+        eventDate = new Date('2022-01-01');
+      }
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getEvent: () => 1,
     getContinuousEnrollment: (data) => {
       return data[data.memberId]['Episode Date'].length >= 1 ? 1 : 0;
     },
-    ceKey: 'Episode Date', // The key for Continuous Enrollment.
-    ceArray: true,
-    eventKey: 'Encounter with Acute Bronchitis or Bronchiolitis',
-    eventArray: true,
-    reqExKey: 'Episodes with Hospice Intervention or Encounter',
-    reqExArray: true,
-    measureCheck: secondQualifyingEpisodeCheck,
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors === undefined) {
+        return false;
+      }
+      const payor = payors[0];
+      return !exchange.includes(payor) ? 1 : 0;
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index) => {
+      return data[data.memberId][`Numerator`][index + 1] !== undefined ? 1 : 0;
+    },
+    getRequiredExclusion: (data, index) => {
+      return data[data.memberId][`Exclusions`][index + 1] !== undefined  ? 1 : 0;
+    },
+    getRequiredExclusionID: () => 0,
+    getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
   },
   adde: {
     measureIds: ['ADD1','ADD2'],
     eventsOrDiag: true,
     getAge: (data) => {
-      let eventDate = new Date(data[data.memberId]['Last Calendar Day of February']);
-      eventDate.setUTCHours(0,0,0,0);
-      const birthDate = new Date(data.birthDate);
-        // If you are born during a leap year, use the 29th as the last calendar day of February
-    if (birthDate.getFullYear() % 4 === 0) {
-      eventDate = new Date(eventDate.getTime() + msInADay);
-    }
-      return getAge(birthDate, eventDate);
+      const eventDate = data[data.memberId]['Last Calendar Day of February'];
+      let eventDateCompare = {};
+      const birthDate = data.birthDate.split('-');
+      const birthDateCompare = {
+        year: parseInt(birthDate[0]),
+        month: parseInt(birthDate[1]),
+        day: parseInt(birthDate[2]),
+      }
+      if (typeof eventDate === 'string' || eventDate instanceof String) {
+        const splitDate = eventDate.split('T')[0].split('-');
+        eventDateCompare = {
+          year: parseInt(splitDate[0]),
+          month: parseInt(splitDate[1]),
+          day: parseInt(splitDate[2]),
+        };
+      } else {
+        eventDateCompare = {
+          year: eventDate.year,
+          month: eventDate.month,
+          day: eventDate.day,
+        };
+      } 
+      
+      // If you are born during a leap year, use the 29th as the last calendar day of February
+      if (birthDateCompare.year % 4 === 0) {
+        eventDateCompare.day = 29;
+      }
+
+      return getAge2(birthDateCompare, eventDateCompare);
     },
     getEvent: (data, index) => {
       const appAgeWNHN = data[data.memberId]['Member is Appropriate Age and Has IPSD with Negative Medication History'];
@@ -388,8 +281,9 @@ const hedisData = {
   apme: {
     measureIds: ['APM1','APM2','APM3'],
     eventsOrDiag: true,
-    measureCheck: (data, _index, measureFunctions) => {
-      return measureFunctions.getAge(data) < 18;
+    measureCheck: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      return payors !== undefined && payors.length > 0 && measureFunctions.getAge(data) < 18;
     },
     getAge: (data) => {
       let eventDate = new Date('2022-12-31');
@@ -462,20 +356,215 @@ const hedisData = {
     getPayors: (data) => getDefaultPayors(data), //Don't send age, uses matrix
   },
   bcse: {
-    measureIds: ['BCS','BCSNON','BCSLISDE','BCSDIS','BCSCMB','BCSOT']
+    measureIds: ['BCS','BCSNON','BCSLISDE','BCSDIS','BCSCMB','BCSOT'],
+    eventsOrDiag: false,
+    measureCheck: (data, index, measureFunctions) => {
+      let validPayor = false;
+      const payors = measureFunctions.getPayors(data, index);
+      if (index === 0) {
+        validPayor = payors.find((payor) => exchangeOrCommercial.includes(payor) || medicaidPlans.includes(payor));
+      } else if (index === 1) {
+        validPayor = payors.find((payor) => medicarePlans.includes(payor));
+      }
+      const age = measureFunctions.getAge(data);
+      return validPayor && age >= 18 && age <= 74 && data.gender.startsWith('f');
+    },
+    getAge: (data) => {
+      let eventDate = new Date('2022-12-31');
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      return data[data.memberId][`Initial Population`] ? 1 : 0; 
+    },
+    getEvent: (data, index) => {
+      return 0;
+    },
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index) => {
+      return data[data.memberId][`Numerator`] ? 1 : 0;
+    },
+    getRequiredExclusion: (data, index) => {
+      return data[data.memberId][`Exclusions`] ? 1 : 0;
+    },
+    getRequiredExclusionID: () => 0,
+    getPayors: (data, index) => {
+      const bcsePayors = getDefaultPayors(data);
+      if (index === 0) {
+        return bcsePayors.filter((payor) => exchangeOrCommercial.includes(payor) || medicaidPlans.includes(payor));
+      } else if (index === 1) {
+        return bcsePayors.filter((payor) => medicarePlans.includes(payor));
+      }
+      return bcsePayors;
+    }
   },
   ccs: {
     measureIds: ['CCS'],
-    measureCheck: () => true,
+    measureCheck: (data, _index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data);
+      if (payors == undefined) {
+        return 0;
+      }
+      const age = measureFunctions.getAge(data);
+      return age >= 24 && age <= 64 && data.gender.startsWith('f');
+    },
+    getAge: (data) => {
+      let eventDate = new Date('2022-12-31');
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      const payor = measureFunctions.getPayors(data)[0];
+      if (medicarePlans.includes(payor)) {
+        return 0;
+      }
+      return data[data.memberId][`Initial Population`] ? 1 : 0; 
+    },
+    getEvent: (data, index) => {
+      return 0;
+    },
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getExclusion: (data) => {
+      return data[data.memberId][`Denominator Exceptions`] ? 1 : 0;
+    },
+    getNumerator: (data, index) => {
+      return data[data.memberId][`Numerator`] ? 1 : 0;
+    },
+    getRequiredExclusion: () => 0,
+    getRequiredExclusionID: (data, index) => {
+      return data[data.memberId][`Exclusions`] ? 1 : 0;
+    },
+    getPayors: (data, index) => getDefaultPayors(data),
   },
   cise: {
-    measureIds: ['CISDTP','CISOPV','CISMMR','CISHIB','CISHEPB','CISVZV','CISPNEU','CISHEPA','CISROTA','CISINFL','CISCMB3','CISCMB7','CISCMB10']
+    measureIds: ['CISDTP','CISOPV','CISMMR','CISHIB','CISHEPB','CISVZV','CISPNEU','CISHEPA','CISROTA','CISINFL','CISCMB3','CISCMB7','CISCMB10'],
+    measureCheck: (data, index, measureFunctions) => {
+      const age = measureFunctions.getAge(data);
+      if (age !== 2) {
+        return false;
+      }
+      if (index === 10 || index === 11) {
+        const payors = measureFunctions.getPayors(data);
+        if (payors === undefined) {
+          return 0;
+        }
+        return !exchange.includes(payors[0]);
+      }
+      return true;
+    },
+    getAge: (data) => {
+      let eventDate = new Date('2022-12-31');
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getEvent: () => 0,
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data);
+      if (payors === undefined || medicarePlans.includes(payors[0])) {
+        return 0;
+      }
+      return data[data.memberId][`Initial Population ${index + 1}`] ? 1 : 0; 
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index) => {
+      return data[data.memberId][`Numerator ${index + 1}`] ? 1 : 0;
+    },
+    getRequiredExclusion: (data, index) => {
+      return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
+    },
+    getRequiredExclusionID: () => 0,
+    getPayors: (data) => getDefaultPayors(data),
   },
   cole: {
-    measureIds: ['COL','COLNON','COLLISDE','COLDIS','COLCMB','COLOT']
+    measureIds: ['COL','COLNON','COLLISDE','COLDIS','COLCMB','COLOT'],
+    raceRequired: true,
+    measureCheck: (data, index, measureFunctions) => {
+      let validPayor = false;
+      const payors = measureFunctions.getPayors(data, index);
+      if (index === 0) {
+        validPayor = payors.find((payor) => exchangeOrCommercial.includes(payor) || medicaidPlans.includes(payor));
+      } else if (index >= 1) {
+        validPayor = payors.find((payor) => medicarePlans.includes(payor));
+      }
+      const age = measureFunctions.getAge(data);
+      return validPayor && age >= 46 && age <= 75;
+    },
+    getAge: (data) => {
+      let eventDate = new Date('2022-12-31');
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getEvent: () => 0,
+    getEligiblePopulation: (data, _index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data);
+      if (payors === undefined || medicarePlans.includes(payors[0])) {
+        return 0;
+      }
+      return data[data.memberId]['Initial Population'] ? 1 : 0; 
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, _index) => {
+      return data[data.memberId]['Numerator'] ? 1 : 0;
+    },
+    getRequiredExclusion: (data, _index) => {
+      return data[data.memberId]['Exclusions'] ? 1 : 0;
+    },
+    getRequiredExclusionID: () => 0,
+    getPayors: (data, index) => {
+      const colePayors = getDefaultPayors(data);
+      if (index === 0) {
+        return colePayors.filter((payor) => exchangeOrCommercial.includes(payor) || medicaidPlans.includes(payor));
+      }
+      return colePayors.filter((payor) => medicarePlans.includes(payor));
+    }
   },
   cou: {
-    measureIds: ['COUA','COUB']
+    measureIds: ['COUA','COUB'],
+    measureCheck: (data) => {
+      return data[data.memberId]['Member is Appropriate Age and Has IPSD with Negative Medication History'];
+    },
+    getAge: (data) => {
+      let eventDate = new Date(data[data.memberId]['November 1 of Year Prior to Measurement Period']);
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getEvent: () => 1,
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data);
+      if (payors === undefined 
+        || exchange.includes(payors[0])) {
+        return 0;
+      }
+      return data[data.memberId][`Initial Population ${index + 1}`] ? 1 : 0; 
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index) => {
+      return data[data.memberId][`Numerator ${index + 1}`] ? 1 : 0;
+    },
+    getRequiredExclusion: () => 0,
+    getRequiredExclusionID: (data, index) => {
+      return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
+    },
+    getPayors: (data) => {
+      const memberCoverage = data[data.memberId]['Member Coverage'];
+      const prescStartDate = new Date(data[data.memberId]['Index Prescription Start Date']);
+      let foundPayors = memberCoverage
+        .filter((coverage) => {
+          return new Date(coverage.period.start.value).getTime() <= prescStartDate.getTime()
+            && new Date(coverage.period.end.value).getTime() >= prescStartDate.getTime();
+        })
+        .map((coverage) => coverageMap(coverage));
+      return getValidPayors(foundPayors, undefined, memberCoverage);
+    },
   },
   cwp: {
     measureIds: ['CWPA','CWPB'],
@@ -486,7 +575,49 @@ const hedisData = {
   },
   dmse: {
     measureIds: ['DMS'],
-    measureCheck: () => true,
+    measureCheck: (data, index, measureFunctions) => {
+      let payor = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payor === undefined) {
+        return false;
+      }
+      payor = payor[0];
+      if (medicarePlans.includes(payor) && measureFunctions.getAge(data) < 18) {
+        return false;
+      }
+      return measureFunctions.getAge(data) >= 12;
+    },
+    getAge: (data) => {
+      let eventDate = new Date('2022-01-01');
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
+    },
+    getEvent: (data) => {
+      return ((data[data.memberId]['Event 1'] ? 1 : 0)
+        + (data[data.memberId]['Event 2'] ? 1 : 0)
+        + (data[data.memberId]['Event 3'] ? 1 : 0));
+    },
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      const payor = measureFunctions.getPayors(data, index, measureFunctions)[0];
+      if (exchange.includes(payor)) {
+        return 0;
+      }
+      return ((data[data.memberId]['Initial Population 1'] ? 1 : 0)
+      + (data[data.memberId]['Initial Population 2'] ? 1 : 0)
+      + (data[data.memberId]['Initial Population 3'] ? 1 : 0));
+    },
+    getExclusion: () => 0,
+    getNumerator: (data) => {
+      return ((data[data.memberId]['Numerator 1'] ? 1 : 0)
+        + (data[data.memberId]['Numerator 2'] ? 1 : 0)
+        + (data[data.memberId]['Numerator 3'] ? 1 : 0));
+    },
+    getRequiredExclusion: (data, index) => {
+      return data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0;
+    },
+    getRequiredExclusionID: () => 0,
+    getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
   },
   drre: {
     measureIds: ['DRRA','DRRB','DRRC']
@@ -613,6 +744,17 @@ const getAge = (birthDate, compareDate) => { // Age must be calculated against f
   return totalYears;
 }
 
+const getAge2 = (birthDate, compareDate) => { // Age must be calculated against first event.
+  let totalYears = compareDate.year - birthDate.year;
+  if (compareDate.month < birthDate.month) {
+    totalYears -= 1;
+  }
+  if (compareDate.month === birthDate.month && compareDate.day < birthDate.day) {
+    totalYears -= 1;
+  }
+  return totalYears;
+}
+
 const getContinuousEnrollment = (data) => {
   const ce = data[data.memberId][hedisData[measure].ceKey];
   if(hedisData[measure].ceArray) {
@@ -670,4 +812,4 @@ const getRequiredExclusion = (data, index) => {
   } // There's also 2 or 3 for DMS measures, the PHQ-9 measure.
 }
 
-module.exports = { getAge, getContinuousEnrollment, getEligiblePopulation, getEvent, getExclusion, getNumerator, getRequiredExclusion, hedisData };
+module.exports = { getAge, getContinuousEnrollment, getEligiblePopulation, getEvent, getExclusion, getNumerator, getRequiredExclusion, ethnicityMap, raceEthnicDSMap, hedisData };

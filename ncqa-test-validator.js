@@ -4,7 +4,7 @@ const path = require('path');
 const config = require('./config');
 const { execute, supportExecute } = require('./exec-files/exec-config');
 const { createProviderList } = require('./src/utilities/providerUtil');
-const { getEligiblePopulation, hedisData } = require('./ncqa-test-validator-util');
+const { getEligiblePopulation, ethnicityMap, raceEthnicDSMap, hedisData } = require('./ncqa-test-validator-util');
 
 const measure = config.measurementType;
 
@@ -12,7 +12,8 @@ let basePath;
 let scorePath;
 let scoreAmidaPath;
 let measuresPath;
-const hedisEocHeaders = "MemID,Meas,Payer,CE,Event,Epop,Excl,Num,RExcl,RExclD,Age,Gender\n";
+const raceHeaders= ',Race,Ethnicity,RaceDS,EthnicityDS';
+const hedisEocHeaders = `MemID,Meas,Payer,CE,Event,Epop,Excl,Num,RExcl,RExclD,Age,Gender${hedisData[measure].raceRequired ? raceHeaders : '' }\n`;
 // Different, future headers maybe added.
 
 const parseArgs = minimist(process.argv.slice(2), {
@@ -76,6 +77,16 @@ const evalData = (patient) => {
   data['coverage'] = patientData['Member Coverage'];
   data['providers'] = createProviderList(patient);
   data['support'] = support;
+
+  if(hedisData[measure].raceRequired) {
+    patientInfo.extension.forEach((ext) => {
+      const code = ext.extension[0].valueCoding;
+      data[code < 10 ? 'race' : 'ethnicity'] = code;
+    });
+    patientInfo.meta.extension.forEach((ext) => {
+      data[ext.url] = ext.valueString;
+    });
+  }
   return data;
 };
 
@@ -108,6 +119,10 @@ async function createScoreFile() {
 async function appendScoreFile(data) {
   const memberId = data.memberId.split('-')[0]; // Works.
   const gender = data.gender === 'male' ? 'M' : 'F'; // Works.
+  let raceRow = '';
+  if (hedisData[measure].raceRequired) {
+    raceRow = `,${data.race},${ethnicityMap[data.ethnicity]},${raceEthnicDSMap[data.raceDS]},${raceEthnicDSMap[data.ethnicityDS]}`
+  }
   hedisData[measure].measureIds.forEach((measureId, index) => {
     if (hedisData[measure].measureCheck(data, index, hedisData[measure])) {
       const ce = hedisData[measure].getContinuousEnrollment(data, index);
@@ -126,8 +141,8 @@ async function appendScoreFile(data) {
       const payors = hedisData[measure].getPayors(data, index, hedisData[measure]);
 
       payors.forEach((payer) => {
-        const row = `${memberId},${measureId},${payer},${ce},${event},${ePop},${excl},${num},${rExcl},${rExclD},${age},${gender}\n`;
-        fs.appendFileSync(scoreAmidaPath, row, appendScoreErr => {
+        const row = `${memberId},${measureId},${payer},${ce},${event},${ePop},${excl},${num},${rExcl},${rExclD},${age},${gender}${raceRow}\n`;
+        fs.appendFileSync(scoreAmidaPath, `${row}`, appendScoreErr => {
           if (appendScoreErr) {
             console.error(`\x1b[31m\nError: Failure to read FHIR directory, ${fhirDirErr}.\x1b[0m`);
             process.exit();
@@ -176,7 +191,7 @@ async function processFhirDirectory(dirFiles) {
       fs.writeFileSync(path.join(measuresPath, fileTitle), JSON.stringify(memberData, null, 2));
     }
     
-    // appendScoreFile(memberData); 
+    // appendScoreFile(memberData); JAMES KEITH
   }
 }
 

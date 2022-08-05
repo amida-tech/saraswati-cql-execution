@@ -48,7 +48,8 @@ const createCode = (code, systemFlag, systemType) => {
     system = systemFlag.length === 1 ? getRxSystem(systemFlag) : systemFlag;
   } else {
     // 10 PNDE Deliveries, 30 for AIS-E bone marrow, GZ for FUM Electro Therapy
-    if ((code.startsWith('10') || code.startsWith('30') || code.startsWith('GZ')) 
+    if ((code.startsWith('10') || code.startsWith('30') || code.startsWith('GZ') 
+      || code.startsWith('0UTC') || code === '3E0234Z') 
       && code.length === 7 && systemFlag === 'X') {
       system = getSystem('X2');
     } else {
@@ -162,7 +163,12 @@ const createClaimFromVisit = (visit) => {
     if (visit.ubRevenue) {
       item.revenue = { coding: [ createCode(visit.ubRevenue, 'R') ] }
     }
-    resource.item.push(item);
+    if (resource.item) {
+      resource.item.push(item);
+    } else {
+      resource.item = [ item ];
+    }
+    
     procCount += 1;
   }
 
@@ -187,7 +193,12 @@ const createClaimFromVisit = (visit) => {
     if (visit.ubRevenue) {
       item.revenue = { coding: [ createCode(visit.ubRevenue, 'R') ] }
     }
-    resource.item.push(item);
+    if (resource.item) {
+      resource.item.push(item);
+    } else {
+      resource.item = [ item ];
+    }
+    
     procCount += 1;
   }
 
@@ -265,8 +276,8 @@ const createDiagnosisCondition = (condition) => {
   return condObj;
 }
 
-const ambulatoryPosList = ['02', '03', '05', '07', '09', '15', '17', '18', '19',
-                        '20', '22', '24', '31', '49', '50', '52', '53', '71', '72'];
+const ambulatoryPosList = ['02', '03', '05', '07', '09', '11', '15', '17', '18', '19',
+                        '20', '22', '24', '31', '49', '50', '52', '53', '57', '58', '65', '71', '72'];
 const homeHealthPosList = ['12', '13', '14', '16', '33'];
 
 const createClaimEncounter = (encounter) => {
@@ -437,7 +448,9 @@ const convertDateString = (ncqaDateString) => {
   return `${year}-${month}-${day}`;
 }
 
-const labValueSets = ['2.16.840.1.113883.3.464.1004.1769',
+const labValueSets = ['2.16.840.1.113883.3.464.1004.1525',
+                    '2.16.840.1.113883.3.464.1004.1527',
+                    '2.16.840.1.113883.3.464.1004.1769',
                     '2.16.840.1.113883.3.464.1004.1755',
                     '2.16.840.1.113883.3.464.1004.1742',
                     '2.16.840.1.113883.3.464.1004.1751'];
