@@ -719,36 +719,40 @@ const hedisData = {
   },
   psa: {
     measureIds: ['PSA'],
-    measureCheck: () => true,
-    getAge: () => getAge(new Date(data.birthDate), new Date('2022-12-31')),
+    measureCheck: (data, _index, measureFunctions) => {
+      let payor = measureFunctions.getPayors(data, _index, measureFunctions);
+      if (payor === undefined) {
+        return false;
+      }
+      return measureFunctions.getAge(data) >= 70 && data.gender.startsWith('m');
+    },
+    getAge: (data) => getAge(new Date(data.birthDate), new Date('2022-12-31')),
     getContinuousEnrollment: (data) => {
       return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
     },
-    getEvent: () => 1,
+    getEvent: () => 0,
     getEligiblePopulation: (data, index, measureFunctions) => {
-      const payors = measureFunctions.getPayors(data);
-      if (payors === undefined 
-        || exchange.includes(payors[0])) {
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors === undefined ) {
         return 0;
       }
-      return data[data.memberId][`Initial Population ${index + 1}`] ? 1 : 0; 
+      if (isValidMedicare(payors[index], measureFunctions.getAge(data))) {
+        return 1;
+      }
+      return 0;
     },
     getExclusion: () => 0,
     getNumerator: (data, _index) => data[data.memberId]['Numerator'] ? 1 : 0,
     getRequiredExclusion: () => 0,
-    getRequiredExclusionID: (data, _index) => data[data.memberId]['Exclusions'] ? 1 : 0,
-    getPayors: (data) => {
-      const memberCoverage = data[data.memberId]['Member Coverage'];
-      const prescStartDate = new Date(data[data.memberId]['Index Prescription Start Date']);
-      let foundPayors = memberCoverage
-        .filter((coverage) => {
-          return new Date(coverage.period.start.value).getTime() <= prescStartDate.getTime()
-            && new Date(coverage.period.end.value).getTime() >= prescStartDate.getTime();
-        })
-        .map((coverage) => coverageMap(coverage));
-      return getValidPayors(foundPayors, undefined, memberCoverage);
+    getRequiredExclusionID: (data, index, measureFunctions) => {
+      // const validPayor = measureFunctions.getEligiblePopulation(data, index, measureFunctions);
+      // console.log(validPayor);
+      // if (validPayor === 1) {
+        return data[data.memberId]['Exclusions'] ? 1 : 0;
+      // }
+      // return 0;
     },
-    
+    getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
   },
   uop: {
     measureIds: ['UOPA','UOPB','UOPC']
