@@ -1,7 +1,7 @@
 const minimist = require('minimist');
 const fs = require('fs');
 const readline = require('readline');
-const { createCode, professionalClaimType, pharmacyClaimType, convertDateString,
+const { createCode, professionalClaimType, pharmacyClaimType, convertDateString, getLabValues,
   createClaimFromVisit, createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
   createClaimResponse, createPharmacyClaim, isDateDuringPeriod,
   createPractitionerLocation, isValidEncounter } = require('./ncqa-test-converter-util');
@@ -750,10 +750,14 @@ const createVisitClaimEncResponse = (visitList) => {
 
   const claimResponses = [];
   const visitEncounters = [];
+  const invalidEncounters = [];
+  const invalidClaims = [];
   const claims = [];
   const visitConditionList = [];
   for (const visit of visitList) {
     if (!isValidEncounter(visit)) {
+      invalidEncounters.push(`${visit.memberId}-visit-encounter-${visit.claimId}`);
+      invalidClaims.push(`${visit.memberId}-visit-claim-${visit.claimId}`);
       continue;
     }
     const serviceCode = createServiceCodeFromVisit(visit);
@@ -874,7 +878,12 @@ const createVisitClaimEncResponse = (visitList) => {
     }  
   }
 
-  return { visitEncounters, visitConditionList, claims, claimResponses }
+  return { 
+    visitEncounters: visitEncounters.filter((enc) => !invalidEncounters.includes(enc.id)),
+    visitConditionList,
+    claims: claims.filter((claim) => !invalidClaims.includes(claim.id)),
+    claimResponses
+  }
 }
 
 const linkConditionsToEncounters = (conditions, encounters) => {
@@ -1141,12 +1150,9 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
           resource.code.coding.push(createCode(lab.loincCode, 'L'));
         }
       }
-      if (lab.value) { // Many possible values: CC, boolean, integer, range, ratio, sampledata(?), time, datetime, period.
-        if (isNaN(lab.value)) { // Checks if int or float too.
-          resource.valueString = lab.value;
-        } else { // Assume valueQuantity, but if need arises, check Number.isInteger
-          resource.valueQuantity = { value: lab.value };
-        } 
+      if (lab.value) { 
+        const labValues = getLabValues(lab.value);
+        resource[labValues.key] = labValues.value;
       }
       observationList.push(resource);
     });

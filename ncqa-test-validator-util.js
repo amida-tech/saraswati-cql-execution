@@ -59,16 +59,26 @@ const hedisData = {
     measureIds: ['AABA','AABB'],
     eventsOrDiag: true,
     measureCheck: (data, index, measureFunctions) => {
-      if (index === 0) {
-        return data[data.memberId]['Qualifying Episodes Without Exclusions'].length > 0;
+      let eventInEnrollment = false;
+      const episodeDates = data[data.memberId]['Episode Date'];
+      const validDates = data[data.memberId]['Valid Member'];
+      if (episodeDates && episodeDates.length > 0) {
+        eventInEnrollment = true;
       }
-      return data[data.memberId]['Qualifying Episodes Without Exclusions'].length > 1;
+      if (index === 0) {
+        return validDates.length > 0;
+      }
+
+      if (eventInEnrollment && episodeDates.length === 1) {
+        return false;
+      }
+      return validDates.length > 1;
     },
     getAge: (data, index) => { // Age must be calculated against first event.
-      const event = data[data.memberId]['Encounter with Acute Bronchitis or Bronchiolitis'][index];
+      const event = data[data.memberId]['Initial Population'][index];
       let eventDate = {}
       if (event) {
-        eventDate = new Date(data[data.memberId]['Encounter with Acute Bronchitis or Bronchiolitis'][index].low);
+        eventDate = new Date(data[data.memberId]['Initial Population'][index]);
       } else {
         eventDate = new Date('2022-01-01');
       }
@@ -88,12 +98,34 @@ const hedisData = {
     },
     getExclusion: () => 0,
     getNumerator: (data, index) => {
-      return data[data.memberId][`Numerator`][index + 1] !== undefined ? 1 : 0;
+      let denominator = data[data.memberId][`Denominator`][index];
+      if (denominator === undefined) {
+        denominator = data[data.memberId][`Valid Member`][index];
+        if (denominator === undefined) {
+          return 0;
+        }
+      }
+      const numerators = data[data.memberId][`Valid Numerator`];
+      if (numerators.length === 0) {
+        return 0;
+      }
+      for (const num of numerators) {
+        if (denominator instanceof String && denominator === num) {
+          return 1;
+        } else {
+          if (denominator.year === num.year 
+              && denominator.month === num.month
+              && denominator.day === num.day) {
+                return 1;
+              }
+        }
+      }
+      return 0;
     },
-    getRequiredExclusion: (data, index) => {
-      return data[data.memberId][`Exclusions`][index + 1] !== undefined  ? 1 : 0;
+    getRequiredExclusion: () => 0,
+    getRequiredExclusionID: (data) => {
+      return data[data.memberId][`Hospice Exclusions`] ? 1 : 0;
     },
-    getRequiredExclusionID: () => 0,
     getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
   },
   adde: {
@@ -744,14 +776,7 @@ const hedisData = {
     getExclusion: () => 0,
     getNumerator: (data, _index) => data[data.memberId]['Numerator'] ? 1 : 0,
     getRequiredExclusion: () => 0,
-    getRequiredExclusionID: (data, index, measureFunctions) => {
-      // const validPayor = measureFunctions.getEligiblePopulation(data, index, measureFunctions);
-      // console.log(validPayor);
-      // if (validPayor === 1) {
-        return data[data.memberId]['Exclusions'] ? 1 : 0;
-      // }
-      // return 0;
-    },
+    getRequiredExclusionID: (data) => data[data.memberId]['Exclusions'] ? 1 : 0,
     getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
   },
   uop: {
