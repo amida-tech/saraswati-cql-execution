@@ -750,10 +750,14 @@ const createVisitClaimEncResponse = (visitList) => {
 
   const claimResponses = [];
   const visitEncounters = [];
+  const invalidEncounters = [];
+  const invalidClaims = [];
   const claims = [];
   const visitConditionList = [];
   for (const visit of visitList) {
     if (!isValidEncounter(visit)) {
+      invalidEncounters.push(`${visit.memberId}-visit-encounter-${visit.claimId}`);
+      invalidClaims.push(`${visit.memberId}-visit-claim-${visit.claimId}`);
       continue;
     }
     const serviceCode = createServiceCodeFromVisit(visit);
@@ -874,7 +878,12 @@ const createVisitClaimEncResponse = (visitList) => {
     }  
   }
 
-  return { visitEncounters, visitConditionList, claims, claimResponses }
+  return { 
+    visitEncounters: visitEncounters.filter((enc) => !invalidEncounters.includes(enc.id)),
+    visitConditionList,
+    claims: claims.filter((claim) => !invalidClaims.includes(claim.id)),
+    claimResponses
+  }
 }
 
 const linkConditionsToEncounters = (conditions, encounters) => {
