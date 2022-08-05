@@ -1141,8 +1141,12 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
           resource.code.coding.push(createCode(lab.loincCode, 'L'));
         }
       }
-      if (lab.value) {
-        // console.log(`Handle value for ${lab.memberId}`);
+      if (lab.value) { // Many possible values: CC, boolean, integer, range, ratio, sampledata(?), time, datetime, period.
+        if (isNaN(lab.value)) { // Checks if int or float too.
+          resource.valueString = lab.value;
+        } else { // Assume valueQuantity, but if need arises, check Number.isInteger
+          resource.valueQuantity = { value: lab.value };
+        } 
       }
       observationList.push(resource);
     });
