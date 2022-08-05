@@ -454,7 +454,8 @@ const labValueSets = ['2.16.840.1.113883.3.464.1004.1525',
                     '2.16.840.1.113883.3.464.1004.1755',
                     '2.16.840.1.113883.3.464.1004.1742',
                     '2.16.840.1.113883.3.464.1004.1751',
-                    '2.16.840.1.113883.3.464.1004.1783'];
+                    '2.16.840.1.113883.3.464.1004.1783',
+                    '2.16.840.1.113883.3.464.1004.1963'];
 
 const checkValidLabCode = (code) => {
   const dir = config.valuesetsDirectory;
@@ -481,7 +482,7 @@ const invalidLocations = ['10', '27', '28', '29', '30','35', '36', '37', '38', '
                       '93', '94', '95', '96', '97', '98'];
 
 const isValidEncounter = (visit) => {
-  // These codes mean no service was performed on the members request
+  // These codes mean no service was performed on the members requestLaz
   if (visit.cptIIMod === '1P'
     || visit.cptIIMod === '2P'
     || visit.cptIIMod === '3P'
