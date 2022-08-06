@@ -4,7 +4,7 @@ const readline = require('readline');
 const { createCode, professionalClaimType, pharmacyClaimType, convertDateString,
   createClaimFromVisit, createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
   createClaimResponse, createPharmacyClaim, isDateDuringPeriod,
-  createPractitionerLocation, isValidEncounter } = require('./ncqa-test-converter-util');
+  createPractitionerLocation, isValidEncounter, combineIsInvalid } = require('./ncqa-test-converter-util');
 
 const parseArgs = minimist(process.argv.slice(2), {
   alias: {
@@ -766,6 +766,7 @@ const createVisitClaimEncResponse = (visitList) => {
     for (const visitE of visitEncounters) {
       if (encounterId === visitE.id) {
         if (serviceCode) {
+          console.log(serviceCode)
           if (visitE.type) {
             visitE.type.push({ coding: [ serviceCode ] });
           } else {
@@ -774,12 +775,16 @@ const createVisitClaimEncResponse = (visitList) => {
         }
         if (visit.ubRevenue) {
           if (visitE.type) {
-            visitE.type.push({ coding: [ createCode(visitE.ubRevenue, 'R') ] });
+            visitE.type.push({ coding: [ createCode(visit.ubRevenue, 'R') ] });
           } else {
-            visitE.type = [ { coding: [ createCode(visitE.ubRevenue, 'R') ] } ];
+            visitE.type = [ { coding: [ createCode(visit.ubRevenue, 'R') ] } ];
           }
         }
         foundVisitMatch = true;
+        if (combineIsInvalid(visitE)) {
+          invalidEncounters.push(`${visit.memberId}-visit-encounter-${visit.claimId}`);
+          invalidClaims.push(`${visit.memberId}-visit-claim-${visit.claimId}`);
+        }
         break;
       }
     }
