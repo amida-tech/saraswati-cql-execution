@@ -60,7 +60,7 @@ const hedisData = {
     eventsOrDiag: true,
     measureCheck: (data, index) => {
       let eventInEnrollment = false;
-      const episodeDates = data[data.memberId]['Episode Date'];
+      const episodeDates = data[data.memberId]['Qualifying Episodes Without Exclusions'];
       const validDates = data[data.memberId]['Valid Member'];
       if (episodeDates && episodeDates.length > 0) {
         eventInEnrollment = true;
