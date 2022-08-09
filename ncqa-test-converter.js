@@ -1220,13 +1220,32 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
           resource: medDispenseResource,
         });
       }
-      
 
       claimCount += 1;
     });
   }
 
   if (pharmacy) {
+    pharmacy.forEach((pharm) => {
+      if (pharm.serviceDate) {
+        const medDispenseResource = { // JAMES
+          id: `${pharm.memberId}-medicationDispense-${claimCount}`,
+          resourceType: 'MedicationDispense',
+          patient: { reference: `Patient/${pharm.memberId}-patient` },
+          status: 'completed',
+          medicationCodeableConcept: { coding: [ createCode(pharm.ndcDrugCode, undefined, 'NDC') ] },
+          whenHandedOver: convertDateString(pharm.serviceDate),
+        }
+  
+        pharmacyClaimList.push({
+          fullUrl: `urn:uuid:${medDispenseResource.id}`,
+          resource: medDispenseResource,
+        });
+
+        claimCount += 1;
+      }
+    })
+
     const providerNpiHolder = {};
     const pharmacyNpiHolder = {};
     pharmacy //pharm.txt is only a claim when NOT supplemental data

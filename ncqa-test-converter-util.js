@@ -3,6 +3,8 @@ const config = require('./config');
 
 const measure = config.measurementType;
 
+const ndcRxSystemCodes = ['351172','352118','200172','213178','310346','201961'];
+
 const getSystem = (value) => {
   switch(value) {
     case 'S':
@@ -34,6 +36,8 @@ const getRxSystem = (value) => {
       return 'http://www.nlm.nih.gov/research/umls/rxnorm';
     case 'C':
       return 'http://hl7.org/fhir/sid/cvx';
+    case 'N':
+      return 'http://hl7.org/fhir/sid/ndc';
     default:
       return 'NA';
   }
@@ -46,6 +50,8 @@ const createCode = (code, systemFlag, systemType) => {
   let system = '';
   if (systemType === 'RX') {
     system = systemFlag.length === 1 ? getRxSystem(systemFlag) : systemFlag;
+  } else if (systemType === 'NDC') {
+    system = getRxSystem(ndcRxSystemCodes.includes(code) ? 'R': 'N');
   } else {
     // 10 PNDE Deliveries, 30 for AIS-E bone marrow, GZ for FUM Electro Therapy
     if ((code.startsWith('10') || code.startsWith('30') || code.startsWith('GZ') 
