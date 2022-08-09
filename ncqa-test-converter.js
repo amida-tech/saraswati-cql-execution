@@ -4,7 +4,7 @@ const readline = require('readline');
 const { createCode, professionalClaimType, pharmacyClaimType, convertDateString,
   createClaimFromVisit, createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
   createClaimResponse, createPharmacyClaim, isDateDuringPeriod,
-  createPractitionerLocation, isValidEncounter, combineIsInvalid } = require('./ncqa-test-converter-util');
+  createPractitionerLocation, isValidEncounter } = require('./ncqa-test-converter-util');
 
 const parseArgs = minimist(process.argv.slice(2), {
   alias: {
@@ -752,12 +752,14 @@ const createVisitClaimEncResponse = (visitList) => {
   const visitEncounters = [];
   const invalidEncounters = [];
   const invalidClaims = [];
+  const invalidResponses = [];
   const claims = [];
   const visitConditionList = [];
   for (const visit of visitList) {
     if (!isValidEncounter(visit)) {
       invalidEncounters.push(`${visit.memberId}-visit-encounter-${visit.claimId}`);
       invalidClaims.push(`${visit.memberId}-visit-claim-${visit.claimId}`);
+      invalidResponses.push(`${visit.memberId}-visit-claimResponse-${visit.claimId}`);
       continue;
     }
     const serviceCode = createServiceCodeFromVisit(visit);
@@ -768,23 +770,19 @@ const createVisitClaimEncResponse = (visitList) => {
         if (serviceCode) {
           console.log(serviceCode)
           if (visitE.type) {
-            visitE.type.push({ coding: [ serviceCode ] });
+            visitE.type[0].coding.push(serviceCode);
           } else {
             visitE.type = [ { coding: [ serviceCode ] } ];
           }
         }
         if (visit.ubRevenue) {
           if (visitE.type) {
-            visitE.type.push({ coding: [ createCode(visit.ubRevenue, 'R') ] });
+            visitE.type[0].coding.push(createCode(visit.ubRevenue, 'R'));
           } else {
             visitE.type = [ { coding: [ createCode(visit.ubRevenue, 'R') ] } ];
           }
         }
         foundVisitMatch = true;
-        if (combineIsInvalid(visitE)) {
-          invalidEncounters.push(`${visit.memberId}-visit-encounter-${visit.claimId}`);
-          invalidClaims.push(`${visit.memberId}-visit-claim-${visit.claimId}`);
-        }
         break;
       }
     }
@@ -855,6 +853,53 @@ const createVisitClaimEncResponse = (visitList) => {
                 },
               }];
             }
+            if (claim.item) {
+              let servicedPeriod;
+              for (const item of claim.item) {
+                if (item.servicedPeriod !== undefined) {
+                  servicedPeriod = item.servicedPeriod;
+                  break;
+                }
+              }
+              if (servicedPeriod === undefined) {
+                if (visit.dischargeDate) {
+                  servicedPeriod = {
+                    start: convertDateString(visit.dateOfService),
+                    end: convertDateString(visit.dischargeDate),
+                  }
+                } else {
+                  servicedPeriod = {
+                    start: convertDateString(visit.dateOfService),
+                    end: convertDateString(visit.dateOfService),
+                  }
+                }
+              }
+              claim.item.push({
+                sequence: claim.item.length + 1,
+                servicedPeriod,
+                revenue: { coding: [ createCode(visit.ubRevenue, 'R') ] }
+              });
+            } else {
+              if (visit.dischargeDate) {
+                claim.item = [{
+                  sequence: 1,
+                  servicedPeriod: {
+                    start: convertDateString(visit.dateOfService),
+                    end: convertDateString(visit.dischargeDate),
+                  },
+                  revenue: { coding: [ createCode(visit.ubRevenue, 'R') ] }
+                }];
+              } else {
+                claim.item = [{
+                  sequence: 1,
+                  servicedPeriod: {
+                    start: convertDateString(visit.dateOfService),
+                    end: convertDateString(visit.dateOfService),
+                  },
+                  revenue: { coding: [ createCode(visit.ubRevenue, 'R') ] }
+                }];
+              }
+            }
           }
           foundClaimMatch = true;
           break;
@@ -887,7 +932,7 @@ const createVisitClaimEncResponse = (visitList) => {
     visitEncounters: visitEncounters.filter((enc) => !invalidEncounters.includes(enc.id)),
     visitConditionList,
     claims: claims.filter((claim) => !invalidClaims.includes(claim.id)),
-    claimResponses
+    claimResponses: claimResponses.filter((response) => !invalidResponses.includes(response.id)),
   }
 }
 

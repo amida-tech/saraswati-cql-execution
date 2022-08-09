@@ -61,7 +61,7 @@ const hedisData = {
     measureCheck: (data, index) => {
       let eventInEnrollment = false;
       const episodeDates = data[data.memberId]['Qualifying Episodes Without Exclusions'];
-      const validDates = data[data.memberId]['Valid Member'];
+      const validDates = data[data.memberId]['Qualifying Valid Member'];
       if (episodeDates && episodeDates.length > 0) {
         eventInEnrollment = true;
       }
@@ -80,7 +80,7 @@ const hedisData = {
       if (event) {
         eventDate = new Date(event);
       } else {
-        eventDate = new Date(data[data.memberId]['Valid Member'][index]);
+        eventDate = new Date(data[data.memberId]['Qualifying Valid Member'][index]);
       }
       return getAge(new Date(data.birthDate), eventDate);
     },
@@ -93,7 +93,7 @@ const hedisData = {
     getNumerator: (data, index) => {
       let denominator = data[data.memberId][`Denominator`][index];
       if (denominator === undefined) {
-        denominator = data[data.memberId][`Valid Member`][index];
+        denominator = data[data.memberId][`Qualifying Valid Member`][index];
         if (denominator === undefined) {
           return 0;
         }
@@ -125,7 +125,24 @@ const hedisData = {
     getRequiredExclusionID: (data) => {
       return data[data.memberId][`Hospice Exclusions`] ? 1 : 0;
     },
-    getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
+    getPayors: (data, index, measureFunctions) => {
+      const memberCoverage = data[data.memberId]['Member Coverage'];
+      const age = measureFunctions.getAge(data);
+      const currentDate = data[data.memberId]['Denominator'][index];
+      let foundPayors = memberCoverage
+        .filter((coverage) => {
+          return new Date(coverage.period.start.value).getTime() <= new Date(currentDate).getTime()
+            && new Date(coverage.period.end.value).getTime() >= new Date(currentDate).getTime()
+        })
+        .filter((coverage) => {
+          return coverage.payor[0].reference !== undefined ? 
+            !exchange.includes(coverage.payor[0].reference.value) : false;
+        });
+      if (foundPayors.length === 0) {
+        foundPayors = memberCoverage;
+      }
+      return getValidPayors(foundPayors.map((coverage) => coverageMap(coverage)), age, memberCoverage);
+    },
   },
   adde: {
     measureIds: ['ADD1','ADD2'],

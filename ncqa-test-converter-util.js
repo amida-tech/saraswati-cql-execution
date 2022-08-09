@@ -133,15 +133,35 @@ const createClaimFromVisit = (visit) => {
     provider: { reference: visit.providerId },
   }
 
+  let procCount = 1;
   if (visit.ubRevenue) {
     resource.procedure = [{
       procedureCodeableConcept: {
         coding: [ createCode(visit.ubRevenue, 'R') ],
       },
     }];
+    if (visit.dischargeDate) {
+      resource.item = [{
+        sequence: procCount,
+        servicedPeriod: {
+          start: convertDateString(visit.dateOfService),
+          end: convertDateString(visit.dischargeDate),
+        },
+        revenue: { coding: [ createCode(visit.ubRevenue, 'R') ] }
+      }];
+    } else {
+      resource.item = [{
+        sequence: procCount,
+        servicedPeriod: {
+          start: convertDateString(visit.dateOfService),
+          end: convertDateString(visit.dateOfService),
+        },
+        revenue: { coding: [ createCode(visit.ubRevenue, 'R') ] }
+      }];
+    }
+    procCount += 1;
   }
 
-  let procCount = 1;
   if (visit.cpt) {
     if (resource.procedure === undefined) {
       resource.procedure = [];
@@ -168,7 +188,10 @@ const createClaimFromVisit = (visit) => {
     } else {
       item = {
         sequence: procCount,
-        servicedDate: convertDateString(visit.dateOfService),
+        servicedPeriod: {
+          start: convertDateString(visit.dateOfService),
+          end: convertDateString(visit.dateOfService),
+        },
         productOrService: {
           coding: [ cptCode ]
         }
@@ -213,7 +236,10 @@ const createClaimFromVisit = (visit) => {
     } else {
       item = {
         sequence: procCount,
-        servicedDate: convertDateString(visit.dateOfService),
+        servicedPeriod: {
+          start: convertDateString(visit.dateOfService),
+          end: convertDateString(visit.dateOfService),
+        },
         productOrService: {
           coding: [ hcpcsCode ]
         }
@@ -258,7 +284,10 @@ const createClaimFromVisit = (visit) => {
     } else {
       item = {
         sequence: procCount,
-        servicedDate: convertDateString(visit.dateOfService),
+        servicedPeriod: {
+          start: convertDateString(visit.dateOfService),
+          end: convertDateString(visit.dateOfService),
+        },
       };
     }
 
@@ -538,11 +567,6 @@ const isValidEncounter = (visit) => {
     ubTypeOfBill = `0${ubTypeOfBill}`;
   }
   const ubRevenue = visit.ubRevenue;
-  // 21 is for inpatient facility, other than psychiatric. 0154 is psychiatric
-  if ((cmsPlaceOfService && cmsPlaceOfService === '21') 
-    && (ubRevenue && ubRevenue == '0154')) {
-    return false;
-  }
   // 31 is for skilled nursing facility
   if (cmsPlaceOfService === '31') {
     // If Ub Revenue exists, but is not 002 (skilled nursing) it's invalid
@@ -573,43 +597,7 @@ const isValidEncounter = (visit) => {
   return true;
 }
 
-// AAB sample has a situation where an inpatient and outpatient procedure are added to the same encounter
-// Definitely appears to be invalid
-const combineIsInvalid = (visit) => {
-  if (visit.type.length <= 1) {
-    return false;
-  }
-  const dir = config.valuesetsDirectory;
-  const inpatientValueSet = JSON.parse(fs.readFileSync(`${dir}2.16.840.1.113883.3.464.1004.1395.json`, 'utf8'));
-
-  const inpatient = visit.type.find((proc) => {
-    const code = proc.coding[0].code;
-    return inpatientValueSet.expansion.contains.find((value) => value.code === code);
-  });
-
-  if (inpatient === undefined) {
-    return false;
-  }
-
-  const outpatientValueSet = JSON.parse(fs.readFileSync(`${dir}2.16.840.1.113883.3.464.1004.1202.json`, 'utf8'));
-  const observationValueSet = JSON.parse(fs.readFileSync(`${dir}2.16.840.1.113883.3.464.1004.1191.json`, 'utf8'));
-  const edValueSet = JSON.parse(fs.readFileSync(`${dir}2.16.840.1.113883.3.464.1004.1086.json`, 'utf8'));
-  const telephoneValueSet = JSON.parse(fs.readFileSync(`${dir}2.16.840.1.113883.3.464.1004.1246.json`, 'utf8'));
-  const onlineValueSet = JSON.parse(fs.readFileSync(`${dir}2.16.840.1.113883.3.464.1004.1446.json`, 'utf8'));
-
-  const outatient = visit.type.find((proc) => {
-    const code = proc.coding[0].code;
-    return outpatientValueSet.expansion.contains.find((value) => value.code === code)
-      || observationValueSet.expansion.contains.find((value) => value.code === code)
-      || edValueSet.expansion.contains.find((value) => value.code === code)
-      || telephoneValueSet.expansion.contains.find((value) => value.code === code)
-      || onlineValueSet.expansion.contains.find((value) => value.code === code);
-  });
-
-  return inpatient && outatient;
-}
-
 module.exports = { getSystem, createCode, professionalClaimType, 
-  pharmacyClaimType, convertDateString, createClaimFromVisit, combineIsInvalid,
+  pharmacyClaimType, convertDateString, createClaimFromVisit,
   createServiceCodeFromVisit, createClaimEncounter, createDiagnosisCondition,
   createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createPractitionerLocation, isValidEncounter };
