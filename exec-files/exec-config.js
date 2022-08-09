@@ -13,9 +13,11 @@ const logger = require('../src/winston');
 const { createProviderList } = require('../src/utilities/providerUtil');
 
 let measure;
+let support;
 let libraries;
 let valueSets;
 let engineLibraries;
+let supportLibraries;
 let codeService;
 const messageListener = new cql.ConsoleMessageListener();
 const parameters = {
@@ -45,6 +47,18 @@ function measurementFileScan() {
   logger.info('Measurement file located: ' + measurementFilePath + '.');
 }
 
+function supportFileScan() {
+  const supportFilePath = getDirFilePath(config.supportFile);
+  if (supportFilePath != undefined) {
+    support = JSON.parse(
+      fs.readFileSync(supportFilePath),
+      'utf-8');
+    logger.info('Support file located: ' + supportFilePath + '.');
+  } else {
+    logger.info('No support file located. Continuing without.');
+  }
+}
+
 // You must run the measurementFileScan before this.
 function librariesDirectoryScan() {
   const libraryDirPath = getDirFilePath(config.librariesDirectory);
@@ -57,6 +71,11 @@ function librariesDirectoryScan() {
   }
   logger.info('Library files located, count: ' + Object.keys(libraries).length + '.');
   engineLibraries = new cql.Library(measure, new cql.Repository(libraries));
+  if (support != undefined) {
+    const measurementDirPath = getDirFilePath(config.measurementFile);
+    libraries[config.measurementType] = require(measurementDirPath);
+    supportLibraries = new cql.Library(support, new cql.Repository(libraries));
+  }
 }
 
 // We can speed this up slightly by running it asynchronously. But it's not an issue right now.
@@ -134,6 +153,7 @@ function initialize() {
   libraries = {};
   valueSets = {};
   measurementFileScan();
+  supportFileScan();
   librariesDirectoryScan();
   valueSetsDirectoryCompile();
 }
@@ -144,11 +164,24 @@ const cleanData = patientResults => {
   const clonedPatientResults = cloneDeep(patientResults);
   Object.entries(clonedPatientResults).forEach(([patientKey, patientValue]) => {
     const patient = patientValue;
+    
     // remove Patient data - not needed
     delete patient.Patient;
     patient.id = patientKey;
   });
   return clonedPatientResults;
+};
+
+const cleanSupport = patientResults => {
+  const supportData = {}
+  Object.keys(patientResults).forEach((patientKey) => {
+    Object.keys(patientResults[patientKey]).forEach((dataKey) => {
+      if (dataKey.startsWith('Data Numerator')) {
+        supportData[dataKey] = patientResults[patientKey][dataKey];
+      }
+    });
+  });
+  return supportData;
 };
 
 const execute = (patients) => {
@@ -161,6 +194,13 @@ const execute = (patients) => {
   cleanedPatientResults.timeStamp = moment().format();
 
   return cleanedPatientResults;
+};
+
+const supportExecute = (patients) => {
+  const executor = new cql.Executor(supportLibraries, codeService, parameters, messageListener);
+  patientSource.loadBundles(patients);
+  const result = executor.exec(patientSource);
+  return cleanSupport(result.patientResults);
 };
 
 const hasDenominator = (patientData) => {
@@ -207,4 +247,4 @@ const evalData = (patient) => {
   return undefined;
 };
 
-module.exports = { execute, cleanData, evalData, initialize, valueSetJSONCompile };
+module.exports = { execute, supportExecute, cleanData, evalData, initialize, valueSetJSONCompile };
