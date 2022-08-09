@@ -2,7 +2,7 @@ const minimist = require('minimist');
 const fs = require('fs');
 const path = require('path');
 const config = require('./config');
-const { execute } = require('./exec-files/exec-config');
+const { execute, supportExecute } = require('./exec-files/exec-config');
 const { createProviderList } = require('./src/utilities/providerUtil');
 const { getEligiblePopulation, ethnicityMap, raceEthnicDSMap, hedisData } = require('./ncqa-test-validator-util');
 
@@ -61,7 +61,8 @@ async function checkArgs() {
 }
 
 const evalData = (patient) => {
-  const data = execute(patient);
+  const data = execute(patient); 
+  const support = supportExecute(patient);
 
   const memberId = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
   const patientData = data[memberId];
@@ -75,6 +76,8 @@ const evalData = (patient) => {
   data['measurementType'] = measure;
   data['coverage'] = patientData['Member Coverage'];
   data['providers'] = createProviderList(patient);
+  data['support'] = support;
+
   if(hedisData[measure].raceRequired) {
     patientInfo.extension.forEach((ext) => {
       const code = ext.extension[0].valueCoding;
@@ -188,7 +191,7 @@ async function processFhirDirectory(dirFiles) {
       fs.writeFileSync(path.join(measuresPath, fileTitle), JSON.stringify(memberData, null, 2));
     }
     
-    appendScoreFile(memberData);
+    appendScoreFile(memberData); //JAMES KEITH
   }
 }
 

@@ -139,15 +139,35 @@ const createClaimFromVisit = (visit) => {
     provider: { reference: visit.providerId },
   }
 
+  let procCount = 1;
   if (visit.ubRevenue) {
     resource.procedure = [{
       procedureCodeableConcept: {
         coding: [ createCode(visit.ubRevenue, 'R') ],
       },
     }];
+    if (visit.dischargeDate) {
+      resource.item = [{
+        sequence: procCount,
+        servicedPeriod: {
+          start: convertDateString(visit.dateOfService),
+          end: convertDateString(visit.dischargeDate),
+        },
+        revenue: { coding: [ createCode(visit.ubRevenue, 'R') ] }
+      }];
+    } else {
+      resource.item = [{
+        sequence: procCount,
+        servicedPeriod: {
+          start: convertDateString(visit.dateOfService),
+          end: convertDateString(visit.dateOfService),
+        },
+        revenue: { coding: [ createCode(visit.ubRevenue, 'R') ] }
+      }];
+    }
+    procCount += 1;
   }
 
-  let procCount = 1;
   if (visit.cpt) {
     if (resource.procedure === undefined) {
       resource.procedure = [];
@@ -174,7 +194,10 @@ const createClaimFromVisit = (visit) => {
     } else {
       item = {
         sequence: procCount,
-        servicedDate: convertDateString(visit.dateOfService),
+        servicedPeriod: {
+          start: convertDateString(visit.dateOfService),
+          end: convertDateString(visit.dateOfService),
+        },
         productOrService: {
           coding: [ cptCode ]
         }
@@ -219,7 +242,10 @@ const createClaimFromVisit = (visit) => {
     } else {
       item = {
         sequence: procCount,
-        servicedDate: convertDateString(visit.dateOfService),
+        servicedPeriod: {
+          start: convertDateString(visit.dateOfService),
+          end: convertDateString(visit.dateOfService),
+        },
         productOrService: {
           coding: [ hcpcsCode ]
         }
@@ -264,7 +290,10 @@ const createClaimFromVisit = (visit) => {
     } else {
       item = {
         sequence: procCount,
-        servicedDate: convertDateString(visit.dateOfService),
+        servicedPeriod: {
+          start: convertDateString(visit.dateOfService),
+          end: convertDateString(visit.dateOfService),
+        },
       };
     }
 
@@ -546,16 +575,8 @@ const isValidEncounter = (visit) => {
     ubTypeOfBill = `0${ubTypeOfBill}`;
   }
   const ubRevenue = visit.ubRevenue;
-  // 21 is for inpatient facility, other than psychiatric. 0154 is psychiatric
-  if ((cmsPlaceOfService && cmsPlaceOfService === '31') 
-    && (ubRevenue && ubRevenue == '0154')) {
-    return false;
-  }
   // 31 is for skilled nursing facility
   if (cmsPlaceOfService === '31') {
-    if (ubRevenue && (ubRevenue === '0206' || ubRevenue.startsWith('017') || ubRevenue.startsWith('02'))) {
-      return false;
-    }
     // If Ub Revenue exists, but is not 002 (skilled nursing) it's invalid
     if (ubRevenue && !(ubRevenue.startsWith('002') || ubTypeOfBill.startsWith('02') )) {
       return false;
