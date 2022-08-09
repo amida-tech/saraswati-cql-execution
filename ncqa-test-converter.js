@@ -43,36 +43,35 @@ async function initMembers(testDirectory, memberIds) {
   const fileLines = await readFile(`${testDirectory}/member-gm.txt`);
   for await (const text of fileLines) {
     const memberId = extractValue(text, 1, 16);
-    if (memberIds !== undefined && memberIds.find((id) => id !== memberId)) {
-      continue;
-    }
-    memberObject[memberId] = {
-      generalMembership: {
-        memberId:              extractValue(text, 1, 16),
-        gender:                extractValue(text, 17, 1),
-        dateOfBirth:           extractValue(text, 18, 8),
-        memberLastName:        extractValue(text, 26, 20),
-        memberFirstName:       extractValue(text, 46, 20),
-        subscriberId:          extractValue(text, 67, 16),
-        mailingAddressOne:     extractValue(text, 83, 50),
-        mailingAddressTwo:     extractValue(text, 133, 50),
-        city:                  extractValue(text, 183, 30),
-        state:                 extractValue(text, 213, 2),
-        zipCode:               extractValue(text, 215, 5),
-        phoneNumber:           extractValue(text, 220, 10),
-        guardianFirstName:     extractValue(text, 230, 25),
-        guardianMiddleInitial: extractValue(text, 255, 1),
-        guardianLastName:      extractValue(text, 256, 25),
-        race:                  extractValue(text, 281, 2),
-        ethnicity:             extractValue(text, 283, 2),
-        raceDataSource:        extractValue(text, 285, 2),
-        ethnicityDataSource:   extractValue(text, 287, 2),
-        spokenLanguage:        extractValue(text, 289, 2),
-        spokenLanguageSource:  extractValue(text, 291, 2),
-        writtenLanguage:       extractValue(text, 293, 2),
-        writtenLanguageSource: extractValue(text, 295, 2),
-        otherLanguage:         extractValue(text, 297, 2),
-        otherLanguageSource:   extractValue(text, 299, 2),
+    if (memberIds === undefined || memberIds.includes(memberId)) {
+      memberObject[memberId] = {
+        generalMembership: {
+          memberId:              extractValue(text, 1, 16),
+          gender:                extractValue(text, 17, 1),
+          dateOfBirth:           extractValue(text, 18, 8),
+          memberLastName:        extractValue(text, 26, 20),
+          memberFirstName:       extractValue(text, 46, 20),
+          subscriberId:          extractValue(text, 67, 16),
+          mailingAddressOne:     extractValue(text, 83, 50),
+          mailingAddressTwo:     extractValue(text, 133, 50),
+          city:                  extractValue(text, 183, 30),
+          state:                 extractValue(text, 213, 2),
+          zipCode:               extractValue(text, 215, 5),
+          phoneNumber:           extractValue(text, 220, 10),
+          guardianFirstName:     extractValue(text, 230, 25),
+          guardianMiddleInitial: extractValue(text, 255, 1),
+          guardianLastName:      extractValue(text, 256, 25),
+          race:                  extractValue(text, 281, 2),
+          ethnicity:             extractValue(text, 283, 2),
+          raceDataSource:        extractValue(text, 285, 2),
+          ethnicityDataSource:   extractValue(text, 287, 2),
+          spokenLanguage:        extractValue(text, 289, 2),
+          spokenLanguageSource:  extractValue(text, 291, 2),
+          writtenLanguage:       extractValue(text, 293, 2),
+          writtenLanguageSource: extractValue(text, 295, 2),
+          otherLanguage:         extractValue(text, 297, 2),
+          otherLanguageSource:   extractValue(text, 299, 2),
+        }
       }
     }
   }

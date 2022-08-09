@@ -793,7 +793,13 @@ const hedisData = {
     getNumerator: (data, _index) => data[data.memberId]['Numerator'] ? 1 : 0,
     getRequiredExclusion: () => 0,
     getRequiredExclusionID: (data) => data[data.memberId]['Exclusions'] ? 1 : 0,
-    getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
+    getPayors: (data, _index, measureFunctions) => {
+      const payors = getDefaultPayors(data, measureFunctions.getAge(data));
+      if (medicarePlans.some((plan) => payors.includes(plan))) {
+        return payors.filter((plan) => medicarePlans.includes(plan));
+      }
+      return payors;
+    },
   },
   uop: {
     measureIds: ['UOPA','UOPB','UOPC']
