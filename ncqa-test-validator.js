@@ -191,7 +191,7 @@ async function processFhirDirectory(dirFiles) {
       fs.writeFileSync(path.join(measuresPath, fileTitle), JSON.stringify(memberData, null, 2));
     }
     
-    // appendScoreFile(memberData); JAMES KEITH
+    appendScoreFile(memberData); //JAMES KEITH
   }
 }
 

@@ -176,7 +176,7 @@ const cleanSupport = patientResults => {
   const supportData = {}
   Object.keys(patientResults).forEach((patientKey) => {
     Object.keys(patientResults[patientKey]).forEach((dataKey) => {
-      if (dataKey.startsWith('Data Numerator')) {
+      if (dataKey.startsWith('Data Numerator') || dataKey.startsWith('Certification')) {
         supportData[dataKey] = patientResults[patientKey][dataKey];
       }
     });

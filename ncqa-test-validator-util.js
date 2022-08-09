@@ -61,7 +61,7 @@ const hedisData = {
     measureCheck: (data, index) => {
       let eventInEnrollment = false;
       const episodeDates = data[data.memberId]['Qualifying Episodes Without Exclusions'];
-      const validDates = data[data.memberId]['Qualifying Valid Member'];
+      const validDates = data.support['Certification Qualifying Valid Member'];
       if (episodeDates && episodeDates.length > 0) {
         eventInEnrollment = true;
       }
@@ -80,7 +80,7 @@ const hedisData = {
       if (event) {
         eventDate = new Date(event);
       } else {
-        eventDate = new Date(data[data.memberId]['Qualifying Valid Member'][index]);
+        eventDate = new Date(data.support['Certification Qualifying Valid Member'][index]);
       }
       return getAge(new Date(data.birthDate), eventDate);
     },
@@ -93,12 +93,12 @@ const hedisData = {
     getNumerator: (data, index) => {
       let denominator = data[data.memberId][`Denominator`][index];
       if (denominator === undefined) {
-        denominator = data[data.memberId][`Qualifying Valid Member`][index];
+        denominator = data.support['Certification Qualifying Valid Member'][index];
         if (denominator === undefined) {
           return 0;
         }
       }
-      let numerator = data[data.memberId][`Valid Numerator`];
+      let numerator = data.support[`Certification Numerator`];
       if (numerator.length === 0) {
         return 0;
       } else if (numerator.length === 1) {
