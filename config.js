@@ -55,8 +55,7 @@ const envVarsSchema = Joi.object({
     .description('Location of the measure CQL. File only.')
     .required(),
   SUPPORT_FILE: Joi.string()
-    .description('Location of the support CQL. File only.')
-    .required(),
+    .description('Location of the support CQL. File only. Optional.'),
   LIBRARIES_DIRECTORY: Joi.string()
     .description('Location of the libraries. Directory only.')
     .required(),

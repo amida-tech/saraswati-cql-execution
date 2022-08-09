@@ -153,7 +153,9 @@ function initialize() {
   libraries = {};
   valueSets = {};
   measurementFileScan();
-  supportFileScan();
+  if (config.supportFile) {
+    supportFileScan();
+  }
   librariesDirectoryScan();
   valueSetsDirectoryCompile();
 }

@@ -62,7 +62,6 @@ async function checkArgs() {
 
 const evalData = (patient) => {
   const data = execute(patient); 
-  const support = supportExecute(patient);
 
   const memberId = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
   const patientData = data[memberId];
@@ -76,7 +75,10 @@ const evalData = (patient) => {
   data['measurementType'] = measure;
   data['coverage'] = patientData['Member Coverage'];
   data['providers'] = createProviderList(patient);
-  data['support'] = support;
+  
+  if (config.supportFile) {
+    data['support'] = supportExecute(patient);
+  }
 
   if(hedisData[measure].raceRequired) {
     patientInfo.extension.forEach((ext) => {
