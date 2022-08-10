@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { convert } = require('ucum');
 const config = require('./config');
 
 const measure = config.measurementType;
@@ -6,6 +7,7 @@ const measure = config.measurementType;
 const ndcRxSystemCodes = ['351172','352118','200172','213178','310346','201961'];
 
 const quantityMeasures = ['psa']; // Lab tests often want different value types. This helps map them. 
+const msInADay = 1000 * 60 * 60 * 24; // Here we go again...
 
 const getSystem = (value) => {
   switch(value) {
@@ -623,7 +625,10 @@ const getLabValues = (labValue) => { // Many possible values: CC, boolean, integ
   return result;
 }
 
+const withinAWeek = (firstDate, secondDate) => 
+  Math.abs(new Date(convertDateString(firstDate)) - new Date(convertDateString(secondDate))) / msInADay <= 7;
+
 module.exports = { getSystem, createCode, professionalClaimType, getLabValues,
   pharmacyClaimType, convertDateString, createClaimFromVisit,
-  createServiceCodeFromVisit, createClaimEncounter, createDiagnosisCondition,
+  createServiceCodeFromVisit, createClaimEncounter, createDiagnosisCondition, withinAWeek,
   createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createPractitionerLocation, isValidEncounter };
