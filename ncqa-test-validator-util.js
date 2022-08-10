@@ -795,6 +795,9 @@ const hedisData = {
     getRequiredExclusionID: (data) => data[data.memberId]['Exclusions'] ? 1 : 0,
     getPayors: (data, _index, measureFunctions) => {
       const payors = getDefaultPayors(data, measureFunctions.getAge(data));
+      if (payors === undefined) {
+        return undefined;
+      }
       if (medicarePlans.some((plan) => payors.includes(plan))) {
         return payors.filter((plan) => medicarePlans.includes(plan));
       }

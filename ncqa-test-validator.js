@@ -211,6 +211,7 @@ if (parseArgs.h === true) {
   console.log('   -m, --memberIds: A comma separated list of memberIds you want to compute. Optional.');
   console.log('   -b, --beginWith: A number for which member ID the script will start with. Optional.');
   console.log('   -e, --endWith: A number for which member ID the script will end with. Optional.');
+  console.log('   -o, --outputFile: The file to store the results. Optional but recommended when using -b and -e.');
   console.log('   -v, --validate: Optional. If true, compare against the `score.txt` file in the folder above FHIR directory. Outputs "score-amida.txt". Defaults to "false".');
   console.log('   -s, --skipEval: Optional. If true, it will not run CQL execution. It will use the previously generated json output.')
   process.exit();
