@@ -517,7 +517,7 @@ const createCoverageObjects = (membershipEnrollment, mmdfList) => {
     if (mmdfList) {
       for (const mmdfField of mmdfList) {
         const mmdfDate = new Date(convertDateString(mmdfField.runDate));
-        if (mmdfField.lti === 'Y' && mmdfDate >= coverageStart && mmdfDate <= coverageEnd) { // James
+        if (mmdfField.lti === 'Y' && mmdfDate >= coverageStart && mmdfDate <= coverageEnd) { 
           resource.type.coding.push({
             system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
             code: 'LTC',
@@ -1148,7 +1148,8 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
         code: { coding: [ obsCode ] },
       }
       if (observation.value) {
-        obsResource.valueInteger = parseInt(observation.value);
+        const labValues = getLabValues(observation.value);
+        obsResource[labValues.key] = labValues.value; // JAMES
       }
       if (observation.endDate) {
         obsResource.effectivePeriod = {
@@ -1277,7 +1278,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
   if (pharmacy) {
     pharmacy.forEach((pharm) => {
       if (pharm.serviceDate) {
-        const medDispenseResource = { // JAMES
+        const medDispenseResource = {
           id: `${pharm.memberId}-medicationDispense-${claimCount}`,
           resourceType: 'MedicationDispense',
           patient: { reference: `Patient/${pharm.memberId}-patient` },

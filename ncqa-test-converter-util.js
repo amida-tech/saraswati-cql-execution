@@ -5,6 +5,8 @@ const measure = config.measurementType;
 
 const ndcRxSystemCodes = ['351172','352118','200172','213178','310346','201961'];
 
+const quantityMeasures = ['psa']; // Lab tests often want different value types. This helps map them. 
+
 const getSystem = (value) => {
   switch(value) {
     case 'S':
@@ -607,16 +609,17 @@ const isValidEncounter = (visit) => {
 
 const getLabValues = (labValue) => { // Many possible values: CC, boolean, integer, range, ratio, sampledata(?), time, datetime, period.
   const result = {};
-  if (isNaN(labValue)) { // Checks if int or float too.
-    result.key = 'valueString';
-    result.value = labValue;
-  } else { // Assume valueQuantity, but if need arises, check Number.isInteger
+  if (quantityMeasures.includes(measure)) { // Checks if int or float too.
     result.key = 'valueQuantity';
     result.value = { value: labValue };
-    if (measure === 'psa') {
-      result.value.unit = 'ng/mL';
-    }
-  } 
+    result.value.unit = 'ng/mL';
+  } else if (Number.isInteger(labValue)) { 
+    result.key = 'valueInteger';
+    result.value = labValue;
+  } else {
+    result.key = 'valueString';
+    result.value = labValue;
+  }
   return result;
 }
 
