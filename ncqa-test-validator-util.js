@@ -757,7 +757,84 @@ const hedisData = {
     measureIds: ['IMAMEN','IMATD','IMAHPV','IMACMB1','IMACMB2']
   },
   pdse: {
-    measureIds: ['PDS1A','PDS2A','PDS1B','PDS2B']
+    measureIds: ['PDS1A','PDS2A','PDS1B','PDS2B'],
+    eventsOrDiag: true,
+    measureCheck: (data, index, measureFunctions) => {
+      if (measureFunctions.getPayors(data, index, measureFunctions) === undefined) {
+        return false;
+      }
+      return data.support['Certification Delivery'][Math.floor(index / 2)] !== undefined;
+    },
+    getAge: (data, index) => {
+      let eventDate = data.support['Certification Delivery'][Math.floor(index / 2)];
+      if (eventDate == undefined) {
+        eventDate = '2022-01-01';
+      } else {
+        eventDate = eventDate.deliveryDate;
+      }
+      return getAge(new Date(data.birthDate), new Date(eventDate));
+    },
+    getContinuousEnrollment: (data, index) => {
+      const ce = data.support[`Certification Continuous Enrollment`];
+      if (ce.length === 0) {
+        return 0;
+      }
+      return ce[Math.floor(index / 2)].isCovered ? 1 : 0;
+    },
+    getEvent: (data, index) => {
+      const currentDelivery = data.support['Certification Delivery'][Math.floor(index / 2)];
+      if (index % 2 === 0) {
+        return currentDelivery !== undefined ? 1 : 0;
+      }
+      const currentDeliveryDate = currentDelivery.deliveryDate;
+      let denomField = `Denominator ${(index % 2) + 1}`;
+      const denominator = data[data.memberId][denomField];
+      for (const denom of denominator) {
+        if ((denom.performed.start 
+          && new Date(denom.performed.start.value).getTime() === new Date(currentDeliveryDate).getTime())
+          || new Date(denom.performed.value).getTime() === new Date(currentDeliveryDate).getTime()) {
+          return 1;
+        }
+      }
+      return 0;
+    },
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      let payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors.length === 0) {
+        return 0;
+      }
+      return !medicarePlans.includes(payors[0])
+        && !exchange.includes(payors[0]) ? 1 : 0;
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index) => {
+      const currentDeliveryDate = data.support['Certification Delivery'][Math.floor(index / 2)].deliveryDate;
+      let numField = `Numerator ${(index % 2) + 1}`;
+      const numerator = data[data.memberId][numField];
+      for (const num of numerator) {
+        if ((num.performed.start 
+          && new Date(num.performed.start.value).getTime() === new Date(currentDeliveryDate).getTime())
+          || new Date(num.performed.value).getTime() === new Date(currentDeliveryDate).getTime()) {
+          return 1;
+        }
+      }
+      return 0;
+    },
+    getRequiredExclusion: (data, index) => data[data.memberId][`Exclusions ${(index % 2) + 1}`].length > 0 ? 1 : 0,
+    getRequiredExclusionID: () => 0,
+    getPayors: (data, index, measureFunctions) => {
+      const memberCoverage = data[data.memberId]['Member Coverage'];
+      const delivery = data.support['Certification Delivery'][Math.floor(index / 2)];
+      let foundPayors = memberCoverage;
+      if (delivery !== undefined && measureFunctions.getContinuousEnrollment(data, index, measureFunctions) === 1) {
+        foundPayors = memberCoverage.filter((coverage) => {
+          return new Date(coverage.period.start.value).getTime() <= new Date(delivery.deliveryDate)
+            && new Date(coverage.period.end.value).getTime() >= new Date(delivery.deliveryDate)
+        });
+      }
+      foundPayors = foundPayors.map((coverage) => coverageMap(coverage));
+      return getValidPayors(foundPayors, measureFunctions.getAge(data, index), memberCoverage);
+    },
   },
   pnde: {
     measureIds: ['PND1A','PND2A','PND1B','PND2B']
