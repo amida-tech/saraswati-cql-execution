@@ -8,7 +8,7 @@ const medicarePlans = ['MCR', 'MCS', 'MP', 'MC', 'MCR', 'SN1', 'SN2', 'SN3', 'MM
 const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB', 'MCD', 'MMP'];
 const snpMeasures = []; // I don't think we'll ever have any of these for a while.
 const medicareMeasures = ['aab', 'asfe', 'aise', 'bcse', 'cole', 'cou', 'dmse', 'fum', 'psa'];
-const medicaidMeasures = ['aab', 'adde', 'aise', 'asfe', 'bcse', 'ccs', 'cise', 'cou', 'dmse', 'fum', 'pdse'];
+const medicaidMeasures = ['aab', 'adde', 'aise', 'asfe', 'bcse', 'ccs', 'cise', 'cou', 'dmse', 'fum', 'imae', 'pdse'];
 const mmpMeasures = []; // As with SNPs.
 
 const measurePlanInfo = {
@@ -104,6 +104,10 @@ const measurePlanInfo = {
     medicare: {
       ageStart: 6
     }
+  },
+  imae: {
+    commercial: {},
+    medicaid: {}
   },
   pdse: {
     commercial: {},

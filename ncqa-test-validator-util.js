@@ -462,30 +462,28 @@ const hedisData = {
       let eventDate = new Date('2022-12-31');
       return getAge(new Date(data.birthDate), eventDate);
     },
-    getEligiblePopulation: (data, index, measureFunctions) => {
+    getEligiblePopulation: (data, _index, measureFunctions) => {
       const payor = measureFunctions.getPayors(data)[0];
       if (medicarePlans.includes(payor)) {
         return 0;
       }
       return data[data.memberId][`Initial Population`] ? 1 : 0; 
     },
-    getEvent: (data, index) => {
-      return 0;
-    },
+    getEvent: () => 0,
     getContinuousEnrollment: (data) => {
       return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
     },
     getExclusion: (data) => {
       return data[data.memberId][`Denominator Exceptions`] ? 1 : 0;
     },
-    getNumerator: (data, index) => {
+    getNumerator: (data) => {
       return data[data.memberId][`Numerator`] ? 1 : 0;
     },
     getRequiredExclusion: () => 0,
-    getRequiredExclusionID: (data, index) => {
+    getRequiredExclusionID: (data) => {
       return data[data.memberId][`Exclusions`] ? 1 : 0;
     },
-    getPayors: (data, index) => getDefaultPayors(data),
+    getPayors: (data) => getDefaultPayors(data),
   },
   cise: {
     measureIds: ['CISDTP','CISOPV','CISMMR','CISHIB','CISHEPB','CISVZV','CISPNEU','CISHEPA','CISROTA','CISINFL','CISCMB3','CISCMB7','CISCMB10'],
@@ -754,7 +752,42 @@ const hedisData = {
     }
   },
   imae: {
-    measureIds: ['IMAMEN','IMATD','IMAHPV','IMACMB1','IMACMB2']
+    measureIds: ['IMAMEN','IMATD','IMAHPV','IMACMB1','IMACMB2'],
+    measureCheck: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors === undefined) {
+        return false;
+      }
+      if (index == 3 && exchange.includes(payors[0])) {
+        return false;
+      }
+      const age = measureFunctions.getAge(data);
+      return age === 13;
+    },
+    getAge: (data) => {
+      let eventDate = new Date('2022-12-31');
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId]['Enrolled During Participation Period'] ? 1 : 0;
+    },
+    getEvent: () => 0,
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors === undefined) {
+        return 0;
+      }
+      return !medicarePlans.includes(payors[0]) ? 1 : 0// && !medicarePlans.includes(payors[0]) ? 1 : 0;
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index) => {
+      return data[data.memberId][`Numerator ${index +1}`] ? 1 : 0;
+    },
+    getRequiredExclusion: (data, index) => {
+      return data[data.memberId][`Exclusions ${index +1}`] ? 1 : 0;
+    },
+    getRequiredExclusionID: () => 0,
+    getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
   },
   pdse: {
     measureIds: ['PDS1A','PDS2A','PDS1B','PDS2B'],
