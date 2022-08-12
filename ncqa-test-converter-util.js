@@ -631,14 +631,13 @@ const getLabValues = (labValue) => { // Many possible values: CC, boolean, integ
 
 const daysBetweenDates = (firstDate, secondDate) => (firstDate - secondDate) / msInADay;
 
-const searchLabs = (labs, currentIndex, currentDate, currentHasValue) => {
-  const matchYear = parseInt(labs[currentIndex].dateOfService.substr(0,4)); // Never trust the livin--I mean, timezones.
+const searchLabs = (labs, edgeIndex, edgeDate, edgeHasValue, edgeYear) => {
   for (const [index, lab] of labs.entries()) {
-    if (index !== currentIndex && (currentHasValue ? lab.value === '' : lab.value)) {      
+    if (index !== edgeIndex && (edgeHasValue ? lab.value === '' : lab.value)) {
       const yearCheck = parseInt(lab.dateOfService.substr(0,4)); // Do not trust new Date. It is a liar.
       const checkMatchDate = new Date(convertDateString(lab.dateOfService));
-      const daysBetween = Math.abs(daysBetweenDates(currentDate, checkMatchDate));
-      if (Math.abs(yearCheck - matchYear) === 1 && daysBetween <= 7) {  // Match.
+      const daysBetween = Math.abs(daysBetweenDates(edgeDate, checkMatchDate));
+      if (Math.abs(yearCheck - edgeYear) === 1 && daysBetween <= 7) {  // Match.
         return index;
       }
     }
@@ -651,27 +650,30 @@ const checkLabDates = (labDate) => {
   const postThisYearDays = daysBetweenDates(endOfThisYear, labDate);
   const preLastYearDays = daysBetweenDates(labDate, startOfLastYear)
   const postLastYearDays = daysBetweenDates(endOfLastYear, labDate);
-  const preThisYear = 0 >= preThisYearDays && preThisYearDays >= -7;
-  const postThisYear = 0 >= postThisYearDays && postThisYearDays >= -7;
-  const preLastYear = 0 >= preLastYearDays && preLastYearDays >= -7;
-  const postLastYear = 0 >= postLastYearDays && postLastYearDays >= -7;
+  const preThisYear = 0 > preThisYearDays && preThisYearDays >= -7;
+  const postThisYear = 0 > postThisYearDays && postThisYearDays >= -7;
+  const preLastYear = 0 > preLastYearDays && preLastYearDays >= -7;
+  const postLastYear = 0 > postLastYearDays && postLastYearDays >= -7;
   return { preThisYear, postThisYear, preLastYear, postLastYear };
 }
 
 // This does not alter labs in anyway. It just returns an array of objects with lab indices to pair.
 const groupLabs = (labs) => {
   const matches = [];
-  labs.forEach((lab, index) => {
+  labs.forEach((lab, edgeIndex) => {
     if (lab.dateOfService === '') {
       return;
     }
-    const labDate = new Date(convertDateString(lab.dateOfService));
-    const { preThisYear, postThisYear, preLastYear, postLastYear } = checkLabDates(labDate);
+    const edgeDate = new Date(convertDateString(lab.dateOfService));
+    const { preThisYear, postThisYear, preLastYear, postLastYear } = checkLabDates(edgeDate);
     if ( preThisYear || postThisYear || preLastYear || postLastYear) { 
-      const labHasValue = lab.value !== undefined && lab.value !== ''; // If this has lab values, we want a match that does NOT.
-      const match = searchLabs(labs, index, labDate, labHasValue);
-      if (match >= 0) {
-        matches.push(labHasValue ? { labResult: index, labOrder: match } : { labResult: match, labOrder: index });
+      const edgeHasValue = lab.value !== undefined && lab.value !== ''; // If this has lab values, we want a match that does NOT.
+      const edgeYear = parseInt(labs[edgeIndex].dateOfService.substr(0,4)); // Never trust the livin--I mean, timezones.
+      const matchIndex = searchLabs(labs, edgeIndex, edgeDate, edgeHasValue, edgeYear);
+      if (matchIndex >= 0) {
+        matches.push(edgeHasValue ?
+          { labResult: edgeIndex, labOrder: matchIndex, isResultLater: !edgeHasValue } :
+          { labResult: matchIndex, labOrder: edgeIndex, isResultLater: !edgeHasValue });
       }
     }
   });

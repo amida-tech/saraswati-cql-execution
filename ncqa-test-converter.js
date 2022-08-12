@@ -1186,13 +1186,46 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
 
   if (labs) {
     const matches = groupLabs(labs);
-    
-    console.log(labs[0].memberId);
-    console.log(matches);
-    
-    labs.forEach((lab, index) => {
+    let observationIndex = 1;
+    matches.forEach((match) => {
+      const {labResult, labOrder, isResultLater} = match;
       const resource = {
-        id: `${lab.memberId}-lab-observation-${index + 1}`,
+        id: `${labs[labResult].memberId}-lab-observation-${observationIndex}`,
+        resourceType: 'Observation',
+        effectiveDateTime: convertDateString(labs[isResultLater ? labResult : labOrder].dateOfService),
+      };
+      resource.code = { coding: [] };
+      if (labs[labResult].cptCode) {
+        resource.code.coding.push(createCode(labs[labResult].cptCode, 'C'));
+      }
+      if (labs[labOrder].cptCode && labs[labResult].cptCode !== labs[labOrder].cptCode) {
+        resource.code.coding.push(createCode(labs[labOrder].cptCode, 'C'));
+      }
+      if (labs[labResult].loincCode) {
+        resource.code.coding.push(createCode(labs[labResult].loincCode, 'L'));
+      }
+      if (labs[labOrder].loincCode && labs[labResult].loincCode !== labs[labOrder].loincCode) {
+        resource.code.coding.push(createCode(labs[labOrder].loincCode, 'L'));
+      }
+      const labValues = getLabValues(labs[labResult].value);
+      resource[labValues.key] = labValues.value;
+      
+      observationList.push(resource);
+      observationIndex++;
+      if (labResult > labOrder) {
+        labs.splice(labResult, 1);
+        labs.splice(labOrder, 1);
+      } else {
+        labs.splice(labOrder, 1);
+        labs.splice(labResult, 1);
+      }
+    });
+
+    console.log("labs left: " + labs.length);
+    
+    labs.forEach((lab) => {
+      const resource = {
+        id: `${lab.memberId}-lab-observation-${observationIndex + 1}`,
         resourceType: 'Observation',
         effectiveDateTime: convertDateString(lab.dateOfService),
       };
@@ -1210,6 +1243,7 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
         resource[labValues.key] = labValues.value;
       }
       observationList.push(resource);
+      observationIndex++;
     });
   }
 
