@@ -3,7 +3,7 @@ const fs = require('fs');
 const readline = require('readline');
 const { createCode, professionalClaimType, pharmacyClaimType, convertDateString, getLabValues,
   createClaimFromVisit, createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
-  createClaimResponse, createPharmacyClaim, isDateDuringPeriod,
+  createClaimResponse, createPharmacyClaim, isDateDuringPeriod, groupLabs,
   createPractitionerLocation, isValidEncounter } = require('./ncqa-test-converter-util');
 
 const parseArgs = minimist(process.argv.slice(2), {
@@ -1185,6 +1185,11 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
   }
 
   if (labs) {
+    const matches = groupLabs(labs);
+    
+    console.log(labs[0].memberId);
+    console.log(matches);
+    
     labs.forEach((lab, index) => {
       const resource = {
         id: `${lab.memberId}-lab-observation-${index + 1}`,

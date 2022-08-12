@@ -8,6 +8,10 @@ const ndcRxSystemCodes = ['351172','352118','200172','213178','310346','201961']
 
 const quantityMeasures = ['psa']; // Lab tests often want different value types. This helps map them. 
 const msInADay = 1000 * 60 * 60 * 24; // Here we go again...
+const endOfThisYear = new Date(`${config.measurementYear}-12-31`);
+const startOfThisYear = new Date(`${config.measurementYear}-01-01`);
+const endOfLastYear = new Date(`${config.measurementYear-1}-12-31`);
+const startOfLastYear = new Date(`${config.measurementYear-1}-01-01`);
 
 const getSystem = (value) => {
   switch(value) {
@@ -625,10 +629,57 @@ const getLabValues = (labValue) => { // Many possible values: CC, boolean, integ
   return result;
 }
 
-const withinAWeek = (firstDate, secondDate) => 
-  Math.abs(new Date(convertDateString(firstDate)) - new Date(convertDateString(secondDate))) / msInADay <= 7;
+const daysBetweenDates = (firstDate, secondDate) => (firstDate - secondDate) / msInADay;
+
+const searchLabs = (labs, currentIndex, currentDate, currentHasValue) => {
+  const matchYear = parseInt(labs[currentIndex].dateOfService.substr(0,4)); // Never trust the livin--I mean, timezones.
+  for (const [index, lab] of labs.entries()) {
+    if (index !== currentIndex && (currentHasValue ? lab.value === '' : lab.value)) {      
+      const yearCheck = parseInt(lab.dateOfService.substr(0,4)); // Do not trust new Date. It is a liar.
+      const checkMatchDate = new Date(convertDateString(lab.dateOfService));
+      const daysBetween = Math.abs(daysBetweenDates(currentDate, checkMatchDate));
+      if (Math.abs(yearCheck - matchYear) === 1 && daysBetween <= 7) {  // Match.
+        return index;
+      }
+    }
+  }
+  return -1;
+}
+
+const checkLabDates = (labDate) => {
+  const preThisYearDays = daysBetweenDates(labDate, startOfThisYear);
+  const postThisYearDays = daysBetweenDates(endOfThisYear, labDate);
+  const preLastYearDays = daysBetweenDates(labDate, startOfLastYear)
+  const postLastYearDays = daysBetweenDates(endOfLastYear, labDate);
+  const preThisYear = 0 >= preThisYearDays && preThisYearDays >= -7;
+  const postThisYear = 0 >= postThisYearDays && postThisYearDays >= -7;
+  const preLastYear = 0 >= preLastYearDays && preLastYearDays >= -7;
+  const postLastYear = 0 >= postLastYearDays && postLastYearDays >= -7;
+  return { preThisYear, postThisYear, preLastYear, postLastYear };
+}
+
+// This does not alter labs in anyway. It just returns an array of objects with lab indices to pair.
+const groupLabs = (labs) => {
+  const matches = [];
+  labs.forEach((lab, index) => {
+    if (lab.dateOfService === '') {
+      return;
+    }
+    const labDate = new Date(convertDateString(lab.dateOfService));
+    const { preThisYear, postThisYear, preLastYear, postLastYear } = checkLabDates(labDate);
+    if ( preThisYear || postThisYear || preLastYear || postLastYear) { 
+      const labHasValue = lab.value !== undefined && lab.value !== ''; // If this has lab values, we want a match that does NOT.
+      const match = searchLabs(labs, index, labDate, labHasValue);
+      if (match >= 0) {
+        matches.push(labHasValue ? { labResult: index, labOrder: match } : { labResult: match, labOrder: index });
+      }
+    }
+  });
+  return matches.filter((entry, index, self) =>
+    index === self.findIndex((compare) => (compare.labResult === entry.labResult && compare.labOrder === entry.labOrder)));
+}
 
 module.exports = { getSystem, createCode, professionalClaimType, getLabValues,
-  pharmacyClaimType, convertDateString, createClaimFromVisit,
-  createServiceCodeFromVisit, createClaimEncounter, createDiagnosisCondition, withinAWeek,
+  pharmacyClaimType, convertDateString, createClaimFromVisit, groupLabs,
+  createServiceCodeFromVisit, createClaimEncounter, createDiagnosisCondition,
   createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createPractitionerLocation, isValidEncounter };
