@@ -1189,9 +1189,12 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
     let observationIndex = 1;
     matches.forEach((match) => {
       const {labResult, labOrder, isResultLater} = match;
+      console.log(labs[labResult]);
+      console.log(labs[labOrder]);
+      console.log(isResultLater);
       const resource = {
-        id: `${labs[labResult].memberId}-lab-observation-${observationIndex}`,
         resourceType: 'Observation',
+        id: `${labs[labResult].memberId}-lab-observation-${observationIndex}`,
         effectiveDateTime: convertDateString(labs[isResultLater ? labResult : labOrder].dateOfService),
       };
       resource.code = { coding: [] };
@@ -1220,8 +1223,6 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
         labs.splice(labResult, 1);
       }
     });
-
-    console.log("labs left: " + labs.length);
     
     labs.forEach((lab) => {
       const resource = {

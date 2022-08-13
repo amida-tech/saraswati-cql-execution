@@ -632,13 +632,13 @@ const getLabValues = (labValue) => { // Many possible values: CC, boolean, integ
 const daysBetweenDates = (firstDate, secondDate) => (firstDate - secondDate) / msInADay;
 
 const searchLabs = (labs, edgeIndex, edgeDate, edgeHasValue, edgeYear) => {
-  for (const [index, lab] of labs.entries()) {
-    if (index !== edgeIndex && (edgeHasValue ? lab.value === '' : lab.value)) {
-      const yearCheck = parseInt(lab.dateOfService.substr(0,4)); // Do not trust new Date. It is a liar.
+  for (const [matchIndex, lab] of labs.entries()) {
+    if (matchIndex !== edgeIndex && (edgeHasValue ? lab.value === '' : lab.value)) {
+      const matchYear = parseInt(lab.dateOfService.substr(0,4)); // Do not trust new Date. It is a liar.
       const checkMatchDate = new Date(convertDateString(lab.dateOfService));
       const daysBetween = Math.abs(daysBetweenDates(edgeDate, checkMatchDate));
-      if (Math.abs(yearCheck - edgeYear) === 1 && daysBetween <= 7) {  // Match.
-        return index;
+      if (Math.abs(matchYear - edgeYear) === 1 && daysBetween <= 7) {  // Match.
+        return { matchIndex, matchYear };
       }
     }
   }
@@ -669,11 +669,11 @@ const groupLabs = (labs) => {
     if ( preThisYear || postThisYear || preLastYear || postLastYear) { 
       const edgeHasValue = lab.value !== undefined && lab.value !== ''; // If this has lab values, we want a match that does NOT.
       const edgeYear = parseInt(labs[edgeIndex].dateOfService.substr(0,4)); // Never trust the livin--I mean, timezones.
-      const matchIndex = searchLabs(labs, edgeIndex, edgeDate, edgeHasValue, edgeYear);
+      const { matchIndex, matchYear }  = searchLabs(labs, edgeIndex, edgeDate, edgeHasValue, edgeYear);
       if (matchIndex >= 0) {
         matches.push(edgeHasValue ?
-          { labResult: edgeIndex, labOrder: matchIndex, isResultLater: !edgeHasValue } :
-          { labResult: matchIndex, labOrder: edgeIndex, isResultLater: !edgeHasValue });
+          { labResult: edgeIndex, labOrder: matchIndex, isResultLater: edgeYear > matchYear } :
+          { labResult: matchIndex, labOrder: edgeIndex, isResultLater: edgeYear > matchYear });
       }
     }
   });
