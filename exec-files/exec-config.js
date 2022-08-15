@@ -22,12 +22,13 @@ let codeService;
 const messageListener = new cql.ConsoleMessageListener();
 const parameters = {
   'Measurement Period' : new cql.Interval(
-    new cql.DateTime(Number(config.measurementYear) - 1, 12, 31),
-    new cql.DateTime(Number(config.measurementYear) + 1, 1, 1),
+    new cql.DateTime(Number(config.measurementYear), 1, 1, 0, 0, 0, 0, false, false),
+    new cql.DateTime(Number(config.measurementYear) + 1, 1, 1, 0, 0, 0, 0, false , false),
     true,
     false
   )
 };
+
 const patientSource = cqlfhir.PatientSource.FHIRv401();
 
 logger.info('Exec config building.');

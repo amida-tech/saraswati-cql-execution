@@ -529,7 +529,7 @@ const convertDateString = (ncqaDateString) => {
   const month = ncqaDateString.toString().substr(4, 2);
   const day = ncqaDateString.toString().substr(6, 2);
 
-  return `${year}-${month}-${day}`;
+  return `${year}-${month}-${day}T00:00:00.000+00:00`;
 }
 
 const labValueSets = ['2.16.840.1.113883.3.464.1004.1525',
