@@ -1,9 +1,17 @@
 const fs = require('fs');
+const { convert } = require('ucum');
 const config = require('./config');
 
 const measure = config.measurementType;
 
 const ndcRxSystemCodes = ['351172','352118','200172','213178','310346','201961'];
+
+const quantityMeasures = ['psa']; // Lab tests often want different value types. This helps map them. 
+const msInADay = 1000 * 60 * 60 * 24; // Here we go again...
+const endOfThisYear = new Date(`${config.measurementYear}-12-31`);
+const startOfThisYear = new Date(`${config.measurementYear}-01-01`);
+const endOfLastYear = new Date(`${config.measurementYear-1}-12-31`);
+const startOfLastYear = new Date(`${config.measurementYear-1}-01-01`);
 
 const getSystem = (value) => {
   switch(value) {
@@ -607,20 +615,73 @@ const isValidEncounter = (visit) => {
 
 const getLabValues = (labValue) => { // Many possible values: CC, boolean, integer, range, ratio, sampledata(?), time, datetime, period.
   const result = {};
-  if (isNaN(labValue)) { // Checks if int or float too.
-    result.key = 'valueString';
-    result.value = labValue;
-  } else { // Assume valueQuantity, but if need arises, check Number.isInteger
+  if (quantityMeasures.includes(measure)) { // Checks if int or float too.
     result.key = 'valueQuantity';
     result.value = { value: labValue };
-    if (measure === 'psa') {
-      result.value.unit = 'ng/mL';
-    }
-  } 
+    result.value.unit = 'ng/mL';
+  } else if (Number.isInteger(labValue)) { 
+    result.key = 'valueInteger';
+    result.value = labValue;
+  } else {
+    result.key = 'valueString';
+    result.value = labValue;
+  }
   return result;
 }
 
+const daysBetweenDates = (firstDate, secondDate) => (firstDate - secondDate) / msInADay;
+
+const searchLabs = (labs, edgeIndex, edgeDate, edgeHasValue, edgeYear) => {
+  for (const [matchIndex, lab] of labs.entries()) {
+    if (matchIndex !== edgeIndex && (edgeHasValue ? lab.value === '' : lab.value)) {
+      const matchYear = parseInt(lab.dateOfService.substr(0,4)); // Do not trust new Date. It is a liar.
+      const checkMatchDate = new Date(convertDateString(lab.dateOfService));
+      const daysBetween = Math.abs(daysBetweenDates(edgeDate, checkMatchDate));
+      if (Math.abs(matchYear - edgeYear) === 1 && daysBetween <= 7) {  // Match.
+        return { matchIndex, matchYear };
+      }
+    }
+  }
+  return -1;
+}
+
+const checkLabDates = (labDate) => {
+  const preThisYearDays = daysBetweenDates(labDate, startOfThisYear);
+  const postThisYearDays = daysBetweenDates(endOfThisYear, labDate);
+  const preLastYearDays = daysBetweenDates(labDate, startOfLastYear)
+  const postLastYearDays = daysBetweenDates(endOfLastYear, labDate);
+  const preThisYear = 0 > preThisYearDays && preThisYearDays >= -7;
+  const postThisYear = 0 > postThisYearDays && postThisYearDays >= -7;
+  const preLastYear = 0 > preLastYearDays && preLastYearDays >= -7;
+  const postLastYear = 0 > postLastYearDays && postLastYearDays >= -7;
+  return { preThisYear, postThisYear, preLastYear, postLastYear };
+}
+
+// This does not alter labs in anyway. It just returns an array of objects with lab indices to pair.
+const groupLabs = (labs) => {
+  const matches = [];
+  labs.forEach((lab, edgeIndex) => {
+    if (lab.dateOfService === '') {
+      return;
+    }
+    const edgeDate = new Date(convertDateString(lab.dateOfService));
+    const { preThisYear, postThisYear, preLastYear, postLastYear } = checkLabDates(edgeDate);
+    if ( preThisYear || postThisYear || preLastYear || postLastYear) { 
+      const edgeHasValue = lab.value !== undefined && lab.value !== ''; // If this has lab values, we want a match that does NOT.
+      const edgeYear = parseInt(labs[edgeIndex].dateOfService.substr(0,4)); // Never trust the livin--I mean, timezones.
+      const { matchIndex, matchYear }  = searchLabs(labs, edgeIndex, edgeDate, edgeHasValue, edgeYear);
+      if (matchIndex >= 0) {
+        matches.push(edgeHasValue ?
+          { labResult: edgeIndex, labOrder: matchIndex, isResultLater: edgeYear > matchYear } :
+          { labResult: matchIndex, labOrder: edgeIndex, isResultLater: edgeYear > matchYear });
+      }
+    }
+  });
+  return matches.filter((entry, index, self) =>
+    index === self.findIndex((compare) => (compare.labResult === entry.labResult && compare.labOrder === entry.labOrder)));
+}
+
 module.exports = { getSystem, createCode, professionalClaimType, getLabValues,
-  pharmacyClaimType, convertDateString, createClaimFromVisit,
+  pharmacyClaimType, convertDateString, createClaimFromVisit, groupLabs,
   createServiceCodeFromVisit, createClaimEncounter, createDiagnosisCondition,
   createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createPractitionerLocation, isValidEncounter };

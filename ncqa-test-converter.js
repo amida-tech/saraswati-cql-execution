@@ -3,7 +3,7 @@ const fs = require('fs');
 const readline = require('readline');
 const { createCode, professionalClaimType, pharmacyClaimType, convertDateString, getLabValues,
   createClaimFromVisit, createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
-  createClaimResponse, createPharmacyClaim, isDateDuringPeriod,
+  createClaimResponse, createPharmacyClaim, isDateDuringPeriod, groupLabs,
   createPractitionerLocation, isValidEncounter } = require('./ncqa-test-converter-util');
 
 const parseArgs = minimist(process.argv.slice(2), {
@@ -43,36 +43,35 @@ async function initMembers(testDirectory, memberIds) {
   const fileLines = await readFile(`${testDirectory}/member-gm.txt`);
   for await (const text of fileLines) {
     const memberId = extractValue(text, 1, 16);
-    if (memberIds !== undefined && memberIds.find((id) => id !== memberId)) {
-      continue;
-    }
-    memberObject[memberId] = {
-      generalMembership: {
-        memberId:              extractValue(text, 1, 16),
-        gender:                extractValue(text, 17, 1),
-        dateOfBirth:           extractValue(text, 18, 8),
-        memberLastName:        extractValue(text, 26, 20),
-        memberFirstName:       extractValue(text, 46, 20),
-        subscriberId:          extractValue(text, 67, 16),
-        mailingAddressOne:     extractValue(text, 83, 50),
-        mailingAddressTwo:     extractValue(text, 133, 50),
-        city:                  extractValue(text, 183, 30),
-        state:                 extractValue(text, 213, 2),
-        zipCode:               extractValue(text, 215, 5),
-        phoneNumber:           extractValue(text, 220, 10),
-        guardianFirstName:     extractValue(text, 230, 25),
-        guardianMiddleInitial: extractValue(text, 255, 1),
-        guardianLastName:      extractValue(text, 256, 25),
-        race:                  extractValue(text, 281, 2),
-        ethnicity:             extractValue(text, 283, 2),
-        raceDataSource:        extractValue(text, 285, 2),
-        ethnicityDataSource:   extractValue(text, 287, 2),
-        spokenLanguage:        extractValue(text, 289, 2),
-        spokenLanguageSource:  extractValue(text, 291, 2),
-        writtenLanguage:       extractValue(text, 293, 2),
-        writtenLanguageSource: extractValue(text, 295, 2),
-        otherLanguage:         extractValue(text, 297, 2),
-        otherLanguageSource:   extractValue(text, 299, 2),
+    if (memberIds === undefined || memberIds.includes(memberId)) {
+      memberObject[memberId] = {
+        generalMembership: {
+          memberId:              extractValue(text, 1, 16),
+          gender:                extractValue(text, 17, 1),
+          dateOfBirth:           extractValue(text, 18, 8),
+          memberLastName:        extractValue(text, 26, 20),
+          memberFirstName:       extractValue(text, 46, 20),
+          subscriberId:          extractValue(text, 67, 16),
+          mailingAddressOne:     extractValue(text, 83, 50),
+          mailingAddressTwo:     extractValue(text, 133, 50),
+          city:                  extractValue(text, 183, 30),
+          state:                 extractValue(text, 213, 2),
+          zipCode:               extractValue(text, 215, 5),
+          phoneNumber:           extractValue(text, 220, 10),
+          guardianFirstName:     extractValue(text, 230, 25),
+          guardianMiddleInitial: extractValue(text, 255, 1),
+          guardianLastName:      extractValue(text, 256, 25),
+          race:                  extractValue(text, 281, 2),
+          ethnicity:             extractValue(text, 283, 2),
+          raceDataSource:        extractValue(text, 285, 2),
+          ethnicityDataSource:   extractValue(text, 287, 2),
+          spokenLanguage:        extractValue(text, 289, 2),
+          spokenLanguageSource:  extractValue(text, 291, 2),
+          writtenLanguage:       extractValue(text, 293, 2),
+          writtenLanguageSource: extractValue(text, 295, 2),
+          otherLanguage:         extractValue(text, 297, 2),
+          otherLanguageSource:   extractValue(text, 299, 2),
+        }
       }
     }
   }
@@ -518,7 +517,7 @@ const createCoverageObjects = (membershipEnrollment, mmdfList) => {
     if (mmdfList) {
       for (const mmdfField of mmdfList) {
         const mmdfDate = new Date(convertDateString(mmdfField.runDate));
-        if (mmdfField.lti === 'Y' && mmdfDate >= coverageStart && mmdfDate <= coverageEnd) { // James
+        if (mmdfField.lti === 'Y' && mmdfDate >= coverageStart && mmdfDate <= coverageEnd) { 
           resource.type.coding.push({
             system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
             code: 'LTC',
@@ -1149,7 +1148,8 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
         code: { coding: [ obsCode ] },
       }
       if (observation.value) {
-        obsResource.valueInteger = parseInt(observation.value);
+        const labValues = getLabValues(observation.value);
+        obsResource[labValues.key] = labValues.value; // JAMES
       }
       if (observation.endDate) {
         obsResource.effectivePeriod = {
@@ -1185,9 +1185,45 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
   }
 
   if (labs) {
-    labs.forEach((lab, index) => {
+    const matches = groupLabs(labs);
+    let observationIndex = 1;
+    matches.forEach((match) => {
+      const {labResult, labOrder, isResultLater} = match;
       const resource = {
-        id: `${lab.memberId}-lab-observation-${index + 1}`,
+        resourceType: 'Observation',
+        id: `${labs[labResult].memberId}-lab-observation-${observationIndex}`,
+        effectiveDateTime: convertDateString(labs[isResultLater ? labResult : labOrder].dateOfService),
+      };
+      resource.code = { coding: [] };
+      if (labs[labResult].cptCode) {
+        resource.code.coding.push(createCode(labs[labResult].cptCode, 'C'));
+      }
+      if (labs[labOrder].cptCode && labs[labResult].cptCode !== labs[labOrder].cptCode) {
+        resource.code.coding.push(createCode(labs[labOrder].cptCode, 'C'));
+      }
+      if (labs[labResult].loincCode) {
+        resource.code.coding.push(createCode(labs[labResult].loincCode, 'L'));
+      }
+      if (labs[labOrder].loincCode && labs[labResult].loincCode !== labs[labOrder].loincCode) {
+        resource.code.coding.push(createCode(labs[labOrder].loincCode, 'L'));
+      }
+      const labValues = getLabValues(labs[labResult].value);
+      resource[labValues.key] = labValues.value;
+      
+      observationList.push(resource);
+      observationIndex++;
+      if (labResult > labOrder) {
+        labs.splice(labResult, 1);
+        labs.splice(labOrder, 1);
+      } else {
+        labs.splice(labOrder, 1);
+        labs.splice(labResult, 1);
+      }
+    });
+    
+    labs.forEach((lab) => {
+      const resource = {
+        id: `${lab.memberId}-lab-observation-${observationIndex + 1}`,
         resourceType: 'Observation',
         effectiveDateTime: convertDateString(lab.dateOfService),
       };
@@ -1205,6 +1241,7 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
         resource[labValues.key] = labValues.value;
       }
       observationList.push(resource);
+      observationIndex++;
     });
   }
 
@@ -1278,7 +1315,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
   if (pharmacy) {
     pharmacy.forEach((pharm) => {
       if (pharm.serviceDate) {
-        const medDispenseResource = { // JAMES
+        const medDispenseResource = {
           id: `${pharm.memberId}-medicationDispense-${claimCount}`,
           resourceType: 'MedicationDispense',
           patient: { reference: `Patient/${pharm.memberId}-patient` },
