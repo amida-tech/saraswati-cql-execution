@@ -1189,9 +1189,6 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
     let observationIndex = 1;
     matches.forEach((match) => {
       const {labResult, labOrder, isResultLater} = match;
-      console.log(labs[labResult]);
-      console.log(labs[labOrder]);
-      console.log(isResultLater);
       const resource = {
         resourceType: 'Observation',
         id: `${labs[labResult].memberId}-lab-observation-${observationIndex}`,
