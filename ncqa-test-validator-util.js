@@ -669,7 +669,38 @@ const hedisData = {
     measureIds: ['DRRA','DRRB','DRRC']
   },
   dsfe: {
-    measureIds: ['DSFA','DSFB']
+    measureIds: ['DSFA','DSFB'],
+    measureCheck: (data, index, measureFunctions) => {
+      const age = measureFunctions.getAge(data);
+      if (age < 12) {
+        return false;
+      }
+      let validPayor = false;
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      validPayor = payors.some((payor) => exchange.includes(payor) || commercial.includes(payor) || medicaidPlans.includes(payor));
+      if (!validPayor && age > 18) {
+        validPayor = payors.some((payor) => medicarePlans.includes(payor));
+      }
+      return validPayor;
+    },
+    getAge: (data, _index) => {
+      let eventDate = new Date(`${config.measurementYear}-01-01`);
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getEligiblePopulation: (data, index, _measureFunctions) => data[data.memberId][`Initial Population ${index + 1}`] ? 1 : 0,
+    getContinuousEnrollment: (data, _index) => data[data.memberId]['Enrolled During Participation Period'] ? 1 : 0,
+    getEvent: (data, index) => { //Math.floor(index / 2)
+      if (index === 0) {
+        return 0;
+      }
+      return data[data.memberId]['Follow Up Care on or 30 Days after First Positive Screen'][0]
+        !== undefined ? 1 : 0;
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index) => data[data.memberId][`Numerator ${index + 1}`] ? 1 : 0,
+    getRequiredExclusion: (data, index) => data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0, // Guess?
+    getRequiredExclusionID: () => 0,
+    getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
   },
   fum: {
     measureIds: ['FUM30A', 'FUM7A', 'FUM30B', 'FUM7B'],
