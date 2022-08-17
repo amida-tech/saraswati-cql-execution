@@ -3,7 +3,8 @@ const config = require('./config');
 const measure = config.measurementType;
 const { getValidPayors, isValidCommercial, 
   isValidExchange, isValidMedicaid, isValidMedicare,
-  exchange, medicarePlans, medicaidPlans, commercial } = require('./ncqa-test-payer-util');
+  exchange, medicarePlans, medicaidPlans, commercial,
+  exchangeOrCommercial } = require('./ncqa-test-payer-util');
 
 const msInADay = 1000 * 60 * 60 * 24;
 const msInAYear = msInADay * 365.242; //.242;
@@ -50,7 +51,7 @@ const coverageMap = (coverage) => {
 
 const getDefaultPayors = (data, age) => {
   const memberCoverage = data[data.memberId]['Member Coverage'];
-  let foundPayors = memberCoverage.map((coverage) => coverageMap(coverage));
+  let foundPayors = memberCoverage.filter((coverage) => coverage.payor).map((coverage) => coverageMap(coverage));
   return getValidPayors(foundPayors, age, memberCoverage);
 }
 
@@ -130,6 +131,7 @@ const hedisData = {
       const age = measureFunctions.getAge(data);
       const currentDate = data[data.memberId]['Denominator'][index];
       let foundPayors = memberCoverage
+        .filter((coverage) => coverage.payor)
         .filter((coverage) => {
           return new Date(coverage.period.start.value).getTime() <= new Date(currentDate).getTime()
             && new Date(coverage.period.end.value).getTime() >= new Date(currentDate).getTime()
@@ -258,6 +260,7 @@ const hedisData = {
       const memberCoverage = data[data.memberId]['Member Coverage'];
       // filter coverage objects based on dates from Enrolled During Participation Period 1 and 2
       let foundPayors = memberCoverage
+        .filter((coverage) => coverage.payor)
         .filter((coverage) => {
           const coverageStart = new Date(coverage.period.start.value);
           const coverageEnd = new Date(coverage.period.end.value);
@@ -409,10 +412,23 @@ const hedisData = {
     measureCheck: (data, index, measureFunctions) => {
       let validPayor = false;
       const payors = measureFunctions.getPayors(data, index);
-      if (index === 0) {
-        validPayor = payors.find((payor) => exchangeOrCommercial.includes(payor) || medicaidPlans.includes(payor));
-      } else if (index === 1) {
-        validPayor = payors.find((payor) => medicarePlans.includes(payor));
+      if (index === 0) { //BCS
+        validPayor = payors.length > 0;
+      } else if (index === 1) { //BCSNON
+        validPayor = data.support['Certification Medicare NON']
+          && !data.support['Certification LIS'];
+      } else if (index === 2) { //BCSLISDE
+        validPayor = !data.support['Certification Medicare Other']
+          && !data.support['Certification Medicare Disability']
+          && data.support['Certification LIS'];
+      } else if (index === 3) { //BCSDIS
+        validPayor = !data.support['Certification LIS']
+          && data.support['Certification Medicare Disability'];
+      } else if (index === 4) { //BCSCMB
+        validPayor = data.support['Certification LIS']
+          && data.support['Certification Medicare Disability'];
+      } else if (index === 5) { //BCSOT
+        validPayor = data.support['Certification Medicare Other'];
       }
       const age = measureFunctions.getAge(data);
       return validPayor && age >= 18 && age <= 74 && data.gender.startsWith('f');
@@ -435,14 +451,20 @@ const hedisData = {
       return data[data.memberId][`Numerator`] ? 1 : 0;
     },
     getRequiredExclusion: (data, index) => {
+      if ((index > 0 && index != 5) && data.support['Certification Long Term Care'].length > 0) {
+        return 1;
+      }
       return data[data.memberId][`Exclusions`] ? 1 : 0;
     },
     getRequiredExclusionID: () => 0,
     getPayors: (data, index) => {
       const bcsePayors = getDefaultPayors(data);
+      if (bcsePayors === undefined) {
+        return [];
+      }
       if (index === 0) {
-        return bcsePayors.filter((payor) => exchangeOrCommercial.includes(payor) || medicaidPlans.includes(payor));
-      } else if (index === 1) {
+        return bcsePayors.filter((payor) => !medicarePlans.includes(payor));
+      } else if (index >= 1) {
         return bcsePayors.filter((payor) => medicarePlans.includes(payor));
       }
       return bcsePayors;
@@ -604,6 +626,7 @@ const hedisData = {
       const memberCoverage = data[data.memberId]['Member Coverage'];
       const prescStartDate = new Date(data[data.memberId]['Index Prescription Start Date']);
       let foundPayors = memberCoverage
+        .filter((coverage) => coverage.payor)
         .filter((coverage) => {
           return new Date(coverage.period.start.value).getTime() <= prescStartDate.getTime()
             && new Date(coverage.period.end.value).getTime() >= prescStartDate.getTime();
@@ -766,6 +789,7 @@ const hedisData = {
     getPayors: (data, _index, measureFunctions) => {
       const memberCoverage = data[data.memberId]['Member Coverage'];
       let foundPayors = memberCoverage
+        .filter((coverage) => coverage.payor)
         .map((coverage) => {
           return {
             payor: coverage.payor[0].reference.value,
@@ -896,7 +920,7 @@ const hedisData = {
             && new Date(coverage.period.end.value).getTime() >= new Date(delivery.deliveryDate)
         });
       }
-      foundPayors = foundPayors.map((coverage) => coverageMap(coverage));
+      foundPayors = foundPayors.filter((coverage) => coverage.payor).map((coverage) => coverageMap(coverage));
       return getValidPayors(foundPayors, measureFunctions.getAge(data, index), memberCoverage);
     },
   },

@@ -1,6 +1,9 @@
 const minimist = require('minimist');
 const fs = require('fs');
 const readline = require('readline');
+const config = require('./config');
+
+const measure = config.measurementType;
 const { createCode, professionalClaimType, pharmacyClaimType, convertDateString, getLabValues,
   createClaimFromVisit, createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
   createClaimResponse, createPharmacyClaim, isDateDuringPeriod, groupLabs,
@@ -432,6 +435,34 @@ async function readMmdf(testDirectory, memberInfo) {
   }
 }
 
+async function readLisHist(testDirectory, memberInfo) {
+  const fileName = `${testDirectory}/lishist.txt`;
+  if (!fs.existsSync(fileName)) {
+    console.log(`No diag.txt in ${testDirectory}`);
+    return;
+  }
+  try {
+    const fileLines = await readFile(fileName);
+    for await (const text of fileLines) {
+      const memberId = extractValue(text, 10, 12);
+      const currentMember = memberInfo[memberId];
+      if (currentMember === undefined) {
+        continue;
+      }
+      if (currentMember.lishist === undefined) {
+        currentMember.lishist = [];
+      }
+      currentMember.lishist.push({
+        beneficiaryId: extractValue(text, 10, 12), 
+        startDate:     extractValue(text, 51, 8),
+        endDate:       extractValue(text, 59, 8),
+      });
+    }
+  } catch (readError) {
+    console.log(`Error reading ${fileName} in ${testDirectory}`);
+  }
+}
+
 const createPatientFhirObject = (generalMembership) => {
   const patient = { resourceType: 'Patient'};
   patient.id = `${generalMembership.memberId}-patient`;
@@ -511,23 +542,6 @@ const createCoverageObjects = (membershipEnrollment, mmdfList) => {
       }
     };
 
-    const coverageStart = new Date(convertDateString(enrollment.startDate));
-    const coverageEnd = new Date(convertDateString(enrollment.disenrollmentDate));
-
-    if (mmdfList) {
-      for (const mmdfField of mmdfList) {
-        const mmdfDate = new Date(convertDateString(mmdfField.runDate));
-        if (mmdfField.lti === 'Y' && mmdfDate >= coverageStart && mmdfDate <= coverageEnd) { 
-          resource.type.coding.push({
-            system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
-            code: 'LTC',
-            display: 'Long Term Care',
-          });
-          break;
-        }
-      }
-    }
-
     if (enrollment.drugBenefit === 'Y') {
       resource.type.coding.push({
         system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
@@ -589,12 +603,45 @@ const createCoverageObjects = (membershipEnrollment, mmdfList) => {
     count += 1;
   });
 
+
+
+  if (mmdfList) {
+    let mmdfCount = 1;
+    for (const mmdfField of mmdfList) {
+      if (mmdfField.lti === 'Y') { 
+        const resource = {
+          resourceType: 'Coverage',
+          id: `${mmdfField.beneficiaryId}-long-term-coverage-${mmdfCount}`,
+          type: { coding: [{
+            system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
+            code: 'LTC',
+            display: 'Long Term Care',
+          }] },
+          patient: { reference: `Patient/${mmdfField.beneficiaryId}-patient` },
+          period: {
+            start: convertDateString(mmdfField.runDate),
+            end: convertDateString(mmdfField.paymentDate + mmdfField.runDate.substring(6, 8)),
+          }
+        };
+        
+        coverage.push({
+          fullUrl: `urn:uuid:${resource.id}`,
+          resource,
+        });
+
+        mmdfCount += 1;
+      }
+    }
+  }
+
   return coverage;
 }
 
-const createConditionList = (visitEList, diagnosisList) => {
+const createConditionList = (visitEList, diagnosisList, mmdfList, lishistList) => {
   const fullConditionList = [];
   const visitConditionList = [];
+  const mmdfConditionList = [];
+  const lishistConditionList = [];
   let conditionCount = 1;
 
   if (visitEList) {
@@ -632,7 +679,39 @@ const createConditionList = (visitEList, diagnosisList) => {
     });
   }
 
-  return { visitConditionList, fullConditionList };
+  if (mmdfList) {
+    mmdfList.forEach((mmdf, index) => {
+      const condObj = {
+        id: `${mmdf.beneficiaryId}-mmdf-condition-${index + 1}`,
+        resourceType: 'Condition',
+        subject: { reference: `Patient/${mmdf.beneficiaryId}-patient` },
+        code: { coding: [ createCode(`OREC-${mmdf.orec}`, 'A') ] },
+        onsetDateTime: convertDateString(mmdf.runDate),
+        abatementDateTime: convertDateString(mmdf.runDate),
+      }
+      mmdfConditionList.push(condObj);
+    });
+  }
+
+  if (lishistList) {
+    lishistList.forEach((lishist, index) => {
+      const condObj = {
+        id: `${lishist.beneficiaryId}-lishist-condition-${index + 1}`,
+        resourceType: 'Condition',
+        subject: { reference: `Patient/${lishist.beneficiaryId}-patient` },
+        code: { coding: [ createCode(`LISHIST`, 'A') ] },
+        onsetDateTime: convertDateString(lishist.startDate),
+      }
+      if (lishist.endDate !== '') {
+        condObj.abatementDateTime = convertDateString(lishist.endDate);
+      } else {
+        condObj.abatementDateTime = '2022-12-31T00:00:00.000+00:00';
+      }
+      lishistConditionList.push(condObj);
+    });
+  }
+
+  return { visitConditionList, fullConditionList, mmdfConditionList, lishistConditionList };
 }
 
 const createClaimEncResponse = (visitEList, observationList, procedureList) => {
@@ -731,7 +810,7 @@ const createClaimEncResponse = (visitEList, observationList, procedureList) => {
         } else {
           encResource.period = {
             start: convertDateString(procedure.serviceDate),
-            end: '2022-12-31',
+            end: '2022-12-31T00:00:00.000+00:00',
           }
         }
         encounters.push(encResource);
@@ -767,7 +846,6 @@ const createVisitClaimEncResponse = (visitList) => {
     for (const visitE of visitEncounters) {
       if (encounterId === visitE.id) {
         if (serviceCode) {
-          console.log(serviceCode)
           if (visitE.type) {
             visitE.type[0].coding.push(serviceCode);
           } else {
@@ -833,7 +911,7 @@ const createVisitClaimEncResponse = (visitList) => {
       visitEncounters.push(encounter);
     }
       
-    if (visit.supplementalData === 'N') {
+    if (visit.supplementalData === 'N' || measure === 'bcse') {
       let foundClaimMatch = false;
       const claimId = `${visit.memberId}-visit-claim-${visit.claimId}`;
       for (const claim of claims) {
@@ -980,6 +1058,9 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
           status: 'completed',
           code: { coding: [ serviceCode ] }
         }
+        if (visit.cptModOne) {
+          procResource.bodySite = [ { coding: [ createCode(visit.cptModOne, 'C') ] } ]
+        }
         procedureList.push(procResource);
       }
 
@@ -1050,7 +1131,7 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
       } else {
         procResource.performedPeriod = {
           start: convertDateString(procedure.serviceDate),
-          end: convertDateString('2022-12-31'),
+          end: convertDateString('2022-12-31T00:00:00.000+00:00'),
         }
       }
       procedureList.push(procResource);
@@ -1078,6 +1159,9 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
         status: 'completed',
         code: { coding: [ procCode ] },
       }
+      if (diagnosis.attribute) {
+        procResource.bodySite = [ { coding: [ createCode(diagnosis.attribute, diagnosis.diagnosisFlag) ] } ]
+      }
       if (diagnosis.endDate !== '') {
         procResource.performedPeriod = {
           start: convertDateString(diagnosis.startDate),
@@ -1086,7 +1170,7 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
       } else {
         procResource.performedPeriod = {
           start: convertDateString(diagnosis.startDate),
-          end: convertDateString('2022-12-31'),
+          end: convertDateString('2022-12-31T00:00:00.000+00:00'),
         }
       }
       procedureList.push(procResource);
@@ -1100,21 +1184,43 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
   const observationList = [];
   if (visits) {
     visits.forEach((visit, index) => {
+      const valid = isValidEncounter(visit);
       const serviceCode = createServiceCodeFromVisit(visit);
-      if (serviceCode && isValidEncounter(visit)) {
+      let effectivePeriod = {};
+      if (visit.dischargeDate) {
+        effectivePeriod = {
+          start: convertDateString(visit.dateOfService),
+          end: convertDateString(visit.dischargeDate),
+        }
+      } else {
+        effectivePeriod = {
+          start: convertDateString(visit.dateOfService),
+          end: convertDateString(visit.dateOfService),
+        }
+      }
+
+      if (serviceCode && valid) {
         const obsClaim = {
-          id: `${visit.memberId}-visit-observation-${visit.claimId}-${index+1}`,
+          id: `${visit.memberId}-visit-observation-${visit.claimId}-${index + 1}`,
           resourceType: 'Observation',
           code: { coding: [ serviceCode ] },
-          performer: [ { reference: visit.providerId } ]
+          performer: [ { reference: visit.providerId } ],
+          effectivePeriod,
         }
-        if (visit.dateOfService) {
-          obsClaim.effectivePeriod = {
-            start: convertDateString(visit.dateOfService),
-            end: convertDateString(visit.dateOfService),
-          }
-        }
+        
         observationList.push(obsClaim);
+      }
+      if (valid && visit.icdDiagnosis.length > 0) {
+        visit.icdDiagnosis.forEach((diagnosis, diagIndex) => {
+          const obsClaim = {
+            id: `${visit.memberId}-visit-diagnosis-observation-${visit.claimId}-${index}-${diagIndex + 1}`,
+            resourceType: 'Observation',
+            code: { coding: [ createCode(diagnosis, visit.icdIdentifier) ] },
+            performer: [ { reference: visit.providerId } ],
+            effectivePeriod,
+          }
+          observationList.push(obsClaim);
+        });
       }
     });
   }
@@ -1463,7 +1569,7 @@ async function createFhirJson(testDirectory, allMemberInfo) {
     const coverage = createCoverageObjects(memberInfo.membershipEnrollment, memberInfo.mmdf);
     coverage.forEach((cov) => fhirObject.entry.push(cov));
 
-    const conditions = createConditionList(memberInfo.visitEncounter, memberInfo.diagnosis);
+    const conditions = createConditionList(memberInfo.visitEncounter, memberInfo.diagnosis, memberInfo.mmdf, memberInfo.lishist);
 
     const claimEncResponse = createClaimEncResponse(
       memberInfo.visitEncounter,
@@ -1495,6 +1601,20 @@ async function createFhirJson(testDirectory, allMemberInfo) {
     });
 
     conditions.fullConditionList.forEach((condition) => {
+      fhirObject.entry.push({
+        fullUrl: `urn:uuid:${condition.id}`,
+        resource: condition,
+      });
+    });
+
+    conditions.mmdfConditionList.forEach((condition) => {
+      fhirObject.entry.push({
+        fullUrl: `urn:uuid:${condition.id}`,
+        resource: condition,
+      });
+    });
+
+    conditions.lishistConditionList.forEach((condition) => {
       fhirObject.entry.push({
         fullUrl: `urn:uuid:${condition.id}`,
         resource: condition,
@@ -1604,6 +1724,7 @@ const processTestDeck = async () => {
   await readProcedure(testDirectory, allMemberInfo);
   await readLab(testDirectory, allMemberInfo);
   await readMmdf(testDirectory, allMemberInfo);
+  await readLisHist(testDirectory, allMemberInfo);
 
   await createFhirJson(testDirectory, allMemberInfo);
 };
