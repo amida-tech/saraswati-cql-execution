@@ -313,4 +313,4 @@ const getValidPayors = (foundPayors, age, memberCoverage) => {
 }
 
 module.exports = { getValidPayors, isValidCommercial, isValidExchange, isValidMedicaid, isValidMedicare,
-  exchange, medicarePlans, medicaidPlans, commercial }
+  exchange, medicarePlans, medicaidPlans, commercial, exchangeOrCommercial }
