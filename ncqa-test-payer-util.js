@@ -301,12 +301,13 @@ const getPayorArray = (foundPayors, age) => {
 
 const getValidPayors = (foundPayors, age, memberCoverage) => {
   if (foundPayors === undefined || foundPayors.length === 0) {
-    if (memberCoverage.length === 0) {
+    const filteredMemberCoverage = memberCoverage.filter((coverage) => coverage.payor);
+    if (filteredMemberCoverage.length === 0) {
       console.log('No coverage exists');
       return;
     }
     
-    foundPayors = memberCoverage[memberCoverage.length - 1].payor[0].reference.value;
+    foundPayors = filteredMemberCoverage[filteredMemberCoverage.length - 1].payor[0].reference.value;
     return getPayors(foundPayors, age);
   }
   return getPayorArray(foundPayors, age);
