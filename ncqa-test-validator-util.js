@@ -639,30 +639,86 @@ const hedisData = {
     measureIds: ['CWPA','CWPB'],
     eventsOrDiag: true,
     measureCheck: (data, index, measureFunctions) => {
+      const age = measureFunctions.getAge(data, index);
+      if (age < 3) {
+        return false;
+      }
       return 1 === measureFunctions.getEvent(data, index, measureFunctions);
     },
     getAge: (data, index) => {
-      const eventDate = new Date(data.support['Certification Episode Date'][index]);
-      return getAge(new Date(data.birthDate), eventDate);
+      let eventDate = data.support['Certification Episode Date'][index];
+      if (eventDate === undefined) {
+        eventDate = data[data.memberId]['Encounter with Pharyngitis and Antibiotic'][index]?.low;
+      }
+      return getAge(new Date(data.birthDate), new Date(eventDate));
     },
-    getEligiblePopulation: (data, index, measureFunctions) => {
+    getEligiblePopulation: (data, index) => {
       return data[data.memberId][`Initial Population`][index] ? 1 : 0; 
     },
-    getEvent: (data, index) => {
-      return data.support['Certification Episode Date'][index] ? 1 : 0;
+    getEvent: (data, index, measureFunctions) => {
+      const events = measureFunctions.getValidEvents(data);
+      return events[index] ? 1 : 0;
     },
-    getContinuousEnrollment: (data, index) => {
-      return data.support[`Certification Continuous Enrollment`] ? 1 : 0;
+    getContinuousEnrollment: (data, index, measureFunctions) => {
+      const ce = data.support[`Certification Continuous Enrollment`];
+      if (ce.length === 0) {
+        return 0;
+      }
+      const events = measureFunctions.getValidEvents(data);
+      for (const ceCheck of ce) {
+        if (new Date(ceCheck.date).getTime() === new Date(events[index]).getTime()) {
+          return ceCheck.isCovered ? 1 : 0;
+        }
+      }
+      return 0;
     },
     getExclusion: () => 0,
     getNumerator: (data, index) => {
-      return data[data.memberId][`Numerator`][index] ? 1 : 0;
+      let event = data.support['Certification Episode Date'][index];
+      if (event === undefined) {
+        event = data[data.memberId]['Encounter with Pharyngitis and Antibiotic'][index].low;
+      }
+      let numeratorList = data[data.memberId][`Numerator`];
+      if (numeratorList.length === 0) {
+        numeratorList = data.support['Certification Numerator'];
+      }
+      for (const numerator of numeratorList) {
+        if (new Date(event).getTime() === new Date(numerator).getTime()) {
+          return 1;
+        }
+      }
+      return 0;
     },
     getRequiredExclusion: () => 0,
     getRequiredExclusionID: (data, index) => {
       return data[data.memberId][`Exclusions`][index] ? 1 : 0;
     },
-    getPayors: (data) => getDefaultPayors(data),
+    getValidEvents: (data) => {
+      let events = data[data.memberId]['Qualifying Episodes Without Exclusions'];
+      if (events.length === 0) {
+        events = data.support['Certification Episode Date'];
+        if (events.length === 0) {
+          events = data[data.memberId]['Numerator'];
+          if (events.length === 0) {
+            events = data.support['Certification Numerator'];
+          }
+        }
+      }
+      return events;
+    },
+    getPayors: (data, index, measureFunctions) => {
+      const memberCoverage = data[data.memberId]['Member Coverage'];
+      const eventDate = new Date(data.support['Certification Episode Date'][index]).getTime();
+      let foundPayors = memberCoverage
+        .filter((coverage) => coverage.payor)
+        .filter((coverage) => {
+          return new Date(coverage.period.start.value).getTime() <= eventDate
+            && new Date(coverage.period.end.value).getTime() >= eventDate
+          })
+        .map((coverage) => coverageMap(coverage));
+      const age  = measureFunctions.getAge(data, index);
+      return getValidPayors(foundPayors, age, memberCoverage);
+    }
   },
   dmse: {
     measureIds: ['DMS'],
