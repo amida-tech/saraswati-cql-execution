@@ -638,9 +638,31 @@ const hedisData = {
   cwp: {
     measureIds: ['CWPA','CWPB'],
     eventsOrDiag: true,
-    ageKey: 'Qualifying Episodes Without Exclusions',
-    ageArray: true, 
-    measureCheck: secondQualifyingEpisodeCheck,
+    measureCheck: (data, index, measureFunctions) => {
+      return 1 === measureFunctions.getEvent(data, index, measureFunctions);
+    },
+    getAge: (data, index) => {
+      const eventDate = new Date(data.support['Certification Episode Date'][index]);
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      return data[data.memberId][`Initial Population`][index] ? 1 : 0; 
+    },
+    getEvent: (data, index) => {
+      return data.support['Certification Episode Date'][index] ? 1 : 0;
+    },
+    getContinuousEnrollment: (data, index) => {
+      return data.support[`Certification Continuous Enrollment`] ? 1 : 0;
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index) => {
+      return data[data.memberId][`Numerator`][index] ? 1 : 0;
+    },
+    getRequiredExclusion: () => 0,
+    getRequiredExclusionID: (data, index) => {
+      return data[data.memberId][`Exclusions`][index] ? 1 : 0;
+    },
+    getPayors: (data) => getDefaultPayors(data),
   },
   dmse: {
     measureIds: ['DMS'],
