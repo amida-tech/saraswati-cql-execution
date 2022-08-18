@@ -710,14 +710,28 @@ const hedisData = {
       let eventDate = new Date(`${config.measurementYear}-01-01`);
       return getAge(new Date(data.birthDate), eventDate);
     },
-    getEligiblePopulation: (data, index, _measureFunctions) => data[data.memberId][`Initial Population ${index + 1}`] ? 1 : 0,
-    getContinuousEnrollment: (data, _index) => data[data.memberId]['Enrolled During Participation Period'] ? 1 : 0,
-    getEvent: (data, index) => { //Math.floor(index / 2)
-      if (index === 0) {
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors === undefined || exchange.includes(payors[0])) {
         return 0;
       }
-      return data[data.memberId]['Follow Up Care on or 30 Days after First Positive Screen'][0]
-        !== undefined ? 1 : 0;
+      if (index === 0) {
+        return data[data.memberId]['Initial Population 1'] ? 1 : 0
+      }
+      return data[data.memberId]['Denominator 2'] && measureFunctions.getEvent(data, index) ? 1 : 0;
+    },
+    getContinuousEnrollment: (data, _index) => data[data.memberId]['Enrolled During Participation Period'] ? 1 : 0,
+    getEvent: (data, index) => {
+      if (index === 0) { // Minus exclusions?
+        return 0;
+      }
+      if (data[data.memberId]['Numerator 1'] && (
+        data[data.memberId]['Adult Depression Screening with Positive Result between January 1 and December 1'] ||
+        data[data.memberId]['Adolescent Depression Screening with Positive Result between January 1 and December 1']
+      )) {
+        return 1;
+      }
+      return 0;
     },
     getExclusion: () => 0,
     getNumerator: (data, index) => data[data.memberId][`Numerator ${index + 1}`] ? 1 : 0,
