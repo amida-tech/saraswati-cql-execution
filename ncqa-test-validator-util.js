@@ -700,6 +700,9 @@ const hedisData = {
       }
       let validPayor = false;
       const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors === undefined) {
+        return false;
+      }
       validPayor = payors.some((payor) => exchange.includes(payor) || commercial.includes(payor) || medicaidPlans.includes(payor));
       if (!validPayor && age > 18) {
         validPayor = payors.some((payor) => medicarePlans.includes(payor));
