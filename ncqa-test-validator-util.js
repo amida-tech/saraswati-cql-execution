@@ -59,7 +59,10 @@ const hedisData = {
   aab: {
     measureIds: ['AABA','AABB'],
     eventsOrDiag: true,
-    measureCheck: (data, index) => {
+    measureCheck: (data, index, measureFunctions) => {
+      if (measureFunctions.getPayors(data, index, measureFunctions) === undefined) {
+        return false;
+      }
       let eventInEnrollment = false;
       const episodeDates = data[data.memberId]['Qualifying Episodes Without Exclusions'];
       const validDates = data.support['Certification Qualifying Valid Member'];
