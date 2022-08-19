@@ -144,7 +144,7 @@ const hedisData = {
             !exchange.includes(coverage.payor[0].reference.value) : false;
         });
       if (foundPayors.length === 0) {
-        foundPayors = memberCoverage;
+        foundPayors = memberCoverage.filter((coverage) => coverage.payor);
       }
       return getValidPayors(foundPayors.map((coverage) => coverageMap(coverage)), age, memberCoverage);
     },
