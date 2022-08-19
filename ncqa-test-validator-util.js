@@ -641,9 +641,88 @@ const hedisData = {
   cwp: {
     measureIds: ['CWPA','CWPB'],
     eventsOrDiag: true,
-    ageKey: 'Qualifying Episodes Without Exclusions',
-    ageArray: true, 
-    measureCheck: secondQualifyingEpisodeCheck,
+    measureCheck: (data, index, measureFunctions) => {
+      const age = measureFunctions.getAge(data, index, measureFunctions);
+      if (age < 3) {
+        return false;
+      }
+      return 1 === measureFunctions.getEvent(data, index, measureFunctions);
+    },
+    getAge: (data, index, measureFunctions) => {
+      const eventDate = new Date(measureFunctions.getValidEvents(data)[index]);
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getEligiblePopulation: (data, index) => {
+      return data[data.memberId][`Initial Population`][index] ? 1 : 0; 
+    },
+    getEvent: (data, index, measureFunctions) => {
+      const events = measureFunctions.getValidEvents(data);
+      return events[index] ? 1 : 0;
+    },
+    getContinuousEnrollment: (data, index, measureFunctions) => {
+      const ce = data.support[`Certification Continuous Enrollment`];
+      if (ce.length === 0) {
+        return 0;
+      }
+      const events = measureFunctions.getValidEvents(data);
+      for (const ceCheck of ce) {
+        if (new Date(ceCheck.date).getTime() === new Date(events[index]).getTime()) {
+          return ceCheck.isCovered ? 1 : 0;
+        }
+      }
+      return 0;
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index, measureFunctions) => {
+      const event = measureFunctions.getValidEvents(data)[index];
+      let numeratorList = data[data.memberId][`Numerator`];
+      if (numeratorList.length === 0) {
+        numeratorList = data.support['Certification Numerator'];
+      }
+      for (const numerator of numeratorList) {
+        if (new Date(event).getTime() === new Date(numerator).getTime()) {
+          return 1;
+        }
+      }
+      return 0;
+    },
+    getRequiredExclusion: () => 0,
+    getRequiredExclusionID: (data) => {
+      return data.support['Certification Hospice'] ? 1 : 0;
+    },
+    getValidEvents: (data) => {
+      let events = data[data.memberId]['Qualifying Episodes Without Exclusions'];
+      if (events.length === 0) {
+        events = data.support['Certification Episode Date'];
+        if (events.length === 0) {
+          events = data[data.memberId]['Numerator'];
+          if (events.length === 0) {
+            events = data.support['Certification Numerator'];
+          }
+        }
+      }
+      return events;
+    },
+    getPayors: (data, index, measureFunctions) => {
+      const memberCoverage = data[data.memberId]['Member Coverage'];
+      const ce = measureFunctions.getContinuousEnrollment(data, index, measureFunctions);
+      let foundPayors = [];
+      if (ce === 1) {
+        const eventDate = new Date(measureFunctions.getValidEvents(data)[index]).getTime();
+        foundPayors = memberCoverage
+          .filter((coverage) => coverage.payor)
+          .filter((coverage) => {
+            return new Date(coverage.period.start.value).getTime() <= eventDate
+              && new Date(coverage.period.end.value).getTime() >= eventDate
+            })
+          .map((coverage) => coverageMap(coverage));
+      } else {
+        foundPayors = memberCoverage.filter((coverage) => coverage.payor).map((coverage) => coverageMap(coverage));
+      }
+      
+      const age  = measureFunctions.getAge(data, index, measureFunctions);
+      return getValidPayors(foundPayors, age, memberCoverage);
+    }
   },
   dmse: {
     measureIds: ['DMS'],
