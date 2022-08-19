@@ -557,10 +557,23 @@ const hedisData = {
     measureCheck: (data, index, measureFunctions) => {
       let validPayor = false;
       const payors = measureFunctions.getPayors(data, index);
-      if (index === 0) {
-        validPayor = payors.find((payor) => exchangeOrCommercial.includes(payor) || medicaidPlans.includes(payor));
-      } else if (index >= 1) {
-        validPayor = payors.find((payor) => medicarePlans.includes(payor));
+      if (index === 0) { //BCS
+        validPayor = payors.length > 0;
+      } else if (index === 1) { //BCSNON
+        validPayor = data.support['Certification Medicare NON']
+          && !data.support['Certification LIS'];
+      } else if (index === 2) { //BCSLISDE
+        validPayor = !data.support['Certification Medicare Other']
+          && !data.support['Certification Medicare Disability']
+          && data.support['Certification LIS'];
+      } else if (index === 3) { //BCSDIS
+        validPayor = !data.support['Certification LIS']
+          && data.support['Certification Medicare Disability'];
+      } else if (index === 4) { //BCSCMB
+        validPayor = data.support['Certification LIS']
+          && data.support['Certification Medicare Disability'];
+      } else if (index === 5) { //BCSOT
+        validPayor = data.support['Certification Medicare Other'];
       }
       const age = measureFunctions.getAge(data);
       return validPayor && age >= 46 && age <= 75;
@@ -584,16 +597,24 @@ const hedisData = {
     getNumerator: (data, _index) => {
       return data[data.memberId]['Numerator'] ? 1 : 0;
     },
-    getRequiredExclusion: (data, _index) => {
-      return data[data.memberId]['Exclusions'] ? 1 : 0;
+    getRequiredExclusion: (data, index) => {
+      if ((index > 0 && index != 5) && data.support['Certification Long Term Care'].length > 0) {
+        return 1;
+      }
+      return data[data.memberId][`Exclusions`] ? 1 : 0;
     },
     getRequiredExclusionID: () => 0,
     getPayors: (data, index) => {
-      const colePayors = getDefaultPayors(data);
-      if (index === 0) {
-        return colePayors.filter((payor) => exchangeOrCommercial.includes(payor) || medicaidPlans.includes(payor));
+      const colePayers = getDefaultPayors(data);
+      if (colePayers === undefined) {
+        return [];
       }
-      return colePayors.filter((payor) => medicarePlans.includes(payor));
+      if (index === 0) {
+        return colePayers.filter((payor) => !medicarePlans.includes(payor));
+      } else if (index >= 1) {
+        return colePayers.filter((payor) => medicarePlans.includes(payor));
+      }
+      return colePayers;
     }
   },
   cou: {
