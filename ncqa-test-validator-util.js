@@ -639,18 +639,15 @@ const hedisData = {
     measureIds: ['CWPA','CWPB'],
     eventsOrDiag: true,
     measureCheck: (data, index, measureFunctions) => {
-      const age = measureFunctions.getAge(data, index);
+      const age = measureFunctions.getAge(data, index, measureFunctions);
       if (age < 3) {
         return false;
       }
       return 1 === measureFunctions.getEvent(data, index, measureFunctions);
     },
-    getAge: (data, index) => {
-      let eventDate = data.support['Certification Episode Date'][index];
-      if (eventDate === undefined) {
-        eventDate = data[data.memberId]['Encounter with Pharyngitis and Antibiotic'][index]?.low;
-      }
-      return getAge(new Date(data.birthDate), new Date(eventDate));
+    getAge: (data, index, measureFunctions) => {
+      const eventDate = new Date(measureFunctions.getValidEvents(data)[index]);
+      return getAge(new Date(data.birthDate), eventDate);
     },
     getEligiblePopulation: (data, index) => {
       return data[data.memberId][`Initial Population`][index] ? 1 : 0; 
@@ -673,11 +670,8 @@ const hedisData = {
       return 0;
     },
     getExclusion: () => 0,
-    getNumerator: (data, index) => {
-      let event = data.support['Certification Episode Date'][index];
-      if (event === undefined) {
-        event = data[data.memberId]['Encounter with Pharyngitis and Antibiotic'][index].low;
-      }
+    getNumerator: (data, index, measureFunctions) => {
+      const event = measureFunctions.getValidEvents(data)[index];
       let numeratorList = data[data.memberId][`Numerator`];
       if (numeratorList.length === 0) {
         numeratorList = data.support['Certification Numerator'];
@@ -690,8 +684,8 @@ const hedisData = {
       return 0;
     },
     getRequiredExclusion: () => 0,
-    getRequiredExclusionID: (data, index) => {
-      return data[data.memberId][`Exclusions`][index] ? 1 : 0;
+    getRequiredExclusionID: (data) => {
+      return data.support['Certification Hospice'] ? 1 : 0;
     },
     getValidEvents: (data) => {
       let events = data[data.memberId]['Qualifying Episodes Without Exclusions'];
@@ -708,15 +702,22 @@ const hedisData = {
     },
     getPayors: (data, index, measureFunctions) => {
       const memberCoverage = data[data.memberId]['Member Coverage'];
-      const eventDate = new Date(data.support['Certification Episode Date'][index]).getTime();
-      let foundPayors = memberCoverage
-        .filter((coverage) => coverage.payor)
-        .filter((coverage) => {
-          return new Date(coverage.period.start.value).getTime() <= eventDate
-            && new Date(coverage.period.end.value).getTime() >= eventDate
-          })
-        .map((coverage) => coverageMap(coverage));
-      const age  = measureFunctions.getAge(data, index);
+      const ce = measureFunctions.getContinuousEnrollment(data, index, measureFunctions);
+      let foundPayors = [];
+      if (ce === 1) {
+        const eventDate = new Date(measureFunctions.getValidEvents(data)[index]).getTime();
+        foundPayors = memberCoverage
+          .filter((coverage) => coverage.payor)
+          .filter((coverage) => {
+            return new Date(coverage.period.start.value).getTime() <= eventDate
+              && new Date(coverage.period.end.value).getTime() >= eventDate
+            })
+          .map((coverage) => coverageMap(coverage));
+      } else {
+        foundPayors = memberCoverage.filter((coverage) => coverage.payor).map((coverage) => coverageMap(coverage));
+      }
+      
+      const age  = measureFunctions.getAge(data, index, measureFunctions);
       return getValidPayors(foundPayors, age, memberCoverage);
     }
   },
