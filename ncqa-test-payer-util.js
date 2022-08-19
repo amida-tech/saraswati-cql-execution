@@ -7,8 +7,8 @@ const exchangeOrCommercial = ['CEP', 'HMO', 'POS', 'PPO', 'MEP', 'MMO', 'MOS', '
 const medicarePlans = ['MCR', 'MCS', 'MP', 'MC', 'MCR', 'SN1', 'SN2', 'SN3', 'MMP'];
 const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB', 'MCD', 'MMP'];
 const snpMeasures = []; // I don't think we'll ever have any of these for a while.
-const medicareMeasures = ['aab', 'asfe', 'aise', 'bcse', 'cole', 'cou', 'dmse', 'fum', 'psa'];
-const medicaidMeasures = ['aab', 'adde', 'apme', 'aise', 'asfe', 'bcse', 'ccs', 'cise', 'cou', 'dmse', 'fum', 'imae', 'pdse'];
+const medicareMeasures = ['aab', 'asfe', 'aise', 'bcse', 'cole', 'cou', 'dmse', 'dsfe', 'fum', 'psa'];
+const medicaidMeasures = ['aab', 'adde', 'apme', 'aise', 'asfe', 'bcse', 'ccs', 'cise', 'cou', 'dmse', 'dsfe', 'fum', 'imae', 'pdse'];
 const mmpMeasures = []; // As with SNPs.
 
 const measurePlanInfo = {
@@ -84,6 +84,17 @@ const measurePlanInfo = {
     medicare: {}
   },
   dmse: {
+    commercial: {
+      ageStart: 12,
+    },
+    medicaid: {
+      ageStart: 12,
+    },
+    medicare: {
+      ageStart: 18,
+    },
+  },
+  dsfe: {
     commercial: {
       ageStart: 12,
     },

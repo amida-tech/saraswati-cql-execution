@@ -13,6 +13,7 @@ const parseArgs = minimist(process.argv.slice(2), {
   alias: {
     t: 'testDirectory',
     m: 'memberId',
+    e: 'end',
   },
 });
 
@@ -26,6 +27,14 @@ function checkArgs() {
 
   if (parseArgs.m) {
     return parseArgs.m.toString().split(',');
+  } else if (parseArgs.e) {
+    const memberIds = [];
+    let i = 95000;
+    while (i <= parseArgs.e) {
+      memberIds.push(""+i);
+      i++;
+    }
+    return memberIds;
   }
   return undefined;
 }

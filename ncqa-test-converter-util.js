@@ -620,12 +620,12 @@ const getLabValues = (labValue) => { // Many possible values: CC, boolean, integ
     result.key = 'valueQuantity';
     result.value = { value: labValue };
     result.value.unit = 'ng/mL';
-  } else if (Number.isInteger(labValue)) { 
-    result.key = 'valueInteger';
-    result.value = labValue;
-  } else {
+  } else if (isNaN(labValue)) { 
     result.key = 'valueString';
     result.value = labValue;
+  } else {
+    result.key = 'valueInteger';
+    result.value = Number.parseInt(labValue);
   }
   return result;
 }
