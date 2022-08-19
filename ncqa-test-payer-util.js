@@ -7,8 +7,8 @@ const exchangeOrCommercial = ['CEP', 'HMO', 'POS', 'PPO', 'MEP', 'MMO', 'MOS', '
 const medicarePlans = ['MCR', 'MCS', 'MP', 'MC', 'MCR', 'SN1', 'SN2', 'SN3', 'MMP'];
 const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB', 'MCD', 'MMP'];
 const snpMeasures = []; // I don't think we'll ever have any of these for a while.
-const medicareMeasures = ['aab', 'asfe', 'aise', 'bcse', 'cole', 'cou', 'cwp', 'dmse', 'fum', 'psa'];
-const medicaidMeasures = ['aab', 'adde', 'apme', 'aise', 'asfe', 'bcse', 'ccs', 'cise', 'cou', 'cwp', 'dmse', 'fum', 'imae', 'pdse'];
+const medicareMeasures = ['aab', 'asfe', 'aise', 'bcse', 'cole', 'cou', 'cwp', 'dmse', 'dsfe', 'fum', 'psa'];
+const medicaidMeasures = ['aab', 'adde', 'apme', 'aise', 'asfe', 'bcse', 'ccs', 'cise', 'cou', 'cwp', 'dmse', 'dsfe', 'fum', 'imae', 'pdse'];
 const mmpMeasures = []; // As with SNPs.
 
 const measurePlanInfo = {
@@ -89,6 +89,17 @@ const measurePlanInfo = {
     medicare: {}
   },
   dmse: {
+    commercial: {
+      ageStart: 12,
+    },
+    medicaid: {
+      ageStart: 12,
+    },
+    medicare: {
+      ageStart: 18,
+    },
+  },
+  dsfe: {
     commercial: {
       ageStart: 12,
     },
@@ -306,12 +317,13 @@ const getPayorArray = (foundPayors, age) => {
 
 const getValidPayors = (foundPayors, age, memberCoverage) => {
   if (foundPayors === undefined || foundPayors.length === 0) {
-    if (memberCoverage.length === 0) {
+    const filteredMemberCoverage = memberCoverage.filter((coverage) => coverage.payor);
+    if (filteredMemberCoverage.length === 0) {
       console.log('No coverage exists');
       return;
     }
     
-    foundPayors = memberCoverage[memberCoverage.length - 1].payor[0].reference.value;
+    foundPayors = filteredMemberCoverage[filteredMemberCoverage.length - 1].payor[0].reference.value;
     return getPayors(foundPayors, age);
   }
   return getPayorArray(foundPayors, age);
