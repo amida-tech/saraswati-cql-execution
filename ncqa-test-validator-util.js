@@ -663,6 +663,10 @@ const hedisData = {
     measureIds: ['CWPA','CWPB'],
     eventsOrDiag: true,
     measureCheck: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors === undefined) {
+        return false;
+      }
       const age = measureFunctions.getAge(data, index, measureFunctions);
       if (age < 3) {
         return false;
