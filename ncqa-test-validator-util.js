@@ -60,92 +60,61 @@ const hedisData = {
     measureIds: ['AABA','AABB'],
     eventsOrDiag: true,
     measureCheck: (data, index, measureFunctions) => {
-      if (measureFunctions.getPayors(data, index, measureFunctions) === undefined) {
-        return false;
-      }
-      let eventInEnrollment = false;
-      const episodeDates = data[data.memberId]['Qualifying Episodes Without Exclusions'];
-      const validDates = data.support['Certification Qualifying Valid Member'];
-      if (episodeDates && episodeDates.length > 0) {
-        eventInEnrollment = true;
-      }
-      if (index === 0) {
-        return validDates.length > 0;
-      }
-
-      if (eventInEnrollment && episodeDates.length === 1) {
-        return false;
-      }
-      return validDates.length > 1;
+      return !(measureFunctions.getValidEvents(data) == null
+        || measureFunctions.getValidEvents(data)[index] === undefined
+        || measureFunctions.getPayors(data, index, measureFunctions) === undefined);
     },
-    getAge: (data, index) => { // Age must be calculated against first event.
-      const event = data[data.memberId]['Initial Population'][index];
-      let eventDate = {}
-      if (event) {
-        eventDate = new Date(event);
-      } else {
-        eventDate = new Date(data.support['Certification Qualifying Valid Member'][index]);
-      }
-      return getAge(new Date(data.birthDate), eventDate);
+    getAge: (data, index, measureFunctions) => {
+      const event = measureFunctions.getValidEvents(data)[index].date;
+      return getAge(new Date(data.birthDate), new Date(event));
     },
     getEvent: () => 1,
-    getContinuousEnrollment: (data) => {
-      return data[data.memberId]['Episode Date'].length >= 1 ? 1 : 0;
+    getContinuousEnrollment: (data, index, measureFunctions) => {
+      return measureFunctions.getValidEvents(data)[index].ce ? 1 : 0;
     },
     getEligiblePopulation: () => 1,
     getExclusion: () => 0,
-    getNumerator: (data, index) => {
-      let denominator = data[data.memberId][`Denominator`][index];
-      if (denominator === undefined) {
-        denominator = data.support['Certification Qualifying Valid Member'][index];
-        if (denominator === undefined) {
-          return 0;
-        }
-      }
-      let numerator = data.support[`Certification Numerator`];
-      if (numerator.length === 0) {
-        return 0;
-      } else if (numerator.length === 1) {
-        numerator = numerator[0];
-      } else if (numerator.length === 2 ) {
-        numerator = numerator[index];
-      }
-
-      if (denominator instanceof String || typeof denominator === 'string') {
-          if (denominator === numerator) {
-            return 1;
-          }
-      } else {
-        if (denominator.year === numerator.year 
-            && denominator.month === numerator.month
-            && denominator.day === numerator.day) {
-              return 1;
-            }
-      }
-
-      return 0;
+    getNumerator: (data, index, measureFunctions) => {
+      return measureFunctions.getValidEvents(data)[index].validNum ? 1 : 0;
     },
     getRequiredExclusion: () => 0,
     getRequiredExclusionID: (data) => {
       return data[data.memberId][`Hospice Exclusions`] ? 1 : 0;
     },
+    getValidEvents: (data) => {
+      const events = data.support['Certification Info'];
+      if (events === null) {
+        return null;
+      }
+      const validEventList = [];
+      for (const event1 of events) {
+        if (event1.validNum || event1.ce) {
+          validEventList.push(event1);
+        }
+      }
+      if (validEventList.length === 0) {
+        return [events[0]];
+      }
+      return validEventList;
+    },
     getPayors: (data, index, measureFunctions) => {
       const memberCoverage = data[data.memberId]['Member Coverage'];
-      const age = measureFunctions.getAge(data);
-      const currentDate = data[data.memberId]['Denominator'][index];
-      let foundPayors = memberCoverage
-        .filter((coverage) => coverage.payor)
+      const event = measureFunctions.getValidEvents(data)[index];
+      const coverageList = memberCoverage.filter((coverage) => coverage.payor);
+      let foundPayors = [];
+      if (event.ce) {
+        const currentDate = new Date(event.date).getTime();
+        foundPayors = coverageList
         .filter((coverage) => {
-          return new Date(coverage.period.start.value).getTime() <= new Date(currentDate).getTime()
-            && new Date(coverage.period.end.value).getTime() >= new Date(currentDate).getTime()
-        })
-        .filter((coverage) => {
-          return coverage.payor[0].reference !== undefined ? 
-            !exchange.includes(coverage.payor[0].reference.value) : false;
+          return new Date(coverage.period.start.value).getTime() <= currentDate
+            && new Date(coverage.period.end.value).getTime() >= currentDate
         });
-      if (foundPayors.length === 0) {
-        foundPayors = memberCoverage.filter((coverage) => coverage.payor);
       }
+      if (foundPayors.length === 0) {
+        foundPayors = coverageList;
+      }
+
+      const age = measureFunctions.getAge(data, index, measureFunctions);
       return getValidPayors(foundPayors.map((coverage) => coverageMap(coverage)), age, memberCoverage);
     },
   },
@@ -557,10 +526,23 @@ const hedisData = {
     measureCheck: (data, index, measureFunctions) => {
       let validPayor = false;
       const payors = measureFunctions.getPayors(data, index);
-      if (index === 0) {
-        validPayor = payors.find((payor) => exchangeOrCommercial.includes(payor) || medicaidPlans.includes(payor));
-      } else if (index >= 1) {
-        validPayor = payors.find((payor) => medicarePlans.includes(payor));
+      if (index === 0) { //BCS
+        validPayor = payors.length > 0;
+      } else if (index === 1) { //BCSNON
+        validPayor = data.support['Certification Medicare NON']
+          && !data.support['Certification LIS'];
+      } else if (index === 2) { //BCSLISDE
+        validPayor = !data.support['Certification Medicare Other']
+          && !data.support['Certification Medicare Disability']
+          && data.support['Certification LIS'];
+      } else if (index === 3) { //BCSDIS
+        validPayor = !data.support['Certification LIS']
+          && data.support['Certification Medicare Disability'];
+      } else if (index === 4) { //BCSCMB
+        validPayor = data.support['Certification LIS']
+          && data.support['Certification Medicare Disability'];
+      } else if (index === 5) { //BCSOT
+        validPayor = data.support['Certification Medicare Other'];
       }
       const age = measureFunctions.getAge(data);
       return validPayor && age >= 46 && age <= 75;
@@ -584,16 +566,24 @@ const hedisData = {
     getNumerator: (data, _index) => {
       return data[data.memberId]['Numerator'] ? 1 : 0;
     },
-    getRequiredExclusion: (data, _index) => {
-      return data[data.memberId]['Exclusions'] ? 1 : 0;
+    getRequiredExclusion: (data, index) => {
+      if ((index > 0 && index != 5) && data.support['Certification Long Term Care'].length > 0) {
+        return 1;
+      }
+      return data[data.memberId][`Exclusions`] ? 1 : 0;
     },
     getRequiredExclusionID: () => 0,
     getPayors: (data, index) => {
-      const colePayors = getDefaultPayors(data);
-      if (index === 0) {
-        return colePayors.filter((payor) => exchangeOrCommercial.includes(payor) || medicaidPlans.includes(payor));
+      const colePayers = getDefaultPayors(data);
+      if (colePayers === undefined) {
+        return [];
       }
-      return colePayors.filter((payor) => medicarePlans.includes(payor));
+      if (index === 0) {
+        return colePayers.filter((payor) => !medicarePlans.includes(payor));
+      } else if (index >= 1) {
+        return colePayers.filter((payor) => medicarePlans.includes(payor));
+      }
+      return colePayers;
     }
   },
   cou: {
@@ -642,6 +632,10 @@ const hedisData = {
     measureIds: ['CWPA','CWPB'],
     eventsOrDiag: true,
     measureCheck: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors === undefined) {
+        return false;
+      }
       const age = measureFunctions.getAge(data, index, measureFunctions);
       if (age < 3) {
         return false;
@@ -678,6 +672,9 @@ const hedisData = {
       let numeratorList = data[data.memberId][`Numerator`];
       if (numeratorList.length === 0) {
         numeratorList = data.support['Certification Numerator'];
+        if (numeratorList.length === 0) {
+          numeratorList = data.support['Certification Numerator 2'];
+        }
       }
       for (const numerator of numeratorList) {
         if (new Date(event).getTime() === new Date(numerator).getTime()) {

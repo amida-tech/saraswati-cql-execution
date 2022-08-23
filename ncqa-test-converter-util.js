@@ -33,6 +33,8 @@ const getSystem = (value) => {
       return 'http://terminology.hl7.org/CodeSystem/v3-ActCode';
     case 'R':
       return 'https://www.nubc.org/CodeSystem/RevenueCodes';
+    case 'T':
+      return 'https://www.nubc.org/CodeSystem/TypeOfBill';
     default:
       return 'NA';
   }
@@ -137,6 +139,23 @@ const createServiceCodeFromVisit = (visit) => {
   return undefined;
 }
 
+const handleCode = (resource, code, servicedPeriod, count) => {
+  if (resource.procedure === undefined) {
+    resource.procedure = [];
+    resource.item = [];
+  }
+  resource.procedure.push({
+    procedureCodeableConcept: {
+      coding: [ code ],
+    },
+  });
+  resource.item.push({
+    sequence: count,
+    servicedPeriod,
+    revenue: { coding: [ code ] }
+  });
+}
+
 const createClaimFromVisit = (visit) => {
   const claimId = `${visit.memberId}-visit-claim-${visit.claimId}`;
   const resource = {
@@ -147,128 +166,37 @@ const createClaimFromVisit = (visit) => {
     provider: { reference: visit.providerId },
   }
 
+  const servicedPeriod = {
+    start: convertDateString(visit.dateOfService),
+    end: convertDateString(visit.dischargeDate ? visit.dischargeDate : visit.dateOfService),
+  };
+
   let procCount = 1;
+
   if (visit.ubRevenue) {
-    resource.procedure = [{
-      procedureCodeableConcept: {
-        coding: [ createCode(visit.ubRevenue, 'R') ],
-      },
-    }];
-    if (visit.dischargeDate) {
-      resource.item = [{
-        sequence: procCount,
-        servicedPeriod: {
-          start: convertDateString(visit.dateOfService),
-          end: convertDateString(visit.dischargeDate),
-        },
-        revenue: { coding: [ createCode(visit.ubRevenue, 'R') ] }
-      }];
-    } else {
-      resource.item = [{
-        sequence: procCount,
-        servicedPeriod: {
-          start: convertDateString(visit.dateOfService),
-          end: convertDateString(visit.dateOfService),
-        },
-        revenue: { coding: [ createCode(visit.ubRevenue, 'R') ] }
-      }];
-    }
+    const typeOfBillCode = createCode(visit.ubRevenue, 'R');
+    handleCode(resource, typeOfBillCode, servicedPeriod, procCount);
+
+    procCount += 1;
+  }
+
+  if (visit.ubTypeOfBill) {
+    const typeOfBillCode = createCode(visit.ubTypeOfBill, 'T');
+    handleCode(resource, typeOfBillCode, servicedPeriod, procCount);
+
     procCount += 1;
   }
 
   if (visit.cpt) {
-    if (resource.procedure === undefined) {
-      resource.procedure = [];
-      resource.item = [];
-    }
-    const cptCode = createCode(visit.cpt, 'C');
-    resource.procedure.push({
-      procedureCodeableConcept: {
-        coding: [ cptCode ],
-      },
-    });
-    let item = {};
-    if (visit.dischargeDate) {
-      item = {
-        sequence: procCount,
-        servicedPeriod: {
-          start: convertDateString(visit.dateOfService),
-          end: convertDateString(visit.dischargeDate),
-        },
-        productOrService: {
-          coding: [ cptCode ]
-        }
-      };
-    } else {
-      item = {
-        sequence: procCount,
-        servicedPeriod: {
-          start: convertDateString(visit.dateOfService),
-          end: convertDateString(visit.dateOfService),
-        },
-        productOrService: {
-          coding: [ cptCode ]
-        }
-      };
-    }
+    const typeOfBillCode = createCode(visit.cpt, 'C');
+    handleCode(resource, typeOfBillCode, servicedPeriod, procCount);
 
-    if (visit.ubRevenue) {
-      item.revenue = { coding: [ createCode(visit.ubRevenue, 'R') ] }
-    }
-    if (resource.item) {
-      resource.item.push(item);
-    } else {
-      resource.item = [ item ];
-    }
-    
     procCount += 1;
   }
 
   if (visit.hcpcs) {
-    if (resource.procedure === undefined) {
-      resource.procedure = [];
-      resource.item = [];
-    }
-    const hcpcsCode = createCode(visit.hcpcs, 'H');
-    resource.procedure.push({
-      procedureCodeableConcept: {
-        coding: [ hcpcsCode ],
-      },
-    });
-    let item = {};
-    if (visit.dischargeDate) {
-      item = {
-        sequence: procCount,
-        servicedPeriod: {
-          start: convertDateString(visit.dateOfService),
-          end: convertDateString(visit.dischargeDate),
-        },
-        productOrService: {
-          coding: [ hcpcsCode ]
-        }
-      };
-    } else {
-      item = {
-        sequence: procCount,
-        servicedPeriod: {
-          start: convertDateString(visit.dateOfService),
-          end: convertDateString(visit.dateOfService),
-        },
-        productOrService: {
-          coding: [ hcpcsCode ]
-        }
-      };
-    }
-    if (visit.ubRevenue) {
-      item.revenue = { coding: [ createCode(visit.ubRevenue, 'R') ] }
-    }
-    if (resource.item) {
-      resource.item.push(item);
-    } else {
-      resource.item = [ item ];
-    }
-    
-    procCount += 1;
+    const typeOfBillCode = createCode(visit.hcpcs, 'H');
+    handleCode(resource, typeOfBillCode, servicedPeriod, procCount);
   }
 
   visit.icdDiagnosis.forEach((diagnosis, index) => {
@@ -285,34 +213,13 @@ const createClaimFromVisit = (visit) => {
     }
   });
 
-  if (visit.icdDiagnosis[0]) {
-    let item = {};
-    if (visit.dischargeDate) {
-      item = {
-        sequence: procCount,
-        servicedPeriod: {
-          start: convertDateString(visit.dateOfService),
-          end: convertDateString(visit.dischargeDate)
-        }
-      };
-    } else {
-      item = {
-        sequence: procCount,
-        servicedPeriod: {
-          start: convertDateString(visit.dateOfService),
-          end: convertDateString(visit.dateOfService),
-        },
-      };
-    }
-
-    if (visit.ubRevenue) {
-      item.revenue = { coding: [ createCode(visit.ubRevenue, 'R') ] }
-    }
-    if (resource.item) {
-      resource.item.push(item);
-    } else {
-      resource.item = [ item ];
-    }
+  if (resource.diagnosis 
+    && resource.diagnosis.length > 0 
+    && (resource.item === undefined || resource.item.length === 0)) {
+      resource.item = [{
+        sequence: 1,
+        servicedPeriod,
+      }];
   }
 
   if (visit.cmsPlaceOfService) {
