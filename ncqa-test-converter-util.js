@@ -213,6 +213,15 @@ const createClaimFromVisit = (visit) => {
     }
   });
 
+  if (resource.diagnosis 
+    && resource.diagnosis.length > 0 
+    && (resource.item === undefined || resource.item.length === 0)) {
+      resource.item = [{
+        sequence: 1,
+        servicedPeriod,
+      }];
+  }
+
   if (visit.cmsPlaceOfService) {
     resource.locationReference = {
       reference: visit.cmsPlaceOfService,
