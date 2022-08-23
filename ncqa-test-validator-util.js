@@ -98,24 +98,20 @@ const hedisData = {
       return validEventList;
     },
     getPayors: (data, index, measureFunctions) => {
-      const memberCoverage = data[data.memberId]['Member Coverage'];
       const event = measureFunctions.getValidEvents(data)[index];
-      const coverageList = memberCoverage.filter((coverage) => coverage.payor);
-      let foundPayors = [];
-      if (event.ce) {
-        const currentDate = new Date(event.date).getTime();
-        foundPayors = coverageList
+      const fullCoverageList = data[data.memberId]['Member Coverage'].filter((coverage) => coverage.payor);
+      let coverageList = fullCoverageList.filter((coverage) => !exchange.includes(coverage.payor[0].reference.value));
+      if (coverageList.length === 0) {
+        coverageList = fullCoverageList;
+      }
+      const currentDate = new Date(event.date).getTime();
+      let foundPayors = coverageList
         .filter((coverage) => {
-          return new Date(coverage.period.start.value).getTime() <= currentDate
-            && new Date(coverage.period.end.value).getTime() >= currentDate
+          return (new Date(coverage.period.start.value).getTime() - 2592000000) <= currentDate
+            && (new Date(coverage.period.end.value).getTime() + 259200000) >= currentDate
         });
-      }
-      if (foundPayors.length === 0) {
-        foundPayors = coverageList;
-      }
-
       const age = measureFunctions.getAge(data, index, measureFunctions);
-      return getValidPayors(foundPayors.map((coverage) => coverageMap(coverage)), age, memberCoverage);
+      return getValidPayors(foundPayors.map((coverage) => coverageMap(coverage)), age, fullCoverageList);
     },
   },
   adde: {
