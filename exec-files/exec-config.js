@@ -171,6 +171,15 @@ const cleanData = patientResults => {
     // remove Patient data - not needed
     delete patient.Patient;
     patient.id = patientKey;
+
+    // Remove valuesets - not needed
+    if (config.measurementType === 'cwp') {
+      delete patient['Pharyngitis Diagnosis'];
+      delete patient['Outpatient Encounters'];
+      delete patient['Antibiotic Medication'];
+      delete patient['Comorbid Conditions Diagnosis'];
+      delete patient['Competing Condition Diagnosis'];
+    }
   });
   return clonedPatientResults;
 };
