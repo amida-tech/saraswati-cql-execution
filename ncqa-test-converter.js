@@ -696,7 +696,7 @@ const createConditionList = (visitEList, diagnosisList, mmdfList, lishistList) =
         subject: { reference: `Patient/${mmdf.beneficiaryId}-patient` },
         code: { coding: [ createCode(`OREC-${mmdf.orec}`, 'A') ] },
         onsetDateTime: convertDateString(mmdf.runDate),
-        abatementDateTime: convertDateString(mmdf.runDate),
+        abatementDateTime: convertDateString(mmdf.runDate, measure === 'drre'),
       }
       mmdfConditionList.push(condObj);
     });
@@ -712,9 +712,9 @@ const createConditionList = (visitEList, diagnosisList, mmdfList, lishistList) =
         onsetDateTime: convertDateString(lishist.startDate),
       }
       if (lishist.endDate !== '') {
-        condObj.abatementDateTime = convertDateString(lishist.endDate);
+        condObj.abatementDateTime = convertDateString(lishist.endDate, measure === 'drre');
       } else {
-        condObj.abatementDateTime = '2022-12-31T00:00:00.000+00:00';
+        condObj.abatementDateTime = '2022-12-31T23:59:59.000+00:00';
       }
       lishistConditionList.push(condObj);
     });
