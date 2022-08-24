@@ -638,13 +638,11 @@ const hedisData = {
     measureIds: ['CWPA','CWPB'],
     eventsOrDiag: true,
     measureCheck: (data, index, measureFunctions) => {
-      if (measureFunctions.getValidEvents(data)[index] === undefined
-        || measureFunctions.getPayors(data, index, measureFunctions) === undefined) {
-          return 0;
-      }
-      const age = measureFunctions.getAge(data, index, measureFunctions);
-      if (age < 3) {
-        return false;
+      if (measureFunctions.getValidEvents(data) == null
+        || measureFunctions.getValidEvents(data)[index] === undefined
+        || measureFunctions.getPayors(data, index, measureFunctions) === undefined
+        || measureFunctions.getAge(data, index, measureFunctions) < 3) {
+          return false;
       }
       return 1 === measureFunctions.getEvent(data, index, measureFunctions);
     },
@@ -684,29 +682,36 @@ const hedisData = {
           validEventList.push(event1);
         }
       }
+      if (validEventList.length === 0) {
+        return [events[0]];
+      }
       return validEventList;
     },
     getPayors: (data, index, measureFunctions) => {
-      const memberCoverage = data[data.memberId]['Member Coverage'];
       const event = measureFunctions.getValidEvents(data)[index];
-      const coverageList = memberCoverage.filter((coverage) => coverage.payor)
+      const fullCoverageList = data[data.memberId]['Member Coverage'].filter((coverage) => coverage.payor);
       let foundPayors = [];
+      // If the event has continuous enrollment
       if (event.isCovered) {
-        const eventDate = new Date(event.date).getTime();
-        foundPayors = coverageList
+        const currentDate = new Date(event.date).getTime();
+        //First check if the event date falls under the exact coverage period
+        foundPayors = fullCoverageList
           .filter((coverage) => {
-            return new Date(coverage.period.start.value).getTime() <= eventDate
-              && new Date(coverage.period.end.value).getTime() >= eventDate
-            })
-          .map((coverage) => coverageMap(coverage));
+            return (new Date(coverage.period.start.value).getTime()) <= currentDate
+              && (new Date(coverage.period.end.value).getTime()) >= currentDate
+          });
+        // If no coverages exists, expand the search to to full continuoous enrollment period
+        if (foundPayors.length === 0) {
+          foundPayors = fullCoverageList
+          .filter((coverage) => {
+            return (new Date(coverage.period.start.value).getTime() - 2592000000) <= currentDate
+              && (new Date(coverage.period.end.value).getTime() + 259200000) >= currentDate
+          });
+        }
       }
       
-      if (foundPayors.length === 0) {
-        foundPayors = coverageList.map((coverage) => coverageMap(coverage));
-      }
-      
-      const age  = measureFunctions.getAge(data, index, measureFunctions);
-      return getValidPayors(foundPayors, age, memberCoverage);
+      const age = measureFunctions.getAge(data, index, measureFunctions);
+      return getValidPayors(foundPayors.map((coverage) => coverageMap(coverage)), age, fullCoverageList);
     }
   },
   dmse: {
