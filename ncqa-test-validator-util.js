@@ -110,7 +110,7 @@ const hedisData = {
             return (new Date(coverage.period.start.value).getTime()) <= currentDate
               && (new Date(coverage.period.end.value).getTime()) >= currentDate
           });
-        // If no coverages exists, expand the search to to full continuoous enrollment period
+        // If no coverages exists, expand the search to to full continuous enrollment period
         if (foundPayors.length === 0) {
           foundPayors = fullCoverageList
           .filter((coverage) => {
@@ -700,7 +700,7 @@ const hedisData = {
             return (new Date(coverage.period.start.value).getTime()) <= currentDate
               && (new Date(coverage.period.end.value).getTime()) >= currentDate
           });
-        // If no coverages exists, expand the search to to full continuoous enrollment period
+        // If no coverages exists, expand the search to to full continuous enrollment period
         if (foundPayors.length === 0) {
           foundPayors = fullCoverageList
           .filter((coverage) => {
