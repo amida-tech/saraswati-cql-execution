@@ -60,9 +60,20 @@ const hedisData = {
     measureIds: ['AABA','AABB'],
     eventsOrDiag: true,
     measureCheck: (data, index, measureFunctions) => {
-      return !(measureFunctions.getValidEvents(data) == null
+      if (measureFunctions.getValidEvents(data) == null
         || measureFunctions.getValidEvents(data)[index] === undefined
-        || measureFunctions.getPayors(data, index, measureFunctions) === undefined);
+        || measureFunctions.getPayors(data, index, measureFunctions) === undefined) {
+          return false;
+      }
+      const currentDate = new Date(measureFunctions.getValidEvents(data)[index].date).getTime();
+      return data[data.memberId]['Member Coverage']
+        .filter((coverage) => coverage.payor)
+        .find((coverage) => {
+          return (((new Date(coverage.period.start.value).getTime() - 2592000000) <= currentDate
+              && (new Date(coverage.period.end.value).getTime() + 259200000) >= currentDate)
+            || ((new Date(coverage.period.start.value).getTime()) <= currentDate - 2592000000
+              && (new Date(coverage.period.end.value).getTime()) >= currentDate - 2592000000))
+        });
     },
     getAge: (data, index, measureFunctions) => {
       const event = measureFunctions.getValidEvents(data)[index].date;
@@ -644,7 +655,16 @@ const hedisData = {
         || measureFunctions.getAge(data, index, measureFunctions) < 3) {
           return false;
       }
-      return 1 === measureFunctions.getEvent(data, index, measureFunctions);
+
+      const currentDate = new Date(measureFunctions.getValidEvents(data)[index].date).getTime();
+      return data[data.memberId]['Member Coverage']
+        .filter((coverage) => coverage.payor)
+        .find((coverage) => {
+          return (((new Date(coverage.period.start.value).getTime() - 2592000000) <= currentDate
+              && (new Date(coverage.period.end.value).getTime() + 259200000) >= currentDate)
+            || ((new Date(coverage.period.start.value).getTime()) <= currentDate - 2592000000
+              && (new Date(coverage.period.end.value).getTime()) >= currentDate - 2592000000))
+        });
     },
     getAge: (data, index, measureFunctions) => {
       const eventDate = new Date(measureFunctions.getValidEvents(data)[index].date);
