@@ -69,10 +69,10 @@ const hedisData = {
       return data[data.memberId]['Member Coverage']
         .filter((coverage) => coverage.payor)
         .find((coverage) => {
-          return (((new Date(coverage.period.start.value).getTime() - 2592000000) <= currentDate
-              && (new Date(coverage.period.end.value).getTime() + 259200000) >= currentDate)
-            || ((new Date(coverage.period.start.value).getTime()) <= currentDate - 2592000000
-              && (new Date(coverage.period.end.value).getTime()) >= currentDate - 2592000000))
+          return (((new Date(coverage.period.start.value).getTime()) <= currentDate - 2592000000
+              && (new Date(coverage.period.end.value).getTime()) >= currentDate - 2592000000)
+            || ((new Date(coverage.period.start.value).getTime()) <= currentDate + 259200000
+              && (new Date(coverage.period.end.value).getTime()) >= currentDate + 259200000))
         });
     },
     getAge: (data, index, measureFunctions) => {
