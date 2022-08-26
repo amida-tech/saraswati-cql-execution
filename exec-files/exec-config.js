@@ -171,6 +171,42 @@ const cleanData = patientResults => {
     // remove Patient data - not needed
     delete patient.Patient;
     patient.id = patientKey;
+
+    // Remove valuesets - not needed
+    switch(config.measurementType) {
+      case 'aab':
+      case 'cwp':
+      case 'uri':
+        delete patient['Outpatient Encounters'];
+        delete patient['Antibiotic Medication'];
+        delete patient['Comorbid Conditions Diagnosis'];
+        delete patient['Competing Condition Diagnosis'];
+
+        if (config.measurementType === 'aab') {
+          delete patient['Bronchitis Diagnosis']
+        } else if (config.measurementType === 'cwp') {
+          delete patient['Pharyngitis Diagnosis'];
+        } else if (config.measurementType === 'uri') {
+          delete patient['URI Diagnosis'];
+        }
+        break;
+      case 'apme':
+        delete patient['Antipsychotic Medication'];
+        break;
+      case 'cou':
+        delete patient['Opioid Medication Valuesets'];
+        break;
+      case 'fum':
+        delete patient['Mental Illness or Intentional Self-Harm'];
+        break;
+      case 'psa':
+        delete patient['PSA Lab Test Value Set'];
+        delete patient['PSA Lab Test Finding Value Set'];
+        break;
+      case 'uop':
+        delete patient['Opioid Medication Valuesets'];
+        break;
+    }
   });
   return clonedPatientResults;
 };
