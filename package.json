@@ -43,12 +43,13 @@
     "luxon": "^1.25.0",
     "minimist": "1.2.6",
     "moment": "^2.29.4",
+    "node": "16.16.0",
     "node-watch": "^0.7.3",
     "ucum": "^0.0.7",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
     "winston-json-formatter": "^0.10.0",
-    "yarn": "^1.22.17"
+    "yarn": "^1.22.19"
   },
   "resolutions": {
     "glob-parent": "^5.1.2"
