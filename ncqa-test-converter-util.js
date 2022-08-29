@@ -247,18 +247,17 @@ const createDiagnosisCondition = (condition) => {
     },
     code: { coding: [ createCode(condition.code, condition.system) ] },
   }
-  const incrementDay = abatementIncrement.includes(measure);
 
   if (condition.onsetDateTime) {
     condObj.onsetDateTime = convertDateString(condition.onsetDateTime);
-    condObj.abatementDateTime = convertDateString(condition.onsetDateTime, incrementDay);
+    condObj.abatementDateTime = convertDateString(condition.onsetDateTime); // JAMES
   } else if (condition.onsetStart) {
     if (condition.onsetEnd) {
       condObj.onsetDateTime = convertDateString(condition.onsetStart);
-      condObj.abatementDateTime = convertDateString(condition.onsetEnd, incrementDay);
+      condObj.abatementDateTime = convertDateString(condition.onsetEnd);
     } else {
       condObj.onsetDateTime = convertDateString(condition.onsetStart);
-      condObj.abatementDateTime = convertDateString(condition.onsetStart, incrementDay);
+      condObj.abatementDateTime = convertDateString(condition.onsetStart); // JAMES
     }
   }
   if (condition.recorder) {
@@ -433,15 +432,15 @@ const createPharmacyClaim = (pharmacy) => {
   return resource;
 }
 
-const convertDateString = (ncqaDateString, incrementDay) => {
+const convertDateString = (ncqaDateString) => {
   const year = ncqaDateString.toString().substr(0, 4);
   const month = ncqaDateString.toString().substr(4, 2);
   const day = ncqaDateString.toString().substr(6, 2);
-  if (incrementDay) {
-    const date = new Date(`${year}-${month}-${day}`);
-    date.setDate(date.getDate() + 1); 
-    return `${date.toISOString()}T00:00:00.000+00:00`;
-  }
+  // if (incrementDay) {
+  //   const date = new Date(`${year}-${month}-${day}`);
+  //   date.setDate(date.getDate() + 1); 
+  //   return `${date.toISOString()}T00:00:00.000+00:00`;
+  // }
   return `${year}-${month}-${day}T00:00:00.000+00:00`;
 }
 

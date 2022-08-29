@@ -696,7 +696,7 @@ const createConditionList = (visitEList, diagnosisList, mmdfList, lishistList) =
         subject: { reference: `Patient/${mmdf.beneficiaryId}-patient` },
         code: { coding: [ createCode(`OREC-${mmdf.orec}`, 'A') ] },
         onsetDateTime: convertDateString(mmdf.runDate),
-        abatementDateTime: convertDateString(mmdf.runDate, measure === 'drre'),
+        abatementDateTime: convertDateString(mmdf.runDate), // JAMES increment day
       }
       mmdfConditionList.push(condObj);
     });
@@ -712,7 +712,7 @@ const createConditionList = (visitEList, diagnosisList, mmdfList, lishistList) =
         onsetDateTime: convertDateString(lishist.startDate),
       }
       if (lishist.endDate !== '') {
-        condObj.abatementDateTime = convertDateString(lishist.endDate, measure === 'drre');
+        condObj.abatementDateTime = convertDateString(lishist.endDate); // JAMES increment day
       } else {
         condObj.abatementDateTime = '2022-12-31T23:59:59.000+00:00';
       }
@@ -1179,7 +1179,7 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
       } else {
         procResource.performedPeriod = {
           start: convertDateString(diagnosis.startDate),
-          end: convertDateString('2022-12-31T00:00:00.000+00:00'),
+          end: convertDateString('20221231'),
         }
       }
       procedureList.push(procResource);
@@ -1264,7 +1264,7 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
       }
       if (observation.value) {
         const labValues = getLabValues(observation.value);
-        obsResource[labValues.key] = labValues.value; // JAMES
+        obsResource[labValues.key] = labValues.value; 
       }
       if (observation.endDate) {
         obsResource.effectivePeriod = {
@@ -1274,7 +1274,7 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
       } else {
         obsResource.effectivePeriod = {
           start: convertDateString(observation.observationDate),
-          end: convertDateString(observation.observationDate),
+          // end: convertDateString(observation.observationDate), // James increment day
         };
       }
       observationList.push(obsResource);        
