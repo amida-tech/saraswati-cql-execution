@@ -182,7 +182,11 @@ const createClaimFromVisit = (visit) => {
   }
 
   if (visit.ubTypeOfBill) {
-    const typeOfBillCode = createCode(visit.ubTypeOfBill, 'T');
+    let ubTypeOfBill = visit.ubTypeOfBill;
+    if (ubTypeOfBill.length < 4) {
+      ubTypeOfBill = `0${ubTypeOfBill}`;
+    }
+    const typeOfBillCode = createCode(ubTypeOfBill, 'T');
     handleCode(resource, typeOfBillCode, servicedPeriod, procCount);
 
     procCount += 1;

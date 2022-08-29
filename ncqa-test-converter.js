@@ -868,6 +868,18 @@ const createVisitClaimEncResponse = (visitList) => {
             visitE.type = [ { coding: [ createCode(visit.ubRevenue, 'R') ] } ];
           }
         }
+        if (visit.ubTypeOfBill) {
+          let ubTypeOfBill = visit.ubTypeOfBill;
+            if (ubTypeOfBill.length < 4) {
+              ubTypeOfBill = `0${ubTypeOfBill}`;
+            }
+            const typeOfBillCode = createCode(ubTypeOfBill, 'T');
+          if (visitE.type) {
+            visitE.type[0].coding.push(typeOfBillCode);
+          } else {
+            visitE.type = [ { coding: [ typeOfBillCode ] } ];
+          }
+        }
         foundVisitMatch = true;
         break;
       }
@@ -983,6 +995,73 @@ const createVisitClaimEncResponse = (visitList) => {
                     end: convertDateString(visit.dateOfService),
                   },
                   revenue: { coding: [ createCode(visit.ubRevenue, 'R') ] }
+                }];
+              }
+            }
+          }
+          if (visit.ubTypeOfBill) {
+            let ubTypeOfBill = visit.ubTypeOfBill;
+            if (ubTypeOfBill.length < 4) {
+              ubTypeOfBill = `0${ubTypeOfBill}`;
+            }
+            const typeOfBillCode = createCode(ubTypeOfBill, 'T');
+            if (claim.procedure) {
+              claim.procedure.push({
+                procedureCodeableConcept: {
+                  coding: [ typeOfBillCode ],
+                },
+              });
+            } else {
+              claim.procedure = [{
+                procedureCodeableConcept: {
+                  coding: [ typeOfBillCode ],
+                },
+              }];
+            }
+            if (claim.item) {
+              let servicedPeriod;
+              for (const item of claim.item) {
+                if (item.servicedPeriod !== undefined) {
+                  servicedPeriod = item.servicedPeriod;
+                  break;
+                }
+              }
+              if (servicedPeriod === undefined) {
+                if (visit.dischargeDate) {
+                  servicedPeriod = {
+                    start: convertDateString(visit.dateOfService),
+                    end: convertDateString(visit.dischargeDate),
+                  }
+                } else {
+                  servicedPeriod = {
+                    start: convertDateString(visit.dateOfService),
+                    end: convertDateString(visit.dateOfService),
+                  }
+                }
+              }
+              claim.item.push({
+                sequence: claim.item.length + 1,
+                servicedPeriod,
+                revenue: { coding: [ typeOfBillCode ] }
+              });
+            } else {
+              if (visit.dischargeDate) {
+                claim.item = [{
+                  sequence: 1,
+                  servicedPeriod: {
+                    start: convertDateString(visit.dateOfService),
+                    end: convertDateString(visit.dischargeDate),
+                  },
+                  revenue: { coding: [ typeOfBillCode ] }
+                }];
+              } else {
+                claim.item = [{
+                  sequence: 1,
+                  servicedPeriod: {
+                    start: convertDateString(visit.dateOfService),
+                    end: convertDateString(visit.dateOfService),
+                  },
+                  revenue: { coding: [ typeOfBillCode ] }
                 }];
               }
             }

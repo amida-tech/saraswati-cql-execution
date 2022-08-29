@@ -96,6 +96,11 @@ const measurePlanInfo = {
     medicaid: {},
     medicare: {}
   },
+  cwp: {
+    commercial: {},
+    medicaid: {},
+    medicare: {}
+  },
   dmse: {
     commercial: {
       ageStart: 12,
