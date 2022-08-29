@@ -1274,7 +1274,7 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
       } else {
         obsResource.effectivePeriod = {
           start: convertDateString(observation.observationDate),
-          // end: convertDateString(observation.observationDate), // James increment day
+          end: convertDateString(observation.observationDate), // James increment day
         };
       }
       observationList.push(obsResource);        

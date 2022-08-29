@@ -250,14 +250,14 @@ const createDiagnosisCondition = (condition) => {
 
   if (condition.onsetDateTime) {
     condObj.onsetDateTime = convertDateString(condition.onsetDateTime);
-    condObj.abatementDateTime = convertDateString(condition.onsetDateTime); // JAMES
+    condObj.abatementDateTime = convertDateString(condition.onsetDateTime); // JAMES increment
   } else if (condition.onsetStart) {
     if (condition.onsetEnd) {
       condObj.onsetDateTime = convertDateString(condition.onsetStart);
       condObj.abatementDateTime = convertDateString(condition.onsetEnd);
     } else {
       condObj.onsetDateTime = convertDateString(condition.onsetStart);
-      condObj.abatementDateTime = convertDateString(condition.onsetStart); // JAMES
+      condObj.abatementDateTime = convertDateString(condition.onsetStart); // JAMES increment
     }
   }
   if (condition.recorder) {
