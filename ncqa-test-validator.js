@@ -2,7 +2,7 @@ const minimist = require('minimist');
 const fs = require('fs');
 const path = require('path');
 const config = require('./config');
-const { execute } = require('./exec-files/exec-config');
+const { execute, supportExecute } = require('./exec-files/exec-config');
 const { createProviderList } = require('./src/utilities/providerUtil');
 const { getEligiblePopulation, ethnicityMap, raceEthnicDSMap, hedisData } = require('./ncqa-test-validator-util');
 
@@ -61,7 +61,7 @@ async function checkArgs() {
 }
 
 const evalData = (patient) => {
-  const data = execute(patient);
+  const data = execute(patient); 
 
   const memberId = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
   const patientData = data[memberId];
@@ -75,6 +75,11 @@ const evalData = (patient) => {
   data['measurementType'] = measure;
   data['coverage'] = patientData['Member Coverage'];
   data['providers'] = createProviderList(patient);
+  
+  if (config.supportFile) {
+    data['support'] = supportExecute(patient);
+  }
+
   if(hedisData[measure].raceRequired) {
     patientInfo.extension.forEach((ext) => {
       const code = ext.extension[0].valueCoding;
@@ -122,13 +127,13 @@ async function appendScoreFile(data) {
   }
   hedisData[measure].measureIds.forEach((measureId, index) => {
     if (hedisData[measure].measureCheck(data, index, hedisData[measure])) {
-      const ce = hedisData[measure].getContinuousEnrollment(data, index);
-      const event = hedisData[measure].getEvent(data, index);
+      const ce = hedisData[measure].getContinuousEnrollment(data, index, hedisData[measure]);
+      const event = hedisData[measure].getEvent(data, index, hedisData[measure]);
       const excl = hedisData[measure].getExclusion(data, index);
-      const num = hedisData[measure].getNumerator(data, index);
+      const num = hedisData[measure].getNumerator(data, index, hedisData[measure]);
       const rExcl = hedisData[measure].getRequiredExclusion(data, index);// Required exclusion.
-      const rExclD = hedisData[measure].getRequiredExclusionID(data, index); // Data Element Required Exclusions.
-      const age = hedisData[measure].getAge(data, index);
+      const rExclD = hedisData[measure].getRequiredExclusionID(data, index, hedisData[measure]); // Data Element Required Exclusions.
+      const age = hedisData[measure].getAge(data, index, hedisData[measure]);
 
       let ePop = getEligiblePopulation(ce, event, rExcl, rExclD);
       if (ePop && typeof hedisData[measure].getEligiblePopulation === 'function') {
@@ -188,7 +193,7 @@ async function processFhirDirectory(dirFiles) {
       fs.writeFileSync(path.join(measuresPath, fileTitle), JSON.stringify(memberData, null, 2));
     }
     
-    appendScoreFile(memberData);
+    appendScoreFile(memberData); //JAMES KEITH
   }
 }
 
@@ -206,6 +211,7 @@ if (parseArgs.h === true) {
   console.log('   -m, --memberIds: A comma separated list of memberIds you want to compute. Optional.');
   console.log('   -b, --beginWith: A number for which member ID the script will start with. Optional.');
   console.log('   -e, --endWith: A number for which member ID the script will end with. Optional.');
+  console.log('   -o, --outputFile: The file to store the results. Optional but recommended when using -b and -e.');
   console.log('   -v, --validate: Optional. If true, compare against the `score.txt` file in the folder above FHIR directory. Outputs "score-amida.txt". Defaults to "false".');
   console.log('   -s, --skipEval: Optional. If true, it will not run CQL execution. It will use the previously generated json output.')
   process.exit();

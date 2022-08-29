@@ -52,8 +52,10 @@ const envVarsSchema = Joi.object({
     .default(false)
     .description('If this is running in Jenkins or not'),
   MEASUREMENT_FILE: Joi.string()
-    .description('Location of the measure. File only.')
+    .description('Location of the measure CQL. File only.')
     .required(),
+  SUPPORT_FILE: Joi.string()
+    .description('Location of the support CQL. File only. Optional.'),
   LIBRARIES_DIRECTORY: Joi.string()
     .description('Location of the libraries. Directory only.')
     .required(),
@@ -96,6 +98,7 @@ const config = {
   kafkaProducedTopic: envVars.KAFKA_PRODUCED_TOPIC,
   measurementYear: envVars.MEASUREMENT_YEAR,
   measurementFile: envVars.MEASUREMENT_FILE,
+  supportFile: envVars.SUPPORT_FILE,
   librariesDirectory: envVars.LIBRARIES_DIRECTORY,
   valuesetsDirectory: envVars.VALUESETS_DIRECTORY,
   measurementType: envVars.MEASUREMENT_TYPE,
