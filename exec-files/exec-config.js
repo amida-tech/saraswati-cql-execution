@@ -13,19 +13,22 @@ const logger = require('../src/winston');
 const { createProviderList } = require('../src/utilities/providerUtil');
 
 let measure;
+let support;
 let libraries;
 let valueSets;
 let engineLibraries;
+let supportLibraries;
 let codeService;
 const messageListener = new cql.ConsoleMessageListener();
 const parameters = {
   'Measurement Period' : new cql.Interval(
-    new cql.DateTime(Number(config.measurementYear), 1, 1),
-    new cql.DateTime(Number(config.measurementYear) + 1, 1, 1),
+    new cql.DateTime(Number(config.measurementYear), 1, 1, 0, 0, 0, 0, false, false),
+    new cql.DateTime(Number(config.measurementYear) + 1, 1, 1, 0, 0, 0, 0, false , false),
     true,
     false
   )
 };
+
 const patientSource = cqlfhir.PatientSource.FHIRv401();
 
 logger.info('Exec config building.');
@@ -45,6 +48,18 @@ function measurementFileScan() {
   logger.info('Measurement file located: ' + measurementFilePath + '.');
 }
 
+function supportFileScan() {
+  const supportFilePath = getDirFilePath(config.supportFile);
+  if (supportFilePath != undefined) {
+    support = JSON.parse(
+      fs.readFileSync(supportFilePath),
+      'utf-8');
+    logger.info('Support file located: ' + supportFilePath + '.');
+  } else {
+    logger.info('No support file located. Continuing without.');
+  }
+}
+
 // You must run the measurementFileScan before this.
 function librariesDirectoryScan() {
   const libraryDirPath = getDirFilePath(config.librariesDirectory);
@@ -57,6 +72,11 @@ function librariesDirectoryScan() {
   }
   logger.info('Library files located, count: ' + Object.keys(libraries).length + '.');
   engineLibraries = new cql.Library(measure, new cql.Repository(libraries));
+  if (support != undefined) {
+    const measurementDirPath = getDirFilePath(config.measurementFile);
+    libraries[config.measurementType] = require(measurementDirPath);
+    supportLibraries = new cql.Library(support, new cql.Repository(libraries));
+  }
 }
 
 // We can speed this up slightly by running it asynchronously. But it's not an issue right now.
@@ -134,6 +154,9 @@ function initialize() {
   libraries = {};
   valueSets = {};
   measurementFileScan();
+  if (config.supportFile) {
+    supportFileScan();
+  }
   librariesDirectoryScan();
   valueSetsDirectoryCompile();
 }
@@ -144,11 +167,60 @@ const cleanData = patientResults => {
   const clonedPatientResults = cloneDeep(patientResults);
   Object.entries(clonedPatientResults).forEach(([patientKey, patientValue]) => {
     const patient = patientValue;
+    
     // remove Patient data - not needed
     delete patient.Patient;
     patient.id = patientKey;
+
+    // Remove valuesets - not needed
+    switch(config.measurementType) {
+      case 'aab':
+      case 'cwp':
+      case 'uri':
+        delete patient['Outpatient Encounters'];
+        delete patient['Antibiotic Medication'];
+        delete patient['Comorbid Conditions Diagnosis'];
+        delete patient['Competing Condition Diagnosis'];
+
+        if (config.measurementType === 'aab') {
+          delete patient['Bronchitis Diagnosis']
+        } else if (config.measurementType === 'cwp') {
+          delete patient['Pharyngitis Diagnosis'];
+        } else if (config.measurementType === 'uri') {
+          delete patient['URI Diagnosis'];
+        }
+        break;
+      case 'apme':
+        delete patient['Antipsychotic Medication'];
+        break;
+      case 'cou':
+        delete patient['Opioid Medication Valuesets'];
+        break;
+      case 'fum':
+        delete patient['Mental Illness or Intentional Self-Harm'];
+        break;
+      case 'psa':
+        delete patient['PSA Lab Test Value Set'];
+        delete patient['PSA Lab Test Finding Value Set'];
+        break;
+      case 'uop':
+        delete patient['Opioid Medication Valuesets'];
+        break;
+    }
   });
   return clonedPatientResults;
+};
+
+const cleanSupport = patientResults => {
+  const supportData = {}
+  Object.keys(patientResults).forEach((patientKey) => {
+    Object.keys(patientResults[patientKey]).forEach((dataKey) => {
+      if (dataKey.startsWith('Data Numerator') || dataKey.startsWith('Certification')) {
+        supportData[dataKey] = patientResults[patientKey][dataKey];
+      }
+    });
+  });
+  return supportData;
 };
 
 const execute = (patients) => {
@@ -161,6 +233,13 @@ const execute = (patients) => {
   cleanedPatientResults.timeStamp = moment().format();
 
   return cleanedPatientResults;
+};
+
+const supportExecute = (patients) => {
+  const executor = new cql.Executor(supportLibraries, codeService, parameters, messageListener);
+  patientSource.loadBundles(patients);
+  const result = executor.exec(patientSource);
+  return cleanSupport(result.patientResults);
 };
 
 const hasDenominator = (patientData) => {
@@ -207,4 +286,4 @@ const evalData = (patient) => {
   return undefined;
 };
 
-module.exports = { execute, cleanData, evalData, initialize, valueSetJSONCompile };
+module.exports = { execute, supportExecute, cleanData, evalData, initialize, valueSetJSONCompile };

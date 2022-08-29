@@ -84,7 +84,7 @@ Please note that while the CQL Execution library supports many aspects of CQL, i
 everything in the CQL specification.  You should check to see what is implemented (by referencing
 the unit tests) before expecting it to work! For a working example, see `examples`.
 
-There are several steps involved to execute CQL.  First, you must create a JSON representation of
+There are several steps involved to execute CQL. First, you must create a JSON representation of
 the ELM. For the easiest integration, we will generate a JSON file using cql-to-elm:
 
 1. Install the [Java 11 SDK](https://adoptopenjdk.net/)
