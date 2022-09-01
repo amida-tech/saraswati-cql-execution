@@ -86,15 +86,12 @@ const measurePlanInfo = {
     },
     medicaid: {
       ageStart: 50,
-      ageEnd: 75,},
+      ageEnd: 75,
+    },
     medicare: {
       ageStart: 50,
-      ageEnd: 75,}
-  },
-  cwp: {
-    commercial: {},
-    medicaid: {},
-    medicare: {}
+      ageEnd: 75,
+    }
   },
   cwp: {
     commercial: {},

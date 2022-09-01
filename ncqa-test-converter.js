@@ -834,7 +834,6 @@ const createVisitClaimEncResponse = (visitList) => {
   if (visitList === undefined || visitList.length === 0) {
     return {};
   }
-
   const claimResponses = [];
   const visitEncounters = [];
   const invalidEncounters = [];
@@ -931,8 +930,8 @@ const createVisitClaimEncResponse = (visitList) => {
       });
       visitEncounters.push(encounter);
     }
-      
-    if (visit.supplementalData === 'N' || measure === 'bcse') {
+    
+    if (visit.supplementalData === 'N' || measure === 'bcse' || measure === 'cole') {
       let foundClaimMatch = false;
       const claimId = `${visit.memberId}-visit-claim-${visit.claimId}`;
       for (const claim of claims) {

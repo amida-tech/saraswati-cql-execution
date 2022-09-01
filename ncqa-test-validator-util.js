@@ -572,12 +572,15 @@ const hedisData = {
       return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
     },
     getEvent: () => 0,
-    getEligiblePopulation: (data, _index, measureFunctions) => {
-      const payors = measureFunctions.getPayors(data);
-      if (payors === undefined || medicarePlans.includes(payors[0])) {
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      // const payors = measureFunctions.getPayors(data);
+      // if (payors === undefined || medicaidPlans.includes(payors[0])) {
+      //   return 0;
+      // }
+      if (measureFunctions.getContinuousEnrollment(data) === 0) {
         return 0;
       }
-      return data[data.memberId]['Initial Population'] ? 1 : 0; 
+      return measureFunctions.getRequiredExclusion(data, index) === 1 ? 0 : 1;
     },
     getExclusion: () => 0,
     getNumerator: (data, _index) => {
@@ -587,7 +590,7 @@ const hedisData = {
       if ((index > 0 && index != 5) && data.support['Certification Long Term Care'].length > 0) {
         return 1;
       }
-      return data[data.memberId][`Exclusions`] ? 1 : 0;
+      return data[data.memberId]['Exclusions'] ? 1 : 0;
     },
     getRequiredExclusionID: () => 0,
     getPayors: (data, index) => {

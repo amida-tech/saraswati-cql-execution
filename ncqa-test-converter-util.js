@@ -477,7 +477,7 @@ const checkValidLabCode = (code) => {
   return false;
 }
 
-const invalidLocations = ['10', '27', '28', '29', '30','35', '36', '37', '38', '39', '40',
+const invalidLocations = ['10', '27', '28', '29', '30', '35', '36', '37', '38', '39', '40',
                         '43', '44', '45', '46', '47', '48', '58', '59', '63', '64', '66', '67',
                         '68', '69', '70', '73', '74', '75', '76', '77', '78', '79', '80',
                       '82', '83', '84', '85', '86', '87', '88', '89', '90', '91', '92',
@@ -502,7 +502,7 @@ const isValidEncounter = (visit) => {
   }
   const ubRevenue = visit.ubRevenue;
   // 31 is for skilled nursing facility
-  if (cmsPlaceOfService === '31') {
+  if (cmsPlaceOfService === '31' && measure !== 'cole') {
     // If Ub Revenue exists, but is not 002 (skilled nursing) it's invalid
     if (ubRevenue && !(ubRevenue.startsWith('002') || ubTypeOfBill.startsWith('02') )) {
       return false;
