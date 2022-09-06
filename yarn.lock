@@ -3074,10 +3074,10 @@ node-watch@^0.7.3:
   resolved "https://registry.yarnpkg.com/node-watch/-/node-watch-0.7.3.tgz#6d4db88e39c8d09d3ea61d6568d80e5975abc7ab"
   integrity sha512-3l4E8uMPY1HdMMryPRUAl+oIHtXtyiTlIiESNSVSNxcPfzAFzeTbXFQkZfAwBbo0B1qMSG8nUABx+Gd+YrbKrQ==
 
-node@16.16.0:
-  version "16.16.0"
-  resolved "https://registry.yarnpkg.com/node/-/node-16.16.0.tgz#192d06e3e540957fda1d6043b360e584a9c8244f"
-  integrity sha512-I0NJaiQZ443wBqHUfIOx/EjdAO3uP1frg96pLEvrTv9tMyVDgSURYX1x69lNTLaJAF4pCifRwCHEFubN3/K/iQ==
+node@16.17.0:
+  version "16.17.0"
+  resolved "https://registry.yarnpkg.com/node/-/node-16.17.0.tgz#4d90554fc05b826c407ac2a7ebe7c65fc96a5a1f"
+  integrity sha512-cyEAIiYkXkEX4cDr6h35SkLVWavJt4EKzP4XFw1u8Uh6m1F+ZWtZ0puu6kmuBYJYU8L25AcXLhplSi3tbfX3Yw==
   dependencies:
     node-bin-setup "^1.0.0"
 
