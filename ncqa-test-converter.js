@@ -1368,10 +1368,12 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
         subject: { reference: `Patient/${procedure.memberId}-patient` },
         effectivePeriod: {
           start: convertDateString(procedure.serviceDate),
-          end: convertDateString(procedure.serviceDate),
         },
-        status: procedure.serviceStatus === 'EVN' ? 'completed' : 'in-progress',
+        status: procedure.serviceStatus === 'EVN' ? 'final' : 'preliminary',
         code: { coding: [ procCode ] },
+      }
+      if (measure !== 'cole' || procedure.serviceStatus === 'EVN') {
+        obsResource.effectivePeriod.end = convertDateString(procedure.serviceDate);
       }
       observationList.push(obsResource);
     });

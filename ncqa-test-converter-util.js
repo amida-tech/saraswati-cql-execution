@@ -66,8 +66,8 @@ const createCode = (code, systemFlag, systemType) => {
   } else {
     // 10 PNDE Deliveries, 30 for AIS-E bone marrow, GZ for FUM Electro Therapy
     if ((code.startsWith('10') || code.startsWith('30') || code.startsWith('GZ') 
-      || code.startsWith('0UTC') || code === '3E0234Z' || code.startsWith('0HT')) 
-      && code.length === 7 && systemFlag === 'X') {
+      || code.startsWith('0UTC') || code === '3E0234Z' || code.startsWith('0HT')
+      || code.startsWith('0DTE')) && code.length === 7 && systemFlag === 'X') {
       system = getSystem('X2');
     } else {
       system = systemFlag.length === 1 ? getSystem(systemFlag) : systemFlag;

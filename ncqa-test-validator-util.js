@@ -587,23 +587,23 @@ const hedisData = {
       return data[data.memberId]['Numerator'] ? 1 : 0;
     },
     getRequiredExclusion: (data, index) => {
-      if ((index > 0 && index != 5) && data.support['Certification Long Term Care'].length > 0) {
+      if (data[data.memberId]['Exclusions']) {
         return 1;
       }
-      return data[data.memberId]['Exclusions'] ? 1 : 0;
+      return ((index > 1 && index != 5) && data.support['Certification Long Term Care'].length > 0) ? 1 : 0;
     },
     getRequiredExclusionID: () => 0,
     getPayors: (data, index) => {
-      const colePayers = getDefaultPayors(data);
-      if (colePayers === undefined) {
+      const payers = getDefaultPayors(data);
+      if (payers === undefined) {
         return [];
       }
       if (index === 0) {
-        return colePayers.filter((payor) => !medicarePlans.includes(payor));
+        return payers.filter((payor) => !medicarePlans.includes(payor));
       } else if (index >= 1) {
-        return colePayers.filter((payor) => medicarePlans.includes(payor));
+        return payers.filter((payor) => medicarePlans.includes(payor));
       }
-      return colePayers;
+      return payers;
     }
   },
   cou: {
