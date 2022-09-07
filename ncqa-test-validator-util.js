@@ -420,7 +420,7 @@ const hedisData = {
         validPayor = data.support['Certification Medicare Other'];
       }
       const age = measureFunctions.getAge(data);
-      return validPayor && age >= 18 && age <= 74 && data.gender.startsWith('f');
+      return validPayor && age >= 52 && age <= 74 && data.gender.startsWith('f');
     },
     getAge: (data) => {
       let eventDate = new Date('2022-12-31');

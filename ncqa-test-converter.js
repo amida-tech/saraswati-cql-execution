@@ -903,7 +903,8 @@ const createVisitClaimEncResponse = (visitList) => {
         }
       );
       let conditionCount = 1;
-      visit.icdDiagnosis.forEach((visitDiagnosis, index) => {
+      const visitDiagnosisList = visit.icdDiagnosis.filter((diag) => diag != undefined && diag != '');
+      visitDiagnosisList.forEach((visitDiagnosis, index) => {
         if (visitDiagnosis && visit.cmsPlaceOfService !== '81') {
           const condObj = createDiagnosisCondition(
             {
@@ -1146,9 +1147,16 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
           status: 'completed',
           code: { coding: [ serviceCode ] }
         }
-        if (visit.cptModOne) {
-          procResource.bodySite = [ { coding: [ createCode(visit.cptModOne, 'C') ] } ]
+        if (visit.cptModOne || visit.cptModTwo) {
+          procResource.bodySite = [ { coding: [] } ];
+          if (visit.cptModOne) {
+            procResource.bodySite[0].coding.push(createCode(visit.cptModOne, 'C'));
+          }
+          if (visit.cptModTwo) {
+            procResource.bodySite[0].coding.push(createCode(visit.cptModTwo, 'C'));
+          }
         }
+        
         procedureList.push(procResource);
       }
 
@@ -1298,8 +1306,9 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
         
         observationList.push(obsClaim);
       }
-      if (valid && visit.icdDiagnosis.length > 0) {
-        visit.icdDiagnosis.forEach((diagnosis, diagIndex) => {
+      const visitDiagnosisList = visit.icdDiagnosis.filter((diag) => diag != undefined && diag != '');
+      if (valid && visitDiagnosisList.length > 0) {
+        visitDiagnosisList.forEach((diagnosis, diagIndex) => {
           const obsClaim = {
             id: `${visit.memberId}-visit-diagnosis-observation-${visit.claimId}-${index}-${diagIndex + 1}`,
             resourceType: 'Observation',
