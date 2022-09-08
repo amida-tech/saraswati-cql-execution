@@ -131,7 +131,7 @@ async function appendScoreFile(data) {
       const event = hedisData[measure].getEvent(data, index, hedisData[measure]);
       const excl = hedisData[measure].getExclusion(data, index);
       const num = hedisData[measure].getNumerator(data, index, hedisData[measure]);
-      const rExcl = hedisData[measure].getRequiredExclusion(data, index);// Required exclusion.
+      const rExcl = hedisData[measure].getRequiredExclusion(data, index, hedisData[measure]);// Required exclusion.
       const rExclD = hedisData[measure].getRequiredExclusionID(data, index, hedisData[measure]); // Data Element Required Exclusions.
       const age = hedisData[measure].getAge(data, index, hedisData[measure]);
 

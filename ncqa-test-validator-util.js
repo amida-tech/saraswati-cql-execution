@@ -439,7 +439,10 @@ const hedisData = {
     getNumerator: (data, index) => {
       return data[data.memberId][`Numerator`] ? 1 : 0;
     },
-    getRequiredExclusion: (data, index) => {
+    getRequiredExclusion: (data, index, measureFunctions) => {
+      if (measureFunctions.getAge(data) > 65 && data.support['Certification Has SNP']) {
+        return 1;
+      }
       if ((index > 0 && index != 5) && data.support['Certification Long Term Care'].length > 0) {
         return 1;
       }
