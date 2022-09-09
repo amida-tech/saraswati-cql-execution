@@ -583,7 +583,7 @@ const hedisData = {
       return data[data.memberId]['Numerator'] ? 1 : 0;
     },
     getRequiredExclusion: (data, index) => {
-      if (data[data.memberId]['Exclusions'] || data.support['Certification Has SNP'] || data.support['Certification Long Term Care'].length > 0) {
+      if (data[data.memberId]['Exclusions'] || data.support['Certification Has SNP']) {
         return 1;
       }
       return ((index > 1 && index != 5) && data.support['Certification Long Term Care'].length > 0) ? 1 : 0;

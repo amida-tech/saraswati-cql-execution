@@ -841,6 +841,7 @@ const createVisitClaimEncResponse = (visitList) => { // JAMEZ
   const invalidResponses = [];
   const claims = [];
   const visitConditionList = [];
+
   for (const visit of visitList) {
     if (!isValidEncounter(visit)) {
       invalidEncounters.push(`${visit.memberId}-visit-encounter-${visit.claimId}`);
