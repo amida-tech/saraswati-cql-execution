@@ -19,3 +19,4 @@ private
 .cache
 .bash_history
 .ssh
+test.sh
