@@ -830,7 +830,7 @@ const createClaimEncResponse = (visitEList, observationList, procedureList) => {
   return { claims, encounters, visitEncounters, claimResponses };
 }
 
-const createVisitClaimEncResponse = (visitList) => {
+const createVisitClaimEncResponse = (visitList) => { // JAMEZ
   if (visitList === undefined || visitList.length === 0) {
     return {};
   }

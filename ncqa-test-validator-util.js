@@ -573,10 +573,6 @@ const hedisData = {
     },
     getEvent: () => 0,
     getEligiblePopulation: (data, index, measureFunctions) => {
-      // const payors = measureFunctions.getPayors(data);
-      // if (payors === undefined || medicaidPlans.includes(payors[0])) {
-      //   return 0;
-      // }
       if (measureFunctions.getContinuousEnrollment(data) === 0) {
         return 0;
       }
@@ -587,7 +583,7 @@ const hedisData = {
       return data[data.memberId]['Numerator'] ? 1 : 0;
     },
     getRequiredExclusion: (data, index) => {
-      if (data[data.memberId]['Exclusions']) {
+      if (data[data.memberId]['Exclusions'] || data.support['Certification Has SNP'] || data.support['Certification Long Term Care'].length > 0) {
         return 1;
       }
       return ((index > 1 && index != 5) && data.support['Certification Long Term Care'].length > 0) ? 1 : 0;
