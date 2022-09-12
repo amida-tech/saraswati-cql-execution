@@ -426,25 +426,22 @@ const hedisData = {
       let eventDate = new Date('2022-12-31');
       return getAge(new Date(data.birthDate), eventDate);
     },
-    getEligiblePopulation: (data, index, measureFunctions) => {
+    getEligiblePopulation: (data) => {
       return data[data.memberId][`Initial Population`] ? 1 : 0; 
     },
-    getEvent: (data, index) => {
-      return 0;
-    },
+    getEvent: 0,
     getContinuousEnrollment: (data) => {
       return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
     },
     getExclusion: () => 0,
-    getNumerator: (data, index) => {
+    getNumerator: (data) => {
       return data[data.memberId][`Numerator`] ? 1 : 0;
     },
     getRequiredExclusion: (data, index, measureFunctions) => {
-      if (measureFunctions.getAge(data) > 65 && data.support['Certification Has SNP']) {
-        return 1;
-      }
-      if ((index > 0 && index != 5) && data.support['Certification Long Term Care'].length > 0) {
-        return 1;
+      if (index > 0 && measureFunctions.getAge(data) > 65) {
+        if (data.support['Certification Has SNP'] || data.support['Certification Long Term Care'].length > 0) {
+            return 1;
+        }
       }
       return data[data.memberId][`Exclusions`] ? 1 : 0;
     },

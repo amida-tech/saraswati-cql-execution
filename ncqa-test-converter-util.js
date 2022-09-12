@@ -497,7 +497,7 @@ const isValidEncounter = (visit) => {
   }
   const ubRevenue = visit.ubRevenue;
   // 31 is for skilled nursing facility
-  if (cmsPlaceOfService === '31') {
+  if (cmsPlaceOfService === '31' && measure !== 'bcse') {
     // If Ub Revenue exists, but is not 002 (skilled nursing) it's invalid
     if (ubRevenue && !(ubRevenue.startsWith('002') || ubTypeOfBill.startsWith('02') )) {
       return false;
