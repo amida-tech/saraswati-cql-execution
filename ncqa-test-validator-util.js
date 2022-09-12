@@ -429,7 +429,7 @@ const hedisData = {
     getEligiblePopulation: (data) => {
       return data[data.memberId][`Initial Population`] ? 1 : 0; 
     },
-    getEvent: 0,
+    getEvent: () => 0,
     getContinuousEnrollment: (data) => {
       return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
     },
@@ -439,7 +439,8 @@ const hedisData = {
     },
     getRequiredExclusion: (data, index, measureFunctions) => {
       if (index > 0 && measureFunctions.getAge(data) > 65) {
-        if (data.support['Certification Has SNP'] || data.support['Certification Long Term Care'].length > 0) {
+        if (data.support['Certification SNP Coverage'].length > 0
+          || data.support['Certification Long Term Care'].length > 0) {
             return 1;
         }
       }
