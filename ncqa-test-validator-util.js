@@ -576,17 +576,19 @@ const hedisData = {
       if (measureFunctions.getContinuousEnrollment(data) === 0) {
         return 0;
       }
-      return measureFunctions.getRequiredExclusion(data, index) === 1 ? 0 : 1;
+      return measureFunctions.getRequiredExclusion(data, index, measureFunctions) === 1 ? 0 : 1;
     },
     getExclusion: () => 0,
     getNumerator: (data, _index) => {
       return data[data.memberId]['Numerator'] ? 1 : 0;
     },
-    getRequiredExclusion: (data, index) => {
-      if (data[data.memberId]['Exclusions'] || data.support['Certification Has SNP']) {
-        return 1;
+    getRequiredExclusion: (data, index, measureFunctions) => {
+      if (index > 0 && measureFunctions.getAge(data) > 65) {
+        if (data.support['Certification SNP Coverage'].length > 0 || data.support['Certification Long Term Care'].length > 0) {
+          return 1;
+        }
       }
-      return ((index > 1 && index != 5) && data.support['Certification Long Term Care'].length > 0) ? 1 : 0;
+      return data[data.memberId]['Exclusions'] ? 1 : 0;
     },
     getRequiredExclusionID: () => 0,
     getPayors: (data, index) => {
