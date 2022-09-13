@@ -17,6 +17,8 @@ const getSystem = (value) => {
   switch(value) {
     case 'S':
       return 'http://snomed.info/sct';
+    case 'S2':
+      return 'http://snomed.info/sct/731000124108';
     case '9':
       return 'http://hl7.org/fhir/sid/icd-9-cm';
     case 'X':
@@ -62,15 +64,15 @@ const createCode = (code, systemFlag, systemType) => {
     system = systemFlag.length === 1 ? getRxSystem(systemFlag) : systemFlag;
   } else if (systemType === 'NDC') {
     system = getRxSystem(ndcRxSystemCodes.includes(code) ? 'R': 'N');
-  } else {
-    // 10 PNDE Deliveries, 30 for AIS-E bone marrow, GZ for FUM Electro Therapy
-    if ((code.startsWith('10') || code.startsWith('30') || code.startsWith('GZ') 
+  } else if ((code.startsWith('10') || code.startsWith('30') || code.startsWith('GZ') 
       || code.startsWith('0UTC') || code === '3E0234Z' || code.startsWith('0HT')) 
       && code.length === 7 && systemFlag === 'X') {
-      system = getSystem('X2');
-    } else {
+    system = getSystem('X2');
+  } else if (measure === 'pnde' && systemFlag === 'S'
+    && (code === '412726003' || code === '394924000')) {
+      system = getSystem('S2');
+  } else {
       system = systemFlag.length === 1 ? getSystem(systemFlag) : systemFlag;
-    }
   }
   if (system !== 'NA') {
     return {

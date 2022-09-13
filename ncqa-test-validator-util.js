@@ -1055,7 +1055,7 @@ const hedisData = {
       return getAge(new Date(data.birthDate), new Date(eventDate));
     },
     getContinuousEnrollment: (data, index) => {
-      const ce = data.support[`Certification Continuous Enrollment`];
+      const ce = data.support[`Certification Info`];
       if (ce.length === 0) {
         return 0;
       }
@@ -1066,17 +1066,7 @@ const hedisData = {
       if (index % 2 === 0) {
         return currentDelivery !== undefined ? 1 : 0;
       }
-      const currentDeliveryDate = currentDelivery.deliveryDate;
-      let denomField = `Denominator ${(index % 2) + 1}`;
-      const denominator = data[data.memberId][denomField];
-      for (const denom of denominator) {
-        if ((denom.performed.start 
-          && new Date(denom.performed.start.value).getTime() === new Date(currentDeliveryDate).getTime())
-          || new Date(denom.performed.value).getTime() === new Date(currentDeliveryDate).getTime()) {
-          return 1;
-        }
-      }
-      return 0;
+      return data.support['Certification Info'][Math.floor(index / 2)].validDen2 ? 1 : 0;
     },
     getEligiblePopulation: (data, index, measureFunctions) => {
       let payors = measureFunctions.getPayors(data, index, measureFunctions);
@@ -1088,13 +1078,13 @@ const hedisData = {
     },
     getExclusion: () => 0,
     getNumerator: (data, index) => {
-      const currentDeliveryDate = data.support['Certification Delivery'][Math.floor(index / 2)].deliveryDate;
-      let numField = `Numerator ${(index % 2) + 1}`;
-      const numerator = data[data.memberId][numField];
-      for (const num of numerator) {
-        if ((num.performed.start 
-          && new Date(num.performed.start.value).getTime() === new Date(currentDeliveryDate).getTime())
-          || new Date(num.performed.value).getTime() === new Date(currentDeliveryDate).getTime()) {
+      const currentDelivery = data.support['Certification Info'][Math.floor(index / 2)];
+      if (index % 2 === 0) {
+        return currentDelivery.validNum1 ? 1 : 0;
+      }
+      const numerator2List = data[data.memberId]['Numerator 2'];
+      for (const numerator of numerator2List) {
+        if (numerator.id.value === currentDelivery.id) {
           return 1;
         }
       }
