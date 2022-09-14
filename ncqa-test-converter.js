@@ -1161,11 +1161,11 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
       }
 
       if (visit.icdProcedure) {
-        visit.icdProcedure.forEach((procedure) => {
+        visit.icdProcedure.forEach((procedure, procIndex) => {
           if (procedure !== '') {
             const procCode = createCode(procedure, visit.icdIdentifier);
             const procResource = {
-              id: `${visit.memberId}-visit-list-procedure-${visit.claimId}-${index + 1}`,
+              id: `${visit.memberId}-visit-list-procedure-${visit.claimId}-${procIndex + 1}`,
               resourceType: 'Procedure',
               subject: { reference: `Patient/${visit.memberId}-patient`},
               performedDateTime: convertDateString(visit.dateOfService),

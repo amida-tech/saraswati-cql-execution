@@ -1035,7 +1035,76 @@ const hedisData = {
     },
   },
   pnde: {
-    measureIds: ['PND1A','PND2A','PND1B','PND2B']
+    measureIds: ['PND1A','PND2A','PND1B','PND2B'],
+    eventsOrDiag: true,
+    measureCheck: (data, index, measureFunctions) => {
+      if (measureFunctions.getPayors(data, index, measureFunctions) === undefined) {
+        return false;
+      }
+      return data.support['Certification Delivery'][Math.floor(index / 2)] !== undefined;
+    },
+    getAge: (data, index) => {
+      let eventDate = data.support['Certification Delivery'][Math.floor(index / 2)];
+      if (eventDate == undefined) {
+        eventDate = '2022-01-01';
+      } else {
+        eventDate = eventDate.deliveryDate;
+      }
+      return getAge(new Date(data.birthDate), new Date(eventDate));
+    },
+    getContinuousEnrollment: (data, index) => {
+      const ce = data.support[`Certification Info`];
+      if (ce.length === 0) {
+        return 0;
+      }
+      return ce[Math.floor(index / 2)].isCovered ? 1 : 0;
+    },
+    getEvent: (data, index) => {
+      const currentDelivery = data.support['Certification Delivery'][Math.floor(index / 2)];
+      if (index % 2 === 0) {
+        return currentDelivery !== undefined ? 1 : 0;
+      }
+      return data.support['Certification Info'][Math.floor(index / 2)].validDen2 ? 1 : 0;
+    },
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      let payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors.length === 0) {
+        return 0;
+      }
+      return !medicarePlans.includes(payors[0])
+        && !exchange.includes(payors[0]) ? 1 : 0;
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index) => {
+      const currentDelivery = data.support['Certification Info'][Math.floor(index / 2)];
+      if (index % 2 === 0) {
+        return currentDelivery.validNum1 ? 1 : 0;
+      }
+      const numerator2List = data[data.memberId]['Numerator 2'];
+      for (const numerator of numerator2List) {
+        if (numerator.id.value === currentDelivery.id) {
+          return 1;
+        }
+      }
+      return 0;
+    },
+    getRequiredExclusion: (data, index) => data[data.memberId][`Exclusions ${(index % 2) + 1}`].length > 0 ? 1 : 0,
+    getRequiredExclusionID: () => 0,
+    getPayors: (data, index, measureFunctions) => {
+      const memberCoverage = data[data.memberId]['Member Coverage'];
+      const delivery = data.support['Certification Delivery'][Math.floor(index / 2)];
+      let foundPayors = memberCoverage;
+      if (delivery !== undefined && measureFunctions.getContinuousEnrollment(data, index, measureFunctions) === 1) {
+        if (delivery !== null) {
+          foundPayors = memberCoverage.filter((coverage) => {
+            return new Date(coverage.period.start.value).getTime() <= new Date(delivery.deliveryDate)
+              && new Date(coverage.period.end.value).getTime() >= new Date(delivery.deliveryDate)
+          });
+        }
+      }
+      foundPayors = foundPayors.filter((coverage) => coverage.payor).map((coverage) => coverageMap(coverage));
+      return getValidPayors(foundPayors, measureFunctions.getAge(data, index), memberCoverage);
+    },
   },
   prse: {
     measureIds: ['PRSINFLA','PRSTDA','PRSCMBA','PRSINFLB','PRSTDB','PRSCMBB']
