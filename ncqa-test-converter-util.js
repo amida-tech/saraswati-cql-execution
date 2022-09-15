@@ -65,24 +65,14 @@ const createCode = (code, systemFlag, systemType) => {
     system = systemFlag.length === 1 ? getRxSystem(systemFlag) : systemFlag;
   } else if (systemType === 'NDC') {
     system = getRxSystem(ndcRxSystemCodes.includes(code) ? 'R': 'N');
-<<<<<<< HEAD
   } else if ((code.startsWith('10') || code.startsWith('30') || code.startsWith('GZ') 
       || code.startsWith('0UTC') || code === '3E0234Z' || code.startsWith('0HT')) 
-      && code.length === 7 && systemFlag === 'X') {
+      || code.startsWith('0DTE') && code.length === 7 && systemFlag === 'X') {
     system = getSystem('X2');
   } else if (measure === 'pnde' && systemFlag === 'S'
     && (code === '412726003' || code === '394924000')) {
       system = getSystem('S2');
   } else {
-=======
-  } else {
-    // 10 PNDE Deliveries, 30 for AIS-E bone marrow, GZ for FUM Electro Therapy
-    if ((code.startsWith('10') || code.startsWith('30') || code.startsWith('GZ') 
-      || code.startsWith('0UTC') || code === '3E0234Z' || code.startsWith('0HT')
-      || code.startsWith('0DTE')) && code.length === 7 && systemFlag === 'X') {
-      system = getSystem('X2');
-    } else {
->>>>>>> feature/sar-617-drre-validation
       system = systemFlag.length === 1 ? getSystem(systemFlag) : systemFlag;
   }
   if (system !== 'NA') {
