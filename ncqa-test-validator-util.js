@@ -1153,10 +1153,81 @@ const hedisData = {
   },
   uri: {
     measureIds: ['URIA','URIB'],
-    eventsOrDiag: true,
-    ageKey: 'Qualifying Episodes Without Exclusions', 
-    ageArray: true,
-    measureCheck: secondQualifyingEpisodeCheck,
+    measureCheck: (data, index, measureFunctions) => {
+      if (measureFunctions.getValidEvents(data) == null
+        || measureFunctions.getValidEvents(data)[index] === undefined
+        || measureFunctions.getPayors(data, index, measureFunctions) === undefined) {
+          return false;
+      }
+      const currentDate = new Date(measureFunctions.getValidEvents(data)[index].date).getTime();
+      return data[data.memberId]['Member Coverage']
+        .filter((coverage) => coverage.payor)
+        .find((coverage) => {
+          return (((new Date(coverage.period.start.value).getTime()) <= currentDate - 2592000000
+              && (new Date(coverage.period.end.value).getTime()) >= currentDate - 2592000000)
+            || ((new Date(coverage.period.start.value).getTime()) <= currentDate + 259200000
+              && (new Date(coverage.period.end.value).getTime()) >= currentDate + 259200000))
+        });
+    },
+    getAge: (data, index, measureFunctions) => {
+      const currentEvent = measureFunctions.getValidEvents(data)[index];
+      let eventDate = '2022-12-31';
+      if (currentEvent !== undefined) {
+        eventDate = currentEvent.date;
+      }
+      return getAge(new Date(data.birthDate), new Date(eventDate))
+    },
+    getContinuousEnrollment: (data, index, measureFunctions) => {
+      return measureFunctions.getValidEvents(data)[index].ce ? 1 : 0;
+    },
+    getEvent: () => 1,
+    getEligiblePopulation: () => 1,
+    getExclusion: () => 0,
+    getNumerator: (data, index, measureFunctions) => measureFunctions.getValidEvents(data)[index].validNum ? 1 : 0,
+    getRequiredExclusion: () => 0,
+    getRequiredExclusionID: (data) => data.support['Certification Hospice Exclusions'] ? 1 : 0,
+    getPayors: (data, index, measureFunctions) => {
+      const event = measureFunctions.getValidEvents(data)[index];
+      const fullCoverageList = data[data.memberId]['Member Coverage'].filter((coverage) => coverage.payor);
+      let foundPayors = [];
+      // If the event has continuous enrollment
+      if (event.ce) {
+        const currentDate = new Date(event.date).getTime();
+        //First check if the event date falls under the exact coverage period
+        foundPayors = fullCoverageList
+          .filter((coverage) => {
+            return (new Date(coverage.period.start.value).getTime()) <= currentDate
+              && (new Date(coverage.period.end.value).getTime()) >= currentDate
+          });
+        // If no coverages exists, expand the search to to full continuous enrollment period
+        if (foundPayors.length === 0) {
+          foundPayors = fullCoverageList
+          .filter((coverage) => {
+            return (new Date(coverage.period.start.value).getTime() - 2592000000) <= currentDate
+              && (new Date(coverage.period.end.value).getTime() + 259200000) >= currentDate
+          });
+        }
+      }
+      
+      const age = measureFunctions.getAge(data, index, measureFunctions);
+      return getValidPayors(foundPayors.map((coverage) => coverageMap(coverage)), age, fullCoverageList);
+    },
+    getValidEvents: (data) => {
+      const events = data.support['Certification Info'];
+      if (events === null) {
+        return null;
+      }
+      const validEventList = [];
+      for (const event1 of events) {
+        if (event1.validNum || event1.ce) {
+          validEventList.push(event1);
+        }
+      }
+      if (validEventList.length === 0) {
+        return [events[0]];
+      }
+      return validEventList;
+    },
   },
 }
 
