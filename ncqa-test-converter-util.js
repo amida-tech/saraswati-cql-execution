@@ -6,7 +6,8 @@ const measure = config.measurementType;
 
 const ndcRxSystemCodes = ['351172','352118','200172','213178','310346','201961'];
 
-const quantityMeasures = ['psa']; // Lab tests often want different value types. This helps map them. 
+const quantityMeasures = ['psa']; // Lab tests often want different value types. This helps map them.
+const abatementIncrement = ['drre']; // Some measures check against the very day. For these, we increment it by one day to fix problems. 
 const msInADay = 1000 * 60 * 60 * 24; // Here we go again...
 const endOfThisYear = new Date(`${config.measurementYear}-12-31`);
 const startOfThisYear = new Date(`${config.measurementYear}-01-01`);
@@ -64,6 +65,7 @@ const createCode = (code, systemFlag, systemType) => {
     system = systemFlag.length === 1 ? getRxSystem(systemFlag) : systemFlag;
   } else if (systemType === 'NDC') {
     system = getRxSystem(ndcRxSystemCodes.includes(code) ? 'R': 'N');
+<<<<<<< HEAD
   } else if ((code.startsWith('10') || code.startsWith('30') || code.startsWith('GZ') 
       || code.startsWith('0UTC') || code === '3E0234Z' || code.startsWith('0HT')) 
       && code.length === 7 && systemFlag === 'X') {
@@ -72,6 +74,15 @@ const createCode = (code, systemFlag, systemType) => {
     && (code === '412726003' || code === '394924000')) {
       system = getSystem('S2');
   } else {
+=======
+  } else {
+    // 10 PNDE Deliveries, 30 for AIS-E bone marrow, GZ for FUM Electro Therapy
+    if ((code.startsWith('10') || code.startsWith('30') || code.startsWith('GZ') 
+      || code.startsWith('0UTC') || code === '3E0234Z' || code.startsWith('0HT')
+      || code.startsWith('0DTE')) && code.length === 7 && systemFlag === 'X') {
+      system = getSystem('X2');
+    } else {
+>>>>>>> feature/sar-617-drre-validation
       system = systemFlag.length === 1 ? getSystem(systemFlag) : systemFlag;
   }
   if (system !== 'NA') {
@@ -255,14 +266,14 @@ const createDiagnosisCondition = (condition) => {
 
   if (condition.onsetDateTime) {
     condObj.onsetDateTime = convertDateString(condition.onsetDateTime);
-    condObj.abatementDateTime = convertDateString(condition.onsetDateTime);
+    condObj.abatementDateTime = convertDateString(condition.onsetDateTime); // JAMES increment
   } else if (condition.onsetStart) {
     if (condition.onsetEnd) {
       condObj.onsetDateTime = convertDateString(condition.onsetStart);
       condObj.abatementDateTime = convertDateString(condition.onsetEnd);
     } else {
       condObj.onsetDateTime = convertDateString(condition.onsetStart);
-      condObj.abatementDateTime = convertDateString(condition.onsetStart);
+      condObj.abatementDateTime = convertDateString(condition.onsetStart); // JAMES increment
     }
   }
   if (condition.recorder) {
@@ -441,20 +452,28 @@ const convertDateString = (ncqaDateString) => {
   const year = ncqaDateString.toString().substr(0, 4);
   const month = ncqaDateString.toString().substr(4, 2);
   const day = ncqaDateString.toString().substr(6, 2);
-
+  // if (incrementDay) {
+  //   const date = new Date(`${year}-${month}-${day}`);
+  //   date.setDate(date.getDate() + 1); 
+  //   return `${date.toISOString()}T00:00:00.000+00:00`;
+  // }
   return `${year}-${month}-${day}T00:00:00.000+00:00`;
 }
 
 const labValueSets = ['2.16.840.1.113883.3.464.1004.1109',
                     '2.16.840.1.113883.3.464.1004.1168',
+                    '2.16.840.1.113883.3.464.1004.1421',
                     '2.16.840.1.113883.3.464.1004.1525',
                     '2.16.840.1.113883.3.464.1004.1527',
                     '2.16.840.1.113883.3.464.1004.1769',
                     '2.16.840.1.113883.3.464.1004.1755',
                     '2.16.840.1.113883.3.464.1004.1742',
+                    '2.16.840.1.113883.3.464.1004.1749',
                     '2.16.840.1.113883.3.464.1004.1751',
                     '2.16.840.1.113883.3.464.1004.1783',
-                    '2.16.840.1.113883.3.464.1004.1963'];
+                    '2.16.840.1.113883.3.464.1004.1959',
+                    '2.16.840.1.113883.3.464.1004.1963',
+                  ];
 
 const checkValidLabCode = (code) => {
   const dir = config.valuesetsDirectory;
@@ -474,7 +493,7 @@ const checkValidLabCode = (code) => {
   return false;
 }
 
-const invalidLocations = ['10', '27', '28', '29', '30','35', '36', '37', '38', '39', '40',
+const invalidLocations = ['10', '27', '28', '29', '30', '35', '36', '37', '38', '39', '40',
                         '43', '44', '45', '46', '47', '48', '58', '59', '63', '64', '66', '67',
                         '68', '69', '70', '73', '74', '75', '76', '77', '78', '79', '80',
                       '82', '83', '84', '85', '86', '87', '88', '89', '90', '91', '92',
@@ -499,7 +518,7 @@ const isValidEncounter = (visit) => {
   }
   const ubRevenue = visit.ubRevenue;
   // 31 is for skilled nursing facility
-  if (cmsPlaceOfService === '31' && measure !== 'bcse') {
+  if (cmsPlaceOfService === '31' && measure !== 'bcse' && measure !== 'cole') {
     // If Ub Revenue exists, but is not 002 (skilled nursing) it's invalid
     if (ubRevenue && !(ubRevenue.startsWith('002') || ubTypeOfBill.startsWith('02') )) {
       return false;

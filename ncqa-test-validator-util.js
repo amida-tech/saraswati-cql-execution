@@ -573,35 +573,36 @@ const hedisData = {
       return data[data.memberId][`Enrolled During Participation Period`] ? 1 : 0;
     },
     getEvent: () => 0,
-    getEligiblePopulation: (data, _index, measureFunctions) => {
-      const payors = measureFunctions.getPayors(data);
-      if (payors === undefined || medicarePlans.includes(payors[0])) {
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      if (measureFunctions.getContinuousEnrollment(data) === 0) {
         return 0;
       }
-      return data[data.memberId]['Initial Population'] ? 1 : 0; 
+      return measureFunctions.getRequiredExclusion(data, index, measureFunctions) === 1 ? 0 : 1;
     },
     getExclusion: () => 0,
     getNumerator: (data, _index) => {
       return data[data.memberId]['Numerator'] ? 1 : 0;
     },
-    getRequiredExclusion: (data, index) => {
-      if ((index > 0 && index != 5) && data.support['Certification Long Term Care'].length > 0) {
-        return 1;
+    getRequiredExclusion: (data, index, measureFunctions) => {
+      if (index > 0 && measureFunctions.getAge(data) > 65) {
+        if (data.support['Certification SNP Coverage'].length > 0 || data.support['Certification Long Term Care'].length > 0) {
+          return 1;
+        }
       }
-      return data[data.memberId][`Exclusions`] ? 1 : 0;
+      return data[data.memberId]['Exclusions'] ? 1 : 0;
     },
     getRequiredExclusionID: () => 0,
     getPayors: (data, index) => {
-      const colePayers = getDefaultPayors(data);
-      if (colePayers === undefined) {
+      const payers = getDefaultPayors(data);
+      if (payers === undefined) {
         return [];
       }
       if (index === 0) {
-        return colePayers.filter((payor) => !medicarePlans.includes(payor));
+        return payers.filter((payor) => !medicarePlans.includes(payor));
       } else if (index >= 1) {
-        return colePayers.filter((payor) => medicarePlans.includes(payor));
+        return payers.filter((payor) => medicarePlans.includes(payor));
       }
-      return colePayers;
+      return payers;
     }
   },
   cou: {
@@ -782,7 +783,44 @@ const hedisData = {
     getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
   },
   drre: {
-    measureIds: ['DRRA','DRRB','DRRC']
+    measureIds: ['DRRA','DRRB','DRRC'],
+    measureCheck: (data, index, measureFunctions) => {
+      const age = measureFunctions.getAge(data);
+      if (age < 12) {
+        return false;
+      }
+      let validPayor = false;
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors === undefined) {
+        return false;
+      }
+      validPayor = payors.some((payor) => exchange.includes(payor) || commercial.includes(payor) || medicaidPlans.includes(payor));
+      if (!validPayor && age > 18) {
+        validPayor = payors.some((payor) => medicarePlans.includes(payor));
+      }
+      return validPayor;
+    },
+    getAge: (data, _index) => {
+      let eventDate = new Date(`${config.measurementYear-1}-05-01T00:00:00.000+00:00`);
+      return getAge(new Date(data.birthDate), eventDate);
+    },
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      const payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors === undefined || exchange.includes(payors[0])) {
+        return 0;
+      }
+      if (index === 0) {
+        return data[data.memberId]['Initial Population 1'] ? 1 : 0
+      }
+      return data[data.memberId]['Denominator 2'] && measureFunctions.getEvent(data, index) ? 1 : 0;
+    },
+    getContinuousEnrollment: (data, _index) => data[data.memberId]['Enrolled During Participation Period'] ? 1 : 0,
+    getEvent: (data, _index) => data[data.memberId]['PHQ-9 Modified For Teens'].length > 0 || data[data.memberId]['PHQ-9 Assessments'].length > 0 ? 1 : 0,
+    getExclusion: () => 0,
+    getNumerator: (data, index) => data[data.memberId][`Numerator ${index + 1}`] ? 1 : 0,
+    getRequiredExclusion: (data, index) => data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0, // Guess?
+    getRequiredExclusionID: () => 0,
+    getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
   },
   dsfe: {
     measureIds: ['DSFA','DSFB'],

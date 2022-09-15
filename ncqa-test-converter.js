@@ -696,7 +696,7 @@ const createConditionList = (visitEList, diagnosisList, mmdfList, lishistList) =
         subject: { reference: `Patient/${mmdf.beneficiaryId}-patient` },
         code: { coding: [ createCode(`OREC-${mmdf.orec}`, 'A') ] },
         onsetDateTime: convertDateString(mmdf.runDate),
-        abatementDateTime: convertDateString(mmdf.runDate),
+        abatementDateTime: convertDateString(mmdf.runDate), // JAMES increment day
       }
       mmdfConditionList.push(condObj);
     });
@@ -712,9 +712,9 @@ const createConditionList = (visitEList, diagnosisList, mmdfList, lishistList) =
         onsetDateTime: convertDateString(lishist.startDate),
       }
       if (lishist.endDate !== '') {
-        condObj.abatementDateTime = convertDateString(lishist.endDate);
+        condObj.abatementDateTime = convertDateString(lishist.endDate); // JAMES increment day
       } else {
-        condObj.abatementDateTime = '2022-12-31T00:00:00.000+00:00';
+        condObj.abatementDateTime = '2022-12-31T23:59:59.000+00:00';
       }
       lishistConditionList.push(condObj);
     });
@@ -830,11 +830,10 @@ const createClaimEncResponse = (visitEList, observationList, procedureList) => {
   return { claims, encounters, visitEncounters, claimResponses };
 }
 
-const createVisitClaimEncResponse = (visitList) => {
+const createVisitClaimEncResponse = (visitList) => { // JAMEZ
   if (visitList === undefined || visitList.length === 0) {
     return {};
   }
-
   const claimResponses = [];
   const visitEncounters = [];
   const invalidEncounters = [];
@@ -842,6 +841,7 @@ const createVisitClaimEncResponse = (visitList) => {
   const invalidResponses = [];
   const claims = [];
   const visitConditionList = [];
+
   for (const visit of visitList) {
     if (!isValidEncounter(visit)) {
       invalidEncounters.push(`${visit.memberId}-visit-encounter-${visit.claimId}`);
@@ -932,8 +932,8 @@ const createVisitClaimEncResponse = (visitList) => {
       });
       visitEncounters.push(encounter);
     }
-      
-    if (visit.supplementalData === 'N' || measure === 'bcse') {
+    
+    if (visit.supplementalData === 'N' || measure === 'bcse' || measure === 'cole') {
       let foundClaimMatch = false;
       const claimId = `${visit.memberId}-visit-claim-${visit.claimId}`;
       for (const claim of claims) {
@@ -1266,7 +1266,7 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
       } else {
         procResource.performedPeriod = {
           start: convertDateString(diagnosis.startDate),
-          end: convertDateString('2022-12-31T00:00:00.000+00:00'),
+          end: convertDateString('20221231'),
         }
       }
       procedureList.push(procResource);
@@ -1352,7 +1352,7 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
       }
       if (observation.value) {
         const labValues = getLabValues(observation.value);
-        obsResource[labValues.key] = labValues.value; // JAMES
+        obsResource[labValues.key] = labValues.value; 
       }
       if (observation.endDate) {
         obsResource.effectivePeriod = {
@@ -1362,7 +1362,7 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
       } else {
         obsResource.effectivePeriod = {
           start: convertDateString(observation.observationDate),
-          end: convertDateString(observation.observationDate),
+          end: convertDateString(observation.observationDate), // James increment day
         };
       }
       observationList.push(obsResource);        
@@ -1378,10 +1378,12 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
         subject: { reference: `Patient/${procedure.memberId}-patient` },
         effectivePeriod: {
           start: convertDateString(procedure.serviceDate),
-          end: convertDateString(procedure.serviceDate),
         },
-        status: procedure.serviceStatus === 'EVN' ? 'completed' : 'in-progress',
+        status: procedure.serviceStatus === 'EVN' ? 'final' : 'preliminary',
         code: { coding: [ procCode ] },
+      }
+      if (measure !== 'cole' || procedure.serviceStatus === 'EVN') {
+        obsResource.effectivePeriod.end = convertDateString(procedure.serviceDate);
       }
       observationList.push(obsResource);
     });
