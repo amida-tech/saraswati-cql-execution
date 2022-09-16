@@ -60,8 +60,15 @@ const hedisData = {
     measureIds: ['AABA','AABB'],
     eventsOrDiag: true,
     measureCheck: (data, index, measureFunctions) => {
-      if (measureFunctions.getValidEvents(data) == null
-        || measureFunctions.getValidEvents(data)[index] === undefined
+      const eventsList = measureFunctions.getValidEvents(data);
+      if (eventsList === null) {
+        return false;
+      }
+      const currentEvent = eventsList[index];
+      if (currentEvent === undefined) {
+        return false;
+      }
+      if (getAgeInMonths(new Date(data.birthDate), new Date(currentEvent.date)) < 3
         || measureFunctions.getPayors(data, index, measureFunctions) === undefined) {
           return false;
       }
@@ -650,10 +657,16 @@ const hedisData = {
     measureIds: ['CWPA','CWPB'],
     eventsOrDiag: true,
     measureCheck: (data, index, measureFunctions) => {
-      if (measureFunctions.getValidEvents(data) == null
-        || measureFunctions.getValidEvents(data)[index] === undefined
-        || measureFunctions.getPayors(data, index, measureFunctions) === undefined
-        || measureFunctions.getAge(data, index, measureFunctions) < 3) {
+      const eventsList = measureFunctions.getValidEvents(data);
+      if (eventsList === null) {
+        return false;
+      }
+      const currentEvent = eventsList[index];
+      if (currentEvent === undefined) {
+        return false;
+      }
+      if (getAgeInMonths(new Date(data.birthDate), new Date(currentEvent.date)) < 3
+        || measureFunctions.getPayors(data, index, measureFunctions) === undefined) {
           return false;
       }
 
@@ -1154,8 +1167,15 @@ const hedisData = {
   uri: {
     measureIds: ['URIA','URIB'],
     measureCheck: (data, index, measureFunctions) => {
-      if (measureFunctions.getValidEvents(data) == null
-        || measureFunctions.getValidEvents(data)[index] === undefined
+      const eventsList = measureFunctions.getValidEvents(data);
+      if (eventsList === null) {
+        return false;
+      }
+      const currentEvent = eventsList[index];
+      if (currentEvent === undefined) {
+        return false;
+      }
+      if (getAgeInMonths(new Date(data.birthDate), new Date(currentEvent.date)) < 3
         || measureFunctions.getPayors(data, index, measureFunctions) === undefined) {
           return false;
       }
@@ -1232,14 +1252,24 @@ const hedisData = {
 }
 
 const getAge = (birthDate, compareDate) => { // Age must be calculated against first event.
-  let totalYears = parseInt(compareDate.getFullYear()) - parseInt(birthDate.getFullYear());
-  if (compareDate.getMonth() < birthDate.getMonth()) {
+  let totalYears = parseInt(compareDate.getUTCFullYear()) - parseInt(birthDate.getUTCFullYear());
+  if (compareDate.getUTCMonth() < birthDate.getUTCMonth()) {
     totalYears -= 1;
   }
-  if (compareDate.getMonth() === birthDate.getMonth() && compareDate.getDate() < birthDate.getDate()) {
+  if (compareDate.getUTCMonth() === birthDate.getUTCMonth() && compareDate.getUTCDate() < birthDate.getUTCDate()) {
     totalYears -= 1;
   }
   return totalYears;
+}
+
+const getAgeInMonths = (birthDate, compareDate) => {
+  const birthDateMonths = parseInt(birthDate.getUTCFullYear() * 12) + birthDate.getUTCMonth();
+  const compareDateMonths = parseInt(compareDate.getUTCFullYear() * 12) + compareDate.getUTCMonth();
+  let totalMonths = compareDateMonths - birthDateMonths;
+  if (compareDate.getUTCDate() < birthDate.getUTCDate()) {
+    totalMonths -= 1;
+  }
+  return totalMonths;
 }
 
 const getAge2 = (birthDate, compareDate) => { // Age must be calculated against first event.
