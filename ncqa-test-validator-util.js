@@ -1263,7 +1263,32 @@ const hedisData = {
     },
   },
   uop: {
-    measureIds: ['UOPA','UOPB','UOPC']
+    measureIds: ['UOPA','UOPB','UOPC'],
+    eventsOrDiag: true,
+    measureCheck: (data, index, measureFunctions) => {
+      return measureFunctions.getAge(data) >= 18 && measureFunctions.getPayors(data, index, measureFunctions) !== undefined;
+    },
+    getAge: (data) => {
+      return getAge(new Date(data.birthDate), new Date('2022-01-01'));
+    },
+    getContinuousEnrollment: (data) => {
+      return data[data.memberId]['Enrolled During Participation Period'] ? 1 : 0;
+    },
+    getEvent: (data) => {
+      return data.support['Certification Event'] ? 1 : 0
+    },
+    getEligiblePopulation: (data, index, measureFunctions) => {
+      let payors = measureFunctions.getPayors(data, index, measureFunctions);
+      if (payors.length === 0) {
+        return 0;
+      }
+      return !exchange.includes(payors[0]) ? 1 : 0;
+    },
+    getExclusion: () => 0,
+    getNumerator: (data, index, measureFunctions) => data.support[`Certification Numerator ${index + 1}`] ? 1 : 0,
+    getRequiredExclusion: () => 0,
+    getRequiredExclusionID: (data, index) => data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0,
+    getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
   },
   uri: {
     measureIds: ['URIA','URIB'],

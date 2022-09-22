@@ -7,8 +7,8 @@ const exchangeOrCommercial = ['CEP', 'HMO', 'POS', 'PPO', 'MEP', 'MMO', 'MOS', '
 const medicarePlans = ['MCR', 'MCS', 'MP', 'MC', 'MCR', 'SN1', 'SN2', 'SN3', 'MMP'];
 const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB', 'MCD', 'MMP'];
 const snpMeasures = []; // I don't think we'll ever have any of these for a while.
-const medicareMeasures = ['aab', 'asfe', 'aise', 'bcse', 'cole', 'cou', 'cwp', 'dmse', 'drre', 'dsfe', 'fum', 'psa', 'uri'];
-const medicaidMeasures = ['aab', 'adde', 'apme', 'aise', 'asfe', 'bcse', 'ccs', 'cise', 'cole', 'cou', 'cwp', 'dmse', 'drre', 'dsfe', 'fum', 'imae', 'pdse', 'pnde', 'prse', 'uri'];
+const medicareMeasures = ['aab', 'asfe', 'aise', 'bcse', 'cole', 'cou', 'cwp', 'dmse', 'drre', 'dsfe', 'fum', 'psa', 'uop', 'uri'];
+const medicaidMeasures = ['aab', 'adde', 'apme', 'aise', 'asfe', 'bcse', 'ccs', 'cise', 'cole', 'cou', 'cwp', 'dmse', 'drre', 'dsfe', 'fum', 'imae', 'pdse', 'pnde', 'prse', 'uop', 'uri'];
 
 const mmpMeasures = []; // As with SNPs.
 
@@ -168,6 +168,17 @@ const measurePlanInfo = {
     },
     medicare: {
       ageStart: 70
+    }
+  },
+  uop: {
+    commercial: {
+      ageStart: 18
+    },
+    medicaid: {
+      ageStart: 18
+    },
+    medicare: {
+      ageStart: 18
     }
   },
   uri: {

@@ -360,23 +360,25 @@ const createClaimResponse = (response) => {
 }
 
 const createPractitionerLocation = (locPrac) => {
+  const identifierObj = {
+    type: {
+      coding: [
+        {
+          system: 'http://terminology.hl7.org/CodeSystem/v2-0203',
+          code: 'PRN',
+        }
+      ]
+    },
+    system: 'http://hl7.org/fhir/sid/us-npi'
+  }
+  if (locPrac.npi !== undefined) {
+    identifierObj.value = locPrac.npi;
+  }
+
   return {
     resourceType: locPrac.type,
-    id: locPrac.npi,
-    identifier: [
-      {
-        type: {
-          coding: [
-            {
-              system: 'http://terminology.hl7.org/CodeSystem/v2-0203',
-              code: 'PRN',
-            }
-          ]
-        },
-        system: 'http://hl7.org/fhir/sid/us-npi',
-        value: locPrac.npi,
-      }
-    ]
+    id: locPrac.id,
+    identifier: [ identifierObj ]
   }
 }
 
