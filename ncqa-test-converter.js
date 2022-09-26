@@ -1456,6 +1456,7 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
 
 const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
   const pharmacyClaimList = [];
+  let medDispenseCount = 1;
   let claimCount = 1
   let claimResponseCount = 1;
   if (pharmacyClinical) {
@@ -1500,7 +1501,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
 
       if (pharmClinic.dispensedDate) {
         const medDispenseResource = {
-          id: `${pharmClinic.memberId}-medicationDispense-${claimCount}`,
+          id: `${pharmClinic.memberId}-medicationDispense-${medDispenseCount}`,
           resourceType: 'MedicationDispense',
           patient: { reference: `Patient/${pharmClinic.memberId}-patient` },
           status: 'completed',
@@ -1514,7 +1515,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
         });
       }
 
-      claimCount += 1;
+      medDispenseCount += 1;
     });
   }
 
@@ -1522,7 +1523,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
     pharmacy.forEach((pharm) => {
       if (pharm.serviceDate) {
         const medDispenseResource = {
-          id: `${pharm.memberId}-medicationDispense-${claimCount}`,
+          id: `${pharm.memberId}-medicationDispense-${medDispenseCount}`,
           resourceType: 'MedicationDispense',
           patient: { reference: `Patient/${pharm.memberId}-patient` },
           status: 'completed',
@@ -1535,12 +1536,13 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
           resource: medDispenseResource,
         });
 
-        claimCount += 1;
+        medDispenseCount += 1;
       }
     })
 
     const providerNpiHolder = {};
     const pharmacyNpiHolder = {};
+    let nullPharmacyCount = 1;
     pharmacy //pharm.txt is only a claim when NOT supplemental data
       .filter((item) => item.supplementalData !== 'Y')
       .forEach((pharm) => {
@@ -1558,6 +1560,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
             providerNpiHolder[pharm.providerNpi] = createPractitionerLocation({
               type: 'Practitioner',
               npi: pharm.providerNpi,
+              id: pharm.providerNpi,
             });
           }
 
@@ -1576,15 +1579,30 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
             pharmacyNpiHolder[pharm.pharmacyNpi] = createPractitionerLocation({
               type: 'Location',
               npi: pharm.pharmacyNpi,
+              id: pharm.pharmacyNpi,
             });
           }
 
           resource.item[0].locationReference = {
             reference: `Location/${pharmacyNpiHolder[pharm.pharmacyNpi].id}`,
           }
+        } else {
+          const nullLocId = `null${nullPharmacyCount}`;
+          pharmacyNpiHolder[nullLocId] = createPractitionerLocation({
+            type: 'Location',
+            id: nullLocId,
+          });
+          
+          if (resource.item[0] === undefined) {
+            resource.item = [{}];
+          }
+
+          resource.item[0].locationReference = {
+            reference: `Location/${nullLocId}`,
+          };
+          nullPharmacyCount += 1;
         }
 
-      
         pharmacyClaimList.push({
           fullUrl: `urn:uuid:${resource.id}`,
           resource,
