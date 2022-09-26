@@ -935,8 +935,6 @@ const hedisData = {
     },
     getExclusion: () => 0,
     getNumerator: (data, index, measureFunctions) => {
-      // const what = measureFunctions.getValidEvents(data, index);
-      // console.log(what);
       return measureFunctions.getValidEvents(data, index)?.[ Math.floor(index / 2) ].validNum.length > 0 ? 1 : 0;
     },
     getRequiredExclusion: () => 0, // INCORRECT.
@@ -949,11 +947,15 @@ const hedisData = {
       const event = measureFunctions.getValidEvents(data, index); // [index];
       const fullCoverageList = data[data.memberId]['Member Coverage'].filter((coverage) => coverage.payor);
       let foundPayors = [];
-      if (event?.ce) { // If the event has continuous enrollment 
+      console.log(event);
+      if (event.ce) { // If the event has continuous enrollment 
         const currentDate = new Date(event.date).getTime();
+        console.log('k');
+        console.log(currentDate);
         //First check if the event date falls under the exact coverage period
         foundPayors = fullCoverageList
           .filter((coverage) => {
+            console.log(coverage);
             return (new Date(coverage.period.start.value).getTime()) <= currentDate
               && (new Date(coverage.period.end.value).getTime()) >= currentDate
           });
@@ -966,7 +968,7 @@ const hedisData = {
           });
         }
       }
-      
+      console.log(foundPayors);
       const age = measureFunctions.getAge(data, index, measureFunctions);
       return getValidPayors(foundPayors.map((coverage) => coverageMap(coverage)), age, fullCoverageList);
     },
