@@ -1593,6 +1593,10 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
             id: nullLocId,
           });
           
+          if (resource.item[0] === undefined) {
+            resource.item = [{}];
+          }
+
           resource.item[0].locationReference = {
             reference: `Location/${nullLocId}`,
           };
