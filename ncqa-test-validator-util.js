@@ -889,14 +889,43 @@ const hedisData = {
   fum: {
     measureIds: ['FUM30A', 'FUM7A', 'FUM30B', 'FUM7B'],
     measureCheck: (data, index, measureFunctions) => {
-      const age = measureFunctions.getAge(data, index);
-      if (isNaN(age) || age < 6) {
+      const eventsList = measureFunctions.getValidEvents(data, index);
+      if (eventsList === null) {
         return false;
       }
-      if (index < 2) { // We always want a result back for FUM30A and FUM7A.
-        return true;
+      const currentEvent = eventsList[Math.floor(index / 2)];
+      if (currentEvent === undefined) {
+        return false;
       }
-      return data[data.memberId]['Initial Population 2'].length > 1;
+      if (measureFunctions.getAge(data, index) < 6
+        || measureFunctions.getPayors(data, index, measureFunctions) === undefined) {
+          return false;
+      }
+      const currentDate = new Date(measureFunctions.getValidEvents(data, index)[Math.floor(index / 2)].date).getTime();
+      return data[data.memberId]['Member Coverage']
+        .filter((coverage) => coverage.payor)
+        .find((coverage) => {
+          return (((new Date(coverage.period.start.value).getTime()) <= currentDate - 2592000000
+              && (new Date(coverage.period.end.value).getTime()) >= currentDate - 2592000000)
+            || ((new Date(coverage.period.start.value).getTime()) <= currentDate + 259200000
+              && (new Date(coverage.period.end.value).getTime()) >= currentDate + 259200000))
+        });
+    },
+    getValidEvents: (data, index) => {
+      const events = data.support[`Certification Info ${index % 2 + 1}`];
+      if (events === null) {
+        return null;
+      }
+      const validEventList = [];
+      for (const event1 of events) {
+        if (event1.validNum || event1.ce) {
+          validEventList.push(event1);
+        }
+      }
+      if (validEventList.length === 0) {
+        return [events[0]];
+      }
+      return validEventList;
     },
     eventsOrDiag: true,
     getAge: (data, index) => {
@@ -944,18 +973,14 @@ const hedisData = {
       return data[data.memberId][`Exclusions ${numIndex + 1}`][dateIndex] !== undefined ? 1 : 0;
     },
     getPayors: (data, index, measureFunctions) => {
-      const event = measureFunctions.getValidEvents(data, index); // [index];
+      const event = measureFunctions.getValidEvents(data, index)[Math.floor(index / 2)];
       const fullCoverageList = data[data.memberId]['Member Coverage'].filter((coverage) => coverage.payor);
       let foundPayors = [];
-      console.log(event);
-      if (event.ce) { // If the event has continuous enrollment 
+      if (event?.ce) { // If the event has continuous enrollment 
         const currentDate = new Date(event.date).getTime();
-        console.log('k');
-        console.log(currentDate);
         //First check if the event date falls under the exact coverage period
         foundPayors = fullCoverageList
           .filter((coverage) => {
-            console.log(coverage);
             return (new Date(coverage.period.start.value).getTime()) <= currentDate
               && (new Date(coverage.period.end.value).getTime()) >= currentDate
           });
@@ -968,26 +993,9 @@ const hedisData = {
           });
         }
       }
-      console.log(foundPayors);
       const age = measureFunctions.getAge(data, index, measureFunctions);
       return getValidPayors(foundPayors.map((coverage) => coverageMap(coverage)), age, fullCoverageList);
-    },
-    getValidEvents: (data, index) => {
-      const events = data.support[`Certification Info ${index % 2 + 1}`];
-      if (events === null) {
-        return null;
-      }
-      const validEventList = [];
-      for (const event1 of events) {
-        if (event1.validNum || event1.ce) {
-          validEventList.push(event1);
-        }
-      }
-      if (validEventList.length === 0) {
-        return [events[0]];
-      }
-      return validEventList;
-    },
+    }
   },
   imae: {
     measureIds: ['IMAMEN','IMATD','IMAHPV','IMACMB1','IMACMB2'],
