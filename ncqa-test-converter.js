@@ -696,7 +696,7 @@ const createConditionList = (visitEList, diagnosisList, mmdfList, lishistList) =
         subject: { reference: `Patient/${mmdf.beneficiaryId}-patient` },
         code: { coding: [ createCode(`OREC-${mmdf.orec}`, 'A') ] },
         onsetDateTime: convertDateString(mmdf.runDate),
-        abatementDateTime: convertDateString(mmdf.runDate), // JAMES increment day
+        abatementDateTime: convertDateString(mmdf.runDate), 
       }
       mmdfConditionList.push(condObj);
     });
@@ -712,7 +712,7 @@ const createConditionList = (visitEList, diagnosisList, mmdfList, lishistList) =
         onsetDateTime: convertDateString(lishist.startDate),
       }
       if (lishist.endDate !== '') {
-        condObj.abatementDateTime = convertDateString(lishist.endDate); // JAMES increment day
+        condObj.abatementDateTime = convertDateString(lishist.endDate);
       } else {
         condObj.abatementDateTime = '2022-12-31T23:59:59.000+00:00';
       }
@@ -830,7 +830,7 @@ const createClaimEncResponse = (visitEList, observationList, procedureList) => {
   return { claims, encounters, visitEncounters, claimResponses };
 }
 
-const createVisitClaimEncResponse = (visitList) => { // JAMEZ
+const createVisitClaimEncResponse = (visitList) => { 
   if (visitList === undefined || visitList.length === 0) {
     return {};
   }
@@ -1363,7 +1363,7 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
       } else {
         obsResource.effectivePeriod = {
           start: convertDateString(observation.observationDate),
-          end: convertDateString(observation.observationDate), // James increment day
+          end: convertDateString(observation.observationDate),
         };
       }
       observationList.push(obsResource);        
