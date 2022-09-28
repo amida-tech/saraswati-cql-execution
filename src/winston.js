@@ -14,17 +14,13 @@ let logger;
 if (config.env === 'production') {
   logger = createLogger({ 
     level: config.logLevel,
+    format: configuredFormatter(options),
+    defaultMeta: { service: 'CQL Execution' },
     transports: [new transports.Console()]
   });
-
-  logger.format = configuredFormatter(options);
 } else {
   logger = createLogger({
     transports: [
-      // new transports.File({
-      //   json: false,
-      //   filename:'log.log'
-      // }),
       new transports.Console({
         format: format.simple(),
       })

@@ -145,7 +145,7 @@ const psource = new cql.PatientSource([ {
 } ]);
 
 const result = executor.exec(psource);
-console.log(JSON.stringify(result, undefined, 2));
+logger.info(JSON.stringify(result, undefined, 2));
 
 ```
 
