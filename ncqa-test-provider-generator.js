@@ -2,7 +2,6 @@ const minimist = require('minimist');
 const fs = require('fs');
 const readline = require('readline');
 const path = require('path');
-const logger = require('./src/winston')
 
 const providerKeys = ['pcp','obgyn','mhProvider','eyeCareProvider','dentist','nephrologist','anesthesiologist','nprProvider',
   'pasProvider','prescriber','clinicalPharm','hospital','snf','surgeon','regNurse'];
@@ -17,7 +16,7 @@ const parseArgs = minimist(process.argv.slice(2), {
 
 const checkArgs = () => {
   if(parseArgs.f === undefined) {
-    logger.error('\x1b[31m', 
+    console.error('\x1b[31m', 
       '\nError: Please define a file to convert into a provider privileges file.',
       '\x1b[0m');
     process.exit();
@@ -57,7 +56,7 @@ const writeProvidersFile = (providers) => {
   }
   fs.writeFile(path.join(__dirname, fileName), JSON.stringify(providers, null, 2), createProvidersErr => {
     if (createProvidersErr) {
-      logger.error(`\x1b[31m\nError: Failure to writing to "score-amida.txt", ${createProvidersErr}.\x1b[0m`);
+      console.error(`\x1b[31m\nError: Failure to writing to "score-amida.txt", ${createProvidersErr}.\x1b[0m`);
       process.exit();
     }
   });
@@ -70,9 +69,9 @@ const processProviders = async () => {
 }
 
 if (parseArgs.h === true) {
-  logger.info('\n A script for turning provider.txt files into JSON objects.\n\n Options:');
-  logger.info('   -f, --file: The file you want to convert. Default name is "ncqa-test-provider.json".');
-  logger.info('   -n, --name: Optional. The name you want for the output file. Currently only useful for IMA-E.');
+  console.log('\n A script for turning provider.txt files into JSON objects.\n\n Options:');
+  console.log('   -f, --file: The file you want to convert. Default name is "ncqa-test-provider.json".');
+  console.log('   -n, --name: Optional. The name you want for the output file. Currently only useful for IMA-E.');
   process.exit();
 }
 

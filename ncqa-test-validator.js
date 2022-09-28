@@ -5,7 +5,6 @@ const config = require('./config');
 const { execute, supportExecute } = require('./exec-files/exec-config');
 const { createProviderList } = require('./src/utilities/providerUtil');
 const { getEligiblePopulation, ethnicityMap, raceEthnicDSMap, hedisData } = require('./ncqa-test-validator-util');
-const logger = require('./src/winston')
 
 const measure = config.measurementType;
 
@@ -31,7 +30,7 @@ const parseArgs = minimist(process.argv.slice(2), {
 
 async function checkArgs() {
   if(parseArgs.f === undefined) {
-    logger.error('\x1b[31m', 
+    console.error('\x1b[31m', 
       '\nError: Please define a directory path with FHIR data to validate. Usage: "--fhirDirectory=<directory>".',
       '\x1b[0m');
     process.exit();
@@ -43,22 +42,22 @@ async function checkArgs() {
 
   if(parseArgs.v === true) {
     scorePath = path.join(basePath, 'score.txt');
-    logger.info(`\nChecking above path for "score.txt".`);
+    console.log(`\nChecking above path for "score.txt".`);
     if (fs.existsSync(path.join(basePath, 'score.txt'))) {
-      logger.info(`\x1b[32mSuccess:\x1b[0m Found "score.txt".`);
+      console.log(`\x1b[32mSuccess:\x1b[0m Found "score.txt".`);
     } else {
-      logger.error('\x1b[31m', 
+      console.error('\x1b[31m', 
       '\nError:File not found "score.txt" in the folder above. Please fix.',
       '\x1b[0m');
       process.exit();
     }
   }
 
-  logger.info('Running with config options:');
-  logger.info(`\tMeasurement File: ${config.measurementFile}`);
-  logger.info(`\tLibraries: ${config.librariesDirectory}`);
-  logger.info(`\tValue Sets: ${config.valuesetsDirectory}`);
-  logger.info(`\tMeasurement: ${measure}`);
+  console.log('Running with config options:');
+  console.log(`\tMeasurement File: ${config.measurementFile}`);
+  console.log(`\tLibraries: ${config.librariesDirectory}`);
+  console.log(`\tValue Sets: ${config.valuesetsDirectory}`);
+  console.log(`\tMeasurement: ${measure}`);
 }
 
 const evalData = (patient) => {
@@ -96,7 +95,7 @@ const evalData = (patient) => {
 async function createMeasureDirectory() {
   fs.mkdir(measuresPath, { recursive: true }, (mkdirErr) => {
     if (mkdirErr) {
-      logger.error(`\x1b[31m\nError: Failure to make measures directory, ${mkdirErr}.\x1b[0m`);
+      console.error(`\x1b[31m\nError: Failure to make measures directory, ${mkdirErr}.\x1b[0m`);
       process.exit();
     }
   });
@@ -106,14 +105,14 @@ async function createScoreFile() {
   if(fs.existsSync(scoreAmidaPath)) {
     fs.unlink(scoreAmidaPath, (deleteScoreErr) => {
       if (deleteScoreErr) {
-        logger.error(`\x1b[31m\nError: Could not delete old "score-amida.txt", ${deleteScoreErr}.\x1b[0m`);
+        console.error(`\x1b[31m\nError: Could not delete old "score-amida.txt", ${deleteScoreErr}.\x1b[0m`);
         process.exit();
       }
     });
   }
   fs.writeFile(scoreAmidaPath, hedisEocHeaders, createScoreErr => {
       if (createScoreErr) {
-        logger.error(`\x1b[31m\nError: Failure to write "score-amida.txt", ${createScoreErr}.\x1b[0m`);
+        console.error(`\x1b[31m\nError: Failure to write "score-amida.txt", ${createScoreErr}.\x1b[0m`);
         process.exit();
       }
     });
@@ -147,7 +146,7 @@ async function appendScoreFile(data) {
         const row = `${memberId},${measureId},${payer},${ce},${event},${ePop},${excl},${num},${rExcl},${rExclD},${age},${gender}${raceRow}\n`;
         fs.appendFileSync(scoreAmidaPath, `${row}`, appendScoreErr => {
           if (appendScoreErr) {
-            logger.error(`\x1b[31m\nError: Failure to read FHIR directory, ${fhirDirErr}.\x1b[0m`);
+            console.error(`\x1b[31m\nError: Failure to read FHIR directory, ${fhirDirErr}.\x1b[0m`);
             process.exit();
           }
         });
@@ -159,7 +158,7 @@ async function appendScoreFile(data) {
 async function getFhirDirectoryFiles() {
   return fs.readdirSync(parseArgs.f, (fhirDirErr, dirFiles) => {
     if(fhirDirErr) {
-      logger.error(`\x1b[31m\nError: Failure to read FHIR directory, ${fhirDirErr}.\x1b[0m`);
+      console.error(`\x1b[31m\nError: Failure to read FHIR directory, ${fhirDirErr}.\x1b[0m`);
       process.exit();
     }
     return dirFiles;
@@ -183,7 +182,7 @@ async function processFhirDirectory(dirFiles) {
     filenames = filenames.filter((file) => memberIds.includes(file));
   }
   for (let file of filenames) {
-    logger.info(`Processing ${file}.json.`);
+    console.log(`Processing ${file}.json.`);
     let memberData = '';
     if (parseArgs.s) {
       memberData = JSON.parse(await fs.promises.readFile(path.join(measuresPath, `${measure}-${file}-patient.json`)));
@@ -207,14 +206,14 @@ const verifyData = async() => {
 }
 
 if (parseArgs.h === true) {
-  logger.info('\n A script for generating HEDIS scores and verifying results. You must config ".env" settings, and run "ncqa-test-converter.js" first.\n\n Options:');
-  logger.info('   -f, --fhirDirectory: The directory of FHIR data you want to score and verify.');
-  logger.info('   -m, --memberIds: A comma separated list of memberIds you want to compute. Optional.');
-  logger.info('   -b, --beginWith: A number for which member ID the script will start with. Optional.');
-  logger.info('   -e, --endWith: A number for which member ID the script will end with. Optional.');
-  logger.info('   -o, --outputFile: The file to store the results. Optional but recommended when using -b and -e.');
-  logger.info('   -v, --validate: Optional. If true, compare against the `score.txt` file in the folder above FHIR directory. Outputs "score-amida.txt". Defaults to "false".');
-  logger.info('   -s, --skipEval: Optional. If true, it will not run CQL execution. It will use the previously generated json output.')
+  console.log('\n A script for generating HEDIS scores and verifying results. You must config ".env" settings, and run "ncqa-test-converter.js" first.\n\n Options:');
+  console.log('   -f, --fhirDirectory: The directory of FHIR data you want to score and verify.');
+  console.log('   -m, --memberIds: A comma separated list of memberIds you want to compute. Optional.');
+  console.log('   -b, --beginWith: A number for which member ID the script will start with. Optional.');
+  console.log('   -e, --endWith: A number for which member ID the script will end with. Optional.');
+  console.log('   -o, --outputFile: The file to store the results. Optional but recommended when using -b and -e.');
+  console.log('   -v, --validate: Optional. If true, compare against the `score.txt` file in the folder above FHIR directory. Outputs "score-amida.txt". Defaults to "false".');
+  console.log('   -s, --skipEval: Optional. If true, it will not run CQL execution. It will use the previously generated json output.')
   process.exit();
 }
 

@@ -1,6 +1,8 @@
+/* eslint-disable
+    no-console,
+*/
 const cql = require('../../src/cql');
 const measure = require('./age.json');
-const logger = require('../../src/winston')
 
 const lib = new cql.Library(measure);
 const executor = new cql.Executor(lib);
@@ -22,4 +24,4 @@ const psource = new cql.PatientSource([
 ]);
 
 const result = executor.exec(psource);
-logger.info(JSON.stringify(result, undefined, 2));
+console.log(JSON.stringify(result, undefined, 2));
