@@ -691,17 +691,14 @@ const hedisData = {
       const eventDate = new Date(measureFunctions.getValidEvents(data)[index].date);
       return getAge(new Date(data.birthDate), eventDate);
     },
-    getEligiblePopulation: () => 1,
-    getEvent: (data, index, measureFunctions) => {
-      const events = measureFunctions.getValidEvents(data);
-      return events[index] ? 1 : 0;
-    },
     getContinuousEnrollment: (data, index, measureFunctions) => {
       if (measureFunctions.getValidEvents(data)[index] === undefined) {
         return 0;
       }
       return measureFunctions.getValidEvents(data)[index].isCovered ? 1 : 0;
     },
+    getEvent: () => 1,
+    getEligiblePopulation: () => 1,
     getExclusion: () => 0,
     getNumerator: (data, index, measureFunctions) => {
       return measureFunctions.getValidEvents(data)[index].validNum ? 1 : 0;
