@@ -7,7 +7,6 @@ const measure = config.measurementType;
 const ndcRxSystemCodes = ['351172','352118','200172','213178','310346','201961'];
 
 const quantityMeasures = ['psa']; // Lab tests often want different value types. This helps map them.
-const abatementIncrement = ['drre']; // Some measures check against the very day. For these, we increment it by one day to fix problems. 
 const msInADay = 1000 * 60 * 60 * 24; // Here we go again...
 const endOfThisYear = new Date(`${config.measurementYear}-12-31`);
 const startOfThisYear = new Date(`${config.measurementYear}-01-01`);
@@ -256,19 +255,38 @@ const createDiagnosisCondition = (condition) => {
 
   if (condition.onsetDateTime) {
     condObj.onsetDateTime = convertDateString(condition.onsetDateTime);
-    condObj.abatementDateTime = convertDateString(condition.onsetDateTime); // JAMES increment
+    condObj.abatementDateTime = '2022-12-31T23:59:59.000+00:00';//convertDateString(condition.onsetDateTime); // JAMES increment
   } else if (condition.onsetStart) {
     if (condition.onsetEnd) {
       condObj.onsetDateTime = convertDateString(condition.onsetStart);
       condObj.abatementDateTime = convertDateString(condition.onsetEnd);
     } else {
       condObj.onsetDateTime = convertDateString(condition.onsetStart);
-      condObj.abatementDateTime = convertDateString(condition.onsetStart); // JAMES increment
+      condObj.abatementDateTime = '2022-12-31T23:59:59.000+00:00';//convertDateString(condition.onsetStart); // JAMES increment
     }
   }
   if (condition.recorder) {
     condObj.recorder = {
       reference: condition.recorder,
+    };
+  }
+  if (condition.supplementalData === 'Y') {
+    condObj.verificationStatus = {
+      coding: [
+        {
+          system: 'http://terminology.hl7.org/CodeSystem/condition-ver-status',
+          'code': 'supplemental'
+        }
+      ],
+    };
+  } else if (condition.supplementalData === 'N') {
+    condObj.verificationStatus = {
+      coding: [
+        {
+          system: 'http://terminology.hl7.org/CodeSystem/condition-ver-status',
+          'code': 'administrative'
+        }
+      ],
     };
   }
   return condObj;
@@ -444,11 +462,6 @@ const convertDateString = (ncqaDateString) => {
   const year = ncqaDateString.toString().substr(0, 4);
   const month = ncqaDateString.toString().substr(4, 2);
   const day = ncqaDateString.toString().substr(6, 2);
-  // if (incrementDay) {
-  //   const date = new Date(`${year}-${month}-${day}`);
-  //   date.setDate(date.getDate() + 1); 
-  //   return `${date.toISOString()}T00:00:00.000+00:00`;
-  // }
   return `${year}-${month}-${day}T00:00:00.000+00:00`;
 }
 
