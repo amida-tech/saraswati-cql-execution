@@ -691,9 +691,7 @@ const hedisData = {
       const eventDate = new Date(measureFunctions.getValidEvents(data)[index].date);
       return getAge(new Date(data.birthDate), eventDate);
     },
-    getEligiblePopulation: (data, index) => {
-      return data[data.memberId][`Initial Population`][index] ? 1 : 0; 
-    },
+    getEligiblePopulation: () => 1,
     getEvent: (data, index, measureFunctions) => {
       const events = measureFunctions.getValidEvents(data);
       return events[index] ? 1 : 0;
