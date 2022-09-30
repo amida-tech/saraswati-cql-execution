@@ -479,7 +479,7 @@ const checkValidLabCode = (code) => {
         }
       }
     } catch (e) {
-      // logger.error(`Skipping ${valueset}, not used`);
+      logger.error(`Skipping ${valueset}, not used`);
     }
   }
 
