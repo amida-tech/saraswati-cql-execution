@@ -1,5 +1,6 @@
 const config = require('./config');
 const measure = config.measurementType;
+const logger = require('./src/winston')
 
 const exchange = ['MEP', 'MMO', 'MOS', 'MPO'];
 const commercial = ['CEP', 'HMO', 'POS', 'PPO'];
@@ -365,7 +366,7 @@ const getValidPayors = (foundPayors, age, memberCoverage) => {
   if (foundPayors === undefined || foundPayors.length === 0) {
     const filteredMemberCoverage = memberCoverage.filter((coverage) => coverage.payor);
     if (filteredMemberCoverage.length === 0) {
-      console.log('No coverage exists');
+      logger.info('No coverage exists');
       return;
     }
     

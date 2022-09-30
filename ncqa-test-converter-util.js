@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { convert } = require('ucum');
 const config = require('./config');
+const logger = require('./src/winston')
 
 const measure = config.measurementType;
 
@@ -491,7 +492,7 @@ const checkValidLabCode = (code) => {
         }
       }
     } catch (e) {
-      // console.log(`Skipping ${valueset}, not used`);
+      logger.error(`Skipping ${valueset}, not used`);
     }
   }
 
