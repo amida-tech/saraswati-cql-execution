@@ -889,27 +889,28 @@ const hedisData = {
   fum: {
     measureIds: ['FUM30A', 'FUM7A', 'FUM30B', 'FUM7B'],
     measureCheck: (data, index, measureFunctions) => {
-      const eventsList = measureFunctions.getValidEvents(data, index);
-      if (eventsList === null) {
+      const age = measureFunctions.getAge(data, index);
+      if (age < 6 || isNaN(age)
+      || measureFunctions.getPayors(data, index, measureFunctions) === undefined) {
         return false;
       }
-      const currentEvent = eventsList[Math.floor(index / 2)];
-      if (currentEvent === undefined) {
-        return false;
+
+      let inpatientStay = false;
+      if (data.support['Certification Inpatient Stay'].length > 0) {
+        const inpatientEvent = new Date(data.support['Certification Inpatient Stay'][Math.floor(index/2)]).getTime();
+        for (let i = 0; i < data[data.memberId]['Initial Population 1'].length; i++) {
+          const initialPop = new Date(data[data.memberId]['Initial Population 1'][i]).getTime();
+          if (initialPop === inpatientEvent) {
+            inpatientStay = true;
+            break;
+          }
+        }
       }
-      if (measureFunctions.getAge(data, index) < 6
-        || measureFunctions.getPayors(data, index, measureFunctions) === undefined) {
-          return false;
+
+      if (index < 2 && !inpatientStay) { // We always want a result back for FUM30A and FUM7A.
+        return true;
       }
-      const currentDate = new Date(measureFunctions.getValidEvents(data, index)[Math.floor(index / 2)].date).getTime();
-      return data[data.memberId]['Member Coverage']
-        .filter((coverage) => coverage.payor)
-        .find((coverage) => {
-          return (((new Date(coverage.period.start.value).getTime()) <= currentDate - 2592000000
-              && (new Date(coverage.period.end.value).getTime()) >= currentDate - 2592000000)
-            || ((new Date(coverage.period.start.value).getTime()) <= currentDate + 259200000
-              && (new Date(coverage.period.end.value).getTime()) >= currentDate + 259200000))
-        });
+      return data[data.memberId]['Initial Population 2'].length > 1;
     },
     getValidEvents: (data, index) => {
       const events = data.support[`Certification Info ${index % 2 + 1}`];
@@ -973,11 +974,12 @@ const hedisData = {
       return data[data.memberId][`Exclusions ${numIndex + 1}`][dateIndex] !== undefined ? 1 : 0;
     },
     getPayors: (data, index, measureFunctions) => {
-      const event = measureFunctions.getValidEvents(data, index)[Math.floor(index / 2)];
+      const event = measureFunctions.getValidEvents(data, index)?.[Math.floor(index / 2)];
       const fullCoverageList = data[data.memberId]['Member Coverage'].filter((coverage) => coverage.payor);
       let foundPayors = [];
       if (event?.ce) { // If the event has continuous enrollment 
-        const currentDate = new Date(event.date).getTime();
+        const eventDate = new Date(event.date);
+        const currentDate = eventDate.setDate(eventDate.getDate() + 30);
         //First check if the event date falls under the exact coverage period
         foundPayors = fullCoverageList
           .filter((coverage) => {

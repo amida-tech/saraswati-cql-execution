@@ -141,7 +141,6 @@ async function appendScoreFile(data) {
       }
 
       const payors = hedisData[measure].getPayors(data, index, hedisData[measure]);
-      console.log(payors);
 
       payors.forEach((payer) => {
         const row = `${memberId},${measureId},${payer},${ce},${event},${ePop},${excl},${num},${rExcl},${rExclD},${age},${gender}${raceRow}\n`;
