@@ -1,23 +1,22 @@
-/* eslint-disable no-console */
-
 const parseArgs = require('minimist')(process.argv.slice(2));
 const fs = require('fs');
 const readline = require('readline');
 const path = require('path');
+const logger = require('./src/winston')
 
 if(parseArgs['file'] === undefined) {
-  console.error('\x1b[31m', 
+  logger.error('\x1b[31m', 
     '\nError: Please define a file path to read. Usage: "--file=<directory>".',
     '\x1b[0m');
   process.exit();
 }
 
 const directory = path.join(path.dirname(parseArgs['file']), '..');
-console.log('\nInfo: Directory to search for libraries and valuesets: ' + directory);
+logger.info('\nInfo: Directory to search for libraries and valuesets: ' + directory);
 
 fs.stat(parseArgs['file'], function(readErr, stat) {
   if (readErr) {
-    console.error('\x1b[31m', 
+    logger.error('\x1b[31m', 
       '\n' + readErr + '.',
       '\x1b[0m');
     process.exit();
@@ -65,12 +64,12 @@ async function processLines() {
   try {
     fs.writeFileSync(outputPath, cqlFile);
   } catch (writeErr) {
-    console.error('\x1b[31m', 
+    logger.error('\x1b[31m', 
       '\nError: Unable to write to directory:' + writeErr + '.',
       '\x1b[0m');
     process.exit();
   }
-  console.log('\x1b[32m', 
+  logger.info('\x1b[32m', 
     '\nSuccess: Please check the created file at: ' + outputPath,
     '\x1b[0m');
 }
@@ -80,7 +79,7 @@ function processValueset(compiledCodes, line) {
   const valuesetFile = line.split('/').pop().slice(0, -1) + '.json';
   let valuesetJson = JSON.parse(fs.readFileSync(path.join(directory, 'valuesets', valuesetFile)));
   if (!valuesetJson?.expansion?.contains) {
-    console.error('\x1b[31m', 
+    logger.error('\x1b[31m', 
       '\nError: No "expansion.contains" found. Aborting.',
       '\x1b[0m');
     process.exit();

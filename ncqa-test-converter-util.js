@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { convert } = require('ucum');
 const config = require('./config');
+const logger = require('./src/winston')
 
 const measure = config.measurementType;
 
@@ -255,21 +256,38 @@ const createDiagnosisCondition = (condition) => {
 
   if (condition.onsetDateTime) {
     condObj.onsetDateTime = convertDateString(condition.onsetDateTime);
-    condObj.abatementDateTime = convertDateString(condition.onsetDateTime); 
+    condObj.abatementDateTime = '2022-12-31T23:59:59.000+00:00';//convertDateString(condition.onsetDateTime); // JAMES increment
   } else if (condition.onsetStart) {
     if (condition.onsetEnd) {
       condObj.onsetDateTime = convertDateString(condition.onsetStart);
       condObj.abatementDateTime = convertDateString(condition.onsetEnd);
     } else {
       condObj.onsetDateTime = convertDateString(condition.onsetStart);
-      if (measure !== 'drre') {
-        condObj.abatementDateTime = convertDateString(condition.onsetStart); 
-      }
+      condObj.abatementDateTime = '2022-12-31T23:59:59.000+00:00';//convertDateString(condition.onsetStart); // JAMES increment
     }
   }
   if (condition.recorder) {
     condObj.recorder = {
       reference: condition.recorder,
+    };
+  }
+  if (condition.supplementalData === 'Y') {
+    condObj.verificationStatus = {
+      coding: [
+        {
+          system: 'http://terminology.hl7.org/CodeSystem/condition-ver-status',
+          'code': 'supplemental'
+        }
+      ],
+    };
+  } else if (condition.supplementalData === 'N') {
+    condObj.verificationStatus = {
+      coding: [
+        {
+          system: 'http://terminology.hl7.org/CodeSystem/condition-ver-status',
+          'code': 'administrative'
+        }
+      ],
     };
   }
   return condObj;
@@ -474,7 +492,7 @@ const checkValidLabCode = (code) => {
         }
       }
     } catch (e) {
-      // console.log(`Skipping ${valueset}, not used`);
+      logger.error(`Skipping ${valueset}, not used`);
     }
   }
 

@@ -666,31 +666,30 @@ const hedisData = {
       if (currentEvent === undefined) {
         return false;
       }
-      if (getAgeInMonths(new Date(data.birthDate), new Date(currentEvent.date)) < 3
+      if (measureFunctions.getAge(data, index, measureFunctions) < 3
         || measureFunctions.getPayors(data, index, measureFunctions) === undefined) {
           return false;
       }
 
-      const currentDate = new Date(measureFunctions.getValidEvents(data)[index].date).getTime();
+      if (currentEvent.isCovered) {
+        return true;
+      }
+
+      const currentDate = new Date(currentEvent.date).getTime();
       return data[data.memberId]['Member Coverage']
         .filter((coverage) => coverage.payor)
         .find((coverage) => {
-          return (((new Date(coverage.period.start.value).getTime() - 2592000000) <= currentDate
-              && (new Date(coverage.period.end.value).getTime() + 259200000) >= currentDate)
+          return (new Date(coverage.period.start.value).getTime() <= currentDate - 2592000000
+              && new Date(coverage.period.end.value).getTime() >= currentDate + 259200000)
             || ((new Date(coverage.period.start.value).getTime()) <= currentDate - 2592000000
-              && (new Date(coverage.period.end.value).getTime()) >= currentDate - 2592000000))
+              && (new Date(coverage.period.end.value).getTime()) >= currentDate - 2592000000)
+            || ((new Date(coverage.period.start.value).getTime()) <= currentDate
+              && (new Date(coverage.period.end.value).getTime()) >= currentDate)
         });
     },
     getAge: (data, index, measureFunctions) => {
       const eventDate = new Date(measureFunctions.getValidEvents(data)[index].date);
       return getAge(new Date(data.birthDate), eventDate);
-    },
-    getEligiblePopulation: (data, index) => {
-      return data[data.memberId][`Initial Population`][index] ? 1 : 0; 
-    },
-    getEvent: (data, index, measureFunctions) => {
-      const events = measureFunctions.getValidEvents(data);
-      return events[index] ? 1 : 0;
     },
     getContinuousEnrollment: (data, index, measureFunctions) => {
       if (measureFunctions.getValidEvents(data)[index] === undefined) {
@@ -698,6 +697,8 @@ const hedisData = {
       }
       return measureFunctions.getValidEvents(data)[index].isCovered ? 1 : 0;
     },
+    getEvent: () => 1,
+    getEligiblePopulation: () => 1,
     getExclusion: () => 0,
     getNumerator: (data, index, measureFunctions) => {
       return measureFunctions.getValidEvents(data)[index].validNum ? 1 : 0;
@@ -797,6 +798,7 @@ const hedisData = {
   },
   drre: {
     measureIds: ['DRRA','DRRB','DRRC'],
+    eventsOrDiag: true,
     measureCheck: (data, index, measureFunctions) => {
       const age = measureFunctions.getAge(data);
       if (age < 12) {
@@ -808,12 +810,12 @@ const hedisData = {
         return false;
       }
       validPayor = payors.some((payor) => exchange.includes(payor) || commercial.includes(payor) || medicaidPlans.includes(payor));
-      if (!validPayor && age > 18) {
+      if (!validPayor && age >= 18) {
         validPayor = payors.some((payor) => medicarePlans.includes(payor));
       }
       return validPayor;
     },
-    getAge: (data, _index) => {
+    getAge: (data) => {
       let eventDate = new Date(`${config.measurementYear-1}-05-01T00:00:00.000+00:00`);
       return getAge(new Date(data.birthDate), eventDate);
     },
@@ -822,18 +824,37 @@ const hedisData = {
       if (payors === undefined || exchange.includes(payors[0])) {
         return 0;
       }
-      if (index === 0) {
-        return data[data.memberId]['Initial Population 1'] ? 1 : 0
-      }
-      return data[data.memberId]['Denominator 2'] && measureFunctions.getEvent(data, index) ? 1 : 0;
+      return 1;
     },
     getContinuousEnrollment: (data, _index) => data[data.memberId]['Enrolled During Participation Period'] ? 1 : 0,
-    getEvent: (data, _index) => data[data.memberId]['PHQ-9 Modified For Teens'].length > 0 || data[data.memberId]['PHQ-9 Assessments'].length > 0 ? 1 : 0,
+    getEvent: (data, _index, measureFunctions) => {
+      const event = measureFunctions.getValidEvent(data);
+      if (event === undefined) {
+        return 0;
+      }
+      return event.validEvent ? 1 : 0;
+    },
     getExclusion: () => 0,
-    getNumerator: (data, index) => data[data.memberId][`Numerator ${index + 1}`] ? 1 : 0,
-    getRequiredExclusion: (data, index) => data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0, // Guess?
+    getNumerator: (data, index, measureFunctions) => {
+      if (index === 0) {
+        const event = measureFunctions.getValidEvent(data);
+        if (event !== undefined) {
+          return measureFunctions.getValidEvent(data).validNum1 ? 1 : 0
+        }
+        return 0;
+      }
+      return data[data.memberId][`Numerator ${index + 1}`] || data.support[`Certification Numerator ${index + 1}`] ? 1 : 0
+    },
+    getRequiredExclusion: (data, index) => data[data.memberId][`Exclusions ${index + 1}`] ? 1 : 0,
     getRequiredExclusionID: () => 0,
     getPayors: (data, _index, measureFunctions) => getDefaultPayors(data, measureFunctions.getAge(data)),
+    getValidEvent: (data) => {
+      const events = data.support['Certification Info'];
+      if (events === null) {
+        return null;
+      }
+      return events[0];
+    }
   },
   dsfe: {
     measureIds: ['DSFA','DSFB'],

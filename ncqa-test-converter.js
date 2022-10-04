@@ -2,6 +2,7 @@ const minimist = require('minimist');
 const fs = require('fs');
 const readline = require('readline');
 const config = require('./config');
+const logger = require('./src/winston')
 
 const measure = config.measurementType;
 const { createCode, professionalClaimType, pharmacyClaimType, convertDateString, getLabValues,
@@ -19,7 +20,7 @@ const parseArgs = minimist(process.argv.slice(2), {
 
 function checkArgs() {
   if(parseArgs.t === undefined) {
-    console.error('\x1b[31m', 
+    logger.error('\x1b[31m', 
       '\nError: Please define a directory path to read. Usage: "--testDirectory=<directory>".',
       '\x1b[0m');
     process.exit();
@@ -187,7 +188,7 @@ async function readVisit(testDirectory, memberInfo) {
 
 async function readVisitEncounter(testDirectory, memberInfo) {
   if (!fs.existsSync(`${testDirectory}/visit-e.txt`)) {
-    console.log(`No visit-e.txt in ${testDirectory}`);
+    logger.info(`No visit-e.txt in ${testDirectory}`);
     return;
   }
 
@@ -215,13 +216,13 @@ async function readVisitEncounter(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`Error reading visit-e.txt.`);
+    logger.info(`Error reading visit-e.txt.`);
   }
 }
 
 async function readPharmacy(testDirectory, memberInfo) {
   if (!fs.existsSync(`${testDirectory}/pharm.txt`)) {
-    console.log(`No pharm.txt in ${testDirectory}`);
+    logger.info(`No pharm.txt in ${testDirectory}`);
     return;
   }
 
@@ -249,13 +250,13 @@ async function readPharmacy(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`Error reading pharm.txt`);
+    logger.info(`Error reading pharm.txt`);
   }
 }
 
 async function readPharmacyClinical(testDirectory, memberInfo) {
   if (!fs.existsSync(`${testDirectory}/pharm-c.txt`)) {
-    console.log(`No pharm-c.txt in ${testDirectory}`);
+    logger.info(`No pharm-c.txt in ${testDirectory}`);
     return;
   }
 
@@ -285,13 +286,13 @@ async function readPharmacyClinical(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`Error reading pharm-c.txt`);
+    logger.info(`Error reading pharm-c.txt`);
   }
 }
 
 async function readDiagnosis(testDirectory, memberInfo) {
   if (!fs.existsSync(`${testDirectory}/diag.txt`)) {
-    console.log(`No diag.txt in ${testDirectory}`);
+    logger.info(`No diag.txt in ${testDirectory}`);
     return
   }
 
@@ -316,7 +317,7 @@ async function readDiagnosis(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`Error reading diag.txt`);
+    logger.info(`Error reading diag.txt`);
   }
 }
 
@@ -348,7 +349,7 @@ async function readObservation(testDirectory, memberInfo) {
 
 async function readProcedure(testDirectory, memberInfo) {
   if (!fs.existsSync(`${testDirectory}/proc.txt`)) {
-    console.log(`No proc.txt in ${testDirectory}`);
+    logger.info(`No proc.txt in ${testDirectory}`);
     return;
   }
 
@@ -373,13 +374,13 @@ async function readProcedure(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`Error reading proc.txt in ${testDirectory}`);
+    logger.info(`Error reading proc.txt in ${testDirectory}`);
   }
 }
 
 async function readLab(testDirectory, memberInfo) {
   if (!fs.existsSync(`${testDirectory}/lab.txt`)) {
-    console.log(`No lab.txt in ${testDirectory}`);
+    logger.info(`No lab.txt in ${testDirectory}`);
     return
   }
 
@@ -404,8 +405,8 @@ async function readLab(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(readError);
-    console.log(`Error reading lab.txt in ${testDirectory}`);
+    logger.info(readError);
+    logger.info(`Error reading lab.txt in ${testDirectory}`);
   }
 }
 
@@ -439,7 +440,7 @@ async function readMmdf(testDirectory, memberInfo) {
         });
       }
     } catch (readError) {
-      console.log(`Error reading ${fileName} in ${testDirectory}`);
+      logger.info(`Error reading ${fileName} in ${testDirectory}`);
     }
   }
 }
@@ -447,7 +448,7 @@ async function readMmdf(testDirectory, memberInfo) {
 async function readLisHist(testDirectory, memberInfo) {
   const fileName = `${testDirectory}/lishist.txt`;
   if (!fs.existsSync(fileName)) {
-    console.log(`No diag.txt in ${testDirectory}`);
+    logger.info(`No diag.txt in ${testDirectory}`);
     return;
   }
   try {
@@ -468,7 +469,7 @@ async function readLisHist(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`Error reading ${fileName} in ${testDirectory}`);
+    logger.info(`Error reading ${fileName} in ${testDirectory}`);
   }
 }
 
@@ -914,6 +915,7 @@ const createVisitClaimEncResponse = (visitList) => {
               system: visit.icdIdentifier,
               onsetDateTime: visit.dateOfService,
               recorder: visit.providerId,
+              supplementalData: visit.supplementalData,
             }
           );
 
@@ -1267,7 +1269,7 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
       } else {
         procResource.performedPeriod = {
           start: convertDateString(diagnosis.startDate),
-          end: convertDateString('20221231'),
+          end: '2022-12-31T23:59:59.000+00:00',
         }
       }
       procedureList.push(procResource);
@@ -1821,7 +1823,7 @@ async function createFhirJson(testDirectory, allMemberInfo) {
       fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
       fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
     } catch (writeErr) {
-      console.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
+      logger.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
       process.exit();
     }  
     
