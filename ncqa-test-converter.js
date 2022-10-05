@@ -805,7 +805,7 @@ const createClaimEncResponse = (visitEList, observationList, procedureList) => {
       }
       if (!matchFound) {
         const encResource = {
-          esourceType: 'Encounter',
+          resourceType: 'Encounter',
           id: `${procedure.memberId}-procedure-encounter-${index + 1}`,
           patient: { reference: `Patient/${procedure.memberId}-patient` },
           status: procedure.serviceStatus === 'EVN' ? 'finished' : 'in-progress',
