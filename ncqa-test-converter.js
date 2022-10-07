@@ -1110,6 +1110,9 @@ const linkConditionsToEncounters = (conditions, encounters) => {
       let onsetPeriod = undefined;
       if (condition.onsetDateTime) {
         onsetPeriod = { start: condition.onsetDateTime };
+        if (condition.abatementDateTime) {
+          onsetPeriod.end = condition.abatementDateTime;
+        }
       } else {
         onsetPeriod = condition.onsetPeriod;
       }

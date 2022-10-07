@@ -294,8 +294,8 @@ const createDiagnosisCondition = (condition) => {
 }
 
 const ambulatoryPosList = ['02', '03', '05', '07', '09', '11', '15', '17', '18', '19',
-                        '20', '22', '24', '31', '49', '50', '52', '53', '57', '58', '65', '71', '72'];
-const homeHealthPosList = ['12', '13', '14', '16', '33'];
+                        '20', '22', /*'24',*/ '31', '33', '49', '50', '52', '53', '57', '58', '65', '71', '72'];
+const homeHealthPosList = ['12', '13', '14', '16'/*, '33'*/];
 
 const createClaimEncounter = (encounter) => {
   const encounterFhir = {
@@ -324,7 +324,7 @@ const createClaimEncounter = (encounter) => {
   }
 
   if (encounter.cmsPlaceOfService || encounter.cptModOne) {
-    if (encounter.cmsPlaceOfService === '02'
+    if (encounter.cmsPlaceOfService === '02' || encounter.cmsPlaceOfService === '10'
       || encounter.cptModOne === 'GT') {
       encounterFhir.class = createCode('VR', 'A');
     } else if (ambulatoryPosList.includes(encounter.cmsPlaceOfService)) {
@@ -499,7 +499,7 @@ const checkValidLabCode = (code) => {
   return false;
 }
 
-const invalidLocations = ['10', '27', '28', '29', '30', '35', '36', '37', '38', '39', '40',
+const invalidLocations = ['27', '28', '29', '30', '35', '36', '37', '38', '39', '40',
                         '43', '44', '45', '46', '47', '48', '58', '59', '63', '64', '66', '67',
                         '68', '69', '70', '73', '74', '75', '76', '77', '78', '79', '80',
                       '82', '83', '84', '85', '86', '87', '88', '89', '90', '91', '92',
