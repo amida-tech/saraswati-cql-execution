@@ -1004,10 +1004,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     sourcemap-codec "1.4.8"
 
-"@lhncbc/ucum-lhc@4.1.5":
-  version "4.1.5"
-  resolved "https://registry.yarnpkg.com/@lhncbc/ucum-lhc/-/ucum-lhc-4.1.5.tgz#792978a1db5c4f6ffb321513438259631c8770d4"
-  integrity sha512-w1SxajHhCXyWd9aHLmX4W2qAljwvcqA0BJGmy7LOLW4Cs4Xj0TlrQ1yeAftOQzjH5qU8wWwUlsfaxlIaneSHqw==
+"@lhncbc/ucum-lhc@4.1.6":
+  version "4.1.6"
+  resolved "https://registry.yarnpkg.com/@lhncbc/ucum-lhc/-/ucum-lhc-4.1.6.tgz#7ca11266c3b79b8ef8c41f8c7cd9989a6e020e1f"
+  integrity sha512-5VWDRwPZAcytx19Mh2aVbqrMSoclWPRIn65niGas5OgyIWD8nB5UbpgLQPvmV6+Z7l+a2L4E+7QIqfiimTYvfg==
   dependencies:
     coffeescript "^2.7.0"
     csv-parse "^4.4.6"
