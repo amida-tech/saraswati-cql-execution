@@ -293,9 +293,24 @@ const createDiagnosisCondition = (condition) => {
   return condObj;
 }
 
-const ambulatoryPosList = ['02', '03', '05', '07', '09', '11', '15', '17', '18', '19',
-                        '20', '22', '24', '31', '33', '49', '50', '52', '53', '57', '58', '65', '71', '72'];
-const homeHealthPosList = ['12', '13', '14', '16'];
+const ambSurgicalCenter = '24';
+const comMentalHealthCenter = '53';
+const partialHospList = ['13', '14', '52'];
+const outpatientList = ['09', '15', '17', '18', '19', '22', '50', '72'];
+
+const telehealthList = ['02', '10'];
+
+const ambulatoryPosList = ['03', '05', '07', '11',
+                        '20', '31', '33', '49', '57', '58', '65', '71'];
+const homeHealthPosList = ['12', '16'];
+// ------------------------------------
+const newAmbulatoryPosList = ['03', '05', '07', '09', '11', '13', '15', '16', '17', '18', '19',
+                        '20', '22', '31', '33', '49', '50', '52', '57', '58', '65', '71', '72'];
+const newHomeHealthPosList = ['12', '14'];
+
+const orgAmbulatoryPosList = ['03', '05', '07', '09', '11', '15', '17', '18', '19',
+                        '20', '22', '24', '31', '49', '50', '52', '53', '57', '58', '65', '71', '72'];
+const orgHomeHealthPosList = ['12', '13', '14', '16', '33'];
 
 const createClaimEncounter = (encounter) => {
   const encounterFhir = {
@@ -324,14 +339,31 @@ const createClaimEncounter = (encounter) => {
   }
 
   if (encounter.cmsPlaceOfService || encounter.cptModOne) {
-    if (encounter.cmsPlaceOfService === '02' || encounter.cmsPlaceOfService === '10'
-      || encounter.cptModOne === 'GT') {
-      encounterFhir.class = createCode('VR', 'A');
-    } else if (ambulatoryPosList.includes(encounter.cmsPlaceOfService)) {
-      encounterFhir.class = createCode('AMB', 'A');
-    } else if (homeHealthPosList.includes(encounter.cmsPlaceOfService)) {
-      encounterFhir.class = createCode('HH', 'A');
+    // FUM requires more specific POS codes
+    if (measure === 'fum') {
+      if (telehealthList.includes(encounter.cmsPlaceOfService)
+        || encounter.cptModOne === 'GT') {
+          encounterFhir.class = createCode('VR', 'A');
+      } else if (ambSurgicalCenter === encounter.cmsPlaceOfService) {
+        encounterFhir.class = createCode('AMBSC', 'A');
+      } else if (comMentalHealthCenter === encounter.cmsPlaceOfService) {
+        encounterFhir.class = createCode('CMH', 'A');
+      } else if (newAmbulatoryPosList.includes(encounter.cmsPlaceOfService)) {
+        encounterFhir.class = createCode('AMB', 'A');
+      } else if (newHomeHealthPosList.includes(encounter.cmsPlaceOfService)) {
+        encounterFhir.class = createCode('HH', 'A');
+      }
+    } else {
+      if (telehealthList.includes(encounter.cmsPlaceOfService)
+        || encounter.cptModOne === 'GT') {
+          encounterFhir.class = createCode('VR', 'A');
+      } else if (orgAmbulatoryPosList.includes(encounter.cmsPlaceOfService)) {
+        encounterFhir.class = createCode('AMB', 'A');
+      } else if (orgHomeHealthPosList.includes(encounter.cmsPlaceOfService)) {
+        encounterFhir.class = createCode('HH', 'A');
+      }
     }
+    
     if (encounter.cmsPlaceOfService) {
       encounterFhir.location = [ { location: { reference: encounter.cmsPlaceOfService } } ];
     }
