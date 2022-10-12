@@ -295,18 +295,10 @@ const createDiagnosisCondition = (condition) => {
 
 const ambSurgicalCenter = '24';
 const comMentalHealthCenter = '53';
-const partialHospList = ['13', '14', '52'];
-const outpatientList = ['09', '15', '17', '18', '19', '22', '50', '72'];
 
 const telehealthList = ['02', '10'];
-
-const ambulatoryPosList = ['03', '05', '07', '11',
-                        '20', '31', '33', '49', '57', '58', '65', '71'];
-const homeHealthPosList = ['12', '16'];
-// ------------------------------------
-const newAmbulatoryPosList = ['03', '05', '07', '09', '11', '13', '15', '16', '17', '18', '19',
+const fumAmbulatoryPosList = ['03', '05', '07', '09', '11', '12', '13', '14', '15', '16', '17', '18', '19',
                         '20', '22', '31', '33', '49', '50', '52', '57', '58', '65', '71', '72'];
-const newHomeHealthPosList = ['12', '14'];
 
 const orgAmbulatoryPosList = ['03', '05', '07', '09', '11', '15', '17', '18', '19',
                         '20', '22', '24', '31', '49', '50', '52', '53', '57', '58', '65', '71', '72'];
@@ -348,10 +340,8 @@ const createClaimEncounter = (encounter) => {
         encounterFhir.class = createCode('AMBSC', 'A');
       } else if (comMentalHealthCenter === encounter.cmsPlaceOfService) {
         encounterFhir.class = createCode('CMH', 'A');
-      } else if (newAmbulatoryPosList.includes(encounter.cmsPlaceOfService)) {
+      } else if (fumAmbulatoryPosList.includes(encounter.cmsPlaceOfService)) {
         encounterFhir.class = createCode('AMB', 'A');
-      } else if (newHomeHealthPosList.includes(encounter.cmsPlaceOfService)) {
-        encounterFhir.class = createCode('HH', 'A');
       }
     } else {
       if (telehealthList.includes(encounter.cmsPlaceOfService)
