@@ -910,68 +910,82 @@ const hedisData = {
   fum: {
     measureIds: ['FUM30A', 'FUM7A', 'FUM30B', 'FUM7B'],
     measureCheck: (data, index, measureFunctions) => {
-      const age = measureFunctions.getAge(data, index);
-      if (isNaN(age) || age < 6) {
+      const age = measureFunctions.getAge(data, index, measureFunctions);
+      if (age < 6 || isNaN(age)
+        || measureFunctions.getPayors(data, index, measureFunctions) === undefined) {
         return false;
       }
-      if (index < 2) { // We always want a result back for FUM30A and FUM7A.
-        return true;
+
+      const eventList = measureFunctions.getValidEvents(data);
+      if (eventList == null || eventList.length === 0) {
+        return false;
       }
-      return data[data.memberId]['Initial Population 2'].length > 1;
+      return eventList[Math.floor(index/2)] !== undefined;
+    },
+    getValidEvents: (data, index) => {
+      const events = data.support['Certification Info'];
+      if (events === null) {
+        return null;
+      }
+      const validEventList = [];
+      for (const event1 of events) {
+        if (event1.ce) {
+          validEventList.push(event1);
+        }
+      }
+      if (validEventList.length === 0) {
+        return [events[0]];
+      }
+      return validEventList;
     },
     eventsOrDiag: true,
-    getAge: (data, index) => {
+    getAge: (data, index, measureFunctions) => {
       const dateIndex = Math.floor(index / 2);
-      let eventDate = data[data.memberId]['First Eligible ED Visits per 31 Day Period'][dateIndex];
-      if (eventDate === undefined) {
-        eventDate = data[data.memberId]['ED Visits With Principal Diagnosis of Mental Illness or Intentional Self-Harm'][dateIndex]?.low;
-      }
-      eventDate = new Date(eventDate);
+      let eventDate = new Date('2022-12-31');
+      const eventList = measureFunctions.getValidEvents(data);
+      if (eventList !== null && eventList[dateIndex] !== undefined) {
+        eventDate = new Date(eventList[dateIndex].date);
+      } 
       eventDate.setUTCHours(0,0,0,0);
       return getAge(new Date(data.birthDate), eventDate);
     },
     getEligiblePopulation: (data, index, measureFunctions) => {
-      const age = measureFunctions.getAge(data, index);
-      if (age < 6 || isNaN(age)) {
-        return 0;
-      }
-
       const payors = measureFunctions.getPayors(data, index, measureFunctions);
       if (payors === undefined) {
         return 0;
       }
       const payor = payors[0];
-      return (commercial.includes(payor))
-        // || exchange.includes(payor)
-        || medicaidPlans.includes(payor)
-        || medicarePlans.includes(payor) ? 1 : 0;
+      return !exchange.includes(payor) ? 1 : 0;
     },
-    getContinuousEnrollment: (data, index) => {
-      return data[data.memberId]['First Eligible ED Visits per 31 Day Period'][Math.floor(index / 2)]
-        !== undefined ? 1 : 0;
+    getContinuousEnrollment: (data, index, measureFunctions) => {
+      const eventList = measureFunctions.getValidEvents(data);
+      if (eventList == null || eventList.length === 0) {
+        return false;
+      }
+      return eventList[Math.floor(index / 2)].ce ? 1 : 0;
     },
-    getEvent: (data, _index) => { //Math.floor(index / 2)
-      return data[data.memberId]['ED Visits With Principal Diagnosis of Mental Illness or Intentional Self-Harm'][0]
-        !== undefined ? 1 : 0;
-    },
+    getEvent: () => 1,
     getExclusion: () => 0,
     getNumerator: (data, index, measureFunctions) => {
-      // const what = measureFunctions.getValidEvents(data, index);
-      // console.log(what);
-      return measureFunctions.getValidEvents(data, index)?.[ Math.floor(index / 2) ].validNum.length > 0 ? 1 : 0;
+      const eventList = measureFunctions.getValidEvents(data);
+      const realIndex = Math.floor(index / 2);
+      const numIndex = (index % 2) + 1;
+      if (eventList === null || eventList[realIndex] === undefined) {
+        return 0;
+      }
+      return eventList[realIndex][`validNum${numIndex}`] ? 1 : 0;
     },
-    getRequiredExclusion: () => 0, // INCORRECT.
-    getRequiredExclusionID: (data, index) => {
-      const numIndex = index % 2
-      const dateIndex = Math.floor(index / 2);
-      return data[data.memberId][`Exclusions ${numIndex + 1}`][dateIndex] !== undefined ? 1 : 0;
+    getRequiredExclusion: () => 0,
+    getRequiredExclusionID: (data) => {
+      return data.support['Certification Hospice'] ? 1 : 0;
     },
     getPayors: (data, index, measureFunctions) => {
-      const event = measureFunctions.getValidEvents(data, index); // [index];
+      const event = measureFunctions.getValidEvents(data, index)?.[Math.floor(index / 2)];
       const fullCoverageList = data[data.memberId]['Member Coverage'].filter((coverage) => coverage.payor);
       let foundPayors = [];
       if (event?.ce) { // If the event has continuous enrollment 
-        const currentDate = new Date(event.date).getTime();
+        const eventDate = new Date(event.date);
+        const currentDate = eventDate.setDate(eventDate.getDate() + 30);
         //First check if the event date falls under the exact coverage period
         foundPayors = fullCoverageList
           .filter((coverage) => {
@@ -987,26 +1001,9 @@ const hedisData = {
           });
         }
       }
-      
       const age = measureFunctions.getAge(data, index, measureFunctions);
       return getValidPayors(foundPayors.map((coverage) => coverageMap(coverage)), age, fullCoverageList);
-    },
-    getValidEvents: (data, index) => {
-      const events = data.support[`Certification Info ${index % 2 + 1}`];
-      if (events === null) {
-        return null;
-      }
-      const validEventList = [];
-      for (const event1 of events) {
-        if (event1.validNum || event1.ce) {
-          validEventList.push(event1);
-        }
-      }
-      if (validEventList.length === 0) {
-        return [events[0]];
-      }
-      return validEventList;
-    },
+    }
   },
   imae: {
     measureIds: ['IMAMEN','IMATD','IMAHPV','IMACMB1','IMACMB2'],

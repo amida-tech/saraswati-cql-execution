@@ -293,9 +293,16 @@ const createDiagnosisCondition = (condition) => {
   return condObj;
 }
 
-const ambulatoryPosList = ['02', '03', '05', '07', '09', '11', '15', '17', '18', '19',
+const ambSurgicalCenter = '24';
+const comMentalHealthCenter = '53';
+
+const telehealthList = ['02', '10'];
+const fumAmbulatoryPosList = ['03', '05', '07', '09', '11', '12', '13', '14', '15', '16', '17', '18', '19',
+                        '20', '22', '31', '33', '49', '50', '52', '57', '58', '65', '71', '72'];
+
+const orgAmbulatoryPosList = ['03', '05', '07', '09', '11', '15', '17', '18', '19',
                         '20', '22', '24', '31', '49', '50', '52', '53', '57', '58', '65', '71', '72'];
-const homeHealthPosList = ['12', '13', '14', '16', '33'];
+const orgHomeHealthPosList = ['12', '13', '14', '16', '33'];
 
 const createClaimEncounter = (encounter) => {
   const encounterFhir = {
@@ -324,14 +331,29 @@ const createClaimEncounter = (encounter) => {
   }
 
   if (encounter.cmsPlaceOfService || encounter.cptModOne) {
-    if (encounter.cmsPlaceOfService === '02'
-      || encounter.cptModOne === 'GT') {
-      encounterFhir.class = createCode('VR', 'A');
-    } else if (ambulatoryPosList.includes(encounter.cmsPlaceOfService)) {
-      encounterFhir.class = createCode('AMB', 'A');
-    } else if (homeHealthPosList.includes(encounter.cmsPlaceOfService)) {
-      encounterFhir.class = createCode('HH', 'A');
+    // FUM requires more specific POS codes
+    if (measure === 'fum') {
+      if (telehealthList.includes(encounter.cmsPlaceOfService)
+        || encounter.cptModOne === 'GT') {
+          encounterFhir.class = createCode('VR', 'A');
+      } else if (ambSurgicalCenter === encounter.cmsPlaceOfService) {
+        encounterFhir.class = createCode('AMBSC', 'A');
+      } else if (comMentalHealthCenter === encounter.cmsPlaceOfService) {
+        encounterFhir.class = createCode('CMH', 'A');
+      } else if (fumAmbulatoryPosList.includes(encounter.cmsPlaceOfService)) {
+        encounterFhir.class = createCode('AMB', 'A');
+      }
+    } else {
+      if (telehealthList.includes(encounter.cmsPlaceOfService)
+        || encounter.cptModOne === 'GT') {
+          encounterFhir.class = createCode('VR', 'A');
+      } else if (orgAmbulatoryPosList.includes(encounter.cmsPlaceOfService)) {
+        encounterFhir.class = createCode('AMB', 'A');
+      } else if (orgHomeHealthPosList.includes(encounter.cmsPlaceOfService)) {
+        encounterFhir.class = createCode('HH', 'A');
+      }
     }
+    
     if (encounter.cmsPlaceOfService) {
       encounterFhir.location = [ { location: { reference: encounter.cmsPlaceOfService } } ];
     }
@@ -492,14 +514,14 @@ const checkValidLabCode = (code) => {
         }
       }
     } catch (e) {
-      logger.error(`Skipping ${valueset}, not used`);
+      //logger.error(`Skipping ${valueset}, not used`);
     }
   }
 
   return false;
 }
 
-const invalidLocations = ['10', '27', '28', '29', '30', '35', '36', '37', '38', '39', '40',
+const invalidLocations = ['27', '28', '29', '30', '35', '36', '37', '38', '39', '40',
                         '43', '44', '45', '46', '47', '48', '58', '59', '63', '64', '66', '67',
                         '68', '69', '70', '73', '74', '75', '76', '77', '78', '79', '80',
                       '82', '83', '84', '85', '86', '87', '88', '89', '90', '91', '92',
