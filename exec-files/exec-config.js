@@ -4,6 +4,7 @@ const path = require('path');
 const cqlfhir = require('cql-exec-fhir');
 const moment = require('moment');
 var { cloneDeep } = require('lodash');
+const saraswatiVersion = require('../package.json').version;
 
 const config = require('../config');
 const codes = require('cql-execution/lib/cql-code-service');
@@ -45,7 +46,7 @@ function measurementFileScan() {
   measure = JSON.parse(
     fs.readFileSync(measurementFilePath),
     'utf-8');
-  logger.info('Measurement file located: ' + measurementFilePath + '.');
+  logger.info(`Measurement file located: ${measurementFilePath}.`);
 }
 
 function supportFileScan() {
@@ -54,7 +55,7 @@ function supportFileScan() {
     support = JSON.parse(
       fs.readFileSync(supportFilePath),
       'utf-8');
-    logger.info('Support file located: ' + supportFilePath + '.');
+    logger.info(`Support file located: ${supportFilePath}.`);
   } else {
     logger.info('No support file located. Continuing without.');
   }
@@ -70,7 +71,7 @@ function librariesDirectoryScan() {
       libraries[file.replace(/[-.]/g,'')] = libraryFile;
     }
   }
-  logger.info('Library files located, count: ' + Object.keys(libraries).length + '.');
+  logger.info(`Library files located, count: ${Object.keys(libraries).length}.`);
   engineLibraries = new cql.Library(measure, new cql.Repository(libraries));
   if (support != undefined) {
     const measurementDirPath = getDirFilePath(config.measurementFile);
@@ -95,7 +96,7 @@ function valueSetsDirectoryCompile() {
       valueSetJavaScriptCompile(file);
     }
   }
-  logger.info('Value set files located, count: ' + Object.keys(valueSets).length + '.');
+  logger.info(`Value set files located, count: ${Object.keys(valueSets).length}.`);
   codeService = new codes.CodeService(valueSets);
 }
 
@@ -103,7 +104,7 @@ function valueSetJSONCompile(file) {
   const valuesetsDirPath = getDirFilePath(config.valuesetsDirectory);
   const vsFile = JSON.parse(fs.readFileSync(path.join(valuesetsDirPath, file)));
   if (!vsFile.expansion || !vsFile.expansion.contains) {
-    logger.error('No "expansion.contains" found in ' + file + ', skipping.');
+    logger.error(`No "expansion.contains" found in ${file}, skipping.`);
     return;
   }
 
@@ -143,7 +144,7 @@ function valueSetJavaScriptCompile(file) {
   } else if (fs.existsSync(path.join(valuesetsDirPath, file))) {
     filePath = path.join(valuesetsDirPath, file);
   } else {
-    logger.warn('Was unable to find location of ' + file + '. Skipping addition.');
+    logger.warn(`Was unable to find location of ${file}. Skipping addition.`);
     return;
   }
   Object.assign(valueSets, require(filePath));
@@ -280,6 +281,7 @@ const evalData = (patient) => {
       data['measurementType'] = config.measurementType;
       data['coverage'] = patientData['Member Coverage'];
       data['providers'] = createProviderList(patient);
+      data['version'] = saraswatiVersion;
       return data;
 
   }
