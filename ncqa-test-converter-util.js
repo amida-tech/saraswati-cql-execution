@@ -57,7 +57,7 @@ const getRxSystem = (value) => {
 }
 
 const createCode = (code, systemFlag, systemType) => {
-  if (code === undefined) {
+  if (code === undefined || code === '') {
     return undefined;
   }
   let system = '';
@@ -388,7 +388,6 @@ const createClaimResponse = (response) => {
     request: { reference: `Claim/${response.fullClaimId}` },
     item: [{
       itemSequence: 1,
-      servicedDate: convertDateString(response.serviceDate),
       adjudication: paidAdjudication(),
     }],
     addItem: [
@@ -466,14 +465,9 @@ const createPharmacyClaim = (pharmacy) => {
     ]
   }
   
-  if (pharmacy.quantity) {
-    resource.quantity = {
+  if (pharmacy.quantity && item) {
+    item.quantity = {
       value: pharmacy.quantity,
-    }
-    if (item) {
-      item.quantity = {
-        value: pharmacy.quantity,
-      }
     }
   }
 

@@ -505,7 +505,7 @@ const createPatientFhirObject = (generalMembership) => {
       extension: [
         {
           url: 'ombCategory',
-          valueCoding: parseInt(generalMembership.race),
+          valueString: generalMembership.race,
         }
       ],
       url : 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race',
@@ -514,7 +514,7 @@ const createPatientFhirObject = (generalMembership) => {
       extension: [
         {
           url: 'ombCategory',
-          valueCoding: parseInt(generalMembership.ethnicity),
+          valueString: generalMembership.ethnicity,
         }
       ],
       url: 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity',
@@ -544,13 +544,16 @@ const createCoverageObjects = (membershipEnrollment, mmdfList) => {
       resourceType: 'Coverage',
       id: coverageId,
       type: { coding: [] },
-      patient: { reference: `Patient/${enrollment.memberId}-patient` },
+      beneficiary: { reference: `Patient/${enrollment.memberId}-patient` },
       payor: [ { reference: enrollment.payor } ],
-      period: {
+    };
+
+    if (enrollment.startDate) {
+      resource.period = {
         start: convertDateString(enrollment.startDate),
         end: convertDateString(enrollment.disenrollmentDate),
-      }
-    };
+      };
+    }
 
     if (enrollment.drugBenefit === 'Y') {
       resource.type.coding.push({
@@ -588,14 +591,6 @@ const createCoverageObjects = (membershipEnrollment, mmdfList) => {
       });
     }
 
-    /*if (enrollment.payor === 'MCS') {
-      resource.type.coding.push({
-        system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
-        code: 'RETIRE',
-        display: 'Retiree Health Program',
-      });
-    }*/
-
     if (enrollment.payor === 'MD' || enrollment.payor === 'MDE' || enrollment.payor === 'MMO'
       || enrollment.payor === 'MLI' || enrollment.payor === 'MRB') {
       resource.type.coding.push({
@@ -627,7 +622,7 @@ const createCoverageObjects = (membershipEnrollment, mmdfList) => {
             code: 'LTC',
             display: 'Long Term Care',
           }] },
-          patient: { reference: `Patient/${mmdfField.beneficiaryId}-patient` },
+          beneficiary: { reference: `Patient/${mmdfField.beneficiaryId}-patient` },
           period: {
             start: convertDateString(mmdfField.runDate),
             end: convertDateString(mmdfField.paymentDate + mmdfField.runDate.substring(6, 8)),
@@ -772,14 +767,24 @@ const createClaimEncResponse = (visitEList, observationList, procedureList) => {
           const encResource = {
             resourceType: 'Encounter',
             id: `${observation.memberId}-observation-encounter-${index + 1}`,
-            patient: { reference: `Patient/${observation.memberId}-patient` },
-            period: {
-              start: convertDateString(observation.observationDate),
-              end: convertDateString(observation.endDate),
-            },
+            subject: { reference: `Patient/${observation.memberId}-patient` },
             status: 'finished',
             type: [ { coding: [ obsCode ] } ]
           }
+          if (observation.observationDate) {
+            if (observation.endDate !== '') {
+              encResource.period = {
+                start: convertDateString(observation.observationDate),
+                end: convertDateString(observation.endDate),
+              }
+            } else {
+              encResource.period = {
+                start: convertDateString(observation.observationDate),
+                end: '2022-12-31T00:00:00.000+00:00',
+              }
+            }
+          }
+          
           encounters.push(encResource);
         }
       }
@@ -807,7 +812,7 @@ const createClaimEncResponse = (visitEList, observationList, procedureList) => {
         const encResource = {
           resourceType: 'Encounter',
           id: `${procedure.memberId}-procedure-encounter-${index + 1}`,
-          patient: { reference: `Patient/${procedure.memberId}-patient` },
+          subject: { reference: `Patient/${procedure.memberId}-patient` },
           status: procedure.serviceStatus === 'EVN' ? 'finished' : 'in-progress',
           type: [ { coding: [ procCode ] } ]
         }
@@ -1203,14 +1208,24 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
       const procResource = {
         resourceType: 'Procedure',
         id: `${observation.memberId}-observation-procedure-${index + 1}`,
-        patient: { reference: `Patient/${observation.memberId}-patient` },
-        performedPeriod: {
-          start: convertDateString(observation.observationDate),
-          end: convertDateString(observation.endDate),
-        },
+        subject: { reference: `Patient/${observation.memberId}-patient` },
         status: 'completed',
         code: { coding: [ obsCode ] },
       }
+      if (observation.observationDate) {
+        if (observation.endDate !== '') {
+          procResource.performedPeriod = {
+            start: convertDateString(observation.observationDate),
+            end: convertDateString(observation.endDate),
+          }
+        } else {
+          procResource.performedPeriod = {
+            start: convertDateString(observation.observationDate),
+            end: '2022-12-31T00:00:00.000+00:00',
+          }
+        }
+      }
+      
       procedureList.push(procResource);
     });
   }
@@ -1264,17 +1279,20 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
       if (diagnosis.attribute) {
         procResource.bodySite = [ { coding: [ createCode(diagnosis.attribute, diagnosis.diagnosisFlag) ] } ]
       }
-      if (diagnosis.endDate !== '') {
-        procResource.performedPeriod = {
-          start: convertDateString(diagnosis.startDate),
-          end: convertDateString(diagnosis.endDate),
-        }
-      } else {
-        procResource.performedPeriod = {
-          start: convertDateString(diagnosis.startDate),
-          end: '2022-12-31T23:59:59.000+00:00',
+      if (diagnosis.startDate) {
+        if (diagnosis.endDate !== '') {
+          procResource.performedPeriod = {
+            start: convertDateString(diagnosis.startDate),
+            end: convertDateString(diagnosis.endDate),
+          }
+        } else {
+          procResource.performedPeriod = {
+            start: convertDateString(diagnosis.startDate),
+            end: '2022-12-31T23:59:59.000+00:00',
+          }
         }
       }
+      
       procedureList.push(procResource);
     });
   }
@@ -1289,15 +1307,17 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
       const valid = isValidEncounter(visit);
       const serviceCode = createServiceCodeFromVisit(visit);
       let effectivePeriod = {};
-      if (visit.dischargeDate) {
-        effectivePeriod = {
-          start: convertDateString(visit.dateOfService),
-          end: convertDateString(visit.dischargeDate),
-        }
-      } else {
-        effectivePeriod = {
-          start: convertDateString(visit.dateOfService),
-          end: convertDateString(visit.dateOfService),
+      if (visit.dateOfService) {
+        if (visit.dischargeDate) {
+          effectivePeriod = {
+            start: convertDateString(visit.dateOfService),
+            end: convertDateString(visit.dischargeDate),
+          }
+        } else {
+          effectivePeriod = {
+            start: convertDateString(visit.dateOfService),
+            end: convertDateString(visit.dateOfService),
+          }
         }
       }
 
@@ -1360,17 +1380,20 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
         const labValues = getLabValues(observation.value);
         obsResource[labValues.key] = labValues.value; 
       }
-      if (observation.endDate) {
-        obsResource.effectivePeriod = {
-          start: convertDateString(observation.observationDate),
-          end: convertDateString(observation.endDate),
-        };
-      } else {
-        obsResource.effectivePeriod = {
-          start: convertDateString(observation.observationDate),
-          end: convertDateString(observation.observationDate),
-        };
+      if (observation.observationDate) {
+        if (observation.endDate) {
+          obsResource.effectivePeriod = {
+            start: convertDateString(observation.observationDate),
+            end: convertDateString(observation.endDate),
+          };
+        } else {
+          obsResource.effectivePeriod = {
+            start: convertDateString(observation.observationDate),
+            end: convertDateString(observation.observationDate),
+          };
+        }
       }
+      
       observationList.push(obsResource);        
     });
   }
@@ -1508,7 +1531,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
         const medDispenseResource = {
           id: `${pharmClinic.memberId}-medicationDispense-${medDispenseCount}`,
           resourceType: 'MedicationDispense',
-          patient: { reference: `Patient/${pharmClinic.memberId}-patient` },
+          subject: { reference: `Patient/${pharmClinic.memberId}-patient` },
           status: 'completed',
           medicationCodeableConcept: { coding: [ medicationCode ] },
           whenHandedOver: convertDateString(pharmClinic.dispensedDate),
@@ -1661,7 +1684,7 @@ const createMmdfResources = (mmdfList) => {
         mmdfResources.push({
           resourceType: 'Encounter',
           id: `${mmdf.beneficiaryId}-mmdf-encounter-${index + 1}`,
-          patient: { reference: `Patient/${mmdf.beneficiaryId}-patient` },
+          subject: { reference: `Patient/${mmdf.beneficiaryId}-patient` },
           period: {
             start: convertDateString(mmdf.runDate),
             end: convertDateString(mmdf.runDate),
@@ -1824,7 +1847,7 @@ async function createFhirJson(testDirectory, allMemberInfo) {
 
     try {
       fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
-      fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
+      fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify(fhirObject, null, 2));
     } catch (writeErr) {
       logger.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
       process.exit();
