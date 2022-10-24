@@ -625,7 +625,7 @@ const createCoverageObjects = (membershipEnrollment, mmdfList) => {
           beneficiary: { reference: `Patient/${mmdfField.beneficiaryId}-patient` },
           period: {
             start: convertDateString(mmdfField.runDate),
-            end: convertDateString(mmdfField.paymentDate + mmdfField.runDate.substring(6, 8)),
+            end: forwardOneMonth(convertDateString(mmdfField.runDate)),
           }
         };
         
@@ -640,6 +640,11 @@ const createCoverageObjects = (membershipEnrollment, mmdfList) => {
   }
 
   return coverage;
+}
+
+const forwardOneMonth = (dateString) => {
+  const date = new Date(dateString);
+  return new Date(date.setMonth(date.getMonth() + 1));
 }
 
 const createConditionList = (visitEList, diagnosisList, mmdfList, lishistList) => {
