@@ -379,7 +379,7 @@ const createClaimEncounter = (encounter) => {
 }
 
 const createClaimResponse = (response) => {
-  return {
+  const crResource = {
     resourceType: 'ClaimResponse',
     id: `${response.memberId}-${response.idName}-${response.claimId}`,
     type: response.claimType,
@@ -390,13 +390,22 @@ const createClaimResponse = (response) => {
       itemSequence: 1,
       adjudication: paidAdjudication(),
     }],
-    addItem: [
+  }
+  if (response.serviceDate) {
+    crResource.addItem = [
       {
         productOrService: { coding: [ response.serviceCode ] },
-        servicedDate: convertDateString(response.serviceDate),
+        servicedDate: convertDateString(response.serviceDate, true),
       }
-    ],
-  };
+    ];
+  } else {
+    crResource.addItem = [
+      {
+        productOrService: { coding: [ response.serviceCode ] },
+      }
+    ];
+  }
+  return crResource;
 }
 
 const createPractitionerLocation = (locPrac) => {
@@ -434,7 +443,7 @@ const createPharmacyClaim = (pharmacy) => {
   if (pharmacy.serviceDate) {
     item = {
       sequence: 1,
-      servicedDate: convertDateString(pharmacy.serviceDate),
+      servicedDate: convertDateString(pharmacy.serviceDate, true),
       productOrService: {
         coding: [ pharmacy.serviceCode ]
       },
@@ -475,10 +484,13 @@ const createPharmacyClaim = (pharmacy) => {
   return resource;
 }
 
-const convertDateString = (ncqaDateString) => {
+const convertDateString = (ncqaDateString, excludeTime) => {
   const year = ncqaDateString.toString().substr(0, 4);
   const month = ncqaDateString.toString().substr(4, 2);
   const day = ncqaDateString.toString().substr(6, 2);
+  if (excludeTime) {
+    return `${year}-${month}-${day}`;
+  }
   return `${year}-${month}-${day}T00:00:00.000+00:00`;
 }
 

@@ -498,7 +498,7 @@ const createPatientFhirObject = (generalMembership) => {
     postalCode: generalMembership.zipCode,
   }];
 
-  patient.birthDate = convertDateString(generalMembership.dateOfBirth);
+  patient.birthDate = convertDateString(generalMembership.dateOfBirth, true);
 
   patient.extension = [
     {
@@ -1553,7 +1553,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
         const medDispenseResource = {
           id: `${pharm.memberId}-medicationDispense-${medDispenseCount}`,
           resourceType: 'MedicationDispense',
-          patient: { reference: `Patient/${pharm.memberId}-patient` },
+          subject: { reference: `Patient/${pharm.memberId}-patient` },
           status: 'completed',
           medicationCodeableConcept: { coding: [ createCode(pharm.ndcDrugCode, undefined, 'NDC') ] },
           whenHandedOver: convertDateString(pharm.serviceDate),
