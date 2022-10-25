@@ -1,12 +1,13 @@
 const fs = require('fs');
 const { convert } = require('ucum');
 const config = require('./config');
+const logger = require('./src/winston')
 
 const measure = config.measurementType;
 
 const ndcRxSystemCodes = ['351172','352118','200172','213178','310346','201961'];
 
-const quantityMeasures = ['psa']; // Lab tests often want different value types. This helps map them. 
+const quantityMeasures = ['psa']; // Lab tests often want different value types. This helps map them.
 const msInADay = 1000 * 60 * 60 * 24; // Here we go again...
 const endOfThisYear = new Date(`${config.measurementYear}-12-31`);
 const startOfThisYear = new Date(`${config.measurementYear}-01-01`);
@@ -17,6 +18,8 @@ const getSystem = (value) => {
   switch(value) {
     case 'S':
       return 'http://snomed.info/sct';
+    case 'S2':
+      return 'http://snomed.info/sct/731000124108';
     case '9':
       return 'http://hl7.org/fhir/sid/icd-9-cm';
     case 'X':
@@ -62,15 +65,15 @@ const createCode = (code, systemFlag, systemType) => {
     system = systemFlag.length === 1 ? getRxSystem(systemFlag) : systemFlag;
   } else if (systemType === 'NDC') {
     system = getRxSystem(ndcRxSystemCodes.includes(code) ? 'R': 'N');
+  } else if ((code.startsWith('10') || code.startsWith('30') || code.startsWith('GZ') 
+      || code.startsWith('0UTC') || code === '3E0234Z' || code.startsWith('0HT')
+      || code.startsWith('0DTE')) && code.length === 7 && systemFlag === 'X') {
+    system = getSystem('X2');
+  } else if (measure === 'pnde' && systemFlag === 'S'
+    && (code === '412726003' || code === '394924000')) {
+      system = getSystem('S2');
   } else {
-    // 10 PNDE Deliveries, 30 for AIS-E bone marrow, GZ for FUM Electro Therapy
-    if ((code.startsWith('10') || code.startsWith('30') || code.startsWith('GZ') 
-      || code.startsWith('0UTC') || code === '3E0234Z' || code.startsWith('0HT')) 
-      && code.length === 7 && systemFlag === 'X') {
-      system = getSystem('X2');
-    } else {
       system = systemFlag.length === 1 ? getSystem(systemFlag) : systemFlag;
-    }
   }
   if (system !== 'NA') {
     return {
@@ -253,14 +256,14 @@ const createDiagnosisCondition = (condition) => {
 
   if (condition.onsetDateTime) {
     condObj.onsetDateTime = convertDateString(condition.onsetDateTime);
-    condObj.abatementDateTime = convertDateString(condition.onsetDateTime);
+    condObj.abatementDateTime = '2022-12-31T23:59:59.000+00:00';//convertDateString(condition.onsetDateTime); // JAMES increment
   } else if (condition.onsetStart) {
     if (condition.onsetEnd) {
       condObj.onsetDateTime = convertDateString(condition.onsetStart);
       condObj.abatementDateTime = convertDateString(condition.onsetEnd);
     } else {
       condObj.onsetDateTime = convertDateString(condition.onsetStart);
-      condObj.abatementDateTime = convertDateString(condition.onsetStart);
+      condObj.abatementDateTime = '2022-12-31T23:59:59.000+00:00';//convertDateString(condition.onsetStart); // JAMES increment
     }
   }
   if (condition.recorder) {
@@ -268,12 +271,38 @@ const createDiagnosisCondition = (condition) => {
       reference: condition.recorder,
     };
   }
+  if (condition.supplementalData === 'Y') {
+    condObj.verificationStatus = {
+      coding: [
+        {
+          system: 'http://terminology.hl7.org/CodeSystem/condition-ver-status',
+          'code': 'supplemental'
+        }
+      ],
+    };
+  } else if (condition.supplementalData === 'N') {
+    condObj.verificationStatus = {
+      coding: [
+        {
+          system: 'http://terminology.hl7.org/CodeSystem/condition-ver-status',
+          'code': 'administrative'
+        }
+      ],
+    };
+  }
   return condObj;
 }
 
-const ambulatoryPosList = ['02', '03', '05', '07', '09', '11', '15', '17', '18', '19',
+const ambSurgicalCenter = '24';
+const comMentalHealthCenter = '53';
+
+const telehealthList = ['02', '10'];
+const fumAmbulatoryPosList = ['03', '05', '07', '09', '11', '12', '13', '14', '15', '16', '17', '18', '19',
+                        '20', '22', '31', '33', '49', '50', '52', '57', '58', '65', '71', '72'];
+
+const orgAmbulatoryPosList = ['03', '05', '07', '09', '11', '15', '17', '18', '19',
                         '20', '22', '24', '31', '49', '50', '52', '53', '57', '58', '65', '71', '72'];
-const homeHealthPosList = ['12', '13', '14', '16', '33'];
+const orgHomeHealthPosList = ['12', '13', '14', '16', '33'];
 
 const createClaimEncounter = (encounter) => {
   const encounterFhir = {
@@ -302,14 +331,29 @@ const createClaimEncounter = (encounter) => {
   }
 
   if (encounter.cmsPlaceOfService || encounter.cptModOne) {
-    if (encounter.cmsPlaceOfService === '02'
-      || encounter.cptModOne === 'GT') {
-      encounterFhir.class = createCode('VR', 'A');
-    } else if (ambulatoryPosList.includes(encounter.cmsPlaceOfService)) {
-      encounterFhir.class = createCode('AMB', 'A');
-    } else if (homeHealthPosList.includes(encounter.cmsPlaceOfService)) {
-      encounterFhir.class = createCode('HH', 'A');
+    // FUM requires more specific POS codes
+    if (measure === 'fum') {
+      if (telehealthList.includes(encounter.cmsPlaceOfService)
+        || encounter.cptModOne === 'GT') {
+          encounterFhir.class = createCode('VR', 'A');
+      } else if (ambSurgicalCenter === encounter.cmsPlaceOfService) {
+        encounterFhir.class = createCode('AMBSC', 'A');
+      } else if (comMentalHealthCenter === encounter.cmsPlaceOfService) {
+        encounterFhir.class = createCode('CMH', 'A');
+      } else if (fumAmbulatoryPosList.includes(encounter.cmsPlaceOfService)) {
+        encounterFhir.class = createCode('AMB', 'A');
+      }
+    } else {
+      if (telehealthList.includes(encounter.cmsPlaceOfService)
+        || encounter.cptModOne === 'GT') {
+          encounterFhir.class = createCode('VR', 'A');
+      } else if (orgAmbulatoryPosList.includes(encounter.cmsPlaceOfService)) {
+        encounterFhir.class = createCode('AMB', 'A');
+      } else if (orgHomeHealthPosList.includes(encounter.cmsPlaceOfService)) {
+        encounterFhir.class = createCode('HH', 'A');
+      }
     }
+    
     if (encounter.cmsPlaceOfService) {
       encounterFhir.location = [ { location: { reference: encounter.cmsPlaceOfService } } ];
     }
@@ -357,23 +401,25 @@ const createClaimResponse = (response) => {
 }
 
 const createPractitionerLocation = (locPrac) => {
+  const identifierObj = {
+    type: {
+      coding: [
+        {
+          system: 'http://terminology.hl7.org/CodeSystem/v2-0203',
+          code: 'PRN',
+        }
+      ]
+    },
+    system: 'http://hl7.org/fhir/sid/us-npi'
+  }
+  if (locPrac.npi !== undefined) {
+    identifierObj.value = locPrac.npi;
+  }
+
   return {
     resourceType: locPrac.type,
-    id: locPrac.npi,
-    identifier: [
-      {
-        type: {
-          coding: [
-            {
-              system: 'http://terminology.hl7.org/CodeSystem/v2-0203',
-              code: 'PRN',
-            }
-          ]
-        },
-        system: 'http://hl7.org/fhir/sid/us-npi',
-        value: locPrac.npi,
-      }
-    ]
+    id: locPrac.id,
+    identifier: [ identifierObj ]
   }
 }
 
@@ -439,20 +485,23 @@ const convertDateString = (ncqaDateString) => {
   const year = ncqaDateString.toString().substr(0, 4);
   const month = ncqaDateString.toString().substr(4, 2);
   const day = ncqaDateString.toString().substr(6, 2);
-
   return `${year}-${month}-${day}T00:00:00.000+00:00`;
 }
 
 const labValueSets = ['2.16.840.1.113883.3.464.1004.1109',
                     '2.16.840.1.113883.3.464.1004.1168',
+                    '2.16.840.1.113883.3.464.1004.1421',
                     '2.16.840.1.113883.3.464.1004.1525',
                     '2.16.840.1.113883.3.464.1004.1527',
                     '2.16.840.1.113883.3.464.1004.1769',
                     '2.16.840.1.113883.3.464.1004.1755',
                     '2.16.840.1.113883.3.464.1004.1742',
+                    '2.16.840.1.113883.3.464.1004.1749',
                     '2.16.840.1.113883.3.464.1004.1751',
                     '2.16.840.1.113883.3.464.1004.1783',
-                    '2.16.840.1.113883.3.464.1004.1963'];
+                    '2.16.840.1.113883.3.464.1004.1959',
+                    '2.16.840.1.113883.3.464.1004.1963',
+                  ];
 
 const checkValidLabCode = (code) => {
   const dir = config.valuesetsDirectory;
@@ -465,14 +514,14 @@ const checkValidLabCode = (code) => {
         }
       }
     } catch (e) {
-      // console.log(`Skipping ${valueset}, not used`);
+      //logger.error(`Skipping ${valueset}, not used`);
     }
   }
 
   return false;
 }
 
-const invalidLocations = ['10', '27', '28', '29', '30','35', '36', '37', '38', '39', '40',
+const invalidLocations = ['27', '28', '29', '30', '35', '36', '37', '38', '39', '40',
                         '43', '44', '45', '46', '47', '48', '58', '59', '63', '64', '66', '67',
                         '68', '69', '70', '73', '74', '75', '76', '77', '78', '79', '80',
                       '82', '83', '84', '85', '86', '87', '88', '89', '90', '91', '92',
@@ -497,7 +546,7 @@ const isValidEncounter = (visit) => {
   }
   const ubRevenue = visit.ubRevenue;
   // 31 is for skilled nursing facility
-  if (cmsPlaceOfService === '31') {
+  if (cmsPlaceOfService === '31' && measure !== 'bcse' && measure !== 'cole') {
     // If Ub Revenue exists, but is not 002 (skilled nursing) it's invalid
     if (ubRevenue && !(ubRevenue.startsWith('002') || ubTypeOfBill.startsWith('02') )) {
       return false;

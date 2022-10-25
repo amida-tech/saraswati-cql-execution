@@ -1,5 +1,6 @@
 const config = require('./config');
 const measure = config.measurementType;
+const logger = require('./src/winston')
 
 const exchange = ['MEP', 'MMO', 'MOS', 'MPO'];
 const commercial = ['CEP', 'HMO', 'POS', 'PPO'];
@@ -7,8 +8,9 @@ const exchangeOrCommercial = ['CEP', 'HMO', 'POS', 'PPO', 'MEP', 'MMO', 'MOS', '
 const medicarePlans = ['MCR', 'MCS', 'MP', 'MC', 'MCR', 'SN1', 'SN2', 'SN3', 'MMP'];
 const medicaidPlans = ['MD', 'MDE', 'MLI', 'MRB', 'MCD', 'MMP'];
 const snpMeasures = []; // I don't think we'll ever have any of these for a while.
-const medicareMeasures = ['aab', 'asfe', 'aise', 'bcse', 'cole', 'cou', 'cwp', 'dmse', 'dsfe', 'fum', 'psa'];
-const medicaidMeasures = ['aab', 'adde', 'apme', 'aise', 'asfe', 'bcse', 'ccs', 'cise', 'cole', 'cou', 'cwp', 'dmse', 'dsfe', 'fum', 'imae', 'pdse'];
+const medicareMeasures = ['aab', 'asfe', 'aise', 'bcse', 'cole', 'cou', 'cwp', 'dmse', 'drre', 'dsfe', 'fum', 'psa', 'uop', 'uri'];
+const medicaidMeasures = ['aab', 'adde', 'apme', 'aise', 'asfe', 'bcse', 'ccs', 'cise', 'cole', 'cou', 'cwp', 'dmse', 'drre', 'dsfe', 'fum', 'imae', 'pdse', 'pnde', 'prse', 'uop', 'uri'];
+
 const mmpMeasures = []; // As with SNPs.
 
 const measurePlanInfo = {
@@ -86,15 +88,12 @@ const measurePlanInfo = {
     },
     medicaid: {
       ageStart: 50,
-      ageEnd: 75,},
+      ageEnd: 75,
+    },
     medicare: {
       ageStart: 50,
-      ageEnd: 75,}
-  },
-  cwp: {
-    commercial: {},
-    medicaid: {},
-    medicare: {}
+      ageEnd: 75,
+    }
   },
   cwp: {
     commercial: {},
@@ -102,6 +101,17 @@ const measurePlanInfo = {
     medicare: {}
   },
   dmse: {
+    commercial: {
+      ageStart: 12,
+    },
+    medicaid: {
+      ageStart: 12,
+    },
+    medicare: {
+      ageStart: 18,
+    },
+  },
+  drre: {
     commercial: {
       ageStart: 12,
     },
@@ -142,6 +152,14 @@ const measurePlanInfo = {
     commercial: {},
     medicaid: {}
   },
+  pnde: {
+    commercial: {},
+    medicaid: {}
+  },
+  prse: {
+    commercial: {},
+    medicaid: {}
+  },
   psa: {
     commercial: {
       ageStart: 70
@@ -153,6 +171,22 @@ const measurePlanInfo = {
       ageStart: 70
     }
   },
+  uop: {
+    commercial: {
+      ageStart: 18
+    },
+    medicaid: {
+      ageStart: 18
+    },
+    medicare: {
+      ageStart: 18
+    }
+  },
+  uri: {
+    commercial: {},
+    medicaid: {},
+    medicare: {},
+  }
 }
 
 const isValidCommercial = (payor, age) => {
@@ -332,7 +366,7 @@ const getValidPayors = (foundPayors, age, memberCoverage) => {
   if (foundPayors === undefined || foundPayors.length === 0) {
     const filteredMemberCoverage = memberCoverage.filter((coverage) => coverage.payor);
     if (filteredMemberCoverage.length === 0) {
-      console.log('No coverage exists');
+      logger.info('No coverage exists');
       return;
     }
     

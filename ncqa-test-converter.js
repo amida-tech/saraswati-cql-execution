@@ -2,6 +2,7 @@ const minimist = require('minimist');
 const fs = require('fs');
 const readline = require('readline');
 const config = require('./config');
+const logger = require('./src/winston')
 
 const measure = config.measurementType;
 const { createCode, professionalClaimType, pharmacyClaimType, convertDateString, getLabValues,
@@ -19,7 +20,7 @@ const parseArgs = minimist(process.argv.slice(2), {
 
 function checkArgs() {
   if(parseArgs.t === undefined) {
-    console.error('\x1b[31m', 
+    logger.error('\x1b[31m', 
       '\nError: Please define a directory path to read. Usage: "--testDirectory=<directory>".',
       '\x1b[0m');
     process.exit();
@@ -187,7 +188,7 @@ async function readVisit(testDirectory, memberInfo) {
 
 async function readVisitEncounter(testDirectory, memberInfo) {
   if (!fs.existsSync(`${testDirectory}/visit-e.txt`)) {
-    console.log(`No visit-e.txt in ${testDirectory}`);
+    logger.info(`No visit-e.txt in ${testDirectory}`);
     return;
   }
 
@@ -215,13 +216,13 @@ async function readVisitEncounter(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`Error reading visit-e.txt.`);
+    logger.info(`Error reading visit-e.txt.`);
   }
 }
 
 async function readPharmacy(testDirectory, memberInfo) {
   if (!fs.existsSync(`${testDirectory}/pharm.txt`)) {
-    console.log(`No pharm.txt in ${testDirectory}`);
+    logger.info(`No pharm.txt in ${testDirectory}`);
     return;
   }
 
@@ -249,13 +250,13 @@ async function readPharmacy(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`Error reading pharm.txt`);
+    logger.info(`Error reading pharm.txt`);
   }
 }
 
 async function readPharmacyClinical(testDirectory, memberInfo) {
   if (!fs.existsSync(`${testDirectory}/pharm-c.txt`)) {
-    console.log(`No pharm-c.txt in ${testDirectory}`);
+    logger.info(`No pharm-c.txt in ${testDirectory}`);
     return;
   }
 
@@ -285,13 +286,13 @@ async function readPharmacyClinical(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`Error reading pharm-c.txt`);
+    logger.info(`Error reading pharm-c.txt`);
   }
 }
 
 async function readDiagnosis(testDirectory, memberInfo) {
   if (!fs.existsSync(`${testDirectory}/diag.txt`)) {
-    console.log(`No diag.txt in ${testDirectory}`);
+    logger.info(`No diag.txt in ${testDirectory}`);
     return
   }
 
@@ -316,7 +317,7 @@ async function readDiagnosis(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`Error reading diag.txt`);
+    logger.info(`Error reading diag.txt`);
   }
 }
 
@@ -348,7 +349,7 @@ async function readObservation(testDirectory, memberInfo) {
 
 async function readProcedure(testDirectory, memberInfo) {
   if (!fs.existsSync(`${testDirectory}/proc.txt`)) {
-    console.log(`No proc.txt in ${testDirectory}`);
+    logger.info(`No proc.txt in ${testDirectory}`);
     return;
   }
 
@@ -373,13 +374,13 @@ async function readProcedure(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`Error reading proc.txt in ${testDirectory}`);
+    logger.info(`Error reading proc.txt in ${testDirectory}`);
   }
 }
 
 async function readLab(testDirectory, memberInfo) {
   if (!fs.existsSync(`${testDirectory}/lab.txt`)) {
-    console.log(`No lab.txt in ${testDirectory}`);
+    logger.info(`No lab.txt in ${testDirectory}`);
     return
   }
 
@@ -404,8 +405,8 @@ async function readLab(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(readError);
-    console.log(`Error reading lab.txt in ${testDirectory}`);
+    logger.info(readError);
+    logger.info(`Error reading lab.txt in ${testDirectory}`);
   }
 }
 
@@ -439,7 +440,7 @@ async function readMmdf(testDirectory, memberInfo) {
         });
       }
     } catch (readError) {
-      console.log(`Error reading ${fileName} in ${testDirectory}`);
+      logger.info(`Error reading ${fileName} in ${testDirectory}`);
     }
   }
 }
@@ -447,7 +448,7 @@ async function readMmdf(testDirectory, memberInfo) {
 async function readLisHist(testDirectory, memberInfo) {
   const fileName = `${testDirectory}/lishist.txt`;
   if (!fs.existsSync(fileName)) {
-    console.log(`No diag.txt in ${testDirectory}`);
+    logger.info(`No diag.txt in ${testDirectory}`);
     return;
   }
   try {
@@ -468,7 +469,7 @@ async function readLisHist(testDirectory, memberInfo) {
       });
     }
   } catch (readError) {
-    console.log(`Error reading ${fileName} in ${testDirectory}`);
+    logger.info(`Error reading ${fileName} in ${testDirectory}`);
   }
 }
 
@@ -696,7 +697,7 @@ const createConditionList = (visitEList, diagnosisList, mmdfList, lishistList) =
         subject: { reference: `Patient/${mmdf.beneficiaryId}-patient` },
         code: { coding: [ createCode(`OREC-${mmdf.orec}`, 'A') ] },
         onsetDateTime: convertDateString(mmdf.runDate),
-        abatementDateTime: convertDateString(mmdf.runDate),
+        abatementDateTime: convertDateString(mmdf.runDate), 
       }
       mmdfConditionList.push(condObj);
     });
@@ -714,7 +715,7 @@ const createConditionList = (visitEList, diagnosisList, mmdfList, lishistList) =
       if (lishist.endDate !== '') {
         condObj.abatementDateTime = convertDateString(lishist.endDate);
       } else {
-        condObj.abatementDateTime = '2022-12-31T00:00:00.000+00:00';
+        condObj.abatementDateTime = '2022-12-31T23:59:59.000+00:00';
       }
       lishistConditionList.push(condObj);
     });
@@ -804,7 +805,7 @@ const createClaimEncResponse = (visitEList, observationList, procedureList) => {
       }
       if (!matchFound) {
         const encResource = {
-          esourceType: 'Encounter',
+          resourceType: 'Encounter',
           id: `${procedure.memberId}-procedure-encounter-${index + 1}`,
           patient: { reference: `Patient/${procedure.memberId}-patient` },
           status: procedure.serviceStatus === 'EVN' ? 'finished' : 'in-progress',
@@ -830,11 +831,10 @@ const createClaimEncResponse = (visitEList, observationList, procedureList) => {
   return { claims, encounters, visitEncounters, claimResponses };
 }
 
-const createVisitClaimEncResponse = (visitList) => {
+const createVisitClaimEncResponse = (visitList) => { 
   if (visitList === undefined || visitList.length === 0) {
     return {};
   }
-
   const claimResponses = [];
   const visitEncounters = [];
   const invalidEncounters = [];
@@ -842,6 +842,7 @@ const createVisitClaimEncResponse = (visitList) => {
   const invalidResponses = [];
   const claims = [];
   const visitConditionList = [];
+
   for (const visit of visitList) {
     if (!isValidEncounter(visit)) {
       invalidEncounters.push(`${visit.memberId}-visit-encounter-${visit.claimId}`);
@@ -903,7 +904,8 @@ const createVisitClaimEncResponse = (visitList) => {
         }
       );
       let conditionCount = 1;
-      visit.icdDiagnosis.forEach((visitDiagnosis, index) => {
+      const visitDiagnosisList = visit.icdDiagnosis.filter((diag) => diag != undefined && diag != '');
+      visitDiagnosisList.forEach((visitDiagnosis, index) => {
         if (visitDiagnosis && visit.cmsPlaceOfService !== '81') {
           const condObj = createDiagnosisCondition(
             {
@@ -913,6 +915,7 @@ const createVisitClaimEncResponse = (visitList) => {
               system: visit.icdIdentifier,
               onsetDateTime: visit.dateOfService,
               recorder: visit.providerId,
+              supplementalData: visit.supplementalData,
             }
           );
 
@@ -931,8 +934,8 @@ const createVisitClaimEncResponse = (visitList) => {
       });
       visitEncounters.push(encounter);
     }
-      
-    if (visit.supplementalData === 'N' || measure === 'bcse') {
+    
+    if (visit.supplementalData === 'N' || measure === 'bcse' || measure === 'cole') {
       let foundClaimMatch = false;
       const claimId = `${visit.memberId}-visit-claim-${visit.claimId}`;
       for (const claim of claims) {
@@ -1107,6 +1110,9 @@ const linkConditionsToEncounters = (conditions, encounters) => {
       let onsetPeriod = undefined;
       if (condition.onsetDateTime) {
         onsetPeriod = { start: condition.onsetDateTime };
+        if (condition.abatementDateTime) {
+          onsetPeriod.end = condition.abatementDateTime;
+        }
       } else {
         onsetPeriod = condition.onsetPeriod;
       }
@@ -1146,39 +1152,47 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
           status: 'completed',
           code: { coding: [ serviceCode ] }
         }
-        if (visit.cptModOne) {
-          procResource.bodySite = [ { coding: [ createCode(visit.cptModOne, 'C') ] } ]
+        if (visit.cptModOne || visit.cptModTwo) {
+          procResource.bodySite = [ { coding: [] } ];
+          if (visit.cptModOne) {
+            procResource.bodySite[0].coding.push(createCode(visit.cptModOne, 'C'));
+          }
+          if (visit.cptModTwo) {
+            procResource.bodySite[0].coding.push(createCode(visit.cptModTwo, 'C'));
+          }
         }
+        
         procedureList.push(procResource);
       }
 
       if (visit.icdProcedure) {
+        const procResource = {
+          id: `${visit.memberId}-visit-list-procedure-${visit.claimId}`,
+          resourceType: 'Procedure',
+          subject: { reference: `Patient/${visit.memberId}-patient`},
+          performedDateTime: convertDateString(visit.dateOfService),
+          performer: [ { actor: { reference: visit.providerId, } } ],
+          status: 'completed',
+          code: { coding: [ ] }
+        }
+        const immunoResource = {
+          id: `${visit.memberId}-icd-immunization-${visit.claimId}`,
+          resourceType: 'Immunization',
+          patient: { reference: `Patient/${visit.memberId}-patient` },
+          status: 'completed',
+          vaccineCode: { coding: [ ] },
+          occurrenceDateTime: convertDateString(visit.dateOfService),
+        }
         visit.icdProcedure.forEach((procedure) => {
           if (procedure !== '') {
             const procCode = createCode(procedure, visit.icdIdentifier);
-            const procResource = {
-              id: `${visit.memberId}-visit-list-procedure-${visit.claimId}-${index + 1}`,
-              resourceType: 'Procedure',
-              subject: { reference: `Patient/${visit.memberId}-patient`},
-              performedDateTime: convertDateString(visit.dateOfService),
-              performer: [ { actor: { reference: visit.providerId, } } ],
-              status: 'completed',
-              code: { coding: [ procCode ] }
-            }
-            procedureList.push(procResource);
 
-            const immunoId = `${visit.memberId}-icd-immunization-${visit.claimId}-${index + 1}`;
-            const immunoResource = {
-              id: immunoId,
-              resourceType: 'Immunization',
-              patient: { reference: `Patient/${visit.memberId}-patient` },
-              status: 'completed',
-              vaccineCode: { coding: [ procCode ] },
-              occurrenceDateTime: convertDateString(visit.dateOfService),
-            }
-            procedureList.push(immunoResource);
+            procResource.code.coding.push(procCode);
+            immunoResource.vaccineCode.coding.push(procCode);
           }
         });
+        procedureList.push(procResource);
+        procedureList.push(immunoResource);
       }
     }
   }
@@ -1258,7 +1272,7 @@ const createProcedureList = (visits, observations, procedures, diagnosisList) =>
       } else {
         procResource.performedPeriod = {
           start: convertDateString(diagnosis.startDate),
-          end: convertDateString('2022-12-31T00:00:00.000+00:00'),
+          end: '2022-12-31T23:59:59.000+00:00',
         }
       }
       procedureList.push(procResource);
@@ -1298,8 +1312,9 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
         
         observationList.push(obsClaim);
       }
-      if (valid && visit.icdDiagnosis.length > 0) {
-        visit.icdDiagnosis.forEach((diagnosis, diagIndex) => {
+      const visitDiagnosisList = visit.icdDiagnosis.filter((diag) => diag != undefined && diag != '');
+      if (valid && visitDiagnosisList.length > 0) {
+        visitDiagnosisList.forEach((diagnosis, diagIndex) => {
           const obsClaim = {
             id: `${visit.memberId}-visit-diagnosis-observation-${visit.claimId}-${index}-${diagIndex + 1}`,
             resourceType: 'Observation',
@@ -1343,7 +1358,7 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
       }
       if (observation.value) {
         const labValues = getLabValues(observation.value);
-        obsResource[labValues.key] = labValues.value; // JAMES
+        obsResource[labValues.key] = labValues.value; 
       }
       if (observation.endDate) {
         obsResource.effectivePeriod = {
@@ -1369,10 +1384,12 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
         subject: { reference: `Patient/${procedure.memberId}-patient` },
         effectivePeriod: {
           start: convertDateString(procedure.serviceDate),
-          end: convertDateString(procedure.serviceDate),
         },
-        status: procedure.serviceStatus === 'EVN' ? 'completed' : 'in-progress',
+        status: procedure.serviceStatus === 'EVN' ? 'final' : 'preliminary',
         code: { coding: [ procCode ] },
+      }
+      if (measure !== 'cole' || procedure.serviceStatus === 'EVN') {
+        obsResource.effectivePeriod.end = convertDateString(procedure.serviceDate);
       }
       observationList.push(obsResource);
     });
@@ -1444,6 +1461,7 @@ const createObservationList = (visits, visitEList, observations, procedures, lab
 
 const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
   const pharmacyClaimList = [];
+  let medDispenseCount = 1;
   let claimCount = 1
   let claimResponseCount = 1;
   if (pharmacyClinical) {
@@ -1488,7 +1506,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
 
       if (pharmClinic.dispensedDate) {
         const medDispenseResource = {
-          id: `${pharmClinic.memberId}-medicationDispense-${claimCount}`,
+          id: `${pharmClinic.memberId}-medicationDispense-${medDispenseCount}`,
           resourceType: 'MedicationDispense',
           patient: { reference: `Patient/${pharmClinic.memberId}-patient` },
           status: 'completed',
@@ -1502,7 +1520,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
         });
       }
 
-      claimCount += 1;
+      medDispenseCount += 1;
     });
   }
 
@@ -1510,7 +1528,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
     pharmacy.forEach((pharm) => {
       if (pharm.serviceDate) {
         const medDispenseResource = {
-          id: `${pharm.memberId}-medicationDispense-${claimCount}`,
+          id: `${pharm.memberId}-medicationDispense-${medDispenseCount}`,
           resourceType: 'MedicationDispense',
           patient: { reference: `Patient/${pharm.memberId}-patient` },
           status: 'completed',
@@ -1523,12 +1541,13 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
           resource: medDispenseResource,
         });
 
-        claimCount += 1;
+        medDispenseCount += 1;
       }
     })
 
     const providerNpiHolder = {};
     const pharmacyNpiHolder = {};
+    let nullPharmacyCount = 1;
     pharmacy //pharm.txt is only a claim when NOT supplemental data
       .filter((item) => item.supplementalData !== 'Y')
       .forEach((pharm) => {
@@ -1546,6 +1565,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
             providerNpiHolder[pharm.providerNpi] = createPractitionerLocation({
               type: 'Practitioner',
               npi: pharm.providerNpi,
+              id: pharm.providerNpi,
             });
           }
 
@@ -1564,15 +1584,30 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
             pharmacyNpiHolder[pharm.pharmacyNpi] = createPractitionerLocation({
               type: 'Location',
               npi: pharm.pharmacyNpi,
+              id: pharm.pharmacyNpi,
             });
           }
 
           resource.item[0].locationReference = {
             reference: `Location/${pharmacyNpiHolder[pharm.pharmacyNpi].id}`,
           }
+        } else {
+          const nullLocId = `null${nullPharmacyCount}`;
+          pharmacyNpiHolder[nullLocId] = createPractitionerLocation({
+            type: 'Location',
+            id: nullLocId,
+          });
+          
+          if (resource.item[0] === undefined) {
+            resource.item = [{}];
+          }
+
+          resource.item[0].locationReference = {
+            reference: `Location/${nullLocId}`,
+          };
+          nullPharmacyCount += 1;
         }
 
-      
         pharmacyClaimList.push({
           fullUrl: `urn:uuid:${resource.id}`,
           resource,
@@ -1791,7 +1826,7 @@ async function createFhirJson(testDirectory, allMemberInfo) {
       fs.mkdir(`${testDirectory}/fhirJson`, { recursive: true }, (err) => {if (err) throw err;});
       fs.writeFileSync(`${testDirectory}/fhirJson/${memberId}.json`, JSON.stringify([fhirObject], null, 2));
     } catch (writeErr) {
-      console.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
+      logger.error(`\x1b[31mError:\x1b[0m Unable to write to directory:${writeErr}.`);
       process.exit();
     }  
     
