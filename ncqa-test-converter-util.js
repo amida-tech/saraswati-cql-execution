@@ -443,7 +443,10 @@ const createPharmacyClaim = (pharmacy) => {
   if (pharmacy.serviceDate) {
     item = {
       sequence: 1,
-      servicedDate: convertDateString(pharmacy.serviceDate, true),
+      servicedPeriod: {
+        start: convertDateString(pharmacy.serviceDate),
+        end: convertDateString(pharmacy.serviceDate),
+      },
       productOrService: {
         coding: [ pharmacy.serviceCode ]
       },
