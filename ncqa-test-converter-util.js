@@ -230,7 +230,7 @@ const createClaimFromVisit = (visit) => {
   }
 
   if (visit.cmsPlaceOfService) {
-    resource.locationReference = {
+    resource.item[0].locationReference = { // Keith, changed this. Claims can't have a locationReference but items can.
       reference: visit.cmsPlaceOfService,
     };
   }
