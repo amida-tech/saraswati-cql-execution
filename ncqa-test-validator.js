@@ -6,6 +6,7 @@ const { execute, supportExecute } = require('./exec-files/exec-config');
 const { createProviderList } = require('./src/utilities/providerUtil');
 const { getEligiblePopulation, ethnicityMap, raceEthnicDSMap, hedisData } = require('./ncqa-test-validator-util');
 const logger = require('./src/winston');
+const saraswatiVersion = require('./package.json').version;
 
 const measure = config.measurementType;
 
@@ -76,6 +77,7 @@ const evalData = (patient) => {
   data['measurementType'] = measure;
   data['coverage'] = patientData['Member Coverage'];
   data['providers'] = createProviderList(patient);
+  data['version'] = saraswatiVersion;
   
   if (config.supportFile) {
     data['support'] = supportExecute(patient);
