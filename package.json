@@ -35,7 +35,7 @@
     "cql-exec-fhir": "^2.0.2",
     "cql-execution": "2.4.2",
     "dotenv": "^10.0.0",
-    "express": "^4.17.2",
+    "express": "^4.18.2",
     "express-actuator": "1.8.2",
     "joi": "^17.4.0",
     "jsonl": "^1.1.2",
