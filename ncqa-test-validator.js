@@ -71,28 +71,31 @@ const evalData = (patient) => {
   const patientInfo = entryList.find((results) => results.resource.resourceType === 'Patient')
     .resource;
 
-  data['memberId'] = memberId;
-  data['birthDate'] = patientInfo.birthDate;
-  data['gender'] = patientInfo.gender;
-  data['measurementType'] = measure;
-  data['coverage'] = patientData['Member Coverage'];
-  data['providers'] = createProviderList(patient);
-  data['version'] = saraswatiVersion;
+  const formattedData = {
+    result: patientData,
+    memberId: memberId,
+    birthDate: patientInfo.birthDate,
+    gender: patientInfo.gender,
+    measurementType: measure,
+    coverage: patientData['Member Coverage'],
+    providers: createProviderList(patient),
+    version: saraswatiVersion,
+  }
   
   if (config.supportFile) {
-    data['support'] = supportExecute(patient);
+    formattedData['support'] = supportExecute(patient);
   }
 
   if(hedisData[measure].raceRequired) {
     patientInfo.extension.forEach((ext) => {
       const code = ext.extension[0].valueCoding;
-      data[code < 10 ? 'race' : 'ethnicity'] = code;
+      formattedData[code < 10 ? 'race' : 'ethnicity'] = code;
     });
     patientInfo.meta.extension.forEach((ext) => {
-      data[ext.url] = ext.valueString;
+      formattedData[ext.url] = ext.valueString;
     });
   }
-  return data;
+  return formattedData;
 };
 
 async function createMeasureDirectory() {

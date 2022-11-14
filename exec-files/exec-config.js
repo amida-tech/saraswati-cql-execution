@@ -275,14 +275,17 @@ const evalData = (patient) => {
     const patientInfoNeeded = patientInfo.resource;
     const birthDateFound = patientInfoNeeded.birthDate;
     const genderFound = patientInfoNeeded.gender;
-      data['memberId'] = memberId;
-      data['birthDate'] = birthDateFound;
-      data['gender'] = genderFound;
-      data['measurementType'] = config.measurementType;
-      data['coverage'] = patientData['Member Coverage'];
-      data['providers'] = createProviderList(patient);
-      data['version'] = saraswatiVersion;
-      return data;
+
+    return {
+      result: patientData,
+      memberId: memberId,
+      birthDate: birthDateFound,
+      gender: genderFound,
+      measurementType: config.measurementType,
+      coverage: patientData['Member Coverage'],
+      providers: createProviderList(patient),
+      version: saraswatiVersion,
+    }
 
   }
   return undefined;
