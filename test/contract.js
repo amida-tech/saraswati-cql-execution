@@ -11,6 +11,7 @@ describe('Contract Kafka Processor Test', () => {
     let outboundJson = outboundContractData;
     const data = evalData(inboundJson);
     data.timeStamp = updateTimestamp;
+    delete outboundJson.timeStamp;
     outboundJson.timeStamp = updateTimestamp;
 
     should(JSON.stringify(data)).equal(JSON.stringify(outboundJson));

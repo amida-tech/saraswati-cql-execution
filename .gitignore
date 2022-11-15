@@ -20,3 +20,4 @@ private
 .bash_history
 .ssh
 test.sh
+.devcontainer/
