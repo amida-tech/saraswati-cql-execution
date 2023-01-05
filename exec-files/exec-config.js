@@ -191,6 +191,10 @@ const cleanData = patientResults => {
           delete patient['URI Diagnosis'];
         }
         break;
+      case 'adde':
+        delete patient['ADHD Medication List'];
+        delete patient['Neurodevelopmental Disorders List'];
+        break;
       case 'apme':
         delete patient['Antipsychotic Medication'];
         break;

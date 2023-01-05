@@ -582,7 +582,8 @@ const hedisData = {
     },
     getRequiredExclusion: (data, index, measureFunctions) => {
       if (index > 0 && measureFunctions.getAge(data) > 65) {
-        if (data.support['Certification SNP Coverage'].length > 0 || data.support['Certification Long Term Care'].length > 0) {
+        if ((data.support['Certification SNP Coverage'] != undefined && data.support['Certification SNP Coverage'].length > 0)
+          || (data.support['Certification Long Term Care'] != undefined && data.support['Certification Long Term Care'].length > 0)) {
           return 1;
         }
       }
