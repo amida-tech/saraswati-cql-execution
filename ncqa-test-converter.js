@@ -8,7 +8,7 @@ const measure = config.measurementType;
 const { createCode, professionalClaimType, pharmacyClaimType, convertDateString, getLabValues,
   createClaimFromVisit, createServiceCodeFromVisit, createClaimEncounter,createDiagnosisCondition,
   createClaimResponse, createPharmacyClaim, isDateDuringPeriod, groupLabs,
-  createPractitionerLocation, isValidEncounter } = require('./ncqa-test-converter-util');
+  createPractitionerLocation, isValidEncounter, convertDateEndOfYear } = require('./ncqa-test-converter-util');
 
 const parseArgs = minimist(process.argv.slice(2), {
   alias: {
@@ -697,7 +697,7 @@ const createConditionList = (visitEList, diagnosisList, mmdfList, lishistList) =
         subject: { reference: `Patient/${mmdf.beneficiaryId}-patient` },
         code: { coding: [ createCode(`OREC-${mmdf.orec}`, 'A') ] },
         onsetDateTime: convertDateString(mmdf.runDate),
-        abatementDateTime: convertDateString(mmdf.runDate), 
+        abatementDateTime: convertDateEndOfYear(mmdf.runDate), 
       }
       mmdfConditionList.push(condObj);
     });
@@ -715,7 +715,7 @@ const createConditionList = (visitEList, diagnosisList, mmdfList, lishistList) =
       if (lishist.endDate !== '') {
         condObj.abatementDateTime = convertDateString(lishist.endDate);
       } else {
-        condObj.abatementDateTime = '2022-12-31T23:59:59.000+00:00';
+        condObj.abatementDateTime = convertDateEndOfYear(lishist.startDate)//'2022-12-31T23:59:59.000+00:00';
       }
       lishistConditionList.push(condObj);
     });
@@ -1480,7 +1480,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
           version: '2020-09',
           display: 'Nonacute Inpatient Stay'
         },
-        quantity: pharmClinic.quantity,
+        quantity: parseFloat(pharmClinic.quantity),
       });
       
       pharmacyClaimList.push({
@@ -1557,7 +1557,7 @@ const createPharmacyClaims = (pharmacyClinical, pharmacy) => {
           memberId: pharm.memberId,
           serviceDate: pharm.serviceDate,
           serviceCode: { code: pharm.ndcDrugCode },
-          quantity: pharm.daysSupply,
+          quantity: parseFloat(pharm.daysSupply),
         });
 
         if (pharm.providerNpi) {

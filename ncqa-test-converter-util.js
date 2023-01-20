@@ -155,7 +155,8 @@ const handleCode = (resource, code, servicedPeriod, count) => {
   resource.item.push({
     sequence: count,
     servicedPeriod,
-    revenue: { coding: [ code ] }
+    revenue: { coding: [ code ] },
+    productOrService: { coding: [ code ] }
   });
 }
 
@@ -256,14 +257,14 @@ const createDiagnosisCondition = (condition) => {
 
   if (condition.onsetDateTime) {
     condObj.onsetDateTime = convertDateString(condition.onsetDateTime);
-    condObj.abatementDateTime = '2022-12-31T23:59:59.000+00:00';//convertDateString(condition.onsetDateTime); // JAMES increment
+    condObj.abatementDateTime = convertDateEndOfYear(condition.onsetDateTime);//'2022-12-31T23:59:59.000+00:00';//convertDateString(condition.onsetDateTime); // JAMES increment
   } else if (condition.onsetStart) {
     if (condition.onsetEnd) {
       condObj.onsetDateTime = convertDateString(condition.onsetStart);
       condObj.abatementDateTime = convertDateString(condition.onsetEnd);
     } else {
       condObj.onsetDateTime = convertDateString(condition.onsetStart);
-      condObj.abatementDateTime = '2022-12-31T23:59:59.000+00:00';//convertDateString(condition.onsetStart); // JAMES increment
+      condObj.abatementDateTime = convertDateEndOfYear(condition.onsetStart);//'2022-12-31T23:59:59.000+00:00';//convertDateString(condition.onsetStart); // JAMES increment
     }
   }
   if (condition.recorder) {
@@ -468,11 +469,11 @@ const createPharmacyClaim = (pharmacy) => {
   
   if (pharmacy.quantity) {
     resource.quantity = {
-      value: pharmacy.quantity,
+      value: parseInt(pharmacy.quantity, 10),
     }
     if (item) {
       item.quantity = {
-        value: pharmacy.quantity,
+        value: parseInt(pharmacy.quantity, 10),
       }
     }
   }
@@ -486,6 +487,11 @@ const convertDateString = (ncqaDateString) => {
   const month = ncqaDateString.toString().substr(4, 2);
   const day = ncqaDateString.toString().substr(6, 2);
   return `${year}-${month}-${day}T00:00:00.000+00:00`;
+}
+
+const convertDateEndOfYear = (ncqaDateString) => {
+  const year = ncqaDateString.toString().substr(0, 4);
+  return `${year}-12-31T00:00:00.000+00:00`;
 }
 
 const labValueSets = ['2.16.840.1.113883.3.464.1004.1109',
@@ -646,4 +652,5 @@ const groupLabs = (labs) => {
 module.exports = { getSystem, createCode, professionalClaimType, getLabValues,
   pharmacyClaimType, convertDateString, createClaimFromVisit, groupLabs,
   createServiceCodeFromVisit, createClaimEncounter, createDiagnosisCondition,
-  createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createPractitionerLocation, isValidEncounter };
+  createClaimResponse, createPharmacyClaim, isDateDuringPeriod, createPractitionerLocation,
+  isValidEncounter, convertDateEndOfYear };
