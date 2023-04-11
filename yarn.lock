@@ -1600,12 +1600,12 @@ coveralls@^3.1.1:
     minimist "^1.2.5"
     request "^2.88.2"
 
-cql-exec-fhir@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/cql-exec-fhir/-/cql-exec-fhir-2.0.2.tgz#63a85ece9e87aedc53709938e8dc0b995c347983"
-  integrity sha512-INuCgCl9zKPXI0JS8edugf66/PfVhCkozdaoMa7EAnLCUzJDRozcz7Q7UY/qyOP2ZuJmIHHYsou/E+WNcjIwjA==
+cql-exec-fhir@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/cql-exec-fhir/-/cql-exec-fhir-2.1.4.tgz#75dfabd99825f1bcc8bea925c8e3c3602f2bf88d"
+  integrity sha512-84Fs2zAyxq6q6mxv9PtLm5zWR+rWv2Gtl0Hgm833kxjzrJBnclMVa2LSY/eqX0/zWAuAsyOLVf+F9Zq89n5rfQ==
   dependencies:
-    xml2js "~0.4.23"
+    xml2js "^0.5.0"
 
 cql-execution@2.4.2:
   version "2.4.2"
@@ -4382,10 +4382,10 @@ xml-js@^1.6.11:
   dependencies:
     sax "^1.2.4"
 
-xml2js@~0.4.23:
-  version "0.4.23"
-  resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.4.23.tgz#a0c69516752421eb2ac758ee4d4ccf58843eac66"
-  integrity sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==
+xml2js@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.5.0.tgz#d9440631fbb2ed800203fad106f2724f62c493b7"
+  integrity sha512-drPFnkQJik/O+uPKpqSgr22mpuFHqKdbS835iAQrUC73L2F5WkboIRd63ai/2Yg6I1jzifPFKH2NTK+cfglkIA==
   dependencies:
     sax ">=0.6.0"
     xmlbuilder "~11.0.0"
