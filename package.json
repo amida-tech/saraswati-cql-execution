@@ -49,7 +49,7 @@
     "ucum": "^0.0.7",
     "uuid": "^9.0.1",
     "winston": "^3.11.0",
-    "yarn": "^1.22.19"
+    "yarn": "^1.22.20"
   },
   "resolutions": {
     "glob-parent": "^5.1.2"
