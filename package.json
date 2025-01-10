@@ -45,6 +45,7 @@
     "moment": "^2.29.4",
     "node": "16.16.0",
     "node-watch": "^0.7.3",
+    "saraswati-cql-execution": "file:",
     "ucum": "^0.0.7",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
