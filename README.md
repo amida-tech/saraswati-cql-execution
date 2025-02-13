@@ -349,3 +349,9 @@ Finally, in saraswati-cql-execution, change the `.env` features to this:
 `LIBRARIES_DIRECTORY=private\AAB_HEDIS_MY2022-1.0.0\libraryElm\`
 `VALUESETS_DIRECTORY=private\AAB_HEDIS_MY2022-1.0.0\valuesets\`
 `MEASUREMENT_TYPE=aab`
+
+# Generating test data from NCQA TestDecks
+First set the .env file with the appropriate values, especially anything to do with the measurement type being generated
+Use the command `node ncqa-test-converter.js --testDirectory=<pathToNcqaFilesHere>`
+Just want a specific patient or patients? `node ncqa-test-converter.js --testDirectory=<pathToNcqaFilesHere> --m=<patient_id_1>,<patient_id_2>,...`
+If you don't want to run all of them specify an ending id: `node ncqa-test-converter.js --testDirectory=<pathToNcqaFilesHere> --e=<patient_id_1000>`

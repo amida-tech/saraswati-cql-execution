@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { convert } = require('ucum');
 const config = require('./config');
-const logger = require('./src/winston')
+// const logger = require('./src/winston')
 
 const measure = config.measurementType;
 
