@@ -287,6 +287,7 @@ const evalData = (patient) => {
       birthDate: birthDateFound,
       gender: genderFound,
       measurementType: config.measurementType,
+      measurementYear: config.measurementYear,
       coverage: patientData['Member Coverage'],
       providers: createProviderList(patient),
       version: saraswatiVersion,
