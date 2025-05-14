@@ -349,3 +349,24 @@ Finally, in saraswati-cql-execution, change the `.env` features to this:
 `LIBRARIES_DIRECTORY=private\AAB_HEDIS_MY2022-1.0.0\libraryElm\`
 `VALUESETS_DIRECTORY=private\AAB_HEDIS_MY2022-1.0.0\valuesets\`
 `MEASUREMENT_TYPE=aab`
+
+
+# Generating data from CQL test decks
+
+A script was created to convert data from NCQA's test decks into usable JSON to be processed by the CQL Executor. It works by reading all the files inside a directory and generating a FHIR patient bundle using the various data. To use the script run this command:
+
+`node ncqa-test-converter.js --testDirectory=<path/to/private/test/decks/here>`
+
+`--testDirectory` is required.
+
+# Running test deck FHIR JSON against the CQL Executor
+
+Another script was created to evaluate the FHIR JSON with the CQL Executor. Use this command to run the script:
+
+`node ncqa-test-validator.js --fhirDirectory=<path/to/generated/json/here>`
+
+There are other options to limit how many files are evaluated.
+
+`-m`: comma separated list of user IDs
+`-b`: User ID to begin evaluation
+`-e`: Last user ID to evaluate

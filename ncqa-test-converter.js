@@ -20,9 +20,7 @@ const parseArgs = minimist(process.argv.slice(2), {
 
 function checkArgs() {
   if(parseArgs.t === undefined) {
-    logger.error('\x1b[31m', 
-      '\nError: Please define a directory path to read. Usage: "--testDirectory=<directory>".',
-      '\x1b[0m');
+    logger.error('Error: Please define a directory path to read. Usage: "--testDirectory=<directory>".');
     process.exit();
   }
 
