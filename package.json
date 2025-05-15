@@ -29,7 +29,6 @@
     "xml-js": "^1.6.11"
   },
   "dependencies": {
-    "@amida-tech/winston-json-formatter": "^0.10.2",
     "@lhncbc/ucum-lhc": "5.0.0",
     "axios": "^1.5.1",
     "body-parser": "^1.20.2",
@@ -49,6 +48,7 @@
     "ucum": "^0.0.7",
     "uuid": "^9.0.1",
     "winston": "^3.11.0",
+    "winston-json-formatter": "^0.10.0",
     "yarn": "^1.22.19"
   },
   "resolutions": {

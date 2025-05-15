@@ -32,9 +32,7 @@ const parseArgs = minimist(process.argv.slice(2), {
 
 async function checkArgs() {
   if(parseArgs.f === undefined) {
-    logger.error('\x1b[31m', 
-      '\nError: Please define a directory path with FHIR data to validate. Usage: "--fhirDirectory=<directory>".',
-      '\x1b[0m');
+    logger.error('Error: Please define a directory path with FHIR data to validate. Usage: "--fhirDirectory=<directory>".');
     process.exit();
   }
 
@@ -48,9 +46,7 @@ async function checkArgs() {
     if (fs.existsSync(path.join(basePath, 'score.txt'))) {
       logger.info(`\x1b[32mSuccess:\x1b[0m Found "score.txt".`);
     } else {
-      logger.error('\x1b[31m', 
-      '\nError:File not found "score.txt" in the folder above. Please fix.',
-      '\x1b[0m');
+      logger.error('Error:File not found "score.txt" in the folder above. Please fix.');
       process.exit();
     }
   }
@@ -62,8 +58,8 @@ async function checkArgs() {
   logger.info(`\tMeasurement: ${measure}`);
 }
 
-const evalData = (patient) => {
-  const data = execute(patient); 
+const evalData = async (patient) => {
+  const data = await execute(patient); 
 
   const memberId = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
   const patientData = data[memberId];
@@ -194,7 +190,7 @@ async function processFhirDirectory(dirFiles) {
       memberData = JSON.parse(await fs.promises.readFile(path.join(measuresPath, `${measure}-${file}-patient.json`)));
     } else {
       const fileData = await fs.promises.readFile(path.join(parseArgs.f, `${file}.json`));
-      memberData = evalData(JSON.parse(fileData));
+      memberData = await evalData(JSON.parse(fileData));
       const fileTitle = `${measure}-${memberData.memberId}.json`;
       fs.writeFileSync(path.join(measuresPath, fileTitle), JSON.stringify(memberData, null, 2));
     }
