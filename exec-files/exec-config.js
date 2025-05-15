@@ -287,6 +287,7 @@ const evalData = async (patient) => {
       birthDate: birthDateFound,
       gender: genderFound,
       measurementType: config.measurementType,
+      measurementYear: parseInt(config.measurementYear),
       coverage: patientData['Member Coverage'],
       providers: createProviderList(patient),
       version: saraswatiVersion,
