@@ -24,7 +24,7 @@ async function runner() {
     eachMessage: async ({ message }) => {
       logger.info(`Received Kafka message for group: ${config.kafkaGroupId}.`);
       const fhirJson = message.value.toString();
-      const data = evalData(JSON.parse(fhirJson));
+      const data = await evalData(JSON.parse(fhirJson));
       if (data !== undefined) {
         var dataString = JSON.stringify(data);
         producer.send(

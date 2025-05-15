@@ -229,10 +229,10 @@ const cleanSupport = patientResults => {
   return supportData;
 };
 
-const execute = (patients) => {
+const execute = async (patients) => {
   const executor = new cql.Executor(engineLibraries, codeService, parameters, messageListener);
   patientSource.loadBundles(patients);
-  const result = executor.exec(patientSource);
+  const result = await executor.exec(patientSource);
   // logger.info(result.patientResults); // eslint-disable-line no-console
   // logger.info(result.unfilteredResults); // eslint-disable-line no-console
   const cleanedPatientResults = cleanData(result.patientResults);
@@ -269,8 +269,8 @@ const hasDenominator = (patientData) => {
   return false;
 };
 
-const evalData = (patient) => {
-  const data = execute(patient);
+const evalData = async (patient) => {
+  const data = await execute(patient);
 
   const memberId = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
   const patientData = data[memberId];
