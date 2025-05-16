@@ -1,7 +1,5 @@
 const fs = require('fs');
-const { convert } = require('ucum');
 const config = require('./config');
-const logger = require('./src/winston')
 
 const measure = config.measurementType;
 
@@ -9,10 +7,10 @@ const ndcRxSystemCodes = ['351172','352118','200172','213178','310346','201961']
 
 const quantityMeasures = ['psa']; // Lab tests often want different value types. This helps map them.
 const msInADay = 1000 * 60 * 60 * 24; // Here we go again...
-const endOfThisYear = new Date(`${config.measurementYear}-12-31`);
-const startOfThisYear = new Date(`${config.measurementYear}-01-01`);
-const endOfLastYear = new Date(`${config.measurementYear-1}-12-31`);
-const startOfLastYear = new Date(`${config.measurementYear-1}-01-01`);
+const endOfThisYear = new Date(`${config.measurementPeriodYear}-12-31`);
+const startOfThisYear = new Date(`${config.measurementPeriodYear}-01-01`);
+const endOfLastYear = new Date(`${config.measurementPeriodYear-1}-12-31`);
+const startOfLastYear = new Date(`${config.measurementPeriodYear-1}-01-01`);
 
 const getSystem = (value) => {
   switch(value) {

@@ -807,7 +807,7 @@ const hedisData = {
       return validPayor;
     },
     getAge: (data) => {
-      let eventDate = new Date(`${config.measurementYear-1}-05-01T00:00:00.000+00:00`);
+      let eventDate = new Date(`${config.measurementPeriodYear-1}-05-01T00:00:00.000+00:00`);
       return getAge(new Date(data.birthDate), eventDate);
     },
     getEligiblePopulation: (data, index, measureFunctions) => {
@@ -866,7 +866,7 @@ const hedisData = {
       return validPayor;
     },
     getAge: (data) => {
-      let eventDate = new Date(`${config.measurementYear}-01-01`);
+      let eventDate = new Date(`${config.measurementPeriodYear}-01-01`);
       return getAge(new Date(data.birthDate), eventDate);
     },
     getEligiblePopulation: (data, index, measureFunctions) => {
