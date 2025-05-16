@@ -5,11 +5,11 @@ const { evalData } = require('../exec-files/exec-config');
 const moment = require('moment');
 const updateTimestamp = moment().unix(1);
 
-describe('Contract Kafka Processor Test', () => {
+describe('Contract Kafka Processor Test', async () => {
   it('Evaluates known input data and compares to known output data', async () => {
     const inboundJson = inboundContractData;
     let outboundJson = outboundContractData;
-    const data = evalData(inboundJson);
+    const data = await evalData(inboundJson);
     data.timeStamp = updateTimestamp;
     delete outboundJson.timeStamp;
     outboundJson.timeStamp = updateTimestamp;
