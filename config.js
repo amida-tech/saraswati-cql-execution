@@ -97,6 +97,7 @@ const config = {
   kafkaConsumedTopic: envVars.KAFKA_CONSUMED_TOPIC,
   kafkaProducedTopic: envVars.KAFKA_PRODUCED_TOPIC,
   measurementYear: envVars.MEASUREMENT_YEAR,
+  measurementPeriodYear: envVars.MEASUREMENT_PERIOD_YEAR,
   measurementFile: envVars.MEASUREMENT_FILE,
   supportFile: envVars.SUPPORT_FILE,
   librariesDirectory: envVars.LIBRARIES_DIRECTORY,
