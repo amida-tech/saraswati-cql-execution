@@ -336,12 +336,14 @@ For AAB, CWP and URI, the following process can rewrite the CQL to be faster. Th
 Do not move the CQL file from its location in the private folder. It also checks value set files the neighboring folders. When finished, it will inform you of the created script and its location.
 
 Copy this file into the libraryCql folder neighboring the cql folder. To run the cql-to-elm transformation, navigate to the following folder inside the `clinical_quality_language` repo:
-`clinical_quality_language\Src\java\cql-to-elm\build\install\cql-to-elm\bin`
+`clinical_quality_language\Src\java` and run the command `./gradlew installDist` and then `./gradlew :cql-to-elm-cli:installDist`
+Once installed, navigate to
+`clinical_quality_language\Src\java\cql-to-elm-cli\build\install\cql-to-elm-cli\bin`
 
 Then run this CLI command, changing the folders to your local spots:
-`cql-to-elm --format=JSON --compatibility-level=1.4 --input saraswati-cql-execution\private\1.1.0\AAB_HEDIS_MY2022-1.0.0\libraryCql\Amida_AAB_HEDIS_MY2022-1.1.0.cql --output saraswati-cql-execution\private\1.1.0\AAB_HEDIS_MY2022-1.1.0\elm\Amida_AAB_HEDIS_MY2022-1.1.0.json`
+`cql-to-elm-cli --format=JSON --compatibility-level=1.4 --annotations --locators --result --input saraswati-cql-execution\private\1.1.0\AAB_HEDIS_MY2022-1.0.0\libraryCql\Amida_AAB_HEDIS_MY2022-1.1.0.cql --output saraswati-cql-execution\private\1.1.0\AAB_HEDIS_MY2022-1.1.0\elm\Amida_AAB_HEDIS_MY2022-1.1.0.json`
 
-`./cql-to-elm --format=JSON --compatibility-level=1.4 --input ~/Documents/saraswati/saraswati-cql-execution/private/2022/1.1.0/AAB_HEDIS_MY2022-1.1.0/libraryCql/AAB_Support-1.1.0.cql --output ~/Documents/saraswati/saraswati-cql-execution/private/2022/1.1.0/AAB_HEDIS_MY2022-1.1.0/elm/AAB_Support-1.1.0.json`
+`./cql-to-elm-cli --format=JSON --compatibility-level=1.4 --annotations --locators --result --input ~/Documents/saraswati/saraswati-cql-execution/private/2022/1.1.0/AAB_HEDIS_MY2022-1.1.0/libraryCql/AAB_Support-1.1.0.cql --output ~/Documents/saraswati/saraswati-cql-execution/private/2022/1.1.0/AAB_HEDIS_MY2022-1.1.0/elm/AAB_Support-1.1.0.json`
 
 Finally, in saraswati-cql-execution, change the `.env` features to this:
 

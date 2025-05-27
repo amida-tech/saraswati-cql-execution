@@ -265,7 +265,7 @@ const hedisData = {
     }
   },
   aise: {
-    measureIds: ['AISINFL','AISTD','AISZOS','AISPNEU'],
+    measureIds: ['AISINFL','AISTD','AISZOS','AISPNEU', 'AISHEPB'],
     eventsOrDiag: false,
     measureCheck: (data, index, measureFunctions) => {
       const age  = measureFunctions.getAge(data);
