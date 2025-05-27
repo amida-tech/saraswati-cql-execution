@@ -128,6 +128,9 @@ async function appendScoreFile(data) {
     raceRow = `,${data.race},${ethnicityMap[data.ethnicity]},${raceEthnicDSMap[data.raceDS]},${raceEthnicDSMap[data.ethnicityDS]}`
   }
   hedisData[measure].measureIds.forEach((measureId, index) => {
+    if (measure === "aise" && config.measurementYear === '2022' && measureId === "AISHEPB") {
+      return; // Skip AISHEPB for 2022.
+    }
     if (hedisData[measure].measureCheck(data, index, hedisData[measure])) {
       const ce = hedisData[measure].getContinuousEnrollment(data, index, hedisData[measure]);
       const event = hedisData[measure].getEvent(data, index, hedisData[measure]);
