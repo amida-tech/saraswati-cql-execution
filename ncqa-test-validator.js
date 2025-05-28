@@ -79,7 +79,7 @@ const evalData = async (patient) => {
   }
   
   if (config.supportFile) {
-    formattedData['support'] = supportExecute(patient);
+    formattedData['support'] = await supportExecute(patient);
   }
 
   if(hedisData[measure].raceRequired) {

@@ -241,10 +241,10 @@ const execute = async (patients) => {
   return cleanedPatientResults;
 };
 
-const supportExecute = (patients) => {
+const supportExecute = async (patients) => {
   const executor = new cql.Executor(supportLibraries, codeService, parameters, messageListener);
   patientSource.loadBundles(patients);
-  const result = executor.exec(patientSource);
+  const result = await executor.exec(patientSource);
   return cleanSupport(result.patientResults);
 };
 
