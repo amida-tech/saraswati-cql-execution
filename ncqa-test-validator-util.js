@@ -276,6 +276,8 @@ const hedisData = {
         return false
       } else if (index == 3 && age < 66) {
         return false;
+      } else if (index == 4 && (age < 19 || age > 59)) {
+        return false;
       }
       // Get Payor
       let payor = measureFunctions.getPayors(data, index, measureFunctions);
