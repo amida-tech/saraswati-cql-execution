@@ -276,6 +276,8 @@ const hedisData = {
         return false
       } else if (index == 3 && age < 66) {
         return false;
+      } else if (index == 4 && (age < 19 || age > 59)) {
+        return false;
       }
       // Get Payor
       let payor = measureFunctions.getPayors(data, index, measureFunctions);
@@ -416,8 +418,14 @@ const hedisData = {
       } else if (index === 5) { //BCSOT
         validPayor = data.support['Certification Medicare Other'];
       }
-      const age = measureFunctions.getAge(data);
-      return validPayor && age >= 52 && age <= 74 && data.gender.startsWith('f');
+      if (config.measurementYear === '2022') {
+        const age = measureFunctions.getAge(data);
+        return validPayor && age >= 52 && age <= 74 && data.gender.startsWith('f');
+      } else if (config.measurementYear === '2025') {
+        const age = measureFunctions.getAge(data);
+        return validPayor && age >= 42 && age <= 74 && data.result["Appropriate Gender For Screening"];
+      }
+      return false;
     },
     getAge: (data) => {
       let eventDate = new Date('2022-12-31');
