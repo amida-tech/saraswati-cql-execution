@@ -2,10 +2,21 @@ const { Kafka } = require('kafkajs');
 const logger = require('./src/winston');
 const config = require('./config');
 
-const kafka = new Kafka({
+const kafkaInfo = {
   clientId: 'cql-execution',
-  brokers: config.kafkaBrokers
-});
+  brokers: config.kafkaBrokers,
+}
+
+if (config.kafkaProtocol !== 'plaintext') {
+  kafkaInfo.ssl = true;
+  kafkaInfo.sasl = {
+    mechanism: config.kafkaMechanisms,
+    username: config.kafkaUsername,
+    password: config.kafkaPassword
+  };
+}
+
+const kafka = new Kafka(kafkaInfo);
 
 const consumer = kafka.consumer({ groupId: config.kafkaGroupId });
 const { evalData } = require('./exec-files/exec-config');
