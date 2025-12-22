@@ -103,7 +103,11 @@ const config = {
   librariesDirectory: envVars.LIBRARIES_DIRECTORY,
   valuesetsDirectory: envVars.VALUESETS_DIRECTORY,
   measurementType: envVars.MEASUREMENT_TYPE,
-  jenkins: envVars.JENKINS
+  jenkins: envVars.JENKINS,
+  datalakeAccountName: envVars.DATA_LAKE_ACCOUNT_NAME,
+  datalakeAccountKey: envVars.DATA_LAKE_ACCOUNT_KEY,
+  datalakePatientBundleDirectory: envVars.DATA_LAKE_PATIENT_BUNDLE_DIRECTORY,
+  datalakePatientResultsDirectory: envVars.DATA_LAKE_PATIENT_RESULTS_DIRECTORY
 };
 
 module.exports = config;

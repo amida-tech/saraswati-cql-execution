@@ -372,3 +372,9 @@ There are other options to limit how many files are evaluated.
 `-m`: comma separated list of user IDs
 `-b`: User ID to begin evaluation
 `-e`: Last user ID to evaluate
+
+# Push to Docker hub
+
+`docker build -t amidatech/saraswati-cql-execution .`
+`docker image tag amidatech/saraswati-cql-execution amidatech/saraswati-cql-execution:<tag-name-here>`
+`docker push amidatech/saraswati-cql-execution:<tag-name-here>`
