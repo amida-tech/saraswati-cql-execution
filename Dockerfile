@@ -1,4 +1,4 @@
-FROM node:18.18.2-bookworm-slim
+FROM node:22.21.1-bookworm-slim
 
 WORKDIR /app
 COPY . /app

@@ -22,9 +22,9 @@ let supportLibraries;
 let codeService;
 const messageListener = new cql.ConsoleMessageListener();
 const parameters = {
-  'Measurement Period' : new cql.Interval(
+  'Measurement Period': new cql.Interval(
     new cql.DateTime(Number(config.measurementPeriodYear), 1, 1, 0, 0, 0, 0, false, false),
-    new cql.DateTime(Number(config.measurementPeriodYear) + 1, 1, 1, 0, 0, 0, 0, false , false),
+    new cql.DateTime(Number(config.measurementPeriodYear) + 1, 1, 1, 0, 0, 0, 0, false, false),
     true,
     false
   )
@@ -65,10 +65,10 @@ function supportFileScan() {
 function librariesDirectoryScan() {
   const libraryDirPath = getDirFilePath(config.librariesDirectory);
   let files = fs.readdirSync(libraryDirPath);
-  for(let file of files) {
+  for (let file of files) {
     if (file.endsWith('.json')) {
       const libraryFile = require(path.join(libraryDirPath, file));
-      libraries[file.replace(/[-.]/g,'')] = libraryFile;
+      libraries[file.replace(/[-.]/g, '')] = libraryFile;
     }
   }
   logger.info(`Library files located, count: ${Object.keys(libraries).length}.`);
@@ -120,13 +120,13 @@ function valueSetJSONCompile(file) {
     logger.warn('No "title" was found. Please manually update.');
     title = 'No Title Found';
   }
-  
+
   let oidKey;
   if (vsFile.url) {
     oidKey = vsFile.url;
   } else {
     logger.warn('Using filename for oidKey.');
-    oidKey = 'https://www.ncqa.org/fhir/valueset/' + file.slice(0,-5);
+    oidKey = 'https://www.ncqa.org/fhir/valueset/' + file.slice(0, -5);
   }
 
   valueSets[oidKey] = {
@@ -168,13 +168,13 @@ const cleanData = patientResults => {
   const clonedPatientResults = cloneDeep(patientResults);
   Object.entries(clonedPatientResults).forEach(([patientKey, patientValue]) => {
     const patient = patientValue;
-    
+
     // remove Patient data - not needed
     delete patient.Patient;
     patient.id = patientKey;
 
     // Remove valuesets - not needed
-    switch(config.measurementType) {
+    switch (config.measurementType) {
       case 'aab':
       case 'cwp':
       case 'uri':
@@ -270,30 +270,35 @@ const hasDenominator = (patientData) => {
 };
 
 const evalData = async (patient) => {
-  const data = await execute(patient);
+  try {
+    const data = await execute(patient);
 
-  const memberId = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
-  const patientData = data[memberId];
-  if (hasDenominator(patientData)) {
-    const entryList = Array.isArray(patient) ? patient[0].entry : patient.entry;
-    const patientInfo = entryList.find((results) => results.resource.resourceType === 'Patient')
-    const patientInfoNeeded = patientInfo.resource;
-    const birthDateFound = patientInfoNeeded.birthDate;
-    const genderFound = patientInfoNeeded.gender;
+    const memberId = Object.keys(data).find((key) => key.toLowerCase() !== 'timestamp');
+    const patientData = data[memberId];
+    if (hasDenominator(patientData)) {
+      const entryList = Array.isArray(patient) ? patient[0].entry : patient.entry;
+      const patientInfo = entryList.find((results) => results.resource.resourceType === 'Patient')
+      const patientInfoNeeded = patientInfo.resource;
+      const birthDateFound = patientInfoNeeded.birthDate;
+      const genderFound = patientInfoNeeded.gender;
 
-    return {
-      result: patientData,
-      memberId: memberId,
-      birthDate: birthDateFound,
-      gender: genderFound,
-      measurementType: config.measurementType,
-      measurementYear: parseInt(config.measurementYear),
-      coverage: patientData['Member Coverage'],
-      providers: createProviderList(patient),
-      version: saraswatiVersion,
+      return {
+        result: patientData,
+        memberId: memberId,
+        birthDate: birthDateFound,
+        gender: genderFound,
+        measurementType: config.measurementType,
+        measurementYear: parseInt(config.measurementYear),
+        coverage: patientData['Member Coverage'],
+        providers: createProviderList(patient),
+        version: saraswatiVersion,
+      }
+
     }
-
+  } catch (error) {
+    logger.error('Error during CQL execution: ' + error.message);
   }
+  
   return undefined;
 };
 
