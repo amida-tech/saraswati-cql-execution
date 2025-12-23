@@ -98,7 +98,8 @@ async function runner() {
           logger.info('Storing patient results to DataLake.');
           setPatientResultsFileSystemClient();
 
-          const resultFileName = `${jsonMessage['patient_id']}/patient-${jsonMessage['patient_id']}-results-${new Date().toISOString()}.json`;
+          const currentDate = new Date()
+          const resultFileName = `${jsonMessage['patient_id']}/patient-${jsonMessage['patient_id']}-results-${currentDate.toISOString()}.json`;
           const fileClient = patientResultsFileSystemClient.getFileClient(resultFileName);
           await fileClient.create();
           await fileClient.append(JSON.stringify(data), 0, Buffer.byteLength(JSON.stringify(data)));
@@ -108,7 +109,7 @@ async function runner() {
             {
               topic: producedTopic,
               messages: [
-                { patientId: jsonMessage['patient_id'], resultFileName },
+                { value: JSON.stringify({ patientId: jsonMessage['patient_id'], date: currentDate, resultFileName }) },
               ],
             }
           );
